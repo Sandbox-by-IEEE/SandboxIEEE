@@ -51,7 +51,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Run linters
-        uses: wearerequired/lint-action@v4
+        uses: wearerequired/lint-action@v2
         with:
           auto_fix: true
           eslint: true
