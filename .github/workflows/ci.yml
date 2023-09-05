@@ -18,13 +18,13 @@ jobs:
       CI: true
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.8.1
         with:
           # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
-          node-version: 18
+          node-version: 16
 
       - name: 📥 Download deps
         run: npm install --frozen-lockfile
@@ -45,13 +45,13 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
-          node-version: 18
+          node-version: 16
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
       - name: Run linters
-        uses: wearerequired/lint-action@v2
+        uses: wearerequired/lint-action@v4
         with:
           auto_fix: true
           eslint: true
@@ -69,7 +69,7 @@ jobs:
         uses: actions/setup-node@v3.8.1
         with:
           # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
-          node-version: 18
+          node-version: 16
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
