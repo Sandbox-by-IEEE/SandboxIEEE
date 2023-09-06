@@ -2,26 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
+* {
+  animation: fadeIn 0.1s;
+}
+.radius {
+  border-radius: 4px;
+  overflow: hidden;
+}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.gradient-border-bg {
+  border: 3px solid;
+  border-image: linear-gradient(45deg, #ab814e, #ffe1b9) 1;
+  padding: 0.7rem 4.3rem;
+}
+
+.modal-open {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+}
+
+.modal-closed {
+  opacity: 0;
+  transform: translateY(-20px); /* Adjust the distance as needed */
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
 }

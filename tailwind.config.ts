@@ -12,6 +12,7 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'modal-bg-image': "url('/src/assets/ModalBackground.png')",
       },
       colors: {
         'green-primary': '#0D432F',
