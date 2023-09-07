@@ -3,13 +3,13 @@ import Image from 'next/image';
 import React, { useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import BorderCircleTopLeft from '@/components/icons/BorderCircleTopLeft';
+import BorderStar from '@/components/icons/stars/BorderStar';
+import CircularStarBottomRight from '@/components/icons/stars/CircularStarBottomRight';
+import CircularStarTopLeft from '@/components/icons/stars/CircularStarTopLeft';
+import FilledStar from '@/components/icons/stars/FilledStar';
+import FilledStars from '@/components/icons/stars/FilledStars';
 import { ManagedUI, ManagedUIContextType } from '@/contexts/ManagedUI';
-import BorderCircleTopLeft from '@/icons/BorderCircleTopLeft';
-import BorderStar from '@/icons/stars/BorderStar';
-import CircularStarBottomRight from '@/icons/stars/CircularStarBottomRight';
-import CircularStarTopLeft from '@/icons/stars/CircularStarTopLeft';
-import FilledStar from '@/icons/stars/FilledStar';
-import FilledStars from '@/icons/stars/FilledStars';
 
 import ModalBackground from '../../public/assets/ModalBackground.png';
 

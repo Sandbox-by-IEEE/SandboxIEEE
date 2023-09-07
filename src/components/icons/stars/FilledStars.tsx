@@ -25,8 +25,8 @@ const FilledStars = ({ size }: { size: number }) => {
           y2='26.7754'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_65_2'
@@ -36,8 +36,8 @@ const FilledStars = ({ size }: { size: number }) => {
           y2='12.5103'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>
