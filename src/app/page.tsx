@@ -21,6 +21,19 @@ export default function Home() {
           />
         )}
         <button onClick={() => setOpenModal(true)}>Open Modal</button>
+
+        {/* Tooltip */}
+        {/* <div className='relative'>
+          <Tooltip content='Yee-haw!' direction='right' delay={20}>
+            <span
+              className='example-emoji'
+              role='img'
+              aria-label='cowboy emoji'
+            >
+              🤠
+            </span>
+          </Tooltip>
+        </div> */}
       </main>
     </>
   );
