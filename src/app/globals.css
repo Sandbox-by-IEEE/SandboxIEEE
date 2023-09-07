@@ -2,40 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-* {
-  animation: fadeIn 0.1s;
-}
-.radius {
-  border-radius: 4px;
-  overflow: hidden;
-}
-
+/* tailwind can't handler border-image for gradient border */
 .gradient-border-bg {
   border: 3px solid;
   border-image: linear-gradient(45deg, #ab814e, #ffe1b9) 1;
   padding: 0.7rem 4.3rem;
 }
 
-.modal-open {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
-}
-
-.modal-closed {
-  opacity: 0;
-  transform: translateY(-20px); /* Adjust the distance as needed */
-  transition:
-    opacity 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
+@layer base {
+  * {
+    @apply animate-[fade-in] duration-100;
+  }
 }

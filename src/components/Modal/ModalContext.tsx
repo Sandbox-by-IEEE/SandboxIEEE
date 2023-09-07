@@ -1,27 +1,27 @@
 'use client';
 import { createContext, ReactNode, useState } from 'react';
 
-export interface ManagedUIContextType {
+export interface ModalContextContextType {
   openModal: boolean;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ManagedUI = createContext<ManagedUIContextType>({
+export const ModalContext = createContext<ModalContextContextType>({
   openModal: false,
   setOpenModal: () => {},
 });
 
-export function ManagedUIProvider({ children }: { children: ReactNode }) {
+export function ModalContextProvider({ children }: { children: ReactNode }) {
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   return (
-    <ManagedUI.Provider
+    <ModalContext.Provider
       value={{
         openModal,
         setOpenModal,
       }}
     >
       {children}
-    </ManagedUI.Provider>
+    </ModalContext.Provider>
   );
 }

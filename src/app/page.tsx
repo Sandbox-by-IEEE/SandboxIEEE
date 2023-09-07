@@ -1,12 +1,15 @@
 'use client';
 import { useContext } from 'react';
 
-import Modal from '@/components/Modal';
-import { ManagedUI, ManagedUIContextType } from '@/contexts/ManagedUI';
+import Modal from '@/components/Modal/Modal';
+import {
+  ModalContext,
+  ModalContextContextType,
+} from '@/components/Modal/ModalContext';
 
 export default function Home() {
   const { openModal, setOpenModal } =
-    useContext<ManagedUIContextType>(ManagedUI);
+    useContext<ModalContextContextType>(ModalContext);
 
   return (
     <>
