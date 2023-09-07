@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import { compare } from "bcrypt"
 import { AuthOptions } from "next-auth"
 import CredentialsProvider from 'next-auth/providers/credentials'
+import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -51,6 +52,10 @@ export const authOptions: AuthOptions = {
           image: existingUser.image || ""
         }
       }
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ""
     })
   ],
   callbacks: {
