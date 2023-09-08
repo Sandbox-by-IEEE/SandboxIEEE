@@ -2,26 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+input[type='radio'] {
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 2.5px solid #fff;
+  border-radius: 50%;
+  outline: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+input[type='radio']:hover {
+  box-shadow: 0 0 3px 0px #fff inset;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+input[type='radio']:before {
+  content: '';
+  display: block;
+  width: 70%;
+  height: 70%;
+  margin: 15% auto;
+  border-radius: 50%;
+}
+input[type='radio']:checked:before {
+  background: #ab814e;
+}
+
+input[type='radio']:checked {
+  border: 2.5px solid #dbb88b;
+}
+
+input[type='radio']:checked:hover {
+  box-shadow: 0 0 1px 0px #dbb88b inset;
 }
