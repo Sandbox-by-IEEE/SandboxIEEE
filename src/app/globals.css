@@ -8,9 +8,3 @@
   border-image: linear-gradient(45deg, #ab814e, #ffe1b9) 1;
   padding: 0.7rem 4.3rem;
 }
-
-@layer base {
-  * {
-    @apply animate-[fade-in] duration-100;
-  }
-}

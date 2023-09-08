@@ -19,15 +19,6 @@ const config: Config = {
         'cream-secondary-normal': '#D8B88B',
         'brown-secondary': '#AB814E',
       },
-      keyframes: {
-        'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-      },
-      animation: {
-        'fade-in': 'fade-in 0.1s ease-in-out',
-      },
     },
   },
   plugins: [],

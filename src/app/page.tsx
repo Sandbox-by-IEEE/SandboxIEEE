@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <>
-      <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+      <main className='flex min-h-screen flex-col items-center justify-center p-24 gap-4'>
         {/* Moodal */}
         {openModal && (
           <Modal
@@ -23,20 +23,12 @@ export default function Home() {
             onClickButtonTwo={() => {}}
           />
         )}
-        <button onClick={() => setOpenModal(true)}>Open Modal</button>
-
-        {/* Tooltip */}
-        {/* <div className='relative'>
-          <Tooltip content='Yee-haw!' direction='right' delay={20}>
-            <span
-              className='example-emoji'
-              role='img'
-              aria-label='cowboy emoji'
-            >
-              🤠
-            </span>
-          </Tooltip>
-        </div> */}
+        <button
+          className='px-4 py-1 bg-green-50 rounded-md'
+          onClick={() => setOpenModal(true)}
+        >
+          Open Modal
+        </button>
       </main>
     </>
   );
