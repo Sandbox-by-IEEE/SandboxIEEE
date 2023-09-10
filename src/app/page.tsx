@@ -1,9 +1,15 @@
 import Button from '@/components/Button';
+import IconButton from '@/components/IconButton';
 
 export default function Home() {
   return (
     <main>
       <div className='w-screen h-screen p-10 mx-auto space-x-2 space-y-3'>
+        <IconButton bgColor='green' />
+        <IconButton bgColor='gold' />
+        <IconButton bgColor='black' />
+        <IconButton bgColor='disabled' />
+
         <Button //GREEN, 100%, !GLOW, !ARROW
           isTextWhite={true}
           bgColor='green'
@@ -36,7 +42,7 @@ export default function Home() {
 
         <Button //DISABLED, !ARROW
           isTextWhite={true}
-          bgColor=''
+          bgColor='disabled'
           bgOpacity={100}
           isGlow={false}
           text='Button'
@@ -76,7 +82,7 @@ export default function Home() {
 
         <Button //DISABLED, !ARROW
           isTextWhite={true}
-          bgColor=''
+          bgColor='disabled'
           bgOpacity={100}
           isGlow={false}
           text='Button'
@@ -116,7 +122,7 @@ export default function Home() {
 
         <Button //DISABLED, ARROW
           isTextWhite={true}
-          bgColor=''
+          bgColor='disabled'
           bgOpacity={100}
           isGlow={false}
           text='Button'
@@ -156,7 +162,7 @@ export default function Home() {
 
         <Button //DISABLED, ARROW
           isTextWhite={true}
-          bgColor=''
+          bgColor='disabled'
           bgOpacity={100}
           isGlow={false}
           text='Button'
@@ -196,7 +202,7 @@ export default function Home() {
 
         <Button //DISABLED, !ARROW
           isTextWhite={true}
-          bgColor=''
+          bgColor='disabled'
           bgOpacity={100}
           isGlow={false}
           text='Button'
@@ -236,7 +242,7 @@ export default function Home() {
 
         <Button //DISABLED, !ARROW
           isTextWhite={true}
-          bgColor=''
+          bgColor='disabled'
           bgOpacity={100}
           isGlow={false}
           text='Button'
@@ -275,7 +281,7 @@ export default function Home() {
 
         <Button //DISABLED, !ARROW
           isTextWhite={true}
-          bgColor=''
+          bgColor='disabled'
           bgOpacity={100}
           isGlow={false}
           text='Button'
@@ -315,7 +321,7 @@ export default function Home() {
 
         <Button //DISABLED, ARROW
           isTextWhite={true}
-          bgColor=''
+          bgColor='disabled'
           bgOpacity={100}
           isGlow={false}
           text='Button'

@@ -9,13 +9,13 @@ const Button = ({
   isIcon,
   isDisabled,
 }: {
-  isTextWhite: boolean;
-  bgColor: string;
+  isTextWhite?: boolean;
+  bgColor: 'green' | 'gold' | 'black' | 'disabled';
   bgOpacity: number;
-  isGlow: boolean;
-  text: string | undefined;
-  isIcon: boolean;
-  isDisabled: boolean;
+  isGlow?: boolean;
+  text?: string | undefined;
+  isIcon?: boolean;
+  isDisabled?: boolean;
 }) => {
   //disabled
   if (isDisabled) {
@@ -27,7 +27,7 @@ const Button = ({
             : 'relative sm:w-[185px] sm:h-[48px] w-[105px] h-[35px]'
         }
       >
-        <div className='absolute inset-0 bg-[#D7D2D0] flex justify-center items-center w-full h-full rounded-md '>
+        <div className='absolute inset-0 bg-[#D7D2D0] flex justify-center items-center w-full h-full rounded-md cursor-not-allowed'>
           <div className='flex gap-2'>
             <p
               className={
@@ -55,10 +55,7 @@ const Button = ({
             : 'relative sm:w-[185px] sm:h-[48px] w-[105px] h-[35px]'
         }
       >
-        {isGlow && (
-          <div className='absolute inset-0 bg-[#163c2e] flex justify-center items-center w-full h-full rounded-md blur-md' />
-        )}
-        <div className='absolute inset-0 bg-[#0D432F] flex justify-center items-center w-full h-full rounded-md '>
+        <div className='absolute inset-0 bg-[#0D432F] hover:bg-[#315B4C] flex justify-center items-center w-full h-full rounded-md shadow-[0px_0px_20px_5px_#315B4C] hover:shadow-md'>
           <div className='flex gap-2'>
             <p
               className={
@@ -86,10 +83,7 @@ const Button = ({
             : 'relative sm:w-[185px] sm:h-[48px] w-[105px] h-[35px]'
         }
       >
-        {isGlow && (
-          <div className='absolute inset-0 bg-[#AB814E] flex justify-center items-center w-full h-full rounded-md blur' />
-        )}
-        <div className='absolute inset-0 bg-[#AB814E] flex justify-center items-center w-full h-full rounded-md '>
+        <div className='absolute inset-0 bg-[#AB814E] hover:bg-[#B49876] flex justify-center items-center w-full h-full rounded-md shadow-[0px_0px_20px_5px_#B49876] hover:shadow-md '>
           <div className='flex gap-2'>
             <p
               className={
@@ -120,7 +114,7 @@ const Button = ({
         {isGlow && (
           <div className='absolute inset-0 bg-[#1C1A17] flex justify-center items-center w-full h-full rounded-md blur' />
         )}
-        <div className='absolute inset-0 bg-[#1C1A17] flex justify-center items-center w-full h-full rounded-md '>
+        <div className='absolute inset-0 bg-[#1C1A17] flex justify-center items-center w-full h-full rounded-md shadow-md '>
           <div className='flex gap-2'>
             <p
               className={
@@ -148,7 +142,7 @@ const Button = ({
             : 'relative sm:w-[185px] sm:h-[48px] w-[105px] h-[35px]'
         }
       >
-        <div className='absolute inset-0 border-2 border-[#0D432F] bg-[ffffff0] flex justify-center items-center w-full h-full rounded-md '>
+        <div className='absolute inset-0 border-2 border-[#0D432F] bg-[#FFFFFF] flex justify-center items-center w-full h-full rounded-md hover:bg-[#FFFFFF] '>
           <div className='flex gap-2'>
             <p
               className={

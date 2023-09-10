@@ -23,6 +23,10 @@ const config: Config = {
         'cream-secondary-normal': '#D8B88B',
         'brown-secondary': '#AB814E',
       },
+      keyframes: {},
+      animation: {
+        clicked: '',
+      },
     },
   },
   plugins: [],
