@@ -1,36 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-input[type='radio'] {
-  -webkit-appearance: none;
-  width: 17px;
-  height: 17px;
-  border: 2.5px solid #fff;
-  border-radius: 50%;
-  outline: none;
-}
-
-input[type='radio']:hover {
-  box-shadow: 0 0 3px 0px #fff inset;
-}
-
-input[type='radio']:before {
-  content: '';
-  display: block;
-  width: 70%;
-  height: 70%;
-  margin: 15% auto;
-  border-radius: 50%;
-}
-input[type='radio']:checked:before {
-  background: #ab814e;
-}
-
-input[type='radio']:checked {
-  border: 2.5px solid #dbb88b;
-}
-
-input[type='radio']:checked:hover {
-  box-shadow: 0 0 1px 0px #dbb88b inset;
-}

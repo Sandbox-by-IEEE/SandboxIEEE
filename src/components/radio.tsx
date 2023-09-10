@@ -17,7 +17,9 @@ const RadioButtons = () => {
       <label className='text-white inline-flex items-center'>
         <input
           type='radio'
-          className='w-4 h-4 form-radio'
+          className='appearance-none w-[17px] h-[17px] border-solid border-2 rounded-[12px]	form-radio flex items-center justify-center outline-none
+          hover:border-[#dbb88b] after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked.svg")] after:bg-no-repeat after:bg-center
+          checked:after:block checked:border-solid checked:rounded-lg checked:border-0 checked:border-[#dbb88b]'
           value='option1'
           checked={selectedOption === 'option1'}
           onChange={handleOptionChange}
@@ -27,7 +29,9 @@ const RadioButtons = () => {
       <label className='text-white inline-flex items-center mt-2'>
         <input
           type='radio'
-          className='w-4 h-4 form-radio'
+          className='appearance-none w-[17px] h-[17px] border-solid border-2 rounded-[12px]	form-radio
+          hover:border-[#dbb88b] after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked.svg")] after:bg-no-repeat after:bg-center
+          checked:after:block checked:border-solid checked:rounded-lg checked:border-0 checked:border-[#dbb88b]'
           value='option2'
           checked={selectedOption === 'option2'}
           onChange={handleOptionChange}
@@ -37,7 +41,9 @@ const RadioButtons = () => {
       <label className='text-white inline-flex items-center mt-2'>
         <input
           type='radio'
-          className='w-4 h-4 form-radio'
+          className='appearance-none w-[17px] h-[17px] border-solid border-2 rounded-[12px]	form-radio
+          hover:border-[#dbb88b] after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked.svg")] after:bg-no-repeat after:bg-center
+          checked:after:block checked:border-solid checked:rounded-lg checked:border-0 checked:border-[#dbb88b]'
           value='option3'
           checked={selectedOption === 'option3'}
           onChange={handleOptionChange}
