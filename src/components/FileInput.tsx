@@ -37,34 +37,65 @@ const FileInput = ({
     }
   };
 
-  // Call a function (passed as a prop from the parent component)
-  // to handle the user-selected file
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const fileUploaded = event.target.files && event.target.files[0];
-    if (fileUploaded) {
-      // console.log(fileUploaded);
-      // console.log('uploading to cloudinary goes here');
-      // setIsError(true);
-      setIsSuccess(true);
-      setFile({ fileName: fileUploaded.name, fileUrl: 'fileUrl' });
+  const uploadFile = async (fileUploaded: File) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const fd = new FormData();
+      fd.append(`file`, fileUploaded);
+      fd.append('upload_preset', 'ddriwluc');
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/auto/upload`,
+        {
+          method: 'POST',
+          body: fd,
+        },
+      );
+      if (!response.ok) throw await response.json();
+
+      const responseJSON = await response.json();
+
+      return responseJSON;
+    } catch (error) {
+      throw error;
     }
   };
 
+  const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const fileUploaded = event.target.files && event.target.files[0];
+    try {
+      if (fileUploaded) {
+        const responseJSON = await uploadFile(fileUploaded);
+        setIsSuccess(true);
+        setFile({
+          fileName: fileUploaded.name,
+          fileUrl: responseJSON?.secure_url,
+        });
+      }
+    } catch (error) {
+      setIsError(true);
+    }
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    try {
+      e.preventDefault();
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        const fileUploaded = files[0];
+        // console.log(fileUploaded);
+        // console.log('uploading to cloudinary goes here');
+        // setIsError(true);
+        setIsError(true);
+        setFile({ fileName: fileUploaded.name, fileUrl: 'fileUrl' });
+      }
+    } catch (error) {
+      setIsError(true);
+    }
+  };
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      const fileUploaded = files[0];
-      // console.log(fileUploaded);
-      // console.log('uploading to cloudinary goes here');
-      // setIsError(true);
-      setIsError(true);
-      setFile({ fileName: fileUploaded.name, fileUrl: 'fileUrl' });
-    }
   };
 
   const handleSubmitUrl = () => {
@@ -106,10 +137,15 @@ const FileInput = ({
           <div className='flex gap-2 items-center'>
             {inputUrl ? <LinkIcon /> : <FileIcon />}
             {file.fileName ? (
-              <p>file.fileName</p>
+              <p>{file.fileName}</p>
             ) : (
-              <a href={inputUrl} target='_blank' rel='noreferer'>
-                inputUrl
+              <a
+                href={inputUrl}
+                target='_blank'
+                rel='noreferer'
+                className='max-w-[300px] md:max-w-[600px] whitespace-nowrap overflow-hidden text-ellipsis'
+              >
+                {inputUrl}
               </a>
             )}
           </div>
@@ -139,7 +175,9 @@ const FileInput = ({
             {inputUrl ? 'Link' : 'File'} gagal diupload!
           </p>
           <div className='flex gap-2'>
-            <p>{file.fileName ? file.fileName : inputUrl}</p>
+            <p className='max-w-[300px] md:max-w-[600px] whitespace-nowrap overflow-hidden text-ellipsis'>
+              {file.fileName ? file.fileName : inputUrl}
+            </p>
           </div>
         </div>
         <input
