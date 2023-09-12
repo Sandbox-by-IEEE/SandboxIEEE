@@ -1,5 +1,6 @@
 'use client';
-import Toast, { callToast } from '@/components/Toast';
+
+import { callToast } from '@/components/Toast';
 
 const status = 'error';
 const desc = 'Pokoknya ada masalah lah pas lagi fetch datanya.';
@@ -7,7 +8,6 @@ const desc = 'Pokoknya ada masalah lah pas lagi fetch datanya.';
 export default function Page() {
   return (
     <>
-      <Toast />
       <div className='flex gap-4'>
         <button
           onClick={() => callToast({ status, description: desc })}

@@ -1,5 +1,3 @@
-'use client';
-
 import toast, { type Toast, Toaster } from 'react-hot-toast';
 
 /**
@@ -45,27 +43,30 @@ function ToastComponent({
             <strong>{title(t.type)}</strong>
           </h1>
           <p className='text-xs md:text-base font-poppins'>
-            {' '}
-            {description || 'Success '.repeat(5)}
+            {description || t.type}
           </p>
         </div>
-        <button
-          className='rounded-full aspect-square w-5'
-          onClick={() => toast.dismiss(t.id)}
-        >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='20'
-            height='21'
-            viewBox='0 0 20 21'
-            fill='none'
+        <div className='w-8 justify-center rounded-full flex items-center self-center'>
+          <button
+            className='aspect-square w-full items-center flex justify-center '
+            onClick={() => toast.dismiss(t.id)}
           >
-            <path
-              d='M17.2725 0.500256C17.5051 0.500256 17.738 0.588861 17.9153 0.766584L19.7334 2.58472C20.0889 2.94016 20.0889 3.51566 19.7334 3.8702L13.1036 10.5L19.7334 17.1298C20.0889 17.4852 20.0889 18.0607 19.7334 18.4153L17.9153 20.2334C17.5598 20.5889 16.9843 20.5889 16.6298 20.2334L10 13.6036L3.3702 20.2334C3.01566 20.5889 2.43926 20.5889 2.08472 20.2334L0.266586 18.4153C-0.0888596 18.0598 -0.0888596 17.4843 0.266586 17.1298L6.89639 10.5L0.266586 3.8702C-0.0888596 3.51566 -0.0888596 2.93926 0.266586 2.58472L2.08472 0.766584C2.44017 0.411139 3.01566 0.411139 3.3702 0.766584L10 7.39639L16.6298 0.766584C16.8075 0.588861 17.0399 0.500256 17.2725 0.500256Z'
-              fill='#D7D2D0'
-            />
-          </svg>
-        </button>
+            <div>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                width='20'
+                height='21'
+                viewBox='0 0 20 21'
+                fill='none'
+              >
+                <path
+                  d='M17.2725 0.500256C17.5051 0.500256 17.738 0.588861 17.9153 0.766584L19.7334 2.58472C20.0889 2.94016 20.0889 3.51566 19.7334 3.8702L13.1036 10.5L19.7334 17.1298C20.0889 17.4852 20.0889 18.0607 19.7334 18.4153L17.9153 20.2334C17.5598 20.5889 16.9843 20.5889 16.6298 20.2334L10 13.6036L3.3702 20.2334C3.01566 20.5889 2.43926 20.5889 2.08472 20.2334L0.266586 18.4153C-0.0888596 18.0598 -0.0888596 17.4843 0.266586 17.1298L6.89639 10.5L0.266586 3.8702C-0.0888596 3.51566 -0.0888596 2.93926 0.266586 2.58472L2.08472 0.766584C2.44017 0.411139 3.01566 0.411139 3.3702 0.766584L10 7.39639L16.6298 0.766584C16.8075 0.588861 17.0399 0.500256 17.2725 0.500256Z'
+                  fill='#D7D2D0'
+                />
+              </svg>
+            </div>
+          </button>
+        </div>
       </div>
     </>
   );
@@ -83,7 +84,7 @@ function Toast() {
         position='top-center'
         containerStyle={{}}
         toastOptions={{
-          duration: 3500,
+          duration: 1800,
           style: {
             boxShadow:
               '0 10px 15px -3px rgba(0, 0, 0, 0.1), , 0 4px 6px -2px rgba(0, 0, 0, 0.05);',
@@ -100,7 +101,7 @@ function Toast() {
 
           success: {
             style: {
-              border: '0.125rem solid #3FB160 ',
+              borderColor: '#3FB160 ',
             },
           },
         }}

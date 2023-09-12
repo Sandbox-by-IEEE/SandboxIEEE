@@ -3,6 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 
+import Toast from '@/components/Toast';
+
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -28,7 +30,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang='id, en' className={`${inter.variable} ${poppins.variable}`}>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Toast />
+        {children}
+      </body>
     </html>
   );
 }
