@@ -98,7 +98,7 @@ const Modal = ({
         </p>
         <div className='flex flex-col w-fit md:flex-row justify-end md:w-full gap-3 font-bold mx-auto'>
           <button
-            className='rounded-[4px] overflow-hidden hover:brightness-[80%]'
+            className='rounded-[4px] overflow-hidden transition-all duration-300 hover:brightness-[80%]'
             onClick={() => {
               onClickButtonOne();
               closeModal();
@@ -107,7 +107,7 @@ const Modal = ({
             <div className='gradient-border-bg'>Button</div>
           </button>
           <button
-            className='relative bg-[#AB814E] hover:brightness-[80%] py-[0.7rem] px-[4.3rem] text-white rounded-[4px]'
+            className='relative bg-[#AB814E] hover:brightness-[80%] transition-all duration-300 py-[0.7rem] px-[4.3rem] text-white rounded-[4px]'
             onClick={() => {
               onClickButtonTwo();
               closeModal();
