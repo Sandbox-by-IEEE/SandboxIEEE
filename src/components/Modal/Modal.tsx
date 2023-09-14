@@ -48,7 +48,7 @@ const Modal = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Design & Decorations */}
-        <div className='absolute top-4 right-4 md:top-8 md:right-8 cursor-pointer z-[220] hover:brightness-[80%]'>
+        <div className='absolute top-4 right-4 md:top-8 md:right-8 cursor-pointer transition-all duration-300 z-[220] hover:brightness-[80%]'>
           <CloseIcon
             onClick={(e: React.MouseEvent<HTMLElement>) => {
               e.stopPropagation();
