@@ -1,15 +1,16 @@
 import toast, { type Toast, Toaster } from 'react-hot-toast';
 
+import XIcon from '@/components/icons/XIcon';
+
 /**
  *
  * CARA MEMAKAI TOAST:
  *
- * 1. Taruh <Toast/> component di paling atas sebelum isi page kalian. (bisa liat di page /gana)
  *
- * 2. panggil toastnya dengan fungsi callToast().
- * 2.a fungsi callToast punya 2 parameter wajib: status dan description.
- * 2.b parameter status ("error" | "success") buat notify user apakah hal yang dilakukannya gagal atau berhasil.
- * 2.c parameter description (string) buat ngasitau apa yang gagal. apa yang berhasil.
+ * 1. panggil toastnya dengan fungsi callToast().
+ * 1.a fungsi callToast punya 2 parameter wajib: status dan description.
+ * 1.b parameter status ("error" | "success") buat notify user apakah hal yang dilakukannya gagal atau berhasil.
+ * 1.c parameter description (string) buat ngasitau apa yang gagal. apa yang berhasil.
  */
 
 interface ToastProps {
@@ -52,18 +53,7 @@ function ToastComponent({
             onClick={() => toast.dismiss(t.id)}
           >
             <div>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='20'
-                height='21'
-                viewBox='0 0 20 21'
-                fill='none'
-              >
-                <path
-                  d='M17.2725 0.500256C17.5051 0.500256 17.738 0.588861 17.9153 0.766584L19.7334 2.58472C20.0889 2.94016 20.0889 3.51566 19.7334 3.8702L13.1036 10.5L19.7334 17.1298C20.0889 17.4852 20.0889 18.0607 19.7334 18.4153L17.9153 20.2334C17.5598 20.5889 16.9843 20.5889 16.6298 20.2334L10 13.6036L3.3702 20.2334C3.01566 20.5889 2.43926 20.5889 2.08472 20.2334L0.266586 18.4153C-0.0888596 18.0598 -0.0888596 17.4843 0.266586 17.1298L6.89639 10.5L0.266586 3.8702C-0.0888596 3.51566 -0.0888596 2.93926 0.266586 2.58472L2.08472 0.766584C2.44017 0.411139 3.01566 0.411139 3.3702 0.766584L10 7.39639L16.6298 0.766584C16.8075 0.588861 17.0399 0.500256 17.2725 0.500256Z'
-                  fill='#D7D2D0'
-                />
-              </svg>
+              <XIcon></XIcon>
             </div>
           </button>
         </div>
