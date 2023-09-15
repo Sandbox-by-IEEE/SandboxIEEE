@@ -28,6 +28,7 @@ export default function Home() {
           setFile={setFile}
           setUrl={setUrl}
           message={'secondary message'}
+          allowedFileTypes={['.jpg', '.pdf']}
           file={file}
         />
       </div>

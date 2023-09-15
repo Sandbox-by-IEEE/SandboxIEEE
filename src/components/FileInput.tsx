@@ -16,11 +16,13 @@ import LinkIcon from '@/components/icons/LinkIcon';
 
 const FileInput = ({
   setFile,
+  allowedFileTypes = [],
   setUrl,
   message,
   file,
 }: {
   setFile: Dispatch<SetStateAction<FileInputType>>;
+  allowedFileTypes?: string[];
   setUrl?: Dispatch<SetStateAction<string>>;
   message: string;
   file: FileInputType;
@@ -253,6 +255,7 @@ const FileInput = ({
         type='file'
         onChange={handleChange}
         ref={hiddenFileInput}
+        accept={allowedFileTypes.join(',')}
         className='hidden'
       />
     </div>
