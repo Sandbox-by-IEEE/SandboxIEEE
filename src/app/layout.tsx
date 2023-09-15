@@ -3,6 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 
+import Marquee from '@/components/Marque';
+
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -27,7 +29,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang='id, en' className={`${inter.variable} ${poppins.variable}`}>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        <Marquee hideSeconds={4} showSeconds={15} />
+      </body>
     </html>
   );
 }
