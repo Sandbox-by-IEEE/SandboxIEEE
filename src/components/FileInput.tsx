@@ -84,11 +84,14 @@ const FileInput = ({
       const files = e.dataTransfer.files;
       if (files.length > 0) {
         const fileUploaded = files[0];
-        // console.log(fileUploaded);
-        // console.log('uploading to cloudinary goes here');
-        // setIsError(true);
-        setIsError(true);
-        setFile({ fileName: fileUploaded.name, fileUrl: 'fileUrl' });
+        const responseJSON = await uploadFile(fileUploaded);
+        setIsSuccess(true);
+        setFile({
+          fileName: fileUploaded.name,
+          fileUrl: responseJSON?.secure_url,
+        });
+      } else {
+        throw 'Failed to get file';
       }
     } catch (error) {
       setIsError(true);
