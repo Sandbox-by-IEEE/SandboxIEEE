@@ -1,68 +1,86 @@
 'use client';
 import React, { useState } from 'react';
 
-import Dropdown from '@/components/Dropdown';
+import Cards from '@/components/Card';
 
 export default function Home() {
-  // Dummy data for demonstration
-  const data = [
+  const cardData = [
     {
-      name: 'John Doe',
-      division: 'Resource Management',
+      title: 'Sample Card 1',
+      imageUrl: '/google-logo.png', // Replace with the actual image path
+      children:
+        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
+      leftTag: 'Tag1',
+      rightTag: 'Tag2',
+      horizontal: false,
+      buttonText: 'Click Me',
+      onClick: () => {
+        // Handle button click
+      },
     },
     {
-      name: 'Jane Smith',
-      division: 'Marketing',
+      title: 'Sample Card 2',
+      imageUrl: '/google-logo.png', // Replace with the actual image path
+      children:
+        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
+      leftTag: 'Tag3',
+      rightTag: 'Tag4',
+      horizontal: true,
+      buttonText: 'Explore',
+      onClick: () => {
+        // Handle button click
+      },
     },
     {
-      name: 'Bob Johnson',
-      division: 'Web Development',
+      title: 'Sample Card 1',
+      imageUrl: '/google-logo.png', // Replace with the actual image path
+      children:
+        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
+      leftTag: 'Tag1',
+      rightTag: 'Tag2',
+      horizontal: false,
+      onClick: () => {
+        // Handle button click
+      },
     },
-    // Add more data items as needed
-  ];
+    {
+      title: 'Sample Card 2',
+      imageUrl: '/google-logo.png', // Replace with the actual image path
+      children:
+        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
+      leftTag: 'Tag3',
+      rightTag: 'Tag4',
+      horizontal: true,
+      onClick: () => {
+        // Handle button click
+      },
+    },
+    {
+      title: 'Sample Card 2',
+      imageUrl: '/google-logo.png', // Replace with the actual image path
+      children:
+        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
+      leftTag: 'Tag3',
+      rightTag: 'Tag4',
+      horizontal: false,
+      buttonText: 'yuhu',
+      onClick: () => {
+        // Handle button click
+      },
+    },
 
-  const options = [
-    'Resource Management',
-    'Resource Development',
-    'Marketing',
-    'Partnership',
-    'Competition',
-    'Project',
-    'Paper',
-    'Event',
-    'Logistic',
-    'Web Development',
-    'Finance',
-    'Sponsorship',
+    // Add more card data objects as needed
   ];
 
   // State for the selected option in the dropdown
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   return (
-    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center'>
-      <div className='w-full flex items-center justify-center gap-10'>
-        <Dropdown
-          color='green'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
-        <Dropdown
-          color='light'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
-        <Dropdown
-          color='trans-green'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
+    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center px-10 py-20'>
+      <div className='w-full flex items-center justify-center gap-10 flex-wrap'>
+        {cardData.map((data, index) => (
+          <Cards key={index} {...data} />
+        ))}
       </div>
       {/* You can map through the filteredData to display the results */}
     </main>
