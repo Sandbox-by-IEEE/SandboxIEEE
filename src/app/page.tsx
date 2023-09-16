@@ -39,61 +39,37 @@ export default function Home() {
       {/* Tooltip */}
       <p className='text-slate-400 font-extrabold'>Tooltips</p>
 
-      <Tooltip
-        message='left me'
-        position='left'
-        translationX='-180px'
-        translationY='0px'
-      >
-        <p className='border-2 border-slate-600 p-1 text-white'>left me</p>
+      <Tooltip message='left me' position='left'>
+        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
+          leftsadklj asjkldklas jdkasjd me
+        </p>
       </Tooltip>
-      <Tooltip message='right me' position='right' translationY='-10px'>
-        <p className='border-2 border-slate-600 p-1 text-white'>right me</p>
+      <Tooltip message='right me' position='right'>
+        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
+          right haslkdjkas udlkajd klasd me
+        </p>
       </Tooltip>
-      <Tooltip
-        message='top me'
-        position='top'
-        translationX='-15px'
-        translationY='-54px'
-      >
-        <p className='border-2 border-slate-600 p-1 text-white'>top me</p>
+      <Tooltip message='top me' position='top'>
+        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
+          top ajshdjka hdjk me
+        </p>
       </Tooltip>
-      <Tooltip message='bottom me' position='bottom' translationY='40px'>
-        <p className='border-2 border-slate-600 p-1 text-white'>bottom me</p>
+      <Tooltip message='bottom me' position='bottom'>
+        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
+          bottom aslkdjlka jdkla me
+        </p>
       </Tooltip>
 
-      <Tooltip
-        message='left me'
-        position='left'
-        translationX='-180px'
-        translationY='0px'
-        isWhite={false}
-      >
+      <Tooltip message='left me' position='left' isWhite={false}>
         <p className='border-2 border-slate-600 p-1 text-white'>left me</p>
       </Tooltip>
-      <Tooltip
-        message='right me'
-        position='right'
-        translationY='-10px'
-        isWhite={false}
-      >
+      <Tooltip message='right me' position='right' isWhite={false}>
         <p className='border-2 border-slate-600 p-1 text-white'>right me</p>
       </Tooltip>
-      <Tooltip
-        message='top me'
-        position='top'
-        translationX='-15px'
-        translationY='-54px'
-        isWhite={false}
-      >
+      <Tooltip message='top me' position='top' isWhite={false}>
         <p className='border-2 border-slate-600 p-1 text-white'>top me</p>
       </Tooltip>
-      <Tooltip
-        message='bottom me'
-        position='bottom'
-        translationY='40px'
-        isWhite={false}
-      >
+      <Tooltip message='bottom me' position='bottom' isWhite={false}>
         <p className='border-2 border-slate-600 p-1 text-white'>bottom me</p>
       </Tooltip>
     </main>

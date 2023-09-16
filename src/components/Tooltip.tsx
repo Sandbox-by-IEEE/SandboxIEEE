@@ -7,15 +7,11 @@ const Tooltip = ({
   message,
   position,
   children,
-  translationX = '0px',
-  translationY = '0px',
   isWhite = true,
 }: {
   position: string;
   message: string;
   children: React.ReactNode;
-  translationX?: string;
-  translationY?: string;
   isWhite?: boolean;
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -54,26 +50,17 @@ const Tooltip = ({
           {children}
         </div>
         {isVisible && (
-          <div
-            className='absolute inset-0'
-            style={{
-              transform: `translate(${translationX}, ${translationY})`,
-            }}
-          >
-            <div className='relative flex justify-center items-center'>
-              <div className='absolute top-0 left-0 flex items-center flex-col'>
-                <Triangle position='bottom' isWhite={isWhite} />
-                <p
-                  className={
-                    isWhite
-                      ? 'px-2 py-1 text-black bg-white min-w-[100px] font-[600] rounded-md'
-                      : 'bg-[#ffe1b9] px-2 py-1 text-black min-w-[100px] font-[600] rounded-md'
-                  }
-                >
-                  {message}
-                </p>
-              </div>
-            </div>
+          <div className='flex absolute bottom-0 translate-y-full left-1/2 -translate-x-1/2  items-center flex-col justify-center '>
+            <Triangle position='bottom' isWhite={isWhite} />
+            <p
+              className={
+                isWhite
+                  ? 'px-2 py-1 text-black bg-white min-w-[100px] font-bold rounded-md'
+                  : 'bg-[#ffe1b9] px-2 py-1 text-black min-w-[100px] font-bold rounded-md'
+              }
+            >
+              {message}
+            </p>
           </div>
         )}
       </div>
@@ -81,29 +68,22 @@ const Tooltip = ({
   }
   if (position === 'left') {
     return (
-      <div className='flex'>
+      <div className='flex relative'>
         <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           {children}
         </div>
         {isVisible && (
-          <div
-            className='relative flex justify-center items-center'
-            style={{
-              transform: `translate(${translationX}, ${translationY})`,
-            }}
-          >
-            <div className='absolute top-0 left-0 flex items-center'>
-              <p
-                className={
-                  isWhite
-                    ? 'px-2 py-1 text-black bg-white min-w-[100px] font-[600] rounded-md'
-                    : 'bg-[#ffe1b9] px-2 py-1 text-black min-w-[100px] font-[600] rounded-md'
-                }
-              >
-                {message}
-              </p>
-              <Triangle position='left' isWhite={isWhite} />
-            </div>
+          <div className='absolute top-1/2 -translate-y-1/2 left-0 -translate-x-full flex items-center justify-center'>
+            <p
+              className={
+                isWhite
+                  ? 'px-2 py-1 text-black bg-white min-w-[100px] font-bold rounded-md'
+                  : 'bg-[#ffe1b9] px-2 py-1 text-black min-w-[100px] font-bold rounded-md'
+              }
+            >
+              {message}
+            </p>
+            <Triangle position='left' isWhite={isWhite} />
           </div>
         )}
       </div>
@@ -111,29 +91,22 @@ const Tooltip = ({
   }
   if (position === 'right') {
     return (
-      <div className='flex'>
+      <div className='flex relative'>
         <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           {children}
         </div>
         {isVisible && (
-          <div className='relative flex justify-center items-center'>
-            <div
-              className='absolute top-0 left-0 flex items-center'
-              style={{
-                transform: `translate(${translationX}, ${translationY})`,
-              }}
+          <div className='absolute top-1/2 -translate-y-1/2 right-0 translate-x-full flex items-center justify-center '>
+            <Triangle position='right' isWhite={isWhite} />
+            <p
+              className={
+                isWhite
+                  ? 'px-2 py-1 text-black bg-white min-w-[100px] font-bold rounded-md'
+                  : 'bg-[#ffe1b9] px-2 py-1 text-black min-w-[100px] font-bold rounded-md'
+              }
             >
-              <Triangle position='right' isWhite={isWhite} />
-              <p
-                className={
-                  isWhite
-                    ? 'px-2 py-1 text-black bg-white min-w-[100px] font-[600] rounded-md'
-                    : 'bg-[#ffe1b9] px-2 py-1 text-black min-w-[100px] font-[600] rounded-md'
-                }
-              >
-                {message}
-              </p>
-            </div>
+              {message}
+            </p>
           </div>
         )}
       </div>
@@ -145,26 +118,17 @@ const Tooltip = ({
         {children}
       </div>
       {isVisible && (
-        <div
-          className='absolute inset-0'
-          style={{
-            transform: `translate(${translationX}, ${translationY})`,
-          }}
-        >
-          <div className='relative flex justify-center items-center'>
-            <div className='absolute top-0 left-0 flex items-center flex-col'>
-              <p
-                className={
-                  isWhite
-                    ? 'px-2 py-1 text-black bg-white min-w-[100px] font-[600] rounded-md'
-                    : 'bg-[#ffe1b9] px-2 py-1 text-black min-w-[100px] font-[600] rounded-md'
-                }
-              >
-                {message}
-              </p>
-              <Triangle position='top' isWhite={isWhite} />
-            </div>
-          </div>
+        <div className='absolute top-0 -translate-y-full left-1/2 -translate-x-1/2 flex items-center justify-center flex-col'>
+          <p
+            className={
+              isWhite
+                ? 'px-2 py-1 text-black bg-white min-w-[100px] font-bold rounded-md'
+                : 'bg-[#ffe1b9] px-2 py-1 text-black min-w-[100px] font-bold rounded-md'
+            }
+          >
+            {message}
+          </p>
+          <Triangle position='top' isWhite={isWhite} />
         </div>
       )}
     </div>
