@@ -25,3 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+div.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+div.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #00a56e;
+  filter: drop-shadow(0px 0px 15px rgba(255, 250, 250, 1));
+}
