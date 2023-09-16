@@ -19,8 +19,6 @@ export default function Home() {
           <Modal
             title='Modals Title'
             description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet auctor viverra. Nulla facilisis elit ac leo ornare congue. Morbi sed lectus maximus, efficitur orci a.'
-            onClickButtonOne={() => {}}
-            onClickButtonTwo={() => {}}
           />
         )}
         <button
