@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import BorderCircleTopLeft from '@/components/icons/BorderCircleTopLeft';
@@ -26,8 +26,12 @@ const Modal = ({
   onClickButtonTwo?: () => void;
 }) => {
   const context = useContext<ModalContextContextType>(ModalContext);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const setOpenModal = context?.setOpenModal ?? function () {};
+
+  useEffect(() => {
+    setTimeout(() => setIsOpen(true), 0);
+  }, []);
 
   const closeModal = () => {
     setIsOpen(false);
