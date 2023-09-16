@@ -13,6 +13,7 @@ import FileInputIconEmpty from '@/components/icons/FileInputIconEmpty';
 import FileInputIconError from '@/components/icons/FileInputIconError';
 import FileInputIconSuccess from '@/components/icons/FileInputIconSuccess';
 import LinkIcon from '@/components/icons/LinkIcon';
+import SaveIcon from '@/components/icons/SaveIcon';
 
 const FileInput = ({
   setFile,
@@ -200,8 +201,8 @@ const FileInput = ({
       <div
         className={
           setUrl
-            ? 'w-[500px] h-[542px] md:w-[730px] flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
-            : 'w-[500px] h-[388px] md:w-[730px] flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
+            ? 'w-[400px] h-[500px] md:h-[542px] md:w-[730px] flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
+            : 'w-[400px] h-[388px] md:w-[730px] flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
         }
         onDragOver={handleDragOver}
         onDrop={handleDrop}
@@ -216,10 +217,10 @@ const FileInput = ({
         <p>{message}</p>
         {setUrl && (
           <div className='flex flex-col gap-4'>
-            <div className='flex gap-4 items-center'>
-              <div className='w-[168px] h-[2px] bg-white' />
+            <div className='flex gap-4 items-center mx-auto'>
+              <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
               <p>atau</p>
-              <div className='w-[168px] h-[2px] bg-white' />
+              <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
             </div>
             <div className='flex flex-col items-center gap-4'>
               <p>cantumkan Link Google Drive</p>
@@ -233,18 +234,7 @@ const FileInput = ({
                   className='py-3 px-6 bg-[#AB814E] rounded-lg'
                   onClick={handleSubmitUrl}
                 >
-                  <svg
-                    width='24'
-                    height='24'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path
-                      d='M17.59 3.59C17.21 3.21 16.7 3 16.17 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V7.83C21 7.3 20.79 6.79 20.41 6.42L17.59 3.59ZM12 19C10.34 19 9 17.66 9 16C9 14.34 10.34 13 12 13C13.66 13 15 14.34 15 16C15 17.66 13.66 19 12 19ZM13 9H7C5.9 9 5 8.1 5 7C5 5.9 5.9 5 7 5H13C14.1 5 15 5.9 15 7C15 8.1 14.1 9 13 9Z'
-                      fill='white'
-                    />
-                  </svg>
+                  <SaveIcon />
                 </button>
               </div>
             </div>
