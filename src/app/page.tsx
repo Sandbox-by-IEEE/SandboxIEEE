@@ -1,70 +1,30 @@
 'use client';
-import React, { useState } from 'react';
 
-import Dropdown from '@/components/Dropdown';
+import { callToast } from '@/components/Toast';
 
-export default function Home() {
-  // Dummy data for demonstration
-  const data = [
-    {
-      name: 'John Doe',
-      division: 'Resource Management',
-    },
-    {
-      name: 'Jane Smith',
-      division: 'Marketing',
-    },
-    {
-      name: 'Bob Johnson',
-      division: 'Web Development',
-    },
-    // Add more data items as needed
-  ];
+const status = 'error';
+const desc = 'Pokoknya ada masalah lah pas lagi fetch datanya.';
 
-  const options = [
-    'Resource Management',
-    'Resource Development',
-    'Marketing',
-    'Partnership',
-    'Competition',
-    'Project',
-    'Paper',
-    'Event',
-    'Logistic',
-    'Web Development',
-    'Finance',
-    'Sponsorship',
-  ];
-
-  // State for the selected option in the dropdown
-  const [selectedOption, setSelectedOption] = useState<string>('');
-
+export default function Page() {
   return (
-    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center'>
-      <div className='w-full flex items-center justify-center gap-10'>
-        <Dropdown
-          color='green'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
-        <Dropdown
-          color='light'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
-        <Dropdown
-          color='trans-green'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
-      </div>
-      {/* You can map through the filteredData to display the results */}
-    </main>
+    <div className='flex gap-4'>
+      <button
+        onClick={() => callToast({ status, description: desc })}
+        className='bg-red-300'
+      >
+        Make an error-type toast
+      </button>
+      <button
+        onClick={() =>
+          callToast({
+            status: 'success',
+            description: 'Ganti password berhasil.',
+          })
+        }
+        className='bg-green-300'
+      >
+        Make a success-type toast
+      </button>
+    </div>
   );
 }

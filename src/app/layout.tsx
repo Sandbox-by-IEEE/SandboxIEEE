@@ -3,6 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
+import Toast from '@/components/Toast';
+
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -38,7 +40,10 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body className={inter.className}>{children}</body>
+      <body>
+        <Toast />
+        {children}
+      </body>
     </html>
   );
 }
