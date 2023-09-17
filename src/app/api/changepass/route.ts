@@ -36,7 +36,10 @@ export async function PATCH(req: Request) {
       { user: rest, message: 'Success change password' },
       { status: 200 },
     );
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log("ERROR_CHANGEPASS: ", error)
+      return NextResponse.json({ message: error.message }, { status: 500 });
+    }
   }
 }
