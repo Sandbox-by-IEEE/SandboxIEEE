@@ -1,58 +1,59 @@
-'use client';
-import React, { useState } from 'react';
+import React from 'react';
 
-const Checkbox = () => {
-  const [checkboxes, setCheckboxes] = useState([false, false, false]);
+interface CheckboxProps {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  children: React.ReactNode; // Add children prop for custom label text
+}
 
-  const toggleCheckbox = (index: number) => {
-    const newCheckboxes = [...checkboxes];
-    newCheckboxes[index] = !newCheckboxes[index];
-    setCheckboxes(newCheckboxes);
+const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange, children }) => {
+  return (
+    <label className='text-white inline-flex items-center'>
+      <input
+        type='checkbox'
+        className='appearance-none h-[17px] w-[17px] cursor-pointer border-2 border-solid border-white flex justify-center content-center outline-none
+        after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked.svg")] after:bg-no-repeat after:bg-center
+        hover:border-2 hover:border-solid hover:border-[#ab814e]
+        checked:border-0 checked:border-solid
+        checked:after:block'
+        checked={checked}
+        onChange={() => onChange(!checked)}
+      />
+      <span className='ml-2'>{children}</span>
+    </label>
+  );
+};
+
+interface CheckboxOption {
+  label: string;
+  checked: boolean;
+}
+
+interface CheckboxGroupProps {
+  options: CheckboxOption[];
+  onChange: (options: CheckboxOption[]) => void;
+}
+
+const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ options, onChange }) => {
+  const handleCheckboxChange = (index: number, checked: boolean) => {
+    const newOptions = [...options];
+    newOptions[index].checked = checked;
+    onChange(newOptions);
   };
 
   return (
-    <div className='bg-black mt-2 flex flex-col'>
-      <label className='text-white inline-flex items-center'>
-        <input
-          type='checkbox'
-          className='appearance-none h-[17px] w-[17px] cursor-pointer border-2 border-solid border-white flex justify-center content-center outline-none
-          after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked.svg")] after:bg-no-repeat after:bg-center
-          hover:border-2 hover:border-solid hover:border-[#ab814e]
-          checked:border-0 checked:border-solid
-          checked:after:block'
-          checked={checkboxes[0]}
-          onChange={() => toggleCheckbox(0)}
-        />
-        <span className='ml-2'>Option 1</span>
-      </label>
-      <label className='text-white inline-flex items-center mt-2'>
-        <input
-          type='checkbox'
-          className='appearance-none h-[17px] w-[17px] cursor-pointer border-2 border-solid border-white flex justify-center content-center outline-none
-          after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked.svg")] after:bg-no-repeat after:bg-center
-          hover:border-2 hover:border-solid hover:border-[#ab814e]
-          checked:border-0 checked:border-solid
-          checked:after:block'
-          checked={checkboxes[1]}
-          onChange={() => toggleCheckbox(1)}
-        />
-        <span className='ml-2'>Option 2</span>
-      </label>
-      <label className='text-white inline-flex items-center mt-2'>
-        <input
-          type='checkbox'
-          className='appearance-none h-[17px] w-[17px] cursor-pointer border-2 border-solid border-white flex justify-center content-center outline-none
-          after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked.svg")] after:bg-no-repeat after:bg-center
-          hover:border-2 hover:border-solid hover:border-[#ab814e]
-          checked:border-0 checked:border-solid
-          checked:after:block'
-          checked={checkboxes[2]}
-          onChange={() => toggleCheckbox(2)}
-        />
-        <span className='ml-2'>Option 3</span>
-      </label>
+    <div className='flex flex-col'>
+      {options.map((option, index) => (
+        <Checkbox
+          key={index}
+          checked={option.checked}
+          onChange={(checked) => handleCheckboxChange(index, checked)}
+        >
+          {option.label}
+        </Checkbox>
+      ))}
     </div>
   );
 };
 
-export default Checkbox;
+export default CheckboxGroup;
