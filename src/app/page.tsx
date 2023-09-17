@@ -1,88 +1,30 @@
 'use client';
-import React, { useState } from 'react';
 
-import Cards from '@/components/Card';
+import { callToast } from '@/components/Toast';
 
-export default function Home() {
-  const cardData = [
-    {
-      title: 'Sample Card 1',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
-      leftTag: 'Tag1',
-      rightTag: 'Tag2',
-      horizontal: false,
-      buttonText: 'Click Me',
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: true,
-      buttonText: 'Explore',
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 1',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
-      leftTag: 'Tag1',
-      rightTag: 'Tag2',
-      horizontal: false,
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: true,
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: false,
-      buttonText: 'yuhu',
-      onClick: () => {
-        // Handle button click
-      },
-    },
+const status = 'error';
+const desc = 'Pokoknya ada masalah lah pas lagi fetch datanya.';
 
-    // Add more card data objects as needed
-  ];
-
-  // State for the selected option in the dropdown
-  const [selectedOption, setSelectedOption] = useState<string>('');
-
+export default function Page() {
   return (
-    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center px-10 py-20'>
-      <div className='w-full flex items-center justify-center gap-10 flex-wrap'>
-        {cardData.map((data, index) => (
-          <Cards key={index} {...data} />
-        ))}
-      </div>
-      {/* You can map through the filteredData to display the results */}
-    </main>
+    <div className='flex gap-4'>
+      <button
+        onClick={() => callToast({ status, description: desc })}
+        className='bg-red-300'
+      >
+        Make an error-type toast
+      </button>
+      <button
+        onClick={() =>
+          callToast({
+            status: 'success',
+            description: 'Ganti password berhasil.',
+          })
+        }
+        className='bg-green-300'
+      >
+        Make a success-type toast
+      </button>
+    </div>
   );
 }
