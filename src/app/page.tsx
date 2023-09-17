@@ -1,5 +1,4 @@
 'use client';
-import React, { useState } from 'react';
 
 import Cards from '@/components/Card';
 
@@ -71,9 +70,6 @@ export default function Home() {
 
     // Add more card data objects as needed
   ];
-
-  // State for the selected option in the dropdown
-  const [selectedOption, setSelectedOption] = useState<string>('');
 
   return (
     <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center px-10 py-20'>
