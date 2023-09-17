@@ -38,7 +38,7 @@ export async function PATCH(req: Request) {
     );
   } catch (error) {
     if (error instanceof Error) {
-      console.log("ERROR_CHANGEPASS: ", error)
+      console.log('ERROR_CHANGEPASS: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }

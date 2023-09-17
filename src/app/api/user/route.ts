@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     if (error instanceof Error) {
-      console.log("ERROR_CREATED_USER: ", error)
+      console.log('ERROR_CREATED_USER: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }
