@@ -58,10 +58,21 @@ model VerificationToken {
 }
 
 model Ticket {
-  id         String  @id @default(uuid())
-  ticketType String
-  verified   Boolean @default(false)
-  userId     String
+  id            String  @id @default(uuid())
+  ticketType    String
+  verified      Boolean @default(false)
+  userId        String
+  nameCustomer  String
+  paymentMethod String
+  proof         String
+  names         String
+  email         String
+  phone         String
+  address       String
+  institution   String
+  phoneNumber   String
+  ages          String
+  amountPrice   String
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

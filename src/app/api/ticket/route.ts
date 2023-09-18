@@ -50,8 +50,19 @@ export async function POST(req: NextRequest) {
 
     const ticket = await prisma.ticket.create({
       data: {
-        ticketType: ticketType,
         userId: session.user.id,
+        ticketType,
+        nameCustomer,
+        paymentMethod,
+        proof,
+        names,
+        email,
+        phone,
+        address,
+        institution,
+        phoneNumber,
+        ages: `${ages}`,
+        amountPrice: `${amountPrice}`,
       },
     });
 
@@ -72,7 +83,7 @@ export async function POST(req: NextRequest) {
     };
 
     const response = await fetch(
-      'https://api.sheetmonkey.io/form/o7vmGrrGjkAigGCdfHWGru',
+      'https://api.sheetmonkey.io/form/sLjAQm4xxF2rvabNycfekK',
       {
         method: 'POST',
         headers: {
@@ -106,7 +117,7 @@ export async function POST(req: NextRequest) {
     <p>Thank you and warm regards,</p>`,
     };
 
-    transporter.sendMail(mailOptions, async (error, info) => {
+    transporter.sendMail(mailOptions, async (error) => {
       if (error) {
         await prisma.ticket.delete({
           where: {
@@ -115,17 +126,17 @@ export async function POST(req: NextRequest) {
         });
         throw error;
       } else {
-        console.log('POST_TICKET: ', 'email was sent');
+        console.log('POST_TICKET: ', 'email was sent'); // eslint-disable-line
       }
     });
 
     return NextResponse.json({
-      ticket: data,
+      ticket: ticket,
       message: 'ticket purchase successful and please check your email',
     });
   } catch (error) {
     if (error instanceof Error) {
-      console.log('ERROR_POST_TICKET', error);
+      console.log('ERROR_POST_TICKET', error); // eslint-disable-line
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }

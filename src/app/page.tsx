@@ -5,6 +5,7 @@ import Dropdown from '@/components/Dropdown';
 
 export default function Home() {
   // Dummy data for demonstration
+  /* eslint-disable */
   const data = [
     {
       name: 'John Doe',
@@ -20,6 +21,7 @@ export default function Home() {
     },
     // Add more data items as needed
   ];
+  /* eslint-enable */
 
   const options = [
     'Resource Management',
