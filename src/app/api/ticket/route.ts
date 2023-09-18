@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
         });
         throw error;
       } else {
-        console.log('POST_TICKET: ', 'email was sent'); // eslint-disable-line
+        console.log('POST_TICKET: ', 'email was sent');
       }
     });
 
@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     if (error instanceof Error) {
-      console.log('ERROR_POST_TICKET', error); // eslint-disable-line
+      console.log('ERROR_POST_TICKET', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }

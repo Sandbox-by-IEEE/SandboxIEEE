@@ -3,11 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
 export async function PATCH(req: NextRequest) {
-  let ticketIdTemp;
   try {
     const { ticketId, userId } = await req.json();
-
-    ticketIdTemp = ticketId;
 
     if (!ticketId || !userId) {
       return NextResponse.json(
@@ -60,7 +57,8 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(
       {
-        data: { ...updatedTicket, user: existingUser },
+        ticket: updatedTicket,
+        user: existingUser,
         message: 'Validate ticket succesful',
       },
       { status: 200 },

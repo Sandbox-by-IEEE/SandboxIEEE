@@ -76,7 +76,7 @@ export async function PATCH(
       if (error) {
         throw error;
       } else {
-        console.log('PATCH_TICKET: ', 'email was sent'); // eslint-disable-line
+        console.log('PATCH_TICKET: ', 'email was sent');
       }
     });
 
@@ -94,7 +94,7 @@ export async function PATCH(
           verified: false,
         },
       });
-      console.log('ERROR_PATCH_TICKET: ', error); // eslint-disable-line
+      console.log('ERROR_PATCH_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }
