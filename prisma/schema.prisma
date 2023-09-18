@@ -61,6 +61,7 @@ model Ticket {
   id            String  @id @default(uuid())
   ticketType    String
   verified      Boolean @default(false)
+  active        Boolean @default(false)
   userId        String
   nameCustomer  String
   paymentMethod String

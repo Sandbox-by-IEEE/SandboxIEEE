@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       },
     });
 
-    const { password: passwordNewUser, ...rest } = newUser; // eslint-disable-line
+    const { password: passwordNewUser, ...rest } = newUser;
 
     return NextResponse.json(
       { user: rest, message: 'user created succesfully' },
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     if (error instanceof Error) {
-      console.log('ERROR_CREATED_USER: ', error); // eslint-disable-line
+      console.log('ERROR_CREATED_USER: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }

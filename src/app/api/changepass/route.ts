@@ -30,7 +30,7 @@ export async function PATCH(req: Request) {
       },
     });
 
-    const { password, ...rest } = updatedUser; // eslint-disable-line
+    const { password, ...rest } = updatedUser;
 
     return NextResponse.json(
       { user: rest, message: 'Success change password' },
@@ -38,7 +38,7 @@ export async function PATCH(req: Request) {
     );
   } catch (error) {
     if (error instanceof Error) {
-      console.log('ERROR_CHANGEPASS: ', error); // eslint-disable-line
+      console.log('ERROR_CHANGEPASS: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }
