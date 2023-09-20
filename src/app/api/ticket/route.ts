@@ -85,16 +85,13 @@ export async function POST(req: NextRequest) {
       'Amount Price': amountPrice,
     };
 
-    const response = await fetch(
-      'https://api.sheetmonkey.io/form/sLjAQm4xxF2rvabNycfekK',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+    const response = await fetch(process.env.SHEETMONKEY_API_URL || '', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(data),
+    });
 
     if (!response.ok) {
       throw new Error('Failed to create ticket');

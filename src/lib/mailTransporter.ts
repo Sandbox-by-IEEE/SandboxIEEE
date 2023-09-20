@@ -1,11 +1,11 @@
 import nodemailer from 'nodemailer';
 
 export const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.sendinblue.com',
-  port: 587,
-  secure: false,
+  host: process.env.SMTP_HOST,
+  port: parseInt(process.env.SMTP_PORT || '465'),
+  secure: process.env.SMTP_SECURE === 'true' ? true : false,
   auth: {
-    user: 'sandboxieeewebsite@gmail.com',
-    pass: 'XHIqgcPv5zjFMdZA',
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
