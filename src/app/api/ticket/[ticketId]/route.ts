@@ -63,7 +63,7 @@ export async function PATCH(
 
     const mailOptions = {
       from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-      to: updatedTicket.email,
+      to: 'mesachharmasendro@gmail.com',
       subject: 'Your Ticket Verified',
       html: qr
         ? `<p>Dear ${updatedTicket.nameCustomer},</p> 
@@ -72,13 +72,9 @@ export async function PATCH(
       <p>Ticket was verifed<p/>`,
     };
 
-    transporter.sendMail(mailOptions, async (error) => {
-      if (error) {
-        throw error;
-      } else {
-        console.log('PATCH_TICKET: ', 'email was sent');
-      }
-    });
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log('PATCH_TICKET: email was sent');
 
     return NextResponse.json(
       { ticket: updatedTicket, message: 'Ticket data updated successful' },

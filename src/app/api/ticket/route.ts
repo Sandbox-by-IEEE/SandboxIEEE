@@ -6,6 +6,7 @@ import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 
 export async function POST(req: NextRequest) {
+  let ticketIdTemp = '';
   try {
     const {
       nameCustomer,
@@ -66,6 +67,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    ticketIdTemp = ticket.id;
+
     const data = {
       'Ticket Id': ticket.id,
       'Name Customer': nameCustomer,
@@ -94,11 +97,6 @@ export async function POST(req: NextRequest) {
     );
 
     if (!response.ok) {
-      await prisma.ticket.delete({
-        where: {
-          id: ticket.id,
-        },
-      });
       throw new Error('Failed to create ticket');
     }
 
@@ -117,18 +115,22 @@ export async function POST(req: NextRequest) {
     <p>Thank you and warm regards,</p>`,
     };
 
-    transporter.sendMail(mailOptions, async (error) => {
-      if (error) {
-        await prisma.ticket.delete({
-          where: {
-            id: ticket.id,
-          },
-        });
-        throw error;
-      } else {
-        console.log('POST_TICKET: ', 'email was sent');
-      }
-    });
+    // transporter.sendMail(mailOptions, async (error) => {
+    //   if (error) {
+    //     await prisma.ticket.delete({
+    //       where: {
+    //         id: ticket.id,
+    //       },
+    //     });
+    //     throw error;
+    //   } else {
+    //     console.log('POST_TICKET: ', 'email was sent');
+    //   }
+    // });
+
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log('POST_TICKET: email was sent');
 
     return NextResponse.json({
       ticket: ticket,
@@ -136,6 +138,13 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     if (error instanceof Error) {
+      if (!ticketIdTemp) {
+        await prisma.ticket.delete({
+          where: {
+            id: ticketIdTemp,
+          },
+        });
+      }
       console.log('ERROR_POST_TICKET', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
