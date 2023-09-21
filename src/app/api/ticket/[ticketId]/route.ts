@@ -11,6 +11,7 @@ export async function PATCH(
   req: NextRequest,
   { params: { ticketId } }: { params: Params },
 ) {
+  let isUpdated = false;
   try {
     if (!ticketId) {
       return NextResponse.json(
@@ -48,6 +49,8 @@ export async function PATCH(
       },
     });
 
+    isUpdated = true;
+
     let qr = '';
     if (
       updatedTicket.ticketType === 'seminar' ||
@@ -82,14 +85,16 @@ export async function PATCH(
     );
   } catch (error) {
     if (error instanceof Error) {
-      await prisma.ticket.update({
-        where: {
-          id: ticketId,
-        },
-        data: {
-          verified: false,
-        },
-      });
+      if (isUpdated) {
+        await prisma.ticket.update({
+          where: {
+            id: ticketId,
+          },
+          data: {
+            verified: false,
+          },
+        });
+      }
       console.log('ERROR_PATCH_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

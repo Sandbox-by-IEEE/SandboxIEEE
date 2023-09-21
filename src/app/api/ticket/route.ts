@@ -112,19 +112,6 @@ export async function POST(req: NextRequest) {
     <p>Thank you and warm regards,</p>`,
     };
 
-    // transporter.sendMail(mailOptions, async (error) => {
-    //   if (error) {
-    //     await prisma.ticket.delete({
-    //       where: {
-    //         id: ticket.id,
-    //       },
-    //     });
-    //     throw error;
-    //   } else {
-    //     console.log('POST_TICKET: ', 'email was sent');
-    //   }
-    // });
-
     const info = await transporter.sendMail(mailOptions);
 
     console.log('POST_TICKET: email was sent');
@@ -135,7 +122,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     if (error instanceof Error) {
-      if (!ticketIdTemp) {
+      if (ticketIdTemp) {
         await prisma.ticket.delete({
           where: {
             id: ticketIdTemp,
