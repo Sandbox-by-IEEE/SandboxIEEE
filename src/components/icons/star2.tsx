@@ -6,6 +6,7 @@ const Star2 = ({ size }: { size: number }) => {
       viewBox='0 0 432 512'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
+      style={{ scale: size / 25 }}
     >
       <rect
         width='1.82188'

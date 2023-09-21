@@ -6,6 +6,7 @@ const Logosm = ({ size }: { size: number }) => {
       viewBox='0 0 80 82'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
+      style={{ scale: size / 25 }}
     >
       <path
         d='M25.1375 13.546C25.1414 13.5438 25.1455 13.5412 25.1498 13.5383L25.1375 13.546Z'

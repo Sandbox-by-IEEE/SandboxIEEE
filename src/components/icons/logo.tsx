@@ -6,6 +6,7 @@ const Logo = ({ size }: { size: number }) => {
       viewBox='0 0 178 182'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
+      style={{ scale: size / 25 }}
     >
       <path
         d='M55.9309 30.2404C55.9397 30.2354 55.9488 30.2297 55.9583 30.2232L55.9309 30.2404Z'
