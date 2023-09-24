@@ -1,6 +1,6 @@
-'use client';
+import React from 'react';
 
-import Cards from '@/components/Card';
+import Footer from '@/components/footer';
 
 export default function Home() {
   const cardData = [
@@ -72,11 +72,9 @@ export default function Home() {
   ];
 
   return (
-    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center px-10 py-20'>
-      <div className='w-full flex items-center justify-center gap-10 flex-wrap'>
-        {cardData.map((data, index) => (
-          <Cards key={index} {...data} />
-        ))}
+    <main className='bg-black flex min-h-screen flex-col items-center justify-between p-24'>
+      <div>
+        <Footer />
       </div>
       {/* You can map through the filteredData to display the results */}
     </main>
