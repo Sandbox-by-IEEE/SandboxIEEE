@@ -10,7 +10,7 @@ export default function Home() {
         <Breadcrumbs />
         <a
           className='mt-4'
-          href={'@/contacts'}
+          href={'/contacts/managers'}
           target=''
           rel='noopener noreferrer'
         >
