@@ -22,6 +22,7 @@ const config: Config = {
       },
       colors: {
         'green-primary': '#0D432F',
+        'dark-green': '#071D10',
         'cream-secondary-light': '#FFE1B9',
         'cream-secondary-normal': '#D8B88B',
         'brown-secondary': '#AB814E',
