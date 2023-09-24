@@ -44,15 +44,19 @@ interface RadioButtonsProps {
   options: RadioButtonProps[];
   selectedValue: string | null;
   onChange: (value: string) => void;
+  onRemove: () => void;
+  removeButton: boolean;
 }
 
 const RadioButtons: React.FC<RadioButtonsProps> = ({
   options,
   selectedValue,
   onChange,
+  onRemove,
+  removeButton,
 }) => {
   return (
-    <div className='bg-black mt-2 flex flex-col'>
+    <div className='bg-black flex flex-col'>
       {options.map((option) => (
         <RadioButton
           key={option.value}
@@ -63,6 +67,16 @@ const RadioButtons: React.FC<RadioButtonsProps> = ({
           disabled={option.disabled || false}
         />
       ))}
+      {removeButton && (
+        <button
+          type='button'
+          className=' text-white text-[10px] text-left'
+          onClick={onRemove}
+          disabled={!selectedValue}
+        >
+          Remove option
+        </button>
+      )}
     </div>
   );
 };
