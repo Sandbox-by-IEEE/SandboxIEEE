@@ -1,70 +1,18 @@
-'use client';
-import React, { useState } from 'react';
-
-import Dropdown from '@/components/Dropdown';
+import TextInput from '@/components/TextInput';
 
 export default function Home() {
-  // Dummy data for demonstration
-  const data = [
-    {
-      name: 'John Doe',
-      division: 'Resource Management',
-    },
-    {
-      name: 'Jane Smith',
-      division: 'Marketing',
-    },
-    {
-      name: 'Bob Johnson',
-      division: 'Web Development',
-    },
-    // Add more data items as needed
-  ];
-
-  const options = [
-    'Resource Management',
-    'Resource Development',
-    'Marketing',
-    'Partnership',
-    'Competition',
-    'Project',
-    'Paper',
-    'Event',
-    'Logistic',
-    'Web Development',
-    'Finance',
-    'Sponsorship',
-  ];
-
-  // State for the selected option in the dropdown
-  const [selectedOption, setSelectedOption] = useState<string>('');
-
   return (
-    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center'>
-      <div className='w-full flex items-center justify-center gap-10'>
-        <Dropdown
-          color='green'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
+    <main>
+      <div className='w-screen h-screen bg-black p-10 mx-auto space-x space-y-3'>
+        <TextInput
+          box={'usual'}
+          isIcon={false}
+          label={'Apa aja lah'}
+          placeholder={'test disini'}
         />
-        <Dropdown
-          color='light'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
-        <Dropdown
-          color='trans-green'
-          options={options}
-          placeholder='Division'
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
+
+        <TextInput box={'usual'} isIcon={false} placeholder={'test disini'} />
       </div>
-      {/* You can map through the filteredData to display the results */}
     </main>
   );
 }
