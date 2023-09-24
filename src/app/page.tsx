@@ -34,7 +34,7 @@ export default function Home() {
       title: 'Sample Card 1',
       imageUrl: '/google-logo.png', // Replace with the actual image path
       children:
-        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
+        'Lorem ipsum dlor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
       leftTag: 'Tag1',
       rightTag: 'Tag2',
       horizontal: false,
