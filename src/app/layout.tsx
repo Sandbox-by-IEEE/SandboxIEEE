@@ -42,6 +42,7 @@ export default function RootLayout({
     >
       <body>
         <Toast />
+
         {children}
       </body>
     </html>
