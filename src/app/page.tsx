@@ -2,40 +2,7 @@ import Tooltip from '@/components/Tooltip';
 
 export default function Home() {
   return (
-    <main className='flex flex-col gap-10 w-screen h-screen justify-center items-center p-10 bg-slate-900'>
-      <div className='flex-col hidden space-y-2'>
-        <div className='w-16 overflow-hidden inline-block'>
-          <div className=' h-11 w-11 bg-black rotate-45 transform origin-bottom-left'></div>
-        </div>
-
-        <div className='w-16 overflow-hidden inline-block'>
-          <div className=' h-11 w-11 bg-black -rotate-45 transform origin-top-left'></div>
-        </div>
-
-        <div className='w-11  overflow-hidden inline-block'>
-          <div className=' h-16  bg-black -rotate-45 transform origin-top-right'></div>
-        </div>
-
-        <div className='w-11  overflow-hidden inline-block'>
-          <div className=' h-16  bg-black rotate-45 transform origin-top-left'></div>
-        </div>
-
-        <div className='w-11  overflow-hidden inline-block'>
-          <div className=' h-16  bg-black -rotate-45 transform origin-bottom-right'></div>
-        </div>
-
-        <div className='w-11  overflow-hidden inline-block'>
-          <div className=' h-16  bg-black rotate-45 transform origin-bottom-left'></div>
-        </div>
-
-        <div className='w-11  overflow-hidden inline-block'>
-          <div className=' h-16  bg-black -rotate-45 transform origin-top-left'></div>
-        </div>
-
-        <div className='w-11  overflow-hidden inline-block'>
-          <div className=' h-16  bg-black rotate-45 transform origin-top-right'></div>
-        </div>
-      </div>
+    <main className='flex flex-col gap-10 w-screen min-h-screen justify-center items-center p-10 bg-slate-900 py-20'>
       {/* Tooltip */}
       <p className='text-slate-400 font-extrabold'>Tooltips</p>
 
