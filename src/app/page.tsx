@@ -1,6 +1,5 @@
-'use client';
-
-import Cards from '@/components/Card';
+import Button from '@/components/Button';
+import IconButton from '@/components/IconButton';
 
 export default function Home() {
   const cardData = [
@@ -72,11 +71,331 @@ export default function Home() {
   ];
 
   return (
-    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center px-10 py-20'>
-      <div className='w-full flex items-center justify-center gap-10 flex-wrap'>
-        {cardData.map((data, index) => (
-          <Cards key={index} {...data} />
-        ))}
+    <main>
+      <div className='w-screen h-screen p-10 mx-auto space-x-2 space-y-3'>
+        <IconButton bgColor='green' />
+        <IconButton bgColor='gold' />
+        <IconButton bgColor='black' />
+        <IconButton bgColor='disabled' />
+
+        <Button //GREEN, 100%, !GLOW, !ARROW
+          isTextWhite={true}
+          bgColor='green'
+          bgOpacity={100}
+          isGlow={true}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //GREEN, 100%, GLOW, !ARROW
+          isTextWhite={true}
+          bgColor='green'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //BLACK, 100%, !GLOW, !ARROW
+          isTextWhite={true}
+          bgColor='black'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //DISABLED, !ARROW
+          isTextWhite={true}
+          bgColor='disabled'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={true}
+        />
+
+        <Button //GOLD, 100%, GLOW, !ARROW
+          isTextWhite={true}
+          bgColor='gold'
+          bgOpacity={100}
+          isGlow={true}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //GOLD, 100%, !GLOW, !ARROW
+          isTextWhite={true}
+          bgColor='gold'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //BLACK, 100%, !GLOW, !ARROW
+          isTextWhite={true}
+          bgColor='black'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //DISABLED, !ARROW
+          isTextWhite={true}
+          bgColor='disabled'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={true}
+        />
+
+        <Button //GREEN, 100%, GLOW, ARROW
+          isTextWhite={true}
+          bgColor='green'
+          bgOpacity={100}
+          isGlow={true}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //GREEN, 100%, !GLOW, ARROW
+          isTextWhite={true}
+          bgColor='green'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //BLACK, 100%, !GLOW, ARROW
+          isTextWhite={true}
+          bgColor='black'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //DISABLED, ARROW
+          isTextWhite={true}
+          bgColor='disabled'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={true}
+        />
+
+        <Button //GOLD, 100%, GLOW, ARROW
+          isTextWhite={true}
+          bgColor='gold'
+          bgOpacity={100}
+          isGlow={true}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //GOLD, 100%, GLOW, ARROW
+          isTextWhite={true}
+          bgColor='gold'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //BLACK, 100%, !GLOW, ARROW
+          isTextWhite={true}
+          bgColor='black'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //DISABLED, ARROW
+          isTextWhite={true}
+          bgColor='disabled'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={true}
+        />
+
+        <Button //GREEN, 0%, !GLOW, !ARROW
+          isTextWhite={false}
+          bgColor='green'
+          bgOpacity={0}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //GREEN, 20%, !GLOW, !ARROW
+          isTextWhite={false}
+          bgColor='green'
+          bgOpacity={20}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //wGREEN, 100%, !GLOW, !ARROW
+          isTextWhite={false}
+          bgColor='green'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //DISABLED, !ARROW
+          isTextWhite={true}
+          bgColor='disabled'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={true}
+        />
+
+        <Button //GOLD, 0%, !GLOW, !ARROW
+          isTextWhite={false}
+          bgColor='gold'
+          bgOpacity={0}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //GOLD, 20%, !GLOW, !ARROW
+          isTextWhite={false}
+          bgColor='gold'
+          bgOpacity={20}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //wGOLD, 100%, !GLOW, !ARROW
+          isTextWhite={false}
+          bgColor='gold'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={false}
+        />
+
+        <Button //DISABLED, !ARROW
+          isTextWhite={true}
+          bgColor='disabled'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={false}
+          isDisabled={true}
+        />
+        <Button //GREEN, 0%, !GLOW, ARROW
+          isTextWhite={false}
+          bgColor='green'
+          bgOpacity={0}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //GREEN, 20%, !GLOW, ARROW
+          isTextWhite={false}
+          bgColor='green'
+          bgOpacity={20}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //wGREEN, 100%, !GLOW, ARROW
+          isTextWhite={false}
+          bgColor='green'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //DISABLED, !ARROW
+          isTextWhite={true}
+          bgColor='disabled'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={true}
+        />
+
+        <Button //GOLD, 0%, !GLOW, ARROW
+          isTextWhite={false}
+          bgColor='gold'
+          bgOpacity={0}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //GOLD, 20%, !GLOW, ARROW
+          isTextWhite={false}
+          bgColor='gold'
+          bgOpacity={20}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //wGOLD, 100%, !GLOW, ARROW
+          isTextWhite={false}
+          bgColor='gold'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={false}
+        />
+
+        <Button //DISABLED, ARROW
+          isTextWhite={true}
+          bgColor='disabled'
+          bgOpacity={100}
+          isGlow={false}
+          text='Button'
+          isIcon={true}
+          isDisabled={true}
+        />
       </div>
       {/* You can map through the filteredData to display the results */}
     </main>
