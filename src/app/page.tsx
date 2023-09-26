@@ -1,84 +1,44 @@
-'use client';
-
-import Cards from '@/components/Card';
+import Tooltip from '@/components/Tooltip';
 
 export default function Home() {
-  const cardData = [
-    {
-      title: 'Sample Card 1',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
-      leftTag: 'Tag1',
-      rightTag: 'Tag2',
-      horizontal: false,
-      buttonText: 'Click Me',
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: true,
-      buttonText: 'Explore',
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 1',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
-      leftTag: 'Tag1',
-      rightTag: 'Tag2',
-      horizontal: false,
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: true,
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: false,
-      buttonText: 'yuhu',
-      onClick: () => {
-        // Handle button click
-      },
-    },
-
-    // Add more card data objects as needed
-  ];
-
   return (
-    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center px-10 py-20'>
-      <div className='w-full flex items-center justify-center gap-10 flex-wrap'>
-        {cardData.map((data, index) => (
-          <Cards key={index} {...data} />
-        ))}
-      </div>
-      {/* You can map through the filteredData to display the results */}
+    <main className='flex flex-col gap-10 w-screen min-h-screen justify-center items-center p-10 bg-slate-900 py-20'>
+      {/* Tooltip */}
+      <p className='text-slate-400 font-extrabold'>Tooltips</p>
+
+      <Tooltip message='left me' position='left'>
+        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
+          leftsadklj asjkldklas jdkasjd me
+        </p>
+      </Tooltip>
+      <Tooltip message='right me' position='right'>
+        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
+          right haslkdjkas udlkajd klasd me
+        </p>
+      </Tooltip>
+      <Tooltip message='top me' position='top'>
+        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
+          top ajshdjka hdjk me
+        </p>
+      </Tooltip>
+      <Tooltip message='bottom me' position='bottom'>
+        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
+          bottom aslkdjlka jdkla me
+        </p>
+      </Tooltip>
+
+      <Tooltip message='left me' position='left' isWhite={false}>
+        <p className='border-2 border-slate-600 p-1 text-white'>left me</p>
+      </Tooltip>
+      <Tooltip message='right me' position='right' isWhite={false}>
+        <p className='border-2 border-slate-600 p-1 text-white'>right me</p>
+      </Tooltip>
+      <Tooltip message='top me' position='top' isWhite={false}>
+        <p className='border-2 border-slate-600 p-1 text-white'>top me</p>
+      </Tooltip>
+      <Tooltip message='bottom me' position='bottom' isWhite={false}>
+        <p className='border-2 border-slate-600 p-1 text-white'>bottom me</p>
+      </Tooltip>
     </main>
   );
 }
