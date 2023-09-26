@@ -17,9 +17,9 @@ query MyQuery {
 `;
 
 async function getAllArticles() {
-  const { allArticles } = await performRequest({ query: ALL_ARTICLES });
+  const data = await performRequest({ query: ALL_ARTICLES });
 
-  return allArticles as articleType[];
+  return data;
 }
 
 export { getAllArticles };
