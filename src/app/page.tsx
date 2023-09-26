@@ -1,84 +1,33 @@
 'use client';
+import { useContext } from 'react';
 
-import Cards from '@/components/Card';
+import Modal from '@/components/Modal/Modal';
+import {
+  ModalContext,
+  ModalContextContextType,
+} from '@/components/Modal/ModalContext';
 
 export default function Home() {
-  const cardData = [
-    {
-      title: 'Sample Card 1',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
-      leftTag: 'Tag1',
-      rightTag: 'Tag2',
-      horizontal: false,
-      buttonText: 'Click Me',
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: true,
-      buttonText: 'Explore',
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 1',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Lorem ipsum dolor sit ameta siudahsok dhjahsdljks hasjkdahsgdjkas hdjkas hdjka dhjkah sdjkh ...',
-      leftTag: 'Tag1',
-      rightTag: 'Tag2',
-      horizontal: false,
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: true,
-      onClick: () => {
-        // Handle button click
-      },
-    },
-    {
-      title: 'Sample Card 2',
-      imageUrl: '/google-logo.png', // Replace with the actual image path
-      children:
-        'Another card with different content dasjhd kjahsd jka hsdjkha sjdh ajkshd jkashdjk a hdkjash djkas hdjkhas djaksdhjk ashd jk...',
-      leftTag: 'Tag3',
-      rightTag: 'Tag4',
-      horizontal: false,
-      buttonText: 'yuhu',
-      onClick: () => {
-        // Handle button click
-      },
-    },
-
-    // Add more card data objects as needed
-  ];
+  const { openModal, setOpenModal } =
+    useContext<ModalContextContextType>(ModalContext);
 
   return (
-    <main className='flex min-h-screen w-full bg-red-500 flex-col items-baseline justify-center px-10 py-20'>
-      <div className='w-full flex items-center justify-center gap-10 flex-wrap'>
-        {cardData.map((data, index) => (
-          <Cards key={index} {...data} />
-        ))}
-      </div>
-      {/* You can map through the filteredData to display the results */}
-    </main>
+    <>
+      <main className='flex min-h-screen flex-col items-center justify-center p-24 gap-4'>
+        {/* Moodal */}
+        {openModal && (
+          <Modal
+            title='Modals Title'
+            description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet auctor viverra. Nulla facilisis elit ac leo ornare congue. Morbi sed lectus maximus, efficitur orci a.'
+          />
+        )}
+        <button
+          className='px-4 py-1 bg-green-50 rounded-md'
+          onClick={() => setOpenModal(true)}
+        >
+          Open Modal
+        </button>
+      </main>
+    </>
   );
 }
