@@ -1,17 +1,25 @@
-import query from '@/server/api/query';
+import { performRequest } from '@/lib/datocms';
+
+interface articleType {
+  id: string;
+  title: string;
+  slug: string;
+}
 
 const ALL_ARTICLES = `
-query(
-  allArticles(orderBy: title_ASC){
+query MyQuery {
+  allArticles {
     id
     slug
     title
   }
-)`;
+}
+`;
 
-async function allArticles() {
-  const result = await query({ query: ALL_ARTICLES });
-  return result;
+async function getAllArticles() {
+  const { allArticles } = await performRequest({ query: ALL_ARTICLES });
+
+  return allArticles as articleType[];
 }
 
-export { allArticles };
+export { getAllArticles };
