@@ -11,7 +11,7 @@ const Breadcrumbs = () => {
   }, []);
 
   return (
-    <nav className='hidden transition-all duration-1000 sm:block text-xl font-poppins'>
+    <nav className='hidden transition-all duration-300 sm:block text-xl font-poppins'>
       <ol className='flex'>
         <li>
           <Link href='/'>
