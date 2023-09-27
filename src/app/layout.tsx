@@ -1,7 +1,10 @@
+"use client"
 import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import Toast from '@/components/Toast';
 
@@ -36,14 +39,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang='id, en'
-      className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
-    >
-      <body>
-        <Toast />
-        {children}
-      </body>
-    </html>
+<html
+  lang='id, en'
+  className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
+>
+  <body>
+    <Toast />
+    {children}
+  </body>
+</html>
+
+// export default function RootLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   // buat router push
+
+//   const router = useRouter();
+//   const onClickUrl = (url: string) => {
+//     router.push(url);
+//   };
+
+//   return (
+//     <html>
+//       <body>
+//         {children}
+//         <div>Footer</div>
+//       </body>
+//     </html>
   );
 }

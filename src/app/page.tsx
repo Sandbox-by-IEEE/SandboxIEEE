@@ -1,8 +1,50 @@
 'use client';
 
 import Cards from '@/components/Card';
+import PaginationControls from '@/components/PaginationControls';
 
-export default function Home() {
+const data = [
+  'data 1',
+  'data 2',
+  'data 3',
+  'data 4',
+  'data 5',
+  'data 6',
+  'data 7',
+  'data 8',
+  'data 9',
+  'data 10',
+  'data 11',
+  'data 12',
+  'data 13',
+  'data 14',
+  'data 15',
+  'data 16',
+  'data 17',
+  'data 18',
+  'data 19',
+  'data 20',
+];
+
+let dataLength = data.length;
+
+export default function Home({
+  // add searchParams for paging
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  // add constPage for searchparams
+  const page = searchParams['page'] ?? '1';
+  const per_page = searchParams['per_page'] ?? '5';
+
+  // add mocked, skipped and limited in the real app
+  const start = (Number(page) - 1) * Number(per_page); // 0,5,10,...
+  const end = start + Number(per_page); // 5,10,15,..
+
+  const entries = data.slice(start, end);
+
+  // here
   const cardData = [
     {
       title: 'Sample Card 1',
@@ -77,6 +119,21 @@ export default function Home() {
         {cardData.map((data, index) => (
           <Cards key={index} {...data} />
         ))}
+      </div>
+
+      <div className='flex flex-col gap-2 items-center justify-center'>
+        {entries.map((data) => (
+          <p key={data}>{data}</p>
+        ))}
+
+        <div className='bg-black'>
+          {' '}
+          <PaginationControls
+            hasNextPage={end < data.length}
+            hasPrevPage={start > 0}
+            dataLength={dataLength}
+          />
+        </div>
       </div>
       {/* You can map through the filteredData to display the results */}
     </main>
