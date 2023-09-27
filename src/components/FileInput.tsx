@@ -28,6 +28,7 @@ const FileInput = ({
   message: string;
   file: FileInputType;
 }) => {
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [inputUrl, setInputUrl] = useState<string>('');
@@ -87,16 +88,24 @@ const FileInput = ({
       const files = e.dataTransfer.files;
       if (files.length > 0) {
         const fileUploaded = files[0];
-        const responseJSON = await uploadFile(fileUploaded);
-        setIsSuccess(true);
-        setFile({
-          fileName: fileUploaded.name,
-          fileUrl: responseJSON?.secure_url,
-        });
+        if (
+          allowedFileTypes.length === 0 ||
+          allowedFileTypes.includes(fileUploaded.type)
+        ) {
+          const responseJSON = await uploadFile(fileUploaded);
+          setIsSuccess(true);
+          setFile({
+            fileName: fileUploaded.name,
+            fileUrl: responseJSON?.secure_url,
+          });
+        } else {
+          throw 'Wrong file type';
+        }
       } else {
         throw 'Failed to get file';
       }
     } catch (error) {
+      setErrorMsg(error as string);
       setIsError(true);
     }
   };
@@ -159,6 +168,7 @@ const FileInput = ({
         <input
           type='file'
           onChange={handleChange}
+          accept={allowedFileTypes.join(',')}
           ref={hiddenFileInput}
           className='hidden'
         />
@@ -177,18 +187,24 @@ const FileInput = ({
           <button onClick={handleClick}>
             <FileInputIconError />
           </button>
-          <p className='text-[16px] font-[700] text-[#FF7387]'>
+          <p
+            className='text-[16px] font-[700] text-[#FF7387]'
+            onClick={handleClick}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
             {inputUrl ? 'Link' : 'File'} gagal diupload!
           </p>
           <div className='flex gap-2'>
             <p className='max-w-[300px] md:max-w-[600px] whitespace-nowrap overflow-hidden text-ellipsis'>
-              {file.fileName ? file.fileName : inputUrl}
+              {file.fileName ? file.fileName : inputUrl} {errorMsg}
             </p>
           </div>
         </div>
         <input
           type='file'
           className='hidden'
+          accept={allowedFileTypes.join(',')}
           onChange={handleChange}
           ref={hiddenFileInput}
         />
@@ -210,7 +226,12 @@ const FileInput = ({
         <button onClick={handleClick}>
           <FileInputIconEmpty />
         </button>
-        <p className='text-[16px] font-[700]'>
+        <p
+          className='text-[16px] font-[700] cursor-pointer'
+          onClick={handleClick}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
           Drag atau <span className='text-blue-500'>upload</span> file kamu di
           sini
         </p>
