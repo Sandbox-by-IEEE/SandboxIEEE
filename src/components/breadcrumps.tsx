@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +11,7 @@ const Breadcrumbs = () => {
   }, []);
 
   return (
-    <nav>
+    <nav className='hidden transition-all duration-1000 sm:block text-xl font-poppins'>
       <ol className='flex'>
         <li>
           <Link href='/'>
