@@ -16,6 +16,15 @@
   }
 }
 
+ul {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

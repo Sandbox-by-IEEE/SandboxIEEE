@@ -27,6 +27,12 @@ export default function Page() {
           Make a success-type toast
         </button>
       </div>
+      <div>
+        <ol>
+          <li>hello</li>
+          <li>mom</li>
+        </ol>
+      </div>
     </>
   );
 }

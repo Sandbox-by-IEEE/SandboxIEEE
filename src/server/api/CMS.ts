@@ -1,11 +1,5 @@
 import { performRequest } from '@/lib/datocms';
 
-interface articleType {
-  id: string;
-  title: string;
-  slug: string;
-}
-
 const ALL_ARTICLES = `
 query MyQuery {
   allArticles {
