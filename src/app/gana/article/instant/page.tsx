@@ -8,6 +8,7 @@ import {
 import { StructuredText } from 'react-datocms/structured-text';
 import { useQuerySubscription } from 'react-datocms/use-query-subscription';
 
+import NavBar from '@/components/NavBar';
 import { ALL_ARTICLES, query } from '@/lib/CMS/query';
 
 const statusMessage = {
@@ -34,6 +35,7 @@ export default function InstantArticle() {
 
   return (
     <div className='mx-5'>
+      <NavBar />
       <p>Connection status: {statusMessage[status]}</p>
       <ol className='list-disc'>
         <li>hello</li>
