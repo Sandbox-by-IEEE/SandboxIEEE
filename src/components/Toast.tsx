@@ -2,17 +2,6 @@ import toast, { type Toast, Toaster } from 'react-hot-toast';
 
 import XIcon from '@/components/icons/XIcon';
 
-/**
- *
- * CARA MEMAKAI TOAST:
- *
- *
- * 1. panggil toastnya dengan fungsi callToast().
- * 1.a fungsi callToast punya 2 parameter wajib: status dan description.
- * 1.b parameter status ("error" | "success") buat notify user apakah hal yang dilakukannya gagal atau berhasil.
- * 1.c parameter description (string) buat ngasitau apa yang gagal. apa yang berhasil.
- */
-
 interface ToastProps {
   status: 'error' | 'success';
   description: string;
@@ -53,7 +42,10 @@ function ToastComponent({
             onClick={() => toast.dismiss(t.id)}
           >
             <div>
-              <XIcon></XIcon>
+              <XIcon
+                className='fill-[#c7c7c7] hover:fill-slate-500 transition-all duration-300'
+                size={20}
+              ></XIcon>
             </div>
           </button>
         </div>
