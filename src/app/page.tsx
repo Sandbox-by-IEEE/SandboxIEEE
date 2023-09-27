@@ -1,13 +1,14 @@
 import React from 'react';
 
 import Button from '@/components/Button';
+import IconButton from '@/components/IconButton';
 
 export default function Home() {
   // ... (other code)
 
   return (
     <main className='flex flex-col w-screen h-screen'>
-      <div className=' p-10 mx-auto space-x-2 space-y-3 w-[400px]'>
+      <div className=' p-10 mx-auto space-y-3 w-[400px]'>
         {/* Sample usage of the Button component */}
 
         {/* GREEN, 100%, GLOW */}
@@ -25,8 +26,6 @@ export default function Home() {
           Sample Button
         </Button>
 
-        {/* DISABLED */}
-
         {/* GOLD, 100%, GLOW */}
 
         {/* GOLD, 100%, NO GLOW */}
@@ -38,8 +37,6 @@ export default function Home() {
         <Button color='black' isIcon={false} isDisabled={false}>
           Sample Button
         </Button>
-
-        {/* DISABLED */}
 
         {/* GREEN, 100%, GLOW, ARROW */}
         <Button color='green' isIcon={true} isDisabled={false}>
@@ -56,8 +53,10 @@ export default function Home() {
           Sample Button
         </Button>
 
-        {/* DISABLED, ARROW */}
-
+        <IconButton color='black' />
+        <IconButton color='green' />
+        <IconButton color='gold' />
+        <IconButton color='black' isDisabled={true} />
         {/* Continue adding more button examples as needed */}
       </div>
       {/* You can map through the filteredData to display the results */}
