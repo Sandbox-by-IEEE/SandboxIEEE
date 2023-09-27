@@ -35,7 +35,6 @@ export default function InstantArticle() {
 
   return (
     <div className='mx-5'>
-      <NavBar />
       <p>Connection status: {statusMessage[status]}</p>
       <ol className='list-disc'>
         <li>hello</li>

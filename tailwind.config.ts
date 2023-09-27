@@ -13,6 +13,8 @@ const config: Config = {
         inter: ['var(--font-inter)'],
       },
       backgroundImage: {
+        'green-gradient':
+          'linear-gradient(180deg, rgba(5, 31, 18, 0.99) 0%, rgba(6, 25, 12, 0.99) 100%)',
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
