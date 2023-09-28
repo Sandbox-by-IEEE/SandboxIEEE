@@ -48,6 +48,8 @@ const data = [
 
 let dataLength = data.length;
 
+// halo
+
 export default function Home({
   // add searchParams for paging
   searchParams,
