@@ -42,7 +42,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ options, onChange }) => {
   };
 
   return (
-    <div className='flex flex-col gap-1.5 lg:gap-2'>
+    <div className='flex flex-col gap-1.5 lg:gap-2 font-poppins'>
       {options.map((option, index) => (
         <Checkbox
           key={index}
