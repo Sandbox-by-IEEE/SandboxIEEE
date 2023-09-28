@@ -1,29 +1,41 @@
 'use client';
 import React, { useState } from 'react';
 
-import CheckboxGroup from '@/components/checkBox';
+import RadioButtons from '@/components/radio';
 
 export default function Home() {
-  const initialOptions = [
-    { label: 'Option 1', checked: true },
-    { label: 'Option 2', checked: false },
-    { label: 'Option 3', checked: false },
-  ];
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-  const [selectedOptions, setSelectedOptions] = useState(initialOptions);
-
-  const handleCheckboxGroupChange = (newOptions: typeof initialOptions) => {
-    setSelectedOptions(newOptions);
+  const handleOptionChange = (value: string | null) => {
+    setSelectedOption(value);
   };
 
+  const handleRemoveOption = () => {
+    setSelectedOption(null);
+  };
+
+  const options = [
+    {
+      value: 'option1',
+      label: 'Option 1',
+    },
+    {
+      value: 'option2',
+      label: 'Option 2',
+    },
+    {
+      value: 'option3',
+      label: 'Option 3',
+    },
+  ];
+
+  console.log(selectedOption);
   return (
-    <>
-      <main className='bg-black flex min-h-screen flex-col items-center justify-between p-24'>
-        <CheckboxGroup
-          options={selectedOptions}
-          onChange={handleCheckboxGroupChange}
-        />
-      </main>
-    </>
+    <main className='flex min-h-screen bg-black flex-col items-center p-24'>
+      <div>
+        <RadioButtons options={options} onChange={handleOptionChange} />
+      </div>
+      {/* You can map through the filteredData to display the results */}
+    </main>
   );
 }

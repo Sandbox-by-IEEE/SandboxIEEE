@@ -39,6 +39,7 @@ export async function POST(req: Request) {
       },
     });
 
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const { password: passwordNewUser, ...rest } = newUser;
 
     return NextResponse.json(
@@ -47,6 +48,7 @@ export async function POST(req: Request) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_CREATED_USER: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
