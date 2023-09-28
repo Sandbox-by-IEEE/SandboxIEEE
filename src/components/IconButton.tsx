@@ -11,7 +11,8 @@ const IconButton = ({
   const colorEffect = {
     green:
       'bg-[#0D432F] hover:bg-[#315B4C] hover:shadow-[0px_0px_20px_5px_#315B4C]',
-    black: 'bg-[#1C1A17] text-[#0D432F] hover:shadow-[0px_0px_3px_3px_#FFFFFF]',
+    black:
+      'bg-[#1C1A17] text-[#0D432F] hover:shadow-[0px_0px_3px_3px_#FFFFFF] hover:bg-[#494845]',
     gold: 'bg-[#AB814E] hover:bg-[#B49876] hover:shadow-[0px_0px_20px_5px_#B49876]',
     'trans-green':
       'border border-[#0D432F] bg-transparent text-[#0D432F] hover:bg-[#494845]',

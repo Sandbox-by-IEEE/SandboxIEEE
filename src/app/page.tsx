@@ -7,8 +7,8 @@ export default function Home() {
   // ... (other code)
 
   return (
-    <main className='flex flex-col w-screen h-screen'>
-      <div className=' p-10 mx-auto space-y-3 w-[400px]'>
+    <main className='flex flex-col bg-black w-screen h-screen'>
+      <div className=' p-10 mx-auto space-y-3 w-[400px] '>
         {/* Sample usage of the Button component */}
 
         {/* GREEN, 100%, GLOW */}
