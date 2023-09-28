@@ -1,44 +1,33 @@
-import Tooltip from '@/components/Tooltip';
+'use client';
+import { useContext } from 'react';
+
+import Modal from '@/components/Modal/Modal';
+import {
+  ModalContext,
+  ModalContextContextType,
+} from '@/components/Modal/ModalContext';
 
 export default function Home() {
+  const { openModal, setOpenModal } =
+    useContext<ModalContextContextType>(ModalContext);
+
   return (
-    <main className='flex flex-col gap-10 w-screen min-h-screen justify-center items-center p-10 bg-slate-900 py-20'>
-      {/* Tooltip */}
-      <p className='text-slate-400 font-extrabold'>Tooltips</p>
-
-      <Tooltip message='left me' position='left'>
-        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
-          leftsadklj asjkldklas jdkasjd me
-        </p>
-      </Tooltip>
-      <Tooltip message='right me' position='right'>
-        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
-          right haslkdjkas udlkajd klasd me
-        </p>
-      </Tooltip>
-      <Tooltip message='top me' position='top'>
-        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
-          top ajshdjka hdjk me
-        </p>
-      </Tooltip>
-      <Tooltip message='bottom me' position='bottom'>
-        <p className='border-2 border-slate-600 p-1 text-white w-[100px]'>
-          bottom aslkdjlka jdkla me
-        </p>
-      </Tooltip>
-
-      <Tooltip message='left me' position='left' isWhite={false}>
-        <p className='border-2 border-slate-600 p-1 text-white'>left me</p>
-      </Tooltip>
-      <Tooltip message='right me' position='right' isWhite={false}>
-        <p className='border-2 border-slate-600 p-1 text-white'>right me</p>
-      </Tooltip>
-      <Tooltip message='top me' position='top' isWhite={false}>
-        <p className='border-2 border-slate-600 p-1 text-white'>top me</p>
-      </Tooltip>
-      <Tooltip message='bottom me' position='bottom' isWhite={false}>
-        <p className='border-2 border-slate-600 p-1 text-white'>bottom me</p>
-      </Tooltip>
-    </main>
+    <>
+      <main className='flex min-h-screen flex-col items-center justify-center p-24 gap-4'>
+        {/* Moodal */}
+        {openModal && (
+          <Modal
+            title='Modals Title'
+            description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet auctor viverra. Nulla facilisis elit ac leo ornare congue. Morbi sed lectus maximus, efficitur orci a.'
+          />
+        )}
+        <button
+          className='px-4 py-1 bg-green-50 rounded-md'
+          onClick={() => setOpenModal(true)}
+        >
+          Open Modal
+        </button>
+      </main>
+    </>
   );
 }
