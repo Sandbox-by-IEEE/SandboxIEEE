@@ -30,6 +30,7 @@ export async function PATCH(req: Request) {
       },
     });
 
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const { password, ...rest } = updatedUser;
 
     return NextResponse.json(
@@ -38,6 +39,7 @@ export async function PATCH(req: Request) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_CHANGEPASS: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
