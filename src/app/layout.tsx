@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
+import { ModalContextProvider } from '@/components/Modal/ModalContext';
 import Toast from '@/components/Toast';
 
 const inter = Inter({
@@ -41,8 +42,10 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
       <body>
-        <Toast />
-        {children}
+        <ModalContextProvider>
+          <Toast />
+          {children}
+        </ModalContextProvider>
       </body>
     </html>
   );
