@@ -95,7 +95,9 @@ function MenuComponentSmall({ auth }: { auth: boolean }) {
     <div className='w-4/5 flex flex-col gap-y-12 pt-36 z-20 relative'>
       {MENU.map((tuple: PairDrawerButton, idx: number) => {
         return tuple.text == 'EVENT' ? (
-          <EventDropdown />
+          <div key={idx}>
+            <EventDropdown />
+          </div>
         ) : (
           <Link
             className='text-white font-inter text-lg font-semibold mx-4'
@@ -129,7 +131,9 @@ function MenuComponentLarge({ auth }: { auth: boolean }) {
     <div className='h-4/5 flex flex-row gap-x-4 items-center'>
       {MENU.map((tuple: PairDrawerButton, idx: number) => {
         return tuple.text == 'EVENT' ? (
-          <EventDropdown />
+          <div key={idx}>
+            <EventDropdown />
+          </div>
         ) : (
           <Link
             className='text-white font-poppins text-sm lg:text-md font-semibold mx-4'
