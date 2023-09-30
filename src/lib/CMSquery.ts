@@ -1,7 +1,5 @@
 import { useQuerySubscription } from 'react-datocms/use-query-subscription';
 
-const TOKEN = '1d614db69949061793efff792a19f8';
-
 type ChannelErrorData = {
   /** The code of the error (ie. `INVALID_QUERY`) */
   code: string;
@@ -21,7 +19,7 @@ interface callbackType {
 function query(query: string) {
   return {
     query,
-    token: TOKEN,
+    token: `${process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN}`,
   };
 }
 
@@ -38,7 +36,6 @@ export default function useCMSQuery<T>(
   if (status == 'connected' && callback && callback.success) {
     callback.success();
   }
-
   if (error?.fatal && callback && callback.fatalError) {
     callback.fatalError();
   }
