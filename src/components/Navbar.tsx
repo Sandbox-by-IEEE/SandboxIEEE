@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Drawer from 'react-modern-drawer';
 
-import { DropdownForNavBar } from '@/components/Dropdown';
+import Dropdown from '@/components/Dropdown';
 import XIcon from '@/components/icons/XIcon';
 
 type PairDrawerButton = {
@@ -41,19 +41,26 @@ function SandboxLogo() {
   );
 }
 
-function EventDropdown({ devSize }: { devSize: 'sm' | 'lg' }) {
+/**
+ *
+ * DIJADIIN KOMPONEN YANG SMALL SAMA YANG LARGE BIAR CEPET AJA DEVELOPNYA,
+ */
+
+function EventDropdown() {
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   return (
-    <DropdownForNavBar
-      color='peach'
-      options={['Exhibition', 'Grandseminar', 'PTC', 'TPC']}
-      placeholder='EVENT'
-      selectedOption={selectedOption}
-      setSelectedOption={setSelectedOption}
-      isFullWidth={true}
-      devSize={devSize}
-    />
+    <div className='min-w-[150px] lg:max-w-[150px] relative'>
+      <Dropdown
+        color='cream'
+        options={['Exhibition', 'Grandseminar', 'PTC', 'TPC']}
+        placeholder='EVENT'
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        fullWidth={true}
+        type='routes'
+      />
+    </div>
   );
 }
 
@@ -85,10 +92,10 @@ function MenuComponentSmall({ auth }: { auth: boolean }) {
   };
 
   return (
-    <div className='w-4/5 flex flex-col gap-y-12 pt-36'>
+    <div className='w-4/5 flex flex-col gap-y-12 pt-36 z-20 relative'>
       {MENU.map((tuple: PairDrawerButton, idx: number) => {
         return tuple.text == 'EVENT' ? (
-          <EventDropdown devSize='sm' />
+          <EventDropdown />
         ) : (
           <Link
             className='text-white font-inter text-lg font-semibold mx-4'
@@ -119,10 +126,10 @@ function MenuComponentLarge({ auth }: { auth: boolean }) {
   };
 
   return (
-    <div className='h-4/5 flex flex-row gap-x-8 items-center'>
+    <div className='h-4/5 flex flex-row gap-x-4 items-center'>
       {MENU.map((tuple: PairDrawerButton, idx: number) => {
         return tuple.text == 'EVENT' ? (
-          <EventDropdown devSize='lg' />
+          <EventDropdown />
         ) : (
           <Link
             className='text-white font-poppins text-sm lg:text-md font-semibold mx-4'
@@ -186,13 +193,8 @@ function useWindowSize() {
   return windowSize;
 }
 
-function NavBarLarge() {
+function NavBarLarge({ auth }: { auth: boolean }) {
   const [navbarPos, setNavbarPos] = useState<number>(0);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const auth = false;
-  const toggleDrawer = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   //   Scroll mechanism algorithm
   useEffect(() => {
@@ -226,7 +228,7 @@ function NavBarLarge() {
           content=''
           className='bg-green-gradient w-full h-24 flex justify-center items-center relative'
         >
-          <div className='flex flex-row items-center gap-[150px] w-full px-20'>
+          <div className='flex flex-row items-center justify-between w-full px-10 2xl:px-20'>
             <button className='aspect-square h-20 flex flex-row items-center justify-center z-20'>
               <SandboxLogo />
             </button>
@@ -235,11 +237,11 @@ function NavBarLarge() {
           </div>
         </div>
 
-        <div className='aspect-square h-8 absolute top-0 right-4'>
+        <div className='aspect-square h-8 absolute top-0 right-4 z-0'>
           <Image src='/twinkle.svg' alt='commet' fill />
         </div>
 
-        <div className='aspect-square h-16 absolute top-1/3 right-1/4'>
+        <div className='aspect-square h-16 absolute top-1/3 right-1/4 z-0'>
           <Image src='/twinkle.svg' alt='commet' fill />
         </div>
       </div>
@@ -247,10 +249,9 @@ function NavBarLarge() {
   );
 }
 
-function NavBarSmall() {
+function NavBarSmall({ auth }: { auth: boolean }) {
   const [navbarPos, setNavbarPos] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const auth = false;
   const toggleDrawer = () => {
     setIsOpen((prev) => !prev);
   };
@@ -366,16 +367,17 @@ function NavBarSmall() {
 }
 
 function NavBar() {
+  const auth = false;
   const { width, height } = useWindowSize();
   if (!width || !height) return <></>;
 
   return width > 1280 ? (
     <>
-      <NavBarLarge />
+      <NavBarLarge auth={false} />
     </>
   ) : (
     <>
-      <NavBarSmall />
+      <NavBarSmall auth={false} />
     </>
   );
 }

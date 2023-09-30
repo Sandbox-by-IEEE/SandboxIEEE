@@ -1,13 +1,38 @@
+import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 
 import ArrowDropdownIcon from './icons/ArrowDropdownIcon';
 
 interface DropdownProps {
-  color?: 'green' | 'trans-green' | 'light';
+  color?: 'green' | 'trans-green' | 'light' | 'cream';
   options: string[];
   placeholder?: string;
   selectedOption: string;
   setSelectedOption: React.Dispatch<React.SetStateAction<string>>;
+  type?: 'routes';
+  fullWidth?: boolean;
+}
+
+function RoutesOptions({
+  options,
+  colorClass,
+}: {
+  options: string[];
+  colorClass: string;
+}) {
+  return (
+    <>
+      {options.map((option) => (
+        <Link href={`/event/${option.toLowerCase()}`} key={option}>
+          <div
+            className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3  px-5 ${colorClass}`}
+          >
+            {option}
+          </div>
+        </Link>
+      ))}
+    </>
+  );
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -16,6 +41,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   placeholder,
   selectedOption,
   setSelectedOption,
+  type,
+  fullWidth = false,
 }) => {
   const colorEffect = {
     green: {
@@ -36,6 +63,12 @@ const Dropdown: React.FC<DropdownProps> = ({
       icon: 'fill-green-primary',
       'child-container': 'bg-white text-green-primary bg-opacity-90 ',
       child: 'hover:bg-cream-secondary-light text-green-primary',
+    },
+    cream: {
+      parent: 'bg-cream-secondary-light text-green-primary',
+      icon: 'fill-green-primary',
+      'child-container': 'bg-cream-secondary-light z-10',
+      child: 'hover:bg-white',
     },
   };
 
@@ -72,7 +105,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     <div className='cursor-pointer' ref={dropDownRef}>
       {/* Main div unaffected by open state and placeholder */}
       <div
-        className={`block w-[256px] p-[1.5px] ${
+        className={`block w-[${fullWidth ? '100%' : '256px'}] p-[1.5px] ${
           open ? 'rounded-t-md' : 'rounded-md'
         } ${colorEffect[color].parent}`}
         onClick={() => setOpen(!open)}
@@ -97,26 +130,35 @@ const Dropdown: React.FC<DropdownProps> = ({
           open
             ? 'opacity-100 translate-y-0'
             : '-translate-y-[60px] pointer-events-none opacity-0'
-        } transition-all duration-300 h-[200px] overflow-y-scroll custom-scrollbar lg:top-[70px] mb-2 left-0 w-full rounded-b-md ${
+        } transition-all duration-300 max-h-[200px] absolute overflow-y-scroll custom-scrollbar lg:top-[70px] mb-2 left-0 w-full rounded-b-md ${
           colorEffect[color]['child-container']
         }`}
       >
         {/* Mapping options */}
-        <div
-          onClick={() => handleOptionClick('All')}
-          className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3 px-5 ${colorEffect[color].child}`}
-        >
-          All
-        </div>
-        {options.map((option) => (
-          <div
-            key={option}
-            onClick={() => handleOptionClick(option)}
-            className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3 px-5 ${colorEffect[color].child}`}
-          >
-            {option}
-          </div>
-        ))}
+        {type == 'routes' ? (
+          <RoutesOptions
+            options={options}
+            colorClass={colorEffect[color].child}
+          />
+        ) : (
+          <>
+            <div
+              onClick={() => handleOptionClick('All')}
+              className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3 px-5 ${colorEffect[color].child}`}
+            >
+              All
+            </div>
+            {options.map((option) => (
+              <div
+                key={option}
+                onClick={() => handleOptionClick(option)}
+                className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3 px-5 ${colorEffect[color].child}`}
+              >
+                {option}
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
