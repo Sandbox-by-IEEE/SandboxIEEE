@@ -9,27 +9,24 @@ export interface FileInputType {
 }
 
 export default function Home() {
-  const [file, setFile] = useState<FileInputType>({
-    fileName: '',
-    fileUrl: '',
-  });
+  const [files, setFiles] = useState<FileInputType[] | undefined>();
   const [url, setUrl] = useState<string>('');
 
   useEffect(() => {
-    if (file.fileName || url) {
-      console.log({ file, url });
+    if (files?.length || url) {
+      console.log({ files, url });
     }
-  }, [file, url]);
+  }, [files, url]);
 
   return (
     <main className='flex p-4 w-screen h-screen items-center justify-center bg-black'>
       <div className='flex gap-2 flex-wrap'>
         <FileInput
-          setFile={setFile}
+          setFiles={setFiles}
           setUrl={setUrl}
           message={'secondary message'}
-          allowedFileTypes={['.jpg', '.pdf']}
-          file={file}
+          allowedFileTypes={['.jpg', '.pdf', '.jpeg']}
+          files={files}
         />
       </div>
     </main>

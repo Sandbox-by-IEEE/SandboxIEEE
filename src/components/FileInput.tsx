@@ -16,17 +16,17 @@ import LinkIcon from '@/components/icons/LinkIcon';
 import SaveIcon from '@/components/icons/SaveIcon';
 
 const FileInput = ({
-  setFile,
+  setFiles,
   allowedFileTypes = [],
   setUrl,
   message,
-  file,
+  files,
 }: {
-  setFile: Dispatch<SetStateAction<FileInputType>>;
+  setFiles: Dispatch<SetStateAction<FileInputType[] | undefined>>;
   allowedFileTypes?: string[];
   setUrl?: Dispatch<SetStateAction<string>>;
   message: string;
-  file: FileInputType;
+  files: FileInputType[] | undefined;
 }) => {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -66,15 +66,25 @@ const FileInput = ({
   };
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const fileUploaded = event.target.files && event.target.files[0];
+    const filesToUpload = event.target.files;
     try {
-      if (fileUploaded) {
-        const responseJSON = await uploadFile(fileUploaded);
+      if (filesToUpload && filesToUpload.length > 0) {
+        const uploadedFiles = [];
+        for (let i = 0; i < filesToUpload.length; i++) {
+          const fileUploaded = filesToUpload[i];
+          const responseJSON = await uploadFile(fileUploaded);
+
+          const newFile: FileInputType = {
+            fileName: fileUploaded.name,
+            fileUrl: responseJSON?.secure_url,
+          };
+
+          uploadedFiles.push(newFile);
+        }
+
         setIsSuccess(true);
-        setFile({
-          fileName: fileUploaded.name,
-          fileUrl: responseJSON?.secure_url,
-        });
+        if (files) setFiles([...files, ...uploadedFiles]);
+        else setFiles(uploadedFiles);
       }
     } catch (error) {
       setIsError(true);
@@ -85,30 +95,51 @@ const FileInput = ({
     try {
       e.preventDefault();
 
-      const files = e.dataTransfer.files;
-      if (files.length > 0) {
-        const fileUploaded = files[0];
-        if (
-          allowedFileTypes.length === 0 ||
-          allowedFileTypes.includes(fileUploaded.type)
-        ) {
-          const responseJSON = await uploadFile(fileUploaded);
-          setIsSuccess(true);
-          setFile({
-            fileName: fileUploaded.name,
-            fileUrl: responseJSON?.secure_url,
-          });
+      const filesDropped = e.dataTransfer.files;
+      if (filesDropped.length > 0) {
+        const uploadedFiles = [];
+        const allowedFileExtensions = allowedFileTypes.map((el) => el.slice(1));
+
+        for (let i = 0; i < filesDropped.length; i++) {
+          const fileUploaded = filesDropped[i];
+          const fileExtension = fileUploaded?.name
+            ?.split('.')
+            ?.pop()
+            ?.toLowerCase();
+
+          if (
+            allowedFileExtensions.length === 0 ||
+            allowedFileExtensions.includes(fileExtension as string)
+          ) {
+            const responseJSON = await uploadFile(fileUploaded);
+
+            const newFile = {
+              fileName: fileUploaded.name,
+              fileUrl: responseJSON?.secure_url,
+            };
+
+            uploadedFiles.push(newFile);
+          } else {
+            throw new Error('Wrong file type');
+          }
+        }
+
+        setIsSuccess(true);
+
+        if (files) {
+          setFiles([...files, ...uploadedFiles]);
         } else {
-          throw 'Wrong file type';
+          setFiles(uploadedFiles);
         }
       } else {
-        throw 'Failed to get file';
+        throw 'No files dropped';
       }
     } catch (error) {
       setErrorMsg(error as string);
       setIsError(true);
     }
   };
+
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
@@ -147,12 +178,12 @@ const FileInput = ({
             <FileInputIconSuccess />
           </button>
           <p className='text-[16px] font-[700] text-[#00FFA1]'>
-            {file.fileName === '' ? 'Link' : 'File'} berhasil diupload!
+            {inputUrl ? 'Link' : 'File'} berhasil diupload!
           </p>
           <div className='flex gap-2 items-center'>
             {inputUrl ? <LinkIcon /> : <FileIcon />}
-            {file.fileName ? (
-              <p>{file.fileName}</p>
+            {files && files[0].fileName ? (
+              <p>Files</p>
             ) : (
               <a
                 href={inputUrl}
@@ -197,7 +228,7 @@ const FileInput = ({
           </p>
           <div className='flex gap-2'>
             <p className='max-w-[300px] md:max-w-[600px] whitespace-nowrap overflow-hidden text-ellipsis'>
-              {file.fileName ? file.fileName : inputUrl} {errorMsg}
+              {inputUrl ? 'Link' : 'File'} {errorMsg}
             </p>
           </div>
         </div>
@@ -268,6 +299,7 @@ const FileInput = ({
         ref={hiddenFileInput}
         accept={allowedFileTypes.join(',')}
         className='hidden'
+        multiple
       />
     </div>
   );
