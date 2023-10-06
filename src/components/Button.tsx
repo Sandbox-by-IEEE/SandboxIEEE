@@ -7,7 +7,7 @@ const Button = ({
   isDisabled,
   isFullWidth,
 }: {
-  color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange';
+  color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange' | 'white';
   children: JSX.Element | string;
   isIcon?: boolean;
   isDisabled?: boolean;
@@ -26,6 +26,10 @@ const Button = ({
       main: 'bg-[#AB814E] rounded-md hover:shadow-[0px_0px_20px_5px_#B49876] text-white',
       arrow: '#FFFFFF',
     },
+    white: {
+      main: 'bg-white hover:shadow-[0px_0px_20px_5px_#315B4C] text-white',
+      arrow: '#FFFFFF',
+    },
     'trans-green': {
       main: 'border border-[3px] border-[#0D432F] bg-transparent text-[#0D432F] hover:bg-[#494845]',
       arrow: '#0D432F',
@@ -41,7 +45,7 @@ const Button = ({
     <button
       disabled={isDisabled}
       className={`${
-        isFullWidth ? 'w-full' : 'w-[130px] lg:w-[200px]'
+        isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[200px]'
       } text-sm lg:text-base disabled:bg-[#D7D2D0] disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
         colorEffect[color].main
       }`}

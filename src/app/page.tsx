@@ -34,6 +34,9 @@ export default function Home() {
     <main className='flex min-h-screen bg-black flex-col items-center p-24'>
       <div>
         <RadioButtons options={options} onChange={handleOptionChange} />
+        <a href={'../register'} target='' rel='noopener noreferrer'>
+          <p className='text-white hover:underline mb-1'>Timeline</p>
+        </a>
       </div>
       {/* You can map through the filteredData to display the results */}
     </main>
