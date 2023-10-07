@@ -96,7 +96,7 @@ const Footer = () => (
     </div>
     <div className='w-full h-full mr-10 ml-10 mx-auto sm:mr-[100px] sm:ml-[100px] flex flex-col items-center justify-center z-10'>
       {/* Main text and links */}
-      <div className='justify-around w-full flex-col lg:flex lg:flex-row pb-[40px] sm:pb-[60px] border-b-2 border-[#AB814E]'>
+      <div className='justify-between xl:justify-around w-full flex-col lg:flex lg:flex-row pb-[40px] sm:pb-[60px] border-b-2 border-[#AB814E]'>
         <div className='hidden lg:block'>
           <Logo size={25} />
         </div>
