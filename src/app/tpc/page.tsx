@@ -1,7 +1,6 @@
 'use client';
 
 // import PrototechContest from '@/app/tpc/components/PrototechContest';
-import ApaItu from '@/app/tpc/components/ApaItu';
 import Button from '@/components/Button';
 import Countdown from '@/components/Countdown';
 
