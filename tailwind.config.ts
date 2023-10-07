@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        'custom-input': '0 4px 4px 0 rgba(0, 0, 0, 0.25) inset',
+      },
       fontFamily: {
         poppins: ['var(--font-poppins)'],
         inter: ['var(--font-inter)'],
