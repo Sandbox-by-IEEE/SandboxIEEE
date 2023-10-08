@@ -125,7 +125,6 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className='absolute right-0 h-[25px] bg-no-repeat bg-[url("/assets/Ieee.png")] bg-contain'></div>
         </div>
       </div>
       {/* You can map through the filteredData to display the results */}
