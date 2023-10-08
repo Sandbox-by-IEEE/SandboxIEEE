@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from '@/components/Button';
 import Google from '@/components/icons/Register/google';
@@ -12,10 +12,43 @@ import Stars2 from '@/components/icons/Register/stars2';
 import Stars2mb from '@/components/icons/Register/stars2mb';
 import Stars3 from '@/components/icons/Register/stars3';
 import Stars3mb from '@/components/icons/Register/stars3mb';
+import TextInput from '@/components/TextInput';
 
 export default function Home() {
+  const [text, setText] = useState('');
+
+  const InputColumn = ({ label, inputs }) => (
+    <div>
+      <p>{label}</p>
+      {inputs.map((input, index) => (
+        <TextInput
+          key={index}
+          text={text}
+          setText={setText}
+          color='white'
+          fullwidth={true}
+          type={input.type}
+          placeholder={input.placeholder}
+        />
+      ))}
+    </div>
+  );
+
+  const inputsData = [
+    [
+      {
+        label: 'Email',
+        inputs: [{ type: 'email', placeholder: 'Your email address' }],
+      },
+      {
+        label: 'Password',
+        inputs: [{ type: 'password', placeholder: 'Your password' }],
+      },
+    ],
+  ];
+
   return (
-    <main className='h-screen font-poppins text-sm flex bg-white flex-col items-center'>
+    <main className='h-screen font-poppins text-sm sm:text-base flex bg-white flex-col items-center'>
       <div className='w-screen h-[3000px] flex'>
         <div className='w-[0%] lg:w-[50%] justify-center z-10'></div>
         <div className='relative w-[100%] lg:w-[50%] bg-[url("/assets/RegisterBackground.png")] bg-cover bg-no-repeat text-white bg-black items-center justify-center'>
@@ -45,11 +78,11 @@ export default function Home() {
               <div className='block justify-center'>
                 <Logo size={25} />
               </div>
-              <p className='mb-5 mt-5'>Login to your account</p>
+              <p className='my-4'>Login to your account</p>
               <div className='w-full'>
                 <div className='h-[35px]'>
                   <Button color='white' isFullWidth={true}>
-                    <a className='text-black text-sm flex gap-3 w-full items-center justify-center font-poppins font-semibold'>
+                    <a className='text-black flex gap-3 w-full items-center justify-center font-poppins font-semibold'>
                       <Google size={25} />
                       Continue with Google
                     </a>
@@ -61,28 +94,27 @@ export default function Home() {
                   <div className='mr-8 lg:mr-0 flex-grow border-t border-white-600'></div>
                 </div>
               </div>
-              <div className=''>
-                {/* Text Input here
-                <TextInput
-                  box={'usual'}
-                  isIcon={false}
-                  label={'Email'}
-                  placeholder={'Your email address'}
-                />
-                <TextInput
-                  box={'usual'}
-                  isIcon={false}
-                  label={'Password'}
-                  placeholder={'Enter a password'}
-                />*/}
-              </div>
-              <div className='w-[100px] h-[40px]'>
+              {inputsData.map((pair, index) => (
+                <div
+                  className='flex flex-col gap-2 w-full px-0 sm:px-[15%]'
+                  key={index}
+                >
+                  {pair.map((columnData, columnIndex) => (
+                    <InputColumn
+                      key={columnIndex}
+                      label={columnData.label}
+                      inputs={columnData.inputs}
+                    />
+                  ))}
+                </div>
+              ))}
+              <div className='my-5 w-[100px] h-[40px]'>
                 <Button color='gold' isFullWidth={true}>
                   Sign In
                 </Button>
               </div>
-              <p className='mb-5 mt-3'>
-                {'Don’t have an account yet? '}
+              <p className='text-center'>
+                Don’t have an account yet?{' '}
                 <Link className='hover:underline text-[#DBB88B]' href=''>
                   Register
                 </Link>
