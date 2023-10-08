@@ -93,9 +93,9 @@ export default function Home() {
                   </Button>
                 </div>
                 <div className='relative flex py-[12px] items-center'>
-                  <div className='ml-8 md:ml-0 flex-grow border-t border-white-600'></div>
+                  <div className='ml-8 lg:ml-0 flex-grow border-t border-white-600'></div>
                   <span className='flex-shrink mx-4 text-white-400'>or</span>
-                  <div className='mr-8 md:mr-0 flex-grow border-t border-white-600'></div>
+                  <div className='mr-8 lg:mr-0 flex-grow border-t border-white-600'></div>
                 </div>
               </div>
               {inputsData.map((pair, index) => (
