@@ -32,10 +32,10 @@ export default function Home() {
         />
         <div className='flex flex-col items-center'>
           <h1 className='font-poppins text-[56px] font-semibold text-white'>
-            Coming Soon!
+            Ups!
           </h1>
           <p className='font-poppins font-light text-[28px] text-white'>
-            Halaman masih sedang dikembangkan.
+            Halaman yang anda cari tidak ada.
           </p>
           <div className='translate-y-6'>
             <a href='./'>
