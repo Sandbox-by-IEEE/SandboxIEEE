@@ -38,7 +38,7 @@ export default function Home() {
             Halaman masih sedang dikembangkan.
           </p>
           <div className='translate-y-6'>
-            <a href='./'>
+            <a href='.'>
               <Button color='gold'>Kembali</Button>
             </a>
           </div>
