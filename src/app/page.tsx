@@ -2,8 +2,11 @@
 
 import dynamic from 'next/dynamic';
 
+import FAQItem from '@/components/FAQItem';
+import GradientBox from '@/components/GradientBox';
 import IEEEITBStudentBranchIcon from '@/components/icons/IEEEITBStudentBranchIcon';
 import SandboxByIEEEITBIcon from '@/components/icons/SandboxByIEEEITBIcon';
+import ShadowGradientText from '@/components/ShadowGradientText';
 
 const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
@@ -27,10 +30,8 @@ export default function Home() {
 
       {/* Countdown Section */}
       <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'>
-        <div className='p-6 border-2 rounded-md flex flex-col items-center gap-8'>
-          <h2 className='text-4xl font-bold'>
-            Pendaftaran Exhibition akan segera ditutup!
-          </h2>
+        <div className='gradient-border-bg p-6 border-2 rounded-md flex flex-col items-center gap-8'>
+          <ShadowGradientText text='Pendaftaran Exhibition akan segera ditutup!' />
           <Countdown targetDate={new Date('October 28, 2023')} />
           <div className='flex gap-4 py-8'>
             <button className='border-2 rounded-md px-2 py-1 font-poppins'>
@@ -45,7 +46,7 @@ export default function Home() {
 
       {/* Trailer Section */}
       <section className='h-auto p-10 bg-[#092a16] flex flex-col items-center space-y-8'>
-        <h2 className='text-4xl font-bold'>Trailer Sandbox 2023</h2>
+        <ShadowGradientText text='Trailer Sandbox 2023' />
         <div className='h-[400px] w-[500px] max-w-full rounded-lg bg-slate-200'>
           {/* Youtube iframe */}
         </div>
@@ -61,8 +62,8 @@ export default function Home() {
 
       {/* About Sandbox */}
       <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex justify-center items-center'>
-        <div className='min-h-[660px] w-[1206px] rounded-xl border-2 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] flex flex-col items-center justify-center gap-8 p-4'>
-          <div className=' relative text-4xl font-extrabold text-[#9a7037] '>
+        <GradientBox>
+          <div className='relative text-4xl font-extrabold text-[#9a7037] '>
             <p className='absolute top-0 left-0 text-[#FFE1B9] backdrop-blur-sm text-center'>
               Apasih Sandbox Itu?
             </p>
@@ -82,7 +83,7 @@ export default function Home() {
           <button className='border-2 rounded-md px-2 py-1 font-poppins'>
             See More
           </button>
-        </div>
+        </GradientBox>
       </section>
 
       {/* Our Events */}
@@ -123,7 +124,7 @@ export default function Home() {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
                 ipsum at sapien dignissim interdum sit amet sit amet nisl.{' '}
               </p>
-              <div className='flex gap-2 items-end h-full'>
+              <div className='flex gap-2 items-end h-full py-4'>
                 <button className='border-2'>REPLACE BUTTON Daftar</button>
                 <button className='border-2'>REPLACE BUTTON See More</button>
               </div>
@@ -148,7 +149,7 @@ export default function Home() {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
                 ipsum at sapien dignissim interdum sit amet sit amet nisl.
               </p>
-              <div className='flex gap-2 items-end h-full'>
+              <div className='flex gap-2 items-end h-full py-4'>
                 <button className='border-2'>REPLACE BUTTON Daftar</button>
                 <button className='border-2'>REPLACE BUTTON See More</button>
               </div>
@@ -182,7 +183,7 @@ export default function Home() {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
                 ipsum at sapien dignissim interdum sit amet sit amet nisl.{' '}
               </p>
-              <div className='flex gap-2 items-end h-full'>
+              <div className='flex gap-2 items-end h-full py-4'>
                 <button className='border-2'>REPLACE BUTTON Daftar</button>
                 <button className='border-2'>REPLACE BUTTON See More</button>
               </div>
@@ -216,7 +217,7 @@ export default function Home() {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
                 ipsum at sapien dignissim interdum sit amet sit amet nisl.{' '}
               </p>
-              <div className='flex gap-2 items-end h-full'>
+              <div className='flex gap-2 items-end h-full py-4'>
                 <button className='border-2'>REPLACE BUTTON Daftar</button>
                 <button className='border-2'>REPLACE BUTTON See More</button>
               </div>
@@ -246,8 +247,53 @@ export default function Home() {
       </section>
 
       {/* FAQ + Sponsor and media partner */}
-      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'>
-        Frequently Asked Questions
+      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] space-y-4'>
+        <div className='relative w-full text-center'>
+          <div className='rounded-[4px] overflow-hidden transition-all duration-300 w-full'>
+            <p className='py-4 text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-[32px] font-extrabold tracking-wider w-full text-center shadow-lg'>
+              Frequently Asked Questions
+            </p>
+          </div>
+          <div className='absolute top-0 blur-[4px] rounded-[4px] overflow-hidden transition-all duration-300 w-full'>
+            <p className='py-4 text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-[32px] font-extrabold tracking-wider w-full text-center shadow-lg'>
+              Frequently Asked Questions
+            </p>
+          </div>
+        </div>
+        <FAQItem
+          question='Bagaimana cara bertemu Fairuz?'
+          answer='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a ipsum at sapien dignissim interdum sit amet sit amet nisl. '
+        />
+        <FAQItem
+          question='Mengapa Teknik Informatika ITB Sulit?'
+          answer='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a ipsum at sapien dignissim interdum sit amet sit amet nisl. '
+        />
+        <FAQItem
+          question='Mengapa Teknik Informatika ITB Sulit?'
+          answer='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a ipsum at sapien dignissim interdum sit amet sit amet nisl. '
+        />
+
+        <GradientBox>
+          <div className=' relative text-4xl font-extrabold text-[#9a7037] '>
+            <p className='absolute top-0 left-0 text-[#FFE1B9] backdrop-blur-sm text-center'>
+              Our Sponsor & Media Partner
+            </p>
+            <h2 className='z-10 text-center'>Our Sponsor & Media Partner</h2>
+          </div>
+          <div className='flex gap-6 flex-wrap justify-center'>
+            <SandboxByIEEEITBIcon />
+            <SandboxByIEEEITBIcon />
+            <SandboxByIEEEITBIcon />
+            <IEEEITBStudentBranchIcon />
+            <SandboxByIEEEITBIcon />
+            <SandboxByIEEEITBIcon />
+            <SandboxByIEEEITBIcon />
+            <IEEEITBStudentBranchIcon />
+          </div>
+          <button className='border-2 rounded-md px-2 py-1 font-poppins'>
+            Partner With Us
+          </button>
+        </GradientBox>
       </section>
 
       <footer>Footer</footer>
