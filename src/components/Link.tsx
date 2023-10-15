@@ -1,18 +1,17 @@
-import RightArrow from './icons/RightArrow';
+import Link from 'next/link';
 
-const Button = ({
+import RightArrow from './icons/RightArrow';
+const CustomLink = ({
   color,
   children,
-  onClick,
   isIcon,
-  isDisabled,
+  url,
   isFullWidth,
 }: {
   color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange' | 'white';
-  onClick?: () => void;
   children: JSX.Element | string;
   isIcon?: boolean;
-  isDisabled?: boolean;
+  url?: string;
   isFullWidth?: boolean;
 }) => {
   const colorEffect = {
@@ -44,22 +43,23 @@ const Button = ({
 
   //green, 100%
   return (
-    <button
-      onClick={onClick}
-      disabled={isDisabled}
-      className={`${
-        isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[200px]'
-      } text-sm lg:text-base disabled:bg-[#D7D2D0] disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
-        colorEffect[color].main
-      }`}
-    >
-      <p className='flex gap-3 w-full items-center justify-center font-poppins font-bold'>
-        {children}
-        {isIcon && <RightArrow arrowColor={`${colorEffect[color].arrow}`} />}
-      </p>
-    </button>
+    url && (
+      <Link
+        href={url}
+        className={`${
+          isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[200px]'
+        } text-sm lg:text-base disabled:bg-[#D7D2D0] disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
+          colorEffect[color].main
+        }`}
+      >
+        <p className='flex gap-3 w-full items-center justify-center font-poppins font-bold'>
+          {children}
+          {isIcon && <RightArrow arrowColor={`${colorEffect[color].arrow}`} />}
+        </p>
+      </Link>
+    )
   );
-  //test button
+  //test CustomLink
 };
 
-export default Button;
+export default CustomLink;
