@@ -14,7 +14,7 @@ import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
 import VoteCard from '@/components/Vote/VoteCard';
 import { performRequest } from '@/lib/datocms';
-import { ExhibitionDataProps } from '@/types/exhibition-type';
+import { type ExhibitionDataProps } from '@/types/exhibition-type';
 
 const ExhibitionPage = async () => {
   // Fetch data from CMS
@@ -206,7 +206,7 @@ const ExhibitionPage = async () => {
             {exhibition.guideTitle}
           </h2>
           {/* Description */}
-          <span className='text-white text-sm lg:text-base'>
+          <span className='text-white text-sm lg:text-lg'>
             <StructuredText data={exhibition.guideDescription} />
           </span>
         </div>
