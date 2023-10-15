@@ -7,17 +7,21 @@ const TextInput = ({
   type,
   disabled,
   text,
+  name,
   color,
-  setText,
   fullwidth,
+  onChange,
+  setText,
 }: {
   placeholder?: string;
-  type: 'text' | 'password' | 'search' | 'email' | 'textarea';
+  type: 'text' | 'password' | 'search' | 'email' | 'textarea' | 'number';
+  name?: string;
   disabled?: boolean;
   text: string;
   color: 'trans-white' | 'white';
-  setText: React.Dispatch<SetStateAction<string>>;
   fullwidth?: boolean;
+  onChange?: (e) => void | null;
+  setText?: React.Dispatch<SetStateAction<string>>;
 }) => {
   const colorEffect = {
     'trans-white': {
@@ -41,8 +45,15 @@ const TextInput = ({
         <SearchIcon className={`${colorEffect[color].icon}`} size={20} />
       )}
       <input
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setText
+            ? setText(e.target.value)
+            : onChange
+            ? onChange(e)
+            : console.warn('no Action');
+        }}
         disabled={disabled}
+        name={name}
         type={type}
         value={disabled ? '' : text}
         placeholder={placeholder}
@@ -56,7 +67,14 @@ const TextInput = ({
       } ${colorEffect[color].main} justify-between items-center rounded-md`}
     >
       <textarea
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+          setText
+            ? setText(e.target.value)
+            : onChange
+            ? onChange(e)
+            : console.warn('no Action');
+        }}
+        name={name}
         disabled={disabled}
         value={disabled ? '' : text}
         placeholder={placeholder}
