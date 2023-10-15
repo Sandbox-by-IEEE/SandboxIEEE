@@ -12,7 +12,7 @@ export default function GrandSeminar() {
         Navbar
       </nav>
 
-      <section className='HeroSection w-full h-[calc(100vh-200px)] bg-grand-seminar-banner bg-cover flex overflow-hidden'>
+      <section className='HeroSection w-full h-[1080px] bg-grand-seminar-banner bg-cover flex '>
         <div className='container w-full h-full bg-g-seminar-radial-gradient m-auto flex overflow-hidden'>
           <div className='objects block w-fit h-fit m-auto '>
             <h1 className='titleText font-museo-muderno font-bold text-[70pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)]'>
@@ -27,7 +27,7 @@ export default function GrandSeminar() {
         </div>
       </section>
 
-      <section className='Section w-full h-[calc(100vh)] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex overflow-hidden'>
+      <section className='Section w-full h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex '>
         <div className='containerLuar m-auto w-full h-[65%] rounded-[30px] bg-gradient-brown flex min-w-[1100px] drop-shadow-[0_0px_20px_rgba(171,129,78,1)]'>
           <div className='containerdalam m-auto w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-[28px] bg-gradient-to-b from-[rgba(7,29,16)] to-[#0F3015] overflow-hidden flex flex-col items-center p-32'>
             <h1 className='title font-museo-muderno text-center w-full font-bold text-[40pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] mb-20'>
@@ -54,7 +54,7 @@ export default function GrandSeminar() {
         </div>
       </section>
 
-      <section className='Section w-full h-[calc(100vh)] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex overflow-hidden'>
+      <section className='Section w-full h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex '>
         <div className='containerLuar m-auto w-full min-w-[1100px] h-[65%] rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
           <div className='containerdalam m-auto w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-[28px] bg-gradient-light-cards flex items-center p-20 overflow-hidden'>
             <div className='ImageSection h-full w-[30%] flex'>
@@ -84,9 +84,17 @@ export default function GrandSeminar() {
         </div>
       </section>
 
-      <section className='Section w-full h-[calc(100vh)] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex overflow-hidden'></section>
-
-      <section className='Section w-full h-[calc(100vh)] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex overflow-hidden'></section>
+      <section className='Section w-full h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
+        <div className='titleSegment w-full h-[300px] flex'>
+          <div className='containerLuar m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
+            <div className='containerdalam w-fit h-fit rounded-[28px] bg-gradient-light-cards pl-16 pr-16 pt-6 pb-6 flex items-center overflow-hidden m-[8px]'>
+              <h1 className='title font-museo-muderno text-center w-full font-bold text-[26pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '>
+                Our Speaker
+              </h1>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* <footer>Footer</footer>  */}
     </div>
