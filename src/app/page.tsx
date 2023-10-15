@@ -1,6 +1,12 @@
 'use client';
 
+import 'react-vertical-timeline-component/style.min.css';
+
 import dynamic from 'next/dynamic';
+import {
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from 'react-vertical-timeline-component';
 
 import FAQItem from '@/components/FAQItem';
 import GradientBox from '@/components/GradientBox';
@@ -62,7 +68,7 @@ export default function Home() {
 
       {/* About Sandbox */}
       <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex justify-center items-center'>
-        <GradientBox>
+        <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-4'>
           <div className='relative text-4xl font-extrabold text-[#9a7037] '>
             <p className='absolute top-0 left-0 text-[#FFE1B9] backdrop-blur-sm text-center'>
               Apasih Sandbox Itu?
@@ -228,7 +234,7 @@ export default function Home() {
 
       {/* Timeline */}
       <section className='h-auto p-10 bg-[#092a16]'>
-        <div className='relative w-full text-center'>
+        <div className='relative w-full text-center pb-4'>
           <div className='rounded-[4px] overflow-hidden transition-all duration-300 w-full'>
             <div className='gradient-border-bg relative shadow-lg shadow-cream-secondary-light px-3 py-2 w-full'>
               <p className='py-4 text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-[32px] font-extrabold tracking-wider w-full text-center shadow-lg'>
@@ -244,6 +250,123 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <VerticalTimeline>
+          <VerticalTimelineElement
+            className='vertical-timeline-element--work'
+            contentStyle={{
+              background: 'inherit',
+              color: '#fff',
+            }}
+            contentArrowStyle={{ borderRight: '7px solid #092a16' }}
+            iconStyle={{
+              background: '#AB814E',
+              border: '0px 0px',
+              marginTop: '10%',
+            }}
+            dateClassName='mt-[40px]'
+          >
+            <GradientBox className='max-w-[300px] max-h-fit min-h-[180px] text-left flex flex-col justify-center items-start gap-6'>
+              <div className='flex flex-col w-fit mx-auto pr-8'>
+                <span className='text-left font-bold text-2xl text-[#FFE1B9]'>
+                  15 Oktober 2023
+                </span>
+                <span className='text-xl'>Open Regist PTC</span>
+              </div>
+            </GradientBox>
+          </VerticalTimelineElement>
+          <VerticalTimelineElement
+            className='vertical-timeline-element--work'
+            contentStyle={{
+              background: 'inherit',
+              color: '#fff',
+            }}
+            contentArrowStyle={{ borderRight: '7px solid #092a16' }}
+            iconStyle={{
+              background: '#AB814E',
+              border: '0px 0px',
+              marginTop: '10%',
+            }}
+            dateClassName='mt-[40px]'
+          >
+            <GradientBox className='max-w-[300px] max-h-fit min-h-[180px] text-left flex flex-col justify-center items-start gap-6'>
+              <div className='flex flex-col w-fit mx-auto pr-8'>
+                <span className='text-left font-bold text-2xl text-[#FFE1B9]'>
+                  15 Oktober 2023
+                </span>
+                <span className='text-xl'>Open Regist PTC</span>
+              </div>
+            </GradientBox>
+          </VerticalTimelineElement>
+          <VerticalTimelineElement
+            className='vertical-timeline-element--work'
+            contentStyle={{
+              background: 'inherit',
+              color: '#fff',
+            }}
+            contentArrowStyle={{ borderRight: '7px solid #092a16' }}
+            iconStyle={{
+              background: '#AB814E',
+              border: '0px 0px',
+              marginTop: '10%',
+            }}
+            dateClassName='mt-[40px]'
+          >
+            <GradientBox className='max-w-[300px] max-h-fit min-h-[180px] text-left flex flex-col justify-center items-start gap-6'>
+              <div className='flex flex-col w-fit mx-auto pr-8'>
+                <span className='text-left font-bold text-2xl text-[#FFE1B9]'>
+                  15 Oktober 2023
+                </span>
+                <span className='text-xl'>Open Regist PTC</span>
+              </div>
+            </GradientBox>
+          </VerticalTimelineElement>
+          <VerticalTimelineElement
+            className='vertical-timeline-element--work'
+            contentStyle={{
+              background: 'inherit',
+              color: '#fff',
+            }}
+            contentArrowStyle={{ borderRight: '7px solid #092a16' }}
+            iconStyle={{
+              background: '#AB814E',
+              border: '0px 0px',
+              marginTop: '10%',
+            }}
+            dateClassName='mt-[40px]'
+          >
+            <GradientBox className='max-w-[300px] max-h-fit min-h-[180px] text-left flex flex-col justify-center items-start gap-6'>
+              <div className='flex flex-col w-fit mx-auto pr-8'>
+                <span className='text-left font-bold text-2xl text-[#FFE1B9]'>
+                  15 Oktober 2023
+                </span>
+                <span className='text-xl'>Open Regist PTC</span>
+              </div>
+            </GradientBox>
+          </VerticalTimelineElement>
+          <VerticalTimelineElement
+            className='vertical-timeline-element--work'
+            contentStyle={{
+              background: 'inherit',
+              color: '#fff',
+            }}
+            contentArrowStyle={{ borderRight: '7px solid #092a16' }}
+            iconStyle={{
+              background: '#AB814E',
+              border: '0px 0px',
+              marginTop: '10%',
+            }}
+            dateClassName='mt-[40px]'
+          >
+            <GradientBox className='max-w-[300px] max-h-fit min-h-[180px] text-left flex flex-col justify-center items-start gap-6'>
+              <div className='flex flex-col w-fit mx-auto pr-8'>
+                <span className='text-left font-bold text-2xl text-[#FFE1B9]'>
+                  15 Oktober 2023
+                </span>
+                <span className='text-xl'>Open Regist PTC</span>
+              </div>
+            </GradientBox>
+          </VerticalTimelineElement>
+        </VerticalTimeline>
       </section>
 
       {/* FAQ + Sponsor and media partner */}
@@ -273,7 +396,7 @@ export default function Home() {
           answer='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a ipsum at sapien dignissim interdum sit amet sit amet nisl. '
         />
 
-        <GradientBox>
+        <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-4 '>
           <div className=' relative text-4xl font-extrabold text-[#9a7037] '>
             <p className='absolute top-0 left-0 text-[#FFE1B9] backdrop-blur-sm text-center'>
               Our Sponsor & Media Partner

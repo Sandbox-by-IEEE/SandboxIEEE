@@ -44,3 +44,17 @@ div.custom-scrollbar::-webkit-scrollbar-thumb {
 details summary::-webkit-details-marker {
   display: none;
 }
+
+/* vertical-timeline-component */
+.vertical-timeline::before {
+  background: linear-gradient(45deg, #ab814e, #fffbb9) !important;
+  width: 10px !important;
+  transform: translateX(-2.5px) !important;
+}
+.vertical-timeline-element-content {
+  box-shadow: 0px 0px !important;
+}
+.vertical-timeline-element-icon {
+  -webkit-box-shadow: 0px 0px !important;
+  box-shadow: 0px 0px !important;
+}
