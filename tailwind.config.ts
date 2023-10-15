@@ -25,6 +25,10 @@ const config: Config = {
         'grand-seminar-banner': "url('/assets/GrandSeminarBanner.png')",
         'g-seminar-radial-gradient':
           'radial-gradient(rgba(8, 30, 17, 1) 0%, rgba(8, 30, 17, 0.6) 50% , rgba(8, 30, 17, 0.00) 70%)',
+        'gradient-light-brown':
+          'linear-gradient(160deg, #DBB88B 17.96%, #16471f 84.9%)',
+        'gradient-light-cards':
+          'linear-gradient(150deg, #1e4a30, #0F3015, #16471f)',
       },
       colors: {
         'green-primary': '#0D432F',
