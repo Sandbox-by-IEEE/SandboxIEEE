@@ -41,8 +41,10 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <Toast />
-      <ModalContextProvider>{children}</ModalContextProvider>
+      <body>
+        <Toast />
+        <ModalContextProvider>{children}</ModalContextProvider>
+      </body>
     </html>
   );
 }

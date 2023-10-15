@@ -23,8 +23,8 @@ const Stars2 = ({ size }: { size: number }) => {
           y2='63.9215'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <clipPath id='clip0_943_1524'>
           <rect
