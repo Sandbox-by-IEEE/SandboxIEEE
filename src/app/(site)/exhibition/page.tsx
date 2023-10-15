@@ -7,9 +7,10 @@ const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
 });
 
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
-import VoteCard from '@/components/VoteCard';
+import VoteCard from '@/components/Vote/VoteCard';
 const voteCardData = [
   {
     teamsName: 'Team Alpha',
@@ -85,6 +86,9 @@ const ExhibitionPage = () => {
 
       {/* Explanation */}
       <section className='w-full flex flex-col bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40'>
+        <div className='text-left hidden md:flex justify-start items-start -mx-8 py-7'>
+          <Breadcrumbs />
+        </div>
         <div className='bg-gradient-brown p-1.5 lg:p-2 rounded-md'>
           <div className='bg-gradient-green gap-4 lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16'>
             {/* Title */}
@@ -213,7 +217,7 @@ const ExhibitionPage = () => {
               teamsName={card.teamsName}
               topic={card.topic}
               imageUrl={card.imageUrl}
-              isVote={card.isVote}
+              isVoted={card.isVote}
             />
           ))}
         </div>
@@ -228,11 +232,11 @@ const ExhibitionPage = () => {
               teamsName={card.teamsName}
               topic={card.topic}
               imageUrl={card.imageUrl}
-              isVote={card.isVote}
+              isVoted={card.isVote}
             />
           ))}
         </div>
-        <CustomLink color='gold' url='/ex'>
+        <CustomLink color='gold' url='/exhibition/vote'>
           See More
         </CustomLink>
       </section>
