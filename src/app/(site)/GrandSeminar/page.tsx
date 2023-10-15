@@ -28,8 +28,8 @@ export default function GrandSeminar() {
       </section>
 
       <section className='Section w-full h-[calc(100vh)] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex overflow-hidden'>
-        <div className='containerLuar m-auto w-[100vw] max-w-[75vw] h-[65%] rounded-[30px] bg-gradient-brown flex min-w-fit drop-shadow-[0_0px_20px_rgba(171,129,78,1)]'>
-          <div className='containerdalam m-auto w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-[28px] bg-gradient-to-b from-[rgba(7,29,16)] to-[#0F3015] overflow-hidden flex flex-col items-center p-32 min-w-fit'>
+        <div className='containerLuar m-auto w-full h-[65%] rounded-[30px] bg-gradient-brown flex min-w-[1100px] drop-shadow-[0_0px_20px_rgba(171,129,78,1)]'>
+          <div className='containerdalam m-auto w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-[28px] bg-gradient-to-b from-[rgba(7,29,16)] to-[#0F3015] overflow-hidden flex flex-col items-center p-32'>
             <h1 className='title font-museo-muderno text-center w-full font-bold text-[40pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] mb-20'>
               Pendaftaran akan segera ditutup!
             </h1>
@@ -54,9 +54,9 @@ export default function GrandSeminar() {
         </div>
       </section>
 
-      <section className='Section w-[full] h-[calc(100vh)] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex overflow-hidden'>
-        <div className='containerLuar m-auto w-[full] max-w-[75vw] h-[65%] rounded-[30px] bg-gradient-light-brown flex min-w-fit drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
-          <div className='containerdalam m-auto w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-[28px] bg-gradient-light-cards flex items-center p-20 min-w-fit overflow-hidden'>
+      <section className='Section w-full h-[calc(100vh)] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover flex overflow-hidden'>
+        <div className='containerLuar m-auto w-full min-w-[1100px] h-[65%] rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
+          <div className='containerdalam m-auto w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-[28px] bg-gradient-light-cards flex items-center p-20 overflow-hidden'>
             <div className='ImageSection h-full w-[30%] flex'>
               <Image
                 src={'/mascot.svg'}
@@ -70,7 +70,7 @@ export default function GrandSeminar() {
               <div className='font-museo-muderno w-full text-center font-bold text-[40pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] pt-10'>
                 Apa itu Grand Seminar?
               </div>
-              <p>
+              <p className='font-museo-muderno w-full text-justify font-bold text-[20pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] pt-10'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
