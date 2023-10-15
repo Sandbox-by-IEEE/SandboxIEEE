@@ -1,5 +1,12 @@
 'use client';
+import {
+  type Document,
+  type Node,
+  type Record,
+  type StructuredText as STType,
+} from 'datocms-structured-text-utils';
 import { useState } from 'react';
+import { StructuredText } from 'react-datocms/structured-text';
 
 import ArrowDropdownIcon from '@/components/icons/ArrowDropdownIcon';
 
@@ -8,7 +15,7 @@ export const FAQ = ({
   answer,
 }: {
   question: string;
-  answer: string;
+  answer: Document | Node | STType<Record, Record> | null | undefined;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -31,9 +38,9 @@ export const FAQ = ({
         />
       </div>
       {isOpen && (
-        <p className='text-cream-secondary-light mt-6 text-sm sm:text-base lg:text-lg font-poppins text-left'>
-          {answer}
-        </p>
+        <span className='text-cream-secondary-light mt-6 text-sm sm:text-base lg:text-lg font-poppins text-left'>
+          <StructuredText data={answer} />
+        </span>
       )}
     </button>
   );

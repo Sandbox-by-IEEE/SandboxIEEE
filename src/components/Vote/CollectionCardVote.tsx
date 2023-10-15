@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import Modal from '@/components/Modal/Modal';
 import VoteCard from '@/components/Vote/VoteCard';
+import { AllFinalProjectsExhibition } from '@/types/exhibition-type';
 export interface VoteCardProps {
   teamsName: string;
   topic: string;
@@ -23,7 +24,7 @@ const CollectionVoteCards = ({
   setSelectedCardId: React.Dispatch<React.SetStateAction<string | null>>;
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
-  data: VoteCardProps[];
+  data: AllFinalProjectsExhibition[];
 }) => {
   const [voteStatus, setVoteStatus] = useState<string>('');
   const [tempVoteStatus, setTempVoteStatus] = useState<string>('');
@@ -55,18 +56,21 @@ const CollectionVoteCards = ({
       </h3>
       {/* Mapping Card Data */}
       <div className='flex items-stretch justify-center flex-wrap gap-4 lg:gap-6 2xl:gap-10'>
-        {data.map((card, index) => (
+        {data.map((card) => (
           <VoteCard
-            urlCreation={card.urlCreation}
-            key={index}
+            urlCreation={card.projectsUrl}
+            key={card.id}
             teamsName={card.teamsName}
             topic={card.topic}
-            imageUrl={card.imageUrl}
+            imageUrl={card.image.url}
+            imageAlt={card.image.title}
+            imageHeight={card.image.height}
+            imageWidth={card.image.width}
             isVoted={true}
             onVote={() => {
-              handleChange(card.teamsName);
+              handleChange(card.id);
             }}
-            alreadyVoted={voteStatus === card.teamsName}
+            alreadyVoted={voteStatus === card.id}
             isDisabled={voteSelected}
           />
         ))}

@@ -5,16 +5,15 @@ import {
   ModalContext,
   ModalContextContextType,
 } from '@/components/Modal/ModalContext';
-import CollectionVoteCards, {
-  VoteCardProps,
-} from '@/components/Vote/CollectionCardVote';
+import CollectionVoteCards from '@/components/Vote/CollectionCardVote';
+import type { AllFinalProjectsExhibition } from '@/types/exhibition-type';
 
 const ClientVotePage = ({
   TPCData,
   PTCData,
 }: {
-  TPCData: VoteCardProps[];
-  PTCData: VoteCardProps[];
+  TPCData: AllFinalProjectsExhibition[];
+  PTCData: AllFinalProjectsExhibition[];
 }) => {
   const { setOpenModal } = useContext<ModalContextContextType>(ModalContext);
   const [selectedTPC, setSelectedTPC] = useState<string | undefined>('');

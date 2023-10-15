@@ -12,6 +12,9 @@ interface VoteCardProps {
   onVote?: () => void;
   alreadyVoted?: boolean;
   isDisabled?: boolean;
+  imageHeight: number;
+  imageWidth: number;
+  imageAlt: string;
   urlCreation?: string;
 }
 
@@ -19,6 +22,9 @@ const VoteCard: React.FC<VoteCardProps> = ({
   teamsName,
   topic,
   imageUrl,
+  imageHeight,
+  imageWidth,
+  imageAlt,
   isVoted,
   onVote,
   alreadyVoted,
@@ -32,9 +38,9 @@ const VoteCard: React.FC<VoteCardProps> = ({
       </h4>
       <Image
         src={imageUrl}
-        width={140}
-        height={140}
-        alt={teamsName}
+        width={imageWidth}
+        height={imageHeight}
+        alt={imageAlt}
         className='w-[100px] lg:w-[130px] aspect-square rounded-full overflow-hidden object-cover object-center'
       />
       {urlCreation && (
@@ -57,7 +63,7 @@ const VoteCard: React.FC<VoteCardProps> = ({
         <Button
           color='green'
           onClick={() => {
-            onVote && onVote();
+            onVote && !alreadyVoted && onVote();
           }}
           isDisabled={isDisabled && !alreadyVoted}
         >

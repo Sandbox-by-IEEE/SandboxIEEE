@@ -26,12 +26,12 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
 
     // Revalidate Single Instance (if there is one)
     if (pageToRevalidate) {
-      await revalidatePath(`/exhibition`);
+      await revalidatePath(`/${pageToRevalidate}`);
     }
 
     // Revalidate Multiple Instance (if there is one)
     if (idToRevalidate) {
-      await revalidatePath(`/exhibition/${idToRevalidate}`);
+      await revalidatePath(`/${pageToRevalidate}/${idToRevalidate}`);
     }
 
     // Return a successful response

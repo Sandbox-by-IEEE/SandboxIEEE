@@ -14,57 +14,8 @@ import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
 import VoteCard from '@/components/Vote/VoteCard';
 import { performRequest } from '@/lib/datocms';
+import { ExhibitionDataProps } from '@/types/exhibition-type';
 
-const voteCardData = [
-  {
-    teamsName: 'Team Alpha',
-    topic: 'Innovation in Tech',
-    imageUrl: '/google-logo.png',
-    isVote: false,
-  },
-  {
-    teamsName: 'Team Beta',
-    topic: 'Sustainable Solutions',
-    imageUrl: '/google-logo.png',
-    isVote: false,
-  },
-  {
-    teamsName: 'Team Gamma',
-    topic: 'Future of Healthcare',
-    imageUrl: '/google-logo.png',
-    isVote: false,
-  },
-  // Add more objects as needed
-];
-
-const faqData = [
-  {
-    question: 'What is the capital of France?',
-    answer:
-      'The capital of France is Paris. Paris is known for its art, gastronomy, and culture. The city is home to numerous iconic landmarks such as the Eiffel Tower, the Louvre Museum, and the Notre-Dame Cathedral.',
-  },
-  {
-    question: 'How many continents are there?',
-    answer:
-      'There are 7 continents: Africa, Antarctica, Asia, Europe, North America, Oceania, and South America. Each continent has its own unique geography, climate, and biodiversity.',
-  },
-  {
-    question: 'What is the largest mammal in the world?',
-    answer:
-      'The largest mammal in the world is the blue whale. Blue whales can reach lengths of up to 100 feet and weigh as much as 200 tons. Despite their enormous size, blue whales primarily feed on small shrimp-like animals called krill.',
-  },
-  {
-    question: 'How does photosynthesis work?',
-    answer:
-      'Photosynthesis is the process by which plants, algae, and some bacteria convert sunlight into energy. In this process, these organisms use sunlight to convert carbon dioxide and water into glucose, a type of sugar that they use for energy. Oxygen is released as a byproduct of this process.',
-  },
-  {
-    question: 'What is the speed of light?',
-    answer:
-      "The speed of light in a vacuum is approximately 299,792 kilometers per second (km/s) or about 186,282 miles per second (mi/s). This speed is often represented by the symbol 'c' and is a fundamental constant of nature. It is also the maximum speed at which information or matter can travel through space.",
-  },
-  // Add more objects as needed
-];
 const ExhibitionPage = async () => {
   // Fetch data from CMS
   const CMS_QUERY = `
@@ -102,9 +53,48 @@ const ExhibitionPage = async () => {
       timelineSectionTitle
       titleExhibitionPage
       titleLocation
+      ptcSubtitle
+      tpcSubtitle
+    }
+    allFinalProjectsPtcExhibitions(orderBy: teamsName_ASC) {
+      topic
+      teamsName
+      projectsUrl
+      image {
+        url
+        width
+        height
+        title
+      }
+      id
+    }
+    allFinalProjectsTpcExhibitions(orderBy: teamsName_ASC) {
+      image {
+        url
+        title
+        width
+        height
+      }
+      projectsUrl
+      teamsName
+      topic
+      id
+    }
+    allFaqExhibitions(orderBy: question_ASC) {
+      id
+      answer {
+        value
+      }
+      question
     }
   }`;
-  const { exhibition: data } = await performRequest({
+
+  const {
+    exhibition,
+    allFinalProjectsTpcExhibitions: TPCData,
+    allFinalProjectsPtcExhibitions: PTCData,
+    allFaqExhibitions: faqData,
+  }: ExhibitionDataProps = await performRequest({
     query: CMS_QUERY,
   });
 
@@ -113,19 +103,19 @@ const ExhibitionPage = async () => {
       {/* Background Section */}
       <section className='relative w-full h-fit'>
         <Image
-          src={data.backgroundImage.url}
-          width={data.backgroundImage.width}
-          height={data.backgroundImage.height}
-          alt={data.backgroundImage.title}
+          src={exhibition.backgroundImage.url}
+          width={exhibition.backgroundImage.width}
+          height={exhibition.backgroundImage.height}
+          alt={exhibition.backgroundImage.title}
           className='w-full object-cover h-[671px] object-center'
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
           <h1 className='text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'>
-            {data.titleExhibitionPage}
+            {exhibition.titleExhibitionPage}
           </h1>
           <CustomLink color='green' url='/exhibition'>
-            {data.buttonTextSeeMore}
+            {exhibition.buttonTextSeeMore}
           </CustomLink>
         </div>
       </section>
@@ -139,21 +129,23 @@ const ExhibitionPage = async () => {
           <div className='bg-gradient-green gap-4 lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16'>
             {/* Title */}
             <h2 className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
-              {data.explanationTitle}
+              {exhibition.explanationTitle}
             </h2>
             {/* Split Mascot & Description */}
             <div className='flex flex-col lg:flex-row w-full gap-4 lg:gap-10 xl:gap-20 items-center justify-center'>
               {/* Image Mascot */}
               <Image
-                alt={data.imageMascot.title}
-                src={data.imageMascot.url}
-                width={data.imageMascot.width}
-                height={data.imageMascot.height}
+                alt={exhibition.imageMascot.title}
+                src={exhibition.imageMascot.url}
+                width={exhibition.imageMascot.width}
+                height={exhibition.imageMascot.height}
                 className='w-[130px] h-[200px] lg:w-[226px] lg:h-[301px] object-contain object-center'
               />
               {/* Description */}
               <span className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px]'>
-                {data && <StructuredText data={data.explanationDescription} />}
+                {exhibition && (
+                  <StructuredText data={exhibition.explanationDescription} />
+                )}
               </span>
             </div>
           </div>
@@ -163,18 +155,20 @@ const ExhibitionPage = async () => {
       {/* Location */}
       <section className='w-full flex flex-col gap-10 bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center'>
         <h2 className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
-          {data.titleLocation}
+          {exhibition.titleLocation}
         </h2>
         {/* GMaps */}
-        <div
-          id='gmap-canvas'
-          className='w-full h-[500px] lg:h-[560px] xl:w-[1100px] rounded-lg overflow-hidden'
-        >
-          <iframe
-            className='h-full w-full border-0'
-            src='https://www.google.com/maps/embed/v1/place?q=ITB&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8'
-          ></iframe>
-        </div>
+        {exhibition.embedLocationUrl && (
+          <div
+            id='gmap-canvas'
+            className='w-full h-[500px] lg:h-[560px] xl:w-[1100px] rounded-lg overflow-hidden'
+          >
+            <iframe
+              className='h-full w-full border-0'
+              src={exhibition.embedLocationUrl}
+            ></iframe>
+          </div>
+        )}
         {/* Text Click Here */}
         <Link href={'/'} className='text-white font-poppins text-lg -mt-5'>
           Click here to open in Google Maps
@@ -187,17 +181,17 @@ const ExhibitionPage = async () => {
           <div className='bg-gradient-green flex flex-col items-center justify-center py-10 px-8 lg:px-16 gap-10'>
             {/* Title */}
             <h2 className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
-              Pendaftaran Exhibition Dalam
+              {exhibition.countdownTitle}
             </h2>
             {/* Countdown */}
             <Countdown targetDate={new Date(2023, 9, 20)} />
             {/* Button */}
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <CustomLink color='gold' url='/exhibition'>
-                Daftar
+                {exhibition.buttonTextRegister}
               </CustomLink>
               <CustomLink color='trans-orange' url='/exhibition'>
-                See more
+                {exhibition.buttonTextSeeMore}
               </CustomLink>
             </div>
           </div>
@@ -205,86 +199,69 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* Voting Regulations */}
-      <section className='w-full flex flex-col gap-2 bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40'>
-        <div className='bg-[#0F3015] rounded-2xl flex flex-col items-center justify-center py-10 px-8 lg:px-16 gap-10 shadow-[0px_0px_6px_7px_#AB814E]'>
+      <section className='w-full flex flex-col gap-2 bg-gradient-green px-8 sm:px-14 md:px-24 lg:px-48'>
+        <div className='bg-[#0F3015] rounded-2xl flex flex-col items-center justify-center py-10 lg:py-14 px-8 lg:px-16 gap-10 shadow-[0px_0px_6px_7px_#AB814E]'>
           {/* Title */}
           <h2 className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
-            Voting Regulation
+            {exhibition.guideTitle}
           </h2>
           {/* Description */}
-          <p className='text-white text-sm lg:text-base'>
-            1. .Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam. 2. .Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam. 3. .Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam. 4..Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam. 5. .Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam. 6..Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam. 7. .Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam. 8. .Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam. 9. .Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam. 10. .Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam.
-          </p>
+          <span className='text-white text-sm lg:text-base'>
+            <StructuredText data={exhibition.guideDescription} />
+          </span>
         </div>
       </section>
 
       {/* Final Project Spill */}
       <section className='w-full flex flex-col items-center justify-center gap-10 bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40'>
         <h2 className='bg-gradient-brown text-center text-transparent bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
-          Final Project Teams
+          {exhibition.finalProjectTitle}
         </h2>
         {/* TPC */}
         <h3 className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'>
-          TPC
+          {exhibition.tpcSubtitle}
         </h3>
         <div className='flex items-stretch justify-center flex-wrap gap-4 lg:gap-6 2xl:gap-10'>
-          {voteCardData.map((card, index) => (
+          {TPCData.map((card, index) => (
             <VoteCard
               key={index}
               teamsName={card.teamsName}
               topic={card.topic}
-              imageUrl={card.imageUrl}
-              isVoted={card.isVote}
+              imageUrl={card.image.url}
+              imageAlt={card.image.title}
+              imageHeight={card.image.height}
+              imageWidth={card.image.width}
+              isVoted={false}
             />
           ))}
         </div>
         {/* PTC */}
         <h3 className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'>
-          PTC
+          {exhibition.ptcSubtitle}
         </h3>
         <div className='flex items-stretch justify-center flex-wrap gap-4 lg:gap-6 2xl:gap-10'>
-          {voteCardData.map((card, index) => (
+          {PTCData.map((card, index) => (
             <VoteCard
               key={index}
               teamsName={card.teamsName}
               topic={card.topic}
-              imageUrl={card.imageUrl}
-              isVoted={card.isVote}
+              imageUrl={card.image.url}
+              imageAlt={card.image.title}
+              imageHeight={card.image.height}
+              imageWidth={card.image.width}
+              isVoted={false}
             />
           ))}
         </div>
         <CustomLink color='gold' url='/exhibition/vote'>
-          See More
+          {exhibition.buttonTextSeeMore}
         </CustomLink>
       </section>
 
       {/* FAQ */}
       <section className='w-full flex flex-col bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
         <h2 className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] text-center bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
-          Frequently Asked Questions
+          {exhibition.faqSectionTitle}
         </h2>
         <div className='w-full h-full flex flex-col gap-3'>
           {faqData.map((faq, index) => (
