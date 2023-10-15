@@ -22,6 +22,9 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-brown':
           'linear-gradient(34deg, #AB814E 17.96%, #FFFBB9 84.9%)',
+        'grand-seminar-banner': "url('/assets/GrandSeminarBanner.png')",
+        'g-seminar-radial-gradient':
+          'radial-gradient(rgba(8, 30, 17, 1) 0%, rgba(8, 30, 17, 0.6) 50% , rgba(8, 30, 17, 0.00) 70%)',
       },
       colors: {
         'green-primary': '#0D432F',
