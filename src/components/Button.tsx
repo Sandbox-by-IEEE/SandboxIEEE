@@ -6,12 +6,14 @@ const Button = ({
   isIcon,
   isDisabled,
   isFullWidth,
+  type = 'button',
 }: {
   color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange' | 'white';
   children: JSX.Element | string;
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }) => {
   const colorEffect = {
     green: {
@@ -49,6 +51,7 @@ const Button = ({
       } text-sm lg:text-base disabled:bg-[#D7D2D0] disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
         colorEffect[color].main
       }`}
+      type={type}
     >
       <p className='flex gap-3 w-full items-center justify-center font-poppins font-bold'>
         {children}

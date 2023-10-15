@@ -12,6 +12,7 @@ const TextInput = ({
   fullwidth,
   onChange,
   setText,
+  required = false,
 }: {
   placeholder?: string;
   type: 'text' | 'password' | 'search' | 'email' | 'textarea' | 'number';
@@ -22,6 +23,7 @@ const TextInput = ({
   fullwidth?: boolean;
   onChange?: (e) => void | null;
   setText?: React.Dispatch<SetStateAction<string>>;
+  required?: boolean;
 }) => {
   const colorEffect = {
     'trans-white': {
@@ -58,6 +60,7 @@ const TextInput = ({
         value={disabled ? '' : text}
         placeholder={placeholder}
         className={` ${colorEffect[color].disabled} outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
+        required={required}
       />
     </div>
   ) : (
@@ -79,6 +82,7 @@ const TextInput = ({
         value={disabled ? '' : text}
         placeholder={placeholder}
         className={` ${colorEffect[color].disabled} custom-scrollbar outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
+        required={required}
       />
     </div>
   );
