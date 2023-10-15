@@ -62,7 +62,3 @@ li p {
   display: inline;
 }
 
-/* Font */
-:root {
-  --font-museo-moderno: 'Museo Moderno', sans-serif;
-}
