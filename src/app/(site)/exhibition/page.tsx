@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -7,10 +6,15 @@ const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
 });
 
+import Image from 'next/image';
+import { StructuredText } from 'react-datocms/structured-text';
+
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
 import VoteCard from '@/components/Vote/VoteCard';
+import { performRequest } from '@/lib/datocms';
+
 const voteCardData = [
   {
     teamsName: 'Team Alpha',
@@ -61,25 +65,67 @@ const faqData = [
   },
   // Add more objects as needed
 ];
-const ExhibitionPage = () => {
+const ExhibitionPage = async () => {
+  // Fetch data from CMS
+  const CMS_QUERY = `
+  {
+    exhibition {
+      backgroundImage {
+        url
+        title
+        width
+        height
+      }
+      buttonShowFinal
+      buttonTextRegister
+      buttonTextSeeMore
+      buttonTextSeeMote
+      countdownTitle
+      embedLocationUrl
+      explanationDescription {
+        value
+      }
+      explanationTitle
+      faqSectionTitle
+      finalProjectTitle
+      guideDescription {
+        value
+      }
+      guideTitle
+      imageMascot {
+        height
+        url
+        title
+        width
+      }
+      targetDate
+      timelineSectionTitle
+      titleExhibitionPage
+      titleLocation
+    }
+  }`;
+  const { exhibition: data } = await performRequest({
+    query: CMS_QUERY,
+  });
+
   return (
     <main className='w-full min-h-screen flex flex-col items-center justify-center bg-gradient-green gap-16 lg:gap-20'>
       {/* Background Section */}
       <section className='relative w-full h-fit'>
         <Image
-          src={'/background.png'}
-          width={1920}
-          height={571}
-          alt='Background Exhibition'
+          src={data.backgroundImage.url}
+          width={data.backgroundImage.width}
+          height={data.backgroundImage.height}
+          alt={data.backgroundImage.title}
           className='w-full object-cover h-[671px] object-center'
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
           <h1 className='text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'>
-            Exhibition
+            {data.titleExhibitionPage}
           </h1>
           <CustomLink color='green' url='/exhibition'>
-            See More
+            {data.buttonTextSeeMore}
           </CustomLink>
         </div>
       </section>
@@ -93,28 +139,22 @@ const ExhibitionPage = () => {
           <div className='bg-gradient-green gap-4 lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16'>
             {/* Title */}
             <h2 className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
-              Apa itu Exhibition?
+              {data.explanationTitle}
             </h2>
             {/* Split Mascot & Description */}
             <div className='flex flex-col lg:flex-row w-full gap-4 lg:gap-10 xl:gap-20 items-center justify-center'>
               {/* Image Mascot */}
               <Image
-                alt='Mascot Image'
-                src='/Mascot.png'
-                width={226}
-                height={301}
+                alt={data.imageMascot.title}
+                src={data.imageMascot.url}
+                width={data.imageMascot.width}
+                height={data.imageMascot.height}
                 className='w-[130px] h-[200px] lg:w-[226px] lg:h-[301px] object-contain object-center'
               />
               {/* Description */}
-              <p className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px]'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam.
-              </p>
+              <span className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px]'>
+                {data && <StructuredText data={data.explanationDescription} />}
+              </span>
             </div>
           </div>
         </div>
@@ -123,7 +163,7 @@ const ExhibitionPage = () => {
       {/* Location */}
       <section className='w-full flex flex-col gap-10 bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center'>
         <h2 className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
-          Location
+          {data.titleLocation}
         </h2>
         {/* GMaps */}
         <div
