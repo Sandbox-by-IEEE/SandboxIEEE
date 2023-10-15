@@ -100,46 +100,63 @@ function Judule({ title, colorClass }: { title: string; colorClass?: string }) {
 
 export default function TPC() {
   return (
-    <>
-      <main className='flex h-0 min-h-screen w-0 min-w-[100vw] flex-col overflow-y-scroll font-museo-muderno'>
-        {/*PROTOTECH CONTEST*/}
-        <section
-          className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'
-          style={
-            {
-              // backgroundImage: 'url(public/assets/image8.png)',
-            }
+    <main className='flex h-0 min-h-screen w-0 min-w-[100vw] flex-col overflow-y-scroll font-museo-muderno'>
+      {/*PROTOTECH CONTEST*/}
+      <section
+        className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'
+        style={
+          {
+            // backgroundImage: 'url(public/assets/image8.png)',
           }
-        >
-          <div className='p-6 rounded-md flex flex-col items-center gap-8 mx-4 my-12'>
-            <div className='relative text-4xl font-extrabold text-[#9a7037] px-4 py-2 inline-block'>
-              <h1 className='text-4xl font-bold  text-[#FFE1B9] backdrop-blur-sm bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9] inline-block text-transparent bg-clip-text px-4 py-2'>
-                ProtoTech Contest
-              </h1>
-            </div>
-            <div>
-              <Button
-                children='REGISTER'
-                color='green'
-                isIcon={false}
-                isFullWidth={true}
-                isDisabled={false}
-              />
-            </div>
+        }
+      >
+        <div className='p-6 rounded-md flex flex-col items-center gap-8 mx-4 my-12'>
+          <div className='w-full flex flex-row items-center justify-center'>
+            <Judule
+              title='Prototech Contest'
+              colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
+            />
           </div>
-        </section>
-        {/* END PROTOTECH CONTEST */}
+          <div
+            className='rounded-lg'
+            style={{ boxShadow: '0px 0px 5px 2px rgba(171,129,78,0.8)' }}
+          >
+            <Button
+              children='REGISTER'
+              color='green'
+              isIcon={false}
+              isFullWidth={true}
+              isDisabled={false}
+            />
+          </div>
+        </div>
+      </section>
+      {/* END PROTOTECH CONTEST */}
 
-        {/*APA ITU TPC*/}
-        <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
-          <div className='p-6 border-2 rounded-xl flex flex-col items-center gap-8 mx-12 my-12'>
-            <div className='w-full flex flex-row items-center justify-center'>
+      {/*APA ITU TPC*/}
+      <section
+        className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '
+        style={{
+          backgroundImage: 'linear-gradient(to bottom, #0b2713, #0f3015)',
+        }}
+      >
+        <div
+          className='p-2 rounded-xl flex flex-col items-center gap-8 lg:mx-12 my-12 bg-gradient-to-r from-[#AB814E] to-[#FFFBB9]'
+          style={{ backgroundColor: 'rgba(171,129,78,0.8)' }}
+        >
+          <div
+            className='h-full w-full rounded-xl'
+            style={{
+              backgroundImage: 'linear-gradient(to bottom, #0b2713, #0f3015)',
+            }}
+          >
+            <div className='w-full flex flex-row items-center justify-center mt-8'>
               <Judule
                 title='Apa itu TPC?'
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
               />
             </div>
-            <div className='w-full flex flex-col lg:flex-row justify-left items-center'>
+            <div className='w-full flex flex-col lg:flex-row justify-left items-center mb-8'>
               <div className='aspect-video w-full lg:w-[40%] relative'>
                 <div className='absolute w-full aspect-video duration-500'>
                   <Image
@@ -150,8 +167,8 @@ export default function TPC() {
                   />
                 </div>
               </div>
-              <article className='w-full lg:w-[50%] font-poppins justify-center text-justify'>
-                <p className='text-[#FFE1B9] text-lg'>
+              <article className='w-full lg:w-[50%] lg:-mx-16 font-poppins justify-center text-justify'>
+                <p className='text-[#FFE1B9] text-lg mx-2'>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -164,58 +181,69 @@ export default function TPC() {
               </article>
             </div>
           </div>
-        </section>
-        {/* END APA ITU TPC */}
+        </div>
+      </section>
+      {/* END APA ITU TPC */}
 
-        {/* HADIAH */}
-        <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
-          <div className='flex flex-col items-center gap-8 '>
-            <div className='w-full flex flex-row items-center justify-center'>
-              <Judule
-                title='Hadiah'
-                colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-              />
-            </div>
-            <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center pb-8'>
-              <div className='aspect-video w-full lg:w-[41%] relative'>
-                <div className='aspect-square w-[30%] absolute z-10 top-[-40px] w-[32px] left-[202px] rotate-[-23.7deg]'>
-                  <Image
-                    fill
-                    alt=''
-                    src={'/Group_1244.svg'}
-                    objectFit='contain'
-                  />
-                </div>
+      {/* HADIAH */}
+      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
+        <div className='flex flex-col items-center gap-8 '>
+          <div className='w-full flex flex-row items-center justify-center'>
+            <Judule
+              title='Hadiah'
+              colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
+            />
+          </div>
+          <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center mb-12'>
+            <div className='aspect-video w-full lg:w-[30%] relative lg:mr-32 left-[-20px]'>
+              <div className='aspect-square w-[40%] absolute z-10 lg:top-[-40px] w-[32px] lg:left-[202px] rotate-[-23.7deg]'>
+                <Image
+                  fill
+                  alt=''
+                  src={'/Group_1244.svg'}
+                  objectFit='contain'
+                />
               </div>
-              <article className='w-full lg:w-[40%] font-poppins text-justify justify-center'>
-                <p className='text-[#FFE1B9] text-xl font-semibold'>
-                  Juara 1: Rp4.500.000,00 + e-sertifikat
-                </p>
-                <p className='text-[#FFE1B9] text-xl font-semibold'>
-                  Juara 2: Rp2.500.000,00 + e-sertifikat
-                </p>
-                <p className='text-[#FFE1B9] text-xl font-semibold'>
-                  Juara 3: Rp1.500.000,00 + e-sertifikat
-                </p>
-              </article>
-              <div className='aspect-video w-full lg:w-[30%] relative'>
-                <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'>
-                  <Image
-                    fill
-                    alt=''
-                    src={'/Group_1243.svg'}
-                    objectFit='contain'
-                  />
-                </div>
+            </div>
+            <article className='w-full lg:w-[40%] font-poppins text-justify justify-center'>
+              <p className='text-[#FFE1B9] text-xl font-semibold'>
+                Juara 1: Rp4.500.000,00 + e-sertifikat
+              </p>
+              <p className='text-[#FFE1B9] text-xl font-semibold'>
+                Juara 2: Rp2.500.000,00 + e-sertifikat
+              </p>
+              <p className='text-[#FFE1B9] text-xl font-semibold'>
+                Juara 3: Rp1.500.000,00 + e-sertifikat
+              </p>
+            </article>
+            <div className='aspect-video w-full lg:w-[30%] relative'>
+              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'>
+                <Image
+                  fill
+                  alt=''
+                  src={'/Group_1243.svg'}
+                  objectFit='contain'
+                />
               </div>
             </div>
           </div>
-        </section>
-        {/* END HADIAH */}
+        </div>
+      </section>
+      {/* END HADIAH */}
 
-        {/* REGULASI */}
-        <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
-          <div className='p-6 border-2 rounded-xl flex flex-col items-center gap-8 mx-4 my-12'>
+      {/* REGULASI */}
+      <section
+        className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '
+        style={{
+          backgroundImage:
+            'linear-gradient(to bottom, rgba(5, 31, 18, 0.9961), rgba(6, 25, 12, 0.9961))',
+        }}
+      >
+        <div
+          className='p-2 rounded-xl flex flex-col items-center gap-8 lg:mx-12 my-12'
+          style={{ backgroundColor: '#0F3015' }}
+        >
+          <div className='h-full w-full rounded-xl'>
             <div className='my-8 w-full flex flex-row items-center justify-center'>
               <Judule
                 title='Regulasi Perlombaan'
@@ -287,353 +315,353 @@ export default function TPC() {
               </article>
             </div>
           </div>
-        </section>
-        {/* END REGULASI */}
+        </div>
+      </section>
+      {/* END REGULASI */}
 
-        {/* REGISTRATION */}
-        <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
-          <div className='flex flex-col items-center gap-8 '>
-            <div className='w-full flex flex-row items-center justify-center'>
-              <Judule
-                title='Registration Fees'
-                colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
+      {/* REGISTRATION */}
+      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
+        <div className='flex flex-col items-center gap-8 '>
+          <div className='w-full flex flex-row items-center justify-center'>
+            <Judule
+              title='Registration Fees'
+              colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
+            />
+          </div>
+          <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center pb-8'>
+            <div className='aspect-video w-full lg:w-[30%] relative'>
+              <div className='aspect-square w-[40%] absolute z-10 top-[-40px] w-[32px] left-[202px] rotate-[-23.7deg]'>
+                <Image
+                  fill
+                  alt=''
+                  src={'/Group_1244.svg'}
+                  objectFit='contain'
+                />
+              </div>
+            </div>
+            <article className='w-full lg:w-[40%] font-poppins text-center justify-center'>
+              <p className='text-[#FFFBB9] text-xl font-semibold'>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Blanditiis, numquam veniam repellat atque.
+              </p>
+            </article>
+            <div className='aspect-video w-full lg:w-[30%] relative'>
+              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'>
+                <Image
+                  fill
+                  alt=''
+                  src={'/Group_1243.svg'}
+                  objectFit='contain'
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* END REGISTRATION */}
+
+      {/* COUNTDOWN */}
+      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
+        <div className='p-6 border-2 rounded-xl flex flex-col items-center gap-8 mx-8 my-12 py-16'>
+          <div className='w-full flex flex-row items-center justify-center'>
+            <Judule
+              title='Pendaftaran TPC akan segera ditutup!'
+              colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
+            />
+          </div>
+          <div className='w-full flex flex-col lg:flex-row justify-center items-center mt-4'>
+            <div className='aspect-video w-full lg:w-[30%] relative'>
+              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
+            </div>
+            <article className='w-full lg:w-[100%] lg:px-20 font-poppins'>
+              <Countdown targetDate={new Date('2023-12-31T23:59:59')} />
+            </article>
+            <div className='aspect-video w-full lg:w-[30%] relative'>
+              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
+            </div>
+          </div>
+
+          <div className='w-full flex flex-col lg:flex-row justify-center items-center gap-2 mt-12'>
+            <div className='w-[180px]'>
+              <Button
+                children='Daftar'
+                color='gold'
+                isIcon={false}
+                isFullWidth={true}
+                isDisabled={false}
               />
             </div>
-            <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center pb-8'>
-              <div className='aspect-video w-full lg:w-[30%] relative'>
-                <div className='aspect-square w-[40%] absolute z-10 top-[-40px] w-[32px] left-[202px] rotate-[-23.7deg]'>
+            <div className='border-2 border-[#AB814E] rounded-lg w-[180px]'>
+              <Button
+                children='See more'
+                color='green'
+                isIcon={false}
+                isFullWidth={true}
+                isDisabled={false}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* END COUNTDOWN */}
+
+      {/* TIMELINE */}
+      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16'>
+        <div className='p-6 border-2 rounded-xl flex flex-col items-center gap-8 mx-12 my-12'>
+          <div className='w-full flex flex-row items-center justify-center'>
+            <Judule
+              title='Timeline'
+              colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
+            />
+          </div>
+        </div>
+
+        {/* KIRI */}
+        <div className='w-full flex flex-row lg:flex-row justify-center items-center px-20 divide-x-[16px]'>
+          <div className='w-full flex flex-col'>
+            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
+              <p className='text-[#FFE1B9] text-lg mx-4'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.
+              </p>
+            </div>
+            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
+              <div className='w-10/12 flex flex-row text-center mt-4'>
+                <div className='w-fit border-2 rounded-xl p-12 ml-64'>
+                  <p className='text-[#FFE1B9] text-lg font-bold'>
+                    15 Oktober 2023
+                  </p>
+                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
+                </div>
+              </div>
+              <div className='aspect-video w-full lg:w-2/12 relative right-[-60px] top-[50px]'>
+                <div className='absolute w-full aspect-video duration-500'>
                   <Image
                     fill
                     alt=''
-                    src={'/Group_1244.svg'}
+                    src={'/Ellipse396.svg'}
                     objectFit='contain'
                   />
                 </div>
               </div>
-              <article className='w-full lg:w-[40%] font-poppins text-center justify-center'>
-                <p className='text-[#FFFBB9] text-xl font-semibold'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Blanditiis, numquam veniam repellat atque.
-                </p>
-              </article>
-              <div className='aspect-video w-full lg:w-[30%] relative'>
-                <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'>
+            </div>
+            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
+              <p className='text-[#FFE1B9] text-lg mx-4'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.
+              </p>
+            </div>
+            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
+              <div className='w-10/12 flex flex-row text-center mt-4'>
+                <div className='w-fit border-2 rounded-xl p-12 ml-64'>
+                  <p className='text-[#FFE1B9] text-lg font-bold'>
+                    15 Oktober 2023
+                  </p>
+                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
+                </div>
+              </div>
+              <div className='aspect-video w-full lg:w-2/12 relative right-[-60px] top-[50px]'>
+                <div className='absolute w-full aspect-video duration-500'>
                   <Image
                     fill
                     alt=''
-                    src={'/Group_1243.svg'}
+                    src={'/Ellipse396.svg'}
                     objectFit='contain'
                   />
                 </div>
               </div>
             </div>
+            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
+              <p className='text-[#FFE1B9] text-lg mx-4'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.
+              </p>
+            </div>
           </div>
-        </section>
-        {/* END REGISTRATION */}
+          {/* END KIRI */}
 
-        {/* COUNTDOWN */}
-        <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
-          <div className='p-6 border-2 rounded-xl flex flex-col items-center gap-8 mx-8 my-12 py-16'>
-            <div className='w-full flex flex-row items-center justify-center'>
+          {/* KANAN */}
+          <div className='w-full flex flex-col'>
+            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
+              <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
+                <div className='absolute w-full aspect-video duration-500'>
+                  <Image
+                    fill
+                    alt=''
+                    src={'/Ellipse396.svg'}
+                    objectFit='contain'
+                  />
+                </div>
+              </div>
+              <div className='w-10/12 flex flex-row text-center mt-4'>
+                <div className='w-fit border-2 rounded-xl p-12'>
+                  <p className='text-[#FFE1B9] text-lg font-bold'>
+                    15 Oktober 2023
+                  </p>
+                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
+                </div>
+              </div>
+            </div>
+            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
+              <p className='text-[#FFE1B9] text-lg mx-4'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.
+              </p>
+            </div>
+            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
+              <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
+                <div className='absolute w-full aspect-video duration-500'>
+                  <Image
+                    fill
+                    alt=''
+                    src={'/Ellipse396.svg'}
+                    objectFit='contain'
+                  />
+                </div>
+              </div>
+              <div className='w-10/12 flex flex-row text-center mt-4'>
+                <div className='w-fit border-2 rounded-xl p-12'>
+                  <p className='text-[#FFE1B9] text-lg font-bold'>
+                    15 Oktober 2023
+                  </p>
+                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
+                </div>
+              </div>
+            </div>
+            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
+              <p className='text-[#FFE1B9] text-lg mx-4'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.
+              </p>
+            </div>
+            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
+              <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
+                <div className='absolute w-full aspect-video duration-500'>
+                  <Image
+                    fill
+                    alt=''
+                    src={'/Ellipse396.svg'}
+                    objectFit='contain'
+                  />
+                </div>
+              </div>
+              <div className='w-10/12 flex flex-row text-center mt-4'>
+                <div className='w-fit border-2 rounded-xl p-12'>
+                  <p className='text-[#FFE1B9] text-lg font-bold'>
+                    15 Oktober 2023
+                  </p>
+                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* END KANAN */}
+        </div>
+      </section>
+      {/* END TIMELINE */}
+
+      {/* FAQ */}
+      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
+        <div className='p-6 flex flex-col items-center gap-8 mx-12 my-12'>
+          <div className='w-full flex flex-row items-center justify-center'>
+            <Judule
+              title='Frequently Asked Questions'
+              colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
+            />
+          </div>
+          <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
+            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
               <Judule
-                title='Pendaftaran TPC akan segera ditutup!'
+                title='Bagaimana caranya dapet IP4?'
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
               />
             </div>
-            <div className='w-full flex flex-col lg:flex-row justify-center items-center mt-4'>
-              <div className='aspect-video w-full lg:w-[30%] relative'>
-                <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
-              </div>
-              <article className='w-full lg:w-[100%] lg:px-20 font-poppins'>
-                <Countdown targetDate={new Date('2023-12-31T23:59:59')} />
-              </article>
-              <div className='aspect-video w-full lg:w-[30%] relative'>
-                <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
-              </div>
-            </div>
-
-            <div className='w-full flex flex-col lg:flex-row justify-center items-center gap-2 mt-12'>
-              <div className='w-[180px]'>
-                <Button
-                  children='Daftar'
-                  color='gold'
-                  isIcon={false}
-                  isFullWidth={true}
-                  isDisabled={false}
-                />
-              </div>
-              <div className='border-2 border-[#AB814E] rounded-lg w-[180px]'>
-                <Button
-                  children='See more'
-                  color='green'
-                  isIcon={false}
-                  isFullWidth={true}
-                  isDisabled={false}
-                />
-              </div>
-            </div>
+            <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
+              <p className='text-[#FFE1B9] text-lg'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.
+              </p>
+            </article>
           </div>
-        </section>
-        {/* END COUNTDOWN */}
-
-        {/* TIMELINE */}
-        <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16'>
-          <div className='p-6 border-2 rounded-xl flex flex-col items-center gap-8 mx-12 my-12'>
-            <div className='w-full flex flex-row items-center justify-center'>
+          <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
+            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
               <Judule
-                title='Timeline'
+                title='Bagaimana caranya dapet IP4?'
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
               />
             </div>
+            <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
+              <p className='text-[#FFE1B9] text-lg'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.
+              </p>
+            </article>
           </div>
-
-          {/* KIRI */}
-          <div className='w-full flex flex-row lg:flex-row justify-center items-center px-20 divide-x-[16px]'>
-            <div className='w-full flex flex-col'>
-              <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-                <p className='text-[#FFE1B9] text-lg mx-4'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
-              <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-                <div className='w-10/12 flex flex-row text-center mt-4'>
-                  <div className='w-fit border-2 rounded-xl p-12 ml-64'>
-                    <p className='text-[#FFE1B9] text-lg font-bold'>
-                      15 Oktober 2023
-                    </p>
-                    <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                  </div>
-                </div>
-                <div className='aspect-video w-full lg:w-2/12 relative right-[-60px] top-[50px]'>
-                  <div className='absolute w-full aspect-video duration-500'>
-                    <Image
-                      fill
-                      alt=''
-                      src={'/Ellipse396.svg'}
-                      objectFit='contain'
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-                <p className='text-[#FFE1B9] text-lg mx-4'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
-              <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-                <div className='w-10/12 flex flex-row text-center mt-4'>
-                  <div className='w-fit border-2 rounded-xl p-12 ml-64'>
-                    <p className='text-[#FFE1B9] text-lg font-bold'>
-                      15 Oktober 2023
-                    </p>
-                    <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                  </div>
-                </div>
-                <div className='aspect-video w-full lg:w-2/12 relative right-[-60px] top-[50px]'>
-                  <div className='absolute w-full aspect-video duration-500'>
-                    <Image
-                      fill
-                      alt=''
-                      src={'/Ellipse396.svg'}
-                      objectFit='contain'
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-                <p className='text-[#FFE1B9] text-lg mx-4'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
-            </div>
-            {/* END KIRI */}
-
-            {/* KANAN */}
-            <div className='w-full flex flex-col'>
-              <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-                <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
-                  <div className='absolute w-full aspect-video duration-500'>
-                    <Image
-                      fill
-                      alt=''
-                      src={'/Ellipse396.svg'}
-                      objectFit='contain'
-                    />
-                  </div>
-                </div>
-                <div className='w-10/12 flex flex-row text-center mt-4'>
-                  <div className='w-fit border-2 rounded-xl p-12'>
-                    <p className='text-[#FFE1B9] text-lg font-bold'>
-                      15 Oktober 2023
-                    </p>
-                    <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                  </div>
-                </div>
-              </div>
-              <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-                <p className='text-[#FFE1B9] text-lg mx-4'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
-              <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-                <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
-                  <div className='absolute w-full aspect-video duration-500'>
-                    <Image
-                      fill
-                      alt=''
-                      src={'/Ellipse396.svg'}
-                      objectFit='contain'
-                    />
-                  </div>
-                </div>
-                <div className='w-10/12 flex flex-row text-center mt-4'>
-                  <div className='w-fit border-2 rounded-xl p-12'>
-                    <p className='text-[#FFE1B9] text-lg font-bold'>
-                      15 Oktober 2023
-                    </p>
-                    <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                  </div>
-                </div>
-              </div>
-              <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-                <p className='text-[#FFE1B9] text-lg mx-4'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
-              <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-                <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
-                  <div className='absolute w-full aspect-video duration-500'>
-                    <Image
-                      fill
-                      alt=''
-                      src={'/Ellipse396.svg'}
-                      objectFit='contain'
-                    />
-                  </div>
-                </div>
-                <div className='w-10/12 flex flex-row text-center mt-4'>
-                  <div className='w-fit border-2 rounded-xl p-12'>
-                    <p className='text-[#FFE1B9] text-lg font-bold'>
-                      15 Oktober 2023
-                    </p>
-                    <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* END KANAN */}
-          </div>
-        </section>
-        {/* END TIMELINE */}
-
-        {/* FAQ */}
-        <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
-          <div className='p-6 flex flex-col items-center gap-8 mx-12 my-12'>
-            <div className='w-full flex flex-row items-center justify-center'>
+          <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
+            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
               <Judule
-                title='Frequently Asked Questions'
+                title='Bagaimana caranya dapet IP4?'
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
               />
             </div>
-            <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
-              <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
-                <Judule
-                  title='Bagaimana caranya dapet IP4?'
-                  colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-                />
-              </div>
-              <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
-                <p className='text-[#FFE1B9] text-lg'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
-              </article>
-            </div>
-            <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
-              <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
-                <Judule
-                  title='Bagaimana caranya dapet IP4?'
-                  colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-                />
-              </div>
-              <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
-                <p className='text-[#FFE1B9] text-lg'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
-              </article>
-            </div>
-            <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
-              <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
-                <Judule
-                  title='Bagaimana caranya dapet IP4?'
-                  colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-                />
-              </div>
-              <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
-                <p className='text-[#FFE1B9] text-lg'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
-              </article>
-            </div>
+            <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
+              <p className='text-[#FFE1B9] text-lg'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
+                amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat.
+              </p>
+            </article>
           </div>
-        </section>
-        {/* END FAQ */}
-      </main>
-    </>
+        </div>
+      </section>
+      {/* END FAQ */}
+    </main>
   );
 }
