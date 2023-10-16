@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        'custom-input': '0 4px 4px 0 rgba(0, 0, 0, 0.25) inset',
+      },
       fontFamily: {
         poppins: ['var(--font-poppins)'],
         inter: ['var(--font-inter)'],
@@ -21,6 +24,8 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-brown':
           'linear-gradient(34deg, #AB814E 17.96%, #FFFBB9 84.9%)',
+        'gradient-green':
+          'linear-gradient(180deg, #0F3015 100%, rgba(0, 0, 0, 0.00) 69.27%)',
       },
       colors: {
         'green-primary': '#0D432F',
