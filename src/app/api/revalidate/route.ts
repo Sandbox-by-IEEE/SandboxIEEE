@@ -1,15 +1,15 @@
-import { NextApiResponse } from 'next';
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   // Secret Validation
   const secret = req.nextUrl.searchParams.get('secret');
 
   if (secret !== process.env.CMS_REVALIDATE_TOKEN) {
-    return res.status(401).json({
-      error: 'Invalid Token.',
-    });
+    return NextResponse.json(
+      { error: 'Unathorized Request', message: 'Wrong token' },
+      { status: 401 },
+    );
   }
 
   try {
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
 
     // Revalidate Single Instance (if there is one)
     if (pageToRevalidate) {
-      await revalidatePath(`/${pageToRevalidate}`);
+      await revalidatePath(`/exhibition`);
     }
 
     // Revalidate Multiple Instance (if there is one)
