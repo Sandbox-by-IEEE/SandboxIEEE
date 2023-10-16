@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   // Secret Validation
   const secret = req.nextUrl.searchParams.get('secret');
-
+  const path = req.nextUrl.searchParams.get('path');
   if (secret !== process.env.CMS_REVALIDATE_TOKEN) {
     return NextResponse.json(
       { error: 'Unathorized Request', message: 'Wrong token' },
@@ -23,7 +23,9 @@ export async function POST(req: NextRequest) {
     if (pageToRevalidate === '') {
       revalidatePath('/');
     }
-
+    if (path) {
+      await revalidatePath(path);
+    }
     // Revalidate Single Instance (if there is one)
     if (pageToRevalidate) {
       await revalidatePath(`/${pageToRevalidate}`);
