@@ -12,6 +12,20 @@ export default function GrandSeminar() {
 
       <section className='Section w-full h-fit pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
         <div className='PastSponsorsContainer min-h-[720px] h-fit w-full block pb-28'>
+          <Image
+            src={'/StarDecoration1.svg'}
+            alt={'decoration1'}
+            height={100}
+            width={100}
+            className='absolute left-[0px] top-[300px]'
+          ></Image>
+          <Image
+            src={'/Starburst2.svg'}
+            alt={'decoration1'}
+            height={100}
+            width={100}
+            className='absolute right-[0px] top-[500px]'
+          ></Image>
           <div className='titleSegment w-full h-[300px] flex'>
             <div className='containerLuar m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
               <div className='containerdalam w-fit h-fit rounded-[28px] bg-gradient-light-cards pl-16 pr-16 pt-6 pb-6 flex items-center overflow-hidden m-[6px]'>
@@ -42,6 +56,29 @@ export default function GrandSeminar() {
           </div>
         </div>
         <div className='PastSponsorsContainer min-h-[720px] h-fit w-full block pb-40'>
+          <div className='decorationSection h-0'>
+            <Image
+              src={'/Ring.svg'}
+              alt={'decoration3'}
+              height={100}
+              width={100}
+              className='relative left-[-100px] top-[500px]'
+            ></Image>
+            <Image
+              src={'/Ellipse123.svg'}
+              alt={'decoration4'}
+              height={100}
+              width={100}
+              className='relative left-[0px] top-[500px]'
+            ></Image>
+            <Image
+              src={'/StarDecoration2.svg'}
+              alt={'decoration5'}
+              height={100}
+              width={100}
+              className='relative left-[calc(100%)] top-[700px]'
+            ></Image>
+          </div>
           <div className='titleSegment w-full h-[300px] flex'>
             <div className='containerLuar m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
               <div className='containerdalam w-fit h-fit rounded-[28px] bg-gradient-light-cards pl-16 pr-16 pt-6 pb-6 flex items-center overflow-hidden m-[6px]'>
