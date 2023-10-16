@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SpeakersCard from '@/components/SpeakersCard';
+
 export default function Home() {
   return (
     <main className='bg-black text-white flex min-h-screen flex-col items-center justify-between p-24'>
@@ -7,6 +9,7 @@ export default function Home() {
         <a href={'../register'} target='' rel='noopener noreferrer'>
           <p className='text-white hover:underline mb-1'>Register</p>
         </a>
+        <SpeakersCard />
       </div>
       {/* You can map through the filteredData to display the results */}
     </main>

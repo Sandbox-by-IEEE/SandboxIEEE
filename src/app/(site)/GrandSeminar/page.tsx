@@ -84,7 +84,7 @@ export default function GrandSeminar() {
         </div>
       </section>
 
-      <section className='Section w-full h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
+      <section className='Section w-full h-fit min-h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
         <div className='titleSegment w-full h-[300px] flex'>
           <div className='containerLuar m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
             <div className='containerdalam w-fit h-fit rounded-[28px] bg-gradient-light-cards pl-16 pr-16 pt-6 pb-6 flex items-center overflow-hidden m-[8px]'>
@@ -94,6 +94,7 @@ export default function GrandSeminar() {
             </div>
           </div>
         </div>
+        <div className='CardsContainer h-[700px]'></div>
       </section>
 
       {/* <footer>Footer</footer>  */}
