@@ -6,10 +6,10 @@ const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
 });
 
+import { Metadata } from 'next';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
-import Breadcrumbs from '@/components/Breadcrumbs';
 import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
 import VoteCard from '@/components/Vote/VoteCard';
@@ -99,7 +99,7 @@ const ExhibitionPage = async () => {
   });
 
   return (
-    <main className='w-full min-h-screen flex flex-col items-center justify-center bg-gradient-green gap-16 lg:gap-20'>
+    <main className='w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#152d1b] via-[90%] to-[#0f2f15] gap-16 lg:gap-20 xl:gap-24 2xl:gap-28'>
       {/* Background Section */}
       <section className='relative w-full h-fit'>
         <Image
@@ -111,7 +111,13 @@ const ExhibitionPage = async () => {
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
-          <h1 className='text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'>
+          <h1
+            style={{
+              ['text-shadow' as any]:
+                '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
+            }}
+            className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
+          >
             {exhibition.titleExhibitionPage}
           </h1>
           <CustomLink color='green' url='/exhibition'>
@@ -121,14 +127,16 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* Explanation */}
-      <section className='w-full flex flex-col bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40'>
-        <div className='text-left hidden md:flex justify-start items-start -mx-8 py-7'>
-          <Breadcrumbs />
-        </div>
-        <div className='bg-gradient-brown p-1.5 lg:p-2 rounded-md'>
-          <div className='bg-gradient-green gap-4 lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16'>
+      <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40'>
+        <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 lg:p-2 rounded-xl'>
+          <div className=' gap-4 bg-gradient-green lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             {/* Title */}
-            <h2 className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
+            <h2
+              style={{
+                ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+              }}
+              className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+            >
               {exhibition.explanationTitle}
             </h2>
             {/* Split Mascot & Description */}
@@ -153,8 +161,13 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* Location */}
-      <section className='w-full flex flex-col gap-10 bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center'>
-        <h2 className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
+      <section className='w-full flex flex-col gap-10  px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center'>
+        <h2
+          style={{
+            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+          }}
+          className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+        >
           {exhibition.titleLocation}
         </h2>
         {/* GMaps */}
@@ -176,11 +189,16 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* CountDown */}
-      <section className='w-full flex flex-col gap-2 bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40'>
-        <div className='bg-gradient-brown p-1.5 lg:p-2 rounded-md'>
-          <div className='bg-gradient-green flex flex-col items-center justify-center py-10 px-8 lg:px-16 gap-10'>
+      <section className='w-full flex flex-col gap-2  px-8 sm:px-10 md:px-20 lg:px-40'>
+        <div className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 lg:p-2'>
+          <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
             {/* Title */}
-            <h2 className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
+            <h2
+              style={{
+                ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+              }}
+              className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+            >
               {exhibition.countdownTitle}
             </h2>
             {/* Countdown */}
@@ -199,29 +217,44 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* Voting Regulations */}
-      <section className='w-full flex flex-col gap-2 bg-gradient-green px-8 sm:px-14 md:px-24 lg:px-48'>
-        <div className='bg-[#0F3015] rounded-2xl flex flex-col items-center justify-center py-10 lg:py-14 px-8 lg:px-16 gap-10 shadow-[0px_0px_6px_7px_#AB814E]'>
+      <section className='w-full flex flex-col gap-2 my-5 lg:my-8 px-8 sm:px-14 md:px-24 lg:px-48'>
+        <div className='bg-[#0F3015] rounded-2xl flex flex-col items-center justify-center py-10 lg:py-14 px-8 lg:px-16 gap-10 shadow-[0_4px_50px_#705229,0_4px_7px_rgba(112,82,41,0.25),0_4px_4px_rgba(0,0,0,0.25)]'>
           {/* Title */}
-          <h2 className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
+          <h2
+            style={{
+              ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+            }}
+            className='bg-gradient-brown text-center lg:text-left text-transparent bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+          >
             {exhibition.guideTitle}
           </h2>
           {/* Description */}
-          <span className='text-white text-sm lg:text-lg'>
+          <span className='text-white text-sm lg:text-lg font-poppins font-medium'>
             <StructuredText data={exhibition.guideDescription} />
           </span>
         </div>
       </section>
 
       {/* Final Project Spill */}
-      <section className='w-full flex flex-col items-center justify-center gap-10 bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40'>
-        <h2 className='bg-gradient-brown text-center text-transparent bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
+      <section className='w-full flex flex-col items-center justify-center gap-12 lg:gap-14 px-8 sm:px-10 md:px-20 lg:px-40'>
+        <h2
+          style={{
+            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+          }}
+          className='bg-gradient-brown text-center text-transparent bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+        >
           {exhibition.finalProjectTitle}
         </h2>
         {/* TPC */}
-        <h3 className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'>
+        <h3
+          style={{
+            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+          }}
+          className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'
+        >
           {exhibition.tpcSubtitle}
         </h3>
-        <div className='flex items-stretch justify-center flex-wrap gap-4 lg:gap-6 2xl:gap-10'>
+        <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
           {TPCData.map((card, index) => (
             <VoteCard
               key={index}
@@ -236,10 +269,15 @@ const ExhibitionPage = async () => {
           ))}
         </div>
         {/* PTC */}
-        <h3 className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'>
+        <h3
+          style={{
+            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+          }}
+          className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'
+        >
           {exhibition.ptcSubtitle}
         </h3>
-        <div className='flex items-stretch justify-center flex-wrap gap-4 lg:gap-6 2xl:gap-10'>
+        <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
           {PTCData.map((card, index) => (
             <VoteCard
               key={index}
@@ -253,14 +291,20 @@ const ExhibitionPage = async () => {
             />
           ))}
         </div>
+
         <CustomLink color='gold' url='/exhibition/vote'>
           {exhibition.buttonTextSeeMore}
         </CustomLink>
       </section>
 
       {/* FAQ */}
-      <section className='w-full flex flex-col bg-gradient-green px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
-        <h2 className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] text-center bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'>
+      <section className='w-full flex flex-col  px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
+        <h2
+          style={{
+            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+          }}
+          className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] text-center bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+        >
           {exhibition.faqSectionTitle}
         </h2>
         <div className='w-full h-full flex flex-col gap-3'>
@@ -274,3 +318,40 @@ const ExhibitionPage = async () => {
 };
 
 export default ExhibitionPage;
+
+export const metadata: Metadata = {
+  title: 'Exhibition | Sandbox IEEE ITB',
+  description: '',
+  generator: 'Next.js',
+  applicationName: 'Sandbox IEEE ITB',
+  colorScheme: 'dark',
+  openGraph: {
+    title: 'Sandbox IEEE ITB',
+    description: '',
+    url: 'https://sandbox.ieeeitb.com/',
+    siteName: 'Sandbox IEEE ITB',
+    images: [
+      {
+        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sandbox IEEE ITB Logo',
+      },
+    ],
+    locale: 'id_ID',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sandbox IEEE ITB',
+    description: '',
+    images: [
+      {
+        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sandbox IEEE ITB Logo',
+      },
+    ],
+  },
+};

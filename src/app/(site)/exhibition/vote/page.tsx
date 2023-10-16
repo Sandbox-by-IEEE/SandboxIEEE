@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
@@ -50,12 +51,17 @@ const PageVote = async () => {
   });
   return (
     <main className='w-full min-h-screen flex flex-col items-center py-20 pt-14 lg:py-20 bg-gradient-green gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44'>
-      <h1 className='text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'>
+      <h1
+        style={{
+          ['text-shadow' as any]: '0px 0px 21.32px #BD9B65',
+        }}
+        className='text-4xl lg:text-5xl text-center font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
+      >
         {votePage.titleVotePage}
       </h1>
 
       <div className='flex flex-col gap-10'>
-        <h2 className='text-white font-poppins text-justify text-base lg:text-lg'>
+        <h2 className='text-white font-poppins font-medium text-justify text-base lg:text-lg'>
           <StructuredText data={votePage.descriptionVote} />
         </h2>
         <ClientVotePage TPCData={TPCData} PTCData={PTCData} />
@@ -64,3 +70,40 @@ const PageVote = async () => {
   );
 };
 export default PageVote;
+
+export const metadata: Metadata = {
+  title: 'Vote | Sandbox IEEE ITB',
+  description: '',
+  generator: 'Next.js',
+  applicationName: 'Sandbox IEEE ITB',
+  colorScheme: 'dark',
+  openGraph: {
+    title: 'Sandbox IEEE ITB',
+    description: '',
+    url: 'https://sandbox.ieeeitb.com/',
+    siteName: 'Sandbox IEEE ITB',
+    images: [
+      {
+        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sandbox IEEE ITB Logo',
+      },
+    ],
+    locale: 'id_ID',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sandbox IEEE ITB',
+    description: '',
+    images: [
+      {
+        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sandbox IEEE ITB Logo',
+      },
+    ],
+  },
+};

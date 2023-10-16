@@ -37,7 +37,7 @@ const CollectionVoteCards = ({
     setTempVoteStatus(id);
   };
 
-  // Handle vote onClick Modal
+  // Handle onVote onClick Modal Button
   const handleVote = (id: string) => {
     setVoteSelected(true);
     setVoteStatus(id);
@@ -51,11 +51,16 @@ const CollectionVoteCards = ({
   return (
     <section className='flex flex-col gap-10 items-center justify-center'>
       {/* Title */}
-      <h3 className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'>
+      <h3
+        style={{
+          ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+        }}
+        className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'
+      >
         {title}
       </h3>
       {/* Mapping Card Data */}
-      <div className='flex items-stretch justify-center flex-wrap gap-4 lg:gap-6 2xl:gap-10'>
+      <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
         {data.map((card) => (
           <VoteCard
             urlCreation={card.projectsUrl}

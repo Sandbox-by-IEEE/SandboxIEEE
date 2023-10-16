@@ -32,7 +32,7 @@ const VoteCard: React.FC<VoteCardProps> = ({
   urlCreation,
 }) => {
   return (
-    <div className='w-[250px] lg:w-[330px] flex items-center justify-center rounded-xl shadow-custom-card-vote flex-col gap-2 lg:gap-4 p-5 bg-gradient-card-vote'>
+    <article className='w-[250px] lg:w-[330px] flex items-center justify-center rounded-xl shadow-[0_4px_4px_rgba(0,0,0,0.25),0_4px_1px_#FFE1B9,0_4px_4px_rgba(0,0,0,0.25)] flex-col gap-2 lg:gap-4 p-5 bg-gradient-card-vote'>
       <h4 className='text-black font-poppins text-center text-xl lg:text-2xl font-bold'>
         {teamsName}
       </h4>
@@ -70,7 +70,7 @@ const VoteCard: React.FC<VoteCardProps> = ({
           {alreadyVoted ? 'Voted!' : 'Vote'}
         </Button>
       )}
-    </div>
+    </article>
   );
 };
 

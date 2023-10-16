@@ -16,7 +16,7 @@ const CustomLink = ({
 }) => {
   const colorEffect = {
     green: {
-      main: 'bg-[#0D432F] hover:shadow-[0px_0px_20px_5px_#315B4C] text-white',
+      main: 'bg-[#0D432F] hover:shadow-[0px_0px_20px_5px_#D6B285] text-white',
       arrow: '#FFFFFF',
     },
     black: {
