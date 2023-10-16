@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
 
 import ArrowDropdownIcon from './icons/ArrowDropdownIcon';
 
@@ -101,14 +101,26 @@ const Dropdown: React.FC<DropdownProps> = ({
     setOpen(false);
   };
 
+  const NavbarStylesSmall =
+    'font-inter text-md ' +
+    (open
+      ? colorEffect[color].parent + ' text-black'
+      : ' text-white my-[-10px]');
+
+  const onMouseEnter = () => setOpen(true);
+  const onMouseLeave: MouseEventHandler<HTMLDivElement> | undefined = () =>
+    setOpen(false);
+
   return (
-    <div className='cursor-pointer' ref={dropDownRef}>
+    <div className='cursor-pointer hover:' ref={dropDownRef}>
       {/* Main div unaffected by open state and placeholder */}
       <div
         className={`block w-[${fullWidth ? '100%' : '256px'}] p-[1.5px] ${
           open ? 'rounded-t-md' : 'rounded-md'
-        } ${colorEffect[color].parent}`}
+        } ${type === 'routes' ? NavbarStylesSmall : colorEffect[color].parent}`}
         onClick={() => setOpen(!open)}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
         <div
           className={`flex justify-between items-center w-full py-3 px-4 lg:py-4 lg:px-5 bg-transparent`}
@@ -130,9 +142,11 @@ const Dropdown: React.FC<DropdownProps> = ({
           open
             ? 'opacity-100 translate-y-0'
             : '-translate-y-[60px] pointer-events-none opacity-0'
-        } transition-all duration-300 max-h-[200px] absolute overflow-y-scroll custom-scrollbar lg:top-[70px] mb-2 left-0 w-full rounded-b-md ${
+        } transition-all duration-300 max-h-[200px] overflow-y-scroll ${
+          open && type == 'routes' ? ' ' : 'absolute'
+        } custom-scrollbar lg:top-[70px] mb-2 left-0 w-full rounded-b-md ${
           colorEffect[color]['child-container']
-        }`}
+        } ${type === 'routes' ? 'lg:absolute' : ''}`}
       >
         {/* Mapping options */}
         {type == 'routes' ? (

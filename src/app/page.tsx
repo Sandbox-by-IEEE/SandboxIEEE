@@ -1,39 +1,12 @@
-'use client';
-import React, { useState } from 'react';
-
-import RadioButtons from '@/components/radio';
+import React from 'react';
 
 export default function Home() {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-
-  const handleOptionChange = (value: string | null) => {
-    setSelectedOption(value);
-  };
-
-  const handleRemoveOption = () => {
-    setSelectedOption(null);
-  };
-
-  const options = [
-    {
-      value: 'option1',
-      label: 'Option 1',
-    },
-    {
-      value: 'option2',
-      label: 'Option 2',
-    },
-    {
-      value: 'option3',
-      label: 'Option 3',
-    },
-  ];
-
-  console.log(selectedOption);
   return (
-    <main className='flex min-h-screen bg-black flex-col items-center p-24'>
+    <main className='bg-black text-white flex min-h-screen flex-col items-center justify-between p-24'>
       <div>
-        <RadioButtons options={options} onChange={handleOptionChange} />
+        <a href={'../register'} target='' rel='noopener noreferrer'>
+          <p className='text-white hover:underline mb-1'>Register</p>
+        </a>
       </div>
       {/* You can map through the filteredData to display the results */}
     </main>

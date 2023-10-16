@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
 import { ModalContextProvider } from '@/components/Modal/ModalContext';
-import NavBar from '@/components/Navbar';
 import Toast from '@/components/Toast';
 
 const inter = Inter({
@@ -42,13 +41,8 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body>
-        <ModalContextProvider>
-          <Toast />
-          <NavBar />
-          {children}
-        </ModalContextProvider>
-      </body>
+      <Toast />
+      <ModalContextProvider>{children}</ModalContextProvider>
     </html>
   );
 }
