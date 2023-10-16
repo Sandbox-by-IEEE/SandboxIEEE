@@ -1,48 +1,44 @@
-import { NextApiResponse } from 'next';
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Extends body type of NextRequest
-interface CustomRequest extends ReadableStream<Uint8Array> {
-  idToRevalidate?: string;
-  pageToRevalidate: string;
-}
-export async function POST(request: NextRequest, response: NextApiResponse) {
+export async function POST(req: NextRequest) {
   // Secret Validation
-  const secret = request.nextUrl.searchParams.get('secret');
-  const path = request.nextUrl.searchParams.get('path');
+  const secret = req.nextUrl.searchParams.get('secret');
+
   if (secret !== process.env.CMS_REVALIDATE_TOKEN) {
-    return response.status(401).json({
-      error: 'Invalid Token.',
-    });
+    return NextResponse.json(
+      { error: 'Unathorized Request', message: 'Wrong token' },
+      { status: 401 },
+    );
   }
 
   try {
-    // const body: CustomRequest | null = (await request.body) as CustomRequest; // Parse the JSON data from the stream
-    // if (!body) {
-    //   return response.status(400).json({
-    //     error: "Bad request, no body found",
-    //   });
-    // }
-    // // Get record id to revalidate
-    // const idToRevalidate = body.idToRevalidate;
-    // const pageToRevalidate = body.pageToRevalidate;
+    // Get body content
+    const {
+      idToRevalidate,
+      pageToRevalidate,
+    }: { idToRevalidate: number; pageToRevalidate: string } = await req.json();
 
-    // Revalidate main pagetorevalidate
-    if (path) {
-      await revalidatePath(path);
+    // Revalidate Main Page
+    if (pageToRevalidate === '') {
+      revalidatePath('/');
     }
 
-    // // Revalidate Multiple Instance (if there is one)
-    // if (idToRevalidate) {
-    //   await revalidatePath(`/${pageToRevalidate}/${idToRevalidate}`);
-    // }
+    // Revalidate Single Instance (if there is one)
+    if (pageToRevalidate) {
+      await revalidatePath(`/${pageToRevalidate}`);
+    }
+
+    // Revalidate Multiple Instance (if there is one)
+    if (idToRevalidate) {
+      await revalidatePath(`/${pageToRevalidate}/${idToRevalidate}`);
+    }
 
     // Return a successful response
     return NextResponse.json({
       revalidated: true,
       now: Date.now(),
-      message: `Success Revalidating on ${path}`,
+      message: `Success Revalidating on ${pageToRevalidate}`,
     });
   } catch (err) {
     // Handle the error and send a custom response
