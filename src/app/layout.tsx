@@ -3,7 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
-import Toast from '@/components/Toast';
+import AuthProvider from '@/provider/AuthProvider';
+import ToasterProvider from '@/provider/ToasterProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -40,8 +41,10 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      {children}
-      <Toast />
+      <AuthProvider>
+        {children}
+        <ToasterProvider />
+      </AuthProvider>
     </html>
   );
 }

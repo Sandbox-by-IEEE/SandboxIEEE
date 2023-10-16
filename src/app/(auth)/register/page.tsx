@@ -21,10 +21,7 @@ import TextInput from '@/components/TextInput';
 import { callToast } from '@/components/Toast';
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .email('Email is not valid')
-    .min(1, 'Email field is required'),
+  email: z.string().email('Email is invalid').min(1, 'Email field is required'),
   name: z.string().min(1, 'Name field is required'),
   password: z.string().min(8, 'Password must contain at least 8 character'),
 });
@@ -37,7 +34,15 @@ export default function Home() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const onSubmit = async (e: any) => {
+  const handleGoogle = async (e: any) => {
+    e.preventDefault();
+    await signIn('google', {
+      callbackUrl: '/',
+    });
+    router.push('/');
+  };
+
+  const handleOnSubmit = async (e: any) => {
     e.preventDefault();
     const body = {
       email: email,
@@ -83,9 +88,11 @@ export default function Home() {
       email: email,
       password: password,
       redirect: false,
+      callbackUrl: '/',
     });
 
-    if (!resLogin?.ok) {
+    console.log(resLogin);
+    if (resLogin?.error) {
       callToast({
         status: 'error',
         description: resLogin?.error || 'Login failed',
@@ -136,7 +143,7 @@ export default function Home() {
             <form
               className='w-full overflow-hidden z-10 transition-all duration-100 my-[60px] px-[18%] sm:px-[20%] flex flex-col items-center justify-center'
               onSubmit={(e) => {
-                onSubmit(e);
+                handleOnSubmit(e);
               }}
             >
               {/* A block to display the main logo */}
@@ -149,7 +156,12 @@ export default function Home() {
               <div className='w-full'>
                 {/* A button for Google sign-in */}
                 <div className='h-[35px]'>
-                  <Button color='white' isFullWidth={true}>
+                  <Button
+                    color='white'
+                    isFullWidth={true}
+                    type='button'
+                    onClick={handleGoogle}
+                  >
                     <span className='text-black flex gap-3 w-full items-center justify-center font-poppins font-semibold'>
                       <Google size={25} />
                       Continue with Google
@@ -204,7 +216,7 @@ export default function Home() {
               </div>
               {/* Sign up button */}
               <div className='my-5 w-[100px] h-[40px]'>
-                <Button color='gold' isFullWidth={true}>
+                <Button type='submit' color='gold' isFullWidth={true}>
                   Sign Up
                 </Button>
               </div>

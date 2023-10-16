@@ -1,17 +1,19 @@
 import RightArrow from './icons/RightArrow';
 
-const Button = ({
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange' | 'white';
+  isIcon?: boolean;
+  isDisabled?: boolean;
+  isFullWidth?: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({
   color,
   children,
   isIcon,
   isDisabled,
   isFullWidth,
-}: {
-  color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange' | 'white';
-  children: JSX.Element | string;
-  isIcon?: boolean;
-  isDisabled?: boolean;
-  isFullWidth?: boolean;
+  ...props
 }) => {
   const colorEffect = {
     green: {
@@ -49,6 +51,7 @@ const Button = ({
       } text-sm lg:text-base disabled:bg-[#D7D2D0] disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
         colorEffect[color].main
       }`}
+      {...props}
     >
       <p className='flex gap-3 w-full items-center justify-center font-poppins font-bold'>
         {children}
