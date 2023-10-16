@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const {
       idToRevalidate,
       pageToRevalidate,
-    }: { idToRevalidate: number; pageToRevalidate: string } = await req.json();
+    }: { idToRevalidate: string; pageToRevalidate: string } = await req.json();
 
     // Revalidate Main Page
     if (pageToRevalidate === '') {
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     // Revalidate Single Instance (if there is one)
     if (pageToRevalidate) {
-      await revalidatePath(`/exhibition`);
+      await revalidatePath(`/${pageToRevalidate}`);
     }
 
     // Revalidate Multiple Instance (if there is one)
