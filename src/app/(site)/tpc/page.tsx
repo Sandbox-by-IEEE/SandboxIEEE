@@ -1,11 +1,15 @@
 'use client';
 
 // import PrototechContest from '@/app/tpc/components/PrototechContest';
-import Button from '@/components/Button';
-import Countdown from '@/components/Countdown';
-
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React, { useState } from 'react';
+
+import Button from '@/components/Button';
+
+const Countdown = dynamic(() => import('@/components/Countdown'), {
+  ssr: false,
+});
 
 type GlassCarousel = {
   title: string;
@@ -100,7 +104,7 @@ function Judule({ title, colorClass }: { title: string; colorClass?: string }) {
 
 export default function TPC() {
   return (
-    <main className='flex h-0 min-h-screen w-0 min-w-[100vw] flex-col overflow-y-scroll font-museo-muderno'>
+    <main className='flex h-0 min-h-screen w-full flex-col font-museo-muderno'>
       {/*PROTOTECH CONTEST*/}
       <section
         className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'
@@ -122,12 +126,13 @@ export default function TPC() {
             style={{ boxShadow: '0px 0px 5px 2px rgba(171,129,78,0.8)' }}
           >
             <Button
-              children='REGISTER'
               color='green'
               isIcon={false}
               isFullWidth={true}
               isDisabled={false}
-            />
+            >
+              REGISTER
+            </Button>
           </div>
         </div>
       </section>
@@ -384,21 +389,23 @@ export default function TPC() {
           <div className='w-full flex flex-col lg:flex-row justify-center items-center gap-2 mt-12'>
             <div className='w-[180px]'>
               <Button
-                children='Daftar'
                 color='gold'
                 isIcon={false}
                 isFullWidth={true}
                 isDisabled={false}
-              />
+              >
+                Daftar
+              </Button>
             </div>
             <div className='border-2 border-[#AB814E] rounded-lg w-[180px]'>
               <Button
-                children='See more'
                 color='green'
                 isIcon={false}
                 isFullWidth={true}
                 isDisabled={false}
-              />
+              >
+                See More
+              </Button>
             </div>
           </div>
         </div>
