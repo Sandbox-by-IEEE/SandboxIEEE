@@ -59,7 +59,10 @@ export default function Home() {
               <Stars3mb size={25} />
             </div>
             {/* A container to hold the registration form, with different padding on small and larger screens */}
-            <div className='w-full overflow-hidden z-10 transition-all duration-100 my-[60px] px-[18%] sm:px-[20%] flex flex-col items-center justify-center'>
+            <form
+              className='w-full overflow-hidden z-10 transition-all duration-100 my-[60px] px-[18%] sm:px-[20%] flex flex-col items-center justify-center'
+              onSubmit={() => {}}
+            >
               {/* A block to display the main logo */}
               <div className='block justify-center'>
                 <Logo size={25} />
@@ -136,7 +139,7 @@ export default function Home() {
                   <span className='hover:underline text-[#DBB88B]'>Login</span>
                 </Link>
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
