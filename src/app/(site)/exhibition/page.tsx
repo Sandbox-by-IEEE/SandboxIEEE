@@ -1,9 +1,13 @@
-export const dynamic = 'force-dynamic';
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import React from 'react';
+
+const Countdown = dynamic(() => import('@/components/Countdown'), {
+  ssr: false,
+});
 
 import { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import { FAQ } from '@/components/FAQ';
@@ -198,7 +202,7 @@ const ExhibitionPage = async () => {
               {exhibition.countdownTitle}
             </h2>
             {/* Countdown */}
-            {/* <Countdown targetDate={new Date(2023, 9, 20)} /> */}
+            <Countdown targetDate={new Date(2023, 9, 20)} />
             {/* Button */}
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <CustomLink color='gold' url='/exhibition'>
