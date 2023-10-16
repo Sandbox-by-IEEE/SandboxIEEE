@@ -2,13 +2,36 @@ import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
+import { StructuredText } from 'react-datocms/structured-text';
+
+import { performRequest } from '@/lib/datocms';
+import { ContactUsPageProps } from '@/types/contact-us';
 
 const LineIcon = dynamic(() => import('@/components/icons/LineIcon'));
 const WhatsAppIcon = dynamic(() => import('@/components/icons/WhatsAppIcon'));
 
-const ContactUs = () => {
+const ContactUs = async () => {
+  const CMS_QUERY = `{
+    contactUsPage {
+      contactUsTitle
+      description {
+        value
+      }
+    }
+    allContactPeople {
+      id
+      lineId
+      nameContactPerson
+      phoneNumber
+    }
+  } `;
+
+  const { contactUsPage: data, allContactPeople }: ContactUsPageProps =
+    await performRequest({
+      query: CMS_QUERY,
+    });
   return (
-    <main className='relative w-full z-5 flex flex-col items-center bg-gradient-to-tr from-[#081B0E] to-[#0e371d] py-28 pt-14 lg:py-28 lg:pt-20 gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44'>
+    <main className='relative w-full z-5 flex flex-col min-h-screen justify-center items-center bg-gradient-to-tr from-[#081B0E] to-[#0e371d] py-28 pt-14 lg:py-28 lg:pt-20 gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44'>
       {/* Hiasan */}
       <Image
         src='/contact-us/blink.svg'
@@ -48,16 +71,14 @@ const ContactUs = () => {
 
       {/* Title Page */}
       <h1 className='relative z-5 text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'>
-        Contact Us
+        {data.contactUsTitle}
       </h1>
       {/* Container details */}
       <div className='flex flex-col gap-10 lg:gap-14 items-center justify-center'>
         {/* Description */}
+
         <h2 className='relative z-10 text-cream-secondary-light break-all font-poppins text-justify text-[15px] lg:text-lg lg:px-10 xl:px-40'>
-          Any question or remarks? Just write us a message!dnmbasdk
-          jashsdjkdlkas hda jhdklasj dkl akldj als djaskldj alksjdkla sjdlkl
-          asldjasjkldj akljdkjaklsdj kla hajkdh jkadj hajkdh kajhdjashd k
-          dsjkalsjd klaj dkaj klds jk ahjd ajkhdj
+          <StructuredText data={data.description} />
         </h2>
         <div className='bg-gradient-brown p-1 rounded-3xl w-full lg:max-w-[750px]'>
           <div
@@ -69,59 +90,32 @@ const ContactUs = () => {
           >
             {/* Sub-CP */}
             <div className='flex flex-col gap-6 lg:gap-8 items-center justify-center w-full'>
-              <h3 className='text-cream-secondary-light font-poppins text-lg lg:ext-xl'>
-                Main Event
-              </h3>
-              {/* CP */}
-              <ul className='list-none flex flex-col w-full gap-3'>
-                <li className='flex text-white font-poppins justify-between gap-4 lg:gap-10 w-full'>
-                  <p className='text-base lg:text-lg'>Fairuzz Mohammed Salim</p>
-                  {/* Number */}
-                  <ul className='list-none flex gap-1 flex-col'>
-                    {/* Whatsapp */}
-                    <li className='text-secondary-cream-light text-sm lg:text-base flex gap-2'>
-                      <WhatsAppIcon size={20} />
-                      <span>+628123456789</span>
-                    </li>
-                    {/* Line */}
-                    <li className='text-secondary-cream-light text-sm lg:text-base flex gap-2'>
-                      <LineIcon size={20} />
-                      <span>fairuzalld</span>
-                    </li>
-                  </ul>
-                </li>
-                <li className='flex text-white font-poppins justify-between gap-4 lg:gap-10 w-full'>
-                  <p className='text-base lg:text-lg'>Fairuzz Mohammed Salim</p>
-                  {/* Number */}
-                  <ul className='list-none flex gap-1 flex-col'>
-                    {/* Whatsapp */}
-                    <li className='text-secondary-cream-light text-sm lg:text-base flex gap-2'>
-                      <WhatsAppIcon size={20} />
-                      <span>+628123456789</span>
-                    </li>
-                    {/* Line */}
-                    <li className='text-secondary-cream-light text-sm lg:text-base flex gap-2'>
-                      <LineIcon size={20} />
-                      <span>fairuzalld</span>
-                    </li>
-                  </ul>
-                </li>
-                <li className='flex text-white font-poppins justify-between gap-4 lg:gap-10 w-full'>
-                  <p className='text-base lg:text-lg'>Fairuzz Mohammed Salim</p>
-                  {/* Number */}
-                  <ul className='list-none flex gap-1 flex-col'>
-                    {/* Whatsapp */}
-                    <li className='text-secondary-cream-light text-sm lg:text-base flex gap-2'>
-                      <WhatsAppIcon size={20} />
-                      <span>+628123456789</span>
-                    </li>
-                    {/* Line */}
-                    <li className='text-secondary-cream-light text-sm lg:text-base flex gap-2'>
-                      <LineIcon size={20} />
-                      <span>fairuzalld</span>
-                    </li>
-                  </ul>
-                </li>
+              <ul className='list-none flex flex-col w-full gap-3 lg:gap-6'>
+                {allContactPeople.map((person) => (
+                  <li
+                    key={person.id}
+                    className='flex text-white font-poppins justify-between gap-4 lg:gap-10 w-full'
+                  >
+                    <p className='text-base lg:text-lg'>
+                      {person.nameContactPerson}
+                    </p>
+                    {/* Number */}
+                    <ul className='list-none flex gap-1 lg:gap-2 flex-col'>
+                      {/* Whatsapp */}
+                      {person.phoneNumber && (
+                        <li className='text-secondary-cream-light text-sm lg:text-base flex gap-2'>
+                          <WhatsAppIcon size={20} />
+                          <p>{person.phoneNumber}</p>
+                        </li>
+                      )}
+                      {/* Line */}
+                      <li className='text-secondary-cream-light text-sm lg:text-base flex gap-2'>
+                        <LineIcon size={20} />
+                        <p>{person.lineId}</p>
+                      </li>
+                    </ul>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
