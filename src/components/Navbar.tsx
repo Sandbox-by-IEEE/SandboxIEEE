@@ -26,10 +26,10 @@ type Window = {
 function SandboxLogo() {
   return (
     <Link
-      className='aspect-square h-20 flex flex-row items-center justify-center'
+      className='aspect-square h-12 flex flex-row items-center justify-center'
       href='\home'
     >
-      <div className='aspect-square h-20 absolute flex flex-row justify-center align-center'>
+      <div className='aspect-square h-12 absolute flex flex-row justify-center align-center'>
         <Image
           src='/sandbox-gold.svg'
           alt='sandbox'
@@ -159,7 +159,7 @@ function MenuComponentLarge({ auth }: { auth: boolean }) {
 
 function MenuLogo() {
   return (
-    <div className='aspect-square h-20 absolute flex flex-row justify-center items-center'>
+    <div className='aspect-square h-12 absolute flex flex-row justify-center items-center'>
       <Image src='/3-lines.svg' alt='MENU' fill className='relative' />
     </div>
   );
@@ -281,23 +281,23 @@ function NavBarSmall({ auth }: { auth: boolean }) {
 
   return (
     <div
-      className={`fixed bg-green-gradient w-full h-24 z-50 top-[${navbarPos}px]`}
+      className={`fixed bg-green-gradient max-w-full min-w-full h-16 z-50 top-[${navbarPos}px]`}
     >
-      <div className='bg-green-gradient w-full h-24 relative'>
+      <div className='bg-green-gradient w-full h-16 relative'>
         <div className='aspect-square h-36 absolute z-10 top-[-50px]'>
           <Image src='/comet.svg' alt='commet' fill />
         </div>
 
         <div
           content=''
-          className='bg-green-gradient w-full h-24 flex justify-center items-center relative'
+          className='bg-green-gradient w-full h-16 flex justify-center items-center relative'
         >
           <div className='flex flex-row items-center justify-between w-5/6'>
-            <button className='aspect-square h-20 flex flex-row items-center justify-center'>
+            <button className='aspect-square h-12 flex flex-row items-center justify-center'>
               <SandboxLogo />
             </button>
             <button
-              className='h-20 aspect-square flex flex-row justify-center items-center'
+              className='h-12 aspect-square flex flex-row justify-center items-center'
               onClick={toggleDrawer}
             >
               <MenuLogo />
@@ -309,7 +309,7 @@ function NavBarSmall({ auth }: { auth: boolean }) {
           <Image src='/twinkle.svg' alt='commet' fill />
         </div>
 
-        <div className='aspect-square h-16 absolute top-1/3 right-1/4'>
+        <div className='aspect-square h-16 absolute top-[10px] right-1/4'>
           <Image src='/twinkle.svg' alt='commet' fill />
         </div>
       </div>

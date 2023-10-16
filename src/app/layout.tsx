@@ -3,6 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
+import NavBar from '@/components/Navbar';
+
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -38,6 +40,7 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
+      <NavBar />
       {children}
     </html>
   );
