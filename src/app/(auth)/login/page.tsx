@@ -121,7 +121,10 @@ export default function Home() {
               </div>
               <p className='text-center'>
                 Don’t have an account yet?{' '}
-                <Link className='hover:underline text-[#DBB88B]' href=''>
+                <Link
+                  className='hover:underline text-[#DBB88B]'
+                  href='/register'
+                >
                   Register
                 </Link>
               </p>

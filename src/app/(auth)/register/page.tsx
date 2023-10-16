@@ -1,7 +1,10 @@
 'use client';
 // Importing necessary components and libraries from Next.js and React
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import React, { useState } from 'react';
+import * as z from 'zod';
 
 // Importing custom components for UI elements and icons
 import Button from '@/components/Button';
@@ -15,6 +18,16 @@ import Stars2mb from '@/components/icons/Register/stars2mb';
 import Stars3 from '@/components/icons/Register/stars3';
 import Stars3mb from '@/components/icons/Register/stars3mb';
 import TextInput from '@/components/TextInput';
+import { callToast } from '@/components/Toast';
+
+const formSchema = z.object({
+  email: z
+    .string()
+    .email('Email is not valid')
+    .min(1, 'Email field is required'),
+  name: z.string().min(1, 'Name field is required'),
+  password: z.string().min(8, 'Password must contain at least 8 character'),
+});
 
 // Defining the functional component Home
 export default function Home() {
@@ -22,6 +35,67 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    const body = {
+      email: email,
+      name: username,
+      password: password,
+    };
+
+    const valid = formSchema.safeParse(body);
+    if (!valid.success) {
+      valid.error.issues.map((err, index) => {
+        setTimeout(() => {
+          callToast({ status: 'error', description: err.message });
+        }, 500 * index);
+      });
+      setEmail('');
+      setUsername('');
+      setPassword('');
+      router.refresh();
+      return;
+    }
+
+    const res = await fetch('/api/user', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    const resBody = await res.json();
+    if (!res.ok) {
+      callToast({ status: 'error', description: resBody.message });
+      setEmail('');
+      setUsername('');
+      setPassword('');
+      router.refresh();
+      return;
+    }
+
+    callToast({ status: 'success', description: 'Register succesfull' });
+    const resLogin = await signIn('credentials', {
+      email: email,
+      password: password,
+      redirect: false,
+    });
+
+    if (!resLogin?.ok) {
+      callToast({
+        status: 'error',
+        description: resLogin?.error || 'Login failed',
+      });
+      router.push('/login');
+    } else {
+      callToast({ status: 'success', description: 'Login succesfull' });
+      router.push('/');
+    }
+  };
 
   // The component returns the UI structure for the registration page
   return (
@@ -61,7 +135,9 @@ export default function Home() {
             {/* A container to hold the registration form, with different padding on small and larger screens */}
             <form
               className='w-full overflow-hidden z-10 transition-all duration-100 my-[60px] px-[18%] sm:px-[20%] flex flex-col items-center justify-center'
-              onSubmit={() => {}}
+              onSubmit={(e) => {
+                onSubmit(e);
+              }}
             >
               {/* A block to display the main logo */}
               <div className='block justify-center'>
