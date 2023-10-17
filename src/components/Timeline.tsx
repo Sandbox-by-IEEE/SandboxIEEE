@@ -22,7 +22,7 @@ const Timeline = ({ items }: { items: TimelineItem[] }) => {
             background: 'inherit',
             color: '#fff',
           }}
-          contentArrowStyle={{ borderRight: '7px solid #092a16' }}
+          contentArrowStyle={{ borderRight: '7px solid transparent' }}
           iconStyle={{
             background: '#AB814E',
             border: '0px 0px',
