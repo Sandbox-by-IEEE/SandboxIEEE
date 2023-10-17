@@ -1,21 +1,34 @@
 'use client';
+import { useEffect, useState } from 'react';
 
-import 'react-vertical-timeline-component/style.min.css';
+import FileInput from '@/components/FileInput';
 
-import Timeline from '@/components/Timeline';
+export interface FileInputType {
+  fileName: string;
+  fileUrl: string;
+}
 
 export default function Home() {
+  const [files, setFiles] = useState<FileInputType[] | undefined>();
+  const [url, setUrl] = useState<string>('');
+
+  useEffect(() => {
+    if (files?.length || url) {
+      console.log({ files, url });
+    }
+  }, [files, url]);
+
   return (
-    <main className='flex h-0 min-h-screen w-0 min-w-[100vw] flex-col overflow-y-scroll overflow-x-clip font-museo-muderno bg-slate-800'>
-      <Timeline
-        items={[
-          { date: new Date(2023, 0, 12), text: 'Open Regist PTC' },
-          { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
-          { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
-          { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
-          { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
-        ]}
-      />
+    <main className='flex p-4 w-screen h-screen items-center justify-center bg-black'>
+      <div className='flex gap-2 flex-wrap'>
+        <FileInput
+          setFiles={setFiles}
+          setUrl={setUrl}
+          message={'secondary message'}
+          allowedFileTypes={['.jpg', '.pdf', '.jpeg', '.png']}
+          files={files}
+        />
+      </div>
     </main>
   );
 }
