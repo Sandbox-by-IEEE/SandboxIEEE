@@ -69,7 +69,7 @@ const FileInput = ({
     const filesToUpload = event.target.files;
     try {
       if (filesToUpload && filesToUpload.length > 0) {
-        const uploadedFiles = [];
+        const uploadedFiles: FileInputType[] = [];
         for (let i = 0; i < filesToUpload.length; i++) {
           const fileUploaded = filesToUpload[i];
           const responseJSON = await uploadFile(fileUploaded);
@@ -97,7 +97,7 @@ const FileInput = ({
 
       const filesDropped = e.dataTransfer.files;
       if (filesDropped.length > 0) {
-        const uploadedFiles = [];
+        const uploadedFiles: FileInputType[] = [];
         const allowedFileExtensions = allowedFileTypes.map((el) => el.slice(1));
 
         for (let i = 0; i < filesDropped.length; i++) {
