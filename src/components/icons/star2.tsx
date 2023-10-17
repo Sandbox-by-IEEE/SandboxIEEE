@@ -21,12 +21,12 @@ const Star2 = ({ size }: { size: number }) => {
         rx='4.74229'
         transform='matrix(0.562458 -0.826826 -0.735662 -0.677349 366.935 338.237)'
         stroke='url(#paint1_linear_259_428)'
-        stroke-width='3'
+        strokeWidth='3'
       />
       <path
         d='M357.822 305.48C357.822 305.48 572.407 471.016 472.756 897.752'
         stroke='url(#paint2_linear_259_428)'
-        stroke-width='3'
+        strokeWidth='3'
       />
       <path
         d='M403.827 49.14C403.812 49.163 403.781 49.1837 403.738 49.1993C403.695 49.2148 403.642 49.2244 403.586 49.2267C403.53 49.2291 403.475 49.2241 403.427 49.2124C403.379 49.2007 403.341 49.1829 403.318 49.1615L403.006 48.8711C402.762 48.6433 402.403 48.4423 401.954 48.282C401.505 48.1218 400.977 48.0061 400.407 47.9432L399.681 47.8627C399.627 47.8569 399.579 47.844 399.544 47.826C399.509 47.8079 399.487 47.7855 399.483 47.7618C399.479 47.7381 399.492 47.7143 399.521 47.6935C399.549 47.6728 399.592 47.6561 399.643 47.6458L400.331 47.5057C400.87 47.3958 401.35 47.2376 401.737 47.0421C402.123 46.8465 402.407 46.6183 402.569 46.3734L402.775 46.0614C402.79 46.0383 402.821 46.0176 402.865 46.0021C402.908 45.9865 402.961 45.977 403.016 45.9746C403.072 45.9723 403.128 45.9773 403.176 45.9889C403.224 46.0006 403.262 46.0184 403.284 46.0399L403.596 46.33C403.84 46.5578 404.199 46.7588 404.648 46.9191C405.097 47.0793 405.625 47.195 406.195 47.2579L406.922 47.3383C406.976 47.3442 407.024 47.3571 407.059 47.3751C407.094 47.3932 407.115 47.4156 407.12 47.4393C407.124 47.4629 407.111 47.4868 407.082 47.5075C407.054 47.5283 407.011 47.545 406.96 47.5552L406.272 47.6954C405.732 47.8053 405.252 47.9635 404.865 48.159C404.479 48.3546 404.195 48.5828 404.033 48.8277L403.827 49.14Z'
@@ -45,8 +45,8 @@ const Star2 = ({ size }: { size: number }) => {
           y2='0.798884'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_259_428'
@@ -56,8 +56,8 @@ const Star2 = ({ size }: { size: number }) => {
           y2='2.778'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_259_428'
@@ -67,8 +67,8 @@ const Star2 = ({ size }: { size: number }) => {
           y2='677.714'
           gradientUnits='userSpaceOnUse'
         >
-          <stop offset='0.399307' stop-color='#AB814E' stop-opacity='0' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop offset='0.399307' stopColor='#AB814E' stopOpacity='0' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint3_linear_259_428'
@@ -78,8 +78,8 @@ const Star2 = ({ size }: { size: number }) => {
           y2='49.0057'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint4_linear_259_428'
@@ -89,8 +89,8 @@ const Star2 = ({ size }: { size: number }) => {
           y2='321.357'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>

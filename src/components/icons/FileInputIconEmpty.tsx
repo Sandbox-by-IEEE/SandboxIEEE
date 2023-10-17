@@ -1,31 +1,33 @@
 import React from 'react';
 
-const FileInputIconEmpty = ({ scale = 1 }: { scale?: number }) => {
+const FileInputIconEmpty = ({ className }: { className?: string }) => {
   return (
     <svg
-      width='730'
-      height='188'
-      viewBox='0 0 730 165'
+      width='204'
+      height='154'
+      viewBox='0 0 204 154'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
-      style={{ scale }}
+      className={className}
     >
-      <path
-        d='M457.308 19H272.692C268.444 19 265 21.9199 265 25.5217V129.87C265 133.471 268.444 136.391 272.692 136.391H457.308C461.556 136.391 465 133.471 465 129.87V25.5217C465 21.9199 461.556 19 457.308 19Z'
-        stroke='#DBB88B'
-        strokeOpacity='0.6'
-        strokeWidth='4'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
-      <path
-        d='M349.615 136.391L334.231 169M380.385 136.391L395.769 169M318.846 169H411.154M403.462 77.6957H326.538M365 45.087V110.304'
-        stroke='#DBB88B'
-        strokeOpacity='0.6'
-        strokeWidth='4'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
+      <g id='Group'>
+        <path
+          id='Vector'
+          d='M194.308 2H9.69231C5.44396 2 2 4.91988 2 8.52174V112.87C2 116.471 5.44396 119.391 9.69231 119.391H194.308C198.556 119.391 202 116.471 202 112.87V8.52174C202 4.91988 198.556 2 194.308 2Z'
+          stroke='#DBB88B'
+          strokeWidth='4'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        />
+        <path
+          id='Vector_2'
+          d='M86.6154 119.391L71.2308 152M117.385 119.391L132.769 152M55.8462 152H148.154M140.462 60.6957H63.5385M102 28.087V93.3044'
+          stroke='#DBB88B'
+          strokeWidth='4'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+        />
+      </g>
     </svg>
   );
 };

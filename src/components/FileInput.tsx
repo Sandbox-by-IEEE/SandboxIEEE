@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import React, {
   ChangeEvent,
   Dispatch,
@@ -172,29 +173,37 @@ const FileInput = ({
     return (
       <div>
         <div
-          className='w-[500px] h-[388px] md:w-[730px] flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#00FFA1] text-[#e6e6e6] space-y-4'
+          className='text-[15px] lg:text-base font-poppins w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#00FFA1] text-[#e6e6e6] space-y-4'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
           <button onClick={handleClick}>
-            <FileInputIconSuccess />
+            <FileInputIconSuccess className='w-[170px] lg:w-[214px]' />
           </button>
-          <p className='text-[16px] font-[700] text-[#00FFA1]'>
+          <p className='text-[#00FFA1]'>
             {inputUrl ? 'Link' : 'File'} berhasil diupload!
           </p>
-          <div className='flex gap-2 items-center'>
+          <div
+            className={`flex gap-2 items-center ${
+              files && files?.length > 1 && 'flex-col'
+            }`}
+          >
             {inputUrl ? <LinkIcon /> : <FileIcon />}
             {files && files[0].fileName ? (
-              <p>Files</p>
+              <div className='flex flex-col'>
+                {files.map((file, index) => (
+                  <p key={index}>{file.fileName}</p>
+                ))}
+              </div>
             ) : (
-              <a
+              <Link
                 href={inputUrl}
                 target='_blank'
                 rel='noreferer'
-                className='max-w-[300px] md:max-w-[600px] whitespace-nowrap overflow-hidden text-ellipsis'
+                className='max-w-[300px] md:max-w-[600px] overflow-hidden'
               >
                 {inputUrl}
-              </a>
+              </Link>
             )}
           </div>
         </div>
@@ -213,15 +222,15 @@ const FileInput = ({
     return (
       <div>
         <div
-          className='w-[500px] h-[388px] md:w-[730px] flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
+          className='text-[15px] lg:text-base font-poppins w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
           <button onClick={handleClick}>
-            <FileInputIconError />
+            <FileInputIconError className='w-[170px] lg:w-[214px]' />
           </button>
           <p
-            className='text-[16px] font-[700] text-[#FF7387]'
+            className='text-[#FF7387]'
             onClick={handleClick}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
@@ -229,7 +238,7 @@ const FileInput = ({
             {inputUrl ? 'Link' : 'File'} gagal diupload!
           </p>
           <div className='flex gap-2'>
-            <p className='max-w-[300px] md:max-w-[600px] whitespace-nowrap overflow-hidden text-ellipsis'>
+            <p className='max-w-[300px] md:max-w-[600px] overflow-hidden'>
               {inputUrl ? 'Link' : 'File'} {errorMsg}
             </p>
           </div>
@@ -249,18 +258,16 @@ const FileInput = ({
     <div>
       <div
         className={
-          setUrl
-            ? 'w-[400px] h-[500px] md:h-[542px] md:w-[730px] flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
-            : 'w-[400px] h-[388px] md:w-[730px] flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
+          'w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
         }
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
         <button onClick={handleClick}>
-          <FileInputIconEmpty />
+          <FileInputIconEmpty className='w-[170px] lg:w-[214px]' />
         </button>
         <p
-          className='text-[16px] font-[700] cursor-pointer'
+          className='text-[15px] lg:text-base font-poppins font-bold cursor-pointer'
           onClick={handleClick}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
@@ -270,7 +277,7 @@ const FileInput = ({
         </p>
         <p>{message}</p>
         {setUrl && (
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-4 text-sm lg:text-base font-poppins'>
             <div className='flex gap-4 items-center mx-auto'>
               <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
               <p>atau</p>
@@ -285,10 +292,10 @@ const FileInput = ({
                   className='border-4 border-[#DBB88B] px-4 py-2 flex-grow bg-inherit rounded-lg'
                 />
                 <button
-                  className='py-3 px-6 bg-[#AB814E] rounded-lg'
+                  className='py-2 lg:py-3 px-6 bg-[#AB814E] rounded-lg'
                   onClick={handleSubmitUrl}
                 >
-                  <SaveIcon />
+                  <SaveIcon className='w-[24px] aspect-square' />
                 </button>
               </div>
             </div>
