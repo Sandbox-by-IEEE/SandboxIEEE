@@ -19,14 +19,14 @@ export const FAQ = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <button
+    <details
       className='bg-dark-green p-5 lg:p-6 w-full flex flex-col '
       onClick={() => setIsOpen(!isOpen)}
     >
       {/* Container Question */}
-      <div className='flex w-full justify-between items-center'>
+      <summary className='flex w-full justify-between items-center'>
         {/* Question */}
-        <h3 className='font-poppins bg-gradient-brown text-left text-transparent bg-clip-text text-base sm:text-lg lg:text-xl font-semibold'>
+        <h3 className='font-poppins bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-left text-transparent bg-clip-text text-base sm:text-lg lg:text-xl font-semibold'>
           {question}
         </h3>
         {/* Arrow */}
@@ -36,12 +36,12 @@ export const FAQ = ({
             isOpen ? 'rotate-0' : 'rotate-180'
           }`}
         />
-      </div>
+      </summary>
       {isOpen && (
         <span className='text-cream-secondary-light mt-6 text-sm sm:text-base lg:text-lg font-poppins text-left'>
           <StructuredText data={answer} />
         </span>
       )}
-    </button>
+    </details>
   );
 };
