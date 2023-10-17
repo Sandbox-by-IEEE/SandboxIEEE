@@ -21,10 +21,10 @@ export async function POST(req: NextRequest) {
 
     // Revalidate Main Page
     if (pageToRevalidate === '') {
-      revalidatePath('/');
+      await revalidatePath('/');
     }
 
-    // Revalidate Single Instance (if there is one)
+    // Revalidate Single Instance (if there is one)c
     if (pageToRevalidate) {
       revalidatePath(`/${pageToRevalidate}`);
     }
