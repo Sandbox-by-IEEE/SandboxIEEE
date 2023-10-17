@@ -120,7 +120,9 @@ const FileInput = ({
 
             uploadedFiles.push(newFile);
           } else {
-            throw new Error('Wrong file type');
+            throw `Wrong file type, allowed file types are ${allowedFileExtensions.join(
+              ', ',
+            )}`;
           }
         }
 
