@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
+import AuthProvider from '@/provider/AuthProvider';
 import ToasterProvider from '@/provider/ToasterProvider';
 
 const inter = Inter({
@@ -41,7 +42,7 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
       <ToasterProvider />
-      {children}
+      <AuthProvider>{children}</AuthProvider>
     </html>
   );
 }
