@@ -9,6 +9,7 @@ import {
 } from 'react-vertical-timeline-component';
 
 import FAQItem from '@/components/FAQItem';
+import Footer from '@/components/footer';
 import GradientBox from '@/components/GradientBox';
 import IEEEITBStudentBranchIcon from '@/components/icons/IEEEITBStudentBranchIcon';
 import SandboxByIEEEITBIcon from '@/components/icons/SandboxByIEEEITBIcon';
@@ -20,7 +21,7 @@ const Countdown = dynamic(() => import('@/components/Countdown'), {
 
 export default function Home() {
   return (
-    <main className='flex h-0 min-h-screen w-0 min-w-[100vw] flex-col overflow-y-scroll font-museo-muderno'>
+    <main className='flex h-0 min-h-screen w-0 min-w-[100vw] flex-col overflow-y-scroll overflow-x-clip font-museo-muderno'>
       {/* replace with navbar */}
       <nav className='w-full h-20 bg-[#051F12] sticky top-0 left-0 flex-shrink-0 z-[500]'>
         Navbar
@@ -419,7 +420,9 @@ export default function Home() {
         </GradientBox>
       </section>
 
-      <footer>Footer</footer>
+      <div className='relative'>
+        <Footer />
+      </div>
     </main>
   );
 }
