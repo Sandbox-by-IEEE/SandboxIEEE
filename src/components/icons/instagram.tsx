@@ -32,8 +32,8 @@ const Instagram = ({
           y2='8.18105'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFFBB9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFFBB9' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_216_477'
@@ -43,8 +43,8 @@ const Instagram = ({
           y2='8.18105'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFFBB9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFFBB9' />
         </linearGradient>
       </defs>
     </svg>

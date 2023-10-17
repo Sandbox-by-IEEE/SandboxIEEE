@@ -14,7 +14,7 @@ export default function WhatsAppIcon({
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <g clip-path='url(#clip0_784_4391)'>
+      <g clipPath='url(#clip0_784_4391)'>
         <path
           d='M0.414083 9.8837C0.413628 11.5156 0.843355 13.109 1.66047 14.5135L0.335938 19.3121L5.28508 18.0244C6.65394 18.7639 8.18766 19.1513 9.74623 19.1514H9.75032C14.8954 19.1514 19.0837 14.9971 19.0859 9.891C19.0869 7.41672 18.1166 5.09006 16.3539 3.33961C14.5914 1.58931 12.2474 0.624878 9.74994 0.623749C4.60422 0.623749 0.416284 4.77779 0.414159 9.8837'
           fill='url(#paint0_linear_784_4391)'
@@ -37,8 +37,8 @@ export default function WhatsAppIcon({
           y2='0.623749'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#1FAF38' />
-          <stop offset='1' stop-color='#60D669' />
+          <stop stopColor='#1FAF38' />
+          <stop offset='1' stopColor='#60D669' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_784_4391'
@@ -48,8 +48,8 @@ export default function WhatsAppIcon({
           y2='0.288666'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#F9F9F9' />
-          <stop offset='1' stop-color='white' />
+          <stop stopColor='#F9F9F9' />
+          <stop offset='1' stopColor='white' />
         </linearGradient>
         <clipPath id='clip0_784_4391'>
           <rect

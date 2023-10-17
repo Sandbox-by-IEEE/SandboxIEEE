@@ -5,7 +5,7 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <body>{children}</body>;
+  return <>{children};</>;
 }
 
 export const metadata: Metadata = {
