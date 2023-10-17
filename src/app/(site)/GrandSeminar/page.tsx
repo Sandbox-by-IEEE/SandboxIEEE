@@ -3,6 +3,7 @@
 import Image from 'next/image';
 
 import Countdown from '@/components/Countdown';
+import SpeakersCarousel from '@/components/SpeakersCarousel';
 
 export default function GrandSeminar() {
   return (
@@ -94,7 +95,9 @@ export default function GrandSeminar() {
             </div>
           </div>
         </div>
-        <div className='CardsContainer h-[700px]'></div>
+        <div className='CardsContainer h-fit'>
+          <SpeakersCarousel />
+        </div>
       </section>
 
       {/* <footer>Footer</footer>  */}

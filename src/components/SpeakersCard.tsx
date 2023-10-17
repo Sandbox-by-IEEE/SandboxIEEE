@@ -13,7 +13,7 @@ function SpeakersCard() {
           className='h-full w-fit object-cover object-center relative'
         ></Image>
       </div>
-      <div className='Description w-full h-[calc(45%-40px)] bg-[#071D10] p-6 pt-4'>
+      <div className='Description w-full h-[calc(45%)] bg-[#071D10] p-6 pt-4'>
         <div className='outerBadge w-full h-fit rounded-[30px] bg-gradient-light-brown drop-shadow-[0_0px_10px_rgba(219,184,139,0.7)] flex'>
           <div className='innerBadge w-[calc(100%-8px)] h-fit mt-[4px] mb-[4px] m-auto rounded-[28px] bg-gradient-light-cards pl-5 pr-5 block items-center overflow-hidden min-h-fit pt-3 pb-3'>
             <h2 className='w-full font-poppins text-center text-[#FFE1B9] drop-shadow-[0_0px_10px_rgba(200,170,78,1)] font-semibold text-2xl'>
