@@ -1,9 +1,29 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] });
+import ToasterProvider from '@/provider/ToasterProvider';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+});
+
+const museoModerno = MuseoModerno({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-museo-moderno',
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,8 +36,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>{children}</body>
+    <html
+      lang='id, en'
+      className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
+    >
+      <ToasterProvider />
+      {children}
     </html>
   );
 }
