@@ -22,8 +22,8 @@ const Tiktok = ({ size, className }: { size: number; className?: string }) => {
           y2='9.83141'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFFBB9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFFBB9' />
         </linearGradient>
       </defs>
     </svg>

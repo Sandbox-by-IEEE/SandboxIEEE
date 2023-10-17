@@ -25,12 +25,12 @@ const Starsm = ({ size }: { size: number }) => {
         rx='3.36005'
         transform='matrix(0.416095 0.909321 -0.858495 0.512821 194.356 43.2471)'
         stroke='url(#paint2_linear_742_702)'
-        stroke-width='3'
+        strokeWidth='3'
       />
       <path
         d='M183.595 64.1468C183.595 64.1468 356.777 -20.2755 343.042 -320'
         stroke='url(#paint3_linear_742_702)'
-        stroke-width='3'
+        strokeWidth='3'
       />
       <path
         d='M182.079 242.448C182.072 242.431 182.052 242.413 182.024 242.397C181.996 242.381 181.959 242.368 181.921 242.36C181.882 242.351 181.842 242.347 181.806 242.349C181.771 242.351 181.742 242.358 181.723 242.37L181.465 242.526C181.263 242.649 180.983 242.739 180.645 242.79C180.307 242.842 179.92 242.853 179.51 242.824L178.987 242.786C178.949 242.784 178.913 242.786 178.886 242.794C178.859 242.802 178.841 242.814 178.835 242.83C178.829 242.845 178.835 242.863 178.852 242.88C178.869 242.898 178.897 242.914 178.932 242.928L179.398 243.108C179.764 243.25 180.081 243.417 180.328 243.597C180.574 243.778 180.744 243.967 180.826 244.152L180.93 244.388C180.937 244.405 180.957 244.423 180.985 244.439C181.014 244.455 181.05 244.468 181.089 244.477C181.127 244.485 181.167 244.489 181.203 244.487C181.238 244.485 181.267 244.478 181.286 244.466L181.544 244.31C181.747 244.188 182.026 244.098 182.364 244.046C182.702 243.995 183.089 243.983 183.499 244.013L184.022 244.05C184.061 244.053 184.096 244.05 184.124 244.042C184.151 244.035 184.169 244.022 184.175 244.007C184.181 243.991 184.175 243.974 184.157 243.956C184.14 243.939 184.112 243.922 184.078 243.909L183.611 243.728C183.245 243.586 182.928 243.419 182.681 243.239C182.435 243.059 182.265 242.869 182.183 242.684L182.079 242.448Z'
@@ -49,8 +49,8 @@ const Starsm = ({ size }: { size: number }) => {
           y2='72.1075'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_742_702'
@@ -60,8 +60,8 @@ const Starsm = ({ size }: { size: number }) => {
           y2='0.577128'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_742_702'
@@ -71,8 +71,8 @@ const Starsm = ({ size }: { size: number }) => {
           y2='2.05087'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint3_linear_742_702'
@@ -82,8 +82,8 @@ const Starsm = ({ size }: { size: number }) => {
           y2='-196.875'
           gradientUnits='userSpaceOnUse'
         >
-          <stop offset='0.399307' stop-color='#AB814E' stop-opacity='0' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop offset='0.399307' stopColor='#AB814E' stopOpacity='0' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint4_linear_742_702'
@@ -93,8 +93,8 @@ const Starsm = ({ size }: { size: number }) => {
           y2='242.248'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint5_linear_742_702'
@@ -104,8 +104,8 @@ const Starsm = ({ size }: { size: number }) => {
           y2='53.0614'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>
