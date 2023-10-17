@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Drawer from 'react-modern-drawer';
 
 import Dropdown from '@/components/Dropdown';
+import HamburgerIcon from '@/components/icons/HamburgerIcon';
 import XIcon from '@/components/icons/XIcon';
 
 type PairDrawerButton = {
@@ -54,7 +55,7 @@ function EventDropdown() {
       <Dropdown
         color='cream'
         options={['Exhibition', 'Grandseminar', 'PTC', 'TPC']}
-        placeholder='EVENT'
+        placeholder='EVENTS'
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         fullWidth={true}
@@ -65,19 +66,19 @@ function EventDropdown() {
 }
 
 const MENU: PairDrawerButton[] = [
-  { text: 'HOMEPAGE', route: '/' },
   {
-    text: 'EVENT',
-    route: '/event',
+    text: 'EVENTS',
+    route: '/events',
   },
   {
     text: 'OUR MENTORS',
     route: '/mentors',
   },
   {
-    text: 'OUR PAST EVENT',
-    route: '/pastevent',
+    text: 'OUR PAST EVENTS',
+    route: '/pastevents',
   },
+  { text: 'CONTACT US', route: '/contact-us' },
   { text: 'MERCHANDISE', route: '/merchandise' },
   {
     text: 'SPONSORSHIPS',
@@ -92,15 +93,15 @@ function MenuComponentSmall({ auth }: { auth: boolean }) {
   };
 
   return (
-    <div className='w-4/5 flex flex-col gap-y-8 pt-24 z-20 relative'>
+    <div className='w-4/5 flex flex-col gap-y-7 pt-24 z-20 relative'>
       {MENU.map((tuple: PairDrawerButton, idx: number) => {
-        return tuple.text == 'EVENT' ? (
-          <div key={idx}>
+        return tuple.text == 'EVENTS' ? (
+          <div key={idx} className='-mb-2'>
             <EventDropdown />
           </div>
         ) : (
           <Link
-            className='text-white font-inter text-lg font-semibold mx-4'
+            className='text-white font-poppins text-[15px] tracking-wide lg:text-lg font-semibold mx-4'
             href={tuple.route}
             key={idx}
           >
@@ -110,10 +111,10 @@ function MenuComponentSmall({ auth }: { auth: boolean }) {
       })}
 
       <Link
-        className='text-black font-inter text-lg font-semibold'
+        className='text-black font-inter text-[15px] tracking-wide lg:text-lg font-semibold'
         href={profileButton.route}
       >
-        <div className='w-full z-20 h-12 bg-[#FFE1B9] rounded-xl flex justify-center items-center shadow-gray-800 shadow-md'>
+        <div className='w-full z-20 py-2.5 bg-[#FFE1B9] rounded-xl flex justify-center items-center shadow-gray-800 shadow-md'>
           {profileButton.text}
         </div>
       </Link>
@@ -130,13 +131,13 @@ function MenuComponentLarge({ auth }: { auth: boolean }) {
   return (
     <div className='h-4/5 flex flex-row gap-x-4 items-center'>
       {MENU.map((tuple: PairDrawerButton, idx: number) => {
-        return tuple.text == 'EVENT' ? (
+        return tuple.text == 'EVENTS' ? (
           <div key={idx}>
             <EventDropdown />
           </div>
         ) : (
           <Link
-            className='text-white font-poppins text-sm lg:text-md font-semibold mx-4'
+            className='text-white font-poppins text-sm lg:text-[15px] tracking-wide font-semibold mx-4'
             href={tuple.route}
             key={idx}
           >
@@ -153,14 +154,6 @@ function MenuComponentLarge({ auth }: { auth: boolean }) {
           {profileButton.text}
         </div>
       </Link>
-    </div>
-  );
-}
-
-function MenuLogo() {
-  return (
-    <div className='aspect-square h-12 absolute flex flex-row justify-center items-center'>
-      <Image src='/3-lines.svg' alt='MENU' fill className='relative' />
     </div>
   );
 }
@@ -221,7 +214,7 @@ function NavBarLarge({ auth }: { auth: boolean }) {
 
   return (
     <div
-      className={`fixed bg-green-gradient w-full h-24 z-50 top-[${navbarPos}px]`}
+      className={`absolute bg-green-gradient w-full h-24 z-50 top-[${navbarPos}px]`}
     >
       <div className='bg-green-gradient w-full h-24 relative'>
         <div className='aspect-square h-36 absolute z-10 top-[-30px]'>
@@ -281,7 +274,7 @@ function NavBarSmall({ auth }: { auth: boolean }) {
 
   return (
     <div
-      className={`fixed bg-green-gradient max-w-full min-w-full h-16 z-50 top-[${navbarPos}px]`}
+      className={`absolute bg-green-gradient max-w-full min-w-full h-16 z-50 top-[${navbarPos}px]`}
     >
       <div className='bg-green-gradient w-full h-16 relative'>
         <div className='aspect-square h-36 absolute z-10 top-[-50px]'>
@@ -293,14 +286,14 @@ function NavBarSmall({ auth }: { auth: boolean }) {
           className='bg-green-gradient w-full h-16 flex justify-center items-center relative'
         >
           <div className='flex flex-row items-center justify-between w-5/6'>
-            <button className='aspect-square h-12 flex flex-row items-center justify-center'>
+            <button className='aspect-square h-14 flex flex-row items-center justify-center'>
               <SandboxLogo />
             </button>
             <button
-              className='h-12 aspect-square flex flex-row justify-center items-center'
+              className='h-14 aspect-square flex flex-row justify-center items-center'
               onClick={toggleDrawer}
             >
-              <MenuLogo />
+              <HamburgerIcon height={35} width={50} className='fill-white' />
             </button>
           </div>
         </div>
@@ -338,10 +331,10 @@ function NavBarSmall({ auth }: { auth: boolean }) {
         </div>
 
         <button
-          className='aspect-square h-8 top-20 right-5 rounded absolute text-white'
-          onClick={toggleDrawer}
+          className='aspect-square h-8 top-10 right-10 rounded absolute text-white'
+          onClick={() => setIsOpen(false)}
         >
-          <XIcon className='' size={20} />
+          <XIcon className='fill-white' size={30} />
         </button>
 
         <div className='w-full h-[2rem] flex justify-center align-center absolute bottom-[3.5rem]'>

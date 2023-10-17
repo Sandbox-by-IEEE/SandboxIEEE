@@ -13,6 +13,7 @@ interface DropdownProps {
   fullWidth?: boolean;
 }
 
+// Function to set routes options navbar
 function RoutesOptions({
   options,
   colorClass,
@@ -23,7 +24,7 @@ function RoutesOptions({
   return (
     <>
       {options.map((option) => (
-        <Link href={`/event/${option.toLowerCase()}`} key={option}>
+        <Link href={`/events/${option.toLowerCase()}`} key={option}>
           <div
             className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3  px-5 ${colorClass}`}
           >
@@ -102,7 +103,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const NavbarStylesSmall =
-    'font-inter text-lg ' +
+    'font-poppins text-sm lg:text-lg ' +
     (open ? colorEffect[color].parent + ' text-black' : ' text-white');
 
   const onMouseEnter = () => {
@@ -117,17 +118,20 @@ const Dropdown: React.FC<DropdownProps> = ({
     >
       {/* Main div unaffected by open state and placeholder */}
       <div
-        className={`block w-[${fullWidth ? '100%' : '256px'}] p-[1.5px] ${
+        className={`block ${fullWidth ? 'w-full' : 'w-[256px]'} p-[1.5px] ${
           open ? 'rounded-t-md' : 'rounded-md'
         } ${type === 'routes' ? NavbarStylesSmall : colorEffect[color].parent}`}
         onClick={() => setOpen(!open)}
+        // Harusnya hover di control dari sini
+        // onMouseEnter={() => type === 'routes' && setOpen(true)}
+        // onMouseLeave={() => type === 'routes' && setOpen(false)}
       >
         <div
           className={`flex justify-between items-center w-full ${
             type === 'routes' ? '' : 'py-3'
-          } lg:py-4 lg:px-5 bg-transparent  px-4`}
+          } py-2 lg:px-5 bg-transparent  px-4`}
         >
-          <p className='text-sm max-lg:text-lg  font-poppins capitaliz font-semibold'>
+          <p className='text-[15px] font-poppins capitalize font-semibold'>
             {selectedOption || placeholder}
           </p>
           <ArrowDropdownIcon
@@ -145,8 +149,8 @@ const Dropdown: React.FC<DropdownProps> = ({
             ? 'opacity-100 translate-y-0'
             : '-translate-y-[60px] pointer-events-none opacity-0'
         } transition-all duration-300 max-h-[200px] overflow-y-scroll ${
-          open && type == 'routes' ? ' ' : 'absolute'
-        } custom-scrollbar lg:top-[70px] mb-2 left-0 w-full rounded-b-md ${
+          open && type == 'routes' ? 'lg:top-[44px]' : 'absolute lg:top-[70px]'
+        } custom-scrollbar mb-2 left-0 w-full rounded-b-md ${
           colorEffect[color]['child-container']
         } ${type === 'routes' ? 'lg:absolute lg: y-0' : ''}`}
       >
