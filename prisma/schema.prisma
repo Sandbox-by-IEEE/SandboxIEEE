@@ -10,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -21,24 +20,26 @@ model User {
   accounts      Account[]
   sessions      Session[]
 }
+
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.String
-  access_token       String?  @db.String
-  expires_at         BigInt?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.String
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        BigInt?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
@@ -53,4 +54,11 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Karya {
+  id        String   @id @default(uuid())
+  teamName  String
+  anggota   String[]
+  countVote BigInt   @default(0)
 }

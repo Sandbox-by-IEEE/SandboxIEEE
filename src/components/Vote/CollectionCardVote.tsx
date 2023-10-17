@@ -2,6 +2,7 @@
 import { useState } from 'react';
 
 import Modal from '@/components/Modal/Modal';
+import { callToast } from '@/components/Toast';
 import VoteCard from '@/components/Vote/VoteCard';
 import { AllFinalProjectsExhibition } from '@/types/exhibition-type';
 export interface VoteCardProps {
@@ -37,6 +38,24 @@ const CollectionVoteCards = ({
     setTempVoteStatus(id);
   };
 
+  const handleOnSubmit = async (karyaId: string) => {
+    const res = await fetch(`/api/voting/${karyaId}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const resBody = await res.json();
+    if (!res.ok) {
+      callToast({ status: 'error', description: resBody.message });
+      return;
+    }
+
+    callToast({ status: 'success', description: 'Voting berhasil!' });
+  };
+
   // Handle onVote onClick Modal Button
   const handleVote = (id: string) => {
     setVoteSelected(true);
@@ -45,6 +64,7 @@ const CollectionVoteCards = ({
       voteSelectedId(id);
     }
     setIsOpenModal(false);
+    handleOnSubmit(id);
     setSelectedCardId(null);
   };
 
