@@ -332,7 +332,7 @@ function NavBarSmall({ auth }: { auth: boolean }) {
 
         <button
           className='aspect-square h-8 top-10 right-10 rounded absolute text-white'
-          onClick={() => setIsOpen(false)}
+          onClick={toggleDrawer}
         >
           <XIcon className='fill-white' size={30} />
         </button>
