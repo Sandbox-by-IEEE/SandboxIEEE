@@ -71,7 +71,6 @@ export default function Home() {
       callbackUrl: '/',
     });
 
-    console.log(resLogin);
     if (resLogin?.error) {
       callToast({
         status: 'error',

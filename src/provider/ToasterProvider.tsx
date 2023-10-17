@@ -13,12 +13,7 @@ const ToasterProvider = () => {
 
   if (!isMounted) return null;
 
-  if (isMounted)
-    return (
-      <>
-        <Toast />
-      </>
-    );
+  if (isMounted) return <Toast />;
 };
 
 export default ToasterProvider;
