@@ -2,8 +2,9 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
 
-import ToasterProvider from '@/provider/ToasterProvider';
+import { ModalContextProvider } from '@/components/Modal/ModalContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -40,8 +41,10 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <ToasterProvider />
-      {children}
+      <body suppressHydrationWarning={true}>
+        <Toaster />
+        <ModalContextProvider>{children}</ModalContextProvider>
+      </body>
     </html>
   );
 }
