@@ -41,9 +41,8 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body>
+      <body suppressHydrationWarning={true}>
         <Toast />
-
         <ModalContextProvider>{children}</ModalContextProvider>
       </body>
     </html>
