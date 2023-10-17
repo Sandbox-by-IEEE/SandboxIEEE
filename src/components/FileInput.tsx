@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 
-import { FileInputType } from '@/app/page';
+import { FileInputType } from '@/app/(site)/page';
 import FileIcon from '@/components/icons/FileIcon';
 import FileInputIconEmpty from '@/components/icons/FileInputIconEmpty';
 import FileInputIconError from '@/components/icons/FileInputIconError';
