@@ -1,11 +1,15 @@
-'use client';
-
 // import PrototechContest from '@/app/tpc/components/PrototechContest';
+import 'react-vertical-timeline-component/style.min.css';
+
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
 import Button from '@/components/Button';
+import { FAQ } from '@/components/FAQ';
+import Timeline from '@/components/Timeline';
+import { performRequest } from '@/lib/datocms';
+import { type TPCDataProps } from '@/types/tpc-type';
 
 const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
@@ -102,9 +106,59 @@ function Judule({ title, colorClass }: { title: string; colorClass?: string }) {
   );
 }
 
-export default function TPC() {
+const TPC = async () => {
+  // Fetch data from CMS
+  const CMS_QUERY = `{
+    tpcPage {
+        buttonTextRegister
+        buttonTextSeeMore
+        countdownSectionTitle
+        explanationDescription {
+          value
+        }
+        faqSectionTitle
+        guideDescription {
+          value
+        }
+        guideSectionTitle
+        hadiahDescription {
+          value
+        }
+        hadiahSectionTitle
+        imageMascot {
+          height
+          url
+          title
+          width
+        }
+        regisFeesSectionTitle
+        targetDate
+        timelineSectionTitle
+        titleTpcPage
+        tpcSectionTitle
+        backgroundImage {
+          url
+          title
+          width
+          height
+        }
+      }
+    }
+    faqTpc(orderBy: question_ASC) {
+      id
+      answer {
+        value
+      }
+      question
+    }
+  }`;
+
+  const { Tpc, allFaqTPC: faqData }: TPCDataProps = await performRequest({
+    query: CMS_QUERY,
+  });
+
   return (
-    <main className='flex h-0 min-h-screen w-full flex-col font-museo-muderno'>
+    <main className='flex w-full flex-col font-museo-muderno'>
       {/*PROTOTECH CONTEST*/}
       <section
         className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'
@@ -246,10 +300,13 @@ export default function TPC() {
       >
         <div
           className='p-2 rounded-xl flex flex-col items-center gap-8 lg:mx-12 my-12'
-          style={{ backgroundColor: '#0F3015' }}
+          style={{
+            backgroundColor: '#0F3015',
+            boxShadow: '0px 0px 5px 3px rgba(171,129,78,0.8)',
+          }}
         >
-          <div className='h-full w-full rounded-xl'>
-            <div className='my-8 w-full flex flex-row items-center justify-center'>
+          <div className='h-full w-full rounded-xl px-2'>
+            <div className='my-8 w-full flex flex-row items-center justify-center text-center'>
               <Judule
                 title='Regulasi Perlombaan'
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
@@ -327,7 +384,7 @@ export default function TPC() {
       {/* REGISTRATION */}
       <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
         <div className='flex flex-col items-center gap-8 '>
-          <div className='w-full flex flex-row items-center justify-center'>
+          <div className='w-full flex flex-row items-center justify-center text-center'>
             <Judule
               title='Registration Fees'
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
@@ -344,7 +401,7 @@ export default function TPC() {
                 />
               </div>
             </div>
-            <article className='w-full lg:w-[40%] font-poppins text-center justify-center'>
+            <article className='w-full lg:w-[40%] font-poppins text-justify justify-center'>
               <p className='text-[#FFFBB9] text-xl font-semibold'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Blanditiis, numquam veniam repellat atque.
@@ -366,46 +423,51 @@ export default function TPC() {
       {/* END REGISTRATION */}
 
       {/* COUNTDOWN */}
-      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
-        <div className='p-6 border-2 rounded-xl flex flex-col items-center gap-8 mx-8 my-12 py-16'>
-          <div className='w-full flex flex-row items-center justify-center'>
-            <Judule
-              title='Pendaftaran TPC akan segera ditutup!'
-              colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-            />
-          </div>
-          <div className='w-full flex flex-col lg:flex-row justify-center items-center mt-4'>
-            <div className='aspect-video w-full lg:w-[30%] relative'>
-              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
+      <section className='h-auto p-10 py-16 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
+        <div className='p-2 rounded-xl flex flex-col items-center gap-8 lg:mx-8 my-12 bg-gradient-to-r from-[#AB814E] to-[#FFFBB9]'>
+          <div className='h-full w-full rounded-xl py-16 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'>
+            <div className='w-full flex flex-row items-center justify-center text-center'>
+              <Judule
+                title='Pendaftaran TPC akan segera ditutup!'
+                colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
+              />
             </div>
-            <article className='w-full lg:w-[100%] lg:px-20 font-poppins'>
-              <Countdown targetDate={new Date('2023-12-31T23:59:59')} />
-            </article>
-            <div className='aspect-video w-full lg:w-[30%] relative'>
-              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
+            <div className='w-full flex flex-col lg:flex-row justify-center items-center text-center mt-12'>
+              <div className='aspect-video w-full w-[30%] relative'>
+                <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
+              </div>
+              <article className='w-full lg:w-[70%] lg:px-20 font-poppins px-2'>
+                <Countdown targetDate={new Date('2023-12-31T23:59:59')} />
+              </article>
+              <div className='aspect-video w-full w-[30%] relative'>
+                <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
+              </div>
             </div>
-          </div>
 
-          <div className='w-full flex flex-col lg:flex-row justify-center items-center gap-2 mt-12'>
-            <div className='w-[180px]'>
-              <Button
-                color='gold'
-                isIcon={false}
-                isFullWidth={true}
-                isDisabled={false}
+            <div className='w-full flex flex-col lg:flex-row justify-center items-center gap-2 mt-12  '>
+              <div
+                className='w-[180px] bg-gradient-to-tr rounded-lg'
+                style={{ boxShadow: '0px 0px 5px 2px rgba(171,129,78,0.8)' }}
               >
-                Daftar
-              </Button>
-            </div>
-            <div className='border-2 border-[#AB814E] rounded-lg w-[180px]'>
-              <Button
-                color='green'
-                isIcon={false}
-                isFullWidth={true}
-                isDisabled={false}
-              >
-                See More
-              </Button>
+                <Button
+                  color='gold'
+                  isIcon={false}
+                  isFullWidth={true}
+                  isDisabled={false}
+                >
+                  Daftar
+                </Button>
+              </div>
+              <div className='border-2 border-[#AB814E] rounded-lg w-[180px]'>
+                <Button
+                  color='green'
+                  isIcon={false}
+                  isFullWidth={true}
+                  isDisabled={false}
+                >
+                  See More
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -413,9 +475,12 @@ export default function TPC() {
       {/* END COUNTDOWN */}
 
       {/* TIMELINE */}
-      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16'>
-        <div className='p-6 border-2 rounded-xl flex flex-col items-center gap-8 mx-12 my-12'>
-          <div className='w-full flex flex-row items-center justify-center'>
+      <section className='h-auto p-10 flex flex-col gap-16 bg-[#071D10]'>
+        <div className='p-2 rounded-xl flex flex-col items-center gap-8 mx-12 my-12 bg-gradient-to-r from-[#AB814E] to-[#FFFBB9]'>
+          <div
+            className='p-6 w-full rounded-xl flex flex-row items-center justify-center'
+            style={{ backgroundColor: 'rgba(7, 29, 16)' }}
+          >
             <Judule
               title='Timeline'
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
@@ -423,191 +488,29 @@ export default function TPC() {
           </div>
         </div>
 
-        {/* KIRI */}
-        <div className='w-full flex flex-row lg:flex-row justify-center items-center px-20 divide-x-[16px]'>
-          <div className='w-full flex flex-col'>
-            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-              <p className='text-[#FFE1B9] text-lg mx-4'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-              </p>
-            </div>
-            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-              <div className='w-10/12 flex flex-row text-center mt-4'>
-                <div className='w-fit border-2 rounded-xl p-12 ml-64'>
-                  <p className='text-[#FFE1B9] text-lg font-bold'>
-                    15 Oktober 2023
-                  </p>
-                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                </div>
-              </div>
-              <div className='aspect-video w-full lg:w-2/12 relative right-[-60px] top-[50px]'>
-                <div className='absolute w-full aspect-video duration-500'>
-                  <Image
-                    fill
-                    alt=''
-                    src={'/Ellipse396.svg'}
-                    objectFit='contain'
-                  />
-                </div>
-              </div>
-            </div>
-            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-              <p className='text-[#FFE1B9] text-lg mx-4'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-              </p>
-            </div>
-            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-              <div className='w-10/12 flex flex-row text-center mt-4'>
-                <div className='w-fit border-2 rounded-xl p-12 ml-64'>
-                  <p className='text-[#FFE1B9] text-lg font-bold'>
-                    15 Oktober 2023
-                  </p>
-                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                </div>
-              </div>
-              <div className='aspect-video w-full lg:w-2/12 relative right-[-60px] top-[50px]'>
-                <div className='absolute w-full aspect-video duration-500'>
-                  <Image
-                    fill
-                    alt=''
-                    src={'/Ellipse396.svg'}
-                    objectFit='contain'
-                  />
-                </div>
-              </div>
-            </div>
-            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-              <p className='text-[#FFE1B9] text-lg mx-4'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-              </p>
-            </div>
-          </div>
-          {/* END KIRI */}
-
-          {/* KANAN */}
-          <div className='w-full flex flex-col'>
-            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-              <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
-                <div className='absolute w-full aspect-video duration-500'>
-                  <Image
-                    fill
-                    alt=''
-                    src={'/Ellipse396.svg'}
-                    objectFit='contain'
-                  />
-                </div>
-              </div>
-              <div className='w-10/12 flex flex-row text-center mt-4'>
-                <div className='w-fit border-2 rounded-xl p-12'>
-                  <p className='text-[#FFE1B9] text-lg font-bold'>
-                    15 Oktober 2023
-                  </p>
-                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                </div>
-              </div>
-            </div>
-            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-              <p className='text-[#FFE1B9] text-lg mx-4'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-              </p>
-            </div>
-            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-              <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
-                <div className='absolute w-full aspect-video duration-500'>
-                  <Image
-                    fill
-                    alt=''
-                    src={'/Ellipse396.svg'}
-                    objectFit='contain'
-                  />
-                </div>
-              </div>
-              <div className='w-10/12 flex flex-row text-center mt-4'>
-                <div className='w-fit border-2 rounded-xl p-12'>
-                  <p className='text-[#FFE1B9] text-lg font-bold'>
-                    15 Oktober 2023
-                  </p>
-                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                </div>
-              </div>
-            </div>
-            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify my-4 invisible'>
-              <p className='text-[#FFE1B9] text-lg mx-4'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-              </p>
-            </div>
-            <div className='w-full flex flex-row lg:w-[100%] font-poppins justify-center text-justify my-4'>
-              <div className='aspect-video w-full lg:w-2/12 relative left-[-60px] top-[50px]'>
-                <div className='absolute w-full aspect-video duration-500'>
-                  <Image
-                    fill
-                    alt=''
-                    src={'/Ellipse396.svg'}
-                    objectFit='contain'
-                  />
-                </div>
-              </div>
-              <div className='w-10/12 flex flex-row text-center mt-4'>
-                <div className='w-fit border-2 rounded-xl p-12'>
-                  <p className='text-[#FFE1B9] text-lg font-bold'>
-                    15 Oktober 2023
-                  </p>
-                  <p className='text-[#FFE1B9] text-lg'>Open Regist PTC</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* END KANAN */}
-        </div>
+        <Timeline
+          items={[
+            { date: new Date(2023, 0, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+          ]}
+        />
       </section>
       {/* END TIMELINE */}
 
       {/* FAQ */}
-      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 '>
-        <div className='p-6 flex flex-col items-center gap-8 mx-12 my-12'>
+      <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col'>
+        <div className='p-6 flex flex-col items-center gap-8 mx-12'>
           <div className='w-full flex flex-row items-center justify-center'>
             <Judule
               title='Frequently Asked Questions'
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
             />
           </div>
-          <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
-            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
+          <div className='w-full mt-8 flex flex-col gap-8 lg:flex-col justify-left items-center'>
+            {/* <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
               <Judule
                 title='Bagaimana caranya dapet IP4?'
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
@@ -664,11 +567,23 @@ export default function TPC() {
                 veniam, quis nostrud exercitation ullamco laboris nisi ut
                 aliquip ex ea commodo consequat.
               </p>
-            </article>
+            </article> */}
+
+            <FAQ
+              question={'Kenapa why selalu always?'}
+              answer={undefined}
+            ></FAQ>
+            <FAQ
+              question={'Apakah jawa adalah kunci?'}
+              answer={undefined}
+            ></FAQ>
+            <FAQ question={'Mengapa semua menangis?'} answer={undefined}></FAQ>
           </div>
         </div>
       </section>
       {/* END FAQ */}
     </main>
   );
-}
+};
+
+export default TPC;

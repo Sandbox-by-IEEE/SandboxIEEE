@@ -1,7 +1,9 @@
+import Toast from '@/components/Toast';
 import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
+import { ModalContextProvider } from '@/components/Modal/ModalContext';
 
 const inter = Inter({
   subsets: ['latin'],
