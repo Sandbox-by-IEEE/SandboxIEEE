@@ -36,6 +36,7 @@ const ContactUs = async () => {
         width={275}
         height={246}
         alt='Blink'
+        priority
         className='absolute w-[190px] h-[120px] xl:w-[275px] xl:h-[246px] -top-4 xl:-top-10 -left-10 -z-1 opacity-50'
       />
       <Image
