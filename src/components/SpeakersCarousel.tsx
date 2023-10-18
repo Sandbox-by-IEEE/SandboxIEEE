@@ -1,20 +1,50 @@
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+
+import {
+  A11y,
+  EffectCoverflow,
+  Navigation,
+  Pagination,
+  Scrollbar,
+} from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
 import SpeakersCard from '@/components/SpeakersCard';
 
 function SpeakersCarousel() {
   return (
     <div className='SpeakersCarousel w-full h-[1080px] flex'>
       <div className='CarouselContainer w-[1200px] m-auto flex'>
-        <div className='section1 h-full flex w-[calc(100%/3)] '>
-          <SpeakersCard style='scale-90 brightness-75' />
-          <SpeakersCard style='scale-90 brightness-75' />
-        </div>
-        <div className='section2 h-full flex w-[calc(100%/3)]'>
-          <SpeakersCard style='' />
-        </div>
-        <div className='section3 h-full flex w-[calc(100%/3)]'>
-          <SpeakersCard style='scale-90 brightness-75' />
-          <SpeakersCard style='scale-90 brightness-75' />
-        </div>
+        <Swiper
+          modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow]}
+          spaceBetween={50}
+          slidesPerView={3}
+          navigation
+          pagination={{ clickable: true, type: 'bullets' }}
+          scrollbar={{ draggable: true }}
+          loop={true}
+          effect={'coverflow'}
+          coverflowEffect={{
+            stretch: 0,
+            depth: 100,
+            modifier: 9,
+            slideShadows: true,
+          }}
+        >
+          <SwiperSlide>
+            <SpeakersCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <SpeakersCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <SpeakersCard />
+          </SwiperSlide>
+          <SwiperSlide>
+            <SpeakersCard />
+          </SwiperSlide>
+        </Swiper>
       </div>
     </div>
   );
