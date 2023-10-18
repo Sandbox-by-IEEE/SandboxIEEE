@@ -28,7 +28,7 @@ const Timeline = ({ items }: { items: TimelineItem[] }) => {
           className='vertical-timeline-element--work'
           contentStyle={{
             background: 'inherit',
-            color: '#fff',
+            color: '#ffffff',
           }}
           contentArrowStyle={{ borderRight: '7px solid transparent' }}
           iconStyle={{
