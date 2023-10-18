@@ -13,8 +13,8 @@ const Logosm = ({ size }: { size: number }) => {
         fill='url(#paint0_linear_563_563)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M0.0264402 20.1089C-0.212289 16.9654 1.19101 13.9698 3.38465 13.1735L38.8703 0.292577C39.2431 0.157246 39.6169 0.0934065 39.9845 0.0950482C40.3619 0.0896055 40.746 0.153155 41.1292 0.292221L76.6152 13.1711C78.8091 13.9673 80.2125 16.9633 79.9736 20.1071C80.2109 23.2492 78.8078 26.2427 76.6151 27.0386L41.1294 39.9196C40.8325 40.0274 40.535 40.0898 40.2404 40.1099C39.7913 40.1492 39.3304 40.091 38.8708 39.9242L3.38476 27.0453C1.19082 26.2491 -0.212634 23.2529 0.0264402 20.1089ZM48.7523 8.44373L48.7371 8.44593C44.7259 6.07232 40.0684 5.301 35.7409 6.37914C32.4352 7.47719 31.2156 8.47129 30.0755 9.40063C29.8585 9.57744 29.6442 9.75217 29.4191 9.92457C28.5008 10.6282 27.8799 11.2644 27.3471 11.8141L27.2901 11.8728C26.7909 12.3883 26.3468 12.7217 25.7445 13.1651L25.1498 13.5383C25.3839 13.3777 26.0931 12.1744 26.7931 10.9869C27.2025 10.2922 27.6089 9.60272 27.9149 9.13089C21.3311 9.63991 17.5575 13.1244 13.7658 20.0626L40.0609 29.6301L66.3561 20.0626C59.768 10.6716 55.9786 8.03709 50.6634 8.25849C51.8618 9.40436 52.7755 10.8274 53.8679 12.8802L54.2222 13.546C53.1801 11.5877 51.4481 10.3279 50.1298 9.369L49.9908 9.2678C49.5519 8.94807 49.1524 8.68316 48.7523 8.44373Z'
         fill='url(#paint1_linear_563_563)'
       />
@@ -27,8 +27,8 @@ const Logosm = ({ size }: { size: number }) => {
         fill='url(#paint3_linear_563_563)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M16.5439 71.0178H19.7389L20.2511 72.5344H22.4584L19.3609 63.9481H16.9463L13.8488 72.5344H16.0317L16.5439 71.0178ZM18.1414 66.2598L19.2024 69.4032H17.0927L18.1414 66.2598Z'
         fill='url(#paint4_linear_563_563)'
       />
@@ -37,20 +37,20 @@ const Logosm = ({ size }: { size: number }) => {
         fill='url(#paint5_linear_563_563)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M41.5587 64.4863C40.8839 64.1275 40.0953 63.9481 39.1929 63.9481H35.9856V72.5344H39.1929C40.0872 72.5344 40.8717 72.355 41.5465 71.9963C42.2294 71.6375 42.7538 71.1319 43.1196 70.4796C43.4936 69.8273 43.6806 69.0811 43.6806 68.2413C43.6806 67.3932 43.4936 66.6471 43.1196 66.0029C42.7538 65.3506 42.2335 64.845 41.5587 64.4863ZM40.9002 70.076C40.4611 70.5081 39.8473 70.7242 39.0587 70.7242H38.0709V65.7338H39.0587C39.8473 65.7338 40.4611 65.954 40.9002 66.3943C41.3392 66.8347 41.5587 67.4503 41.5587 68.2413C41.5587 69.0322 41.3392 69.6438 40.9002 70.076Z'
         fill='url(#paint6_linear_563_563)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M51.736 68.1312C52.232 68.2372 52.6303 68.4859 52.9311 68.8773C53.2319 69.2605 53.3823 69.7009 53.3823 70.1983C53.3823 70.9158 53.1303 71.4866 52.6263 71.9106C52.1303 72.3265 51.4352 72.5344 50.5409 72.5344H46.5532V63.9481H50.4068C51.2767 63.9481 51.9555 64.1479 52.4433 64.5474C52.9393 64.947 53.1872 65.4892 53.1872 66.1742C53.1872 66.6797 53.0531 67.0997 52.7848 67.434C52.5246 67.7683 52.1751 68.0007 51.736 68.1312ZM48.6385 67.4218H50.0044C50.3458 67.4218 50.606 67.3484 50.7848 67.2016C50.9718 67.0467 51.0653 66.8224 51.0653 66.5289C51.0653 66.2353 50.9718 66.0111 50.7848 65.8562C50.606 65.7012 50.3458 65.6238 50.0044 65.6238H48.6385V67.4218ZM50.1751 70.8465C50.5247 70.8465 50.793 70.7691 50.98 70.6141C51.1751 70.451 51.2726 70.2187 51.2726 69.9169C51.2726 69.6152 51.171 69.3788 50.9678 69.2075C50.7726 69.0363 50.5003 68.9507 50.1507 68.9507H48.6385V70.8465H50.1751Z'
         fill='url(#paint7_linear_563_563)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M58.1283 72.0574C58.8031 72.4325 59.5429 72.6201 60.3478 72.6201C61.1527 72.6201 61.8884 72.4325 62.5551 72.0574C63.2217 71.6823 63.7502 71.1605 64.1404 70.4918C64.5306 69.815 64.7258 69.0567 64.7258 68.2168C64.7258 67.3769 64.5306 66.6227 64.1404 65.954C63.7583 65.2854 63.2299 64.7635 62.5551 64.3884C61.8884 64.0133 61.1527 63.8258 60.3478 63.8258C59.5429 63.8258 58.8031 64.0133 58.1283 64.3884C57.4617 64.7635 56.9292 65.2854 56.5308 65.954C56.1406 66.6227 55.9455 67.3769 55.9455 68.2168C55.9455 69.0567 56.1406 69.815 56.5308 70.4918C56.9292 71.1605 57.4617 71.6823 58.1283 72.0574ZM61.9819 70.027C61.5754 70.4837 61.0307 70.712 60.3478 70.712C59.6568 70.712 59.1039 70.4877 58.6893 70.0393C58.2828 69.5826 58.0796 68.9751 58.0796 68.2168C58.0796 67.4503 58.2828 66.8428 58.6893 66.3943C59.1039 65.9459 59.6568 65.7216 60.3478 65.7216C61.0307 65.7216 61.5754 65.9499 61.9819 66.4066C62.3965 66.855 62.6039 67.4585 62.6039 68.2168C62.6039 68.967 62.3965 69.5704 61.9819 70.027Z'
         fill='url(#paint8_linear_563_563)'
       />
@@ -59,8 +59,8 @@ const Logosm = ({ size }: { size: number }) => {
         fill='url(#paint9_linear_563_563)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M26.0979 78.0599C25.9607 78.1333 25.8555 78.2296 25.7824 78.3489V77.1517H25.0004V80.5459H25.7824V80.1881C25.8586 80.3074 25.9638 80.4037 26.0979 80.4771C26.2321 80.5474 26.3891 80.5826 26.5689 80.5826C26.7793 80.5826 26.9698 80.5291 27.1406 80.4221C27.3113 80.312 27.4454 80.1576 27.543 79.9588C27.6436 79.757 27.6939 79.5246 27.6939 79.2616C27.6939 78.9987 27.6436 78.7678 27.543 78.569C27.4454 78.3703 27.3113 78.2174 27.1406 78.1104C26.9698 78.0033 26.7793 77.9498 26.5689 77.9498C26.3921 77.9498 26.2351 77.9865 26.0979 78.0599ZM26.7336 78.803C26.8433 78.913 26.8982 79.0659 26.8982 79.2616C26.8982 79.4573 26.8433 79.6133 26.7336 79.7295C26.6238 79.8426 26.4912 79.8992 26.3357 79.8992C26.1802 79.8992 26.0476 79.8426 25.9379 79.7295C25.8311 79.6163 25.7778 79.4619 25.7778 79.2662C25.7778 79.0705 25.8311 78.9161 25.9379 78.803C26.0476 78.6898 26.1802 78.6332 26.3357 78.6332C26.4942 78.6332 26.6269 78.6898 26.7336 78.803Z'
         fill='url(#paint10_linear_563_563)'
       />
@@ -93,8 +93,8 @@ const Logosm = ({ size }: { size: number }) => {
         fill='url(#paint17_linear_563_563)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M47.6969 78.8947C47.8829 78.9344 48.0323 79.0277 48.1451 79.1745C48.2579 79.3182 48.3143 79.4833 48.3143 79.6698C48.3143 79.9389 48.2198 80.153 48.0308 80.312C47.8448 80.4679 47.5841 80.5459 47.2488 80.5459H45.7534V77.326H47.1984C47.5247 77.326 47.7792 77.4009 47.9622 77.5508C48.1481 77.7006 48.2411 77.904 48.2411 78.1608C48.2411 78.3504 48.1908 78.5079 48.0902 78.6332C47.9926 78.7586 47.8615 78.8458 47.6969 78.8947ZM46.5354 78.6287H47.0475C47.1756 78.6287 47.2731 78.6011 47.3402 78.5461C47.4103 78.488 47.4454 78.4039 47.4454 78.2938C47.4454 78.1837 47.4103 78.0997 47.3402 78.0416C47.2731 77.9835 47.1756 77.9544 47.0475 77.9544H46.5354V78.6287ZM47.1116 79.9129C47.2427 79.9129 47.3433 79.8839 47.4134 79.8258C47.4866 79.7646 47.5231 79.6775 47.5231 79.5644C47.5231 79.4512 47.485 79.3625 47.4088 79.2983C47.3356 79.2341 47.2335 79.202 47.1024 79.202H46.5354V79.9129H47.1116Z'
         fill='url(#paint18_linear_563_563)'
       />
@@ -103,8 +103,8 @@ const Logosm = ({ size }: { size: number }) => {
         fill='url(#paint19_linear_563_563)'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M54.494 78.8947C54.68 78.9344 54.8294 79.0277 54.9422 79.1745C55.055 79.3182 55.1114 79.4833 55.1114 79.6698C55.1114 79.9389 55.0168 80.153 54.8278 80.312C54.6419 80.4679 54.3812 80.5459 54.0458 80.5459H52.5504V77.326H53.9955C54.3217 77.326 54.5763 77.4009 54.7592 77.5508C54.9452 77.7006 55.0382 77.904 55.0382 78.1608C55.0382 78.3504 54.9879 78.5079 54.8873 78.6332C54.7897 78.7586 54.6586 78.8458 54.494 78.8947ZM53.3324 78.6287H53.8446C53.9727 78.6287 54.0702 78.6011 54.1373 78.5461C54.2074 78.488 54.2425 78.4039 54.2425 78.2938C54.2425 78.1837 54.2074 78.0997 54.1373 78.0416C54.0702 77.9835 53.9727 77.9544 53.8446 77.9544H53.3324V78.6287ZM53.9086 79.9129C54.0397 79.9129 54.1403 79.8839 54.2105 79.8258C54.2836 79.7646 54.3202 79.6775 54.3202 79.5644C54.3202 79.4512 54.2821 79.3625 54.2059 79.2983C54.1327 79.2341 54.0306 79.202 53.8995 79.202H53.3324V79.9129H53.9086Z'
         fill='url(#paint20_linear_563_563)'
       />
@@ -117,8 +117,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_563_563'
@@ -128,8 +128,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_563_563'
@@ -139,8 +139,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint3_linear_563_563'
@@ -150,8 +150,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint4_linear_563_563'
@@ -161,8 +161,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint5_linear_563_563'
@@ -172,8 +172,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint6_linear_563_563'
@@ -183,8 +183,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint7_linear_563_563'
@@ -194,8 +194,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint8_linear_563_563'
@@ -205,8 +205,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint9_linear_563_563'
@@ -216,8 +216,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint10_linear_563_563'
@@ -227,8 +227,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint11_linear_563_563'
@@ -238,8 +238,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint12_linear_563_563'
@@ -249,8 +249,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint13_linear_563_563'
@@ -260,8 +260,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint14_linear_563_563'
@@ -271,8 +271,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint15_linear_563_563'
@@ -282,8 +282,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint16_linear_563_563'
@@ -293,8 +293,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint17_linear_563_563'
@@ -304,8 +304,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint18_linear_563_563'
@@ -315,8 +315,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint19_linear_563_563'
@@ -326,8 +326,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
         <linearGradient
           id='paint20_linear_563_563'
@@ -337,8 +337,8 @@ const Logosm = ({ size }: { size: number }) => {
           y2='49.5186'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#FFE1B9' />
-          <stop offset='0.997468' stop-color='#AB814E' />
+          <stop stopColor='#FFE1B9' />
+          <stop offset='0.997468' stopColor='#AB814E' />
         </linearGradient>
       </defs>
     </svg>

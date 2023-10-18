@@ -21,8 +21,8 @@ const Stars3mb = ({ size }: { size: number }) => {
           y2='59.1563'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>
