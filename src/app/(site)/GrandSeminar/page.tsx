@@ -1,8 +1,13 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
-import Countdown from '@/components/Countdown';
+const Countdown = dynamic(() => import('@/components/Countdown'), {
+  ssr: false,
+});
+
+import { FAQ } from '@/components/FAQ';
 import SpeakersCarousel from '@/components/SpeakersCarousel';
 
 export default function GrandSeminar() {
@@ -86,8 +91,8 @@ export default function GrandSeminar() {
       </section>
 
       <section className='Section w-full h-fit min-h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
-        <div className='titleSegment w-full h-[300px] flex'>
-          <div className='containerLuar m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
+        <div className='titleSegment w-full h-[200px] flex'>
+          <div className='containerLuar m-auto mb-0 w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
             <div className='containerdalam w-fit h-fit rounded-[28px] bg-gradient-light-cards pl-16 pr-16 pt-6 pb-6 flex items-center overflow-hidden m-[8px]'>
               <h1 className='title font-museo-muderno text-center w-full font-bold text-[26pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '>
                 Our Speaker
@@ -97,6 +102,18 @@ export default function GrandSeminar() {
         </div>
         <div className='CardsContainer h-fit'>
           <SpeakersCarousel />
+        </div>
+      </section>
+
+      <section className='Section w-full h-fit min-h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
+        <div className='titleSegment w-full h-[200px] flex'>
+          <h1 className='title m-auto font-museo-muderno text-center w-full font-bold text-[26pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '>
+            Frequently Asked Question
+          </h1>
+        </div>
+        <div className='CardsContainer h-fit space-y-7'>
+          <FAQ question={'Kenapa Carousel itu susah'} answer={undefined}></FAQ>
+          <FAQ question={'Elektro! Elektro! Elektro!'} answer={undefined}></FAQ>
         </div>
       </section>
 

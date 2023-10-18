@@ -1,8 +1,10 @@
 import Image from 'next/image';
 
-function SpeakersCard() {
+const SpeakersCard = (props) => {
   return (
-    <div className='SpeakersCard w-[400px] h-[800px] rounded-3xl block overflow-hidden relative'>
+    <div
+      className={`SpeakersCard w-[400px] h-[800px] rounded-3xl block overflow-hidden relative ${props.style}`}
+    >
       <div className='BaganFoto w-full h-[45%] overflow-hidden justify-center relative'>
         <div className='absolute inset-0 bg-gradient-light-cards animate-pulse'></div>
         <Image
@@ -62,6 +64,6 @@ function SpeakersCard() {
       </div>
     </div>
   );
-}
+};
 
 export default SpeakersCard;
