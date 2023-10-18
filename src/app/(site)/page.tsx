@@ -1,7 +1,5 @@
 'use client';
 
-import 'react-vertical-timeline-component/style.min.css';
-
 import Timeline from '@/components/Timeline';
 
 export default function Home() {

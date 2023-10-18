@@ -21,7 +21,7 @@ const Timeline = ({ items }: { items: TimelineItem[] }) => {
   };
 
   return (
-    <VerticalTimeline>
+    <VerticalTimeline lineColor=''>
       {items.map((el, i) => (
         <VerticalTimelineElement
           key={i}
