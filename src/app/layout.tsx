@@ -1,4 +1,6 @@
 import './globals.css';
+//libraries css
+import 'react-vertical-timeline-component/style.min.css';
 
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
@@ -41,8 +43,9 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body suppressHydrationWarning={true}>
+      <body>
         <Toast />
+
         <ModalContextProvider>{children}</ModalContextProvider>
       </body>
     </html>
