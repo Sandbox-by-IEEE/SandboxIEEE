@@ -38,7 +38,7 @@ function ToastComponent({
         </div>
         <div className='w-8 justify-center rounded-full flex items-center self-center'>
           <button
-            className='aspect-square w-full items-center flex justify-center '
+            className='aspect-square w-full items-center flex'
             onClick={() => toast.dismiss(t.id)}
           >
             <div>

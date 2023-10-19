@@ -214,9 +214,15 @@ function NavBarLarge({ auth }: { auth: boolean }) {
 
   return (
     <div
-      className={`absolute bg-green-gradient w-full h-24 z-50 top-[${navbarPos}px]`}
+      className={`sticky bg-green-gradient w-full z-50 top-[${navbarPos}px]`}
+      style={{
+        borderBottom: '6px solid transparent',
+        borderImage: 'linear-gradient(180deg, #AB814E 0%, #FFE1B9 100%) 0.5',
+        boxShadow:
+          '0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(112, 82, 41, 0.25)',
+      }}
     >
-      <div className='bg-green-gradient w-full h-24 relative'>
+      <div className='bg-green-gradient h-24 w-full relative'>
         <div className='aspect-square h-36 absolute z-10 top-[-30px]'>
           <Image src='/comet.svg' alt='commet' fill />
         </div>
@@ -274,7 +280,13 @@ function NavBarSmall({ auth }: { auth: boolean }) {
 
   return (
     <div
-      className={`absolute bg-green-gradient max-w-full min-w-full h-16 z-50 top-[${navbarPos}px]`}
+      className={`sticky bg-green-gradient max-w-full min-w-full z-50 top-[${navbarPos}px]`}
+      style={{
+        borderBottom: '4px solid transparent',
+        borderImage: 'linear-gradient(180deg, #AB814E 0%, #FFE1B9 100%) 1',
+        boxShadow:
+          '0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(112, 82, 41, 0.25)',
+      }}
     >
       <div className='bg-green-gradient w-full h-16 relative'>
         <div className='aspect-square h-36 absolute z-10 top-[-50px]'>
@@ -332,7 +344,7 @@ function NavBarSmall({ auth }: { auth: boolean }) {
 
         <button
           className='aspect-square h-8 top-10 right-10 rounded absolute text-white'
-          onClick={toggleDrawer}
+          onClick={() => setIsOpen(false)}
         >
           <XIcon className='fill-white' size={30} />
         </button>

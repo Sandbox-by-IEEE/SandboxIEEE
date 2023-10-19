@@ -1,14 +1,21 @@
-import React from 'react';
+'use client';
+
+import Timeline from '@/components/Timeline';
 
 export default function Home() {
   return (
-    <main className='bg-black text-white flex min-h-screen flex-col items-center justify-between p-24'>
-      <div>
-        <a href={'../register'} target='' rel='noopener noreferrer'>
-          <p className='text-white hover:underline mb-1'>Register</p>
-        </a>
+    <main className='flex min-h-screen w-screen flex-col overflow-x-clip font-museo-muderno bg-slate-800'>
+      <div className='h-fit w-full'>
+        <Timeline
+          items={[
+            { date: new Date(2023, 0, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+          ]}
+        />
       </div>
-      {/* You can map through the filteredData to display the results */}
     </main>
   );
 }

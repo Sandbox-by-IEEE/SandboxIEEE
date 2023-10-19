@@ -10,6 +10,8 @@ const config: Config = {
     extend: {
       boxShadow: {
         'custom-input': '0 4px 4px 0 rgba(0, 0, 0, 0.25) inset',
+        'custom-card-vote':
+          '0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 2px 0px rgba(0, 0, 0, 0.25), 0px 4px 1px 0px rgba(0, 0, 0, 0.25)',
       },
       fontFamily: {
         poppins: ['var(--font-poppins)'],
@@ -26,6 +28,8 @@ const config: Config = {
           'linear-gradient(34deg, #AB814E 17.96%, #FFFBB9 84.9%)',
         'gradient-green':
           'linear-gradient(180deg, #0F3015 100%, rgba(0, 0, 0, 0.00) 69.27%)',
+        'gradient-card-vote':
+          'linear-gradient(180deg, #FFE1B9 0%, rgba(171, 129, 78, 0.86) 100%)',
       },
       colors: {
         'green-primary': '#0D432F',

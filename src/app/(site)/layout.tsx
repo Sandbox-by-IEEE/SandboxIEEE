@@ -1,16 +1,13 @@
 import Footer from '@/components/footer';
-import { ModalContextProvider } from '@/components/Modal/ModalContext';
 import NavBar from '@/components/Navbar';
-import Toast from '@/components/Toast';
 
 const SiteLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <body>
-      <Toast />
+    <div className='flex flex-col min-h-screen overflow-x-clip'>
       <NavBar />
-      <ModalContextProvider>{children}</ModalContextProvider>
+      {children}
       <Footer />
-    </body>
+    </div>
   );
 };
 

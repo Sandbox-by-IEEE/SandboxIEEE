@@ -11,8 +11,8 @@ const Breadcrumbs = () => {
   }, []);
 
   return (
-    <nav className='hidden transition-all duration-300 sm:block text-base font-poppins'>
-      <ol className='flex'>
+    <nav className='hidden transition-all text-left duration-300 sm:block text-base font-poppins font-semibold lg:text-lg'>
+      <ol className='flex list-none'>
         <li>
           <Link href='/'>
             <span className='text-white hover:underline cursor-pointer'>
@@ -25,7 +25,7 @@ const Breadcrumbs = () => {
             <span className='mx-2 text-[#FFE1B9]'>{'>'}</span>
             <Link href={`/${pathSegments.slice(0, index + 1).join('/')}`}>
               <span
-                className={`${
+                className={`capitalize ${
                   index === pathSegments.length - 1
                     ? 'text-[#DBB88B] hover:underline cursor-pointer '
                     : 'text-white hover:underline cursor-pointer '

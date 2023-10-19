@@ -1,14 +1,12 @@
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
+import LineIcon from '@/components/icons/LineIcon';
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon';
 import { performRequest } from '@/lib/datocms';
-import { ContactUsPageProps } from '@/types/contact-us';
-
-const LineIcon = dynamic(() => import('@/components/icons/LineIcon'));
-const WhatsAppIcon = dynamic(() => import('@/components/icons/WhatsAppIcon'));
+import { type ContactUsPageProps } from '@/types/contact-us';
 
 const ContactUs = async () => {
   const CMS_QUERY = `{
@@ -38,6 +36,7 @@ const ContactUs = async () => {
         width={275}
         height={246}
         alt='Blink'
+        priority
         className='absolute w-[190px] h-[120px] xl:w-[275px] xl:h-[246px] -top-4 xl:-top-10 -left-10 -z-1 opacity-50'
       />
       <Image
@@ -129,13 +128,15 @@ export default ContactUs;
 
 export const metadata: Metadata = {
   title: 'Contact-Us | Sandbox IEEE ITB',
-  description: '',
+  description:
+    'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
   generator: 'Next.js',
   applicationName: 'Sandbox IEEE ITB',
   colorScheme: 'dark',
   openGraph: {
     title: 'Sandbox IEEE ITB',
-    description: '',
+    description:
+      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
     url: 'https://sandbox.ieeeitb.com/',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -152,7 +153,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
-    description: '',
+    description:
+      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
     images: [
       {
         url: 'https://sandbox.ieeeitb.com/link-preview.png',

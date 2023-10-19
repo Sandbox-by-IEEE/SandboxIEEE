@@ -106,25 +106,19 @@ const Dropdown: React.FC<DropdownProps> = ({
     'font-poppins text-sm lg:text-lg ' +
     (open ? colorEffect[color].parent + ' text-black' : ' text-white');
 
-  const onMouseEnter = () => {
-    type == 'routes' ? setOpen(true) : null;
-  };
-
   return (
     <div
       className='cursor-pointer'
       ref={dropDownRef}
-      onMouseEnter={onMouseEnter}
+      onMouseEnter={() => type === 'routes' && setOpen(true)}
+      onMouseLeave={() => type === 'routes' && setOpen(false)}
+      onClick={() => setOpen(!open)}
     >
       {/* Main div unaffected by open state and placeholder */}
       <div
         className={`block ${fullWidth ? 'w-full' : 'w-[256px]'} p-[1.5px] ${
           open ? 'rounded-t-md' : 'rounded-md'
         } ${type === 'routes' ? NavbarStylesSmall : colorEffect[color].parent}`}
-        onClick={() => setOpen(!open)}
-        // Harusnya hover di control dari sini
-        // onMouseEnter={() => type === 'routes' && setOpen(true)}
-        // onMouseLeave={() => type === 'routes' && setOpen(false)}
       >
         <div
           className={`flex justify-between items-center w-full ${

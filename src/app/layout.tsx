@@ -3,7 +3,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
-import NavBar from '@/components/Navbar';
+import { ModalContextProvider } from '@/components/Modal/ModalContext';
+import Toast from '@/components/Toast';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -40,8 +41,10 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <NavBar />
-      {children}
+      <body suppressHydrationWarning={true}>
+        <Toast />
+        <ModalContextProvider>{children}</ModalContextProvider>
+      </body>
     </html>
   );
 }
