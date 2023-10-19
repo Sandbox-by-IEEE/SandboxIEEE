@@ -1,3 +1,6 @@
+'use client';
+import 'react-vertical-timeline-component/style.min.css';
+
 import React from 'react';
 import {
   VerticalTimeline,
