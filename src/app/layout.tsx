@@ -1,4 +1,6 @@
 import './globals.css';
+//libraries css
+import 'react-vertical-timeline-component/style.min.css';
 
 import type { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';

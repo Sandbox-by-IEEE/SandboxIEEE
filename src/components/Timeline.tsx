@@ -21,14 +21,14 @@ const Timeline = ({ items }: { items: TimelineItem[] }) => {
   };
 
   return (
-    <VerticalTimeline>
+    <VerticalTimeline lineColor=''>
       {items.map((el, i) => (
         <VerticalTimelineElement
           key={i}
           className='vertical-timeline-element--work'
           contentStyle={{
             background: 'inherit',
-            color: '#fff',
+            color: '#ffffff',
           }}
           contentArrowStyle={{ borderRight: '7px solid transparent' }}
           iconStyle={{
