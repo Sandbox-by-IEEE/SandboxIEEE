@@ -12,6 +12,7 @@ import { StructuredText } from 'react-datocms/structured-text';
 
 import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
+import Timeline from '@/components/Timeline';
 import VoteCard from '@/components/Vote/VoteCard';
 import { performRequest } from '@/lib/datocms';
 import { type ExhibitionDataProps } from '@/types/exhibition-type';
@@ -87,6 +88,11 @@ const ExhibitionPage = async () => {
       }
       question
     }
+    allTimelineExhibitions(orderBy: date_ASC) {
+      id
+      text
+      date
+    }
   }`;
 
   const {
@@ -94,8 +100,10 @@ const ExhibitionPage = async () => {
     allFinalProjectsTpcExhibitions: TPCData,
     allFinalProjectsPtcExhibitions: PTCData,
     allFaqExhibitions: faqData,
+    allTimelineExhibitions: timelineData,
   }: ExhibitionDataProps = await performRequest({
     query: CMS_QUERY,
+    revalidate: 0,
   });
 
   return (
@@ -113,7 +121,7 @@ const ExhibitionPage = async () => {
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
           <h1
             style={{
-              ['text-shadow' as any]:
+              ['textShadow' as any]:
                 '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
             }}
             className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
@@ -128,12 +136,12 @@ const ExhibitionPage = async () => {
 
       {/* Explanation */}
       <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40'>
-        <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 lg:p-2 rounded-xl'>
+        <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
           <div className=' gap-4 bg-gradient-green lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             {/* Title */}
             <h2
               style={{
-                ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+                ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
               }}
               className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
             >
@@ -164,7 +172,7 @@ const ExhibitionPage = async () => {
       <section className='w-full flex flex-col gap-10  px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center'>
         <h2
           style={{
-            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+            ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
           }}
           className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
         >
@@ -190,12 +198,12 @@ const ExhibitionPage = async () => {
 
       {/* CountDown */}
       <section className='w-full flex flex-col gap-2  px-8 sm:px-10 md:px-20 lg:px-40'>
-        <div className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 lg:p-2'>
+        <div className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'>
           <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
             {/* Title */}
             <h2
               style={{
-                ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+                ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
               }}
               className='bg-gradient-brown text-center lg:text-left text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
             >
@@ -222,7 +230,7 @@ const ExhibitionPage = async () => {
           {/* Title */}
           <h2
             style={{
-              ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+              ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
             }}
             className='bg-gradient-brown text-center lg:text-left text-transparent bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
           >
@@ -236,72 +244,90 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* Final Project Spill */}
-      <section className='w-full flex flex-col items-center justify-center gap-12 lg:gap-14 px-8 sm:px-10 md:px-20 lg:px-40'>
-        <h2
-          style={{
-            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
-          }}
-          className='bg-gradient-brown text-center text-transparent bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
-        >
-          {exhibition.finalProjectTitle}
-        </h2>
-        {/* TPC */}
-        <h3
-          style={{
-            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
-          }}
-          className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'
-        >
-          {exhibition.tpcSubtitle}
-        </h3>
-        <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
-          {TPCData.map((card, index) => (
-            <VoteCard
-              key={index}
-              teamsName={card.teamsName}
-              topic={card.topic}
-              imageUrl={card.image.url}
-              imageAlt={card.image.title}
-              imageHeight={card.image.height}
-              imageWidth={card.image.width}
-              isVoted={false}
-            />
-          ))}
-        </div>
-        {/* PTC */}
-        <h3
-          style={{
-            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
-          }}
-          className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'
-        >
-          {exhibition.ptcSubtitle}
-        </h3>
-        <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
-          {PTCData.map((card, index) => (
-            <VoteCard
-              key={index}
-              teamsName={card.teamsName}
-              topic={card.topic}
-              imageUrl={card.image.url}
-              imageAlt={card.image.title}
-              imageHeight={card.image.height}
-              imageWidth={card.image.width}
-              isVoted={false}
-            />
-          ))}
-        </div>
+      {exhibition.buttonShowFinal && (
+        <section className='w-full flex flex-col items-center justify-center gap-12 lg:gap-14 px-8 sm:px-10 md:px-20 lg:px-40'>
+          <h2
+            style={{
+              ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+            }}
+            className='bg-gradient-brown text-center text-transparent bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+          >
+            {exhibition.finalProjectTitle}
+          </h2>
+          {/* TPC */}
+          <h3
+            style={{
+              ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+            }}
+            className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'
+          >
+            {exhibition.tpcSubtitle}
+          </h3>
+          <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
+            {TPCData.map((card, index) => (
+              <VoteCard
+                key={index}
+                teamsName={card.teamsName}
+                topic={card.topic}
+                imageUrl={card.image.url}
+                imageAlt={card.image.title}
+                imageHeight={card.image.height}
+                imageWidth={card.image.width}
+                isVoted={false}
+              />
+            ))}
+          </div>
+          {/* PTC */}
+          <h3
+            style={{
+              ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+            }}
+            className='bg-gradient-brown text-center text-transparent bg-clip-text text-2xl lg:text-3xl -m-4 font-museo-muderno p-1 font-bold'
+          >
+            {exhibition.ptcSubtitle}
+          </h3>
+          <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
+            {PTCData.map((card, index) => (
+              <VoteCard
+                key={index}
+                teamsName={card.teamsName}
+                topic={card.topic}
+                imageUrl={card.image.url}
+                imageAlt={card.image.title}
+                imageHeight={card.image.height}
+                imageWidth={card.image.width}
+                isVoted={false}
+              />
+            ))}
+          </div>
 
-        <CustomLink color='gold' url='/exhibition/vote'>
-          {exhibition.buttonTextSeeMore}
-        </CustomLink>
+          <CustomLink color='gold' url='/exhibition/vote'>
+            {exhibition.buttonTextSeeMore}
+          </CustomLink>
+        </section>
+      )}
+
+      {/* Shadow */}
+      <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 flex flex-col gap-12 lg:gap-20'>
+        <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
+          <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+            <h2
+              style={{
+                ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+              }}
+              className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+            >
+              {exhibition.timelineSectionTitle}
+            </h2>
+          </div>
+        </div>
+        <Timeline items={timelineData} />
       </section>
-
       {/* FAQ */}
-      <section className='w-full flex flex-col  px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
+      <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
         <h2
           style={{
-            ['text-shadow' as any]: '0px 0px 17.32px #BD9B65',
+            ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
           }}
           className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] text-center bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
         >

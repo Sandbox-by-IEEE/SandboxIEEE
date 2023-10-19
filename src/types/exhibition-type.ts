@@ -59,6 +59,12 @@ export interface ExhibitionDataProps {
   allFinalProjectsPtcExhibitions: AllFinalProjectsExhibition[];
   allFinalProjectsTpcExhibitions: AllFinalProjectsExhibition[];
   allFaqExhibitions: FaqExhibition[];
+  allTimelineExhibitions: TimelineItem[];
+}
+
+export interface TimelineItem {
+  text: string;
+  date: Date;
 }
 
 export interface VoteData {
