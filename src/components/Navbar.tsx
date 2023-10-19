@@ -255,9 +255,6 @@ function NavBarLarge({ auth }: { auth: boolean }) {
 function NavBarSmall({ auth }: { auth: boolean }) {
   const [navbarPos, setNavbarPos] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const toggleDrawer = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   //   Scroll mechanism algorithm
   useEffect(() => {
@@ -277,6 +274,14 @@ function NavBarSmall({ auth }: { auth: boolean }) {
       window.removeEventListener('scroll', detectScrollY);
     };
   });
+  const toggleDrawer = () => {
+    setIsOpen((prev) => !prev);
+    if (isOpen) {
+      document.body.classList.remove('no-scroll');
+    } else {
+      document.body.classList.add('no-scroll');
+    }
+  };
 
   return (
     <div

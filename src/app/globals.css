@@ -90,3 +90,7 @@ details summary::-webkit-details-marker {
   display: block !important;
   visibility: visible !important;
 }
+
+.no-scroll {
+  overflow: hidden;
+}
