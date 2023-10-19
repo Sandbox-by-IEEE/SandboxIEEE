@@ -40,6 +40,11 @@ export const authOptions: AuthOptions = {
                 teamName: true,
               },
             },
+            ticketsExhibition: {
+              select: {
+                active: true,
+              },
+            },
           },
         });
 
@@ -65,6 +70,10 @@ export const authOptions: AuthOptions = {
             }
           : undefined;
 
+        const ticketExhibition = existingUser.ticketsExhibition
+          ? existingUser.ticketsExhibition
+          : undefined;
+
         return {
           id: existingUser.id,
           name: existingUser.name,
@@ -73,6 +82,10 @@ export const authOptions: AuthOptions = {
           vote: {
             karya: karya,
             status: existingUser.karya ? true : false,
+          },
+          exhibition: {
+            buy: ticketExhibition ? true : false,
+            active: ticketExhibition ? ticketExhibition.active : false,
           },
         };
       },
@@ -97,6 +110,11 @@ export const authOptions: AuthOptions = {
               teamName: true,
             },
           },
+          ticketsExhibition: {
+            select: {
+              active: true,
+            },
+          },
         },
       });
 
@@ -118,7 +136,11 @@ export const authOptions: AuthOptions = {
               existingUser.karya?.countVote.toString() || '0',
             ),
           }
-        : null;
+        : undefined;
+
+      const ticketExhibition = existingUser.ticketsExhibition
+        ? existingUser.ticketsExhibition
+        : undefined;
 
       return {
         ...session,
@@ -129,6 +151,10 @@ export const authOptions: AuthOptions = {
           vote: {
             karya: karya,
             status: existingUser.karya ? true : false,
+          },
+          exhibition: {
+            buy: ticketExhibition ? true : false,
+            active: ticketExhibition ? ticketExhibition.active : false,
           },
         },
       };

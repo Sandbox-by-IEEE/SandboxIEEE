@@ -13,6 +13,7 @@ declare module 'next-auth' {
       };
     };
     exhibition?: {
+      buy: boolean;
       active: boolean;
     };
   }
@@ -30,6 +31,7 @@ declare module 'next-auth' {
         };
       };
       exhibition?: {
+        buy: boolean;
         active: boolean;
       };
     };
