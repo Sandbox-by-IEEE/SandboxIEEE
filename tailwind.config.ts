@@ -28,6 +28,7 @@ const config: Config = {
           'linear-gradient(180deg, #0F3015 100%, rgba(0, 0, 0, 0.00) 69.27%)',
         'gradient-card-vote':
           'linear-gradient(180deg, #FFE1B9 0%, rgba(171, 129, 78, 0.86) 100%)',
+        'gradient-section': 'linear-gradient(to bottom, #0b2712, #123b1a)',
       },
       colors: {
         'green-primary': '#0D432F',

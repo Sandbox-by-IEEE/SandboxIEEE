@@ -306,7 +306,7 @@ const ExhibitionPage = async () => {
         </section>
       )}
 
-      {/* Shadow */}
+      {/* Timeline */}
       <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 flex flex-col gap-12 lg:gap-20'>
         <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
           <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
@@ -322,6 +322,7 @@ const ExhibitionPage = async () => {
         </div>
         <Timeline items={timelineData} />
       </section>
+
       {/* FAQ */}
       <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
         <h2

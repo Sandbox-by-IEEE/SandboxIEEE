@@ -60,6 +60,12 @@ interface TpcPage {
   kegiatanz5: string;
 }
 
+interface timeLineTPC {
+  id: string;
+  text: string;
+  date: Date;
+}
+
 interface FaqTpc {
   id: string;
   question: string;
@@ -69,4 +75,5 @@ interface FaqTpc {
 export interface TPCProps {
   tpcPage: TpcPage;
   allFaqTpcs: FaqTpc[];
+  allTimelineTpcs: timeLineTPC[];
 }
