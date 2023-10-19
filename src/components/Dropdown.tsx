@@ -67,7 +67,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     },
     cream: {
       parent: 'bg-cream-secondary-light text-green-primary',
-      icon: 'fill-green-primary',
+      icon: 'fill-[#D8B88B]',
       'child-container': 'bg-cream-secondary-light z-10',
       child: 'hover:bg-white',
     },
@@ -130,8 +130,12 @@ const Dropdown: React.FC<DropdownProps> = ({
           </p>
           <ArrowDropdownIcon
             size={10}
-            className={`${colorEffect[color].icon} w-4 h-4 ${
-              open ? 'rotate-180' : 'rotate-0'
+            className={`w-4 h-4 ${
+              open
+                ? type === 'routes'
+                  ? 'rotate-180 fill-green-primary'
+                  : `rotate-180 fill-green-primary ${colorEffect[color].icon}`
+                : `rotate-0 fill-green-primary ${colorEffect[color].icon}`
             } transition-all duration-300`}
           />
         </div>
