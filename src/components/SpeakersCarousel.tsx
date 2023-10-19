@@ -27,8 +27,8 @@ function SpeakersCarousel() {
           effect={'coverflow'}
           coverflowEffect={{
             stretch: 0,
-            depth: 100,
-            modifier: 9,
+            depth: 50,
+            modifier: 0,
             slideShadows: true,
           }}
         >
