@@ -134,8 +134,8 @@ const Dropdown: React.FC<DropdownProps> = ({
               open
                 ? type === 'routes'
                   ? 'rotate-180 fill-green-primary'
-                  : `rotate-180 fill-green-primary ${colorEffect[color].icon}`
-                : `rotate-0 fill-green-primary ${colorEffect[color].icon}`
+                  : `rotate-180 ${colorEffect[color].icon}`
+                : `rotate-0  ${colorEffect[color].icon}`
             } transition-all duration-300`}
           />
         </div>
