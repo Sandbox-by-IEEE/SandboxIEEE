@@ -5,49 +5,58 @@ import {
   type StructuredText as STType,
 } from 'datocms-structured-text-utils';
 
-export interface Image {
-  url: string;
-  title: string;
-  width: number;
-  height: number;
-}
-
-export interface TPCData {
-  backgroundImage: Image;
-  buttonTextRegister: string;
-  buttonTextSeeMore: string;
-  buttonTextSeeMote: string;
-  countdownSectionTitle: string;
-  embedLocationUrl: string;
+interface TpcPage {
+  tpcSectionTitle: string;
+  titleTpcPage: string;
+  timelineSectionTitle: string;
+  targetDate: string;
+  regisFeesSectionTitle: string;
+  regisFeesDescription:
+    | Document
+    | Node
+    | STType<Record, Record>
+    | null
+    | undefined;
+  imageMascot: {
+    title: string;
+    width: number;
+    url: string;
+    height: number;
+  };
+  hadiahDescription:
+    | Document
+    | Node
+    | STType<Record, Record>
+    | null
+    | undefined;
+  hadiahSectionTitle: string;
+  guideSectionTitle: string;
+  guideDescription: Document | Node | STType<Record, Record> | null | undefined;
+  faqSectionTitle: string;
   explanationDescription:
     | Document
     | Node
     | STType<Record, Record>
     | null
     | undefined;
-  explanationTitle: string;
-  faqSectionTitle: string;
-  guideSectionTitle: string;
-  guideDescription: Document | Node | STType<Record, Record> | null | undefined;
-  guideTitle: string;
-  hadiahSectionTitle: string;
-  imageMascot: Image;
-  regisFeesSectionTitle: string;
-  targetDate: string;
-  timelineSectionTitle: string;
-  titleTpcPage: string;
-  tpcSectionTitle: string;
-  ptcSubtitle: string;
-  tpcSubtitle: string;
+  countdownSectionTitle: string;
+  buttonTextSeeMore: string;
+  buttonTextRegister: string;
+  backgroundImage: {
+    width: number;
+    url: string;
+    title: string;
+    height: number;
+  };
 }
 
-export interface FaqTpc {
+interface FaqTpc {
   id: string;
   question: string;
   answer: Document | Node | STType<Record, Record> | null | undefined;
 }
 
-export interface TPCDataProps {
-  Tpc: TPCData;
-  allFaqTPC: FaqTpc[];
+export interface TPCProps {
+  tpcPage: TpcPage;
+  allFaqTpcs: FaqTpc[];
 }

@@ -1,87 +1,16 @@
-// import PrototechContest from '@/app/tpc/components/PrototechContest';
-import 'react-vertical-timeline-component/style.min.css';
-
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 
 import Button from '@/components/Button';
 import { FAQ } from '@/components/FAQ';
 import Timeline from '@/components/Timeline';
 import { performRequest } from '@/lib/datocms';
-import { type TPCDataProps } from '@/types/tpc-type';
+import { TPCProps } from '@/types/tpc-type';
 
 const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
 });
-
-type GlassCarousel = {
-  title: string;
-  photos?: string[];
-};
-
-function CarouselButtons({ numActive, setNumActive, capacity }) {
-  return (
-    <div className='w-[60%] lg:w-[9%] relative flex flex-row justify-between items-center'>
-      {Array.from(Array(capacity), (_, i) => (
-        <div key={i} className='relative rounded-full'>
-          <button
-            className='rounded-full aspect-square w-4  absolute'
-            onClick={() => setNumActive(i + 1)}
-          >
-            <Image
-              src={`${
-                i + 1 != numActive ? '/lightcircle.svg' : '/darkcircle.svg'
-              }`}
-              alt=''
-              fill
-            />
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function GoldenBorderBox({ children }) {
-  return (
-    <div className='h-full px-0.5 py-0.5 bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9] rounded shadow-lg shadow-[0px_0px_5px_1px_rgba(171,129,78,0.8)] m-4 w-full h-full'>
-      {' '}
-      <div className='w-full h-full bg-green-primary rounded shadow-lg shadow-[0px_0px_5px_1px_rgba(171,129,78,0.8)_inset] p-4 flex flex-row justify-center items-center relative'>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function GlassCarousel({ title, photos }: GlassCarousel) {
-  const [numActive, setNumActive] = useState<number>(1);
-  const photoss = ['/checked.svg', '/google-logo.png'];
-  return (
-    <>
-      <div className='h-[340px] lg:h-[510px] w-full rounded-xl border-2 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] flex flex-col items-center gap-8 justify-center p-4'>
-        <div className='relative  text-lg lg:text-4xl font-extrabold text-[#9a7037] '>
-          <p className='absolute top-0 left-0 text-[#FFE1B9] backdrop-blur-sm'>
-            {title}
-          </p>
-          <h2 className='z-10'>{title}</h2>
-        </div>
-
-        <div className='aspect-video w-4/5 lg:w-1/2 relative'>
-          <div className='absolute w-full h-full duration-500'>
-            <Image fill alt='' src={photoss[numActive - 1]} objectFit='cover' />
-          </div>
-        </div>
-
-        <CarouselButtons
-          numActive={numActive}
-          setNumActive={setNumActive}
-          capacity={5}
-        />
-      </div>
-    </>
-  );
-}
 
 function Judule({ title, colorClass }: { title: string; colorClass?: string }) {
   return (
@@ -110,50 +39,52 @@ const TPC = async () => {
   // Fetch data from CMS
   const CMS_QUERY = `{
     tpcPage {
-        buttonTextRegister
-        buttonTextSeeMore
-        countdownSectionTitle
-        explanationDescription {
-          value
-        }
-        faqSectionTitle
-        guideDescription {
-          value
-        }
-        guideSectionTitle
-        hadiahDescription {
-          value
-        }
-        hadiahSectionTitle
-        imageMascot {
-          height
-          url
-          title
-          width
-        }
-        regisFeesSectionTitle
-        targetDate
-        timelineSectionTitle
-        titleTpcPage
-        tpcSectionTitle
-        backgroundImage {
-          url
-          title
-          width
-          height
-        }
+      tpcSectionTitle 
+      titleTpcPage
+      timelineSectionTitle
+      targetDate
+      regisFeesSectionTitle
+      regisFeesDescription {
+        value
+      }
+      imageMascot {
+        title
+        width
+        url
+        height
+      }
+      hadiahDescription {
+        value
+      }
+      hadiahSectionTitle
+      guideSectionTitle
+      guideDescription {
+        value
+      }
+      faqSectionTitle
+      explanationDescription {
+        value
+      }
+      countdownSectionTitle
+      buttonTextSeeMore
+      buttonTextRegister
+      backgroundImage {
+        width
+        url
+        title
+        height
       }
     }
-    faqTpc(orderBy: question_ASC) {
+    allFaqTpcs {
       id
+      question
       answer {
         value
       }
-      question
     }
   }`;
 
-  const { Tpc, allFaqTPC: faqData }: TPCDataProps = await performRequest({
+  const { tpcPage, allFaqTpcs }: TPCProps = await performRequest({
     query: CMS_QUERY,
   });
 
