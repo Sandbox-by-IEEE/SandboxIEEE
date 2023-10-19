@@ -36,8 +36,8 @@ const Linkedin = ({
           y2='8.23504'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFFBB9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFFBB9' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_216_476'
@@ -47,8 +47,8 @@ const Linkedin = ({
           y2='8.23504'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFFBB9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFFBB9' />
         </linearGradient>
         <linearGradient
           id='paint2_linear_216_476'
@@ -58,8 +58,8 @@ const Linkedin = ({
           y2='8.23504'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFFBB9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFFBB9' />
         </linearGradient>
       </defs>
     </svg>
