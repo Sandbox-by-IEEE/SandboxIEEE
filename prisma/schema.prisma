@@ -17,9 +17,12 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
-  tickets       Ticket[]
+  karyaId       String?
+  ticketsExhibition      TicketExhibition?
+  ticketsCompetition  TicketCompetition[]
   accounts      Account[]
   sessions      Session[]
+  karya         Karya?    @relation(fields: [karyaId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -57,12 +60,12 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Ticket {
+model TicketExhibition {
   id            String  @id @default(uuid())
-  ticketType    String
+  ticketType String
   verified      Boolean @default(false)
   active        Boolean @default(false)
-  userId        String
+  userId        String @unique
   nameCustomer  String
   paymentMethod String
   proof         String
@@ -76,4 +79,30 @@ model Ticket {
   amountPrice   String
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TicketCompetition {
+  id String @id @default(uuid())
+  userId String
+  verified Boolean @default(false)
+  competitionType String
+  teamName String
+  chairmanName String
+  memberNames String[]
+  emails String[]
+  institutions String[]
+  phoneNumbers String[]
+  ages String[]
+  twibbonProofs String[]
+  studentProofs String[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Karya {
+  id        String   @id @default(uuid())
+  teamName  String
+  anggota   String[]
+  countVote BigInt   @default(0)
+  usersVote User[]
 }

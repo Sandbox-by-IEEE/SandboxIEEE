@@ -1,5 +1,7 @@
+import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 
+import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 
@@ -20,7 +22,7 @@ export async function PATCH(
       );
     }
 
-    const existingTicket = await prisma.ticket.findUnique({
+    const existingTicket = await prisma.ticketCompetition.findUnique({
       where: {
         id: ticketId,
       },
@@ -40,7 +42,7 @@ export async function PATCH(
       );
     }
 
-    const updatedTicket = await prisma.ticket.update({
+    const updatedTicket = await prisma.ticketCompetition.update({
       where: {
         id: ticketId,
       },
@@ -51,28 +53,22 @@ export async function PATCH(
 
     isUpdated = true;
 
-    let qr = '';
-    if (
-      updatedTicket.ticketType === 'seminar' ||
-      updatedTicket.ticketType === 'exhibition'
-    ) {
-      qr = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify({
-        ticketId,
-        userId: updatedTicket.userId,
-      })}&amp;size=200x200`;
-    }
-
-    // console.log(qr)
+    const heading = 'haiidaieidajeaied';
+    const content =
+      'diaineiadindoidnoaieneoaidnaoiedaoiednoiaednaoidnaoidnaoiedniaednaoiendaoidn';
 
     const mailOptions = {
       from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-      to: updatedTicket.email,
+      to: updatedTicket.emails[0],
       subject: 'Your Ticket Verified',
-      html: qr
-        ? `<p>Dear ${updatedTicket.nameCustomer},</p> 
-      <img width="400" height="400" alt='qr' src=${qr}/>`
-        : `<p>Dear ${updatedTicket.nameCustomer},</p>
-      <p>Ticket was verifed<p/>`,
+      html: render(
+        Email({
+          heading: heading,
+          content: content,
+          name: updatedTicket.chairmanName,
+        }),
+        { pretty: true },
+      ),
     };
 
     await transporter.sendMail(mailOptions);
@@ -86,7 +82,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof Error) {
       if (isUpdated) {
-        await prisma.ticket.update({
+        await prisma.ticketCompetition.update({
           where: {
             id: ticketId,
           },

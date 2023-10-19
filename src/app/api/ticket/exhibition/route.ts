@@ -1,6 +1,8 @@
+import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 
+import Email from '@/components/emails/Emails';
 import { authOptions } from '@/lib/authOptions';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
@@ -10,8 +12,8 @@ export async function POST(req: NextRequest) {
   try {
     const {
       nameCustomer,
-      ticketType,
       paymentMethod,
+      ticketType,
       proof,
       names,
       email,
@@ -25,8 +27,8 @@ export async function POST(req: NextRequest) {
 
     if (
       !nameCustomer ||
-      !ticketType ||
       !paymentMethod ||
+      !ticketType ||
       !proof ||
       !names ||
       !email ||
@@ -49,12 +51,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const ticket = await prisma.ticket.create({
+    const ticket = await prisma.ticketExhibition.create({
       data: {
         userId: session.user.id,
-        ticketType,
         nameCustomer,
         paymentMethod,
+        ticketType,
         proof,
         names,
         email,
@@ -70,22 +72,24 @@ export async function POST(req: NextRequest) {
     ticketIdTemp = ticket.id;
 
     const data = {
-      'Ticket Id': ticket.id,
-      'Name Customer': nameCustomer,
-      'Ticket Type': ticketType,
-      'Payment Method': paymentMethod,
-      Proof: proof,
-      Names: names,
-      Email: email,
-      Phone: phone,
-      Address: address,
-      Institution: institution,
-      'Phone Number': phoneNumber,
-      Ages: ages,
-      'Amount Price': amountPrice,
+      ticketId: ticket.id,
+      nameCustomer: nameCustomer,
+      paymentMethod: paymentMethod,
+      ticketType: ticketType,
+      proof: proof,
+      names: names,
+      email: email,
+      phone: phone,
+      address: address,
+      institution: institution,
+      phoneNumber: phoneNumber,
+      ages: ticket.ages,
+      amountPrice: ticket.amountPrice,
     };
 
-    const response = await fetch(process.env.SHEETMONKEY_API_URL || '', {
+    const sheetAPI = process.env.API_SHEET_TICKET_URL || '';
+
+    const response = await fetch(`${sheetAPI}?type=Exhibition`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -93,23 +97,28 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(data),
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to create ticket');
+    const resBody = await response.json();
+
+    if (resBody.status > 299 || response.status < 200) {
+      throw new Error(`Failed to create ticket, ${resBody.message}`);
     }
+
+    const heading = 'jiajisjaj';
+    const content =
+      'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
 
     const mailOptions = {
       from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-      to: email,
+      to: ticket.email,
       subject: 'Verification Process for Your Ticket Purchase',
-      html: `<p>Dear ${nameCustomer},</p>
-
-    <p>We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy.</p>
-    
-    <p>Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed.</p>
-    
-    <p>We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address.</p>
-    
-    <p>Thank you and warm regards,</p>`,
+      html: render(
+        Email({
+          content: content,
+          heading: heading,
+          name: ticket.nameCustomer,
+        }),
+        { pretty: true },
+      ),
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -123,7 +132,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (error instanceof Error) {
       if (ticketIdTemp) {
-        await prisma.ticket.delete({
+        await prisma.ticketExhibition.delete({
           where: {
             id: ticketIdTemp,
           },

@@ -13,7 +13,7 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/sign-in',
+    signIn: '/login',
   },
   providers: [
     CredentialsProvider({
@@ -25,18 +25,26 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Missing email or password');
-          return null;
         }
 
         const existingUser = await prisma.user.findUnique({
           where: {
             email: credentials?.email,
           },
+          include: {
+            karya: {
+              select: {
+                id: true,
+                anggota: true,
+                countVote: true,
+                teamName: true,
+              },
+            },
+          },
         });
 
         if (!existingUser) {
           throw new Error('Email is unregistered');
-          return null;
         }
 
         const isPasswordMatch = await compare(
@@ -46,14 +54,26 @@ export const authOptions: AuthOptions = {
 
         if (!isPasswordMatch) {
           throw new Error('Wrong password');
-          return null;
         }
+
+        const karya = existingUser.karya
+          ? {
+              ...existingUser.karya,
+              countVote: parseInt(
+                existingUser.karya?.countVote.toString() || '0',
+              ),
+            }
+          : undefined;
 
         return {
           id: existingUser.id,
           name: existingUser.name,
           email: existingUser.email,
           image: existingUser.image || '',
+          vote: {
+            karya: karya,
+            status: existingUser.karya ? true : false,
+          },
         };
       },
     }),
@@ -64,12 +84,52 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async session({ token, session }) {
+      const existingUser = await prisma.user.findUnique({
+        where: {
+          id: token.sub,
+        },
+        include: {
+          karya: {
+            select: {
+              id: true,
+              anggota: true,
+              countVote: true,
+              teamName: true,
+            },
+          },
+        },
+      });
+
+      if (!existingUser) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: token.sub,
+            image: token.picture || '',
+          },
+        };
+      }
+
+      const karya = existingUser.karya
+        ? {
+            ...existingUser.karya,
+            countVote: parseInt(
+              existingUser.karya?.countVote.toString() || '0',
+            ),
+          }
+        : null;
+
       return {
         ...session,
         user: {
           ...session.user,
           id: token.sub,
           image: token.picture || '',
+          vote: {
+            karya: karya,
+            status: existingUser.karya ? true : false,
+          },
         },
       };
     },
