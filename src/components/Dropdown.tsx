@@ -125,7 +125,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             type === 'routes' ? '' : 'py-3'
           } py-2 lg:px-5 bg-transparent  px-4`}
         >
-          <p className='text-[15px] font-poppins capitalize font-semibold'>
+          <p className='text-[15px] tracking-wide font-poppins capitalize font-semibold'>
             {selectedOption || placeholder}
           </p>
           <ArrowDropdownIcon
