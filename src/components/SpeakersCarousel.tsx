@@ -15,7 +15,7 @@ import SpeakersCard from '@/components/SpeakersCard';
 function SpeakersCarousel() {
   return (
     <div className='SpeakersCarousel w-full h-[1080px] flex'>
-      <div className='CarouselContainer w-[1200px] m-auto flex'>
+      <div className='CarouselContainer w-[1300px] m-auto flex'>
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow]}
           spaceBetween={50}

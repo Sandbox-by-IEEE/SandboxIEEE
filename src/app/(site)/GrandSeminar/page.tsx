@@ -90,18 +90,20 @@ export default function GrandSeminar() {
         </div>
       </section>
 
-      <section className='Section w-full h-fit min-h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
-        <div className='titleSegment w-full h-[200px] flex'>
-          <div className='containerLuar m-auto mb-0 w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
+      <section className='Section w-full h-[600px] md:h-[700px] lg:h-[900px] xl:h-fit pl-[0px] pr-[0px] xl:pl-[100px] xl:pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
+        <div className='titleSegment w-full xl:h-[200px] md:h-[150px] lg:h-[180px] flex'>
+          <div className='containerLuar m-auto mb-0 w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)] xl:scale-100 lg:scale-75 md:scale-50 scale-[45%] relative '>
             <div className='containerdalam w-fit h-fit rounded-[28px] bg-gradient-light-cards pl-16 pr-16 pt-6 pb-6 flex items-center overflow-hidden m-[8px]'>
               <h1 className='title font-museo-muderno text-center w-full font-bold text-[26pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '>
-                Our Speaker
+                Our Speakers
               </h1>
             </div>
           </div>
         </div>
-        <div className='CardsContainer h-fit'>
-          <SpeakersCarousel />
+        <div className='CardsContainer xl:h-fit w-full flex justify-center items-center overflow-hidden h-[440px] md:h-[500px] lg:h-[700px]'>
+          <div className='SpeakerWrapper xl:scale-100 lg:scale-75 md:scale-[60%] sm:scale-[50%] scale-[45%]'>
+            <SpeakersCarousel />
+          </div>
         </div>
       </section>
 
