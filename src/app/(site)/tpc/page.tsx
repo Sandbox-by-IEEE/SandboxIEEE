@@ -1,9 +1,11 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
+import { StructuredText } from 'react-datocms/structured-text';
 
 import Button from '@/components/Button';
 import { FAQ } from '@/components/FAQ';
+import Footer from '@/components/footer';
 import Timeline from '@/components/Timeline';
 import { performRequest } from '@/lib/datocms';
 import { TPCProps } from '@/types/tpc-type';
@@ -39,9 +41,18 @@ const TPC = async () => {
   // Fetch data from CMS
   const CMS_QUERY = `{
     tpcPage {
-      tpcSectionTitle 
-      titleTpcPage
+      tpcSectionTitles 
+      titleTpcPages
       timelineSectionTitle
+      date1
+      date2
+      date3
+      date4
+      date5
+      kegiatanz1
+      kegiatanz2
+      kegiatanz3
+      kegiatanz4
       targetDate
       regisFeesSectionTitle
       regisFeesDescription {
@@ -102,7 +113,7 @@ const TPC = async () => {
         <div className='p-6 rounded-md flex flex-col items-center gap-8 mx-4 my-12'>
           <div className='w-full flex flex-row items-center justify-center'>
             <Judule
-              title='Prototech Contest'
+              title={tpcPage.titleTpcPages}
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
             />
           </div>
@@ -116,7 +127,7 @@ const TPC = async () => {
               isFullWidth={true}
               isDisabled={false}
             >
-              REGISTER
+              {tpcPage.buttonTextRegister}
             </Button>
           </div>
         </div>
@@ -142,7 +153,7 @@ const TPC = async () => {
           >
             <div className='w-full flex flex-row items-center justify-center mt-8'>
               <Judule
-                title='Apa itu TPC?'
+                title={tpcPage.tpcSectionTitles}
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
               />
             </div>
@@ -158,16 +169,9 @@ const TPC = async () => {
                 </div>
               </div>
               <article className='w-full lg:w-[50%] lg:-mx-16 font-poppins justify-center text-justify'>
-                <p className='text-[#FFE1B9] text-lg mx-2'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi
-                  ut aliquip ex ea commodo consequat.
-                </p>
+                <div className='text-[#FFE1B9] text-lg mx-2'>
+                  <StructuredText data={tpcPage.explanationDescription} />
+                </div>
               </article>
             </div>
           </div>
@@ -180,7 +184,7 @@ const TPC = async () => {
         <div className='flex flex-col items-center gap-8 '>
           <div className='w-full flex flex-row items-center justify-center'>
             <Judule
-              title='Hadiah'
+              title={tpcPage.hadiahSectionTitle}
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
             />
           </div>
@@ -196,15 +200,9 @@ const TPC = async () => {
               </div>
             </div>
             <article className='w-full lg:w-[40%] font-poppins text-justify justify-center'>
-              <p className='text-[#FFE1B9] text-xl font-semibold'>
-                Juara 1: Rp4.500.000,00 + e-sertifikat
-              </p>
-              <p className='text-[#FFE1B9] text-xl font-semibold'>
-                Juara 2: Rp2.500.000,00 + e-sertifikat
-              </p>
-              <p className='text-[#FFE1B9] text-xl font-semibold'>
-                Juara 3: Rp1.500.000,00 + e-sertifikat
-              </p>
+              <div className='text-[#FFE1B9] text-xl font-semibold'>
+                <StructuredText data={tpcPage.hadiahDescription} />
+              </div>
             </article>
             <div className='aspect-video w-full lg:w-[30%] relative'>
               <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'>
@@ -239,72 +237,15 @@ const TPC = async () => {
           <div className='h-full w-full rounded-xl px-2'>
             <div className='my-8 w-full flex flex-row items-center justify-center text-center'>
               <Judule
-                title='Regulasi Perlombaan'
+                title={tpcPage.guideSectionTitle}
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
               />
             </div>
             <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center lg:px-20 pb-12'>
               <article className='w-full lg:w-[100%] font-poppins text-justify justify-center'>
-                <p className='text-white text-base font-semibold'>
-                  1. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  2. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  3. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  4. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  5. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  6. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  7. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  8. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  9. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
-                <p className='text-white text-base font-semibold'>
-                  10. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Neque in voluptate magnam, itaque eaque soluta. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Neque in
-                  voluptate magnam, itaque eaque soluta.
-                </p>
+                <div className='text-white text-base font-semibold'>
+                  <StructuredText data={tpcPage.guideDescription} />
+                </div>
               </article>
             </div>
           </div>
@@ -317,7 +258,7 @@ const TPC = async () => {
         <div className='flex flex-col items-center gap-8 '>
           <div className='w-full flex flex-row items-center justify-center text-center'>
             <Judule
-              title='Registration Fees'
+              title={tpcPage.regisFeesSectionTitle}
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
             />
           </div>
@@ -333,10 +274,9 @@ const TPC = async () => {
               </div>
             </div>
             <article className='w-full lg:w-[40%] font-poppins text-justify justify-center'>
-              <p className='text-[#FFFBB9] text-xl font-semibold'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Blanditiis, numquam veniam repellat atque.
-              </p>
+              <div className='text-[#FFFBB9] text-xl font-semibold'>
+                <StructuredText data={tpcPage.regisFeesDescription} />
+              </div>
             </article>
             <div className='aspect-video w-full lg:w-[30%] relative'>
               <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'>
@@ -359,7 +299,7 @@ const TPC = async () => {
           <div className='h-full w-full rounded-xl py-16 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'>
             <div className='w-full flex flex-row items-center justify-center text-center'>
               <Judule
-                title='Pendaftaran TPC akan segera ditutup!'
+                title={tpcPage.countdownSectionTitle}
                 colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
               />
             </div>
@@ -368,7 +308,7 @@ const TPC = async () => {
                 <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
               </div>
               <article className='w-full lg:w-[70%] lg:px-20 font-poppins px-2'>
-                <Countdown targetDate={new Date('2023-12-31T23:59:59')} />
+                <Countdown targetDate={new Date(tpcPage.targetDate)} />
               </article>
               <div className='aspect-video w-full w-[30%] relative'>
                 <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'></div>
@@ -386,7 +326,7 @@ const TPC = async () => {
                   isFullWidth={true}
                   isDisabled={false}
                 >
-                  Daftar
+                  {tpcPage.buttonTextRegister}
                 </Button>
               </div>
               <div className='border-2 border-[#AB814E] rounded-lg w-[180px]'>
@@ -396,7 +336,7 @@ const TPC = async () => {
                   isFullWidth={true}
                   isDisabled={false}
                 >
-                  See More
+                  {tpcPage.buttonTextSeeMore}
                 </Button>
               </div>
             </div>
@@ -413,7 +353,7 @@ const TPC = async () => {
             style={{ backgroundColor: 'rgba(7, 29, 16)' }}
           >
             <Judule
-              title='Timeline'
+              title={tpcPage.timelineSectionTitle}
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
             />
           </div>
@@ -421,11 +361,11 @@ const TPC = async () => {
 
         <Timeline
           items={[
-            { date: new Date(2023, 0, 12), text: 'Open Regist PTC' },
-            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
-            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
-            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
-            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(tpcPage.date1), text: `${tpcPage.kegiatanz1}` },
+            { date: new Date(tpcPage.date2), text: `${tpcPage.kegiatanz2}` },
+            { date: new Date(tpcPage.date3), text: `${tpcPage.kegiatanz3}` },
+            { date: new Date(tpcPage.date4), text: `${tpcPage.kegiatanz4}` },
+            { date: new Date(tpcPage.date5), text: `${tpcPage.kegiatanz4}` },
           ]}
         />
       </section>
@@ -436,83 +376,19 @@ const TPC = async () => {
         <div className='p-6 flex flex-col items-center gap-8 mx-12'>
           <div className='w-full flex flex-row items-center justify-center'>
             <Judule
-              title='Frequently Asked Questions'
+              title={tpcPage.faqSectionTitle}
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
             />
           </div>
           <div className='w-full mt-8 flex flex-col gap-8 lg:flex-col justify-left items-center'>
-            {/* <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
-              <Judule
-                title='Bagaimana caranya dapet IP4?'
-                colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-              />
-            </div>
-            <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
-              <p className='text-[#FFE1B9] text-lg'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-              </p>
-            </article>
-          </div>
-          <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
-            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
-              <Judule
-                title='Bagaimana caranya dapet IP4?'
-                colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-              />
-            </div>
-            <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
-              <p className='text-[#FFE1B9] text-lg'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-              </p>
-            </article>
-          </div>
-          <div className='w-full border-2 rounded-lg p-8 flex flex-col lg:flex-col justify-left items-center'>
-            <div className='w-full lg:w-[100%] font-poppins justify-center text-justify lg:-ml-8'>
-              <Judule
-                title='Bagaimana caranya dapet IP4?'
-                colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-              />
-            </div>
-            <article className='w-full lg:w-[100%] font-poppins justify-center text-justify'>
-              <p className='text-[#FFE1B9] text-lg'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
-              </p>
-            </article> */}
-
-            <FAQ
-              question={'Kenapa why selalu always?'}
-              answer={undefined}
-            ></FAQ>
-            <FAQ
-              question={'Apakah jawa adalah kunci?'}
-              answer={undefined}
-            ></FAQ>
-            <FAQ question={'Mengapa semua menangis?'} answer={undefined}></FAQ>
+            {allFaqTpcs.map((faq, index) => (
+              <FAQ key={index} question={faq.question} answer={faq.answer} />
+            ))}
           </div>
         </div>
       </section>
       {/* END FAQ */}
+      <Footer />
     </main>
   );
 };
