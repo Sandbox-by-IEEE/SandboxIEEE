@@ -107,9 +107,9 @@ export default function GrandSeminar() {
         </div>
       </section>
 
-      <section className='Section w-full h-fit min-h-[1080px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
+      <section className='Section w-full h-fit pt-[0px] pb-[100px] pl-[100px] pr-[100px] bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] bg-cover block '>
         <div className='titleSegment w-full h-[200px] flex'>
-          <h1 className='title m-auto font-museo-muderno text-center w-full font-bold text-[26pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '>
+          <h1 className='title m-auto font-museo-muderno text-center w-full font-bold text-[16pt] sm:text-[18pt] md:text-[19pt] lg:text-[24pt] xl:text-[26pt] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '>
             Frequently Asked Question
           </h1>
         </div>
