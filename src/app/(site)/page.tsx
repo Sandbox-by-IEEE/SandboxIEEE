@@ -1,32 +1,19 @@
 'use client';
-import { useEffect, useState } from 'react';
 
-import FileInput from '@/components/FileInput';
-
-export interface FileInputType {
-  fileName: string;
-  fileUrl: string;
-}
+import Timeline from '@/components/Timeline';
 
 export default function Home() {
-  const [files, setFiles] = useState<FileInputType[] | undefined>();
-  const [url, setUrl] = useState<string>('');
-
-  useEffect(() => {
-    if (files?.length || url) {
-      console.log({ files, url });
-    }
-  }, [files, url]);
-
   return (
-    <main className='flex p-4 w-screen h-screen items-center justify-center bg-black'>
-      <div className='flex gap-2 flex-wrap'>
-        <FileInput
-          setFiles={setFiles}
-          setUrl={setUrl}
-          message={'secondary message'}
-          allowedFileTypes={['.jpg', '.pdf', '.jpeg', '.png']}
-          files={files}
+    <main className='flex min-h-screen w-screen flex-col overflow-x-clip font-museo-muderno bg-slate-800'>
+      <div className='h-fit w-full'>
+        <Timeline
+          items={[
+            { date: new Date(2023, 0, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+            { date: new Date(2023, 10, 12), text: 'Open Regist PTC' },
+          ]}
         />
       </div>
     </main>

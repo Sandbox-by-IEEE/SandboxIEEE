@@ -13,6 +13,7 @@ export async function PATCH(
   let isUpdated = false;
   let countTemp = 0;
   try {
+    // Validate karya id
     if (!karyaId) {
       return NextResponse.json(
         { message: 'Missing karya id!!!' },
@@ -20,6 +21,7 @@ export async function PATCH(
       );
     }
 
+    // Check if karya exist
     const existingKarya = await prisma.karya.findUnique({
       where: {
         id: karyaId,
@@ -33,6 +35,7 @@ export async function PATCH(
       );
     }
 
+    // Update karya count vote
     const updatedKarya = await prisma.karya.update({
       where: {
         id: karyaId,
@@ -41,10 +44,10 @@ export async function PATCH(
         countVote: ++existingKarya.countVote,
       },
     });
-
     isUpdated = true;
     countTemp = parseInt(updatedKarya.countVote.toString());
 
+    // Update to google sheet
     const res = await fetch(
       `${process.env.API_SHEET_VOTING_URL}?name=${updatedKarya.teamName}&count=${updatedKarya.countVote}`,
       {
@@ -61,10 +64,11 @@ export async function PATCH(
     return NextResponse.json(
       {
         countVote: parseInt(updatedKarya.countVote.toString()),
-        mesaage: 'voting succesful',
+        message: 'voting succesful',
       },
       { status: 200 },
     );
+    // Error handling
   } catch (error) {
     if (error instanceof Error) {
       if (isUpdated) {
@@ -77,7 +81,6 @@ export async function PATCH(
           },
         });
       }
-      console.log('PATCH_VOTING: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }

@@ -1,3 +1,6 @@
+'use client';
+import 'react-vertical-timeline-component/style.min.css';
+
 import React from 'react';
 import {
   VerticalTimeline,
@@ -21,14 +24,14 @@ const Timeline = ({ items }: { items: TimelineItem[] }) => {
   };
 
   return (
-    <VerticalTimeline>
+    <VerticalTimeline lineColor=''>
       {items.map((el, i) => (
         <VerticalTimelineElement
           key={i}
           className='vertical-timeline-element--work'
           contentStyle={{
             background: 'inherit',
-            color: '#fff',
+            color: '#ffffff',
           }}
           contentArrowStyle={{ borderRight: '7px solid transparent' }}
           iconStyle={{

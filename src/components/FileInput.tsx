@@ -8,13 +8,17 @@ import React, {
   useState,
 } from 'react';
 
-import { FileInputType } from '@/app/(site)/page';
 import FileIcon from '@/components/icons/FileIcon';
 import FileInputIconEmpty from '@/components/icons/FileInputIconEmpty';
 import FileInputIconError from '@/components/icons/FileInputIconError';
 import FileInputIconSuccess from '@/components/icons/FileInputIconSuccess';
 import LinkIcon from '@/components/icons/LinkIcon';
 import SaveIcon from '@/components/icons/SaveIcon';
+
+export interface FileInputType {
+  fileName: string;
+  fileUrl: string;
+}
 
 const FileInput = ({
   setFiles,
