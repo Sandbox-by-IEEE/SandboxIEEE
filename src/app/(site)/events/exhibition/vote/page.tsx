@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
-import ClientVotePage from '@/app/(site)/exhibition/vote/ClientVotePage';
+import ClientVotePage from '@/app/(site)/events/exhibition/vote/ClientVotePage';
 import { performRequest } from '@/lib/datocms';
 import { VoteDataProps } from '@/types/exhibition-type';
 
