@@ -15,7 +15,7 @@ export default function Home() {
       />
       <Image
         src='404assets/ring.svg'
-        className='absolute right-0 top-0 w-[25%] sm:w-[10%] -translate-x-10 object-contain transition-all duration-300'
+        className='absolute right-0 -top-14 w-[25%] sm:w-[10%] aspect-square object-contain -translate-x-10 opacity-70 transition-all duration-300'
         alt='Ring'
         width={199}
         height={199}
