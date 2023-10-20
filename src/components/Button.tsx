@@ -1,4 +1,3 @@
-
 import RightArrow from './icons/RightArrow';
 
 const Button = ({
@@ -7,14 +6,12 @@ const Button = ({
   isIcon,
   isDisabled,
   isFullWidth,
-  href,
 }: {
   color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange';
   children: JSX.Element | string;
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
-  href?: string;
 }) => {
   const colorEffect = {
     green: {
@@ -38,13 +35,6 @@ const Button = ({
       arrow: '#AB814E',
     },
   };
-
-  // const router = useRouter();
-
-  // const handleClick = (e) => {
-  //   e.preventDefault()
-  //   router.push(Url(href))
-  // }
 
   //green, 100%
   return (
