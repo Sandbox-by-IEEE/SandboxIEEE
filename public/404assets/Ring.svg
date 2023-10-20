@@ -1,14 +1,10 @@
-<svg width="199" height="125" viewBox="0 0 199 125" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Ring" opacity="0.6" clip-path="url(#clip0_897_2623)">
-<circle id="Ellipse 123" cx="99.5" cy="25.5" r="99.5" stroke="url(#paint0_linear_897_2623)" stroke-width="11.8033"/>
-</g>
-<defs>
-<linearGradient id="paint0_linear_897_2623" x1="117.295" y1="143.526" x2="219.613" y2="-10.2187" gradientUnits="userSpaceOnUse">
-<stop stop-color="#AB814E"/>
-<stop offset="1" stop-color="#FFE1B9"/>
-</linearGradient>
-<clipPath id="clip0_897_2623">
-<rect width="199" height="199" fill="white" transform="translate(0 -74)"/>
-</clipPath>
-</defs>
+<svg width="147" height="147" viewBox="0 0 147 147" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <circle cx="73.5" cy="73.5" r="67.5" stroke="url(#paint0_linear_895_2155)" stroke-width="11.8033"/>
+  <defs>
+    <linearGradient id="paint0_linear_895_2155" x1="85.5719" y1="153.568" x2="154.984" y2="49.2687" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#AB814E"/>
+      <stop offset="1" stop-color="#FFE1B9"/>
+    </linearGradient>
+  </defs>
 </svg>
