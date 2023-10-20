@@ -25,6 +25,8 @@ export default function Home() {
         src={'/404assets/404.png'}
         alt='Sandbox Logo'
         className='absolute top-1/3 inset-0 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse origin-center w-[308px] sm:w-[550px] md:w-[70%] 2xl:w-[50%] aspect-video object-contain transition-all duration-300'
+        sizes='(max-width: 640px) 408px, (max-width: 768px) 550px, (max-width: 1024px) 70%, 50%'
+        priority
         width={1315}
         height={887}
       />

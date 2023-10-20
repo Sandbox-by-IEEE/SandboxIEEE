@@ -9,14 +9,14 @@ export default function CommingSoonPage() {
       <Image
         src='/coming-soon/Bintang_jatuh.svg'
         className='absolute right-2 w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
-        alt='tes'
+        alt='Meteorit'
         width={744}
         height={642}
       />
       <Image
         src='/coming-soon/ring.svg'
         className='absolute right-0 -top-14 w-[25%] sm:w-[10%] -translate-x-10 object-contain transition-all duration-300'
-        alt='tes'
+        alt='Ring'
         width={199}
         height={199}
       />
@@ -25,6 +25,8 @@ export default function CommingSoonPage() {
         src={'/coming-soon/Background_Sandbox_Logo.png'}
         alt='Sandbox Logo'
         className='absolute animate-pulse top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[408px] sm:w-[550px] md:w-[70%] 2xl:w-[50%] aspect-video object-contain transition-all duration-300'
+        sizes='(max-width: 640px) 408px, (max-width: 768px) 550px, (max-width: 1024px) 70%, 50%'
+        priority
         width={1315}
         height={887}
       />
@@ -58,14 +60,14 @@ export default function CommingSoonPage() {
       <Image
         src='/coming-soon/Bintang_jatuh.svg'
         className='absolute rotate-[165deg] bottom-0 left-0 object-contain w-[20%] sm:-translate-x-10 -translate-x-20 -translate-y-10 transition-all duration-300'
-        alt='tes'
+        alt='Meteorit'
         width={744}
         height={642}
       />
       <Image
         src='/coming-soon/Vector_155.svg'
         className='absolute bottom-0 left-1 object-contain w-[25%] sm:w-[13%] sm:translate-x-10  translate-x-15 -translate-y-5 transition-all duration-300'
-        alt='tes'
+        alt='GLowing Comet'
         width={236}
         height={206}
       />
