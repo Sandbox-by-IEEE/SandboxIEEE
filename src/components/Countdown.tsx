@@ -35,9 +35,9 @@ function Countdown({ targetDate }: { targetDate: Date }) {
       <div className='flex flex-col gap-y-6 md:flex-row'>
         <div className='flex flex-row items-center'>
           {/* First Box */}
-          <div className='flex h-[124px] w-[124px] flex-col items-center justify-center bg-black pt-[14px] sm:h-[137px] sm:w-[137px]'>
+          <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
             {/* Mobile, Days */}
-            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[68px] leading-none text-white md:hidden'>
+            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
               {/* Puluhan */}
               <div
                 key={`${Math.floor(
@@ -82,7 +82,7 @@ function Countdown({ targetDate }: { targetDate: Date }) {
             </div>
 
             {/* Desktop, Weeks */}
-            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[68px] leading-none text-white md:flex'>
+            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:flex'>
               {/* Puluhan */}
               <div
                 key={`${Math.floor(
@@ -164,9 +164,9 @@ function Countdown({ targetDate }: { targetDate: Date }) {
           </div>
 
           {/* Second Box */}
-          <div className='flex h-[124px] w-[124px] flex-col items-center justify-center bg-black pt-[14px] sm:h-[137px] sm:w-[137px]'>
+          <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
             {/* Mobile, Hours */}
-            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[68px] leading-none text-white md:hidden'>
+            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
               {/* Puluhan */}
               <div
                 key={`${Math.floor(
@@ -210,7 +210,7 @@ function Countdown({ targetDate }: { targetDate: Date }) {
             </div>
 
             {/* Desktop, Days */}
-            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69]  text-[68px] leading-none text-white md:flex'>
+            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69]  text-[50px] lg:text-[68px] leading-none text-white md:flex'>
               {/* Puluhan */}
               <div
                 key={`${Math.floor(
@@ -265,9 +265,9 @@ function Countdown({ targetDate }: { targetDate: Date }) {
 
         {/* Third Box */}
         <div className='flex flex-row items-center'>
-          <div className='flex h-[124px] w-[124px] flex-col items-center justify-center bg-black pt-[14px] sm:h-[137px] sm:w-[137px]'>
+          <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
             {/* Mobile, Minutes */}
-            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[68px] leading-none text-white md:hidden'>
+            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
               {/* Puluhan */}
               <div
                 key={`${Math.floor(
@@ -310,7 +310,7 @@ function Countdown({ targetDate }: { targetDate: Date }) {
             </div>
 
             {/* Desktop, Hours */}
-            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[68px] leading-none text-white md:flex'>
+            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:flex'>
               {/* Puluhan */}
               <div
                 key={`${Math.floor(
@@ -395,9 +395,9 @@ function Countdown({ targetDate }: { targetDate: Date }) {
           </div>
 
           {/* 4th Box */}
-          <div className='flex h-[124px] w-[124px] flex-col items-center justify-center bg-black pt-[14px] sm:h-[137px] sm:w-[137px]'>
+          <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
             {/* Mobile, Seconds */}
-            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[68px] leading-none text-white md:hidden'>
+            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
               {/* Puluhan */}
               <div
                 key={`${Math.floor(
@@ -426,7 +426,7 @@ function Countdown({ targetDate }: { targetDate: Date }) {
             </div>
 
             {/* Desktop, Minutes */}
-            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[68px] leading-none text-white md:flex'>
+            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:flex'>
               {/* Puluhan */}
               <div
                 key={`${Math.floor(
