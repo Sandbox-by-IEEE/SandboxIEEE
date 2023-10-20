@@ -13,7 +13,7 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/sign-in',
+    signIn: '/login',
   },
   providers: [
     CredentialsProvider({
@@ -25,7 +25,6 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Missing email or password');
-          return null;
         }
 
         const existingUser = await prisma.user.findUnique({
@@ -36,7 +35,6 @@ export const authOptions: AuthOptions = {
 
         if (!existingUser) {
           throw new Error('Email is unregistered');
-          return null;
         }
 
         const isPasswordMatch = await compare(
@@ -46,7 +44,6 @@ export const authOptions: AuthOptions = {
 
         if (!isPasswordMatch) {
           throw new Error('Wrong password');
-          return null;
         }
 
         return {
