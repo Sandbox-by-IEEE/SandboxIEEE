@@ -37,6 +37,7 @@ export default function RootLayout({
     </html>
   );
 }
+
 export const metadata: MetadataType = {
   title: 'Coming Soon | Sandbox IEEE ITB',
   description:
