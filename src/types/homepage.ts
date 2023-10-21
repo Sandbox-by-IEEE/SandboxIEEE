@@ -16,8 +16,6 @@ interface Homepage {
   targetDate: Date;
   tagline: string;
   sandboxLogo: Image;
-  ourSponsor: string;
-  ourEventSectionTitle: string;
   ieeeLogo: Image;
   faqSectionTitle: string;
   explanationTitle: string;
@@ -32,8 +30,11 @@ interface Homepage {
   buttonTextPastEvents: string;
   buttonTextPartnerUs: string;
   buttonTextOne: string;
+  ourSponsor: string;
   buttonTextGetKnowUs: string;
   background: Image[];
+  ourSponsorLogo: Image[];
+  ourEventSectionTitle: string;
 }
 
 interface OurEventsHomepage {
