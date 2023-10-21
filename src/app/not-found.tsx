@@ -7,14 +7,14 @@ export default function Home() {
   return (
     <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
       <Image
-        src='404assets/Bintang_jatuh.svg'
-        className='absolute right-2 w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
+        src='/404assets/Bintang_jatuh.svg'
+        className='absolute -right-20 lg:right-2 w-[50%] sm:w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
         alt='Meteoroit'
         width={744}
         height={642}
       />
       <Image
-        src='404assets/ring.svg'
+        src='/404assets/Ring.svg'
         className='absolute right-0 -top-14 w-[25%] sm:w-[10%] aspect-square object-contain -translate-x-10 opacity-70 transition-all duration-300'
         alt='Ring'
         width={199}
@@ -56,14 +56,14 @@ export default function Home() {
         </div>
       </div>
       <Image
-        src='404assets/Bintang_jatuh.svg'
+        src='/404assets/Bintang_jatuh.svg'
         className='absolute rotate-[165deg] bottom-0 left-0 object-contain w-[20%] sm:-translate-x-10 -translate-x-20 -translate-y-10 transition-all duration-300'
         alt='Meteorit'
         width={744}
         height={642}
       />
       <Image
-        src='404assets/Vector_155.svg'
+        src='/404assets/Vector_155.svg'
         className='absolute bottom-0 left-1 object-contain w-[25%] sm:w-[13%] sm:translate-x-10  translate-x-15 -translate-y-5 transition-all duration-300'
         alt='Comet'
         width={236}
