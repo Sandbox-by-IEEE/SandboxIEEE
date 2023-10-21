@@ -5,6 +5,17 @@ import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import { FAQ } from '@/components/FAQ';
+import Footer from '@/components/footer';
+import Explosion from '@/components/icons/explosion';
+import Star4 from '@/components/icons/star4';
+import Star5 from '@/components/icons/star5';
+import Star6 from '@/components/icons/star6';
+import Star7 from '@/components/icons/star7';
+import Star8 from '@/components/icons/star8';
+import Star9 from '@/components/icons/Star9';
+import Star10 from '@/components/icons/star10';
+import Star11 from '@/components/icons/star11';
+import Starburst from '@/components/icons/starburst';
 import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import { performRequest } from '@/lib/datocms';
@@ -141,13 +152,38 @@ const TPC = async () => {
                 className='w-[130px] h-[200px] lg:w-[226px] lg:h-[301px] object-contain object-center'
               />
               {/* Description */}
-              <span className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px]'>
+              <span className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px] text-justify pr-20'>
                 {tpcPage && (
                   <StructuredText data={tpcPage.explanationDescription} />
                 )}
               </span>
             </div>
           </div>
+        </div>
+        {/* <div className='w-full lg:w-full relative lg:mr-32 right-[0px] bg-black'>
+          <div className='aspect-square w-[100%] absolute z-10 lg:bottom-[100px] lg:right-[-670px] rotate-[0deg]'>
+            <Image fill alt='' src={'/Kurva.svg'} objectFit='contain' />
+          </div>
+        </div>
+        <div className='w-full lg:w-full relative lg:mr-32 right-[0px] bg-black'>
+          <div className='aspect-square w-[5%] absolute z-10 lg:bottom-[75px] lg:right-[70px] rotate-[0deg]'>
+            <Image fill alt='' src={'/Star.svg'} objectFit='contain' />
+          </div>
+        </div>
+        <div className='w-full lg:w-full relative lg:mr-32 right-[0px] bg-black'>
+          <div className='aspect-square w-[2%] absolute z-10 lg:bottom-[150px] lg:right-[65px] rotate-[0deg]'>
+            <Image fill alt='' src={'/Circle.svg'} objectFit='contain' />
+          </div>
+        </div> */}
+        <div className='absolute hidden right-11 top-[-300px] lg:block'>
+          <Star4 size={40} />
+          {/* <Star5 size={40} /> */}
+        </div>
+        <div className='absolute hidden right-52 lg:block'>
+          <Star5 size={40} />
+        </div>
+        <div className='absolute hidden right-52 lg:block'>
+          <Star6 size={30} />
         </div>
       </section>
       {/* END APA ITU TPC */}
@@ -159,7 +195,7 @@ const TPC = async () => {
             <Judule>{tpcPage.hadiahSectionTitle}</Judule>
           </div>
           <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center mb-12'>
-            <div className='aspect-video w-full lg:w-[30%] relative lg:mr-32 left-[-20px]'>
+            <div className='aspect-video w-full lg:w-[20%] relative lg:mr-32 left-[-60px]'>
               <div className='aspect-square w-[40%] absolute z-10 lg:top-[-40px] lg:left-[202px] rotate-[-23.7deg]'>
                 <Image
                   fill
@@ -175,7 +211,7 @@ const TPC = async () => {
               </div>
             </article>
             <div className='aspect-video w-full lg:w-[30%] relative'>
-              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'>
+              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[102px] rotate-[]'>
                 <Image
                   fill
                   alt=''
@@ -185,6 +221,15 @@ const TPC = async () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className='absolute hidden left-0 top-[805px] lg:block'>
+          <Star7 size={40} />
+        </div>
+        <div className='absolute hidden left-32 top-[1135px] lg:block'>
+          <Star5 size={40} />
+        </div>
+        <div className='absolute hidden left-36 top-[1025px] lg:block'>
+          <Star6 size={40} />
         </div>
       </section>
       {/* END HADIAH */}
@@ -216,6 +261,21 @@ const TPC = async () => {
               </article>
             </div>
           </div>
+        </div>
+        <div className='absolute hidden left-0 top-[875px] lg:block'>
+          <Explosion size={25} />
+        </div>
+        <div className='absolute hidden right-0 top-[875px] lg:block'>
+          <Starburst size={25} />
+        </div>
+        <div className='absolute hidden left-52 top-[1675px] lg:block'>
+          <Star8 size={32} />
+        </div>
+        <div className='absolute hidden left-64 top-[1655px] lg:block'>
+          <Star9 size={32} />
+        </div>
+        <div className='absolute hidden right-4 top-[1655px] lg:block'>
+          <Star10 size={30} />
         </div>
       </section>
       {/* END REGULASI */}
@@ -252,6 +312,16 @@ const TPC = async () => {
             </div>
           </div>
         </div>
+        <div className='absolute hidden right-11 top-[1550px] lg:block'>
+          <Star4 size={40} />
+          {/* <Star5 size={40} /> */}
+        </div>
+        <div className='absolute hidden right-52 top-[2600px] lg:block'>
+          <Star5 size={40} />
+        </div>
+        <div className='absolute hidden right-52 top-[2600px] lg:block'>
+          <Star6 size={30} />
+        </div>
       </section>
       {/* END REGISTRATION */}
 
@@ -274,6 +344,15 @@ const TPC = async () => {
             </div>
           </div>
         </div>
+        <div className='absolute hidden left-0 top-[3105px] lg:block'>
+          <Star7 size={55} />
+        </div>
+        <div className='absolute hidden left-48 top-[3170px] lg:block'>
+          <Star5 size={40} />
+        </div>
+        <div className='absolute hidden left-48 top-[3085px] lg:block'>
+          <Star6 size={40} />
+        </div>
       </section>
       {/* END COUNTDOWN */}
 
@@ -282,9 +361,18 @@ const TPC = async () => {
         className='w-full bg-gradient-section px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
         style={{ background: 'rgba(7, 29, 16)' }}
       >
+        <div className='absolute hidden left-[480px] top-[3765px] lg:block'>
+          <Star11 size={55} />
+        </div>
         <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
           <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             <Judule>{tpcPage.timelineSectionTitle}</Judule>
+            <div className='absolute hidden right-[520px] lg:top-[3035px] lg:block'>
+              <Star8 size={25} />
+            </div>
+            <div className='absolute hidden right-[500px] lg:top-[3015px] lg:block'>
+              <Star9 size={25} />
+            </div>
           </div>
         </div>
         <Timeline items={allTimelineTpcs} />
@@ -299,8 +387,18 @@ const TPC = async () => {
             <FAQ key={index} question={faq.question} answer={faq.answer} />
           ))}
         </div>
+        <div className='absolute hidden left-0 top-[4200px] lg:block'>
+          <Explosion size={25} />
+        </div>
+        <div className='absolute hidden right-[80px] lg:top-[4400px] lg:block'>
+          <Star8 size={25} />
+        </div>
+        <div className='absolute hidden right-[65px] lg:top-[4380px] lg:block'>
+          <Star9 size={25} />
+        </div>
       </section>
       {/* END FAQ */}
+      <Footer />
     </main>
   );
 };
