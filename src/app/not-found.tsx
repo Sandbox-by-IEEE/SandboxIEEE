@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import Image from 'next/image';
 
 import CustomLink from '@/components/Link';
@@ -7,14 +7,14 @@ export default function Home() {
   return (
     <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
       <Image
-        src='404assets/Bintang_jatuh.svg'
-        className='absolute right-2 w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
+        src='/404assets/Bintang_jatuh.svg'
+        className='absolute -right-20 lg:right-2 w-[50%] sm:w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
         alt='Meteoroit'
         width={744}
         height={642}
       />
       <Image
-        src='404assets/ring.svg'
+        src='/404assets/Ring.svg'
         className='absolute right-0 -top-14 w-[25%] sm:w-[10%] aspect-square object-contain -translate-x-10 opacity-70 transition-all duration-300'
         alt='Ring'
         width={199}
@@ -22,9 +22,11 @@ export default function Home() {
       />
       {/*Background*/}
       <Image
-        src={'/404assets/Background_Sandbox_Logo.png'}
+        src={'/404assets/404.png'}
         alt='Sandbox Logo'
-        className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[408px] sm:w-[550px] md:w-[70%] 2xl:w-[50%] aspect-video object-contain transition-all duration-300'
+        className='absolute top-1/3 inset-0 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse origin-center w-[308px] sm:w-[550px] md:w-[70%] 2xl:w-[50%] aspect-video object-contain transition-all duration-300'
+        sizes='(max-width: 640px) 408px, (max-width: 768px) 550px, (max-width: 1024px) 70%, 50%'
+        priority
         width={1315}
         height={887}
       />
@@ -34,15 +36,15 @@ export default function Home() {
         <Image
           src={'/404assets/sand.png'}
           alt='Bucket Image'
-          className='z-50 object-contain w-[124px] h-[251px] sm:w-[150px] lg:w-[182px] lg:h-[280px] transition-all duration-300'
+          className='z-50 object-contain animate-shake w-[124px] h-[251px] sm:w-[150px] lg:w-[182px] lg:h-[280px] transition-all duration-300'
           width={165}
           height={220}
         />
-        <div className='flex flex-col items-center gap-2 lg:gap-4'>
-          <h1 className='font-poppins lg:text-4xl text-3xl tracking-wide text-center font-extrabold text-white transition-all duration-300'>
+        <div className='flex flex-col items-center gap-3 lg:gap-6'>
+          <h1 className='font-poppins italic animate-ghost-left lg:text-5xl text-4xl tracking-wide text-center font-extrabold text-white transition-all duration-300'>
             Oops!
           </h1>
-          <h2 className='font-poppins font-light text-lg lg:text-2xl text-center text-white transition-all duration-300'>
+          <h2 className='font-poppins italic text-lg lg:text-2xl text-center text-white transition-all duration-300'>
             Looks like you&apos;ve taken a wrong turn. Let&apos;s get you back
             on track
           </h2>
@@ -54,14 +56,14 @@ export default function Home() {
         </div>
       </div>
       <Image
-        src='404assets/Bintang_jatuh.svg'
+        src='/404assets/Bintang_jatuh.svg'
         className='absolute rotate-[165deg] bottom-0 left-0 object-contain w-[20%] sm:-translate-x-10 -translate-x-20 -translate-y-10 transition-all duration-300'
         alt='Meteorit'
         width={744}
         height={642}
       />
       <Image
-        src='404assets/Vector_155.svg'
+        src='/404assets/Vector_155.svg'
         className='absolute bottom-0 left-1 object-contain w-[25%] sm:w-[13%] sm:translate-x-10  translate-x-15 -translate-y-5 transition-all duration-300'
         alt='Comet'
         width={236}
@@ -74,19 +76,41 @@ export default function Home() {
 export const metadata: Metadata = {
   title: '404 | Sandbox IEEE ITB',
   description:
-    'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+    "We couldn't find the page you're looking for. The page might have been removed or the URL may be incorrect. While we're fixing things, why not explore more of what we have to offer? You can head back to our homepage or check out our other exciting events and opportunities.",
   generator: 'Next.js',
+  category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'Sandbox',
+    'Sandbox IEEE ITB',
+    'Sandbox ITB',
+    'IEEE ITB',
+    'ITB',
+    'TPC',
+    'PTC',
+  ],
   colorScheme: 'dark',
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US/',
+      'id-ID': '/id-ID/',
+    },
+  },
+  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
+  verification: {
+    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
+  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      "We couldn't find the page you're looking for. The page might have been removed or the URL may be incorrect. While we're fixing things, why not explore more of what we have to offer? You can head back to our homepage or check out our other exciting events and opportunities.",
     url: 'https://sandbox.ieeeitb.com/',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',
@@ -99,10 +123,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      "We couldn't find the page you're looking for. The page might have been removed or the URL may be incorrect. While we're fixing things, why not explore more of what we have to offer? You can head back to our homepage or check out our other exciting events and opportunities.",
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',

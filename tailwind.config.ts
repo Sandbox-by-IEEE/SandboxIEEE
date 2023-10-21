@@ -53,11 +53,54 @@ const config: Config = {
           '80%': { transform: 'translateY(0rem)', opacity: '1.0' },
           '100%': { transform: 'translateY(+64px)', opacity: '0' },
         },
+        'ghost-left': {
+          '0%': {
+            transform: 'translateY(0.25rem) translateX(-0.25rem)',
+            opacity: '0.75',
+          },
+          '16%': {
+            transform: 'translateY(0.5rem) translateX(-0.5rem)',
+            opacity: '0.5',
+          },
+          '33%': {
+            transform: 'translateY(0.75rem) translateX(-0.75rem)',
+            opacity: '0.25',
+          },
+          '50%': {
+            transform: 'translateY(0.5rem) translateX(-0.5rem)',
+            opacity: '0.5',
+          },
+          '66%': {
+            transform: 'translateY(0.25rem) translateX(-0.25rem)',
+            opacity: '0.75',
+          },
+          '100%': {
+            transform: 'translateY(0rem) translateX(-0rem)',
+            opacity: '1.0',
+          },
+        },
+        shake: {
+          '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
+          '10%, 30%, 50%, 70%, 90%': {
+            transform: 'translateX(-10px) rotate(-5deg)',
+          },
+          '20%, 40%, 60%, 80%': { transform: 'translateX(10px) rotate(5deg)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)', opacity: '1' },
+          '25%': { transform: 'translateX(-10%)', opacity: '0.75' },
+          '50%': { transform: 'translateX(0%)', opacity: '1' },
+          '75%': { transform: 'translateX(10%)', opacity: '0.75' },
+          '100%': { transform: 'translateX(0%)', opacity: '1' },
+        },
       },
       animation: {
         'countdown-sec': 'countdown-sec 1.05s ease-in-out',
         'countdown-in': 'countdown-in 1s ease-in',
         'countdown-out': 'countdown-out 1s ease-out',
+        'ghost-left': 'ghost-left 5s ease-out infinite',
+        marquee: 'marquee 20s linear infinite',
+        shake: 'shake 4s ease-in-out infinite',
       },
     },
   },
