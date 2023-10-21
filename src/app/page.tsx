@@ -8,13 +8,13 @@ export default function CommingSoonPage() {
     <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
       <Image
         src='/coming-soon/Bintang_jatuh.svg'
-        className='absolute right-2 w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
-        alt='Meteorit'
+        className='absolute -right-20 lg:right-2 w-[50%] sm:w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
+        alt='Meteoroit'
         width={744}
         height={642}
       />
       <Image
-        src='/coming-soon/ring.svg'
+        src='/coming-soon/Ring.svg'
         className='absolute right-0 -top-14 w-[25%] sm:w-[10%] -translate-x-10 object-contain transition-all duration-300'
         alt='Ring'
         width={199}

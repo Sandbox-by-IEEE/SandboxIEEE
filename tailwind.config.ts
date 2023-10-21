@@ -99,7 +99,7 @@ const config: Config = {
         'countdown-in': 'countdown-in 1s ease-in',
         'countdown-out': 'countdown-out 1s ease-out',
         'ghost-left': 'ghost-left 5s ease-out infinite',
-        marquee: 'marquee 20s linear infinite',
+        marquee: 'marquee 18s linear infinite',
         shake: 'shake 4s ease-in-out infinite',
       },
     },
