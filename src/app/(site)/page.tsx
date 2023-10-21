@@ -62,7 +62,7 @@ const CMS_QUERY = `{
       height
     }
   }
-  allTimelineSandboxes {
+  allTimelineSandboxes(orderBy: date_ASC) {
     id
     text
     date
@@ -83,7 +83,7 @@ const CMS_QUERY = `{
     buttonSeeMore
     buttonRegister
   }
-  allFaqHomePages {
+  allFaqHomePages(orderBy: question_ASC) {
     id
     answer {
       value

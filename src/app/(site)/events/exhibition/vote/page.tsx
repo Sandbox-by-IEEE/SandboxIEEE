@@ -48,6 +48,7 @@ const PageVote = async () => {
     allFinalProjectsPtcExhibitions: PTCData,
   }: VoteDataProps = await performRequest({
     query: CMS_QUERY,
+    revalidate: 0,
   });
   return (
     <main className='w-full min-h-screen flex flex-col items-center py-20 pt-14 lg:py-20 bg-gradient-green gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44'>
