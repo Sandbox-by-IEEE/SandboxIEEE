@@ -1,3 +1,6 @@
+'use client';
+import 'react-vertical-timeline-component/style.min.css';
+
 import React from 'react';
 import {
   VerticalTimeline,
@@ -7,33 +10,41 @@ import {
 import GradientBox from '@/components/GradientBox';
 
 type TimelineItem = {
-  date: string;
+  date: Date;
   text: string;
 };
 
 const Timeline = ({ items }: { items: TimelineItem[] }) => {
+  const formatDate = (date: Date) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+
+    return `${day} ${month} ${year}`;
+  };
+
   return (
-    <VerticalTimeline>
+    <VerticalTimeline lineColor=''>
       {items.map((el, i) => (
         <VerticalTimelineElement
           key={i}
           className='vertical-timeline-element--work'
           contentStyle={{
             background: 'inherit',
-            color: '#fff',
+            color: '#ffffff',
           }}
           contentArrowStyle={{ borderRight: '7px solid transparent' }}
           iconStyle={{
             background: '#AB814E',
             border: '0px 0px',
-            marginTop: '10%',
+            marginTop: '7.5%',
           }}
-          dateClassName='mt-[40px]'
+          dateClassName='mt-[20px]'
         >
-          <GradientBox className='max-w-[300px] max-h-fit min-h-[100px] sm:min-h-[180px] text-left flex flex-col justify-center items-start gap-6'>
+          <GradientBox className='max-w-[300px] max-h-fit min-h-[90px] sm:min-h-[170px] text-left flex flex-col justify-center items-start gap-6'>
             <div className='flex flex-col w-fit mx-auto pl-2 sm:pr-8'>
               <span className='text-left font-bold text-lg sm:text-2xl text-[#FFE1B9]'>
-                {el.date}
+                {formatDate(new Date(el.date))}
               </span>
               <span className='text-sm sm:text-xl'>{el.text}</span>
             </div>

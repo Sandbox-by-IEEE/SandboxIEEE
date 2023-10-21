@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const Smalllogo = ({ size }: { size: number }) => {
   return (
-    <Image src={'/ieeesmalllogo.svg'} alt='logo' width={size} height={size} />
+    <Image src={'/goldIEEELogo.png'} alt='logo' width={size} height={size} />
   );
 };
 
