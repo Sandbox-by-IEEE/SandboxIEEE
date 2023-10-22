@@ -41,7 +41,7 @@ const MentorCard = ({
               ? children
                 ? 'h-[194px] w-full lg:h-[251px]'
                 : 'h-[244px] w-full lg:h-[316.85px]'
-              : 'h-[279px] w-full sm:w-[40%] lg:h-[361.68px]'
+              : 'h-[310px] w-full sm:w-[40%] lg:h-[361.68px]'
           }`}
         >
           <Image

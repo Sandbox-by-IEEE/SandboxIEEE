@@ -18,10 +18,10 @@ export default function Home() {
     <main className='w-screen bg-[#0b341a] text-white flex min-h-screen flex-col items-center justify-between'>
       <section className='w-screen h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
         <div className='mx-20px flex flex-col justify-center items-center'>
-          <div className='absolute left-0 top-[450px]'>
+          <div className='absolute left-0 top-[400px]'>
             <Bintang2 size={25} />
           </div>
-          <div className='absolute right-0 top-[450px]'>
+          <div className='absolute right-0 top-[400px]'>
             <Elips1 size={25} />
           </div>
           <div className='absolute left-0 top-[1100px]'>
@@ -33,7 +33,7 @@ export default function Home() {
           <div className='absolute left-0 top-[750px]'>
             <Jatuh1 size={25} />
           </div>
-          <div className='absolute right-0 top-[2850px]'>
+          <div className='absolute right-0 top-[3400px] sm:top-[2850px]'>
             <Jatuh2 size={25} />
           </div>
           <div className='flex items-center justify-center w-[80%] h-[160px] mx-[10%] mt-[120px] mb-[20px] bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
@@ -71,7 +71,7 @@ export default function Home() {
               </Bintang1>
             </div>
           </div>
-          <div className='w-fit flex flex-col gap-16 items-center justify-center mb-[200px]'>
+          <div className='z-10 w-fit flex flex-col gap-16 items-center justify-center mb-[200px]'>
             <MentorCard
               name='Bubur Ayam.'
               position='President'
