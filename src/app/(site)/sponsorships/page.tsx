@@ -127,7 +127,7 @@ export default async function GrandSeminar() {
 }
 
 export const metadata: Metadata = {
-  title: 'Sponsors | Sandbox IEEE ITB',
+  title: 'Sponsorships | Sandbox IEEE ITB',
   description:
     'We offer a variety of sponsorship opportunities that allow you to engage with our diverse audience and gain valuable exposure for your brand. By sponsoring our event, you not only support the advancement of technology and innovation, but also have the chance to showcase your products and services to a targeted audience that values excellence and creativity.',
   generator: 'Next.js',
@@ -146,10 +146,10 @@ export const metadata: Metadata = {
   colorScheme: 'dark',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
-    canonical: '/sponsors',
+    canonical: '/sponsorships',
     languages: {
-      'en-US': '/en-US/sponsors',
-      'id-ID': '/id-ID/sponsors',
+      'en-US': '/en-US/sponsorships',
+      'id-ID': '/id-ID/sponsorships',
     },
   },
   verification: {
@@ -159,7 +159,7 @@ export const metadata: Metadata = {
     title: 'Sandbox IEEE ITB',
     description:
       'We offer a variety of sponsorship opportunities that allow you to engage with our diverse audience and gain valuable exposure for your brand. By sponsoring our event, you not only support the advancement of technology and innovation, but also have the chance to showcase your products and services to a targeted audience that values excellence and creativity.',
-    url: 'https://sandbox.ieeeitb.com/sponsors',
+    url: 'https://sandbox.ieeeitb.com/sponsorships',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {

@@ -76,11 +76,11 @@ const MENU: PairDrawerButton[] = [
   },
   {
     text: 'OUR MENTORS',
-    route: '/mentors',
+    route: '/our-mentors',
   },
   {
     text: 'OUR PAST EVENTS',
-    route: '/pastevents',
+    route: '/past-events',
   },
   { text: 'CONTACT US', route: '/contact-us' },
   { text: 'MERCHANDISE', route: '/merchandise' },
@@ -146,7 +146,7 @@ function MenuComponentLarge({
           </div>
         ) : (
           <Link
-            className={`text-white font-poppins text-sm lg:text-[15px] tracking-wide font-semibold mx-4 ${
+            className={`font-poppins text-sm lg:text-[15px] tracking-wide font-semibold mx-4 ${
               isActive ? 'text-cream-secondary-normal' : 'text-white'
             }`}
             href={tuple.route}
