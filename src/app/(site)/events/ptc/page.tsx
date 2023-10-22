@@ -192,7 +192,7 @@ const PTC = async () => {
               />
             </div>
             {/* Content Text Prize */}
-            <div className='text-[#FFE1B9] text-xl font-semibold w-full xl:w-[60%] font-poppins text-center'>
+            <div className='text-[#FFE1B9] text-base lg:text-xl font-semibold w-full xl:w-[60%] font-poppins text-center'>
               <StructuredText data={ptcPage.hadiahDescription} />
             </div>
             <div className='aspect-square absolute -z-[8] xl:bottom-[-52px] -right-3 xl:right-[12px] top-[20px]'>
@@ -283,7 +283,7 @@ const PTC = async () => {
               />
             </div>
             {/* Content Text Prize */}
-            <div className='text-[#FFE1B9] text-xl font-semibold w-full xl:w-[60%] font-poppins text-center'>
+            <div className='text-[#FFE1B9] text-base lg:text-xl font-semibold w-full xl:w-[60%] font-poppins text-center'>
               <StructuredText data={ptcPage.regisFeesDescription} />
             </div>
             <div className='aspect-square absolute -z-[8] xl:bottom-[-52px] -right-3 xl:right-[12px] top-[20px]'>

@@ -37,7 +37,7 @@ export default function CommingSoonPage() {
         <Image
           src={'/coming-soon/Happy.png'}
           alt='Bucket Image'
-          className='z-50 object-contain animate-bounce w-[124px] h-[251px] sm:w-[150px] lg:w-[182px] lg:h-[280px] transition-all duration-300'
+          className='z-[20] object-contain animate-bounce w-[124px] h-[251px] sm:w-[150px] lg:w-[182px] lg:h-[280px] transition-all duration-300'
           width={165}
           height={220}
         />
