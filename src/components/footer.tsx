@@ -73,7 +73,7 @@ const SocialIcon = ({ LinkComponent, href, size }) => (
 );
 
 const Footer = () => (
-  <footer className='w-full h-fit max-lg:py-10 lg:h-[512px] flex bg-[#082211] text-white'>
+  <footer className='w-full relative z-[99] h-fit max-lg:py-10 lg:h-[512px] flex bg-[#082211] text-white'>
     <div className='absolute hidden lg:block'>
       <Star1 size={25} />
     </div>
