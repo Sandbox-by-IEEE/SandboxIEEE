@@ -17,7 +17,7 @@ import Prev from '@/components/icons/mentors/prev';
 const MentorCarousel = () => {
   return (
     <section className='w-full h-fit flex items-center justify-center'>
-      <div className='relative w-[1080px]'>
+      <div className='relative w-fit'>
         <Swiper
           slidesPerView={3}
           spaceBetween={0}
@@ -41,11 +41,11 @@ const MentorCarousel = () => {
         >
           <div className='relative gap-4'>
             <SwiperSlide className='flex items-center justify-center'>
-              <div className='w-[360px] h-[360px]'>
+              <div className='w-[448px] h-[448px]'>
                 <Image
                   src='/mentors/image1.jpg'
                   className='w-full h-full object-cover rounded-3xl'
-                  width={255}
+                  width={300}
                   height={300}
                   alt='name'
                 ></Image>
@@ -91,11 +91,11 @@ const MentorCarousel = () => {
               </div>
             </SwiperSlide>
             <SwiperSlide className='flex items-center justify-center'>
-              <div className='w-[360px] h-[360px]'>
+              <div className='w-[448px] h-[448px]'>
                 <Image
                   src='/mentors/image1.jpg'
                   className='w-full h-full object-cover rounded-3xl'
-                  width={255}
+                  width={300}
                   height={300}
                   alt='name'
                 ></Image>
@@ -141,11 +141,11 @@ const MentorCarousel = () => {
               </div>
             </SwiperSlide>
             <SwiperSlide className='flex items-center justify-center'>
-              <div className='w-[360px] h-[360px]'>
+              <div className='w-[448px] h-[448px]'>
                 <Image
                   src='/mentors/image1.jpg'
                   className='w-full h-full object-cover rounded-3xl'
-                  width={255}
+                  width={300}
                   height={255}
                   alt='name'
                 ></Image>
