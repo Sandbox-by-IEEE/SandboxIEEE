@@ -4,9 +4,13 @@ import 'react-modern-drawer/dist/index.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Session } from 'next-auth/core/types';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Drawer from 'react-modern-drawer';
 
+import Button from '@/components/Button';
 import Dropdown from '@/components/Dropdown';
 import HamburgerIcon from '@/components/icons/HamburgerIcon';
 import XIcon from '@/components/icons/XIcon';
@@ -27,8 +31,8 @@ type Window = {
 function SandboxLogo() {
   return (
     <Link
-      className='aspect-square h-12 flex flex-row items-center justify-center'
-      href='\home'
+      className='aspect-square z-[15] h-12 flex flex-row items-center justify-center'
+      href='/'
     >
       <div className='aspect-square h-12 absolute flex flex-row justify-center align-center'>
         <Image
@@ -47,11 +51,10 @@ function SandboxLogo() {
  * DIJADIIN KOMPONEN YANG SMALL SAMA YANG LARGE BIAR CEPET AJA DEVELOPNYA,
  */
 
-function EventDropdown() {
+function EventDropdown({ isActive }: { isActive?: boolean }) {
   const [selectedOption, setSelectedOption] = useState<string>('');
-
   return (
-    <div className='min-w-[150px] lg:max-w-[150px] relative'>
+    <div className='min-w-[150px] xl:max-w-[150px] relative'>
       <Dropdown
         color='cream'
         options={['Exhibition', 'Grandseminar', 'PTC', 'TPC']}
@@ -60,6 +63,7 @@ function EventDropdown() {
         setSelectedOption={setSelectedOption}
         fullWidth={true}
         type='routes'
+        isActive={isActive}
       />
     </div>
   );
@@ -86,22 +90,26 @@ const MENU: PairDrawerButton[] = [
   },
 ];
 
-function MenuComponentSmall({ auth }: { auth: boolean }) {
-  const profileButton: PairDrawerButton = {
-    text: !auth ? 'REGISTER' : 'PROFILE',
-    route: auth ? '/profile' : 'register',
-  };
-
+function MenuComponentSmall({
+  session,
+  pathname,
+}: {
+  session: Session | null;
+  pathname: string;
+}) {
   return (
     <div className='w-4/5 flex flex-col gap-y-7 pt-24 z-20 relative'>
       {MENU.map((tuple: PairDrawerButton, idx: number) => {
+        const isActive = pathname.startsWith(tuple.route);
         return tuple.text == 'EVENTS' ? (
           <div key={idx} className='-mb-2'>
-            <EventDropdown />
+            <EventDropdown isActive={isActive} />
           </div>
         ) : (
           <Link
-            className='text-white font-poppins text-[15px] tracking-wide lg:text-lg font-semibold mx-4'
+            className={` font-poppins text-[15px] tracking-wide lg:text-lg font-semibold mx-4 ${
+              isActive ? 'text-cream-secondary-normal' : 'text-white'
+            }`}
             href={tuple.route}
             key={idx}
           >
@@ -110,34 +118,37 @@ function MenuComponentSmall({ auth }: { auth: boolean }) {
         );
       })}
 
-      <Link
-        className='text-black font-inter text-[15px] tracking-wide lg:text-lg font-semibold'
-        href={profileButton.route}
+      <Button
+        color='light-gold'
+        onClick={session ? () => signOut() : () => signIn()}
+        isFullWidth
       >
-        <div className='w-full z-20 py-2.5 bg-[#FFE1B9] rounded-xl flex justify-center items-center shadow-gray-800 shadow-md'>
-          {profileButton.text}
-        </div>
-      </Link>
+        {session && session.user ? 'Logout' : 'Sign In'}
+      </Button>
     </div>
   );
 }
 
-function MenuComponentLarge({ auth }: { auth: boolean }) {
-  const profileButton: PairDrawerButton = {
-    text: !auth ? 'REGISTER' : 'PROFILE',
-    route: auth ? '/profile' : 'register',
-  };
-
+function MenuComponentLarge({
+  session,
+  pathname,
+}: {
+  session: Session | null;
+  pathname: string;
+}) {
   return (
     <div className='h-4/5 flex flex-row gap-x-4 items-center'>
       {MENU.map((tuple: PairDrawerButton, idx: number) => {
+        const isActive = pathname.startsWith(tuple.route);
         return tuple.text == 'EVENTS' ? (
           <div key={idx}>
-            <EventDropdown />
+            <EventDropdown isActive={isActive} />
           </div>
         ) : (
           <Link
-            className='text-white font-poppins text-sm lg:text-[15px] tracking-wide font-semibold mx-4'
+            className={`text-white font-poppins text-sm lg:text-[15px] tracking-wide font-semibold mx-4 ${
+              isActive ? 'text-cream-secondary-normal' : 'text-white'
+            }`}
             href={tuple.route}
             key={idx}
           >
@@ -146,14 +157,12 @@ function MenuComponentLarge({ auth }: { auth: boolean }) {
         );
       })}
 
-      <Link
-        className='text-black font-inter text-md lg:text-md font-semibold'
-        href={profileButton.route}
+      <Button
+        color='light-gold'
+        onClick={session ? () => signOut() : () => signIn()}
       >
-        <div className='px-4 py-2  bg-[#FFE1B9] rounded-xl flex justify-center items-center shadow-gray-800 shadow-md'>
-          {profileButton.text}
-        </div>
-      </Link>
+        {session && session.user ? 'Logout' : 'Sign In'}
+      </Button>
     </div>
   );
 }
@@ -190,8 +199,9 @@ function useWindowSize() {
   return windowSize;
 }
 
-function NavBarLarge({ auth }: { auth: boolean }) {
+function NavBarLarge({ session }: { session: Session | null }) {
   const [navbarPos, setNavbarPos] = useState<number>(0);
+  const pathname = usePathname();
 
   //   Scroll mechanism algorithm
   useEffect(() => {
@@ -236,7 +246,7 @@ function NavBarLarge({ auth }: { auth: boolean }) {
               <SandboxLogo />
             </button>
 
-            <MenuComponentLarge auth={auth} />
+            <MenuComponentLarge session={session} pathname={pathname} />
           </div>
         </div>
 
@@ -252,9 +262,27 @@ function NavBarLarge({ auth }: { auth: boolean }) {
   );
 }
 
-function NavBarSmall({ auth }: { auth: boolean }) {
+function NavBarSmall({ session }: { session: Session | null }) {
   const [navbarPos, setNavbarPos] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const pathname = usePathname();
+  const toggleDrawer = () => {
+    setIsOpen((prev) => !prev);
+    if (isOpen) {
+      document.body.classList.remove('no-scroll');
+    } else {
+      document.body.classList.add('no-scroll');
+    }
+  };
+
+  const closeDrawer = () => {
+    setIsOpen(false);
+    document.body.classList.remove('no-scroll');
+  };
+  // Close drawer every pathname changes
+  useEffect(() => {
+    closeDrawer();
+  }, [pathname]);
 
   //   Scroll mechanism algorithm
   useEffect(() => {
@@ -274,18 +302,10 @@ function NavBarSmall({ auth }: { auth: boolean }) {
       window.removeEventListener('scroll', detectScrollY);
     };
   });
-  const toggleDrawer = () => {
-    setIsOpen((prev) => !prev);
-    if (isOpen) {
-      document.body.classList.remove('no-scroll');
-    } else {
-      document.body.classList.add('no-scroll');
-    }
-  };
 
   return (
     <div
-      className={`sticky bg-green-gradient max-w-full min-w-full z-50 top-[${navbarPos}px]`}
+      className={`sticky bg-green-gradient max-w-full min-w-full py-1 z-50 top-[${navbarPos}px]`}
       style={{
         borderBottom: '4px solid transparent',
         borderImage: 'linear-gradient(180deg, #AB814E 0%, #FFE1B9 100%) 1',
@@ -298,14 +318,9 @@ function NavBarSmall({ auth }: { auth: boolean }) {
           <Image src='/comet.svg' alt='commet' fill />
         </div>
 
-        <div
-          content=''
-          className='bg-green-gradient w-full h-16 flex justify-center items-center relative'
-        >
+        <div className='bg-green-gradient w-full h-16 flex justify-center items-center relative'>
           <div className='flex flex-row items-center justify-between w-5/6'>
-            <button className='aspect-square h-14 flex flex-row items-center justify-center'>
-              <SandboxLogo />
-            </button>
+            <SandboxLogo />
             <button
               className='h-14 aspect-square flex flex-row justify-center items-center'
               onClick={toggleDrawer}
@@ -339,17 +354,20 @@ function NavBarSmall({ auth }: { auth: boolean }) {
             className='w-full bg-green-primary h-full flex flex-col items-center'
             content=''
           >
-            <MenuComponentSmall auth={auth} />
+            <MenuComponentSmall session={session} pathname={pathname} />
           </div>
         </div>
 
         <div className='aspect-square h-72 bottom-[-25px] right-0 absolute '>
           <Image src='/bottom-drawer.svg' alt='.' fill />
         </div>
-
         <button
-          className='aspect-square h-8 top-10 right-10 rounded absolute text-white'
-          onClick={() => setIsOpen(false)}
+          className={`aspect-square h-8 top-10 right-10 z-[30] rounded absolute text-white transition-all duration-[1000] ${
+            isOpen
+              ? 'opacity-100 pointer-events-auto rotate-0'
+              : 'opacity-0 pointer-events-none rotate-[280deg]'
+          }`}
+          onClick={closeDrawer}
         >
           <XIcon className='fill-white' size={30} />
         </button>
@@ -381,17 +399,17 @@ function NavBarSmall({ auth }: { auth: boolean }) {
 }
 
 function NavBar() {
-  const auth = false;
+  const { data: session } = useSession();
   const { width, height } = useWindowSize();
   if (!width || !height) return <></>;
 
   return width > 1280 ? (
     <>
-      <NavBarLarge auth={false} />
+      <NavBarLarge session={session} />
     </>
   ) : (
     <>
-      <NavBarSmall auth={false} />
+      <NavBarSmall session={session} />
     </>
   );
 }
