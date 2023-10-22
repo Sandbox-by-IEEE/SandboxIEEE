@@ -10,6 +10,7 @@ const MentorCard = ({
   company,
   children,
   horizontal,
+  invert,
 }: {
   name: string;
   position: string;
@@ -18,31 +19,38 @@ const MentorCard = ({
   company: string;
   children?: string;
   horizontal?: boolean;
+  invert?: boolean;
 }) => {
   return (
     <article
-      className={`flex ${
+      className={`${
         horizontal
-          ? 'w-[412px] lg:w-[620px] items-stretch '
+          ? 'w-[80%] flex-col sm:flex sm:flex-row items-stretch '
           : 'w-[229px] lg:w-[297px] flex-col'
-      } h-fit rounded-3xl bg-dark-green`}
+      } ${invert ? 'sm:flex-row-reverse' : 'flex-row'}
+      h-fit rounded-3xl bg-dark-green shadow-[0px_0px_10px_5px_rgba(0,0,0,1)] shadow-[#8c6e47]`}
     >
       {/* Setting for div imageUrl and the text imageUrl */}
       {imageUrl && (
         <div
-          className={`relative  ${
-            horizontal ? 'rounded-l-3xl' : 'rounded-t-3xl'
-          } bg-neutral-300 shadow-none ${
+          className={`relative  ${horizontal ? 'rounded-3xl' : 'rounded-3xl'} ${
+            invert ? 'rounded-3xl' : 'rounded-3xl'
+          }
+          bg-neutral-300 shadow-none ${
             !horizontal
               ? children
                 ? 'h-[194px] w-full lg:h-[251px]'
                 : 'h-[244px] w-full lg:h-[316.85px]'
-              : 'h-[279px] w-full lg:h-[361.68px]'
+              : 'h-[279px] w-full sm:w-[40%] lg:h-[361.68px]'
           }`}
         >
           <Image
             src={imageUrl}
-            className='w-full h-full object-cover rounded-t-3xl'
+            className={`w-full h-full object-cover rounded-t-3xl sm:rounded-tr-none sm:rounded-l-3xl ${
+              invert
+                ? 'sm:rounded-r-3xl sm:rounded-tr-3xl sm:rounded-l-none'
+                : 'sm:rounded-l-3xl'
+            }`}
             width={417}
             height={255}
             alt={name}
@@ -54,7 +62,7 @@ const MentorCard = ({
       <div
         className={`flex flex-col ${
           children
-            ? 'gap-4 lg:gap-[22px] lg:pt-[15px]'
+            ? 'gap-2 sm:gap-2 lg:gap-[22px] lg:pt-[15px]'
             : 'py-[15px] lg:pt-[35px] lg:pb-[30px]'
         } p-5 lg:p-[19px]  ${horizontal && 'flex-1 lg:mx-3'}`}
       >
@@ -63,7 +71,7 @@ const MentorCard = ({
           <div className='bg-dark-green rounded-3xl m-[3px]'>
             <div className='align-middle py-3 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] rounded-3xl h-[80px] flex flex-col text-center justify-center'>
               <span
-                className='text-center align-middle text-xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'
+                className='text-center align-middle text-2xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'
                 style={{
                   textShadow: `
               0px 0px 0.9732px #705229,
@@ -96,11 +104,11 @@ const MentorCard = ({
         </div>
         {/* Children */}
         <p
-          className={`flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs tracking-wide`}
+          className={`flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide`}
         >
           {children}
         </p>
-        <div className='gap-2 flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs tracking-wide'>
+        <div className='gap-2 flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide'>
           <Instagram size={20} /> {instagram}
         </div>
       </div>
