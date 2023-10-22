@@ -34,7 +34,7 @@ const TextInput = ({
     white: {
       icon: 'fill-white',
       main: 'bg-white text-black placeholder:text-neutral-600 shadow-custom-input outline-none',
-      disabled: 'disabled:bg-white',
+      disabled: 'bg-transparent disabled:bg-white',
     },
   };
   return type !== 'textarea' ? (

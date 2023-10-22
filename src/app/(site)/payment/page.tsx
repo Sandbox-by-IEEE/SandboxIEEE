@@ -7,17 +7,22 @@ import GradientBox from '@/components/GradientBox';
 import TextInput from '@/components/TextInput';
 
 type inputData = {
+  teamName: string;
+  memberCount: number;
   fullName: string;
   email: string;
+  institution: string;
   whatsAppNumber: string;
   age: number;
-  institution: string;
+  studentCardProofUrl: string;
   paymentMethod: string;
   paymentProofUrl: string;
 };
 
 export default function Home() {
   const [inputData, setInputData] = useState<inputData>({
+    teamName: '',
+    memberCount: 1,
     fullName: '',
     email: '',
     whatsAppNumber: '',
@@ -25,6 +30,7 @@ export default function Home() {
     institution: '',
     paymentMethod: '',
     paymentProofUrl: '',
+    studentCardProofUrl: '',
   });
   const [step, setStep] = useState<number>(1);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -51,7 +57,17 @@ export default function Home() {
   useEffect(() => {
     const memoryInputData = localStorage.getItem('inputData');
     if (memoryInputData) {
-      setInputData(JSON.parse(memoryInputData));
+      try {
+        const historyInputData: inputData = JSON.parse(memoryInputData);
+
+        if (typeof historyInputData === 'object' && historyInputData.teamName) {
+          setInputData(historyInputData);
+        } else {
+          localStorage.removeItem('inputData');
+        }
+      } catch (error) {
+        localStorage.removeItem('inputData');
+      }
     }
   }, []);
 
@@ -117,7 +133,42 @@ const Title = ({ text }) => (
 const FormDetails = ({ inputData, handleChange, handleSubmitFormIdentity }) => (
   <form onSubmit={handleSubmitFormIdentity} className='space-y-8 py-6 w-full'>
     <div className='flex flex-col'>
-      <label className='text-xl py-2'>Full Name</label>
+      <label className='text-xl py-2'>Team Name</label>
+      <TextInput
+        placeholder={''}
+        type='text'
+        name='teamName'
+        text={inputData.teamName}
+        color='white'
+        onChange={handleChange}
+        fullwidth
+        required
+      />
+    </div>
+    <div className='flex flex-col'>
+      <label className='text-xl py-2'>Member Count</label>
+      <label className='font-thin text-sm pb-1'>
+        Please enter number of members
+      </label>
+      <TextInput
+        placeholder={''}
+        type='text'
+        name='memberCount'
+        text={inputData.memberCount}
+        color='white'
+        onChange={handleChange}
+        fullwidth
+        required
+      />
+    </div>
+    <div className='w-full flex justify-center'>
+      <p className='text-3xl font-bold'>Chairman&apos;s Data</p>
+    </div>
+    <div className='flex flex-col'>
+      <label className='text-xl py-2'>Name</label>
+      <label className='font-thin text-sm pb-1 text-slate-200'>
+        Please enter your full name
+      </label>
       <TextInput
         placeholder={''}
         type='text'
@@ -131,7 +182,7 @@ const FormDetails = ({ inputData, handleChange, handleSubmitFormIdentity }) => (
     </div>
     <div className='flex flex-col'>
       <label className='text-xl py-2'>Email</label>
-      <label className='font-thin text-sm pb-1'>
+      <label className='font-thin text-sm pb-1 text-slate-200'>
         Please enter your active email address
       </label>
       <TextInput
@@ -147,7 +198,7 @@ const FormDetails = ({ inputData, handleChange, handleSubmitFormIdentity }) => (
     </div>
     <div className='flex flex-col'>
       <label className='text-xl py-2'>WhatsApp Number</label>
-      <label className='font-thin text-sm pb-1'>
+      <label className='font-thin text-sm pb-1 text-slate-200'>
         Please add &apos; before your number! (e.g. &apos;08111839019)
       </label>
       <TextInput
@@ -163,6 +214,9 @@ const FormDetails = ({ inputData, handleChange, handleSubmitFormIdentity }) => (
     </div>
     <div className='flex flex-col'>
       <label className='text-xl py-2'>Age</label>
+      <label className='font-thin text-sm pb-1 text-slate-200'>
+        Please enter the valid age based on the student card
+      </label>
       <TextInput
         placeholder={''}
         type='number'
@@ -175,7 +229,7 @@ const FormDetails = ({ inputData, handleChange, handleSubmitFormIdentity }) => (
     </div>
     <div className='flex flex-col'>
       <label className='text-xl py-2'>Institution</label>
-      <label className='font-thin text-sm pb-1'>
+      <label className='font-thin text-sm pb-1 text-slate-200'>
         Please write your high school or university name in its Indonesian
         version (e.g. Institut Teknologi Bandung)
       </label>
@@ -189,6 +243,9 @@ const FormDetails = ({ inputData, handleChange, handleSubmitFormIdentity }) => (
         fullwidth
         required
       />
+    </div>
+    <div>
+      <p className='text-3xl'>Student Card Proof</p>
     </div>
     <div className='w-full flex justify-center py-6'>
       <Button color='gold' type='submit'>
