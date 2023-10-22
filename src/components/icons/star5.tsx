@@ -7,7 +7,7 @@ const Star5 = ({ size }: { size: number }) => {
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       style={{ scale: size / 25 }}
-      className="mt-[320px]"
+      className='mt-[320px]'
     >
       <rect
         x='10.4092'

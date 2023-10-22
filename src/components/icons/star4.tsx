@@ -7,7 +7,7 @@ const Star4 = ({ size }: { size: number }) => {
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       style={{ scale: size / 25 }}
-      className="mt-[320px]"
+      className='mt-[320px]'
     >
       <g filter='url(#filter0_d_777_4145)'>
         <path
@@ -64,8 +64,6 @@ const Star4 = ({ size }: { size: number }) => {
           <stop offset='0.399307' stop-color='#AB814E' stop-opacity='0' />
           <stop offset='1' stop-color='#FFE1B9' />
         </linearGradient>
-
-
       </defs>
     </svg>
   );
