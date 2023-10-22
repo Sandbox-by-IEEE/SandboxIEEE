@@ -347,19 +347,41 @@ export default ExhibitionPage;
 export const metadata: Metadata = {
   title: 'Exhibition | Sandbox IEEE ITB',
   description:
-    'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+    "Join us at our upcoming exhibition event for an immersive experience in the world of cutting-edge technology and innovation. This offline event provides a unique opportunity to get hands-on with the latest products and services from leading industry players. From the newest tech gadgets to groundbreaking engineering solutions, there's something for everyone—whether you're a tech enthusiast, a student, or a professional. Don't miss your chance to network with like-minded individuals, learn from industry experts, and stay up-to-date with the latest trends in technology. Mark your calendar and make sure to be there for an enlightening and inspiring experience!",
   generator: 'Next.js',
+  category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'Sandbox',
+    'Sandbox IEEE ITB',
+    'Sandbox ITB',
+    'IEEE ITB',
+    'ITB',
+    'TPC',
+    'PTC',
+  ],
   colorScheme: 'dark',
+  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
+  alternates: {
+    canonical: '/events/exhibition',
+    languages: {
+      'en-US': '/en-US/events/exhibition',
+      'id-ID': '/id-ID/events/exhibition',
+    },
+  },
+  verification: {
+    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
+  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
-    url: 'https://sandbox.ieeeitb.com/',
+      "Join us at our upcoming exhibition event for an immersive experience in the world of cutting-edge technology and innovation. This offline event provides a unique opportunity to get hands-on with the latest products and services from leading industry players. From the newest tech gadgets to groundbreaking engineering solutions, there's something for everyone—whether you're a tech enthusiast, a student, or a professional. Don't miss your chance to network with like-minded individuals, learn from industry experts, and stay up-to-date with the latest trends in technology. Mark your calendar and make sure to be there for an enlightening and inspiring experience!",
+    url: 'https://sandbox.ieeeitb.com/events/exhibition',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',
@@ -372,10 +394,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      "Join us at our upcoming exhibition event for an immersive experience in the world of cutting-edge technology and innovation. This offline event provides a unique opportunity to get hands-on with the latest products and services from leading industry players. From the newest tech gadgets to groundbreaking engineering solutions, there's something for everyone—whether you're a tech enthusiast, a student, or a professional. Don't miss your chance to network with like-minded individuals, learn from industry experts, and stay up-to-date with the latest trends in technology. Mark your calendar and make sure to be there for an enlightening and inspiring experience!",
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',
