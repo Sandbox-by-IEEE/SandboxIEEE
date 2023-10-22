@@ -27,6 +27,7 @@ const ContactUs = async () => {
   const { contactUsPage: data, allContactPeople }: ContactUsPageProps =
     await performRequest({
       query: CMS_QUERY,
+      revalidate: 0,
     });
   return (
     <main className='relative w-full z-5 flex flex-col min-h-screen justify-center items-center bg-gradient-to-tr from-[#081B0E] to-[#0e371d] py-28 pt-14 lg:py-28 lg:pt-20 gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44'>
