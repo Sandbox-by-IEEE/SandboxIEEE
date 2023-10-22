@@ -51,6 +51,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
+    if (session.user.exhibition && session.user.exhibition.buy) {
+      return NextResponse.json(
+        { message: 'You have purchased Exhibition tickets before' },
+        { status: 400 },
+      );
+    }
+
     const ticket = await prisma.ticketExhibition.create({
       data: {
         userId: session.user.id,

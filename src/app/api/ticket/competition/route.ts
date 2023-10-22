@@ -10,31 +10,10 @@ import { transporter } from '@/lib/mailTransporter';
 export async function POST(req: NextRequest) {
   let ticketIdTemp = '';
   try {
-    const {
-      competitionType,
-      teamName,
-      chairmanName,
-      memberNames,
-      emails,
-      institutions,
-      phoneNumbers,
-      ages,
-      twibbonProofs,
-      studentProofs,
-    } = await req.json();
+    const { competitionType, teamName, chairmanName, members } =
+      await req.json();
 
-    if (
-      !competitionType ||
-      !teamName ||
-      !chairmanName ||
-      !memberNames ||
-      !emails ||
-      !institutions ||
-      !phoneNumbers ||
-      !ages ||
-      !twibbonProofs ||
-      !studentProofs
-    ) {
+    if (!competitionType || !teamName || !chairmanName || !members) {
       return NextResponse.json(
         { message: 'Missing some data!!' },
         { status: 400 },
@@ -47,35 +26,75 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const ticket = await prisma.ticketCompetition.create({
-      data: {
-        userId: session.user.id,
-        teamName,
-        chairmanName,
-        memberNames,
-        emails,
-        phoneNumbers,
-        ages,
-        twibbonProofs,
-        studentProofs,
-        competitionType,
-        institutions,
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
       },
+      include: {
+        ticketsCompetition: true,
+      },
+    });
+
+    if (existingUser?.ticketsCompetition.length != 0) {
+      if (competitionType === 'TPC') {
+        const existingTicketTPC = existingUser?.ticketsCompetition.filter(
+          (ticket) => ticket.competitionType === 'TPC',
+        );
+        if (existingTicketTPC && existingTicketTPC.length > 0) {
+          return NextResponse.json(
+            { message: 'You have purchased TPC tickets before' },
+            { status: 400 },
+          );
+        }
+      } else if (competitionType === 'PTC') {
+        const existingTicketTPC = existingUser?.ticketsCompetition.filter(
+          (ticket) => ticket.competitionType === 'PTC',
+        );
+        if (existingTicketTPC && existingTicketTPC.length > 0) {
+          return NextResponse.json(
+            { message: 'You have purchased PTC tickets before' },
+            { status: 400 },
+          );
+        }
+      }
+    }
+
+    const dataTicketForDb = {
+      competitionType: competitionType,
+      userId: session.user.id,
+      teamName: teamName,
+      chairmanName: chairmanName,
+      memberNames: [] as string[],
+      emails: [] as string[],
+      institutions: [] as string[],
+      phoneNumbers: [] as string[],
+      ages: [] as string[],
+      twibbonProofs: [] as string[],
+      studentProofs: [] as string[],
+    };
+
+    for (let i = 0; i < members.length; i++) {
+      const member = members[i];
+      dataTicketForDb.memberNames.push(member.name);
+      dataTicketForDb.emails.push(member.email);
+      dataTicketForDb.institutions.push(member.institution);
+      dataTicketForDb.phoneNumbers.push(member.phoneNumber);
+      dataTicketForDb.ages.push(member.age);
+      dataTicketForDb.twibbonProofs.push(member.twibbonProof);
+      dataTicketForDb.studentProofs.push(member.studentProof);
+    }
+
+    const ticket = await prisma.ticketCompetition.create({
+      data: dataTicketForDb,
     });
 
     ticketIdTemp = ticket.id;
 
-    const data = {
+    const dataTicketForSheet = {
       ticketId: ticket.id,
       teamName: ticket.teamName,
       chairmanName: ticket.chairmanName,
-      memberNames: ticket.memberNames.join(', '),
-      emails: ticket.emails.join(', '),
-      institutions: ticket.institutions.join(', '),
-      phoneNumbers: ticket.phoneNumbers.join(', '),
-      ages: ticket.ages.join(', '),
-      twibbonProofs: ticket.twibbonProofs.join(', '),
-      studentProofs: ticket.studentProofs.join(', '),
+      members: members,
     };
 
     const sheetAPI = process.env.API_SHEET_TICKET_URL || '';
@@ -85,7 +104,7 @@ export async function POST(req: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(dataTicketForSheet),
     });
 
     const resBody = await response.json();
@@ -97,21 +116,23 @@ export async function POST(req: NextRequest) {
     const content =
       'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
 
-    const mailOptions = {
-      from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-      to: session.user.email || '',
-      subject: 'Verification Process for Your Ticket Purchase',
-      html: render(
-        Email({
-          content,
-          heading: 'Ticket validation',
-          name: ticket.chairmanName,
-        }),
-        { pretty: true },
-      ),
-    };
+    for (let i = 0; i < ticket.emails.length; i++) {
+      const mailOptions = {
+        from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+        to: ticket.emails[i],
+        subject: 'Verification Process for Your Ticket Purchase',
+        html: render(
+          Email({
+            content,
+            heading: 'Ticket validation',
+            name: ticket.chairmanName,
+          }),
+          { pretty: true },
+        ),
+      };
 
-    const info = await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
+    }
 
     console.log('POST_TICKET: email was sent');
 

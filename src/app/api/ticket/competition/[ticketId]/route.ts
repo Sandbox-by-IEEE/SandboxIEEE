@@ -57,21 +57,23 @@ export async function PATCH(
     const content =
       'diaineiadindoidnoaieneoaidnaoiedaoiednoiaednaoidnaoidnaoiedniaednaoiendaoidn';
 
-    const mailOptions = {
-      from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-      to: updatedTicket.emails[0],
-      subject: 'Your Ticket Verified',
-      html: render(
-        Email({
-          heading: heading,
-          content: content,
-          name: updatedTicket.chairmanName,
-        }),
-        { pretty: true },
-      ),
-    };
+    for (let i = 0; i < updatedTicket.emails.length; i++) {
+      const mailOptions = {
+        from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+        to: updatedTicket.emails[i],
+        subject: 'Your Ticket Verified',
+        html: render(
+          Email({
+            heading: heading,
+            content: content,
+            name: updatedTicket.chairmanName,
+          }),
+          { pretty: true },
+        ),
+      };
 
-    await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
+    }
 
     console.log('PATCH_TICKET: email was sent');
 
