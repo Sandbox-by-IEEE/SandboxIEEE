@@ -348,19 +348,41 @@ export default ExhibitionPage;
 export const metadata: Metadata = {
   title: 'Exhibition | Sandbox IEEE ITB',
   description:
-    'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+    'The peak day of TheSandbox by IEEE event, where finalists of ProtoTech Contest will showcase their prototype as well do some pitching for further assessment. On the other hand, prior videos submitted by the finalists of Technovate Paper Competition will be displayed before their final pitching regarding their paper. Final judgment along with the awarding ceremony will be taking place during this time as well, hosted in collaboration with leaders of IEEE ITB Student Branch and judges from exterior institutions.',
   generator: 'Next.js',
+  category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'Sandbox',
+    'Sandbox IEEE ITB',
+    'Sandbox ITB',
+    'IEEE ITB',
+    'ITB',
+    'TPC',
+    'PTC',
+  ],
   colorScheme: 'dark',
+  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
+  alternates: {
+    canonical: '/events/exhibition',
+    languages: {
+      'en-US': '/en-US/events/exhibition',
+      'id-ID': '/id-ID/events/exhibition',
+    },
+  },
+  verification: {
+    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
+  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
-    url: 'https://sandbox.ieeeitb.com/',
+      'The peak day of TheSandbox by IEEE event, where finalists of ProtoTech Contest will showcase their prototype as well do some pitching for further assessment. On the other hand, prior videos submitted by the finalists of Technovate Paper Competition will be displayed before their final pitching regarding their paper. Final judgment along with the awarding ceremony will be taking place during this time as well, hosted in collaboration with leaders of IEEE ITB Student Branch and judges from exterior institutions.',
+    url: 'https://sandbox.ieeeitb.com/events/exhibition',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',
@@ -373,10 +395,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      'The peak day of TheSandbox by IEEE event, where finalists of ProtoTech Contest will showcase their prototype as well do some pitching for further assessment. On the other hand, prior videos submitted by the finalists of Technovate Paper Competition will be displayed before their final pitching regarding their paper. Final judgment along with the awarding ceremony will be taking place during this time as well, hosted in collaboration with leaders of IEEE ITB Student Branch and judges from exterior institutions.',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',

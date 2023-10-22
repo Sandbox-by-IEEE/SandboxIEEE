@@ -12,7 +12,7 @@ const Star7 = ({ size }: { size: number }) => {
       <path
         d='M124.229 2.29567C124.229 2.29567 -260.494 203.056 -167.062 823.399'
         stroke='url(#paint0_linear_777_4141)'
-        stroke-width='3'
+        strokeWidth='3'
       />
       <defs>
         <linearGradient
@@ -23,8 +23,8 @@ const Star7 = ({ size }: { size: number }) => {
           y2='499.825'
           gradientUnits='userSpaceOnUse'
         >
-          <stop offset='0.399307' stop-color='#AB814E' stop-opacity='0' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop offset='0.399307' stopColor='#AB814E' stopOpacity='0' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>

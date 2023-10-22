@@ -5,7 +5,6 @@ import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import { FAQ } from '@/components/FAQ';
-import Footer from '@/components/footer';
 import Explosion from '@/components/icons/explosion';
 import Star4 from '@/components/icons/star4';
 import Star5 from '@/components/icons/star5';
@@ -37,7 +36,6 @@ function Judule({ children }: { children: string }) {
     </h2>
   );
 }
-
 const PTC = async () => {
   // Fetch data from CMS
   const CMS_QUERY = `{
@@ -105,6 +103,7 @@ const PTC = async () => {
   const { ptcPage, allFaqsPtcs, allTimelinesPtcs }: PTCProps =
     await performRequest({
       query: CMS_QUERY,
+      revalidate: 0,
     });
 
   return (
@@ -116,7 +115,7 @@ const PTC = async () => {
           width={ptcPage.backgroundImages.width}
           height={ptcPage.backgroundImages.height}
           alt={ptcPage.backgroundImages.title}
-          className='w-full object-cover h-[671px] object-center'
+          className='w-full object-cover h-[771px] max-w-screen object-center'
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
@@ -141,7 +140,7 @@ const PTC = async () => {
         <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
           <div className=' gap-4 bg-gradient-green lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             {/* Title */}
-            <Judule>{ptcPage.titleTpcPages}</Judule>
+            <Judule>{ptcPage.tpcSectionTitles}</Judule>
             {/* Split Mascot & Description */}
             <div className='flex flex-col lg:flex-row w-full gap-4 lg:gap-10 xl:gap-20 items-center justify-center'>
               {/* Image Mascot */}
@@ -153,68 +152,67 @@ const PTC = async () => {
                 className='w-[130px] h-[200px] lg:w-[226px] lg:h-[301px] object-contain object-center'
               />
               {/* Description */}
-              <span className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px] text-justify'>
+              <h3 className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px] text-justify'>
                 {ptcPage && (
                   <StructuredText data={ptcPage.explanationDescription} />
                 )}
-              </span>
+              </h3>
             </div>
           </div>
         </div>
-        <div className='absolute lg:right-11 lg:top-[-225px] lg:block md:right-0 md:top-[100px] right-0 top-[350px] lg:scale-100 scale-[62%] z-0'>
+        <div className='absolute hidden lg:right-0 lg:top-[-225px] lg:block md:right-0 md:top-[100px] right-0 top-[350px] lg:scale-100 scale-[62%] z-0'>
           <Star4 size={40} />
           {/* <Star5 size={40} /> */}
         </div>
-        <div className='absolute lg:right-52 lg:top-[830px] lg:block md:right-28 md:top-[900px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'>
+        <div className='absolute hidden lg:right-[148px] lg:top-[830px] lg:block md:right-28 md:top-[900px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'>
           <Star5 size={40} />
         </div>
-        <div className='absolute lg:right-52 lg:top-[830px] lg:block md:right-[7rem] md:top-[895px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'>
+        <div className='absolute hidden lg:right-[148px] lg:top-[830px] lg:block md:right-[7rem] md:top-[895px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'>
           <Star6 size={30} />
         </div>
       </section>
-      {/* END APA ITU TPC */}
+      {/* END APA ITU PTC*/}
 
       {/* HADIAH */}
-      <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-section flex flex-col gap-16 '>
-        <div className='flex flex-col items-center gap-8 '>
+      <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-20 lg:py-24 xl:py-28  bg-gradient-section flex flex-col gap-16 '>
+        <div className='flex flex-col relative z-10 items-center justify-center gap-8 lg:gap-14'>
+          {/* Title */}
           <div className='w-full flex flex-row items-center justify-center'>
             <Judule>{ptcPage.hadiahSectionTitle}</Judule>
           </div>
-          <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center'>
-            <div className='aspect-video w-full lg:w-[20%] relative h-32 -mt-8'>
-              <div className='aspect-square lg:w-[40%] w-[20%] absolute z-10 lg:top-[-40px] lg:left-[202px] rotate-[-23.7deg]'>
-                <Image
-                  fill
-                  alt=''
-                  src={'/Group_1244.svg'}
-                  objectFit='contain'
-                />
-              </div>
+          <div className='w-full flex flex-col lg:flex-row gap-8 justify-center text-ce items-center'>
+            {/* Image Mascot left */}
+            <div className='absolute w-fit top-24 sm:-top-10 xl:top-[-20px] -z-[8] -left-3 xl:left-[22px] rotate-[-23.7deg]'>
+              <Image
+                width={600}
+                height={600}
+                alt='Mascot image'
+                src={'/Group_1244.svg'}
+                className='w-[130px] xl:w-[200px] aspect-square object-contain object-center'
+              />
             </div>
-            <article className='w-full lg:w-[60%] font-poppins text-center justify-center -mt-8'>
-              <div className='text-[#FFE1B9] text-xl font-semibold'>
-                <StructuredText data={ptcPage.hadiahDescription} />
-              </div>
-            </article>
-            <div className='aspect-video w-full lg:w-[20%] relative h-44 -mt-8'>
-              <div className='aspect-square lg:w-[190px] w-[150px] absolute z-10 lg:bottom-[-52px] lg:right-[62px] top-[20px] right-0 rotate-[]'>
-                <Image
-                  fill
-                  alt=''
-                  src={'/Group_1243.svg'}
-                  objectFit='contain'
-                />
-              </div>
+            {/* Content Text Prize */}
+            <div className='text-[#FFE1B9] text-xl font-semibold w-full xl:w-[60%] font-poppins text-center'>
+              <StructuredText data={ptcPage.hadiahDescription} />
+            </div>
+            <div className='aspect-square absolute -z-[8] xl:bottom-[-52px] -right-3 xl:right-[12px] top-[20px]'>
+              <Image
+                width={600}
+                height={600}
+                alt='Mascot image'
+                src={'/Group_1243.svg'}
+                className='w-[130px] xl:w-[200px] aspect-square object-contain object-center'
+              />
             </div>
           </div>
         </div>
-        <div className='absolute lg:left-0 lg:top-[805px] lg:block md:left-0 md:top-[930px] left-0 top-[1260px] lg:scale-100 scale-[62%] z-0'>
+        <div className='absolute hidden lg:-left-10 lg:top-[805px] lg:block md:-left-10 md:top-[930px] left-0 top-[960px] lg:scale-100 scale-[62%] z-0'>
           <Star7 size={40} />
         </div>
-        <div className='absolute lg:left-32 lg:top-[1135px] lg:block md:left-28 md:top-[1380px] left-24 top-[1710px] lg:scale-100 scale-[62%] z-0'>
+        <div className='absolute hidden lg:left-[88] lg:top-[1135px] lg:block md:left-[72px] md:top-[1380px] left-24 top-[1410px] lg:scale-100 scale-[62%] z-0'>
           <Star5 size={40} />
         </div>
-        <div className='absolute lg:left-36 lg:top-[1025px] lg:block md:left-[7rem] md:top-[1315px] left-24 top-[1645px] lg:scale-100 scale-[62%] z-0'>
+        <div className='absolute hidden lg:left-[104px] lg:top-[1025px] lg:block md:left-[82px] md:top-[1315px] left-24 top-[1345px] lg:scale-100 scale-[62%] z-0'>
           <Star6 size={40} />
         </div>
       </section>
@@ -240,18 +238,18 @@ const PTC = async () => {
               <Judule>{ptcPage.guideSectionTitle}</Judule>
             </div>
             <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center lg:px-20 pb-12'>
-              <article className='w-full lg:w-[100%] font-poppins text-justify justify-center'>
+              <div className='w-full lg:w-[100%] font-poppins text-justify justify-center'>
                 <div className='text-white text-base font-semibold px-4'>
                   <StructuredText data={ptcPage.guideDescription} />
                 </div>
-              </article>
+              </div>
             </div>
           </div>
         </div>
-        <div className='absolute lg:left-0 lg:top-[780px] lg:block md:-left-8- md:top-[1020px] -left-12 top-[1410px] lg:scale-100 scale-[52%] z-0'>
+        <div className='absolute lg:-left-4 lg:top-[980px] lg:block md:-left-8- md:top-[1220px] -left-12 top-[1210px] lg:scale-[90%] scale-[52%] z-0'>
           <Explosion size={25} />
         </div>
-        <div className='absolute lg:right-0 lg:top-[780px] lg:block md:-right-4 md:top-[1060px] -right-4 top-[1260px] lg:scale-100 scale-[52%] z-0'>
+        <div className='absolute lg:right-0 lg:top-[780px] lg:block md:-right-4 md:top-[1060px] -right-4 top-[1460px] lg:scale-100 scale-[52%] z-0'>
           <Starburst size={25} />
         </div>
         <div className='absolute hidden left-52 top-[1615px] lg:block'>
@@ -260,53 +258,53 @@ const PTC = async () => {
         <div className='absolute hidden left-64 top-[1595px] lg:block'>
           <Star9 size={32} />
         </div>
-        <div className='absolute lg:right-4 lg:top-[1595px] lg:block lg:block lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[52%] z-0'>
+        <div className='absolute lg:right-4 lg:top-[1595px] lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[52%] z-0'>
           <Star10 size={30} />
         </div>
       </section>
       {/* END REGULASI */}
 
       {/* REGISTRATION */}
-      <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-section flex flex-col gap-16 '>
-        <div className='flex flex-col items-center gap-8'>
-          <Judule>{ptcPage.regisFeesSectionTitle}</Judule>
-          <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center'>
-            <div className='aspect-video w-full lg:w-[20%] relative h-32 -mt-8'>
-              <div className='aspect-square lg:w-[40%] w-[20%] absolute z-10 lg:top-[-40px] lg:left-[202px] rotate-[-23.7deg]'>
-                <Image
-                  fill
-                  alt=''
-                  src={'/Group_1244.svg'}
-                  objectFit='contain'
-                />
-              </div>
+      <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-20 lg:py-24 xl:py-28  bg-gradient-section flex flex-col gap-16 '>
+        <div className='flex flex-col relative z-10 items-center justify-center gap-8 lg:gap-14'>
+          {/* Title */}
+          <div className='w-full flex flex-row items-center justify-center'>
+            <Judule>{ptcPage.regisFeesSectionTitle}</Judule>
+          </div>
+          <div className='w-full flex flex-col lg:flex-row gap-8 justify-center text-ce items-center'>
+            {/* Image Mascot left */}
+            <div className='absolute w-fit top-24 sm:-top-10 xl:top-[-20px] -z-[8] -left-3 xl:left-[22px] rotate-[-23.7deg]'>
+              <Image
+                width={600}
+                height={600}
+                alt='Mascot image'
+                src={'/Group_1244.svg'}
+                className='w-[130px] xl:w-[200px] aspect-square object-contain object-center'
+              />
             </div>
-            <article className='w-full lg:w-[60%] font-poppins text-center justify-center -mt-8'>
-              <div className='text-[#FFE1B9] text-xl font-semibold'>
-                <StructuredText data={ptcPage.hadiahDescription} />
-              </div>
-            </article>
-            <div className='aspect-video w-full lg:w-[20%] relative h-44 -mt-8'>
-              <div className='aspect-square lg:w-[190px] w-[150px] absolute z-10 lg:bottom-[-52px] lg:right-[62px] top-[20px] right-0 rotate-[]'>
-                <Image
-                  fill
-                  alt=''
-                  src={'/Group_1243.svg'}
-                  objectFit='contain'
-                />
-              </div>
+            {/* Content Text Prize */}
+            <div className='text-[#FFE1B9] text-xl font-semibold w-full xl:w-[60%] font-poppins text-center'>
+              <StructuredText data={ptcPage.regisFeesDescription} />
+            </div>
+            <div className='aspect-square absolute -z-[8] xl:bottom-[-52px] -right-3 xl:right-[12px] top-[20px]'>
+              <Image
+                width={600}
+                height={600}
+                alt='Mascot image'
+                src={'/Group_1243.svg'}
+                className='w-[130px] xl:w-[200px] aspect-square object-contain object-center'
+              />
             </div>
           </div>
         </div>
-        <div className='absolute lg:right-11 lg:top-[1550px] lg:block md:right-0 md:top-[2090px] right-0px right-0 top-[3350px] lg:scale-100 scale-[62%] z-0'>
-          <Star4 size={40} />
-          {/* <Star5 size={40} /> */}
+        <div className='absolute hidden lg:-left-10 lg:top-[805px] lg:block md:-left-10 md:top-[930px] left-0 top-[960px] lg:scale-100 scale-[62%] z-0'>
+          <Star7 size={40} />
         </div>
-        <div className='absolute lg:right-52 lg:top-[2600px] lg:block md:right-28 md:top-[2890px] right-28 top-[4150px] lg:scale-100 scale-[62%] z-0'>
+        <div className='absolute hidden lg:left-[88] lg:top-[1135px] lg:block md:left-[72px] md:top-[1380px] left-24 top-[1410px] lg:scale-100 scale-[62%] z-0'>
           <Star5 size={40} />
         </div>
-        <div className='absolute lg:right-52 lg:top-[2600px] lg:block md:right-[7rem] md:top-[2890px] right-28 top-[4150px] lg:scale-100 scale-[62%] z-0'>
-          <Star6 size={30} />
+        <div className='absolute hidden lg:left-[104px] lg:top-[1025px] lg:block md:left-[82px] md:top-[1315px] left-24 top-[1345px] lg:scale-100 scale-[62%] z-0'>
+          <Star6 size={40} />
         </div>
       </section>
       {/* END REGISTRATION */}
@@ -330,13 +328,13 @@ const PTC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden left-0 top-[3045px] lg:block'>
+        <div className='absolute hidden left-0 top-[3145px] lg:block'>
           <Star7 size={55} />
         </div>
-        <div className='absolute hidden left-48 top-[3110px] lg:block'>
+        <div className='absolute hidden left-48 top-[3210px] lg:block'>
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden left-48 top-[3025px] lg:block'>
+        <div className='absolute hidden left-48 top-[3125px] lg:block'>
           <Star6 size={40} />
         </div>
       </section>
@@ -348,7 +346,7 @@ const PTC = async () => {
         style={{ background: 'rgba(7, 29, 16)' }}
       >
         <div className='absolute hidden left-[480px] top-[3625px] lg:block'>
-          <Star11 size={55} />
+          <Star11 size={40} />
         </div>
         <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
           <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
@@ -373,8 +371,8 @@ const PTC = async () => {
             <FAQ key={index} question={faq.question} answer={faq.answer} />
           ))}
         </div>
-        <div className='absolute lg:left-0 lg:top-[4020px] lg:block md:-left-8- md:top-[4380px] -left-12 top-[5700px] lg:scale-100 scale-[52%] z-0'>
-          <Explosion size={25} />
+        <div className='absolute lg:-left-4 lg:top-[3920px] lg:block md:-left-8 md:top-[4380px] -left-12 top-[5700px] lg:scale-100 scale-[52%] z-0'>
+          <Explosion size={20} />
         </div>
         <div className='absolute hidden right-[80px] lg:top-[4400px] lg:block'>
           <Star8 size={25} />
@@ -384,7 +382,6 @@ const PTC = async () => {
         </div>
       </section>
       {/* END FAQ */}
-      <Footer />
     </main>
   );
 };
@@ -392,21 +389,43 @@ const PTC = async () => {
 export default PTC;
 
 export const metadata: Metadata = {
-  title: 'TPC | Sandbox IEEE ITB',
+  title: 'PTC | Sandbox IEEE ITB',
   description:
-    'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+    'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
   generator: 'Next.js',
+  category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'Sandbox',
+    'Sandbox IEEE ITB',
+    'Sandbox ITB',
+    'IEEE ITB',
+    'ITB',
+    'TPC',
+    'PTC',
+  ],
   colorScheme: 'dark',
+  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
+  alternates: {
+    canonical: '/events/ptc',
+    languages: {
+      'en-US': '/en-US/events/ptc',
+      'id-ID': '/id-ID/events/ptc',
+    },
+  },
+  verification: {
+    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
+  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
-    url: 'https://sandbox.ieeeitb.com/',
+      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
+    url: 'https://sandbox.ieeeitb.com/events/ptc',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',
@@ -419,10 +438,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',

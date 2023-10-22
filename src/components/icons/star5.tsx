@@ -17,7 +17,7 @@ const Star5 = ({ size }: { size: number }) => {
         rx='7.5'
         transform='rotate(51.6915 10.4092 -0.648666)'
         stroke='url(#paint0_linear_1600_273)'
-        stroke-width='3'
+        strokeWidth='3'
       />
       <defs>
         <linearGradient
@@ -28,8 +28,8 @@ const Star5 = ({ size }: { size: number }) => {
           y2='4.15897'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>

@@ -13,8 +13,8 @@ const Star4 = ({ size }: { size: number }) => {
         <path
           d='M5.58141 848.263C5.58141 848.263 366.964 608.015 208.574 1'
           stroke='url(#paint0_linear_777_4145)'
-          stroke-width='3'
-          shape-rendering='crispEdges'
+          strokeWidth='3'
+          shapeRendering='crispEdges'
         />
       </g>
       <defs>
@@ -25,9 +25,9 @@ const Star4 = ({ size }: { size: number }) => {
           width='253.469'
           height='856.888'
           filterUnits='userSpaceOnUse'
-          color-interpolation-filters='sRGB'
+          colorInterpolationFilters='sRGB'
         >
-          <feFlood flood-opacity='0' result='BackgroundImageFix' />
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
           <feColorMatrix
             in='SourceAlpha'
             type='matrix'
@@ -61,8 +61,8 @@ const Star4 = ({ size }: { size: number }) => {
           y2='365.089'
           gradientUnits='userSpaceOnUse'
         >
-          <stop offset='0.399307' stop-color='#AB814E' stop-opacity='0' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop offset='0.399307' stopColor='#AB814E' stopOpacity='0' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>

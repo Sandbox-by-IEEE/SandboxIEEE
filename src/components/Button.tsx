@@ -1,7 +1,14 @@
 import RightArrow from './icons/RightArrow';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange' | 'white';
+  color:
+    | 'green'
+    | 'gold'
+    | 'black'
+    | 'trans-green'
+    | 'trans-orange'
+    | 'white'
+    | 'light-gold';
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
@@ -41,6 +48,10 @@ const Button: React.FC<ButtonProps> = ({
       main: 'border border-[3px] border-[#AB814E] bg-transparent text-[#AB814E] hover:bg-[#494845] disabled:bg-[#D7D2D0]',
       arrow: '#AB814E',
     },
+    'light-gold': {
+      main: 'text-dark-green uppercase font-inter text-[15px] text-black tracking-wide lg:text-base shadow-gray-800 shadow-m bg-[#FFE1B9]',
+      arrow: '#FFFFFF',
+    },
   };
 
   //green, 100%
@@ -49,8 +60,8 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={isDisabled}
       className={`${
-        isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[200px]'
-      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
+        isFullWidth ? 'w-full h-full' : 'w-fit h-fit'
+      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-6 lg:py-2.5 lg:px-8 rounded-md ${
         colorEffect[color].main
       }`}
       {...props}

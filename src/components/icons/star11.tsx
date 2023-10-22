@@ -1,8 +1,8 @@
 const Star11 = ({ size }: { size: number }) => {
   return (
     <svg
-      width='40'
-      height='40'
+      height={size}
+      width={size}
       viewBox='0 0 40 40'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -20,8 +20,8 @@ const Star11 = ({ size }: { size: number }) => {
           y2='35.8465'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>
