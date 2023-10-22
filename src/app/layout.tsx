@@ -5,6 +5,7 @@ import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
 import { ModalContextProvider } from '@/components/Modal/ModalContext';
 import Toast from '@/components/Toast';
+import AuthProvider from '@/provider/AuthProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -36,13 +37,16 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body suppressHydrationWarning={true}>
-        <Toast />
-        <ModalContextProvider>{children}</ModalContextProvider>
-      </body>
+      <AuthProvider>
+        <body suppressHydrationWarning={true}>
+          <Toast />
+          <ModalContextProvider>{children}</ModalContextProvider>
+        </body>
+      </AuthProvider>
     </html>
   );
 }
+
 export const metadata: Metadata = {
   title: 'Coming Soon | Sandbox IEEE ITB',
   description:

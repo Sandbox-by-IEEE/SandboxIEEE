@@ -34,40 +34,29 @@ const linksData = [
     {
       header: 'Home',
       links: [
-        { href: '', text: 'Timeline' },
-        { href: '', text: 'Merchandise' },
-        { href: '', text: 'Past Events' },
-        { href: '', text: 'Our Mentors' },
+        { href: '/merchandise', text: 'Merchandise' },
+        { href: '/past-events', text: 'Past Events' },
+        { href: '/our-mentors', text: 'Our Mentors' },
       ],
     },
     {
       header: 'Events',
       links: [
-        { href: '', text: 'PTC' },
-        { href: '', text: 'TPC' },
-        { href: '', text: 'Exhibition' },
-        { href: '', text: 'Grand Seminar' },
+        { href: '/events/ptc', text: 'PTC' },
+        { href: '/events/tpc', text: 'TPC' },
+        { href: '/events/exhibition', text: 'Exhibition' },
+        { href: '/events/grand-seminar', text: 'Grand Seminar' },
       ],
     },
   ],
   [
     {
       header: 'Sponsor & Media',
-      links: [
-        { href: '', text: 'Our Sponsor' },
-        { href: '', text: 'Our Media partner' },
-        { href: '', text: 'Be Our Sponsor' },
-        { href: '', text: 'Be Our Media Partner' },
-      ],
+      links: [{ href: '/sponsorships', text: 'Sponsorship' }],
     },
     {
       header: 'Help Center',
-      links: [
-        { href: '', text: 'Register' },
-        { href: '', text: 'About Us' },
-        { href: '', text: 'FAQ' },
-        { href: '', text: 'Contact US' },
-      ],
+      links: [{ href: '/contact-us', text: 'Contact-us' }],
     },
   ],
 ];
