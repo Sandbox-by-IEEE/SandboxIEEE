@@ -125,7 +125,7 @@ const PTC = async () => {
               ['textShadow' as any]:
                 '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
             }}
-            className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
+            className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-center'
           >
             {ptcPage.titleTpcPages}
           </h1>

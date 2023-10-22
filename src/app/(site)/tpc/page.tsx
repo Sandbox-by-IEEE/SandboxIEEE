@@ -124,7 +124,7 @@ const TPC = async () => {
               ['textShadow' as any]:
                 '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
             }}
-            className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
+            className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-center'
           >
             {tpcPage.titleTpcPages}
           </h1>
@@ -136,7 +136,7 @@ const TPC = async () => {
       {/* END PROTOTECH CONTEST */}
 
       {/*APA ITU TPC*/}
-      <section className='w-full bg-gradient-section flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 '>
+      <section className='w-full bg-gradient-section flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20'>
         <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
           <div className=' gap-4 bg-gradient-green lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             {/* Title */}
@@ -152,7 +152,7 @@ const TPC = async () => {
                 className='w-[130px] h-[200px] lg:w-[226px] lg:h-[301px] object-contain object-center'
               />
               {/* Description */}
-              <span className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px] text-justify pr-20'>
+              <span className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px] text-justify'>
                 {tpcPage && (
                   <StructuredText data={tpcPage.explanationDescription} />
                 )}
@@ -160,29 +160,14 @@ const TPC = async () => {
             </div>
           </div>
         </div>
-        {/* <div className='w-full lg:w-full relative lg:mr-32 right-[0px] bg-black'>
-          <div className='aspect-square w-[100%] absolute z-10 lg:bottom-[100px] lg:right-[-670px] rotate-[0deg]'>
-            <Image fill alt='' src={'/Kurva.svg'} objectFit='contain' />
-          </div>
-        </div>
-        <div className='w-full lg:w-full relative lg:mr-32 right-[0px] bg-black'>
-          <div className='aspect-square w-[5%] absolute z-10 lg:bottom-[75px] lg:right-[70px] rotate-[0deg]'>
-            <Image fill alt='' src={'/Star.svg'} objectFit='contain' />
-          </div>
-        </div>
-        <div className='w-full lg:w-full relative lg:mr-32 right-[0px] bg-black'>
-          <div className='aspect-square w-[2%] absolute z-10 lg:bottom-[150px] lg:right-[65px] rotate-[0deg]'>
-            <Image fill alt='' src={'/Circle.svg'} objectFit='contain' />
-          </div>
-        </div> */}
-        <div className='absolute hidden right-11 top-[-300px] lg:block'>
+        <div className='absolute lg:right-11 lg:top-[-225px] lg:block md:right-0 md:top-[100px] right-0 top-[350px] lg:scale-100 scale-[62%] z-0'>
           <Star4 size={40} />
           {/* <Star5 size={40} /> */}
         </div>
-        <div className='absolute hidden right-52 lg:block'>
+        <div className='absolute lg:right-52 lg:top-[830px] lg:block md:right-28 md:top-[900px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'>
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden right-52 lg:block'>
+        <div className='absolute lg:right-52 lg:top-[830px] lg:block md:right-[7rem] md:top-[895px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'>
           <Star6 size={30} />
         </div>
       </section>
@@ -194,9 +179,9 @@ const TPC = async () => {
           <div className='w-full flex flex-row items-center justify-center'>
             <Judule>{tpcPage.hadiahSectionTitle}</Judule>
           </div>
-          <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center mb-12'>
-            <div className='aspect-video w-full lg:w-[20%] relative lg:mr-32 left-[-60px]'>
-              <div className='aspect-square w-[40%] absolute z-10 lg:top-[-40px] lg:left-[202px] rotate-[-23.7deg]'>
+          <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center'>
+            <div className='aspect-video w-full lg:w-[20%] relative h-32 -mt-8'>
+              <div className='aspect-square lg:w-[40%] w-[20%] absolute z-10 lg:top-[-40px] lg:left-[202px] rotate-[-23.7deg]'>
                 <Image
                   fill
                   alt=''
@@ -205,13 +190,13 @@ const TPC = async () => {
                 />
               </div>
             </div>
-            <article className='w-full lg:w-[40%] font-poppins text-justify justify-center'>
+            <article className='w-full lg:w-[60%] font-poppins text-center justify-center -mt-8'>
               <div className='text-[#FFE1B9] text-xl font-semibold'>
                 <StructuredText data={tpcPage.hadiahDescription} />
               </div>
             </article>
-            <div className='aspect-video w-full lg:w-[30%] relative'>
-              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[102px] rotate-[]'>
+            <div className='aspect-video w-full lg:w-[20%] relative h-44 -mt-8'>
+              <div className='aspect-square lg:w-[190px] w-[150px] absolute z-10 lg:bottom-[-52px] lg:right-[62px] top-[20px] right-0 rotate-[]'>
                 <Image
                   fill
                   alt=''
@@ -222,13 +207,13 @@ const TPC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden left-0 top-[805px] lg:block'>
+        <div className='absolute lg:left-0 lg:top-[805px] lg:block md:left-0 md:top-[930px] left-0 top-[1260px] lg:scale-100 scale-[62%] z-0'>
           <Star7 size={40} />
         </div>
-        <div className='absolute hidden left-32 top-[1135px] lg:block'>
+        <div className='absolute lg:left-32 lg:top-[1135px] lg:block md:left-28 md:top-[1380px] left-24 top-[1710px] lg:scale-100 scale-[62%] z-0'>
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden left-36 top-[1025px] lg:block'>
+        <div className='absolute lg:left-36 lg:top-[1025px] lg:block md:left-[7rem] md:top-[1315px] left-24 top-[1645px] lg:scale-100 scale-[62%] z-0'>
           <Star6 size={40} />
         </div>
       </section>
@@ -262,19 +247,19 @@ const TPC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden left-0 top-[875px] lg:block'>
+        <div className='absolute lg:left-0 lg:top-[780px] lg:block md:-left-8- md:top-[1020px] -left-12 top-[1410px] lg:scale-100 scale-[52%] z-0'>
           <Explosion size={25} />
         </div>
-        <div className='absolute hidden right-0 top-[875px] lg:block'>
+        <div className='absolute lg:right-0 lg:top-[780px] lg:block md:-right-4 md:top-[1060px] -right-4 top-[1260px] lg:scale-100 scale-[52%] z-0'>
           <Starburst size={25} />
         </div>
-        <div className='absolute hidden left-52 top-[1675px] lg:block'>
+        <div className='absolute hidden left-52 top-[1615px] lg:block'>
           <Star8 size={32} />
         </div>
-        <div className='absolute hidden left-64 top-[1655px] lg:block'>
+        <div className='absolute hidden left-64 top-[1595px] lg:block'>
           <Star9 size={32} />
         </div>
-        <div className='absolute hidden right-4 top-[1655px] lg:block'>
+        <div className='absolute lg:right-4 lg:top-[1595px] lg:block lg:block lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[52%] z-0'>
           <Star10 size={30} />
         </div>
       </section>
@@ -282,11 +267,11 @@ const TPC = async () => {
 
       {/* REGISTRATION */}
       <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-section flex flex-col gap-16 '>
-        <div className='flex flex-col items-center gap-8 '>
+        <div className='flex flex-col items-center gap-8'>
           <Judule>{tpcPage.regisFeesSectionTitle}</Judule>
-          <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center pb-8'>
-            <div className='aspect-video w-full lg:w-[30%] relative'>
-              <div className='aspect-square w-[40%] absolute z-10 top-[-40px] left-[202px] rotate-[-23.7deg]'>
+          <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center'>
+            <div className='aspect-video w-full lg:w-[20%] relative h-32 -mt-8'>
+              <div className='aspect-square lg:w-[40%] w-[20%] absolute z-10 lg:top-[-40px] lg:left-[202px] rotate-[-23.7deg]'>
                 <Image
                   fill
                   alt=''
@@ -295,13 +280,13 @@ const TPC = async () => {
                 />
               </div>
             </div>
-            <article className='w-full lg:w-[40%] font-poppins text-justify justify-center'>
-              <div className='text-[#FFFBB9] text-xl font-semibold'>
-                <StructuredText data={tpcPage.regisFeesDescription} />
+            <article className='w-full lg:w-[60%] font-poppins text-center justify-center -mt-8'>
+              <div className='text-[#FFE1B9] text-xl font-semibold'>
+                <StructuredText data={tpcPage.hadiahDescription} />
               </div>
             </article>
-            <div className='aspect-video w-full lg:w-[30%] relative'>
-              <div className='aspect-square w-[190px] absolute z-10 bottom-[-62px] right-[172px] rotate-[]'>
+            <div className='aspect-video w-full lg:w-[20%] relative h-44 -mt-8'>
+              <div className='aspect-square lg:w-[190px] w-[150px] absolute z-10 lg:bottom-[-52px] lg:right-[62px] top-[20px] right-0 rotate-[]'>
                 <Image
                   fill
                   alt=''
@@ -312,14 +297,14 @@ const TPC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden right-11 top-[1550px] lg:block'>
+        <div className='absolute lg:right-11 lg:top-[1550px] lg:block md:right-0 md:top-[2090px] right-0px right-0 top-[3350px] lg:scale-100 scale-[62%] z-0'>
           <Star4 size={40} />
           {/* <Star5 size={40} /> */}
         </div>
-        <div className='absolute hidden right-52 top-[2600px] lg:block'>
+        <div className='absolute lg:right-52 lg:top-[2600px] lg:block md:right-28 md:top-[2890px] right-28 top-[4150px] lg:scale-100 scale-[62%] z-0'>
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden right-52 top-[2600px] lg:block'>
+        <div className='absolute lg:right-52 lg:top-[2600px] lg:block md:right-[7rem] md:top-[2890px] right-28 top-[4150px] lg:scale-100 scale-[62%] z-0'>
           <Star6 size={30} />
         </div>
       </section>
@@ -344,13 +329,13 @@ const TPC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden left-0 top-[3105px] lg:block'>
+        <div className='absolute hidden left-0 top-[3045px] lg:block'>
           <Star7 size={55} />
         </div>
-        <div className='absolute hidden left-48 top-[3170px] lg:block'>
+        <div className='absolute hidden left-48 top-[3110px] lg:block'>
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden left-48 top-[3085px] lg:block'>
+        <div className='absolute hidden left-48 top-[3025px] lg:block'>
           <Star6 size={40} />
         </div>
       </section>
@@ -361,16 +346,16 @@ const TPC = async () => {
         className='w-full bg-gradient-section px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
         style={{ background: 'rgba(7, 29, 16)' }}
       >
-        <div className='absolute hidden left-[480px] top-[3765px] lg:block'>
+        <div className='absolute hidden left-[480px] top-[3625px] lg:block'>
           <Star11 size={55} />
         </div>
         <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
           <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             <Judule>{tpcPage.timelineSectionTitle}</Judule>
-            <div className='absolute hidden right-[520px] lg:top-[3035px] lg:block'>
+            <div className='absolute hidden right-[520px] lg:top-[2890px] lg:block'>
               <Star8 size={25} />
             </div>
-            <div className='absolute hidden right-[500px] lg:top-[3015px] lg:block'>
+            <div className='absolute hidden right-[500px] lg:top-[2880px] lg:block'>
               <Star9 size={25} />
             </div>
           </div>
@@ -387,7 +372,7 @@ const TPC = async () => {
             <FAQ key={index} question={faq.question} answer={faq.answer} />
           ))}
         </div>
-        <div className='absolute hidden left-0 top-[4200px] lg:block'>
+        <div className='absolute lg:left-0 lg:top-[4020px] lg:block md:-left-8- md:top-[4380px] -left-12 top-[5700px] lg:scale-100 scale-[52%] z-0'>
           <Explosion size={25} />
         </div>
         <div className='absolute hidden right-[80px] lg:top-[4400px] lg:block'>
