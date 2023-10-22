@@ -173,7 +173,7 @@ const FileInput = ({
     }
   };
 
-  if (isSuccess) {
+  if (files || isSuccess) {
     return (
       <div>
         <div
@@ -181,7 +181,7 @@ const FileInput = ({
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          <button onClick={handleClick}>
+          <button onClick={handleClick} type='button'>
             <FileInputIconSuccess className='w-[170px] lg:w-[214px]' />
           </button>
           <p className='text-[#00FFA1]'>
@@ -230,7 +230,7 @@ const FileInput = ({
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          <button onClick={handleClick}>
+          <button onClick={handleClick} type='button'>
             <FileInputIconError className='w-[170px] lg:w-[214px]' />
           </button>
           <p
@@ -267,7 +267,7 @@ const FileInput = ({
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        <button onClick={handleClick}>
+        <button onClick={handleClick} type='button'>
           <FileInputIconEmpty className='w-[170px] lg:w-[214px]' />
         </button>
         <p

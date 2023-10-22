@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
-import Footer from '@/components/footer';
+import FileInput, { FileInputType } from '@/components/FileInput';
 import GradientBox from '@/components/GradientBox';
 import TextInput from '@/components/TextInput';
 
@@ -15,6 +15,7 @@ type inputData = {
   whatsAppNumber: string;
   age: number;
   studentCardProofUrl: string;
+  studentCardProofName: string;
   paymentMethod: string;
   paymentProofUrl: string;
 };
@@ -30,8 +31,10 @@ export default function Home() {
     institution: '',
     paymentMethod: '',
     paymentProofUrl: '',
+    studentCardProofName: '',
     studentCardProofUrl: '',
   });
+  const [files, setFiles] = useState<FileInputType[] | undefined>();
   const [step, setStep] = useState<number>(1);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
@@ -54,14 +57,27 @@ export default function Home() {
     setStep(2);
   };
 
+  const handleSubmitFinal = (e) => {
+    e.preventDefault();
+    console.log(inputData);
+  };
+
   useEffect(() => {
     const memoryInputData = localStorage.getItem('inputData');
     if (memoryInputData) {
       try {
         const historyInputData: inputData = JSON.parse(memoryInputData);
 
-        if (typeof historyInputData === 'object' && historyInputData.teamName) {
+        if (typeof historyInputData === 'object') {
           setInputData(historyInputData);
+          if (historyInputData.studentCardProofUrl) {
+            setFiles([
+              {
+                fileName: historyInputData.studentCardProofName,
+                fileUrl: historyInputData.studentCardProofUrl,
+              },
+            ]);
+          }
         } else {
           localStorage.removeItem('inputData');
         }
@@ -70,6 +86,20 @@ export default function Home() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (files) {
+      const newInputData = {
+        ...inputData,
+        studentCardProofUrl: files[0].fileUrl,
+        studentCardProofName: files[0].fileName,
+      };
+
+      setInputData(newInputData);
+      localStorage.setItem('inputData', JSON.stringify(newInputData));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files]);
 
   return (
     <main className='bg-gradient-to-t from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
@@ -84,6 +114,8 @@ export default function Home() {
               inputData={inputData}
               handleChange={handleChange}
               handleSubmitFormIdentity={handleSubmitFormIdentity}
+              files={files}
+              setFiles={setFiles}
             />
           </>
         )}
@@ -112,11 +144,11 @@ export default function Home() {
               inputData={inputData}
               uploadProgress={uploadProgress}
               setUploadProgress={setUploadProgress}
+              handleSubmitFinal={handleSubmitFinal}
             />
           </>
         )}
       </div>
-      <Footer />
     </main>
   );
 }
@@ -130,7 +162,13 @@ const Title = ({ text }) => (
   </div>
 );
 
-const FormDetails = ({ inputData, handleChange, handleSubmitFormIdentity }) => (
+const FormDetails = ({
+  inputData,
+  handleChange,
+  handleSubmitFormIdentity,
+  files,
+  setFiles,
+}) => (
   <form onSubmit={handleSubmitFormIdentity} className='space-y-8 py-6 w-full'>
     <div className='flex flex-col'>
       <label className='text-xl py-2'>Team Name</label>
@@ -245,7 +283,13 @@ const FormDetails = ({ inputData, handleChange, handleSubmitFormIdentity }) => (
       />
     </div>
     <div>
-      <p className='text-3xl'>Student Card Proof</p>
+      <p className='text-3xl pb-4 pt-20'>Student Card Proof</p>
+      <FileInput
+        key='FormDetails'
+        message='Secondary Message'
+        files={files}
+        setFiles={setFiles}
+      />
     </div>
     <div className='w-full flex justify-center py-6'>
       <Button color='gold' type='submit'>
@@ -260,8 +304,12 @@ const FormPayment = ({
   inputData,
   uploadProgress,
   setUploadProgress,
+  handleSubmitFinal,
 }) => (
-  <form className='flex flex-col gap-8 py-8 font-poppins text-center w-full'>
+  <form
+    className='flex flex-col gap-8 py-8 font-poppins text-center w-full'
+    onSubmit={handleSubmitFinal}
+  >
     <p className='text-2xl font-bold text-left'>Choose Your Payment method</p>
 
     <div className='flex gap-7 flex-wrap justify-between w-full border-b-2 pb-14 border-[#bb9567]'>
