@@ -115,6 +115,7 @@ const PTC = async () => {
           width={ptcPage.backgroundImages.width}
           height={ptcPage.backgroundImages.height}
           alt={ptcPage.backgroundImages.title}
+          priority
           className='w-full object-cover h-[771px] max-h-screen object-center'
         />
         {/* Text Content on background */}

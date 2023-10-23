@@ -114,6 +114,7 @@ const ExhibitionPage = async () => {
           width={exhibition.backgroundImage.width}
           height={exhibition.backgroundImage.height}
           alt={exhibition.backgroundImage.title}
+          priority
           className='w-full object-cover h-[771px] max-h-screen object-center'
         />
         {/* Text Content on background */}

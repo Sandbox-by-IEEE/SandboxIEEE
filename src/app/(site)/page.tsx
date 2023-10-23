@@ -110,6 +110,7 @@ export default async function Home() {
           width={homepage.background[2].width}
           height={homepage.background[2].height}
           alt={homepage.background[2].title}
+          priority
           className='w-full object-cover h-[771px] max-h-screen object-center'
         />
         {/* Text Content on background */}
