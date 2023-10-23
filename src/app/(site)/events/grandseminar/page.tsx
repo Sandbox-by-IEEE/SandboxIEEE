@@ -16,36 +16,6 @@ import { performRequest } from '@/lib/datocms';
 import { GrandSeminarPageProps } from '@/types/grand-seminar';
 
 const ExhibitionPage = async () => {
-  const data = [
-    {
-      id: '1',
-      image: {
-        url: '/assets/R-dummy.jpeg',
-        title: 'Judul Gambar 1',
-        width: 400,
-        height: 300,
-      },
-      name: 'Nama Pembicara 1',
-      position: 'Posisi Pembicara 1',
-      explanation: 'Penjelasan tentang Pembicara 1',
-      instagramURL: 'instagram.com/pembicara1',
-    },
-    {
-      id: '2',
-      image: {
-        url: '/assets/R-dummy.jpeg',
-        title: 'Judul Gambar 2',
-        width: 1000,
-        height: 300,
-      },
-      name: 'Nama Pembicara 2',
-      position: 'Posisi Pembicara 2',
-      explanation: 'Penjelasan tentang Pembicara 2',
-      instagramURL: 'instagram.com/pembicara2',
-    },
-    // tambahkan data lainnya sesuai dengan format di atas
-  ];
-
   // Fetch data from CMS
   const CMS_QUERY = `
   {

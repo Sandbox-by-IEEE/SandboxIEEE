@@ -19,6 +19,8 @@ const config: Config = {
         'museo-muderno': ['var(--font-museo-moderno)'],
       },
       backgroundImage: {
+        'green-gradient':
+          'linear-gradient(180deg, rgba(5, 31, 18, 0.99) 0%, rgba(6, 25, 12, 0.99) 100%)',
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
@@ -28,6 +30,7 @@ const config: Config = {
           'linear-gradient(180deg, #0F3015 100%, rgba(0, 0, 0, 0.00) 69.27%)',
         'gradient-card-vote':
           'linear-gradient(180deg, #FFE1B9 0%, rgba(171, 129, 78, 0.86) 100%)',
+        'gradient-section': 'linear-gradient(to bottom, #0b2712, #123b1a)',
         'g-seminar-radial-gradient':
           'radial-gradient(rgba(8, 30, 17, 1) 0%, rgba(8, 30, 17, 0.6) 50% , rgba(8, 30, 17, 0.00) 70%)',
         'gradient-light-brown':
@@ -59,11 +62,54 @@ const config: Config = {
           '80%': { transform: 'translateY(0rem)', opacity: '1.0' },
           '100%': { transform: 'translateY(+64px)', opacity: '0' },
         },
+        'ghost-left': {
+          '0%': {
+            transform: 'translateY(0.25rem) translateX(-0.25rem)',
+            opacity: '0.75',
+          },
+          '16%': {
+            transform: 'translateY(0.5rem) translateX(-0.5rem)',
+            opacity: '0.5',
+          },
+          '33%': {
+            transform: 'translateY(0.75rem) translateX(-0.75rem)',
+            opacity: '0.25',
+          },
+          '50%': {
+            transform: 'translateY(0.5rem) translateX(-0.5rem)',
+            opacity: '0.5',
+          },
+          '66%': {
+            transform: 'translateY(0.25rem) translateX(-0.25rem)',
+            opacity: '0.75',
+          },
+          '100%': {
+            transform: 'translateY(0rem) translateX(-0rem)',
+            opacity: '1.0',
+          },
+        },
+        shake: {
+          '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
+          '10%, 30%, 50%, 70%, 90%': {
+            transform: 'translateX(-10px) rotate(-5deg)',
+          },
+          '20%, 40%, 60%, 80%': { transform: 'translateX(10px) rotate(5deg)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)', opacity: '1' },
+          '25%': { transform: 'translateX(-10%)', opacity: '0.75' },
+          '50%': { transform: 'translateX(0%)', opacity: '1' },
+          '75%': { transform: 'translateX(10%)', opacity: '0.75' },
+          '100%': { transform: 'translateX(0%)', opacity: '1' },
+        },
       },
       animation: {
         'countdown-sec': 'countdown-sec 1.05s ease-in-out',
         'countdown-in': 'countdown-in 1s ease-in',
         'countdown-out': 'countdown-out 1s ease-out',
+        'ghost-left': 'ghost-left 5s ease-out infinite',
+        marquee: 'marquee 18s linear infinite',
+        shake: 'shake 4s ease-in-out infinite',
       },
     },
   },
