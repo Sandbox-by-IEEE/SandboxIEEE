@@ -2,61 +2,52 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
+import { type SponsorLogo } from '@/types/marque-type';
+
 function Marquee({
   showSeconds,
   hideSeconds,
+  data,
 }: {
   showSeconds: number;
   hideSeconds: number;
+  data: SponsorLogo[];
 }) {
   const [isVisible, setIsVisible] = useState(true);
 
-  // Hide and rehide based on showSeconds and hideSeconds props
   useEffect(() => {
-    const showInterval = setInterval(
+    // Timer untuk menampilkan dan menyembunyikan komponen
+    const timer = setInterval(
       () => {
-        setIsVisible(true);
-        const hideInterval = setTimeout(() => {
-          setIsVisible(false);
-          clearTimeout(hideInterval);
-        }, showSeconds * 1000);
+        setIsVisible(!isVisible);
       },
-      (showSeconds + hideSeconds) * 1000,
+      (isVisible ? showSeconds : hideSeconds) * 1000,
     );
 
     return () => {
-      clearInterval(showInterval);
+      clearInterval(timer);
     };
-  }, [showSeconds, hideSeconds]);
-
-  // Define an array of image data with src and alt values
-  const imageData = [
-    { src: '/google-logo.png', alt: 'Google Logo 1' },
-    { src: '/google-logo.png', alt: 'Google Logo 2' },
-    { src: '/google-logo.png', alt: 'Google Logo 3' },
-    { src: '/google-logo.png', alt: 'Google Logo 3' },
-    { src: '/google-logo.png', alt: 'Google Logo 3' },
-    { src: '/google-logo.png', alt: 'Google Logo 3' },
-    { src: '/google-logo.png', alt: 'Google Logo 3' },
-    { src: '/google-logo.png', alt: 'Google Logo 3' },
-    { src: '/google-logo.png', alt: 'Google Logo 3' },
-  ];
+  }, [showSeconds, hideSeconds, isVisible]);
 
   return (
     isVisible && (
       <div
-        className={`overflow-hidden animate-blink fixed bottom-0 bg-green-primary transition-all duration-300 whitespace-nowrap w-full`}
+        className={`overflow-hidden ${
+          isVisible
+            ? 'opacity-100 pointer-event-auto'
+            : 'opacity-0 pointer-events-none'
+        } animate-blink fixed bottom-0 z-[1000] bg-green-primary h-[60px] lg:h-[75px] m-auto transition-all duration-300 whitespace-nowrap w-full`}
       >
-        <div className='flex gap-4 justify-around py-2 lg:py-3 animate-marquee w-full'>
-          {imageData.map((image, index) => (
+        <div className='flex gap-7 justify-around py-3 lg:py-4 animate-marquee w-full h-full items-center'>
+          {data.map((image, index) => (
             <Image
               key={index}
-              src={image.src}
-              alt={image.alt}
-              width={40}
-              height={40}
+              src={image.url}
+              alt={image.title}
+              width={image.width}
+              height={image.height}
               priority
-              className='w-[30px] aspect-square lg:w-[40px] object-center object-contain'
+              className='w-full h-full object-center object-contain'
             />
           ))}
         </div>
