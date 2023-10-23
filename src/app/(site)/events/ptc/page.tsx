@@ -40,19 +40,9 @@ const PTC = async () => {
   // Fetch data from CMS
   const CMS_QUERY = `{
     ptcPage {
-      date1
-      date2
-      date3
-      date4
-      date5
       titleTpcPages
       tpcSectionTitles
       targetDate
-      kegiatanz1
-      kegiatanz2
-      kegiatanz3
-      kegiatanz4
-      kegiatanz5
       timelineSectionTitle
       regisFeesSectionTitle
       regisFeesDescription {
