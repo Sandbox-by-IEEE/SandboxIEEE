@@ -5,6 +5,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
 // Import Swiper React components
@@ -13,8 +14,67 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Button from '@/components/Button';
 import Next from '@/components/icons/mentors/next';
 import Prev from '@/components/icons/mentors/prev';
+import { type Mentor } from '@/types/our-mentors';
 
-const MentorCarousel = () => {
+const MentorSwiper: React.FC<Mentor> = ({ name, post, image, company }) => {
+  return (
+    <div className='w-fit h-fit flex items-center justify-center'>
+      <div className='w-[448px] h-[448px]'>
+        <Image
+          src={image.url}
+          className='w-full h-full object-cover rounded-3xl'
+          width={image.width}
+          height={image.height}
+          alt={image.title}
+        ></Image>
+      </div>
+      <div className='w-full absolute bottom-10'>
+        <div className='w-full flex items-center justify-center'>
+          <div className='w-[80%] bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
+            <div className='bg-dark-green rounded-3xl m-[3px]'>
+              <div className='align-middle py-3 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] rounded-3xl h-[80px] flex flex-col text-center justify-center'>
+                <span
+                  className='text-center align-middle text-2xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'
+                  style={{
+                    textShadow: `
+              0px 0px 0.9732px #705229,
+              0px 0px 1.9464px #705229,
+              0px 0px 40.8744px #705229
+              0px 0px 23.3568px #705229,
+              0px 0px 13.6248px #705229,
+              0px 0px 6.8124px #705229,
+              `,
+                  }}
+                >
+                  {name}
+                </span>
+                <div className='align-middle flex gap-1 items-center justify-center'>
+                  <span className='align-middle text-center font-poppins font-bold text-sm bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
+                    {post} at
+                  </span>
+                  <div className='h-[25px] w-[50px]'>
+                    <Image
+                      src={company.url}
+                      className='w-[50px] h-[25px]'
+                      width={company.width}
+                      height={company.height}
+                      alt={company.title}
+                    ></Image>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+interface MentorsCarouselProps {
+  options: Mentor[];
+}
+const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
   return (
     <section className='w-full h-fit flex items-center justify-center'>
       <div className='relative w-fit'>
@@ -40,159 +100,30 @@ const MentorCarousel = () => {
           className='mySwiper relative flex gap-10'
         >
           <div className='relative gap-4'>
-            <SwiperSlide className='flex items-center justify-center'>
-              <div className='w-[448px] h-[448px]'>
-                <Image
-                  src='/mentors/image1.jpg'
-                  className='w-full h-full object-cover rounded-3xl'
-                  width={300}
-                  height={300}
-                  alt='name'
-                ></Image>
-              </div>
-              <div className='w-full absolute bottom-10'>
-                <div className='w-full flex items-center justify-center'>
-                  <div className='w-[80%] bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
-                    <div className='bg-dark-green rounded-3xl m-[3px]'>
-                      <div className='align-middle py-3 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] rounded-3xl h-[80px] flex flex-col text-center justify-center'>
-                        <span
-                          className='text-center align-middle text-2xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'
-                          style={{
-                            textShadow: `
-              0px 0px 0.9732px #705229,
-              0px 0px 1.9464px #705229,
-              0px 0px 40.8744px #705229
-              0px 0px 23.3568px #705229,
-              0px 0px 13.6248px #705229,
-              0px 0px 6.8124px #705229,
-              `,
-                          }}
-                        >
-                          burhan
-                        </span>
-                        <div className='align-middle flex gap-1 items-center justify-center'>
-                          <span className='align-middle text-center font-poppins font-bold text-sm bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
-                            President at
-                          </span>
-                          <div className='h-[25px] w-[50px]'>
-                            <Image
-                              src={'/mentors/google.png'}
-                              className='w-[50px] h-[25px]'
-                              width={60}
-                              height={0}
-                              alt={'name'}
-                            ></Image>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center'>
-              <div className='w-[448px] h-[448px]'>
-                <Image
-                  src='/mentors/image1.jpg'
-                  className='w-full h-full object-cover rounded-3xl'
-                  width={300}
-                  height={300}
-                  alt='name'
-                ></Image>
-                <div className='w-full absolute bottom-10'>
-                  <div className='w-full flex items-center justify-center'>
-                    <div className='w-[80%] bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
-                      <div className='bg-dark-green rounded-3xl m-[3px]'>
-                        <div className='align-middle py-3 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] rounded-3xl h-[80px] flex flex-col text-center justify-center'>
-                          <span
-                            className='text-center align-middle text-2xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'
-                            style={{
-                              textShadow: `
-              0px 0px 0.9732px #705229,
-              0px 0px 1.9464px #705229,
-              0px 0px 40.8744px #705229
-              0px 0px 23.3568px #705229,
-              0px 0px 13.6248px #705229,
-              0px 0px 6.8124px #705229,
-              `,
-                            }}
-                          >
-                            burhan
-                          </span>
-                          <div className='align-middle flex gap-1 items-center justify-center'>
-                            <span className='align-middle text-center font-poppins font-bold text-sm bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
-                              President at
-                            </span>
-                            <div className='h-[25px] w-[50px]'>
-                              <Image
-                                src={'/mentors/google.png'}
-                                className='w-[50px] h-[25px]'
-                                width={60}
-                                height={0}
-                                alt={'name'}
-                              ></Image>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center'>
-              <div className='w-[448px] h-[448px]'>
-                <Image
-                  src='/mentors/image1.jpg'
-                  className='w-full h-full object-cover rounded-3xl'
-                  width={300}
-                  height={255}
-                  alt='name'
-                ></Image>
-              </div>
-              <div className='w-full absolute bottom-10'>
-                <div className='w-full flex items-center justify-center'>
-                  <div className='w-[80%] bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
-                    <div className='bg-dark-green rounded-3xl m-[3px]'>
-                      <div className='align-middle py-3 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] rounded-3xl h-[80px] flex flex-col text-center justify-center'>
-                        <span
-                          className='text-center align-middle text-2xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'
-                          style={{
-                            textShadow: `
-              0px 0px 0.9732px #705229,
-              0px 0px 1.9464px #705229,
-              0px 0px 40.8744px #705229
-              0px 0px 23.3568px #705229,
-              0px 0px 13.6248px #705229,
-              0px 0px 6.8124px #705229,
-              `,
-                          }}
-                        >
-                          burhan
-                        </span>
-                        <div className='align-middle flex gap-1 items-center justify-center'>
-                          <span className='align-middle text-center font-poppins font-bold text-sm bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
-                            President at
-                          </span>
-                          <div className='h-[25px] w-[50px]'>
-                            <Image
-                              src={'/mentors/google.png'}
-                              className='w-[50px] h-[25px]'
-                              width={60}
-                              height={0}
-                              alt={'name'}
-                            ></Image>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
+            {options?.map((option) => (
+              <SwiperSlide
+                key={option.name}
+                className='flex items-center justify-center'
+              >
+                <MentorSwiper
+                  id={option.id}
+                  key={option.name}
+                  name={option.name}
+                  post={option.post}
+                  image={option.image}
+                  company={option.company}
+                  desc={option.desc}
+                  invert={option.invert || false}
+                  instagram={option.instagram}
+                  horizontal={option.horizontal || true}
+                />
+              </SwiperSlide>
+            ))}
           </div>
           <div className='my-10 flex items-center justify-center'>
-            <Button color='gold'>See More</Button>
+            <Link href={'#seemore'}>
+              <Button color='gold'>See More</Button>
+            </Link>
           </div>
           <div className='flex items-center justify-center'>
             <div className='  swiper-prev slider-arrow'>

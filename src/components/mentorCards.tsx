@@ -1,29 +1,22 @@
 import Image from 'next/image';
+import { StructuredText } from 'react-datocms/structured-text';
 
 import Instagram from '@/components/icons/instagram';
+import { type Mentor } from '@/types/our-mentors';
 
-const MentorCard = ({
+const MentorCard: React.FC<Mentor> = ({
   name,
-  position,
+  post,
   instagram,
-  imageUrl,
+  image,
   company,
-  children,
-  horizontal,
+  desc,
   invert,
-}: {
-  name: string;
-  position: string;
-  instagram: string;
-  imageUrl: string;
-  company: string;
-  children?: string;
-  horizontal?: boolean;
-  invert?: boolean;
+  horizontal,
 }) => {
   return (
     <article
-      className={`${
+      className={`my-6 ${
         horizontal
           ? 'w-[80%] flex-col sm:flex sm:flex-row items-stretch '
           : 'w-[229px] lg:w-[297px] flex-col'
@@ -31,37 +24,36 @@ const MentorCard = ({
       h-fit rounded-3xl bg-dark-green shadow-[0px_0px_10px_5px_rgba(0,0,0,1)] shadow-[#8c6e47]`}
     >
       {/* Setting for div imageUrl and the text imageUrl */}
-      {imageUrl && (
+      {image && (
         <div
           className={`relative  ${horizontal ? 'rounded-3xl' : 'rounded-3xl'} ${
             invert ? 'rounded-3xl' : 'rounded-3xl'
           }
           bg-neutral-300 shadow-none ${
             !horizontal
-              ? children
+              ? desc
                 ? 'h-[194px] w-full lg:h-[251px]'
                 : 'h-[244px] w-full lg:h-[316.85px]'
               : 'h-[310px] w-full sm:w-[40%] lg:h-[361.68px]'
           }`}
         >
           <Image
-            src={imageUrl}
-            className={`w-full h-full object-cover rounded-t-3xl sm:rounded-tr-none sm:rounded-l-3xl ${
+            src={image.url}
+            className={`w-full h-full object-cover rounded-t-3xl ${
               invert
                 ? 'sm:rounded-r-3xl sm:rounded-tr-3xl sm:rounded-l-none'
-                : 'sm:rounded-l-3xl'
+                : 'sm:rounded-l-3xl sm:rounded-tr-none '
             }`}
             width={417}
             height={255}
-            alt={name}
+            alt={image.title}
           ></Image>
         </div>
       )}
-
       {/* Text Content */}
       <div
         className={`flex flex-col ${
-          children
+          desc
             ? 'gap-2 sm:gap-2 lg:gap-[22px] lg:pt-[15px]'
             : 'py-[15px] lg:pt-[35px] lg:pb-[30px]'
         } p-5 lg:p-[19px]  ${horizontal && 'flex-1 lg:mx-3'}`}
@@ -87,15 +79,15 @@ const MentorCard = ({
               </span>
               <div className='align-middle flex gap-1 items-center justify-center'>
                 <span className='align-middle text-center font-poppins font-bold text-sm bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
-                  {position} at
+                  {post} at
                 </span>
                 <div className='h-[25px] w-[50px]'>
                   <Image
-                    src={company}
+                    src={company.url}
                     className='w-[50px] h-[25px]'
-                    width={60}
-                    height={0}
-                    alt={name}
+                    width={company.width}
+                    height={company.height}
+                    alt={company.title}
                   ></Image>
                 </div>
               </div>
@@ -106,7 +98,7 @@ const MentorCard = ({
         <p
           className={`flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide`}
         >
-          {children}
+          <StructuredText data={desc} />
         </p>
         <div className='gap-2 flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide'>
           <Instagram size={20} /> {instagram}
@@ -116,4 +108,29 @@ const MentorCard = ({
   );
 };
 
-export default MentorCard;
+interface MentorCardsProps {
+  options: Mentor[];
+}
+
+const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
+  return (
+    <div className='flex flex-col items-center justify-center'>
+      {options?.map((option) => (
+        <MentorCard
+          id={option.id}
+          key={option.name}
+          name={option.name}
+          post={option.post}
+          instagram={option.instagram}
+          desc={option.desc}
+          image={option.image}
+          company={option.company}
+          invert={option.invert || false}
+          horizontal={option.horizontal || true}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default MentorCards;
