@@ -48,16 +48,6 @@ interface TpcPage {
     title: string;
     height: number;
   };
-  date1: string;
-  date2: string;
-  date3: string;
-  date4: string;
-  date5: string;
-  kegiatanz1: string;
-  kegiatanz2: string;
-  kegiatanz3: string;
-  kegiatanz4: string;
-  kegiatanz5: string;
 }
 
 interface timeLineTPC {

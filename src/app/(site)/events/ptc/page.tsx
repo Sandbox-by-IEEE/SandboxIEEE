@@ -40,19 +40,9 @@ const PTC = async () => {
   // Fetch data from CMS
   const CMS_QUERY = `{
     ptcPage {
-      date1
-      date2
-      date3
-      date4
-      date5
       titleTpcPages
       tpcSectionTitles
       targetDate
-      kegiatanz1
-      kegiatanz2
-      kegiatanz3
-      kegiatanz4
-      kegiatanz5
       timelineSectionTitle
       regisFeesSectionTitle
       regisFeesDescription {
@@ -115,7 +105,8 @@ const PTC = async () => {
           width={ptcPage.backgroundImages.width}
           height={ptcPage.backgroundImages.height}
           alt={ptcPage.backgroundImages.title}
-          className='w-full object-cover h-[771px] max-w-screen object-center'
+          priority
+          className='w-full object-cover h-[771px] max-h-screen object-center'
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
