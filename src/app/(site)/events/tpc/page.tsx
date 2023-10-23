@@ -44,15 +44,6 @@ const TPC = async () => {
       tpcSectionTitles 
       titleTpcPages
       timelineSectionTitle
-      date1
-      date2
-      date3
-      date4
-      date5
-      kegiatanz1
-      kegiatanz2
-      kegiatanz3
-      kegiatanz4
       targetDate
       regisFeesSectionTitle
       regisFeesDescription {
