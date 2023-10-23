@@ -60,13 +60,13 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={isDisabled}
       className={`${
-        isFullWidth ? 'w-full h-full' : 'w-fit h-fit'
-      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-6 lg:py-2.5 lg:px-8 rounded-md ${
+        isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[180px]'
+      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
         colorEffect[color].main
       }`}
       {...props}
     >
-      <p className='flex gap-3 w-full items-center justify-center font-poppins font-bold'>
+      <p className='flex gap-3 w-full text-center items-center justify-center font-poppins font-bold'>
         {children}
         {isIcon && <RightArrow arrowColor={`${colorEffect[color].arrow}`} />}
       </p>
