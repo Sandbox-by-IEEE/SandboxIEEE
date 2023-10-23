@@ -110,7 +110,7 @@ export default async function Home() {
           width={homepage.background[2].width}
           height={homepage.background[2].height}
           alt={homepage.background[2].title}
-          className='w-full object-cover h-[671px] object-center'
+          className='w-full object-cover h-[771px] max-h-screen object-center'
         />
         {/* Text Content on background */}
         <div
@@ -138,26 +138,26 @@ export default async function Home() {
 
       {/* Countdown Section */}
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] w-full'>
-        <div className='gradient-border-bg border-2 max-w-[1100px] mx-auto rounded-md flex flex-col items-center sm:space-y-8 w-full'>
-          <div className='text-[30px] sm:text-[32px]'>
+        <div className='gradient-border-bg border-2 max-w-[1100px] mx-auto rounded-md w-full'>
+          <div className='py-4 2xl:py-6 flex flex-col gap-2 sm:gap-7 lg:gap-10 items-center justify-center w-full'>
             <TitleSection>{homepage.titleCountdownNearestEvent}</TitleSection>
-          </div>
-          <div className='scale-75 sm:scale-100'>
-            <Countdown targetDate={new Date(homepage.targetDate)} />
-          </div>
-          <div className='flex gap-4 py-8'>
-            <CustomLink color='gold' url='/'>
-              {homepage.buttonTextOne}
-            </CustomLink>
-            <CustomLink color='trans-orange' url='/'>
-              {homepage.buttonTextTwo}
-            </CustomLink>
+            <div className='scale-75 sm:scale-100'>
+              <Countdown targetDate={new Date(homepage.targetDate)} />
+            </div>
+            <div className='flex gap-4 lg:gap-6'>
+              <CustomLink color='gold' url='/'>
+                {homepage.buttonTextOne}
+              </CustomLink>
+              <CustomLink color='trans-orange' url='/'>
+                {homepage.buttonTextTwo}
+              </CustomLink>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Trailer Section */}
-      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16] flex flex-col items-center space-y-8'>
+      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16] flex flex-col items-center space-y-12'>
         <TitleSection>{homepage.trailerSectionTitle}</TitleSection>
         <div className='h-fit w-fit rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'>
           <iframe
@@ -170,11 +170,11 @@ export default async function Home() {
             title='TEST'
           />
         </div>
-        <div className='flex gap-8'>
-          <CustomLink color='gold' url='/'>
+        <div className='flex gap-4 lg:gap-8 flex-col sm:flex-row justify-center w-full items-stretch max-w-[200px] sm:max-w-[380px] lg:w-[28vw] lg:max-w-[580px]'>
+          <CustomLink color='gold' url='/' isFullWidth>
             {homepage.buttonTextGetKnowUs}
           </CustomLink>
-          <CustomLink color='trans-orange' url='/'>
+          <CustomLink color='trans-orange' url='/' isFullWidth>
             {homepage.buttonTextPartnerUs}
           </CustomLink>
         </div>
@@ -182,7 +182,7 @@ export default async function Home() {
 
       {/* About Sandbox */}
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex justify-center items-center'>
-        <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-4'>
+        <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'>
           <TitleSection>{homepage.explanationTitle}</TitleSection>
           <div className='flex flex-col md:flex-row gap-10 lg:gap-20 justify-center items-center overflow-hidden'>
             <Image
@@ -200,9 +200,9 @@ export default async function Home() {
               className='w-[200px] lg:w-[300px] object-contain'
             />
           </div>
-          <div className='text-[#FFE1B9] sm:px-20'>
+          <h3 className='text-[#FFE1B9] sm:px-20'>
             <StructuredText data={homepage.explanationDescription} />
-          </div>
+          </h3>
 
           <CustomLink color='gold' url='/'>
             {homepage.buttonTextPastEvents}
@@ -211,7 +211,7 @@ export default async function Home() {
       </section>
 
       {/* Our Events */}
-      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] space-y-8 w-full'>
+      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] space-y-12 w-full'>
         {/* Title */}
         <TitleSection>{homepage.ourEventSectionTitle}</TitleSection>
 
@@ -223,7 +223,7 @@ export default async function Home() {
               index % 2 === 0 ? 'sm:flex-row-reverse' : ''
             } rounded-lg overflow-hidden`}
           >
-            <div className='w-full sm:w-[30%] sm:h-auto h-40 sm:aspect-[9/8] bg-slate-200 flex-shrink-0'>
+            <div className='w-full sm:w-[30%] sm:h-auto h-48 sm:aspect-[9/8] bg-slate-200 flex-shrink-0'>
               <Image
                 width={event.image.width}
                 height={event.image.width}
@@ -232,29 +232,34 @@ export default async function Home() {
                 className='object-contain w-full h-full'
               />
             </div>
-            <div className='flex justify-center items-center w-full p-8'>
-              <div className='flex flex-col items-center w-full h-full'>
-                <div className='relative shadow-lg'>
-                  <p className='py-2 text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-[32px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'>
+            <div className='flex justify-center items-center w-full p-6 lg:p-8'>
+              <div className='flex flex-col items-center sm:items-start w-full h-full'>
+                {/* Event Name */}
+                <div className='relative shadow-lg py-3'>
+                  <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-2xl lg:text-[32px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'>
                     {event.eventName}
                   </p>
-                  <p className='py-2 text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-[32px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'>
+                  <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-2xl lg:text-[32px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'>
                     {event.eventName}
                   </p>
                 </div>
+                {/* Highlight */}
                 {event.highlightEvent && (
-                  <div className='relative shadow-lg'>
-                    <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-[27px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'>
+                  <div className='relative shadow-lg pb-4'>
+                    <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-xl lg:text-[27px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'>
                       {event.highlightEvent}
                     </p>
 
-                    <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-[27px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'>
+                    <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-xl lg:text-[27px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'>
                       {event.highlightEvent}
                     </p>
                   </div>
                 )}
-                <StructuredText data={event.explanationEvent} />
-                <div className='flex flex-col sm:flex-row gap-2 items-end h-full py-4'>
+                <div className='text-base lg:text-lg'>
+                  <StructuredText data={event.explanationEvent} />
+                </div>
+                {/* Button */}
+                <div className='flex flex-wrap items-center justify-center gap-4 h-full py-5'>
                   {event.buttonRegister && (
                     <CustomLink color='gold' url='/'>
                       Register
@@ -273,20 +278,26 @@ export default async function Home() {
       </section>
 
       {/* Timeline */}
-      <section className='h-auto p-10 bg-[#092a16] px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20'>
-        <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
+      <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16]'>
+        <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
+          <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+            <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
+          </div>
+        </div>
         <Timeline items={allTimelineSandboxes} />
       </section>
 
       {/* FAQ + Sponsor and media partner */}
-      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-5'>
+      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-8 lg:gap-12'>
         <TitleSection>{homepage.faqSectionTitle}</TitleSection>
-
-        {allFaqHomePages.map((faq, index) => (
-          <FAQ key={index} question={faq.question} answer={faq.answer}></FAQ>
-        ))}
-
-        <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-4 '>
+        <div className='flex flex-col gap-5 items-center justify-center'>
+          {allFaqHomePages.map((faq, index) => (
+            <FAQ key={index} question={faq.question} answer={faq.answer}></FAQ>
+          ))}
+        </div>
+      </section>
+      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-5 lg:gap-12'>
+        <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'>
           <TitleSection>{homepage.ourSponsor}</TitleSection>
           <div className='flex p-3 lg:p-4 gap-3 lg:gap-6 flex-wrap justify-center'>
             {homepage.ourSponsorLogo.map((logo) => (
