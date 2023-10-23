@@ -115,7 +115,8 @@ const TPC = async () => {
           width={tpcPage.backgroundImage.width}
           height={tpcPage.backgroundImage.height}
           alt={tpcPage.backgroundImage.title}
-          className='w-full object-cover h-[771px] max-w-screen object-center'
+          priority
+          className='w-full object-cover h-[771px] max-h-screen object-center'
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
