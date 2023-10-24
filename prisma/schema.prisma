@@ -62,7 +62,7 @@ model VerificationToken {
 
 model TicketExhibition {
   id            String  @id @default(uuid())
-  ticketType String
+  ticketType    String
   verified      Boolean @default(false)
   active        Boolean @default(false)
   userId        String @unique
@@ -86,23 +86,44 @@ model TicketCompetition {
   userId String
   verified Boolean @default(false)
   competitionType String
-  teamName String
-  chairmanName String
-  memberNames String[]
-  emails String[]
-  institutions String[]
-  phoneNumbers String[]
-  ages String[]
-  twibbonProofs String[]
-  studentProofs String[]
+  team Team?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Team {
+  id String @id @default(uuid())
+  ticketId String @unique
+  teamName String @unique
+  chairmanName String
+  members ParticipantCompetition[]
+  karya Karya?
+
+  ticketCompetition TicketCompetition @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+}
+
+model ParticipantCompetition {
+  id String @id @default(uuid())
+  teamId String
+  name String
+  email String
+  institution String
+  phoneNumber String
+  age String
+  twibbonProof String
+  studentProof String
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+}
+
 model Karya {
   id        String   @id @default(uuid())
-  teamName  String
-  anggota   String[]
+  teamId String @unique
+  linkKarya String
   countVote BigInt   @default(0)
   usersVote User[]
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }

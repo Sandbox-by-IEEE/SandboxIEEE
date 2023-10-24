@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
@@ -59,41 +60,37 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const dataTicketForDb = {
-      competitionType: competitionType,
-      userId: session.user.id,
-      teamName: teamName,
-      chairmanName: chairmanName,
-      memberNames: [] as string[],
-      emails: [] as string[],
-      institutions: [] as string[],
-      phoneNumbers: [] as string[],
-      ages: [] as string[],
-      twibbonProofs: [] as string[],
-      studentProofs: [] as string[],
-    };
-
-    for (let i = 0; i < members.length; i++) {
-      const member = members[i];
-      dataTicketForDb.memberNames.push(member.name);
-      dataTicketForDb.emails.push(member.email);
-      dataTicketForDb.institutions.push(member.institution);
-      dataTicketForDb.phoneNumbers.push(member.phoneNumber);
-      dataTicketForDb.ages.push(member.age);
-      dataTicketForDb.twibbonProofs.push(member.twibbonProof);
-      dataTicketForDb.studentProofs.push(member.studentProof);
-    }
-
     const ticket = await prisma.ticketCompetition.create({
-      data: dataTicketForDb,
+      data: {
+        competitionType: competitionType,
+        userId: session.user.id,
+        team: {
+          create: {
+            chairmanName: chairmanName,
+            teamName: teamName,
+            members: {
+              createMany: {
+                data: members,
+              },
+            },
+          },
+        },
+      },
+      include: {
+        team: {
+          include: {
+            members: true,
+          },
+        },
+      },
     });
 
     ticketIdTemp = ticket.id;
 
     const dataTicketForSheet = {
       ticketId: ticket.id,
-      teamName: ticket.teamName,
-      chairmanName: ticket.chairmanName,
+      teamName: ticket.team?.teamName,
+      chairmanName: ticket.team?.chairmanName,
       members: members,
     };
 
@@ -109,23 +106,23 @@ export async function POST(req: NextRequest) {
 
     const resBody = await response.json();
 
-    if (resBody.status > 299 || response.status < 200) {
+    if (resBody.status > 299 || resBody.status < 200) {
       throw new Error(`Failed to create ticket, ${resBody.message}`);
     }
 
     const content =
       'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
 
-    for (let i = 0; i < ticket.emails.length; i++) {
+    for (let i = 0; i < members.length; i++) {
       const mailOptions = {
         from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-        to: ticket.emails[i],
+        to: ticket.team?.members[i].email,
         subject: 'Verification Process for Your Ticket Purchase',
         html: render(
           Email({
             content,
             heading: 'Ticket validation',
-            name: ticket.chairmanName,
+            name: ticket.team?.members[i].name || '',
           }),
           { pretty: true },
         ),
@@ -136,12 +133,24 @@ export async function POST(req: NextRequest) {
 
     console.log('POST_TICKET: email was sent');
 
-    return NextResponse.json({
-      ticket: ticket,
-      message: 'ticket purchase successful and please check your email',
-    });
+    return NextResponse.json(
+      {
+        ticket: ticket,
+        message: 'ticket purchase successful and please check your email',
+      },
+      { status: 201 },
+    );
   } catch (error) {
     if (error instanceof Error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          console.log('ERROR_POST_TICKET', error);
+          return NextResponse.json(
+            { message: 'The team name is already in use' },
+            { status: 500 },
+          );
+        }
+      }
       if (ticketIdTemp) {
         await prisma.ticketCompetition.delete({
           where: {

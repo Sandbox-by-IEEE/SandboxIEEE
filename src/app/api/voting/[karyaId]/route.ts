@@ -42,7 +42,7 @@ export async function PATCH(
 
     const currentUser = await prisma.user.findUnique({
       where: {
-        id: session?.user.id,
+        id: session.user.id,
       },
     });
 
@@ -65,7 +65,14 @@ export async function PATCH(
         countVote: ++existingKarya.countVote,
         usersVote: {
           connect: {
-            id: session?.user.id,
+            id: session.user.id,
+          },
+        },
+      },
+      include: {
+        team: {
+          include: {
+            members: true,
           },
         },
       },
@@ -74,27 +81,33 @@ export async function PATCH(
     isUpdated = true;
     countTemp = parseInt(updatedKarya.countVote.toString());
 
-    const res = await fetch(
-      `${process.env.API_SHEET_VOTING_URL}?name=${updatedKarya.teamName}&count=${updatedKarya.countVote}`,
-      {
-        method: 'POST',
+    const updatedKaryaNormalize = {
+      ...updatedKarya,
+      countVote: updatedKarya.countVote.toString(),
+    };
+
+    const dataForSheet = {
+      teamName: updatedKaryaNormalize.team.teamName,
+      count: updatedKaryaNormalize.countVote,
+    };
+
+    const res = await fetch(`${process.env.API_SHEET_VOTING_URL}?t=voting`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(dataForSheet),
+    });
 
-    const data = await res.json();
+    const resBody = await res.json();
 
-    if (data.status !== 200) {
-      throw new Error(data.message);
+    if (resBody.status > 299 || resBody.status < 200) {
+      throw new Error(`Failed to updated karya, ${resBody.message}`);
     }
 
     return NextResponse.json(
       {
-        karya: {
-          id: updatedKarya.id,
-          teamName: updatedKarya.teamName,
-          anggota: updatedKarya.anggota,
-          countVote: parseInt(updatedKarya.countVote.toString()),
-        },
+        karya: updatedKaryaNormalize,
         message: 'voting succesful',
       },
       { status: 200 },

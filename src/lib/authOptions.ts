@@ -35,9 +35,22 @@ export const authOptions: AuthOptions = {
             karya: {
               select: {
                 id: true,
-                anggota: true,
                 countVote: true,
-                teamName: true,
+                linkKarya: true,
+              },
+              include: {
+                team: {
+                  select: {
+                    id: true,
+                    teamName: true,
+                    chairmanName: true,
+                    // members: {
+                    //   select: {
+                    //     name: true
+                    //   }
+                    // }
+                  },
+                },
               },
             },
             ticketsExhibition: {
@@ -105,9 +118,17 @@ export const authOptions: AuthOptions = {
           karya: {
             select: {
               id: true,
-              anggota: true,
               countVote: true,
-              teamName: true,
+              linkKarya: true,
+            },
+            include: {
+              team: {
+                select: {
+                  id: true,
+                  teamName: true,
+                  chairmanName: true,
+                },
+              },
             },
           },
           ticketsExhibition: {

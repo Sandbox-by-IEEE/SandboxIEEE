@@ -7,9 +7,13 @@ declare module 'next-auth' {
       status: boolean;
       karya?: {
         id: string;
-        teamName: string;
-        anggota: string[];
+        team: {
+          id: string;
+          teamName: string;
+          chairmanName: string;
+        };
         countVote: int;
+        linkKarya: string;
       };
     };
     exhibition?: {
@@ -25,9 +29,13 @@ declare module 'next-auth' {
         status: boolean;
         karya?: {
           id: string;
-          teamName: string;
-          anggota: string[];
+          team: {
+            id: string;
+            teamName: string;
+            chairmanName: string;
+          };
           countVote: int;
+          linkKarya: string;
         };
       };
       exhibition?: {
