@@ -95,11 +95,11 @@ const MentorCard: React.FC<Mentor> = ({
           </div>
         </div>
         {/* Children */}
-        <p
+        <div
           className={`flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide`}
         >
           <StructuredText data={desc} />
-        </p>
+        </div>
         <div className='gap-2 flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide'>
           <Instagram size={20} /> {instagram}
         </div>
@@ -125,8 +125,8 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
           desc={option.desc}
           image={option.image}
           company={option.company}
-          invert={option.invert || false}
-          horizontal={option.horizontal || true}
+          invert={false}
+          horizontal={true}
         />
       ))}
     </div>

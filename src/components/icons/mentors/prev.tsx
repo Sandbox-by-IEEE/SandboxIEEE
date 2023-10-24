@@ -1,12 +1,12 @@
-const Prev = ({ size }: { size: number }) => {
+const Prev = ({ size, className }: { size: number; className?: string }) => {
   return (
     <svg
-      width='100'
-      height='100'
+      width={size}
+      height={size}
       viewBox='0 0 132 132'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
-      style={{ scale: size / 25 }}
+      className={className}
     >
       <g filter='url(#filter0_dddddd_1594_2427)'>
         <path
@@ -22,9 +22,9 @@ const Prev = ({ size }: { size: number }) => {
           width='131.749'
           height='131.749'
           filterUnits='userSpaceOnUse'
-          color-interpolation-filters='sRGB'
+          colorInterpolationFilters='sRGB'
         >
-          <feFlood flood-opacity='0' result='BackgroundImageFix' />
+          <feFlood floodOpacity='0' result='BackgroundImageFix' />
           <feColorMatrix
             in='SourceAlpha'
             type='matrix'

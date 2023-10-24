@@ -71,11 +71,31 @@ li p {
 details summary::-webkit-details-marker {
   display: none;
 }
+.carousel-item {
+  transition: transform 0.5s ease-in-out;
+}
+
+// class untuk menggeser item carousel ke kiri
+.shift-left {
+  transform: translateX(-100%);
+}
+
+// class untuk menggeser item carousel ke kanan
+.shift-right {
+  transform: translateX(100%);
+}
 
 .swiper-slide {
   opacity: 60%;
 }
 
+.mentor-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+.raised-mentor {
+  transform: translateY(-10px);
+}
 .swiper-slide-active {
   opacity: 100%;
 }

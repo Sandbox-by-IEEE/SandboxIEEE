@@ -44,8 +44,8 @@ const Bintang1 = ({
               y2='42.2951'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#AB814E' />
-              <stop offset='1' stop-color='#FFE1B9' />
+              <stop stopColor='#AB814E' />
+              <stop offset='1' stopColor='#FFE1B9' />
             </linearGradient>
             <linearGradient
               id='paint1_linear_1594_3288'
@@ -55,8 +55,8 @@ const Bintang1 = ({
               y2='112.907'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#AB814E' />
-              <stop offset='1' stop-color='#FFE1B9' />
+              <stop stopColor='#AB814E' />
+              <stop offset='1' stopColor='#FFE1B9' />
             </linearGradient>
             <linearGradient
               id='paint2_linear_1594_3288'
@@ -66,8 +66,8 @@ const Bintang1 = ({
               y2='69.7049'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#AB814E' />
-              <stop offset='1' stop-color='#FFE1B9' />
+              <stop stopColor='#AB814E' />
+              <stop offset='1' stopColor='#FFE1B9' />
             </linearGradient>
             <linearGradient
               id='paint3_linear_1594_3288'
@@ -77,19 +77,19 @@ const Bintang1 = ({
               y2='15.4829'
               gradientUnits='userSpaceOnUse'
             >
-              <stop stop-color='#AB814E' />
-              <stop offset='1' stop-color='#FFE1B9' />
+              <stop stopColor='#AB814E' />
+              <stop offset='1' stopColor='#FFE1B9' />
             </linearGradient>
           </defs>
         </svg>
       </div>
       <div className='absolute w-full h-full top-0'>
-        <div className='w-full h-full flex items-center justify-center'>
+        <div className='w-full h-full flex itemsCenter justifyCenter'>
           <span
             style={{
               ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
             }}
-            className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text  text-[30px] sm:text-[40px] md:text-[50px] font-museo-muderno p-1 font-bold'
+            className='bg-gradient-brown textCenter text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bgClip-text  text-[30px] sm:text-[40px] md:text-[50px] font-museo-muderno p-1 font-bold'
           >
             {children}
           </span>

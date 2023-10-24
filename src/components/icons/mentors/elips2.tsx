@@ -13,11 +13,11 @@ const Elips2 = ({ size }: { size: number }) => {
         cy='53.5'
         r='45.5'
         stroke='url(#paint0_linear_1681_2184)'
-        stroke-width='16'
+        strokeWidth='16'
       />
       <path
-        fill-rule='evenodd'
-        clip-rule='evenodd'
+        fillRule='evenodd'
+        clipRule='evenodd'
         d='M81 112.981C73.2577 112.981 66.9813 119.258 66.9813 127C66.9813 134.742 73.2577 141.019 81 141.019C88.7423 141.019 95.0187 134.742 95.0187 127C95.0187 119.258 88.7423 112.981 81 112.981ZM61 127C61 115.954 69.9543 107 81 107C92.0457 107 101 115.954 101 127C101 138.046 92.0457 147 81 147C69.9543 147 61 138.046 61 127Z'
         fill='url(#paint1_linear_1681_2184)'
       />
@@ -30,8 +30,8 @@ const Elips2 = ({ size }: { size: number }) => {
           y2='37.1663'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
         <linearGradient
           id='paint1_linear_1681_2184'
@@ -41,8 +41,8 @@ const Elips2 = ({ size }: { size: number }) => {
           y2='119.82'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stop-color='#AB814E' />
-          <stop offset='1' stop-color='#FFE1B9' />
+          <stop stopColor='#AB814E' />
+          <stop offset='1' stopColor='#FFE1B9' />
         </linearGradient>
       </defs>
     </svg>

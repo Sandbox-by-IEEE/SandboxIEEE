@@ -37,7 +37,6 @@
     "react-hot-toast": "^2.4.1",
     "react-modern-drawer": "^1.2.2",
     "react-vertical-timeline-component": "^3.6.0",
-    "swiper": "^10.3.1",
     "tailwindcss": "3.3.3",
     "zod": "^3.22.4"
   },

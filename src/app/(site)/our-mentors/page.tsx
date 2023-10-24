@@ -16,39 +16,6 @@ import { performRequest } from '@/lib/datocms';
 import { OurMentorsPageProps } from '@/types/our-mentors';
 
 const OurMentorsPage = async () => {
-  const options = [
-    {
-      name: 'option1',
-      position: 'Option 1',
-      instagram: '@alvinchrs',
-      company: '/mentors/google.png',
-      imageUrl: '/mentors/image1.jpg',
-      horizontal: true,
-      invert: false,
-      label: ``,
-    },
-    {
-      name: 'option2',
-      position: 'Option 2',
-      instagram: '@alvinchrs',
-      company: '/mentors/google.png',
-      imageUrl: '/mentors/image1.jpg',
-      horizontal: true,
-      invert: true,
-      label: ``,
-    },
-    {
-      name: 'option3',
-      position: 'Option 3',
-      instagram: '@alvinchrs',
-      company: '/mentors/google.png',
-      imageUrl: '/mentors/image1.jpg',
-      horizontal: true,
-      invert: false,
-      label: ``,
-    },
-  ];
-
   const CMS_QUERY = `
   { 
     ourMentorsPage {
