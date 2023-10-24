@@ -17,11 +17,15 @@ import {
 const Modal = ({
   title,
   description,
+  buttonText1,
+  buttonText2,
   onClickButtonOne = () => {},
   onClickButtonTwo = () => {},
 }: {
   title: string;
   description: string;
+  buttonText1?: string;
+  buttonText2?: string;
   onClickButtonOne?: () => void;
   onClickButtonTwo?: () => void;
 }) => {
@@ -40,7 +44,7 @@ const Modal = ({
 
   return createPortal(
     <div
-      className={`fixed inset-0 backdrop-blur-sm z-[200] flex justify-center items-center bg-black/40 ease-in duration-300 ${
+      className={`fixed inset-0 backdrop-blur-sm z-[10000] flex justify-center items-center bg-black/40 ease-in duration-300 ${
         isOpen
           ? 'opacity-1 transform translate-y-0 transition-all duration-300 ease-in-out'
           : 'opacity-0 transform -translate-y-20 transition-all duration-300 ease-in-out'
@@ -88,15 +92,15 @@ const Modal = ({
         {/* Contents */}
         <div className='z-[201]'>
           <div className='relative'>
-            <p className='py-4 text-transparent bg-clip-text bg-gradient-to-tr from-[#816139] via-[#fbdfbc] to-[#ffefdb] text-[32px] font-extrabold tracking-wider w-full text-center md:text-left'>
+            <p className='py-4 px-5 text-transparent bg-clip-text bg-gradient-to-tr from-[#816139] via-[#fbdfbc] to-[#ffefdb] text-[32px] font-extrabold tracking-wider w-full text-center md:text-left'>
               {title ?? 'Modals Title'}
             </p>
-            <p className='py-4 text-transparent bg-clip-text bg-gradient-to-tr from-[#8d6a41] to-[#c1aa8d] text-[32px] font-extrabold tracking-wider blur-[4px] absolute top-0 w-full text-center md:text-left select-none z-[-1]'>
+            <p className='py-4 px-5 text-transparent bg-clip-text bg-gradient-to-tr from-[#8d6a41] to-[#c1aa8d] text-[32px] font-extrabold tracking-wider blur-[4px] absolute top-0 w-full text-center md:text-left select-none z-[-1]'>
               {title ?? 'Modals Title'}
             </p>
           </div>
         </div>
-        <p className='py-6 text-[#FFE1B9] z-[201]'>
+        <p className='pb-6 text-[#FFE1B9] z-[201]'>
           {description ??
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet auctor viverra. Nulla facilisis elit ac leo ornare congue. Morbi sed lectus maximus, efficitur orci a.'}
         </p>
@@ -108,7 +112,7 @@ const Modal = ({
               closeModal();
             }}
           >
-            <div className='gradient-border-bg'>Button</div>
+            <div className='gradient-border-bg'>{buttonText1}</div>
           </button>
           <button
             className='relative bg-[#AB814E] hover:brightness-[80%] transition-all duration-300 py-[0.7rem] px-[4.3rem] text-white rounded-[4px]'
@@ -118,7 +122,7 @@ const Modal = ({
             }}
           >
             <div className='absolute inset-0 bg-[#AB814E] blur-sm' />
-            <div className='backdrop-blur w-full'>Button</div>
+            <div className='backdrop-blur w-full'>{buttonText2}</div>
           </button>
         </div>
       </div>
