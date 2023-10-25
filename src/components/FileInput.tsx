@@ -77,7 +77,10 @@ const FileInput = ({
         const uploadedFiles: FileInputType[] = [];
         for (let i = 0; i < filesToUpload.length; i++) {
           const fileUploaded = filesToUpload[i];
-          const responseJSON = await uploadFile(fileUploaded);
+          // const responseJSON = await uploadFile(fileUploaded);
+          const responseJSON = {
+            secure_url: 'https://hihihha.com',
+          };
 
           const newFile: FileInputType = {
             fileName: fileUploaded.name,
@@ -88,8 +91,11 @@ const FileInput = ({
         }
 
         setIsSuccess(true);
-        if (files) setFiles([...files, ...uploadedFiles]);
-        else setFiles(uploadedFiles);
+        if (files) {
+          setFiles([...files, ...uploadedFiles]);
+        } else {
+          setFiles(uploadedFiles);
+        }
       }
     } catch (error) {
       setIsError(true);
@@ -173,11 +179,11 @@ const FileInput = ({
     }
   };
 
-  if (files || isSuccess) {
+  if (isSuccess) {
     return (
       <div>
         <div
-          className='text-[15px] lg:text-base font-poppins w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#00FFA1] text-[#e6e6e6] space-y-4'
+          className='text-[15px] lg:text-base font-poppins w-full max-w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#00FFA1] text-[#e6e6e6] space-y-4'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
@@ -193,13 +199,7 @@ const FileInput = ({
             }`}
           >
             {inputUrl ? <LinkIcon /> : <FileIcon />}
-            {files && files[0].fileName ? (
-              <div className='flex flex-col'>
-                {files.map((file, index) => (
-                  <p key={index}>{file.fileName}</p>
-                ))}
-              </div>
-            ) : (
+            {inputUrl ? (
               <Link
                 href={inputUrl}
                 target='_blank'
@@ -208,6 +208,10 @@ const FileInput = ({
               >
                 {inputUrl}
               </Link>
+            ) : (
+              <div className='flex flex-col'>
+                <p>{message}</p>
+              </div>
             )}
           </div>
         </div>
@@ -226,7 +230,7 @@ const FileInput = ({
     return (
       <div>
         <div
-          className='text-[15px] lg:text-base font-poppins w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
+          className='text-[15px] lg:text-base font-poppins w-full sm:w-[400px] md:w-[700px] lg:w-[730px] max-w-full px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
@@ -262,7 +266,7 @@ const FileInput = ({
     <div>
       <div
         className={
-          'w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
+          'w-full sm:w-[400px] md:w-[700px] lg:w-[730px] max-w-full px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
         }
         onDragOver={handleDragOver}
         onDrop={handleDrop}

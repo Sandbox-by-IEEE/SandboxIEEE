@@ -12,6 +12,7 @@ const TextInput = ({
   fullwidth,
   onChange,
   setText,
+  minValue,
   required = false,
 }: {
   placeholder?: string;
@@ -23,6 +24,7 @@ const TextInput = ({
   fullwidth?: boolean;
   onChange?: (e) => void | null;
   setText?: React.Dispatch<SetStateAction<string>>;
+  minValue?: number;
   required?: boolean;
 }) => {
   const colorEffect = {
@@ -54,6 +56,7 @@ const TextInput = ({
             ? onChange(e)
             : console.warn('no Action');
         }}
+        min={minValue}
         disabled={disabled}
         name={name}
         type={type}
