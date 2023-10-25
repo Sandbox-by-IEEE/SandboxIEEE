@@ -1,3 +1,4 @@
+import React from 'react';
 const Star11 = ({ size }: { size: number }) => {
   return (
     <svg
