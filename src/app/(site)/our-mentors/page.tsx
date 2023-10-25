@@ -51,8 +51,8 @@ const OurMentorsPage = async () => {
     });
 
   return (
-    <main className='w-full relative bg-[#0b341a] text-white min-h-screen z-[3]'>
-      <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
+    <main className='w-full bg-[#0b341a] text-white min-h-screen '>
+      <div className='w-full relative z-[3] flex flex-col justify-center py-[80px] lg:py-[120px] overflow-hidden items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
         <div>
           <div className='absolute -z-[2] left-0 top-[400px]'>
             <Bintang2 size={25} />
