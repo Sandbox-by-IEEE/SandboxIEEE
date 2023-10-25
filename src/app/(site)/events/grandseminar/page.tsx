@@ -11,40 +11,62 @@ import { StructuredText } from 'react-datocms/structured-text';
 
 import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
-import SpeakersCarousel from '@/components/SpeakersCarousel';
+import MentorCards from '@/components/mentorCards';
+import MentorCarousel from '@/components/mentorsCarousel';
 import { performRequest } from '@/lib/datocms';
 import { GrandSeminarPageProps } from '@/types/grand-seminar';
 
 const ExhibitionPage = async () => {
   // Fetch data from CMS
   const CMS_QUERY = `
-  {
-      grandSeminar {
-        titleSeminarPage
-        timelineSectionTitle
-        targetDate
-        ourSpeakerTitleSection
-        imageMascot {
-          url
-          title
-          width
-          height
-        }
-        faqSectionTitle
-        explanationTitle
-        explanationDescription {
-          value
-        }
-        countdownTitle
-        buttonTextSeeMoreCountdown
-        buttonTextSeeMore
-        buttonTextRegister
-        backgroundImage {
-          width
-          url
-          title
-          height
-        }
+  query MyQuery {
+    grandSeminar {
+      titleSeminarPage
+      targetDate
+      ourSpeakerTitleSection
+      imageMascot {
+        width
+        url
+        title
+        height
+      }
+      faqSectionTitle
+      explanationTitle
+      explanationDescription {
+        value
+      }
+      detailSpeakerSectionTitle
+      countdownTitle
+      buttonTextSeeMoreCountdown
+      buttonTextSeeMore
+      buttonTextRegister
+      backgroundImage {
+        width
+        url
+        height
+        title
+      }
+    }
+    allSpeakerDetails(orderBy: name_ASC) {
+      id
+      linkedin
+      name
+      post
+      company {
+        url
+        width
+        title
+        height
+      }
+      desc {
+        value
+      }
+      image {
+        width
+        url
+        title
+        height
+      }
     }
     allFaqGrandSeminars {
       id
@@ -53,33 +75,12 @@ const ExhibitionPage = async () => {
         value
       }
     }
-    allOurSpeakers {
-      id
-      name
-      instagramUsername
-      imageSpeaker {
-        url
-        width
-        title
-        height
-      }
-      explanationSpeaker {
-        value
-      }
-      company {
-        url
-        width
-        title
-        height
-      }
-      positionSpeaker
-    }
   }`;
 
   const {
     grandSeminar,
     allFaqGrandSeminars: faqData,
-    allOurSpeakers,
+    allSpeakerDetails,
   }: GrandSeminarPageProps = await performRequest({
     query: CMS_QUERY,
     revalidate: 0,
@@ -173,42 +174,50 @@ const ExhibitionPage = async () => {
         </div>
       </section>
 
-      {/* Shadow
-      <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 flex flex-col gap-12 lg:gap-20'>
-        <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
-          <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-            <h2
-              style={{
-                ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
-              }}
-              className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
-            >
-              {grandSeminar.timelineSectionTitle}
-            </h2>
+      <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
+        {/* h1 Title Page */}
+        <section className='flex flex-col gap-5 lg:gap-10 w-full items-center justify-center px-8 sm:px-10 md:px-20 xl:px-32 2xl:px-40'>
+          <div className='w-fit text-center bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-3xl'>
+            <div className='bg-gradient-green items-center justify-center p-3 lg:py-6 sm:px-6 md:px-10 lg:px-12 rounded-2xl'>
+              <h2
+                style={{
+                  ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                }}
+                className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+              >
+                {grandSeminar.detailSpeakerSectionTitle}
+              </h2>
+            </div>
           </div>
-        </div>
-        <Timeline items={timelineData} />
-      </section> */}
+          {/* Carousels */}
+          <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16 '>
+            <MentorCarousel options={allSpeakerDetails} />
+          </div>
+        </section>
 
-      <section className='w-full flex flex-col items-center justify-center gap-2  px-8 sm:px-10 md:px-20 lg:px-40'>
-        <div className='w-fit text-center bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-3xl'>
-          <div className='bg-gradient-green items-center justify-center p-3 lg:py-6 sm:px-6 md:px-10 lg:px-12 rounded-2xl'>
-            <h2
-              style={{
-                ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
-              }}
-              className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
-            >
-              {grandSeminar.timelineSectionTitle}
-            </h2>
-          </div>
-        </div>
-        <div className='CardsContainer xl:h-fit w-full flex justify-center items-center overflow-hidden h-[440px] md:h-[500px] lg:h-[700px]'>
-          <div className='SpeakerWrapper xl:scale-100 lg:scale-75 md:scale-[60%] sm:scale-[50%] scale-[45%]'>
-            <SpeakersCarousel data={allOurSpeakers} />
-          </div>
-        </div>
-      </section>
+        <section className='flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40'>
+          {/* Our Mentors subtitle */}
+          {grandSeminar.detailSpeakerSectionTitle && (
+            <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
+              <div
+                id='seemore'
+                className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'
+              >
+                <h2
+                  style={{
+                    ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                  }}
+                  className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+                >
+                  {grandSeminar.detailSpeakerSectionTitle}
+                </h2>
+              </div>
+            </div>
+          )}
+
+          <MentorCards options={allSpeakerDetails} />
+        </section>
+      </div>
       {/* FAQ */}
       <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
         <h2
@@ -232,21 +241,43 @@ const ExhibitionPage = async () => {
 export default ExhibitionPage;
 
 export const metadata: Metadata = {
-  title: 'Grand-Seminar | Sandbox IEEE ITB',
+  title: 'Grand Seminar | Sandbox IEEE ITB',
   description:
-    'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and grandSeminar. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+    "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
   generator: 'Next.js',
+  category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'Sandbox',
+    'Sandbox IEEE ITB',
+    'Sandbox ITB',
+    'IEEE ITB',
+    'ITB',
+    'TPC',
+    'PTC',
+  ],
   colorScheme: 'dark',
+  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
+  alternates: {
+    canonical: '/grandseminar',
+    languages: {
+      'en-US': '/en-US/grandseminar',
+      'id-ID': '/id-ID/grandseminar',
+    },
+  },
+  verification: {
+    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
+  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and grandSeminar. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
-    url: 'https://sandbox.ieeeitb.com/',
+      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+    url: 'https://sandbox.ieeeitb.com/grandseminar',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',
@@ -259,10 +290,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and grandSeminar. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',

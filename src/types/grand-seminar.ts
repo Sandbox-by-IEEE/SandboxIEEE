@@ -5,16 +5,38 @@ import {
   type StructuredText as STType,
 } from 'datocms-structured-text-utils';
 
-export interface Image {
+interface Image {
+  width: number;
   url: string;
   title: string;
-  width: number;
   height: number;
 }
 
-export interface GrandSeminar {
+interface Company {
+  url: string;
+  width: number;
+  title: string;
+  height: number;
+}
+
+interface SpeakerDetails {
+  id: string;
+  linkedin: string;
+  name: string;
+  post: string;
+  company: Company;
+  desc: Document | Node | STType<Record, Record> | null | undefined;
+  image: Image;
+}
+
+interface Faq {
+  id: string;
+  question: string;
+  answer: Document | Node | STType<Record, Record> | null | undefined;
+}
+
+interface GrandSeminar {
   titleSeminarPage: string;
-  timelineSectionTitle: string;
   targetDate: string;
   ourSpeakerTitleSection: string;
   imageMascot: Image;
@@ -26,6 +48,7 @@ export interface GrandSeminar {
     | STType<Record, Record>
     | null
     | undefined;
+  detailSpeakerSectionTitle: string;
   countdownTitle: string;
   buttonTextSeeMoreCountdown: string;
   buttonTextSeeMore: string;
@@ -33,29 +56,8 @@ export interface GrandSeminar {
   backgroundImage: Image;
 }
 
-export interface FaqGrandSeminar {
-  id: string;
-  question: string;
-  answer: Document | Node | STType<Record, Record> | null | undefined;
-}
-
-export interface Speaker {
-  id: string;
-  name: string;
-  instagramUsername: string;
-  imageSpeaker: Image;
-  explanationSpeaker:
-    | Document
-    | Node
-    | STType<Record, Record>
-    | null
-    | undefined;
-  company: Image;
-  positionSpeaker: string;
-}
-
 export interface GrandSeminarPageProps {
   grandSeminar: GrandSeminar;
-  allFaqGrandSeminars: FaqGrandSeminar[];
-  allOurSpeakers: Speaker[];
+  allSpeakerDetails: SpeakerDetails[];
+  allFaqGrandSeminars: Faq[];
 }
