@@ -10,15 +10,10 @@ import Logosm from './icons/logosm';
 import Star1 from './icons/star1';
 import Star2 from './icons/star2';
 import Starsm from './icons/starsm';
-import Tiktok from './icons/tiktok';
 
 const LinkColumn = ({ header, links }) => (
   <div className='mb-8 md:mr-10 sm:mb-0 xl:mr-20'>
-    <Link href=''>
-      <h3 className='hover:underline text-base md:text-lg font-semibold mb-1'>
-        {header}
-      </h3>
-    </Link>
+    <p className='text-base md:text-lg font-semibold mb-1'>{header}</p>
     {links.map((link, index) => (
       <Link href={link.href} key={index}>
         <p className='hover:underline text-xs md:text-sm lg:text-base mb-1'>
@@ -45,7 +40,7 @@ const linksData = [
         { href: '/events/ptc', text: 'PTC' },
         { href: '/events/tpc', text: 'TPC' },
         { href: '/events/exhibition', text: 'Exhibition' },
-        { href: '/events/grand-seminar', text: 'Grand Seminar' },
+        { href: '/events/grandseminar', text: 'Grand Seminar' },
       ],
     },
   ],
@@ -121,10 +116,10 @@ const Footer = () => (
           <SocialIcon LinkComponent={Instagram} href='' size={25} />
           <SocialIcon
             LinkComponent={Linkedin}
-            href='https://www.instagram.com/'
+            href='https://www.instagram.com/thesandbox.itb/'
             size={25}
           />
-          <SocialIcon LinkComponent={Tiktok} href='' size={25} />
+          {/* <SocialIcon LinkComponent={Tiktok} href='' size={25} /> */}
         </div>
       </div>
     </div>

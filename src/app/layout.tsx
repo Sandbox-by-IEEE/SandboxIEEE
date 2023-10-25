@@ -1,6 +1,5 @@
 import './globals.css';
 import 'aos/dist/aos.css';
-import 'aos/dist/aos.css';
 
 import { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
@@ -36,7 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang='id, en'
+      lang='en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
       <AuthProvider>

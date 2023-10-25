@@ -53,6 +53,8 @@ const CMS_QUERY = `{
     buttonTextPastEvents
     buttonTextPartnerUs
     buttonTextOne
+    linkButtonTwo
+    linkButtonOne
     buttonTextGetKnowUs
     background {
       url
@@ -133,7 +135,7 @@ export default async function Home() {
             {homepage.titleHomepage}
           </h1>
           <TitleSection>{homepage.tagline}</TitleSection>
-          <CustomLink color='green' url='/homepage'>
+          <CustomLink color='green' url='#sandbox'>
             {homepage.textButtonSeeMore}
           </CustomLink>
         </div>
@@ -151,10 +153,10 @@ export default async function Home() {
               <Countdown targetDate={new Date(homepage.targetDate)} />
             </div>
             <div className='flex gap-4 lg:gap-6'>
-              <CustomLink color='gold' url='/'>
+              <CustomLink color='gold' url={homepage.linkButtonOne}>
                 {homepage.buttonTextOne}
               </CustomLink>
-              <CustomLink color='trans-orange' url='/'>
+              <CustomLink color='trans-orange' url={homepage.linkButtonTwo}>
                 {homepage.buttonTextTwo}
               </CustomLink>
             </div>
@@ -174,23 +176,30 @@ export default async function Home() {
             height={`${500}`}
             src={`https://www.youtube.com/embed/${homepage.embedYoutubeId}`}
             className='h-[300px] w-full max-w-[400px] lg:h-[20vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[500px]'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscrope; picture-in-picture'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
             allowFullScreen
-            title='TEST'
+            title={homepage.trailerSectionTitle}
           />
         </div>
         <div className='flex gap-4 lg:gap-8 flex-col sm:flex-row justify-center w-full items-stretch max-w-[200px] sm:max-w-[380px] lg:w-[28vw] lg:max-w-[580px]'>
-          <CustomLink color='gold' url='/' isFullWidth>
+          <CustomLink
+            color='gold'
+            url='https://www.instagram.com/thesandbox.itb/'
+            isFullWidth
+          >
             {homepage.buttonTextGetKnowUs}
           </CustomLink>
-          <CustomLink color='trans-orange' url='/' isFullWidth>
+          <CustomLink color='trans-orange' url='/contact-us' isFullWidth>
             {homepage.buttonTextPartnerUs}
           </CustomLink>
         </div>
       </section>
 
       {/* About Sandbox */}
-      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex justify-center items-center'>
+      <section
+        id='sandbox'
+        className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex justify-center items-center'
+      >
         <GradientBox
           className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'
           aos='fade-in'
@@ -203,7 +212,7 @@ export default async function Home() {
               src={homepage.sandboxLogo.url}
               width={homepage.sandboxLogo.width}
               height={homepage.sandboxLogo.width}
-              alt={homepage.sandboxLogo.title}
+              alt={homepage.sandboxLogo.title || 'Sandbox Logo'}
               className='w-[130px] lg:w-[200px] object-contain'
             />
             <Image
@@ -211,7 +220,7 @@ export default async function Home() {
               src={homepage.ieeeLogo.url}
               width={homepage.ieeeLogo.width}
               height={homepage.ieeeLogo.width}
-              alt={homepage.ieeeLogo.title}
+              alt={homepage.ieeeLogo.title || "IEEE ITB's Logo"}
               className='w-[200px] lg:w-[300px] object-contain'
             />
           </div>
@@ -219,20 +228,23 @@ export default async function Home() {
             <StructuredText data={homepage.explanationDescription} />
           </h3>
 
-          <CustomLink color='gold' url='/'>
+          <CustomLink color='gold' url='#events'>
             {homepage.buttonTextPastEvents}
           </CustomLink>
         </GradientBox>
       </section>
 
       {/* Our Events */}
-      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] space-y-12 w-full'>
+      <section
+        id='events'
+        className='h-auto px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] space-y-12 w-full'
+      >
         {/* Title */}
         <TitleSection>{homepage.ourEventSectionTitle}</TitleSection>
 
         {/* Content */}
         {allOurEventsHomepages.map((event, index) => (
-          <div
+          <article
             key={index}
             className={`flex flex-col sm:flex-row w-full bg-[#071D10] shadow-md shadow-[#00000040] max-w-[1200px] mx-auto text-[#FFE1B9] ${
               index % 2 === 0 ? 'sm:flex-row-reverse' : ''
@@ -244,7 +256,7 @@ export default async function Home() {
                 width={event.image.width}
                 height={event.image.width}
                 src={event.image.url}
-                alt={event.image.title}
+                alt={event.image.title || "Event's Image"}
                 className='object-contain w-full h-full'
                 sizes='(max-width: 640px) 100%, 30%'
               />
@@ -253,24 +265,18 @@ export default async function Home() {
               <div className='flex flex-col items-center sm:items-start w-full h-full'>
                 {/* Event Name */}
                 <div className='relative shadow-lg py-3'>
-                  <p
+                  <h3
                     data-aos={
                       index % 2 === 1 ? 'fade-down-right' : 'fade-down-left'
                     }
                     data-aos-duration='500'
                     className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-2xl lg:text-[32px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'
+                    style={{
+                      ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                    }}
                   >
                     {event.eventName}
-                  </p>
-                  <p
-                    data-aos={
-                      index % 2 === 1 ? 'fade-down-right' : 'fade-down-left'
-                    }
-                    data-aos-duration='500'
-                    className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-2xl lg:text-[32px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'
-                  >
-                    {event.eventName}
-                  </p>
+                  </h3>
                 </div>
                 {/* Highlight */}
                 {event.highlightEvent && (
@@ -279,14 +285,9 @@ export default async function Home() {
                       data-aos={index % 2 === 1 ? 'fade-right' : 'fade-left'}
                       data-aos-duration='500'
                       className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-xl lg:text-[27px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'
-                    >
-                      {event.highlightEvent}
-                    </p>
-
-                    <p
-                      data-aos={index % 2 === 1 ? 'fade-right' : 'fade-left'}
-                      data-aos-duration='500'
-                      className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-xl lg:text-[27px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'
+                      style={{
+                        ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                      }}
                     >
                       {event.highlightEvent}
                     </p>
@@ -307,14 +308,19 @@ export default async function Home() {
                     </CustomLink>
                   )}
                   {event.buttonSeeMore && (
-                    <CustomLink color='trans-orange' url='/'>
+                    <CustomLink
+                      color='trans-orange'
+                      url={`/events/${event.eventName
+                        .replace(/\s+/g, '')
+                        .toLowerCase()}`}
+                    >
                       See More
                     </CustomLink>
                   )}
                 </div>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </section>
 
@@ -368,7 +374,7 @@ export default async function Home() {
               />
             ))}
           </div>
-          <CustomLink color='gold' url='/'>
+          <CustomLink color='gold' url='/contact-us'>
             {homepage.buttonTextPartnerUs}
           </CustomLink>
         </GradientBox>
