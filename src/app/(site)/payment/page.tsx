@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
-import FileInput, { FileInputType } from '@/components/FileInput';
+import MultipleFileInput from '@/components/FileInput/MultipleFileInput';
+import { FileInputType } from '@/components/FileInput/SingleFileInput';
+import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
 import TextInput from '@/components/TextInput';
 
@@ -23,7 +25,7 @@ type inputData = {
   memberCount: number;
   members: memberInfo[];
   paymentMethod: string;
-  paymentProofUrl: string;
+  paymentProofUrl: FileInputType[];
 };
 
 export default function Home() {
@@ -44,12 +46,10 @@ export default function Home() {
       },
     ],
     paymentMethod: '',
-    paymentProofUrl: '',
+    paymentProofUrl: [],
   });
-  const [files, setFiles] = useState<FileInputType[][] | undefined>();
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
   const [step, setStep] = useState<number>(1);
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -126,8 +126,20 @@ export default function Home() {
 
   const handleSubmitFinal = (e) => {
     e.preventDefault();
+    //submission here
     console.log(inputData);
   };
+
+  useEffect(() => {
+    if (filesForm2?.length) {
+      const newInputData = { ...inputData };
+      newInputData.paymentProofUrl = filesForm2;
+
+      setInputData(newInputData);
+      localStorage.setItem('inputData', JSON.stringify(newInputData));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filesForm2]);
 
   useEffect(() => {
     const memoryInputData = localStorage.getItem('inputData');
@@ -137,15 +149,7 @@ export default function Home() {
 
         if (typeof historyInputData === 'object') {
           setInputData(historyInputData);
-          if (historyInputData.members) {
-            // const data = historyInputData.members.map((el) => {
-            //   return {
-            //     fileName: el.studentProofName,
-            //     fileUrl: el.studentProof,
-            //   };
-            // });
-            // setFiles(data);
-          }
+          setFilesForm2(historyInputData.paymentProofUrl);
         } else {
           localStorage.removeItem('inputData');
         }
@@ -169,8 +173,6 @@ export default function Home() {
               setInputData={setInputData}
               handleChange={handleChange}
               handleSubmitFormIdentity={handleSubmitFormIdentity}
-              files={files}
-              setFiles={setFiles}
             />
           </>
         )}
@@ -197,8 +199,6 @@ export default function Home() {
             <FormPayment
               handleChange={handleChange}
               inputData={inputData}
-              uploadProgress={uploadProgress}
-              setUploadProgress={setUploadProgress}
               handleSubmitFinal={handleSubmitFinal}
               filesForm2={filesForm2}
               setFilesForm2={setFilesForm2}
@@ -211,8 +211,8 @@ export default function Home() {
 }
 
 const Title = ({ text }) => (
-  <div className='relative text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center'>
-    <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full '>
+  <div className='relative text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
+    <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full'>
       {text}
     </div>
     <h2 className='z-10'>{text}</h2>
@@ -224,8 +224,6 @@ const FormDetails = ({
   setInputData,
   handleChange,
   handleSubmitFormIdentity,
-  files,
-  setFiles,
 }) => (
   <form onSubmit={handleSubmitFormIdentity} className=' space-y-8 py-6 w-full'>
     <div className='flex flex-col'>
@@ -344,22 +342,25 @@ const FormDetails = ({
           />
         </div>
         <div className='w-full pb-20'>
-          <div className='flex w-full justify-between gap-2'>
-            <div className='w-[49%]'>
-              <p className='text-3xl py-4 text-center'>Student Card Proof</p>
-              <FileInput
+          <div className='flex flex-col md:flex-row w-full justify-between gap-2'>
+            <div className='w-full md:w-[49%]'>
+              <p className='text-3xl py-4 text-center'>
+                Student Card Proof {i + 1}
+              </p>
+              <SingleFileInput
                 key={'FormDetailsA' + i}
                 message='Student Card Proof'
-                files={files && files[i]}
-                setFiles={(newFiles) => {
-                  console.log(newFiles);
-                  if (newFiles) {
+                file={{
+                  fileName: inputData.members[i].studentProofName,
+                  fileUrl: inputData.members[i].studentProof,
+                }}
+                setFile={(newFile: FileInputType) => {
+                  if (newFile) {
                     setInputData((inputData) => {
                       const newInputData = { ...inputData };
-                      newInputData.members[i].studentProof =
-                        newFiles[0].fileUrl;
+                      newInputData.members[i].studentProof = newFile.fileUrl;
                       newInputData.members[i].studentProofName =
-                        newFiles[0].fileName;
+                        newFile.fileName;
 
                       localStorage.setItem(
                         'inputData',
@@ -372,21 +373,22 @@ const FormDetails = ({
                 }}
               />
             </div>
-            <div className='w-[49%]'>
-              <p className='text-3xl py-4 text-center'>Twibbon Proof</p>
-              <FileInput
+            <div className='w-full md:w-[49%]'>
+              <p className='text-3xl py-4 text-center'>Twibbon Proof {i + 1}</p>
+              <SingleFileInput
                 key={'FormDetailsB' + i}
                 message='Twibbon Proof'
-                files={files && files[i]}
-                setFiles={(newFiles) => {
-                  console.log(newFiles);
+                file={{
+                  fileName: inputData.members[i].twibbonProofName,
+                  fileUrl: inputData.members[i].twibbonProof,
+                }}
+                setFile={(newFiles) => {
                   if (newFiles) {
                     setInputData((inputData) => {
                       const newInputData = { ...inputData };
-                      newInputData.members[i].twibbonProof =
-                        newFiles[0].fileUrl;
+                      newInputData.members[i].twibbonProof = newFiles.fileUrl;
                       newInputData.members[i].twibbonProofName =
-                        newFiles[0].fileName;
+                        newFiles.fileName;
 
                       localStorage.setItem(
                         'inputData',
@@ -415,8 +417,6 @@ const FormDetails = ({
 const FormPayment = ({
   handleChange,
   inputData,
-  uploadProgress,
-  setUploadProgress,
   filesForm2,
   setFilesForm2,
   handleSubmitFinal,
@@ -509,15 +509,52 @@ const FormPayment = ({
 
     <div className='pt-8'>
       <p className='text-2xl font-bold text-left'>Proof of Payment</p>
-      <div className='flex flex-wrap'>
-        <FileInput
-          key='FormPayment'
-          message='Secondary Message'
-          files={filesForm2}
-          setFiles={setFilesForm2}
-        />
-        <div>
-          <p>Uploaded Files</p>
+      <div className='flex flex-col md:flex-row flex-wrap pt-4 justify-between'>
+        <div className='w-full md:w-[49%]'>
+          <MultipleFileInput
+            key='FormPayment'
+            message='Secondary Message'
+            files={filesForm2}
+            setFiles={setFilesForm2}
+          />
+        </div>
+        <div className='w-[47%] text-left py-4 '>
+          <p className='text-3xl'>Uploaded Files</p>
+          <ul className='list-none h-[270px] overflow-y-scroll pr-2'>
+            {filesForm2?.map((el, i) => (
+              <li
+                key={'filesForm2' + i}
+                className={
+                  i > 0
+                    ? 'w-full h-fit flex py-4 border-t-2 border-[#4D4D4D]'
+                    : 'w-full h-fit flex py-4'
+                }
+              >
+                <div className=' flex-grow flex flex-col justify-start'>
+                  <p>{el.fileName}</p>
+                  <a href={el.fileUrl} className='text-blue-500'>
+                    view file
+                  </a>
+                </div>
+                <button
+                  className='w-4 h-full flex text-lg font-bold'
+                  onClick={() =>
+                    setFilesForm2((filesForm2: FileInputType[]) => {
+                      const newFilesForm: FileInputType[] = [];
+                      for (let j = 0; j < filesForm2.length; j++) {
+                        if (j == i) continue;
+                        newFilesForm.push(filesForm2[j]);
+                      }
+
+                      return newFilesForm;
+                    })
+                  }
+                >
+                  x
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

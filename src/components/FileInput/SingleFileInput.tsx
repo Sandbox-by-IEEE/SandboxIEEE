@@ -20,18 +20,18 @@ export interface FileInputType {
   fileUrl: string;
 }
 
-const FileInput = ({
-  setFiles,
+const SingleFileInput = ({
+  setFile,
   allowedFileTypes = [],
   setUrl,
   message,
-  files,
+  file,
 }: {
-  setFiles: Dispatch<SetStateAction<FileInputType[] | undefined>>;
+  setFile: (FileInputType) => void;
   allowedFileTypes?: string[];
   setUrl?: Dispatch<SetStateAction<string>>;
   message: string;
-  files: FileInputType[] | undefined;
+  file: FileInputType | undefined;
 }) => {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -74,28 +74,16 @@ const FileInput = ({
     const filesToUpload = event.target.files;
     try {
       if (filesToUpload && filesToUpload.length > 0) {
-        const uploadedFiles: FileInputType[] = [];
-        for (let i = 0; i < filesToUpload.length; i++) {
-          const fileUploaded = filesToUpload[i];
-          // const responseJSON = await uploadFile(fileUploaded);
-          const responseJSON = {
-            secure_url: 'https://hihihha.com',
-          };
+        const fileUploaded = filesToUpload[0];
+        const responseJSON = await uploadFile(fileUploaded);
 
-          const newFile: FileInputType = {
-            fileName: fileUploaded.name,
-            fileUrl: responseJSON?.secure_url,
-          };
-
-          uploadedFiles.push(newFile);
-        }
+        const newFile: FileInputType = {
+          fileName: fileUploaded.name,
+          fileUrl: responseJSON?.secure_url,
+        };
 
         setIsSuccess(true);
-        if (files) {
-          setFiles([...files, ...uploadedFiles]);
-        } else {
-          setFiles(uploadedFiles);
-        }
+        setFile(newFile);
       }
     } catch (error) {
       setIsError(true);
@@ -108,42 +96,33 @@ const FileInput = ({
 
       const filesDropped = e.dataTransfer.files;
       if (filesDropped.length > 0) {
-        const uploadedFiles: FileInputType[] = [];
         const allowedFileExtensions = allowedFileTypes.map((el) => el.slice(1));
 
-        for (let i = 0; i < filesDropped.length; i++) {
-          const fileUploaded = filesDropped[i];
-          const fileExtension = fileUploaded?.name
-            ?.split('.')
-            ?.pop()
-            ?.toLowerCase();
+        const fileUploaded = filesDropped[0];
+        const fileExtension = fileUploaded?.name
+          ?.split('.')
+          ?.pop()
+          ?.toLowerCase();
 
-          if (
+        if (
+          !(
             allowedFileExtensions.length === 0 ||
             allowedFileExtensions.includes(fileExtension as string)
-          ) {
-            const responseJSON = await uploadFile(fileUploaded);
-
-            const newFile = {
-              fileName: fileUploaded.name,
-              fileUrl: responseJSON?.secure_url,
-            };
-
-            uploadedFiles.push(newFile);
-          } else {
-            throw `Wrong file type, allowed file types are ${allowedFileExtensions.join(
-              ', ',
-            )}`;
-          }
+          )
+        ) {
+          throw `Wrong file type, allowed file types are ${allowedFileExtensions.join(
+            ', ',
+          )}`;
         }
+
+        const responseJSON = await uploadFile(fileUploaded);
+        const newFile = {
+          fileName: fileUploaded.name,
+          fileUrl: responseJSON?.secure_url,
+        };
 
         setIsSuccess(true);
-
-        if (files) {
-          setFiles([...files, ...uploadedFiles]);
-        } else {
-          setFiles(uploadedFiles);
-        }
+        setFile(newFile);
       } else {
         throw 'No files dropped';
       }
@@ -179,11 +158,11 @@ const FileInput = ({
     }
   };
 
-  if (isSuccess) {
+  if (isSuccess || file?.fileName) {
     return (
       <div>
         <div
-          className='text-[15px] lg:text-base font-poppins w-full max-w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#00FFA1] text-[#e6e6e6] space-y-4'
+          className='text-[15px] lg:text-base font-poppins w-full max-w-full px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#00FFA1] text-[#e6e6e6] space-y-4'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
@@ -193,11 +172,7 @@ const FileInput = ({
           <p className='text-[#00FFA1]'>
             {inputUrl ? 'Link' : 'File'} berhasil diupload!
           </p>
-          <div
-            className={`flex gap-2 items-center ${
-              files && files?.length > 1 && 'flex-col'
-            }`}
-          >
+          <div className={`flex gap-2 items-center`}>
             {inputUrl ? <LinkIcon /> : <FileIcon />}
             {inputUrl ? (
               <Link
@@ -209,9 +184,9 @@ const FileInput = ({
                 {inputUrl}
               </Link>
             ) : (
-              <div className='flex flex-col'>
-                <p>{message}</p>
-              </div>
+              <a href={file?.fileUrl} className='flex flex-col'>
+                <p>{file?.fileName}</p>
+              </a>
             )}
           </div>
         </div>
@@ -230,7 +205,7 @@ const FileInput = ({
     return (
       <div>
         <div
-          className='text-[15px] lg:text-base font-poppins w-full sm:w-[400px] md:w-[700px] lg:w-[730px] max-w-full px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
+          className='text-[15px] lg:text-base font-poppins w-full max-w-full px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
@@ -266,7 +241,7 @@ const FileInput = ({
     <div>
       <div
         className={
-          'w-full sm:w-[400px] md:w-[700px] lg:w-[730px] max-w-full px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
+          'w-full max-w-full px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
         }
         onDragOver={handleDragOver}
         onDrop={handleDrop}
@@ -316,10 +291,9 @@ const FileInput = ({
         ref={hiddenFileInput}
         accept={allowedFileTypes.join(',')}
         className='hidden'
-        multiple
       />
     </div>
   );
 };
 
-export default FileInput;
+export default SingleFileInput;
