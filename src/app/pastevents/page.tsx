@@ -80,16 +80,16 @@ function DecoratedTitle({
 }) {
   return (
     <div className='relative text-4xl font-extrabold text-[#9a7037] px-4 py-2 inline-block'>
-      <div className='aspect-square w-8 absolute z-10 top-[-20px] left-[-30px] rotate-[23deg]'>
+      <div className='aspect-square w-8 absolute z-10 top-[2000px] lg:top-[-20px] md:left-[-30px] rotate-[23deg]'>
         <Image src='/sparkle.svg' alt='' fill></Image>
       </div>
-      <div className='aspect-square w-[25px] absolute z-10 bottom-[-10px] left-[-30px] rotate-[43deg]'>
+      <div className='aspect-square w-[25px] absolute z-10 md:bottom-[-10px] md:left-[-30px] rotate-[43deg]'>
         <Image src='/sparkle.svg' alt='' fill></Image>
       </div>
-      <div className='aspect-square w-[25px] absolute z-10 top-[-20px] w-[32px] right-[-20px] rotate-[23deg]'>
+      <div className='aspect-square w-[25px] absolute z-10 md:top-[-20px] w-[32px] md:right-[-20px] rotate-[23deg]'>
         <Image src='/sparkle.svg' alt='' fill></Image>
       </div>
-      <div className='aspect-square w-8 absolute z-10 bottom-[-10px] right-[-30px] rotate-[43deg]'>
+      <div className='aspect-square w-8 absolute z-10 md:bottom-[-10px] md:right-[-30px] rotate-[43deg]'>
         <Image src='/sparkle.svg' alt='' fill></Image>
       </div>
       <p className='absolute top-0 left-0 text-[#FFE1B9] backdrop-blur-sm bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9] inline-block text-transparent bg-clip-text px-4 py-2'>
@@ -100,14 +100,33 @@ function DecoratedTitle({
   );
 }
 
+function Judule({ children }: { children: string }) {
+  return (
+    <h2
+      style={{
+        ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+      }}
+      className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+    >
+      {children}
+    </h2>
+  );
+}
+
 export default function PastEvent() {
   return (
     <>
-      <main className='flex h-0 min-h-screen w-0 min-w-[100vw] flex-col overflow-y-scroll font-museo-muderno'>
+      <main className='flex h-0 min-h-screen w-0 min-w-[100vw] bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex-col overflow-y-scroll font-museo-muderno'>
         {/*OUR PAST EVENTS TITLE*/}
-        <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a]'>
-          <div className='p-6 border-2 rounded-md flex flex-col items-center gap-8 mx-4 my-12'>
-            <h1 className='text-4xl font-bold'>Our Past Events</h1>
+        <section
+          className='w-full bg-gradient-to-b from-[#0b2712] to-[#123b1a] px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
+          style={{ background: 'rgba(7, 29, 16)' }}
+        >
+          <div className='absolute hidden left-[480px] top-[3625px] lg:block'></div>
+          <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
+            <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+              <Judule>Our Past Events </Judule>
+            </div>
           </div>
         </section>
 
@@ -119,14 +138,13 @@ export default function PastEvent() {
               colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
             />
           </div>
-          <div className='w-full flex flex-col lg:flex-row gap-8 justify-center items-center'>
-            <div className='aspect-video w-full lg:w-[40%] relative'>
-              <div className='absolute w-full aspect-video duration-500'>
-                <Image fill alt='' src={'/google-logo.png'} objectFit='cover' />
-              </div>
+          <div className=' flex flex-col lg:flex-row gap-12 justify-center items-center'>
+            <div className='min-w-[300px] md:min-w-[450px] md:max-w-[450px] aspect-[4/3] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'>
+              <Image src='/google-logo.png' alt='' fill objectFit='cover' />
             </div>
+
             <article className='w-full lg:w-[40%]'>
-              <p className='text-[#FFE1B9] text-sm'>
+              <p className='text-[#FFE1B9] md:text-xl text-sm'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -152,7 +170,7 @@ export default function PastEvent() {
               </div>
             </div>
             <article className='w-full lg:w-[40%]'>
-              <p className='text-[#FFE1B9] text-sm'>
+              <p className='text-[#FFE1B9] md:text-xl text-sm'>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
