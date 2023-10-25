@@ -1,6 +1,5 @@
 import './globals.css';
 import 'aos/dist/aos.css';
-import 'aos/dist/aos.css';
 
 import { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
