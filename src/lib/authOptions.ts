@@ -37,8 +37,6 @@ export const authOptions: AuthOptions = {
                 id: true,
                 countVote: true,
                 linkKarya: true,
-              },
-              include: {
                 team: {
                   select: {
                     id: true,
@@ -120,8 +118,6 @@ export const authOptions: AuthOptions = {
               id: true,
               countVote: true,
               linkKarya: true,
-            },
-            include: {
               team: {
                 select: {
                   id: true,
