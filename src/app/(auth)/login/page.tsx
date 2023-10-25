@@ -90,7 +90,7 @@ export default function Home() {
     // Main container with a full height, a white background, and center-aligned items
     <main className='h-screen font-poppins text-sm sm:text-base flex bg-white flex-col items-center'>
       {/* A container with a screen-wide height of 3000px to display the registration form */}
-      <div className='w-screen h-[3000px] flex'>
+      <div className='w-screen h-full flex'>
         {/* An empty div with a width of 0% on small screens and 50% on larger screens */}
         <div className='w-[0%] lg:w-[50%] justify-center z-10'></div>
         {/* A div with a background image, covering the full width on small screens and 50% on larger screens */}
