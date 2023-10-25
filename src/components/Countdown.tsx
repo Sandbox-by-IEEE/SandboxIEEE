@@ -35,7 +35,11 @@ function Countdown({ targetDate }: { targetDate: Date }) {
       <div className='flex flex-col gap-y-6 md:flex-row'>
         <div className='flex flex-row items-center'>
           {/* First Box */}
-          <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
+          <div
+            className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'
+            data-aos='flip-down'
+            data-aos-duration='1000'
+          >
             {/* Mobile, Days */}
             <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
               {/* Puluhan */}
@@ -159,12 +163,20 @@ function Countdown({ targetDate }: { targetDate: Date }) {
             </div>
           </div>
 
-          <div className='mx-1.5 lg:mx-2 flex items-center'>
+          <div
+            className='mx-1.5 lg:mx-2 flex items-center'
+            data-aos='fade-zoom-in'
+            data-aos-duration='1200'
+          >
             <CollonIcon size={28} className='fill-black' />
           </div>
 
           {/* Second Box */}
-          <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
+          <div
+            className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'
+            data-aos='flip-down'
+            data-aos-duration='1500'
+          >
             {/* Mobile, Hours */}
             <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
               {/* Puluhan */}
@@ -259,12 +271,20 @@ function Countdown({ targetDate }: { targetDate: Date }) {
           </div>
         </div>
 
-        <div className='hidden md:mx-1.5 lg:mx-2 md:flex md:items-center'>
+        <div
+          className='hidden md:mx-1.5 lg:mx-2 md:flex md:items-center'
+          data-aos='fade-zoom-in'
+          data-aos-duration='1200'
+        >
           <CollonIcon size={28} className='fill-black' />
         </div>
 
         {/* Third Box */}
-        <div className='flex flex-row items-center'>
+        <div
+          className='flex flex-row items-center'
+          data-aos='flip-down'
+          data-aos-duration='2000'
+        >
           <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
             {/* Mobile, Minutes */}
             <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
@@ -390,7 +410,11 @@ function Countdown({ targetDate }: { targetDate: Date }) {
             </div>
           </div>
 
-          <div className='mx-1.5 lg:mx-2 flex items-center'>
+          <div
+            className='mx-1.5 lg:mx-2 flex items-center'
+            data-aos='fade-zoom-in'
+            data-aos-duration='1200'
+          >
             <CollonIcon size={28} className='fill-black' />
           </div>
 
