@@ -22,6 +22,7 @@ const OurMentorsPage = async () => {
       subtitleSection
     }
     allMentorDetails(orderBy: name_ASC) {
+      id
       name
       post
       linkedin
@@ -95,14 +96,20 @@ const OurMentorsPage = async () => {
             </div>
           </div>
           {/* Carousels */}
-          <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16 '>
-            <MentorCarousel options={allMentorDetails} />
-          </div>
+          {allMentorDetails.length > 2 && (
+            <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16'>
+              <MentorCarousel options={allMentorDetails} />
+            </div>
+          )}
         </section>
 
-        <section className='flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40'>
+        <section
+          className={`flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40 ${
+            allMentorDetails.length <= 2 && 'py-8 lg:py-16'
+          }`}
+        >
           {/* Our Mentors subtitle */}
-          {ourMentorsPage.subtitleSection && (
+          {ourMentorsPage.subtitleSection && allMentorDetails.length > 2 && (
             <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
               <div
                 id='seemore'

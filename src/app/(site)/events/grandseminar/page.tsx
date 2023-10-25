@@ -49,22 +49,22 @@ const ExhibitionPage = async () => {
     }
     allSpeakerDetails(orderBy: name_ASC) {
       id
-      linkedin
       name
       post
-      company {
-        url
+      linkedin
+      image {
         width
         title
+        url
         height
       }
       desc {
         value
       }
-      image {
+      company {
         width
-        url
         title
+        url
         height
       }
     }
@@ -177,15 +177,15 @@ const ExhibitionPage = async () => {
       <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
         {/* h1 Title Page */}
         <section className='flex flex-col gap-5 lg:gap-10 w-full items-center justify-center px-8 sm:px-10 md:px-20 xl:px-32 2xl:px-40'>
-          <div className='w-fit text-center bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-3xl'>
-            <div className='bg-gradient-green items-center justify-center p-3 lg:py-6 sm:px-6 md:px-10 lg:px-12 rounded-2xl'>
+          <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
+            <div className='relative bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
               <h2
                 style={{
                   ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                 }}
-                className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+                className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[45px] font-museo-muderno p-1 font-bold'
               >
-                {grandSeminar.detailSpeakerSectionTitle}
+                {grandSeminar.titleSeminarPage}
               </h2>
             </div>
           </div>
@@ -195,25 +195,30 @@ const ExhibitionPage = async () => {
           </div>
         </section>
 
-        <section className='flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40'>
+        <section
+          className={`flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40 ${
+            allSpeakerDetails.length <= 2 && 'py-8 lg:py-16'
+          }`}
+        >
           {/* Our Mentors subtitle */}
-          {grandSeminar.detailSpeakerSectionTitle && (
-            <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
-              <div
-                id='seemore'
-                className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'
-              >
-                <h2
-                  style={{
-                    ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
-                  }}
-                  className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+          {grandSeminar.detailSpeakerSectionTitle &&
+            allSpeakerDetails.length > 2 && (
+              <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
+                <div
+                  id='seemore'
+                  className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'
                 >
-                  {grandSeminar.detailSpeakerSectionTitle}
-                </h2>
+                  <h2
+                    style={{
+                      ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                    }}
+                    className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
+                  >
+                    {grandSeminar.detailSpeakerSectionTitle}
+                  </h2>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           <MentorCards options={allSpeakerDetails} />
         </section>
