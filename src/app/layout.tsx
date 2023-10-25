@@ -36,7 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang='id, en'
+      lang='en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
       <AuthProvider>
