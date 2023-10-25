@@ -171,7 +171,7 @@ export default async function Home() {
           className='h-fit w-fit rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'
           data-aos='zoom-out'
         >
-          {/* <iframe
+          <iframe
             width={`${500}`}
             height={`${500}`}
             src={`https://www.youtube.com/embed/${homepage.embedYoutubeId}`}
@@ -179,7 +179,7 @@ export default async function Home() {
             allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
             allowFullScreen
             title={homepage.trailerSectionTitle}
-          /> */}
+          />
         </div>
         <div className='flex gap-4 lg:gap-8 flex-col sm:flex-row justify-center w-full items-stretch max-w-[200px] sm:max-w-[380px] lg:w-[28vw] lg:max-w-[580px]'>
           <CustomLink
