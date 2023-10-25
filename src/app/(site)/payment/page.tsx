@@ -6,6 +6,7 @@ import MultipleFileInput from '@/components/FileInput/MultipleFileInput';
 import { FileInputType } from '@/components/FileInput/SingleFileInput';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
+import FileIcon from '@/components/icons/FileIcon';
 import TextInput from '@/components/TextInput';
 
 type memberInfo = {
@@ -518,9 +519,9 @@ const FormPayment = ({
             setFiles={setFilesForm2}
           />
         </div>
-        <div className='w-[47%] text-left py-4 '>
-          <p className='text-3xl'>Uploaded Files</p>
-          <ul className='list-none h-[270px] overflow-y-scroll pr-2'>
+        <div className='w-full md:w-[47%] text-left pt-8 md:pt-0'>
+          <p className='text-2xl'>Uploaded Files</p>
+          <ul className='list-none h-[300px] overflow-y-scroll pr-2'>
             {filesForm2?.map((el, i) => (
               <li
                 key={'filesForm2' + i}
@@ -530,7 +531,10 @@ const FormPayment = ({
                     : 'w-full h-fit flex py-4'
                 }
               >
-                <div className=' flex-grow flex flex-col justify-start'>
+                <div className='w-fit p-2 px-4'>
+                  <FileIcon scale={1.7} fill='#FFE1B9' />
+                </div>
+                <div className='w-0 flex-grow flex flex-col justify-start'>
                   <p>{el.fileName}</p>
                   <a href={el.fileUrl} className='text-blue-500'>
                     view file
