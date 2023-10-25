@@ -49,6 +49,9 @@ const MultipleFileInput = ({
   const uploadFile = async (fileUploaded: File) => {
     // eslint-disable-next-line no-useless-catch
     try {
+      if (fileUploaded.size > 10 * 1024 * 1024) {
+        throw 'File size exceeds the maximum allowed (10MB).';
+      }
       const fd = new FormData();
       fd.append(`file`, fileUploaded);
       fd.append('upload_preset', 'ddriwluc');
@@ -66,6 +69,7 @@ const MultipleFileInput = ({
 
       return responseJSON;
     } catch (error) {
+      setErrorMsg(error as string);
       throw error;
     }
   };
@@ -179,6 +183,42 @@ const MultipleFileInput = ({
     }
   };
 
+  if (isError) {
+    return (
+      <div>
+        <div
+          className='text-[15px] lg:text-base font-poppins w-full max-w-full px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
+          <button onClick={handleClick} type='button'>
+            <FileInputIconError className='w-[170px] lg:w-[214px]' />
+          </button>
+          <p
+            className='text-[#FF7387]'
+            onClick={handleClick}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            {inputUrl ? 'Link' : 'File'} gagal diupload!
+          </p>
+          <div className='flex gap-2'>
+            <p className='max-w-[300px] md:max-w-[600px] overflow-hidden'>
+              {inputUrl ? 'Link' : 'File'} {errorMsg}
+            </p>
+          </div>
+        </div>
+        <input
+          type='file'
+          className='hidden'
+          accept={allowedFileTypes.join(',')}
+          onChange={handleChange}
+          ref={hiddenFileInput}
+        />
+      </div>
+    );
+  }
+
   if (isSuccess) {
     return (
       <div>
@@ -221,42 +261,6 @@ const MultipleFileInput = ({
           accept={allowedFileTypes.join(',')}
           ref={hiddenFileInput}
           className='hidden'
-        />
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div>
-        <div
-          className='text-[15px] lg:text-base font-poppins w-full max-w-full px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
-          <button onClick={handleClick} type='button'>
-            <FileInputIconError className='w-[170px] lg:w-[214px]' />
-          </button>
-          <p
-            className='text-[#FF7387]'
-            onClick={handleClick}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
-          >
-            {inputUrl ? 'Link' : 'File'} gagal diupload!
-          </p>
-          <div className='flex gap-2'>
-            <p className='max-w-[300px] md:max-w-[600px] overflow-hidden'>
-              {inputUrl ? 'Link' : 'File'} {errorMsg}
-            </p>
-          </div>
-        </div>
-        <input
-          type='file'
-          className='hidden'
-          accept={allowedFileTypes.join(',')}
-          onChange={handleChange}
-          ref={hiddenFileInput}
         />
       </div>
     );

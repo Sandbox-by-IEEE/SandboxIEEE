@@ -8,6 +8,7 @@ import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
 import FileIcon from '@/components/icons/FileIcon';
 import TextInput from '@/components/TextInput';
+import { callToast } from '@/components/Toast';
 
 type memberInfo = {
   name: string;
@@ -122,12 +123,75 @@ export default function Home() {
 
   const handleSubmitFormIdentity = (e) => {
     e.preventDefault();
+    let isEmptyTwibbon = false;
+    let isEmptyStudentProof = false;
+    let isInvalidAge = false;
+    let isInvalidPhoneNumber = false;
+    inputData.members.forEach((el) => {
+      if (!el.twibbonProof) {
+        isEmptyTwibbon = true;
+      }
+      if (!el.studentProof) {
+        isEmptyStudentProof = true;
+      }
+      if (el.age <= 0) {
+        isInvalidAge = true;
+      }
+      if (el.phoneNumber[0] != "'") {
+        isInvalidPhoneNumber = true;
+      }
+    });
+    if (isEmptyTwibbon) {
+      callToast({ status: 'error', description: 'Please fill all twibbons' });
+    }
+    if (isEmptyStudentProof) {
+      callToast({
+        status: 'error',
+        description: 'Please fill all Student Proof',
+      });
+    }
+    if (isInvalidAge) {
+      callToast({
+        status: 'error',
+        description: 'Please fill age correctly',
+      });
+    }
+    if (isInvalidPhoneNumber) {
+      callToast({
+        status: 'error',
+        description: 'Please fill phone number correctly (see description)',
+      });
+    }
+    if (
+      isEmptyTwibbon ||
+      isEmptyStudentProof ||
+      isInvalidAge ||
+      isInvalidPhoneNumber
+    ) {
+      return;
+    }
+
     setStep(2);
   };
 
   const handleSubmitFinal = (e) => {
     e.preventDefault();
     //submission here
+    if (!inputData.paymentMethod) {
+      callToast({
+        status: 'error',
+        description: 'Please choose payment method',
+      });
+    }
+    if (!inputData.paymentProofUrl.length) {
+      callToast({
+        status: 'error',
+        description: 'Please include your proof of payment',
+      });
+    }
+    if (!inputData.paymentMethod || !inputData.paymentProofUrl.length) {
+      return;
+    }
     console.log(inputData);
   };
 
@@ -203,6 +267,7 @@ export default function Home() {
               handleSubmitFinal={handleSubmitFinal}
               filesForm2={filesForm2}
               setFilesForm2={setFilesForm2}
+              setStep={setStep}
             />
           </>
         )}
@@ -285,7 +350,7 @@ const FormDetails = ({
           </label>
           <TextInput
             placeholder={''}
-            type='text'
+            type='email'
             name={`members[${i}].email`}
             text={inputData.members[i].email}
             color='white'
@@ -356,21 +421,20 @@ const FormDetails = ({
                   fileUrl: inputData.members[i].studentProof,
                 }}
                 setFile={(newFile: FileInputType) => {
-                  if (newFile) {
-                    setInputData((inputData) => {
-                      const newInputData = { ...inputData };
-                      newInputData.members[i].studentProof = newFile.fileUrl;
-                      newInputData.members[i].studentProofName =
-                        newFile.fileName;
+                  setInputData((inputData) => {
+                    const newInputData = { ...inputData };
+                    newInputData.members[i].studentProof =
+                      newFile?.fileUrl as string;
+                    newInputData.members[i].studentProofName =
+                      newFile?.fileName as string;
 
-                      localStorage.setItem(
-                        'inputData',
-                        JSON.stringify(newInputData),
-                      );
+                    localStorage.setItem(
+                      'inputData',
+                      JSON.stringify(newInputData),
+                    );
 
-                      return newInputData;
-                    });
-                  }
+                    return newInputData;
+                  });
                 }}
               />
             </div>
@@ -384,21 +448,20 @@ const FormDetails = ({
                   fileUrl: inputData.members[i].twibbonProof,
                 }}
                 setFile={(newFiles) => {
-                  if (newFiles) {
-                    setInputData((inputData) => {
-                      const newInputData = { ...inputData };
-                      newInputData.members[i].twibbonProof = newFiles.fileUrl;
-                      newInputData.members[i].twibbonProofName =
-                        newFiles.fileName;
+                  setInputData((inputData) => {
+                    const newInputData = { ...inputData };
+                    newInputData.members[i].twibbonProof =
+                      newFiles?.fileUrl as string;
+                    newInputData.members[i].twibbonProofName =
+                      newFiles?.fileName as string;
 
-                      localStorage.setItem(
-                        'inputData',
-                        JSON.stringify(newInputData),
-                      );
+                    localStorage.setItem(
+                      'inputData',
+                      JSON.stringify(newInputData),
+                    );
 
-                      return newInputData;
-                    });
-                  }
+                    return newInputData;
+                  });
                 }}
               />
             </div>
@@ -421,6 +484,7 @@ const FormPayment = ({
   filesForm2,
   setFilesForm2,
   handleSubmitFinal,
+  setStep,
 }) => (
   <form
     className='flex flex-col gap-8 py-8 font-poppins text-center w-full'
@@ -562,7 +626,10 @@ const FormPayment = ({
         </div>
       </div>
     </div>
-    <div className='w-full flex justify-center py-6'>
+    <div className='w-full flex justify-center py-6 gap-3'>
+      <Button color='green' onClick={() => setStep(1)}>
+        Back
+      </Button>
       <Button color='gold'>Submit</Button>
     </div>
   </form>
