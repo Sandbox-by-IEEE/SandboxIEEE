@@ -35,6 +35,8 @@ interface Homepage {
   background: Image[];
   ourSponsorLogo: Image[];
   ourEventSectionTitle: string;
+  linkButtonTwo: string;
+  linkButtonOne: string;
 }
 
 interface OurEventsHomepage {
