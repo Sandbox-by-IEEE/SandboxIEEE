@@ -104,7 +104,7 @@ export default async function Home() {
 
   return (
     <main className='flex min-h-screen w-full flex-col font-museo-muderno'>
-      <section className='relative w-full h-fit'>
+      <section className='relative w-full h-fit bg-green-dark-green'>
         <Image
           src={homepage.background[2].url}
           width={homepage.background[2].width}
@@ -112,6 +112,7 @@ export default async function Home() {
           alt={homepage.background[2].title}
           priority
           className='w-full object-cover h-[771px] max-h-screen object-center'
+          sizes='(max-width: 640px) 100vw, 100vw'
         />
         {/* Text Content on background */}
         <div
@@ -126,6 +127,7 @@ export default async function Home() {
               ['textShadow' as any]:
                 '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
             }}
+            data-aos='flip-up'
             className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
           >
             {homepage.titleHomepage}
@@ -139,7 +141,10 @@ export default async function Home() {
 
       {/* Countdown Section */}
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] w-full'>
-        <div className='gradient-border-bg border-2 max-w-[1100px] mx-auto rounded-md w-full'>
+        <div
+          className='gradient-border-bg border-2 max-w-[1100px] mx-auto rounded-md w-full'
+          data-aos='flip-up'
+        >
           <div className='py-4 2xl:py-6 flex flex-col gap-2 sm:gap-7 lg:gap-10 items-center justify-center w-full'>
             <TitleSection>{homepage.titleCountdownNearestEvent}</TitleSection>
             <div className='scale-75 sm:scale-100'>
@@ -160,7 +165,10 @@ export default async function Home() {
       {/* Trailer Section */}
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16] flex flex-col items-center space-y-12'>
         <TitleSection>{homepage.trailerSectionTitle}</TitleSection>
-        <div className='h-fit w-fit rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'>
+        <div
+          className='h-fit w-fit rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'
+          data-aos='zoom-out'
+        >
           <iframe
             width={`${500}`}
             height={`${500}`}
@@ -183,10 +191,15 @@ export default async function Home() {
 
       {/* About Sandbox */}
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex justify-center items-center'>
-        <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'>
+        <GradientBox
+          className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'
+          aos='fade-in'
+          duration={400}
+        >
           <TitleSection>{homepage.explanationTitle}</TitleSection>
           <div className='flex flex-col md:flex-row gap-10 lg:gap-20 justify-center items-center overflow-hidden'>
             <Image
+              data-aos='fade-down-right'
               src={homepage.sandboxLogo.url}
               width={homepage.sandboxLogo.width}
               height={homepage.sandboxLogo.width}
@@ -194,6 +207,7 @@ export default async function Home() {
               className='w-[130px] lg:w-[200px] object-contain'
             />
             <Image
+              data-aos='fade-down-left'
               src={homepage.ieeeLogo.url}
               width={homepage.ieeeLogo.width}
               height={homepage.ieeeLogo.width}
@@ -201,7 +215,7 @@ export default async function Home() {
               className='w-[200px] lg:w-[300px] object-contain'
             />
           </div>
-          <h3 className='text-[#FFE1B9] sm:px-20'>
+          <h3 className='text-[#FFE1B9] sm:px-20' data-aos='zoom-in-up'>
             <StructuredText data={homepage.explanationDescription} />
           </h3>
 
@@ -223,6 +237,7 @@ export default async function Home() {
             className={`flex flex-col sm:flex-row w-full bg-[#071D10] shadow-md shadow-[#00000040] max-w-[1200px] mx-auto text-[#FFE1B9] ${
               index % 2 === 0 ? 'sm:flex-row-reverse' : ''
             } rounded-lg overflow-hidden`}
+            data-aos={index % 2 === 0 ? 'fade-left' : 'fade-right'}
           >
             <div className='w-full sm:w-[30%] sm:h-auto h-48 sm:aspect-[9/8] bg-slate-200 flex-shrink-0'>
               <Image
@@ -231,32 +246,57 @@ export default async function Home() {
                 src={event.image.url}
                 alt={event.image.title}
                 className='object-contain w-full h-full'
+                sizes='(max-width: 640px) 100%, 30%'
               />
             </div>
             <div className='flex justify-center items-center w-full p-6 lg:p-8'>
               <div className='flex flex-col items-center sm:items-start w-full h-full'>
                 {/* Event Name */}
                 <div className='relative shadow-lg py-3'>
-                  <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-2xl lg:text-[32px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'>
+                  <p
+                    data-aos={
+                      index % 2 === 1 ? 'fade-down-right' : 'fade-down-left'
+                    }
+                    data-aos-duration='500'
+                    className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-2xl lg:text-[32px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'
+                  >
                     {event.eventName}
                   </p>
-                  <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-2xl lg:text-[32px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'>
+                  <p
+                    data-aos={
+                      index % 2 === 1 ? 'fade-down-right' : 'fade-down-left'
+                    }
+                    data-aos-duration='500'
+                    className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-2xl lg:text-[32px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'
+                  >
                     {event.eventName}
                   </p>
                 </div>
                 {/* Highlight */}
                 {event.highlightEvent && (
                   <div className='relative shadow-lg pb-4'>
-                    <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-xl lg:text-[27px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'>
+                    <p
+                      data-aos={index % 2 === 1 ? 'fade-right' : 'fade-left'}
+                      data-aos-duration='500'
+                      className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-xl lg:text-[27px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'
+                    >
                       {event.highlightEvent}
                     </p>
 
-                    <p className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-xl lg:text-[27px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'>
+                    <p
+                      data-aos={index % 2 === 1 ? 'fade-right' : 'fade-left'}
+                      data-aos-duration='500'
+                      className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-xl lg:text-[27px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'
+                    >
                       {event.highlightEvent}
                     </p>
                   </div>
                 )}
-                <div className='text-base lg:text-lg'>
+                <div
+                  className='text-base lg:text-lg'
+                  data-aos={index % 2 === 1 ? 'fade-up-right' : 'fade-up-left'}
+                  data-aos-duration='500'
+                >
                   <StructuredText data={event.explanationEvent} />
                 </div>
                 {/* Button */}
@@ -280,7 +320,10 @@ export default async function Home() {
 
       {/* Timeline */}
       <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16]'>
-        <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
+        <div
+          className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+          data-aos='flip-up'
+        >
           <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
           </div>
@@ -293,15 +336,25 @@ export default async function Home() {
         <TitleSection>{homepage.faqSectionTitle}</TitleSection>
         <div className='flex flex-col gap-5 items-center justify-center'>
           {allFaqHomePages.map((faq, index) => (
-            <FAQ key={index} question={faq.question} answer={faq.answer}></FAQ>
+            <FAQ
+              key={index}
+              question={faq.question}
+              answer={faq.answer}
+              aos={index % 2 === 0 ? 'fade-right' : 'fade-left'}
+            ></FAQ>
           ))}
         </div>
       </section>
+      {/* Sponsor */}
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-5 lg:gap-12'>
-        <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'>
+        <GradientBox
+          className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'
+          aos='zoom-out'
+          data-aos-duration={500}
+        >
           <TitleSection>{homepage.ourSponsor}</TitleSection>
           <div className='flex p-3 lg:p-4 gap-3 lg:gap-6 flex-wrap justify-center'>
-            {homepage.ourSponsorLogo.map((logo) => (
+            {homepage.ourSponsorLogo.map((logo, index) => (
               <Image
                 key={logo.id}
                 src={logo.url}
@@ -309,6 +362,9 @@ export default async function Home() {
                 height={logo.height}
                 alt={logo.title}
                 className='object-contain w-[150px] h-[100px] lg:w-[300px] lg:h-[200px]'
+                sizes='(max-width: 1024px) 100px, 300px'
+                data-aos='flip-up'
+                data-aos-duration={700 + index * 50}
               />
             ))}
           </div>

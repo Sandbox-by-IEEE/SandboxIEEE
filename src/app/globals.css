@@ -71,47 +71,7 @@ li p {
 details summary::-webkit-details-marker {
   display: none;
 }
-.carousel-item {
-  transition: transform 0.5s ease-in-out;
-}
 
-// class untuk menggeser item carousel ke kiri
-.shift-left {
-  transform: translateX(-100%);
-}
-
-// class untuk menggeser item carousel ke kanan
-.shift-right {
-  transform: translateX(100%);
-}
-
-.swiper-slide {
-  opacity: 60%;
-}
-
-.mentor-transition {
-  transition: all 0.3s ease-in-out;
-}
-
-.raised-mentor {
-  transform: translateY(-10px);
-}
-.swiper-slide-active {
-  opacity: 100%;
-}
-
-.swiper-pagination-bullet {
-  background-color: #ffe1b9 !important;
-  opacity: 100% !important;
-  width: 20px !important;
-  height: 20px !important;
-}
-
-.swiper-pagination-bullet-active {
-  background-color: #ab814e !important;
-}
-
-FFE1B9
 /* vertical-timeline-component */
 .vertical-timeline::before {
   background: linear-gradient(45deg, #ab814e, #fffbb9) !important;

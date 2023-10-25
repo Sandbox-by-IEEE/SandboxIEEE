@@ -32,7 +32,7 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
               <div className='bg-dark-green rounded-3xl m-[4px]'>
                 <div className='bg-gradient-to-br p-1 lg:p-2 from-[#84694875] via-white/5 to-[#84694875] rounded-3xl flex flex-col text-center items-center justify-center'>
                   {/* Name */}
-                  <h3 className='text-center text-xl lg:text-2xl p-1 font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
+                  <h3 className='text-center text-xl lg:text-2xl p-1 font-poppins font-bold bg-gradient-brown break-all bg-clip-text text-transparent leading-6 tracking-wide'>
                     {option.name}
                   </h3>
                   <div className='flex gap-2 items-center justify-center'>

@@ -22,6 +22,7 @@ const OurMentorsPage = async () => {
       subtitleSection
     }
     allMentorDetails(orderBy: name_ASC) {
+      id
       name
       post
       linkedin
@@ -50,8 +51,8 @@ const OurMentorsPage = async () => {
     });
 
   return (
-    <main className='w-full relative bg-[#0b341a] text-white min-h-screen z-[3]'>
-      <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
+    <main className='w-full bg-[#0b341a] text-white min-h-screen '>
+      <div className='w-full relative z-[3] flex flex-col justify-center py-[80px] lg:py-[120px] overflow-hidden items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
         <div>
           <div className='absolute -z-[2] left-0 top-[400px]'>
             <Bintang2 size={25} />
@@ -95,14 +96,20 @@ const OurMentorsPage = async () => {
             </div>
           </div>
           {/* Carousels */}
-          <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16 '>
-            <MentorCarousel options={allMentorDetails} />
-          </div>
+          {allMentorDetails.length > 2 && (
+            <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16'>
+              <MentorCarousel options={allMentorDetails} />
+            </div>
+          )}
         </section>
 
-        <section className='flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40'>
+        <section
+          className={`flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40 ${
+            allMentorDetails.length <= 2 && 'py-8 lg:py-16'
+          }`}
+        >
           {/* Our Mentors subtitle */}
-          {ourMentorsPage.subtitleSection && (
+          {ourMentorsPage.subtitleSection && allMentorDetails.length > 2 && (
             <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
               <div
                 id='seemore'
