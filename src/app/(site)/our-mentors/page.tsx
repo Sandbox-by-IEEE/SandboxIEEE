@@ -50,28 +50,30 @@ const OurMentorsPage = async () => {
     });
 
   return (
-    <main className='w-full bg-[#0b341a] text-white min-h-screen z-[3]'>
-      <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015] px-8 sm:px-10 md:px-20 lg:px-40'>
-        <div className='absolute -z-[2] left-0 top-[400px]'>
-          <Bintang2 size={25} />
-        </div>
-        <div className='absolute -z-[2] right-0 top-[400px]'>
-          <Elips1 size={25} />
-        </div>
-        <div className='absolute -z-[2] left-0 top-[1100px]'>
-          <Elips2 size={25} />
-        </div>
-        <div className='absolute -z-[2] right-0 top-[1050px]'>
-          <Abstrak size={25} />
-        </div>
-        <div className='absolute -z-[2] left-0 top-[750px]'>
-          <Jatuh1 size={25} />
-        </div>
-        <div className='absolute -z-[2] right-0 top-[3400px] sm:top-[2850px]'>
-          <Jatuh2 size={25} />
+    <main className='w-full relative bg-[#0b341a] text-white min-h-screen z-[3]'>
+      <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
+        <div>
+          <div className='absolute -z-[2] left-0 top-[400px]'>
+            <Bintang2 size={25} />
+          </div>
+          <div className='absolute -z-[2] right-0 top-[400px]'>
+            <Elips1 size={25} />
+          </div>
+          <div className='absolute -z-[2] left-0 top-[1100px]'>
+            <Elips2 size={25} />
+          </div>
+          <div className='absolute -z-[2] right-0 top-[1050px]'>
+            <Abstrak size={25} />
+          </div>
+          <div className='absolute -z-[2] left-0 top-[750px]'>
+            <Jatuh1 size={25} />
+          </div>
+          <div className='absolute -z-[2] right-0 top-[3400px] sm:top-[2850px]'>
+            <Jatuh2 size={25} />
+          </div>
         </div>
         {/* h1 Title Page */}
-        <section className='flex flex-col gap-5 lg:gap-10 w-full items-center justify-center'>
+        <section className='flex flex-col gap-5 lg:gap-10 w-full items-center justify-center px-8 sm:px-10 md:px-20 xl:px-32 2xl:px-40'>
           <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
             <div className='relative bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
               <Basket1
@@ -93,12 +95,12 @@ const OurMentorsPage = async () => {
             </div>
           </div>
           {/* Carousels */}
-          <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16'>
+          <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16 '>
             <MentorCarousel options={allMentorDetails} />
           </div>
         </section>
 
-        <section className='flex flex-col gap-20 w-full items-center justify-center'>
+        <section className='flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40'>
           {/* Our Mentors subtitle */}
           {ourMentorsPage.subtitleSection && (
             <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
