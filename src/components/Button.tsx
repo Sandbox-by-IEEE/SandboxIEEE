@@ -59,6 +59,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       disabled={isDisabled}
+      aria-label={(children && children.toString()) || 'button'}
       className={`${
         isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[180px]'
       } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${

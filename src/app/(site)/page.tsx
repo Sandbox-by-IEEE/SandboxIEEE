@@ -174,7 +174,7 @@ export default async function Home() {
             height={`${500}`}
             src={`https://www.youtube.com/embed/${homepage.embedYoutubeId}`}
             className='h-[300px] w-full max-w-[400px] lg:h-[20vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[500px]'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscrope; picture-in-picture'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
             allowFullScreen
             title='TEST'
           />
@@ -203,7 +203,7 @@ export default async function Home() {
               src={homepage.sandboxLogo.url}
               width={homepage.sandboxLogo.width}
               height={homepage.sandboxLogo.width}
-              alt={homepage.sandboxLogo.title}
+              alt={homepage.sandboxLogo.title || 'Sandbox Logo'}
               className='w-[130px] lg:w-[200px] object-contain'
             />
             <Image
@@ -211,7 +211,7 @@ export default async function Home() {
               src={homepage.ieeeLogo.url}
               width={homepage.ieeeLogo.width}
               height={homepage.ieeeLogo.width}
-              alt={homepage.ieeeLogo.title}
+              alt={homepage.ieeeLogo.title || "IEEE ITB's Logo"}
               className='w-[200px] lg:w-[300px] object-contain'
             />
           </div>
@@ -232,7 +232,7 @@ export default async function Home() {
 
         {/* Content */}
         {allOurEventsHomepages.map((event, index) => (
-          <div
+          <article
             key={index}
             className={`flex flex-col sm:flex-row w-full bg-[#071D10] shadow-md shadow-[#00000040] max-w-[1200px] mx-auto text-[#FFE1B9] ${
               index % 2 === 0 ? 'sm:flex-row-reverse' : ''
@@ -244,7 +244,7 @@ export default async function Home() {
                 width={event.image.width}
                 height={event.image.width}
                 src={event.image.url}
-                alt={event.image.title}
+                alt={event.image.title || "Event's Image"}
                 className='object-contain w-full h-full'
                 sizes='(max-width: 640px) 100%, 30%'
               />
@@ -253,24 +253,18 @@ export default async function Home() {
               <div className='flex flex-col items-center sm:items-start w-full h-full'>
                 {/* Event Name */}
                 <div className='relative shadow-lg py-3'>
-                  <p
+                  <h3
                     data-aos={
                       index % 2 === 1 ? 'fade-down-right' : 'fade-down-left'
                     }
                     data-aos-duration='500'
                     className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-2xl lg:text-[32px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'
+                    style={{
+                      ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                    }}
                   >
                     {event.eventName}
-                  </p>
-                  <p
-                    data-aos={
-                      index % 2 === 1 ? 'fade-down-right' : 'fade-down-left'
-                    }
-                    data-aos-duration='500'
-                    className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-2xl lg:text-[32px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'
-                  >
-                    {event.eventName}
-                  </p>
+                  </h3>
                 </div>
                 {/* Highlight */}
                 {event.highlightEvent && (
@@ -279,14 +273,9 @@ export default async function Home() {
                       data-aos={index % 2 === 1 ? 'fade-right' : 'fade-left'}
                       data-aos-duration='500'
                       className='text-transparent bg-clip-text bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-xl lg:text-[27px] font-extrabold tracking-wider w-full text-center md:text-left shadow-lg font-poppins'
-                    >
-                      {event.highlightEvent}
-                    </p>
-
-                    <p
-                      data-aos={index % 2 === 1 ? 'fade-right' : 'fade-left'}
-                      data-aos-duration='500'
-                      className='text-transparent bg-clip-text bg-gradient-to-tr from-[#745737] to-[#c1aa8d] text-xl lg:text-[27px] font-extrabold tracking-wider blur-[10px] absolute top-0 w-full text-center md:text-left select-none z-[50] font-poppins'
+                      style={{
+                        ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                      }}
                     >
                       {event.highlightEvent}
                     </p>
@@ -314,7 +303,7 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </section>
 
