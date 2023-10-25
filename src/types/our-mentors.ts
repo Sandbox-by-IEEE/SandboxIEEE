@@ -14,6 +14,7 @@ export interface Image {
 
 export interface MentorPage {
   title: string;
+  subtitleSection: string;
 }
 
 export interface Mentor {
@@ -23,9 +24,7 @@ export interface Mentor {
   post: string;
   desc: Document | Node | STType<Record, Record> | null | undefined;
   company: Image;
-  invert: boolean;
-  instagram: string;
-  horizontal: boolean;
+  linkedin: string;
 }
 
 export interface OurMentorsPageProps {

@@ -8,7 +8,7 @@ const Bintang1 = ({
   children: string;
 }) => {
   return (
-    <div className='relative w-full sm:w-fit'>
+    <div className='relative w-full flex flex-col items-center justify-center sm:w-fit'>
       <div className='hidden sm:block relative w-fit'>
         <svg
           width='599'
@@ -83,17 +83,15 @@ const Bintang1 = ({
           </defs>
         </svg>
       </div>
-      <div className='absolute w-full h-full top-0'>
-        <div className='w-full h-full flex itemsCenter justifyCenter'>
-          <span
-            style={{
-              ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
-            }}
-            className='bg-gradient-brown textCenter text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bgClip-text  text-[30px] sm:text-[40px] md:text-[50px] font-museo-muderno p-1 font-bold'
-          >
-            {children}
-          </span>
-        </div>
+      <div className='w-full absolute flex items-center justify-center'>
+        <h2
+          style={{
+            ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+          }}
+          className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[50px] font-museo-muderno p-1 font-bold'
+        >
+          {children}
+        </h2>
       </div>
     </div>
   );

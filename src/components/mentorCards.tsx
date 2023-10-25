@@ -1,133 +1,72 @@
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
-import Instagram from '@/components/icons/instagram';
+import LinkedInIcon from '@/components/icons/LinkedInIcon';
 import { type Mentor } from '@/types/our-mentors';
-
-const MentorCard: React.FC<Mentor> = ({
-  name,
-  post,
-  instagram,
-  image,
-  company,
-  desc,
-  invert,
-  horizontal,
-}) => {
-  return (
-    <article
-      className={`my-6 ${
-        horizontal
-          ? 'w-[80%] flex-col sm:flex sm:flex-row items-stretch '
-          : 'w-[229px] lg:w-[297px] flex-col'
-      } ${invert ? 'sm:flex-row-reverse' : 'flex-row'}
-      h-fit rounded-3xl bg-dark-green shadow-[0px_0px_10px_5px_rgba(0,0,0,1)] shadow-[#8c6e47]`}
-    >
-      {/* Setting for div imageUrl and the text imageUrl */}
-      {image && (
-        <div
-          className={`relative  ${horizontal ? 'rounded-3xl' : 'rounded-3xl'} ${
-            invert ? 'rounded-3xl' : 'rounded-3xl'
-          }
-          bg-neutral-300 shadow-none ${
-            !horizontal
-              ? desc
-                ? 'h-[194px] w-full lg:h-[251px]'
-                : 'h-[244px] w-full lg:h-[316.85px]'
-              : 'h-[310px] w-full sm:w-[40%] lg:h-[361.68px]'
-          }`}
-        >
-          <Image
-            src={image.url}
-            className={`w-full h-full object-cover rounded-t-3xl ${
-              invert
-                ? 'sm:rounded-r-3xl sm:rounded-tr-3xl sm:rounded-l-none'
-                : 'sm:rounded-l-3xl sm:rounded-tr-none '
-            }`}
-            width={417}
-            height={255}
-            alt={image.title}
-          ></Image>
-        </div>
-      )}
-      {/* Text Content */}
-      <div
-        className={`flex flex-col ${
-          desc
-            ? 'gap-2 sm:gap-2 lg:gap-[22px] lg:pt-[15px]'
-            : 'py-[15px] lg:pt-[35px] lg:pb-[30px]'
-        } p-5 lg:p-[19px]  ${horizontal && 'flex-1 lg:mx-3'}`}
-      >
-        {/* Title */}
-        <div className='bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
-          <div className='bg-dark-green rounded-3xl m-[3px]'>
-            <div className='align-middle py-3 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] rounded-3xl h-[80px] flex flex-col text-center justify-center'>
-              <span
-                className='text-center align-middle text-2xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'
-                style={{
-                  textShadow: `
-              0px 0px 0.9732px #705229,
-              0px 0px 1.9464px #705229,
-              0px 0px 40.8744px #705229
-              0px 0px 23.3568px #705229,
-              0px 0px 13.6248px #705229,
-              0px 0px 6.8124px #705229,
-              `,
-                }}
-              >
-                {name}
-              </span>
-              <div className='align-middle flex gap-1 items-center justify-center'>
-                <span className='align-middle text-center font-poppins font-bold text-sm bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
-                  {post} at
-                </span>
-                <div className='h-[25px] w-[50px]'>
-                  <Image
-                    src={company.url}
-                    className='w-[50px] h-[25px]'
-                    width={company.width}
-                    height={company.height}
-                    alt={company.title}
-                  ></Image>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Children */}
-        <div
-          className={`flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide`}
-        >
-          <StructuredText data={desc} />
-        </div>
-        <div className='gap-2 flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide'>
-          <Instagram size={20} /> {instagram}
-        </div>
-      </div>
-    </article>
-  );
-};
-
 interface MentorCardsProps {
   options: Mentor[];
 }
 
 const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
   return (
-    <div className='flex flex-col items-center justify-center'>
-      {options?.map((option) => (
-        <MentorCard
-          id={option.id}
-          key={option.name}
-          name={option.name}
-          post={option.post}
-          instagram={option.instagram}
-          desc={option.desc}
-          image={option.image}
-          company={option.company}
-          invert={false}
-          horizontal={true}
-        />
+    <div className='flex flex-wrap gap-10 md:gap-12 lg:gap-14 2xl:gap-16 items-center justify-center'>
+      {options.map((option, index) => (
+        <article
+          key={index}
+          className={`w-[270px] sm:w-full lg:max-w-[1000px] flex bg-dark-green ${
+            index % 2 == 1 ? 'sm:flex-row-reverse' : 'sm:flex-row'
+          } h-fit rounded-3xl flex-col sm:flex-row shadow-[0px_0px_10px_5px_rgba(0,0,0,1)] shadow-[#8c6e47] overflow-hidden`}
+        >
+          {/* Setting for div imageUrl and the text imageUrl */}
+          <Image
+            src={option.image.url}
+            className={`w-full sm:w-[250px] md:w-[300px] xl:w-[400px] h-[250px] sm:min-h-[300px] lg:min-h-[350px] object-cover object-center`}
+            width={417}
+            height={255}
+            alt={option.image.title}
+          ></Image>
+          {/* Text Content */}
+          <div className={`flex flex-col flex-1 gap-5 p-5 lg:p-[25px]`}>
+            {/* Identity Gradient Box*/}
+            <div className='bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
+              <div className='bg-dark-green rounded-3xl m-[4px]'>
+                <div className='bg-gradient-to-br p-1 lg:p-2 from-[#84694875] via-white/5 to-[#84694875] rounded-3xl flex flex-col text-center items-center justify-center'>
+                  {/* Name */}
+                  <h3 className='text-center text-xl lg:text-2xl p-1 font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
+                    {option.name}
+                  </h3>
+                  <div className='flex gap-2 items-center justify-center'>
+                    {/* Position */}
+                    <span className='text-center font-poppins font-bold text-base lg:text-lg bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
+                      {option.post} at
+                    </span>
+                    <Image
+                      src={option.company.url}
+                      className='w-[70px] h-[40px] object-contain object-center'
+                      width={option.company.width}
+                      height={option.company.height}
+                      alt={option.company.title}
+                    ></Image>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Children */}
+            <div
+              className={`flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide`}
+            >
+              <StructuredText data={option.desc} />
+            </div>
+            <div className='gap-2 flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide'>
+              {option.linkedin && (
+                <>
+                  <LinkedInIcon size={25} className='fill-[#FFE1B9]' />
+                  {option.linkedin}
+                </>
+              )}
+            </div>
+          </div>
+        </article>
       ))}
     </div>
   );

@@ -38,7 +38,8 @@ function SandboxLogo() {
         <Image
           src='/sandbox-gold.svg'
           alt='sandbox'
-          fill
+          width={50}
+          height={50}
           className='relative'
         />
       </div>
@@ -374,7 +375,13 @@ function NavBarSmall({ session }: { session: Session | null }) {
 
         <div className='w-full h-[2rem] flex justify-center align-center absolute bottom-[3.5rem]'>
           <div className='w-[6rem] h-[2rem] absolute'>
-            <Image src='/logo-gold.png' alt='.' fill className='relative' />
+            <Image
+              src='/logo-gold.png'
+              alt='Gold logo'
+              width={96}
+              height={32}
+              className='relative'
+            />
           </div>
         </div>
 

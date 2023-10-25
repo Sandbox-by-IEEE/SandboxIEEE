@@ -36,17 +36,17 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
 
   const displayedMentors = getDisplayedMentors();
   return (
-    <section className='w-full h-fit flex flex-col items-center justify-center px-40 overflow-hidden'>
-      <div className=' flex p-5'>
+    <section className='w-full h-fit flex flex-col items-center justify-center overflow-hidden'>
+      <div className=' flex py-10'>
         {displayedMentors.map((option, index) => (
           <div
             key={option.name}
-            className={`w-[250px] transition-all duration-300 h-[350px] md:w-[308px] md:h-[400px] flex items-center rounded-3xl overflow-hidden relative justify-center ${
+            className={`w-[220px] transition-all duration-300 h-[320px] md:w-[308px] md:h-[400px] flex items-center rounded-3xl overflow-hidden relative justify-center ${
               index === 1
                 ? 'm-0'
                 : index == 0
-                ? '-mt-5 opacity-70 blur-sm mx-10'
-                : 'mx-12 opacity-80 blur-sm -mt-5'
+                ? '-mt-5 opacity-70 blur-sm sm:mx-5 lg:mx-10'
+                : 'mx-1 sm:mx-3 lg:mx-12 opacity-80 blur-sm -mt-5'
             }`}
           >
             {/* BAckground */}
@@ -58,12 +58,12 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
               alt={option.image.title}
             ></Image>
             {/* Content */}
-            <div className='w-full absolute bottom-3 lg:bottom-10 flex items-center justify-center'>
-              <div className='w-[80%] bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
-                <div className='bg-dark-green rounded-3xl m-[3px]'>
-                  <div className='align-middle py-1 px-2 lg:py-2 lg:px-5 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] rounded-3xl flex flex-col text-center justify-center'>
+            <div className='w-full absolute bottom-3 lg:bottom-8 flex items-center justify-center'>
+              <div className='w-[80%] bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-2xl lg:rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
+                <div className='bg-dark-green rounded-xl lg:rounded-3xl m-[3px]'>
+                  <div className='py-1 px-2 lg:py-2 lg:px-5 bg-gradient-to-br from-[#84694875] via-white/5 to-[#84694875] rounded-xl lg:rounded-3xl flex flex-col  text-center justify-center'>
                     <span
-                      className='text-center align-middle text-lg lg:text-2xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'
+                      className='text-center align-middle text-base md:text-xl lg:text-2xl font-poppins font-bold bg-gradient-brown bg-clip-text text-transparent tracking-wide'
                       style={{
                         textShadow: `0px 0px 0.9732px #705229,0px 0px 1.9464px #705229,0px 0px 40.8744px #7052290px 0px 23.3568px #705229,0px 0px 13.6248px #705229,0px 0px 6.8124px #705229,
               `,
@@ -72,7 +72,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                       {option.name}
                     </span>
                     <div className='align-middle flex gap-1 items-center justify-center'>
-                      <span className='align-middle text-center font-poppins font-bold text-sm lg:text-lg bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
+                      <span className='align-middle text-center font-poppins font-bold text-sm md:text-base lg:text-lg bg-gradient-brown bg-clip-text text-transparent tracking-wide'>
                         {option.post} at
                       </span>
                       <Image
@@ -90,16 +90,17 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
           </div>
         ))}
       </div>
-      <div className='my-10 relative z-[40] flex items-center justify-center'>
+      <div className='my-4 lg:my-10 relative z-[40] flex items-center justify-center'>
+        <h3 className='hidden'>See more</h3>
         <CustomLink color='gold' url='#seemore'>
-          See More
+          <>See More</>
         </CustomLink>
       </div>
       <div className='flex items-center relative z-[40] justify-center'>
         <button className='custom-prev-button' onClick={handlePrevClick}>
-          <Prev size={80} className='w-[80px] aspect-square' />
+          <Prev size={80} className='w-[70px] lg:w-[80px] aspect-square' />
         </button>
-        <div className='flex items-center gap-5 justify-center'>
+        <div className='flex items-center gap-2 lg:gap-5 justify-center'>
           {options.map((option, index) => (
             <button key={index} onClick={() => setCurrentIndex(index)}>
               <Dot
@@ -108,13 +109,13 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                   index !== currentIndex
                     ? 'fill-cream-secondary-light'
                     : 'fill-[#AB814E]'
-                }`}
+                } w-[15px] lg:w-[20px] aspect-square`}
               ></Dot>
             </button>
           ))}
         </div>
         <button className='custom-next-button' onClick={handleNextClick}>
-          <Next size={80} className='w-[80px] aspect-square' />
+          <Next size={80} className='w-[70px] lg:w-[80px] aspect-square' />
         </button>
       </div>
     </section>
