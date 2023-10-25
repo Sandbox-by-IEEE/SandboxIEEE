@@ -5,7 +5,7 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children};</>;
+  return <>{children}</>;
 }
 export const metadata: Metadata = {
   title: 'Login | Sandbox IEEE ITB',
