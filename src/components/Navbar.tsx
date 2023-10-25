@@ -8,7 +8,6 @@ import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth/core/types';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import Drawer from 'react-modern-drawer';
 
 import Button from '@/components/Button';
 import Dropdown from '@/components/Dropdown';
@@ -306,7 +305,7 @@ function NavBarSmall({ session }: { session: Session | null }) {
 
   return (
     <div
-      className={`sticky bg-green-gradient max-w-full min-w-full py-1 z-50 top-[${navbarPos}px]`}
+      className={`sticky bg-green-gradient max-w-full min-w-full py-1 z-50 top-[${navbarPos}px] z-[100]`}
       style={{
         borderBottom: '4px solid transparent',
         borderImage: 'linear-gradient(180deg, #AB814E 0%, #FFE1B9 100%) 1',
@@ -340,7 +339,7 @@ function NavBarSmall({ session }: { session: Session | null }) {
         </div>
       </div>
 
-      <Drawer
+      {/* <Drawer
         open={isOpen}
         onClose={toggleDrawer}
         direction='right'
@@ -400,7 +399,68 @@ function NavBarSmall({ session }: { session: Session | null }) {
         <div className='aspect-square h-12 absolute top-3/4 right-1/3'>
           <Image src='/twinkle.svg' alt='commet' fill />
         </div>
-      </Drawer>
+      </Drawer> */}
+
+      <div
+        className={`NavbarDrawer fixed w-[70vw] right-0 top-0 h-[100vh] ${
+          isOpen ? 'w-[70vw]' : 'w-0'
+        } transition-all ease-in duration-500`}
+      >
+        <div className='w-full bg-green-primary h-full relative' content=''>
+          <div className='aspect-square h-64 top-[-2rem] left[-0.5rem] absolute '>
+            <Image src='/top-drawer.svg' alt='.' fill />
+          </div>
+
+          <div
+            className='w-full bg-green-primary h-full flex flex-col items-center'
+            content=''
+          >
+            <MenuComponentSmall session={session} pathname={pathname} />
+          </div>
+        </div>
+
+        <div className='aspect-square h-72 bottom-[-25px] right-0 absolute '>
+          <Image src='/bottom-drawer.svg' alt='.' fill />
+        </div>
+        <button
+          className={`aspect-square h-8 top-10 right-10 z-[100] rounded absolute text-white transition-all duration-[1000] ${
+            isOpen
+              ? 'opacity-100 pointer-events-auto rotate-0'
+              : 'opacity-0 pointer-events-none rotate-[280deg]'
+          }`}
+          onClick={closeDrawer}
+        >
+          <XIcon className='fill-white' size={30} />
+        </button>
+
+        <div className='w-full h-[2rem] flex justify-center align-center absolute bottom-[3.5rem]'>
+          <div className='w-[6rem] h-[2rem] absolute'>
+            <Image
+              src='/logo-gold.png'
+              alt='Gold logo'
+              width={96}
+              height={32}
+              className='relative'
+            />
+          </div>
+        </div>
+
+        <div className='aspect-square h-8 absolute top-0 right-4'>
+          <Image src='/twinkle.svg' alt='commet' fill />
+        </div>
+
+        <div className='aspect-square h-16 absolute top-72 right-1/2'>
+          <Image src='/twinkle.svg' alt='commet' fill />
+        </div>
+
+        <div className='aspect-square h-12 absolute top-1/2 right-0'>
+          <Image src='/twinkle.svg' alt='commet' fill />
+        </div>
+
+        <div className='aspect-square h-12 absolute top-3/4 right-1/3'>
+          <Image src='/twinkle.svg' alt='commet' fill />
+        </div>
+      </div>
     </div>
   );
 }
