@@ -113,7 +113,7 @@ const config: Config = {
         'countdown-sec': 'countdown-sec 1.05s ease-in-out',
         'countdown-in': 'countdown-in 1s ease-in',
         'countdown-out': 'countdown-out 1s ease-out',
-        blink: 'blink 100ms ease-in-out',
+        blink: 'blink 1s ease-in-out',
         'ghost-left': 'ghost-left 5s ease-out infinite',
         marquee: 'marquee 18s linear infinite',
         shake: 'shake 4s ease-in-out infinite',
