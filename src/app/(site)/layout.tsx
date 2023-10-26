@@ -1,9 +1,11 @@
 import { Metadata } from 'next';
 
+import NavBar from '@/components/Navbar';
+
 const SiteLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='flex flex-col min-h-screen overflow-x-clip'>
-      {/* <NavBar /> */}
+      <NavBar />
       {children}
       {/* <Footer /> */}
     </div>

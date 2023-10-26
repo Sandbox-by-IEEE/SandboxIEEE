@@ -124,7 +124,7 @@ export default async function Home() {
               'radial-gradient(50% 50% at 50% 50%, rgba(8, 30, 17, 0.90) 18.33%, rgba(0, 0, 0, 0.00) 99.48%)',
           }}
         >
-          <h1
+          <h2
             style={{
               ['textShadow' as any]:
                 '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
@@ -133,7 +133,7 @@ export default async function Home() {
             className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
           >
             {homepage.titleHomepage}
-          </h1>
+          </h2>
           <TitleSection>{homepage.tagline}</TitleSection>
           <CustomLink color='green' url='#sandbox'>
             {homepage.textButtonSeeMore}
@@ -224,9 +224,9 @@ export default async function Home() {
               className='w-[200px] lg:w-[300px] object-contain'
             />
           </div>
-          <h3 className='text-[#FFE1B9] sm:px-20' data-aos='zoom-in-up'>
+          <h4 className='text-[#FFE1B9] sm:px-20' data-aos='zoom-in-up'>
             <StructuredText data={homepage.explanationDescription} />
-          </h3>
+          </h4>
 
           <CustomLink color='gold' url='#events'>
             {homepage.buttonTextPastEvents}
@@ -265,7 +265,7 @@ export default async function Home() {
               <div className='flex flex-col items-center sm:items-start w-full h-full'>
                 {/* Event Name */}
                 <div className='relative shadow-lg py-3'>
-                  <h3
+                  <h4
                     data-aos={
                       index % 2 === 1 ? 'fade-down-right' : 'fade-down-left'
                     }
@@ -276,7 +276,7 @@ export default async function Home() {
                     }}
                   >
                     {event.eventName}
-                  </h3>
+                  </h4>
                 </div>
                 {/* Highlight */}
                 {event.highlightEvent && (
