@@ -346,8 +346,8 @@ export default function TPCRegist() {
   }, [isWarnedInputData]);
 
   return (
-    <main className='bg-gradient-to-t from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
-      <div className='h-fit w-full max-w-[1000px] py-10 px-4 pt-24 font-poppins'>
+    <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
+      <div className='h-fit w-full max-w-[1000px] py-10 px-4 pt-16 lg:pt-24 font-poppins'>
         <Title text='Complete your details Below' />
         <FormDetails
           inputData={inputData}
@@ -366,7 +366,7 @@ export default function TPCRegist() {
 }
 
 const Title = ({ text }) => (
-  <div className='relative text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
+  <div className='relative text-3xl lg:text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
     <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full'>
       {text}
     </div>

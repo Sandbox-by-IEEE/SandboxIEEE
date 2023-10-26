@@ -118,7 +118,7 @@ const FormDetails = ({
       className=' space-y-2 py-6 w-full'
     >
       <div className='flex flex-col'>
-        <label className='text-xl py-2'>Team Name</label>
+        <label className='text-lg lg:text-xl py-2'>Team Name</label>
         <TextInput
           placeholder={''}
           type='text'
@@ -133,7 +133,7 @@ const FormDetails = ({
         />
       </div>
       <div className='flex flex-col'>
-        <label className='text-xl py-2'>Member Count</label>
+        <label className='text-lg lg:text-xl py-2'>Member Count</label>
         <label className='font-thin text-sm pb-1'>
           Enter the number of members (chairman included)
         </label>
@@ -154,13 +154,13 @@ const FormDetails = ({
       {inputData.memberCount > 0 && (
         <>
           <div className='w-full flex justify-center pt-10'>
-            <p className='text-3xl font-bold'>
+            <p className='text-2xl lg:text-3xl font-bold'>
               {fillMemberIndex == 0
                 ? "Chairman's Data"
                 : 'Member ' + fillMemberIndex + "'s Data"}
             </p>
           </div>
-          <p className='font-bold text-2xl'>Data Count Tab</p>
+          <p className='font-bold pt-4 text-xl lg:text-2xl'>Data Count Tab</p>
           <div className='flex gap-2 flex-wrap pb-4'>
             {inputData.members.map((_, i) => (
               <div
@@ -195,7 +195,7 @@ const FormDetails = ({
               />
             ))}
 
-            <div className='w-full pb-20'>
+            <div className='w-full pb-10 lg:pb-20'>
               <div className='flex flex-col md:flex-row w-full justify-between gap-2'>
                 {fileInputs.map((fileInput, index) => (
                   <div
@@ -206,7 +206,7 @@ const FormDetails = ({
                     }}
                   >
                     <p
-                      className='text-3xl py-4 text-center'
+                      className='text-2xl lg:text-3xl py-4 text-center'
                       style={
                         isWarnedInputData.members[fillMemberIndex]?.[
                           fileInput.type
@@ -255,7 +255,7 @@ const FormDetails = ({
         </>
       )}
 
-      <div className='w-full flex justify-center py-6 gap-2'>
+      <div className='w-full flex justify-center lg:py-6 gap-2'>
         {fillMemberIndex + 1 > 1 && (
           <div className='w-fit max-w-fit'>
             <Button

@@ -57,11 +57,7 @@ const TextInput = ({
       )}
       <input
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setText
-            ? setText(e.target.value)
-            : onChange
-            ? onChange(e)
-            : console.warn('no Action');
+          setText ? setText(e.target.value) : onChange && onChange(e);
         }}
         onFocus={onFocus}
         min={minValue}
@@ -85,11 +81,7 @@ const TextInput = ({
     >
       <textarea
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          setText
-            ? setText(e.target.value)
-            : onChange
-            ? onChange(e)
-            : console.warn('no Action');
+          setText ? setText(e.target.value) : onChange && onChange(e);
         }}
         name={name}
         disabled={disabled}

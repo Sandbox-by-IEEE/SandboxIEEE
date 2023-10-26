@@ -22,7 +22,7 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
   isWarned,
 }) => (
   <div className='flex flex-col'>
-    <label className='text-xl py-2'>{label}</label>
+    <label className='text-lg lg:text-xl py-2'>{label}</label>
     {subLabel && <label className='font-thin text-sm pb-1'>{subLabel}</label>}
     <TextInput
       placeholder={''}
