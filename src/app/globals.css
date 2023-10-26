@@ -94,3 +94,9 @@ details summary::-webkit-details-marker {
 .no-scroll {
   overflow: hidden;
 }
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  height: 10px;
+  opacity: 1;
+}

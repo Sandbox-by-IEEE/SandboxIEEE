@@ -18,7 +18,14 @@ const TextInput = ({
   required = false,
 }: {
   placeholder?: string;
-  type: 'text' | 'password' | 'search' | 'email' | 'textarea' | 'number';
+  type:
+    | 'text'
+    | 'password'
+    | 'search'
+    | 'email'
+    | 'textarea'
+    | 'number'
+    | 'tel';
   name?: string;
   disabled?: boolean;
   text: string;
@@ -64,6 +71,24 @@ const TextInput = ({
         disabled={disabled}
         name={name}
         type={type}
+        pattern={(() => {
+          switch (type) {
+            case 'email':
+              return '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$';
+            case 'tel':
+              return "[\\'\\+\\d']*"; // Matches phone numbers, possibly starting with a +, and allows apostrophes
+            case 'text':
+              return '.*';
+            case 'password':
+              return '.*';
+            case 'search':
+              return '.*';
+            case 'number':
+              return '\\d*'; // Matches any sequence of digits
+            default:
+              return '';
+          }
+        })()}
         value={disabled ? '' : text}
         placeholder={placeholder}
         className={` ${colorEffect[color].disabled} outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
