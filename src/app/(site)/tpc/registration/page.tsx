@@ -96,7 +96,7 @@ export default function Home() {
 
     if (name === 'memberCount') {
       setFillMemberIndex(0);
-      if (newInputData.memberCount) {
+      if (newInputData.memberCount !== inputData.memberCount) {
         if (newInputData.memberCount <= 0) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
@@ -148,6 +148,9 @@ export default function Home() {
       while (newInputData.memberCount < newIsWarnedInputData.members.length) {
         newIsWarnedInputData.members.pop();
       }
+      if (isWarnedInputData !== newIsWarnedInputData) {
+        setIsWarnedInputData(newIsWarnedInputData);
+      }
 
       newInputData.members = newMembers;
     }
@@ -173,7 +176,9 @@ export default function Home() {
   ) => {
     setIsWarnedInputData((isWarnedInputData) => {
       const newIsWarnedInputData = { ...isWarnedInputData };
-      newIsWarnedInputData.members[memberIndex][prop] = true;
+      if (newIsWarnedInputData.members[memberIndex]) {
+        newIsWarnedInputData.members[memberIndex][prop] = true;
+      }
 
       return newIsWarnedInputData;
     });
@@ -331,6 +336,7 @@ export default function Home() {
           handleSubmitFormIdentity={handleSubmitFormIdentity}
           isWarnedInputData={isWarnedInputData}
           setIsWarnedInputData={setIsWarnedInputData}
+          submissionText='Submit'
         />
       </div>
     </main>

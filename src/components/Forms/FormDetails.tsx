@@ -18,6 +18,7 @@ const FormDetails = ({
   setFillMemberIndex,
   isWarnedInputData,
   setIsWarnedInputData,
+  submissionText,
 }: {
   inputData: InputData;
   setInputData: React.Dispatch<React.SetStateAction<InputData>>;
@@ -27,6 +28,7 @@ const FormDetails = ({
   setFillMemberIndex: React.Dispatch<React.SetStateAction<number>>;
   isWarnedInputData: IsWarnedInputData;
   setIsWarnedInputData: React.Dispatch<React.SetStateAction<IsWarnedInputData>>;
+  submissionText: string;
 }) => {
   const unWarn = (
     isMember: boolean,
@@ -372,7 +374,7 @@ const FormDetails = ({
           </div>
         ) : (
           <Button color='gold' type='submit'>
-            Proceed to Payment
+            {submissionText}
           </Button>
         )}
       </div>
