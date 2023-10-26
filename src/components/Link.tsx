@@ -46,7 +46,6 @@ const CustomLink = ({
     url && (
       <Link
         href={url}
-        data-aos='zoom-in'
         aria-label={url}
         className={`${
           isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[200px]'
