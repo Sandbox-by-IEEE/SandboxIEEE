@@ -12,9 +12,10 @@ const TextInput = ({
   fullwidth,
   onChange,
   setText,
-  required = false,
   isWarned = false,
   onFocus,
+  minValue,
+  required = false,
 }: {
   placeholder?: string;
   type: 'text' | 'password' | 'search' | 'email' | 'textarea' | 'number';
@@ -25,9 +26,10 @@ const TextInput = ({
   fullwidth?: boolean;
   onChange?: (e) => void | null;
   setText?: React.Dispatch<SetStateAction<string>>;
-  required?: boolean;
   isWarned?: boolean;
   onFocus?: () => void;
+  minValue?: number;
+  required?: boolean;
 }) => {
   const colorEffect = {
     'trans-white': {
@@ -62,6 +64,7 @@ const TextInput = ({
             : console.warn('no Action');
         }}
         onFocus={onFocus}
+        min={minValue}
         disabled={disabled}
         name={name}
         type={type}

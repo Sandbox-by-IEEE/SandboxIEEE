@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { FileInputType } from '@/components/FileInput/fileInput-type';
-import FormDetails from '@/components/Forms/FormDetails';
+import FormDetails from '@/components/Forms/FormDetailsRegist1';
 import {
   InputData,
   IsWarnedInputData,
@@ -10,7 +10,7 @@ import {
 } from '@/components/Forms/inputData-type';
 import { callToast } from '@/components/Toast';
 
-export default function Home() {
+export default function TPCRegist() {
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
     memberCount: 1,
@@ -53,7 +53,6 @@ export default function Home() {
   );
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
-
   const handleChange = (e) => {
     const name = e.target.name;
     const value =
@@ -344,13 +343,10 @@ export default function Home() {
         localStorage.removeItem('inputData');
       }
     }
-  }, []);
+  }, [isWarnedInputData]);
 
   return (
     <main className='bg-gradient-to-t from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
-      <nav className='fixed top-0 left-0 h-20 w-full bg-slate-950 z-[100]'>
-        replace with navbar{' '}
-      </nav>
       <div className='h-fit w-full max-w-[1000px] py-10 px-4 pt-24 font-poppins'>
         <Title text='Complete your details Below' />
         <FormDetails
