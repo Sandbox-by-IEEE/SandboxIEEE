@@ -50,7 +50,9 @@ const FormDetails = ({
     setIsWarnedInputData((isWarnedInputData) => {
       const newIsWarnedInputData = { ...isWarnedInputData };
       if (isMember) {
-        newIsWarnedInputData.members[memberIndex][prop] = false;
+        if (newIsWarnedInputData.members[memberIndex]) {
+          newIsWarnedInputData.members[memberIndex][prop] = false;
+        }
       } else {
         newIsWarnedInputData[prop] = false;
       }

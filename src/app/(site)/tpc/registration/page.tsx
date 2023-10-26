@@ -301,6 +301,32 @@ export default function Home() {
             paymentMethod,
             paymentProofUrl,
           });
+
+          const newIsWarnedInputData = { ...isWarnedInputData };
+          while (
+            historyInputData.memberCount > newIsWarnedInputData.members.length
+          ) {
+            newIsWarnedInputData.members.push({
+              name: false,
+              email: false,
+              institution: false,
+              phoneNumber: false,
+              age: false,
+              twibbonProof: false,
+              twibbonProofName: false,
+              studentProof: false,
+              studentProofName: false,
+            });
+          }
+          while (
+            historyInputData.memberCount < newIsWarnedInputData.members.length
+          ) {
+            newIsWarnedInputData.members.pop();
+          }
+          if (isWarnedInputData !== newIsWarnedInputData) {
+            setIsWarnedInputData(newIsWarnedInputData);
+          }
+
           localStorage.setItem(
             'inputData',
             JSON.stringify({
