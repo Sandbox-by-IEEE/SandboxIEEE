@@ -41,12 +41,25 @@ const Timeline = ({ items }: { items: TimelineItem[] }) => {
           }}
           dateClassName='mt-[20px]'
         >
-          <GradientBox className='max-w-[300px] max-h-fit min-h-[90px] sm:min-h-[170px] text-left flex flex-col justify-center items-start gap-6'>
+          <GradientBox
+            className='max-w-[300px] max-h-fit min-h-[90px] sm:min-h-[170px] text-left flex flex-col justify-center items-start gap-6'
+            aos={i % 2 === 0 ? 'fade-right' : 'fade-left'}
+          >
             <div className='flex flex-col w-fit mx-auto pl-2 sm:pr-8'>
-              <span className='text-left font-bold text-lg sm:text-2xl text-[#FFE1B9]'>
+              <h3
+                className='text-left font-bold text-lg sm:text-2xl text-[#FFE1B9]'
+                data-aos='zoom-in-down'
+                data-aos-duration='1000'
+              >
                 {formatDate(new Date(el.date))}
+              </h3>
+              <span
+                data-aos='zoom-in-up'
+                data-aos-duration='1000'
+                className='text-sm sm:text-xl'
+              >
+                {el.text}
               </span>
-              <span className='text-sm sm:text-xl'>{el.text}</span>
             </div>
           </GradientBox>
         </VerticalTimelineElement>

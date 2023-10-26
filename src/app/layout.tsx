@@ -1,11 +1,13 @@
 import './globals.css';
+import 'aos/dist/aos.css';
 
 import { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
 import { ModalContextProvider } from '@/components/Modal/ModalContext';
 import Toast from '@/components/Toast';
-
+import AOSClient from '@/provider/aos';
+import AuthProvider from '@/provider/AuthProvider';
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -33,16 +35,20 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang='id, en'
+      lang='en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body suppressHydrationWarning={true}>
-        <Toast />
-        <ModalContextProvider>{children}</ModalContextProvider>
-      </body>
+      <AuthProvider>
+        <body suppressHydrationWarning={true}>
+          <AOSClient />
+          <Toast />
+          <ModalContextProvider>{children}</ModalContextProvider>
+        </body>
+      </AuthProvider>
     </html>
   );
 }
+
 export const metadata: Metadata = {
   title: 'Coming Soon | Sandbox IEEE ITB',
   description:

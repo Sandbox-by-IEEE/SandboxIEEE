@@ -114,7 +114,8 @@ const ExhibitionPage = async () => {
           width={exhibition.backgroundImage.width}
           height={exhibition.backgroundImage.height}
           alt={exhibition.backgroundImage.title}
-          className='w-full object-cover h-[671px] object-center'
+          priority
+          className='w-full object-cover h-[771px] max-h-screen object-center'
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
@@ -306,7 +307,7 @@ const ExhibitionPage = async () => {
         </section>
       )}
 
-      {/* Shadow */}
+      {/* Timeline */}
       <section className='w-full px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 flex flex-col gap-12 lg:gap-20'>
         <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
           <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
@@ -322,6 +323,7 @@ const ExhibitionPage = async () => {
         </div>
         <Timeline items={timelineData} />
       </section>
+
       {/* FAQ */}
       <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
         <h2
@@ -347,7 +349,7 @@ export default ExhibitionPage;
 export const metadata: Metadata = {
   title: 'Exhibition | Sandbox IEEE ITB',
   description:
-    "Join us at our upcoming exhibition event for an immersive experience in the world of cutting-edge technology and innovation. This offline event provides a unique opportunity to get hands-on with the latest products and services from leading industry players. From the newest tech gadgets to groundbreaking engineering solutions, there's something for everyone—whether you're a tech enthusiast, a student, or a professional. Don't miss your chance to network with like-minded individuals, learn from industry experts, and stay up-to-date with the latest trends in technology. Mark your calendar and make sure to be there for an enlightening and inspiring experience!",
+    'The peak day of TheSandbox by IEEE event, where finalists of ProtoTech Contest will showcase their prototype as well do some pitching for further assessment. On the other hand, prior videos submitted by the finalists of Technovate Paper Competition will be displayed before their final pitching regarding their paper. Final judgment along with the awarding ceremony will be taking place during this time as well, hosted in collaboration with leaders of IEEE ITB Student Branch and judges from exterior institutions.',
   generator: 'Next.js',
   category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
@@ -376,7 +378,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      "Join us at our upcoming exhibition event for an immersive experience in the world of cutting-edge technology and innovation. This offline event provides a unique opportunity to get hands-on with the latest products and services from leading industry players. From the newest tech gadgets to groundbreaking engineering solutions, there's something for everyone—whether you're a tech enthusiast, a student, or a professional. Don't miss your chance to network with like-minded individuals, learn from industry experts, and stay up-to-date with the latest trends in technology. Mark your calendar and make sure to be there for an enlightening and inspiring experience!",
+      'The peak day of TheSandbox by IEEE event, where finalists of ProtoTech Contest will showcase their prototype as well do some pitching for further assessment. On the other hand, prior videos submitted by the finalists of Technovate Paper Competition will be displayed before their final pitching regarding their paper. Final judgment along with the awarding ceremony will be taking place during this time as well, hosted in collaboration with leaders of IEEE ITB Student Branch and judges from exterior institutions.',
     url: 'https://sandbox.ieeeitb.com/events/exhibition',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -394,7 +396,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      "Join us at our upcoming exhibition event for an immersive experience in the world of cutting-edge technology and innovation. This offline event provides a unique opportunity to get hands-on with the latest products and services from leading industry players. From the newest tech gadgets to groundbreaking engineering solutions, there's something for everyone—whether you're a tech enthusiast, a student, or a professional. Don't miss your chance to network with like-minded individuals, learn from industry experts, and stay up-to-date with the latest trends in technology. Mark your calendar and make sure to be there for an enlightening and inspiring experience!",
+      'The peak day of TheSandbox by IEEE event, where finalists of ProtoTech Contest will showcase their prototype as well do some pitching for further assessment. On the other hand, prior videos submitted by the finalists of Technovate Paper Competition will be displayed before their final pitching regarding their paper. Final judgment along with the awarding ceremony will be taking place during this time as well, hosted in collaboration with leaders of IEEE ITB Student Branch and judges from exterior institutions.',
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
