@@ -1,6 +1,9 @@
-import { FileInputType } from '@/components/FileInput/fileInput-type';
+import {
+  FileInputType,
+  IsWarnedFileInputType,
+} from '@/components/FileInput/fileInput-type';
 
-export type memberInfo = {
+export type MemberInfo = {
   name: string;
   email: string;
   institution: string;
@@ -12,10 +15,30 @@ export type memberInfo = {
   studentProofName: string;
 };
 
-export type inputData = {
+export type InputData = {
   teamName: string;
   memberCount: number;
-  members: memberInfo[];
+  members: MemberInfo[];
   paymentMethod?: string;
   paymentProofUrl?: FileInputType[];
+};
+
+export type IsWarnedMemberInfo = {
+  name: boolean;
+  email: boolean;
+  institution: boolean;
+  phoneNumber: boolean;
+  age: boolean;
+  twibbonProof: boolean;
+  twibbonProofName: boolean;
+  studentProof: boolean;
+  studentProofName: boolean;
+};
+
+export type IsWarnedInputData = {
+  teamName: boolean;
+  memberCount: boolean;
+  members: IsWarnedMemberInfo[];
+  paymentMethod?: boolean;
+  paymentProofUrl?: IsWarnedFileInputType[];
 };

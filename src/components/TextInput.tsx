@@ -12,8 +12,9 @@ const TextInput = ({
   fullwidth,
   onChange,
   setText,
-  minValue,
   required = false,
+  isWarned = false,
+  onFocus,
 }: {
   placeholder?: string;
   type: 'text' | 'password' | 'search' | 'email' | 'textarea' | 'number';
@@ -24,26 +25,30 @@ const TextInput = ({
   fullwidth?: boolean;
   onChange?: (e) => void | null;
   setText?: React.Dispatch<SetStateAction<string>>;
-  minValue?: number;
   required?: boolean;
+  isWarned?: boolean;
+  onFocus?: () => void;
 }) => {
   const colorEffect = {
     'trans-white': {
       icon: 'fill-white',
-      main: 'bg-transparent border-[2px] border-white text-white',
-      disabled: 'bg-transparent disabled:bg-transparent',
+      main: 'bg-transparent border-[2px] text-white',
+      disabled: 'bg-transparent disabled:bg-transparent text-black',
     },
     white: {
       icon: 'fill-white',
-      main: 'bg-white text-black placeholder:text-neutral-600 shadow-custom-input outline-none',
-      disabled: 'bg-transparent disabled:bg-white',
+      main: 'bg-white text-black placeholder:text-neutral-600 shadow-custom-input outline-none text-white',
+      disabled: 'bg-transparent disabled:bg-white text-black',
     },
   };
   return type !== 'textarea' ? (
     <div
       className={`flex gap-3 py-1.5 px-4 lg:px-6 lg:py-2 ${
         fullwidth ? 'w-full' : 'w-[250px] lg:w-[350px]'
-      } ${colorEffect[color].main} justify-between items-center rounded-md`}
+      } ${
+        colorEffect[color].main
+      } justify-between items-center rounded-md duration-150 ease-in`}
+      style={isWarned ? { border: '4px rgba(255, 0, 0, 0.9) solid' } : {}}
     >
       {type === 'search' && (
         <SearchIcon className={`${colorEffect[color].icon}`} size={20} />
@@ -56,7 +61,7 @@ const TextInput = ({
             ? onChange(e)
             : console.warn('no Action');
         }}
-        min={minValue}
+        onFocus={onFocus}
         disabled={disabled}
         name={name}
         type={type}
@@ -70,7 +75,10 @@ const TextInput = ({
     <div
       className={`flex gap-3 py-1.5 px-4 lg:px-6 lg:py-2 ${
         fullwidth ? 'w-full' : 'w-[250px] lg:w-[350px]'
-      } ${colorEffect[color].main} justify-between items-center rounded-md`}
+      } ${
+        colorEffect[color].main
+      } justify-between items-center rounded-md duration-75 ease-in delay-150`}
+      style={isWarned ? { border: '2px red solid' } : {}}
     >
       <textarea
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
