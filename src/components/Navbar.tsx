@@ -1,7 +1,5 @@
 'use client';
 
-import 'react-modern-drawer/dist/index.css';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,10 +17,10 @@ type PairDrawerButton = {
   route: string;
 };
 
-type Window = {
-  height?: number;
-  width?: number;
-};
+// type Window = {
+//   height?: number;
+//   width?: number;
+// };
 
 /**
  * @desc dibuat  jd internal components karena kayaknya ngga akan ada lagi yang butuh.
@@ -168,36 +166,36 @@ function MenuComponentLarge({
 }
 
 // Hook
-function useWindowSize() {
-  // Initialize state with undefined width/height so server and client renders match
-  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
-  const [windowSize, setWindowSize] = useState<Window>({
-    width: undefined,
-    height: undefined,
-  });
+// function useWindowSize() {
+//   // Initialize state with undefined width/height so server and client renders match
+//   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+//   const [windowSize, setWindowSize] = useState<Window>({
+//     width: undefined,
+//     height: undefined,
+//   });
 
-  useEffect(() => {
-    // only execute all the code below in client side
-    // Handler to call on window resize
-    function handleResize() {
-      // Set window width/height to state
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
+//   useEffect(() => {
+//     // only execute all the code below in client side
+//     // Handler to call on window resize
+//     function handleResize() {
+//       // Set window width/height to state
+//       setWindowSize({
+//         width: window.innerWidth,
+//         height: window.innerHeight,
+//       });
+//     }
 
-    // Add event listener
-    window.addEventListener('resize', handleResize);
+//     // Add event listener
+//     window.addEventListener('resize', handleResize);
 
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
+//     // Call handler right away so state gets updated with initial window size
+//     handleResize();
 
-    // Remove event listener on cleanup
-    return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount
-  return windowSize;
-}
+//     // Remove event listener on cleanup
+//     return () => window.removeEventListener('resize', handleResize);
+//   }, []); // Empty array ensures that effect is only run on mount
+//   return windowSize;
+// }
 
 function NavBarLarge({ session }: { session: Session | null }) {
   const [navbarPos, setNavbarPos] = useState<number>(0);
@@ -475,19 +473,34 @@ function NavBarSmall({ session }: { session: Session | null }) {
   );
 }
 
+// function NavBar() {
+//   const { data: session } = useSession();
+//   const { width, height } = useWindowSize();
+//   if (!width || !height) return <></>;
+
+//   return width > 1280 ? (
+//     <>
+//       <NavBarLarge session={session} />
+//     </>
+//   ) : (
+//     <>
+//       <NavBarSmall session={session} />
+//     </>
+//   );
+// }
+
 function NavBar() {
   const { data: session } = useSession();
-  const { width, height } = useWindowSize();
-  if (!width || !height) return <></>;
 
-  return width > 1280 ? (
-    <>
-      <NavBarLarge session={session} />
-    </>
-  ) : (
-    <>
-      <NavBarSmall session={session} />
-    </>
+  return (
+    <div>
+      <div className='NavbarLarge hidden xl:block'>
+        <NavBarLarge session={session} />
+      </div>
+      <div className='NavbarSmall block xl:hidden'>
+        <NavBarSmall session={session} />
+      </div>
+    </div>
   );
 }
 
