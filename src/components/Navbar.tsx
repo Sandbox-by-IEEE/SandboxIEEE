@@ -28,6 +28,7 @@ type Window = {
 /**
  * @desc dibuat  jd internal components karena kayaknya ngga akan ada lagi yang butuh.
  */
+
 function SandboxLogo() {
   return (
     <Link
