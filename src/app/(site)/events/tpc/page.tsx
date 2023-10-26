@@ -120,7 +120,7 @@ const TPC = async () => {
           >
             {tpcPage.titleTpcPages}
           </h1>
-          <CustomLink color='green' url='/exhibition'>
+          <CustomLink color='green' url='/events/tpc/registration'>
             {tpcPage.buttonTextRegister}
           </CustomLink>
         </div>
@@ -311,10 +311,10 @@ const TPC = async () => {
             <Countdown targetDate={new Date(2023, 9, 20)} />
             {/* Button */}
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-              <CustomLink color='gold' url='/exhibition'>
+              <CustomLink color='gold' url='/events/tpc/registration'>
                 {tpcPage.buttonTextRegister}
               </CustomLink>
-              <CustomLink color='trans-orange' url='/exhibition'>
+              <CustomLink color='trans-orange' url='#timeline'>
                 {tpcPage.buttonTextSeeMore}
               </CustomLink>
             </div>
@@ -334,6 +334,7 @@ const TPC = async () => {
 
       {/* TIMELINE */}
       <section
+        id='timeline'
         className='w-full bg-gradient-section px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
         style={{ background: 'rgba(7, 29, 16)' }}
       >
