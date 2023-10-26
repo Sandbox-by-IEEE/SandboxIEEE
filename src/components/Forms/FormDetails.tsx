@@ -3,6 +3,7 @@ import React from 'react';
 import Button from '@/components/Button';
 import { FileInputType } from '@/components/FileInput/fileInput-type';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
+import { inputData } from '@/components/Forms/inputData-type';
 import TextInput from '@/components/TextInput';
 
 const FormDetails = ({
@@ -12,6 +13,13 @@ const FormDetails = ({
   handleSubmitFormIdentity,
   fillMemberIndex,
   setFillMemberIndex,
+}: {
+  inputData: inputData;
+  setInputData: React.Dispatch<React.SetStateAction<inputData>>;
+  handleChange: (e: any) => void;
+  handleSubmitFormIdentity: (e: React.FormEvent<HTMLFormElement>) => void;
+  fillMemberIndex: number;
+  setFillMemberIndex: React.Dispatch<React.SetStateAction<number>>;
 }) => (
   <form onSubmit={handleSubmitFormIdentity} className=' space-y-2 py-6 w-full'>
     <div className='flex flex-col'>
@@ -36,7 +44,7 @@ const FormDetails = ({
         placeholder={''}
         type='number'
         name='memberCount'
-        text={inputData.memberCount}
+        text={`${inputData.memberCount}`}
         color='white'
         minValue={1}
         onChange={handleChange}
@@ -132,7 +140,7 @@ const FormDetails = ({
               placeholder={''}
               type='number'
               name={`members[${fillMemberIndex}].age`}
-              text={inputData.members[fillMemberIndex]?.age}
+              text={`${inputData.members[fillMemberIndex]?.age}`}
               color='white'
               onChange={handleChange}
               fullwidth

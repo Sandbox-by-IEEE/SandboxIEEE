@@ -309,6 +309,7 @@ export default function Home() {
               handleSubmitFinal={handleSubmitFinal}
               filesForm2={filesForm2}
               setFilesForm2={setFilesForm2}
+              step={step}
               setStep={setStep}
             />
           </>
