@@ -403,7 +403,10 @@ const FormDetails = ({
         </p>
         <div className='flex gap-2 flex-wrap pb-4'>
           {inputData.members.map((_, i) => (
-            <div className='w-fit max-w-12 overflow-hidden flex-grow-0' key={i}>
+            <div
+              className='w-fit max-w-fit overflow-hidden flex-grow-0'
+              key={i}
+            >
               <Button
                 type='button'
                 color={i == fillMemberIndex ? 'trans-orange' : 'gold'}
@@ -568,19 +571,22 @@ const FormDetails = ({
 
     <div className='w-full flex justify-center py-6 gap-2'>
       {fillMemberIndex + 1 < inputData.members.length && (
-        <Button
-          type='button'
-          color='gold'
-          onClick={() => setFillMemberIndex(fillMemberIndex + 1)}
-        >
-          <span className='w-fit whitespace-nowrap'>
-            Fill{' '}
-            {inputData.members[fillMemberIndex + 1]?.name !== ''
-              ? inputData.members[fillMemberIndex + 1]?.name
-              : 'Member ' + (fillMemberIndex + 2)}{' '}
-            data
-          </span>
-        </Button>
+        <div className='w-fit max-w-fit'>
+          <Button
+            type='button'
+            color='gold'
+            isFullWidth
+            onClick={() => setFillMemberIndex(fillMemberIndex + 1)}
+          >
+            <span className='w-fit min-w-fit max-w-fit whitespace-nowrap'>
+              Fill{' '}
+              {inputData.members[fillMemberIndex + 1]?.name !== ''
+                ? inputData.members[fillMemberIndex + 1]?.name
+                : 'Member ' + (fillMemberIndex + 2)}{' '}
+              data
+            </span>
+          </Button>
+        </div>
       )}
       <Button color='gold' type='submit'>
         Proceed to Payment
@@ -738,7 +744,7 @@ const FormPayment = ({
       </div>
     </div>
     <div className='w-full flex justify-center py-6 gap-3'>
-      <Button color='green' onClick={() => setStep(1)}>
+      <Button color='green' onClick={() => setStep(1)} type='button'>
         Back
       </Button>
       <Button color='gold'>Submit</Button>
