@@ -1,7 +1,7 @@
 import Button from '@/components/Button';
 import { FileInputType } from '@/components/FileInput/fileInput-type';
 import MultipleFileInput from '@/components/FileInput/MultipleFileInput';
-import { inputData } from '@/components/Forms/inputData-type';
+import { InputData } from '@/components/Forms/inputData-type';
 import GradientBox from '@/components/GradientBox';
 import FileIcon from '@/components/icons/FileIcon';
 
@@ -15,7 +15,7 @@ const FormPayment = ({
   setStep,
 }: {
   handleChange: (e: any) => void;
-  inputData: inputData;
+  inputData: InputData;
   filesForm2: FileInputType[] | undefined;
   setFilesForm2: React.Dispatch<
     React.SetStateAction<FileInputType[] | undefined>
