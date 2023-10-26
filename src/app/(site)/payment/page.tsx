@@ -51,6 +51,7 @@ export default function Home() {
     paymentProofUrl: [],
   });
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
+  const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
   const [step, setStep] = useState<number>(1);
 
   const handleChange = (e) => {
@@ -59,6 +60,10 @@ export default function Home() {
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
     const newInputData = { ...inputData };
+
+    if (name == 'memberCount') {
+      setFillMemberIndex(0);
+    }
 
     // Use regex to extract the member index and field name
     const match = name.match(/members\[(\d+)\]\.(.+)/);
@@ -127,17 +132,21 @@ export default function Home() {
     let isEmptyStudentProof = false;
     let isInvalidAge = false;
     let isInvalidPhoneNumber = false;
-    inputData.members.forEach((el) => {
+    inputData.members.forEach((el, i) => {
       if (!el.twibbonProof) {
+        setFillMemberIndex(i);
         isEmptyTwibbon = true;
       }
       if (!el.studentProof) {
+        setFillMemberIndex(i);
         isEmptyStudentProof = true;
       }
       if (el.age <= 0) {
+        setFillMemberIndex(i);
         isInvalidAge = true;
       }
       if (el.phoneNumber[0] != "'") {
+        setFillMemberIndex(i);
         isInvalidPhoneNumber = true;
       }
     });
@@ -147,7 +156,7 @@ export default function Home() {
     if (isEmptyStudentProof) {
       callToast({
         status: 'error',
-        description: 'Please fill all Student Proof',
+        description: 'Please fill all Student Card Proof',
       });
     }
     if (isInvalidAge) {
@@ -212,9 +221,62 @@ export default function Home() {
       try {
         const historyInputData: inputData = JSON.parse(memoryInputData);
 
-        if (typeof historyInputData === 'object') {
-          setInputData(historyInputData);
-          setFilesForm2(historyInputData.paymentProofUrl);
+        if (
+          typeof historyInputData === 'object' &&
+          'teamName' in historyInputData &&
+          'memberCount' in historyInputData &&
+          'members' in historyInputData &&
+          Array.isArray(historyInputData.members) &&
+          'paymentMethod' in historyInputData &&
+          Array.isArray(historyInputData.paymentProofUrl)
+        ) {
+          if (historyInputData.paymentProofUrl)
+            setFilesForm2(historyInputData.paymentProofUrl);
+
+          if (!historyInputData.memberCount) {
+            historyInputData.memberCount = 1;
+          }
+          if (!historyInputData.members.length) {
+            historyInputData.members = [
+              {
+                name: '',
+                email: '',
+                institution: '',
+                phoneNumber: '',
+                age: 0,
+                twibbonProof: '',
+                twibbonProofName: '',
+                studentProof: '',
+                studentProofName: '',
+              },
+            ];
+          }
+
+          const {
+            teamName,
+            memberCount,
+            members,
+            paymentMethod,
+            paymentProofUrl,
+          } = historyInputData;
+
+          setInputData({
+            teamName,
+            memberCount,
+            members,
+            paymentMethod,
+            paymentProofUrl,
+          });
+          localStorage.setItem(
+            'inputData',
+            JSON.stringify({
+              teamName,
+              memberCount,
+              members,
+              paymentMethod,
+              paymentProofUrl,
+            }),
+          );
         } else {
           localStorage.removeItem('inputData');
         }
@@ -237,6 +299,8 @@ export default function Home() {
               inputData={inputData}
               setInputData={setInputData}
               handleChange={handleChange}
+              fillMemberIndex={fillMemberIndex}
+              setFillMemberIndex={setFillMemberIndex}
               handleSubmitFormIdentity={handleSubmitFormIdentity}
             />
           </>
@@ -290,8 +354,10 @@ const FormDetails = ({
   setInputData,
   handleChange,
   handleSubmitFormIdentity,
+  fillMemberIndex,
+  setFillMemberIndex,
 }) => (
-  <form onSubmit={handleSubmitFormIdentity} className=' space-y-8 py-6 w-full'>
+  <form onSubmit={handleSubmitFormIdentity} className=' space-y-2 py-6 w-full'>
     <div className='flex flex-col'>
       <label className='text-xl py-2'>Team Name</label>
       <TextInput
@@ -322,155 +388,200 @@ const FormDetails = ({
         required
       />
     </div>
-    <div className='w-full flex justify-center'>
-      <p className='text-3xl font-bold'>Chairman&apos;s Data</p>
-    </div>
-    {inputData.members?.map((_, i) => (
-      <section key={i} className='w-full space-y-8'>
-        <div className='flex flex-col'>
-          <label className='text-xl py-2'>Name</label>
-          <label className='font-thin text-sm pb-1 text-slate-200'>
-            Please enter your full name
-          </label>
-          <TextInput
-            placeholder={''}
-            type='text'
-            name={`members[${i}].name`}
-            text={inputData.members[i].name}
-            color='white'
-            onChange={handleChange}
-            fullwidth
-            required
-          />
-        </div>
-        <div className='flex flex-col'>
-          <label className='text-xl py-2'>Email</label>
-          <label className='font-thin text-sm pb-1 text-slate-200'>
-            Please enter your active email address
-          </label>
-          <TextInput
-            placeholder={''}
-            type='email'
-            name={`members[${i}].email`}
-            text={inputData.members[i].email}
-            color='white'
-            onChange={handleChange}
-            fullwidth
-            required
-          />
-        </div>
-        <div className='flex flex-col'>
-          <label className='text-xl py-2'>WhatsApp Number</label>
-          <label className='font-thin text-sm pb-1 text-slate-200'>
-            Please add &apos; before your number! (e.g. &apos;08111839019)
-          </label>
-          <TextInput
-            placeholder={''}
-            type='text'
-            name={`members[${i}].phoneNumber`}
-            text={inputData.members[i].phoneNumber}
-            color='white'
-            onChange={handleChange}
-            fullwidth
-            required
-          />
-        </div>
-        <div className='flex flex-col'>
-          <label className='text-xl py-2'>Age</label>
-          <label className='font-thin text-sm pb-1 text-slate-200'>
-            Please enter the valid age based on the student card
-          </label>
-          <TextInput
-            placeholder={''}
-            type='number'
-            name={`members[${i}].age`}
-            text={inputData.members[i].age}
-            color='white'
-            onChange={handleChange}
-            fullwidth
-          />
-        </div>
-        <div className='flex flex-col'>
-          <label className='text-xl py-2'>Institution</label>
-          <label className='font-thin text-sm pb-1 text-slate-200'>
-            Please write your high school or university name in its Indonesian
-            version (e.g. Institut Teknologi Bandung)
-          </label>
-          <TextInput
-            placeholder={''}
-            type='text'
-            name={`members[${i}].institution`}
-            text={inputData.members[i].institution}
-            color='white'
-            onChange={handleChange}
-            fullwidth
-            required
-          />
-        </div>
-        <div className='w-full pb-20'>
-          <div className='flex flex-col md:flex-row w-full justify-between gap-2'>
-            <div className='w-full md:w-[49%]'>
-              <p className='text-3xl py-4 text-center'>
-                Student Card Proof {i + 1}
-              </p>
-              <SingleFileInput
-                key={'FormDetailsA' + i}
-                message='Student Card Proof'
-                file={{
-                  fileName: inputData.members[i].studentProofName,
-                  fileUrl: inputData.members[i].studentProof,
-                }}
-                setFile={(newFile: FileInputType) => {
-                  setInputData((inputData) => {
-                    const newInputData = { ...inputData };
-                    newInputData.members[i].studentProof =
-                      newFile?.fileUrl as string;
-                    newInputData.members[i].studentProofName =
-                      newFile?.fileName as string;
 
-                    localStorage.setItem(
-                      'inputData',
-                      JSON.stringify(newInputData),
-                    );
-
-                    return newInputData;
-                  });
-                }}
-              />
+    {inputData.memberCount > 0 && (
+      <>
+        <div className='w-full flex justify-center pt-10'>
+          <p className='text-3xl font-bold'>Member&apos;s Data</p>
+        </div>
+        <p className='font-bold text-2xl'>
+          Filling{' '}
+          {inputData.members[fillMemberIndex]?.name !== ''
+            ? inputData.members[fillMemberIndex]?.name
+            : 'Member ' + (fillMemberIndex + 1)}{' '}
+          data
+        </p>
+        <div className='flex gap-2 flex-wrap pb-4'>
+          {inputData.members.map((_, i) => (
+            <div className='w-fit max-w-12 overflow-hidden flex-grow-0' key={i}>
+              <Button
+                type='button'
+                color={i == fillMemberIndex ? 'trans-orange' : 'gold'}
+                isFullWidth
+                onClick={() => setFillMemberIndex(i)}
+              >
+                {inputData.members[i]?.name !== ''
+                  ? inputData.members[i]?.name
+                  : i + 1}
+              </Button>
             </div>
-            <div className='w-full md:w-[49%]'>
-              <p className='text-3xl py-4 text-center'>Twibbon Proof {i + 1}</p>
-              <SingleFileInput
-                key={'FormDetailsB' + i}
-                message='Twibbon Proof'
-                file={{
-                  fileName: inputData.members[i].twibbonProofName,
-                  fileUrl: inputData.members[i].twibbonProof,
-                }}
-                setFile={(newFiles) => {
-                  setInputData((inputData) => {
-                    const newInputData = { ...inputData };
-                    newInputData.members[i].twibbonProof =
-                      newFiles?.fileUrl as string;
-                    newInputData.members[i].twibbonProofName =
-                      newFiles?.fileName as string;
+          ))}
+        </div>
+        <section key={fillMemberIndex} className='w-full space-y-8'>
+          <div className='flex flex-col'>
+            <label className='text-xl py-2'>Name</label>
+            <label className='font-thin text-sm pb-1 text-slate-200'>
+              Please enter your full name
+            </label>
+            <TextInput
+              placeholder={''}
+              type='text'
+              name={`members[${fillMemberIndex}].name`}
+              text={inputData.members[fillMemberIndex]?.name}
+              color='white'
+              onChange={handleChange}
+              fullwidth
+              required
+            />
+          </div>
+          <div className='flex flex-col'>
+            <label className='text-xl py-2'>Email</label>
+            <label className='font-thin text-sm pb-1 text-slate-200'>
+              Please enter your active email address
+            </label>
+            <TextInput
+              placeholder={''}
+              type='email'
+              name={`members[${fillMemberIndex}].email`}
+              text={inputData.members[fillMemberIndex]?.email}
+              color='white'
+              onChange={handleChange}
+              fullwidth
+              required
+            />
+          </div>
+          <div className='flex flex-col'>
+            <label className='text-xl py-2'>WhatsApp Number</label>
+            <label className='font-thin text-sm pb-1 text-slate-200'>
+              Please add &apos; before your number! (e.g. &apos;08111839019)
+            </label>
+            <TextInput
+              placeholder={''}
+              type='text'
+              name={`members[${fillMemberIndex}].phoneNumber`}
+              text={inputData.members[fillMemberIndex]?.phoneNumber}
+              color='white'
+              onChange={handleChange}
+              fullwidth
+              required
+            />
+          </div>
+          <div className='flex flex-col'>
+            <label className='text-xl py-2'>Age</label>
+            <label className='font-thin text-sm pb-1 text-slate-200'>
+              Please enter the valid age based on the student card
+            </label>
+            <TextInput
+              placeholder={''}
+              type='number'
+              name={`members[${fillMemberIndex}].age`}
+              text={inputData.members[fillMemberIndex]?.age}
+              color='white'
+              onChange={handleChange}
+              fullwidth
+            />
+          </div>
+          <div className='flex flex-col'>
+            <label className='text-xl py-2'>Institution</label>
+            <label className='font-thin text-sm pb-1 text-slate-200'>
+              Please write your high school or university name in its Indonesian
+              version (e.g. Institut Teknologi Bandung)
+            </label>
+            <TextInput
+              placeholder={''}
+              type='text'
+              name={`members[${fillMemberIndex}].institution`}
+              text={inputData.members[fillMemberIndex]?.institution}
+              color='white'
+              onChange={handleChange}
+              fullwidth
+              required
+            />
+          </div>
+          <div className='w-full pb-20'>
+            <div className='flex flex-col md:flex-row w-full justify-between gap-2'>
+              <div className='w-full md:w-[49%]'>
+                <p className='text-3xl py-4 text-center'>
+                  Student Card Proof {fillMemberIndex + 1}
+                </p>
+                <SingleFileInput
+                  key={'FormDetailsA' + fillMemberIndex}
+                  message='Student Card Proof'
+                  file={{
+                    fileName:
+                      inputData.members[fillMemberIndex]?.studentProofName,
+                    fileUrl: inputData.members[fillMemberIndex]?.studentProof,
+                  }}
+                  setFile={(newFile: FileInputType) => {
+                    setInputData((inputData) => {
+                      const newInputData = { ...inputData };
+                      newInputData.members[fillMemberIndex].studentProof =
+                        newFile?.fileUrl as string;
+                      newInputData.members[fillMemberIndex].studentProofName =
+                        newFile?.fileName as string;
 
-                    localStorage.setItem(
-                      'inputData',
-                      JSON.stringify(newInputData),
-                    );
+                      localStorage.setItem(
+                        'inputData',
+                        JSON.stringify(newInputData),
+                      );
 
-                    return newInputData;
-                  });
-                }}
-              />
+                      return newInputData;
+                    });
+                  }}
+                />
+              </div>
+              <div className='w-full md:w-[49%]'>
+                <p className='text-3xl py-4 text-center'>
+                  Twibbon Proof {fillMemberIndex + 1}
+                </p>
+                <SingleFileInput
+                  key={'FormDetailsB' + fillMemberIndex}
+                  message='Twibbon Proof'
+                  file={{
+                    fileName:
+                      inputData.members[fillMemberIndex]?.twibbonProofName,
+                    fileUrl: inputData.members[fillMemberIndex]?.twibbonProof,
+                  }}
+                  setFile={(newFiles) => {
+                    setInputData((inputData) => {
+                      const newInputData = { ...inputData };
+                      newInputData.members[fillMemberIndex].twibbonProof =
+                        newFiles?.fileUrl as string;
+                      newInputData.members[fillMemberIndex].twibbonProofName =
+                        newFiles?.fileName as string;
+
+                      localStorage.setItem(
+                        'inputData',
+                        JSON.stringify(newInputData),
+                      );
+
+                      return newInputData;
+                    });
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    ))}
+        </section>
+      </>
+    )}
 
-    <div className='w-full flex justify-center py-6'>
+    <div className='w-full flex justify-center py-6 gap-2'>
+      {fillMemberIndex + 1 < inputData.members.length && (
+        <Button
+          type='button'
+          color='gold'
+          onClick={() => setFillMemberIndex(fillMemberIndex + 1)}
+        >
+          <span className='w-fit whitespace-nowrap'>
+            Fill{' '}
+            {inputData.members[fillMemberIndex + 1]?.name !== ''
+              ? inputData.members[fillMemberIndex + 1]?.name
+              : 'Member ' + (fillMemberIndex + 2)}{' '}
+            data
+          </span>
+        </Button>
+      )}
       <Button color='gold' type='submit'>
         Proceed to Payment
       </Button>
