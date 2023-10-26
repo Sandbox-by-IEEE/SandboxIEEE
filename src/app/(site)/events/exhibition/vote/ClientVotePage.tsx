@@ -6,7 +6,7 @@ import {
   ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import CollectionVoteCards from '@/components/Vote/CollectionCardVote';
-import type { AllFinalProjectsExhibition } from '@/types/exhibition-type';
+import { type AllFinalProjectsExhibition } from '@/types/exhibition-type';
 
 const ClientVotePage = ({
   TPCData,

@@ -31,6 +31,32 @@ export const authOptions: AuthOptions = {
           where: {
             email: credentials?.email,
           },
+          include: {
+            karya: {
+              select: {
+                id: true,
+                countVote: true,
+                linkKarya: true,
+                team: {
+                  select: {
+                    id: true,
+                    teamName: true,
+                    chairmanName: true,
+                    // members: {
+                    //   select: {
+                    //     name: true
+                    //   }
+                    // }
+                  },
+                },
+              },
+            },
+            ticketsExhibition: {
+              select: {
+                active: true,
+              },
+            },
+          },
         });
 
         if (!existingUser) {
@@ -46,11 +72,32 @@ export const authOptions: AuthOptions = {
           throw new Error('Wrong password');
         }
 
+        const karya = existingUser.karya
+          ? {
+              ...existingUser.karya,
+              countVote: parseInt(
+                existingUser.karya?.countVote.toString() || '0',
+              ),
+            }
+          : undefined;
+
+        const ticketExhibition = existingUser.ticketsExhibition
+          ? existingUser.ticketsExhibition
+          : undefined;
+
         return {
           id: existingUser.id,
           name: existingUser.name,
           email: existingUser.email,
           image: existingUser.image || '',
+          vote: {
+            karya: karya,
+            status: existingUser.karya ? true : false,
+          },
+          exhibition: {
+            buy: ticketExhibition ? true : false,
+            active: ticketExhibition ? ticketExhibition.active : false,
+          },
         };
       },
     }),
@@ -61,12 +108,71 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async session({ token, session }) {
+      const existingUser = await prisma.user.findUnique({
+        where: {
+          id: token.sub,
+        },
+        include: {
+          karya: {
+            select: {
+              id: true,
+              countVote: true,
+              linkKarya: true,
+              team: {
+                select: {
+                  id: true,
+                  teamName: true,
+                  chairmanName: true,
+                },
+              },
+            },
+          },
+          ticketsExhibition: {
+            select: {
+              active: true,
+            },
+          },
+        },
+      });
+
+      if (!existingUser) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: token.sub,
+            image: token.picture || '',
+          },
+        };
+      }
+
+      const karya = existingUser.karya
+        ? {
+            ...existingUser.karya,
+            countVote: parseInt(
+              existingUser.karya?.countVote.toString() || '0',
+            ),
+          }
+        : undefined;
+
+      const ticketExhibition = existingUser.ticketsExhibition
+        ? existingUser.ticketsExhibition
+        : undefined;
+
       return {
         ...session,
         user: {
           ...session.user,
           id: token.sub,
           image: token.picture || '',
+          vote: {
+            karya: karya,
+            status: existingUser.karya ? true : false,
+          },
+          exhibition: {
+            buy: ticketExhibition ? true : false,
+            active: ticketExhibition ? ticketExhibition.active : false,
+          },
         },
       };
     },

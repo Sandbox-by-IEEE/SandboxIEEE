@@ -25,7 +25,10 @@ function RoutesOptions({
   return (
     <>
       {options.map((option) => (
-        <Link href={`/events/${option.toLowerCase()}`} key={option}>
+        <Link
+          href={`/events/${option.toLowerCase().replace(/\s+/g, '-')}`}
+          key={option}
+        >
           <div
             className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3 w-full px-5 ${colorClass}`}
           >
