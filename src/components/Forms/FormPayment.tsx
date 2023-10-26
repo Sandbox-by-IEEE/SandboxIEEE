@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import { FileInputType } from '@/components/FileInput/fileInput-type';
 import MultipleFileInput from '@/components/FileInput/MultipleFileInput';
+import { inputData } from '@/components/Forms/inputData-type';
 import GradientBox from '@/components/GradientBox';
 import FileIcon from '@/components/icons/FileIcon';
 
@@ -10,7 +11,18 @@ const FormPayment = ({
   filesForm2,
   setFilesForm2,
   handleSubmitFinal,
+  step,
   setStep,
+}: {
+  handleChange: (e: any) => void;
+  inputData: inputData;
+  filesForm2: FileInputType[] | undefined;
+  setFilesForm2: React.Dispatch<
+    React.SetStateAction<FileInputType[] | undefined>
+  >;
+  handleSubmitFinal: (e: React.FormEvent<HTMLFormElement>) => void;
+  step: number;
+  setStep: (number) => void;
 }) => (
   <form
     className='flex flex-col gap-8 py-8 font-poppins text-center w-full'
@@ -133,13 +145,14 @@ const FormPayment = ({
                 <button
                   className='w-4 h-full flex text-lg font-bold'
                   onClick={() =>
-                    setFilesForm2((filesForm2: FileInputType[]) => {
+                    setFilesForm2((filesForm2: FileInputType[] | undefined) => {
                       const newFilesForm: FileInputType[] = [];
-                      for (let j = 0; j < filesForm2.length; j++) {
-                        if (j == i) continue;
-                        newFilesForm.push(filesForm2[j]);
+                      if (filesForm2?.length) {
+                        for (let j = 0; j < filesForm2.length; j++) {
+                          if (j == i) continue;
+                          newFilesForm.push(filesForm2[j]);
+                        }
                       }
-
                       return newFilesForm;
                     })
                   }
@@ -153,7 +166,7 @@ const FormPayment = ({
       </div>
     </div>
     <div className='w-full flex justify-center py-6 gap-3'>
-      <Button color='green' onClick={() => setStep(1)} type='button'>
+      <Button color='green' onClick={() => setStep(step - 1)} type='button'>
         Back
       </Button>
       <Button color='gold' type='submit'>
