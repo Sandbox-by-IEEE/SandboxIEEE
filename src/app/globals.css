@@ -97,6 +97,6 @@ details summary::-webkit-details-marker {
 
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
-  height: 10px;
+  height: auto;
   opacity: 1;
 }
