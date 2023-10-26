@@ -135,42 +135,39 @@ export default function Home() {
     inputData.members.forEach((el, i) => {
       if (!el.twibbonProof) {
         setFillMemberIndex(i);
+        callToast({
+          status: 'error',
+          description: `Please fill Member ${i + 1} Student Twiboon Proof`,
+        });
         isEmptyTwibbon = true;
       }
       if (!el.studentProof) {
         setFillMemberIndex(i);
+        callToast({
+          status: 'error',
+          description: `Please fill Member ${i + 1} Student Card Proof`,
+        });
         isEmptyStudentProof = true;
       }
       if (el.age <= 0) {
         setFillMemberIndex(i);
+        callToast({
+          status: 'error',
+          description: `Please fill Member ${i + 1} age correctly`,
+        });
         isInvalidAge = true;
       }
       if (el.phoneNumber[0] != "'") {
         setFillMemberIndex(i);
+        callToast({
+          status: 'error',
+          description: `Please fill Member ${
+            i + 1
+          } phone number correctly (see description)`,
+        });
         isInvalidPhoneNumber = true;
       }
     });
-    if (isEmptyTwibbon) {
-      callToast({ status: 'error', description: 'Please fill all twibbons' });
-    }
-    if (isEmptyStudentProof) {
-      callToast({
-        status: 'error',
-        description: 'Please fill all Student Card Proof',
-      });
-    }
-    if (isInvalidAge) {
-      callToast({
-        status: 'error',
-        description: 'Please fill age correctly',
-      });
-    }
-    if (isInvalidPhoneNumber) {
-      callToast({
-        status: 'error',
-        description: 'Please fill phone number correctly (see description)',
-      });
-    }
     if (
       isEmptyTwibbon ||
       isEmptyStudentProof ||
