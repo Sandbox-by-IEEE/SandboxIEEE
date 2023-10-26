@@ -413,9 +413,7 @@ const FormDetails = ({
                 isFullWidth
                 onClick={() => setFillMemberIndex(i)}
               >
-                {inputData.members[i]?.name !== ''
-                  ? inputData.members[i]?.name
-                  : i + 1}
+                {i + 1}
               </Button>
             </div>
           ))}
@@ -570,7 +568,21 @@ const FormDetails = ({
     )}
 
     <div className='w-full flex justify-center py-6 gap-2'>
-      {fillMemberIndex + 1 < inputData.members.length && (
+      {fillMemberIndex + 1 > 1 && (
+        <div className='w-fit max-w-fit'>
+          <Button
+            type='button'
+            color='green'
+            isFullWidth
+            onClick={() => setFillMemberIndex(fillMemberIndex - 1)}
+          >
+            <span className='w-fit min-w-fit max-w-fit whitespace-nowrap'>
+              Back (Fill {'Member ' + fillMemberIndex} data)
+            </span>
+          </Button>
+        </div>
+      )}
+      {fillMemberIndex + 1 < inputData.members.length ? (
         <div className='w-fit max-w-fit'>
           <Button
             type='button'
@@ -579,18 +591,15 @@ const FormDetails = ({
             onClick={() => setFillMemberIndex(fillMemberIndex + 1)}
           >
             <span className='w-fit min-w-fit max-w-fit whitespace-nowrap'>
-              Fill{' '}
-              {inputData.members[fillMemberIndex + 1]?.name !== ''
-                ? inputData.members[fillMemberIndex + 1]?.name
-                : 'Member ' + (fillMemberIndex + 2)}{' '}
-              data
+              Next (Fill {'Member ' + (fillMemberIndex + 2)} data)
             </span>
           </Button>
         </div>
+      ) : (
+        <Button color='gold' type='submit'>
+          Proceed to Payment
+        </Button>
       )}
-      <Button color='gold' type='submit'>
-        Proceed to Payment
-      </Button>
     </div>
   </form>
 );
@@ -747,7 +756,9 @@ const FormPayment = ({
       <Button color='green' onClick={() => setStep(1)} type='button'>
         Back
       </Button>
-      <Button color='gold'>Submit</Button>
+      <Button color='gold' type='submit'>
+        Submit
+      </Button>
     </div>
   </form>
 );
