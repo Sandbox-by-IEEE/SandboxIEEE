@@ -116,6 +116,7 @@ const ExhibitionPage = async () => {
           alt={exhibition.backgroundImage.title}
           priority
           className='w-full object-cover h-[771px] max-h-screen object-center'
+          data-aos='fade-in'
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
@@ -125,6 +126,8 @@ const ExhibitionPage = async () => {
                 '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
             }}
             className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
+            data-aos='flip-up'
+            data-aos-duration='900'
           >
             {exhibition.titleExhibitionPage}
           </h1>
@@ -156,9 +159,13 @@ const ExhibitionPage = async () => {
                 width={exhibition.imageMascot.width}
                 height={exhibition.imageMascot.height}
                 className='w-[130px] h-[200px] lg:w-[226px] lg:h-[301px] object-contain object-center'
+                data-aos='flip-up'
               />
               {/* Description */}
-              <span className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px]'>
+              <span
+                className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px]'
+                data-aos='zoom-in'
+              >
                 {exhibition && (
                   <StructuredText data={exhibition.explanationDescription} />
                 )}
@@ -187,6 +194,7 @@ const ExhibitionPage = async () => {
             <iframe
               className='h-full w-full border-0'
               src={exhibition.embedLocationUrl}
+              data-aos='flip-right'
             ></iframe>
           </div>
         )}
@@ -237,7 +245,11 @@ const ExhibitionPage = async () => {
             {exhibition.guideTitle}
           </h2>
           {/* Description */}
-          <span className='text-white text-sm lg:text-lg font-poppins font-medium'>
+          <span
+            className='text-white text-sm lg:text-lg font-poppins font-medium'
+            data-aos='zoom-out-down'
+            data-aos-duration='750'
+          >
             <StructuredText data={exhibition.guideDescription} />
           </span>
         </div>
