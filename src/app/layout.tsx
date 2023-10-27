@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/next-script-for-ga */
 import './globals.css';
 
-import { Partytown } from '@builder.io/partytown/react';
 import { type Metadata as MetadataType } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 import Script from 'next/script';
@@ -37,7 +36,6 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
       <body suppressHydrationWarning>{children}</body>
-      <Partytown debug={true} forward={['dataLayer.push']} />
       <Script
         async
         src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
@@ -45,7 +43,6 @@ export default function RootLayout({
       />
       <Script
         id='google-analytics'
-        type='text/partytown'
         dangerouslySetInnerHTML={{
           __html: ` window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
@@ -56,7 +53,6 @@ export default function RootLayout({
       />
       <Script
         id='hotjar'
-        type='text/partytown'
         dangerouslySetInnerHTML={{
           __html: `(function(h,o,t,j,a,r){
           h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
