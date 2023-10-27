@@ -1,9 +1,9 @@
+/* eslint-disable @next/next/next-script-for-ga */
 import './globals.css';
 
 import { Partytown } from '@builder.io/partytown/react';
-import { type Metadata as MetadataType } from 'next';
+import { Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
-import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -35,15 +35,13 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body suppressHydrationWarning>{children}</body>
       <Partytown debug={true} forward={['dataLayer.push']} />
-      <Script
+      <script
         async
         src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
         type='text/partytown'
       />
-      <Script
-        id='google-analytics'
+      <script
         type='text/partytown'
         dangerouslySetInnerHTML={{
           __html: ` window.dataLayer = window.dataLayer || [];
@@ -53,41 +51,32 @@ export default function RootLayout({
               gtag('config', 'G-YQC27F86L7');`,
         }}
       />
-      <Script
-        id='hotjar'
-        type='text/partytown'
-        dangerouslySetInnerHTML={{
-          __html: `(function(h,o,t,j,a,r){
-          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-          h._hjSettings={hjid:3712665,hjsv:6};
-          a=o.getElementsByTagName('head')[0];
-          r=o.createElement('script');r.async=1;
-          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-          a.appendChild(r);
-        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
-        }}
-      />
+      <body suppressHydrationWarning>
+        <>{children}</>
+      </body>
     </html>
   );
 }
-export const metadata: MetadataType = {
-  title: 'Coming Soon | Sandbox IEEE ITB',
+
+export const metadata: Metadata = {
+  title: 'Sandbox IEEE ITB',
   description:
     'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox ITB',
     'IEEE ITB',
     'ITB',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   alternates: {
     canonical: '/',
     languages: {
