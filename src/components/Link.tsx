@@ -40,13 +40,18 @@ const CustomLink = ({
       arrow: '#AB814E',
     },
   };
+  const ariaLabel = url
+    ? url.replace(/\/|#/g, '').charAt(0).toUpperCase() +
+      url.replace(/\/|#/g, '').slice(1) +
+      'Link'
+    : 'Link';
 
   //green, 100%
   return (
     url && (
       <Link
         href={url}
-        aria-label={url.replace(/\/|#/g, '')}
+        aria-label={ariaLabel}
         className={`${
           isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[200px]'
         } text-sm lg:text-base disabled:bg-[#D7D2D0] disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
