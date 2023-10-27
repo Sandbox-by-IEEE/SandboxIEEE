@@ -39,7 +39,6 @@ export default function RootLayout({
       <Script
         async
         src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
-        type='text/partytown'
       />
       <Script
         id='google-analytics'
