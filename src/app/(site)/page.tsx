@@ -5,6 +5,7 @@ import { StructuredText } from 'react-datocms/structured-text';
 import BackgroundCarousel from '@/components/background-carousel';
 import { FAQ } from '@/components/FAQ';
 import GradientBox from '@/components/GradientBox';
+import YoutubeIframe from '@/components/iframe-yt';
 import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
@@ -167,19 +168,10 @@ export default async function Home() {
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16] flex flex-col items-center space-y-12'>
         <TitleSection>{homepage.trailerSectionTitle}</TitleSection>
         <div
-          className='h-fit w-fit rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'
+          className='relative h-[250px] md:h-[300px] w-full max-w-[400px] lg:h-[20vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[500px] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'
           data-aos='zoom-out'
         >
-          <iframe
-            loading='lazy'
-            width='500'
-            height='500'
-            src={`https://www.youtube.com/embed/${homepage.embedYoutubeId}`}
-            className='h-[300px] w-full max-w-[400px] lg:h-[20vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[500px]'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-            allowFullScreen
-            title={homepage.trailerSectionTitle}
-          />
+          <YoutubeIframe youtubeId={homepage.embedYoutubeId} />
         </div>
         <div className='flex gap-4 lg:gap-8 flex-col sm:flex-row justify-center w-full items-stretch max-w-[200px] sm:max-w-[380px] lg:w-[28vw] lg:max-w-[580px]'>
           <div data-aos='zoom-in'>
