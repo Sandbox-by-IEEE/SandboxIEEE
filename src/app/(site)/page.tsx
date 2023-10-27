@@ -130,7 +130,7 @@ export default async function Home() {
           </h2>
           <TitleSection>{homepage.tagline}</TitleSection>
           <div className='animate-blink duration-500 transition-all'>
-            <CustomLink color='green' url='#sandbox'>
+            <CustomLink color='green' url={'#' + homepage.textButtonSeeMore}>
               {homepage.textButtonSeeMore}
             </CustomLink>
           </div>
@@ -193,7 +193,7 @@ export default async function Home() {
 
       {/* About Sandbox */}
       <section
-        id='sandbox'
+        id={homepage.textButtonSeeMore}
         className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex justify-center items-center'
       >
         <GradientBox

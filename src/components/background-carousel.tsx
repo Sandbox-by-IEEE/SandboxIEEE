@@ -23,7 +23,7 @@ export default function BackgroundCarousel({
     }, 5000); // setiap 5 detik
 
     return () => clearInterval(interval); // bersihkan interval ketika komponen diunmount
-  }, [currentIndex]);
+  }, [currentIndex, images.length]);
 
   return (
     <div className='bg-[#808080] bg-opacity-70'>
