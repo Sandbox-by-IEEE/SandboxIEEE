@@ -39,22 +39,20 @@ export default function RootLayout({
       <Script
         async
         src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
-        strategy='worker'
       />
       <Script
         id='google-analytics'
-        strategy='worker'
         dangerouslySetInnerHTML={{
-          __html: ` window.dataLayer = window.dataLayer || [];
+          __html: `window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-            
-              gtag('config', 'G-YQC27F86L7');`,
+          gtag('js', new Date());
+        
+          gtag('config', 'G-YQC27F86L7');`,
         }}
       />
+      {/* <!-- Hotjar Tracking Code for Sandbox IEEE ITB --> */}
       <Script
         id='hotjar'
-        strategy='worker'
         dangerouslySetInnerHTML={{
           __html: `(function(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
