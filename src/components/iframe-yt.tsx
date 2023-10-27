@@ -44,6 +44,7 @@ const YoutubeIframe = ({ youtubeId }) => {
           className=' h-[250px] md:h-[300px] object-contain w-full max-w-[400px] lg:h-[20vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[500px]'
         />
         <button
+          aria-label='Youtube Button'
           className='youtube__button'
           data-youtube-button={`https://www.youtube.com/embed/${youtubeId}`}
         ></button>
@@ -97,15 +98,13 @@ const YoutubeIframe = ({ youtubeId }) => {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          background: url(https://www.youtube.com/yt/about/media/images/brand-resources/icons/YouTube-icon_dark.svg)
-            no-repeat center center;
-          background-size: 10%;
+          background: url(/youtube.svg) no-repeat center center;
+          background-size: 14%;
         }
 
         .youtube__button:hover:before {
-          background: url(https://youtube.com/yt/about/media/images/brand-resources/icons/YouTube-icon-full_color.svg)
-            no-repeat center center;
-          background-size: 10%;
+          background: url(/youtube.svg) no-repeat center center;
+          background-size: 14%;
         }
       `}</style>
     </div>
