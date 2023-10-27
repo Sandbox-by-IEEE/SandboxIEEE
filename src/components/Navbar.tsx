@@ -81,7 +81,6 @@ const MENU: PairDrawerButton[] = [
     route: '/past-events',
   },
   { text: 'CONTACT US', route: '/contact-us' },
-  { text: 'MERCHANDISE', route: '/merchandise' },
   {
     text: 'SPONSORSHIPS',
     route: '/sponsorships',
@@ -202,10 +201,7 @@ function NavBarLarge({ session }: { session: Session | null }) {
           <Image src='/comet.svg' alt='commet' fill />
         </div>
 
-        <div
-          content=''
-          className='bg-green-gradient w-full h-24 flex justify-center items-center relative'
-        >
+        <div className='bg-green-gradient w-full h-24 flex justify-center items-center relative'>
           <div className='flex flex-row items-center justify-between w-full px-10 2xl:px-20'>
             <button className='aspect-square h-20 flex flex-row items-center justify-center z-20'>
               <SandboxLogo />

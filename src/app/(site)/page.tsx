@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
+import BackgroundCarousel from '@/components/background-carousel';
 import { FAQ } from '@/components/FAQ';
 import GradientBox from '@/components/GradientBox';
 import CustomLink from '@/components/Link';
@@ -107,15 +108,7 @@ export default async function Home() {
   return (
     <main className='flex min-h-screen w-full flex-col font-museo-muderno'>
       <section className='relative w-full h-fit bg-green-dark-green'>
-        <Image
-          src={homepage.background[2].url}
-          width={homepage.background[2].width}
-          height={homepage.background[2].height}
-          alt={homepage.background[2].title}
-          priority
-          className='w-full object-cover h-[771px] max-h-screen object-center'
-          sizes='(max-width: 640px) 100vw, 100vw'
-        />
+        <BackgroundCarousel images={homepage.background} />
         {/* Text Content on background */}
         <div
           className='absolute top-1/2 p-24 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'
@@ -135,9 +128,11 @@ export default async function Home() {
             {homepage.titleHomepage}
           </h2>
           <TitleSection>{homepage.tagline}</TitleSection>
-          <CustomLink color='green' url='#sandbox'>
-            {homepage.textButtonSeeMore}
-          </CustomLink>
+          <div className='animate-blink duration-500 transition-all'>
+            <CustomLink color='green' url='#sandbox'>
+              {homepage.textButtonSeeMore}
+            </CustomLink>
+          </div>
         </div>
       </section>
 
@@ -153,12 +148,16 @@ export default async function Home() {
               <Countdown targetDate={new Date(homepage.targetDate)} />
             </div>
             <div className='flex gap-4 lg:gap-6'>
-              <CustomLink color='gold' url={homepage.linkButtonOne}>
-                {homepage.buttonTextOne}
-              </CustomLink>
-              <CustomLink color='trans-orange' url={homepage.linkButtonTwo}>
-                {homepage.buttonTextTwo}
-              </CustomLink>
+              <div data-aos='zoom-in'>
+                <CustomLink color='gold' url={homepage.linkButtonOne}>
+                  {homepage.buttonTextOne}
+                </CustomLink>
+              </div>
+              <div data-aos='zoom-in'>
+                <CustomLink color='trans-orange' url={homepage.linkButtonTwo}>
+                  {homepage.buttonTextTwo}
+                </CustomLink>
+              </div>
             </div>
           </div>
         </div>
@@ -182,16 +181,20 @@ export default async function Home() {
           /> */}
         </div>
         <div className='flex gap-4 lg:gap-8 flex-col sm:flex-row justify-center w-full items-stretch max-w-[200px] sm:max-w-[380px] lg:w-[28vw] lg:max-w-[580px]'>
-          <CustomLink
-            color='gold'
-            url='https://www.instagram.com/thesandbox.itb/'
-            isFullWidth
-          >
-            {homepage.buttonTextGetKnowUs}
-          </CustomLink>
-          <CustomLink color='trans-orange' url='/contact-us' isFullWidth>
-            {homepage.buttonTextPartnerUs}
-          </CustomLink>
+          <div data-aos='zoom-in'>
+            <CustomLink
+              color='gold'
+              url='https://www.instagram.com/thesandbox.itb/'
+              isFullWidth
+            >
+              {homepage.buttonTextGetKnowUs}
+            </CustomLink>
+          </div>
+          <div data-aos='zoom-in'>
+            <CustomLink color='trans-orange' url='/contact-us' isFullWidth>
+              {homepage.buttonTextPartnerUs}
+            </CustomLink>
+          </div>
         </div>
       </section>
 
@@ -227,10 +230,11 @@ export default async function Home() {
           <h4 className='text-[#FFE1B9] sm:px-20' data-aos='zoom-in-up'>
             <StructuredText data={homepage.explanationDescription} />
           </h4>
-
-          <CustomLink color='gold' url='#events'>
-            {homepage.buttonTextPastEvents}
-          </CustomLink>
+          <div data-aos='zoom-in'>
+            <CustomLink color='gold' url='#events'>
+              {homepage.buttonTextPastEvents}
+            </CustomLink>
+          </div>
         </GradientBox>
       </section>
 
@@ -303,19 +307,28 @@ export default async function Home() {
                 {/* Button */}
                 <div className='flex flex-wrap items-center justify-center gap-4 h-full py-5'>
                   {event.buttonRegister && (
-                    <CustomLink color='gold' url='/'>
-                      Register
-                    </CustomLink>
+                    <div data-aos='zoom-in'>
+                      <CustomLink
+                        color='gold'
+                        url={`/events/${event.eventName
+                          .toLowerCase()
+                          .replace(/\s+/g, '-')}/registration`}
+                      >
+                        Register
+                      </CustomLink>
+                    </div>
                   )}
                   {event.buttonSeeMore && (
-                    <CustomLink
-                      color='trans-orange'
-                      url={`/events/${event.eventName
-                        .replace(/\s+/g, '')
-                        .toLowerCase()}`}
-                    >
-                      See More
-                    </CustomLink>
+                    <div data-aos='zoom-in'>
+                      <CustomLink
+                        color='trans-orange'
+                        url={`/events/${event.eventName
+                          .toLowerCase()
+                          .replace(/\s+/g, '-')}`}
+                      >
+                        Event Details
+                      </CustomLink>
+                    </div>
                   )}
                 </div>
               </div>
@@ -374,9 +387,11 @@ export default async function Home() {
               />
             ))}
           </div>
-          <CustomLink color='gold' url='/contact-us'>
-            {homepage.buttonTextPartnerUs}
-          </CustomLink>
+          <div data-aos='zoom-in'>
+            <CustomLink color='gold' url='/contact-us'>
+              {homepage.buttonTextPartnerUs}
+            </CustomLink>
+          </div>
         </GradientBox>
       </section>
     </main>

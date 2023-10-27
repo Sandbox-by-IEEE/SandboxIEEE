@@ -3,7 +3,6 @@ import React from 'react';
 
 import Copyright from './icons/copyright';
 import Copyrightsm from './icons/copyrightsm';
-import Instagram from './icons/instagram';
 import Linkedin from './icons/linkedin';
 import Logo from './icons/logo';
 import Logosm from './icons/logosm';
@@ -29,7 +28,6 @@ const linksData = [
     {
       header: 'Home',
       links: [
-        { href: '/merchandise', text: 'Merchandise' },
         { href: '/past-events', text: 'Past Events' },
         { href: '/our-mentors', text: 'Our Mentors' },
       ],
@@ -40,7 +38,7 @@ const linksData = [
         { href: '/events/ptc', text: 'PTC' },
         { href: '/events/tpc', text: 'TPC' },
         { href: '/events/exhibition', text: 'Exhibition' },
-        { href: '/events/grandseminar', text: 'Grand Seminar' },
+        { href: '/events/grand-seminar', text: 'Grand Seminar' },
       ],
     },
   ],
@@ -113,7 +111,7 @@ const Footer = () => (
           <Copyrightsm size={25} />
         </div>
         <div className='flex gap-2 lg:gap-4'>
-          <SocialIcon LinkComponent={Instagram} href='' size={25} />
+          {/* <SocialIcon LinkComponent={Instagram} href='' size={25} /> */}
           <SocialIcon
             LinkComponent={Linkedin}
             href='https://www.instagram.com/thesandbox.itb/'
