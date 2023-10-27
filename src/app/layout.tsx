@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/next-script-for-ga */
 import './globals.css';
 
-import { Partytown } from '@builder.io/partytown/react';
 import { type Metadata as MetadataType } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
+import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,30 +32,40 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang='id, en'
+      lang='en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body suppressHydrationWarning>
-        <>
-          <Partytown debug={true} forward={['dataLayer.push']} />
-          <script
-            async
-            src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
-            type='text/partytown'
-          />
-          <script
-            type='text/partytown'
-            dangerouslySetInnerHTML={{
-              __html: ` window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
+      <body suppressHydrationWarning>{children}</body>
+      <Script
+        async
+        src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
+        strategy='worker'
+      />
+      <Script
+        id='google-analytics'
+        strategy='worker'
+        dangerouslySetInnerHTML={{
+          __html: ` window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
             
               gtag('config', 'G-YQC27F86L7');`,
-            }}
-          />
-          {children}
-        </>
-      </body>
+        }}
+      />
+      <Script
+        id='hotjar'
+        strategy='worker'
+        dangerouslySetInnerHTML={{
+          __html: `(function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:3712665,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
+        }}
+      />
     </html>
   );
 }
