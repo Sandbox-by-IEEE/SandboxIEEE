@@ -10,6 +10,8 @@ import {
 } from '@/components/Forms/inputData-type';
 import { callToast } from '@/components/Toast';
 
+const inputDataHistoryKey = 'tpc-regist-history';
+
 export default function TPCRegist() {
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
@@ -95,7 +97,10 @@ export default function TPCRegist() {
 
     if (name === 'memberCount') {
       setFillMemberIndex(0);
-      if (newInputData.memberCount !== inputData.memberCount) {
+      if (
+        newInputData.memberCount &&
+        newInputData.memberCount !== inputData.memberCount
+      ) {
         if (newInputData.memberCount <= 0) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
@@ -111,52 +116,54 @@ export default function TPCRegist() {
           });
         }
       }
-      const newMembers: MemberInfo[] = [];
+      if (newInputData.memberCount) {
+        const newMembers: MemberInfo[] = [];
 
-      for (let i = 0; i < newInputData.memberCount; i++) {
-        if (newInputData.members[i]) {
-          newMembers.push(newInputData.members[i]);
-        } else {
-          newMembers.push({
-            name: '',
-            email: '',
-            institution: '',
-            phoneNumber: '',
-            age: 0,
-            twibbonProof: '',
-            twibbonProofName: '',
-            studentProof: '',
-            studentProofName: '',
+        for (let i = 0; i < newInputData.memberCount; i++) {
+          if (newInputData.members[i]) {
+            newMembers.push(newInputData.members[i]);
+          } else {
+            newMembers.push({
+              name: '',
+              email: '',
+              institution: '',
+              phoneNumber: '',
+              age: 0,
+              twibbonProof: '',
+              twibbonProofName: '',
+              studentProof: '',
+              studentProofName: '',
+            });
+          }
+        }
+        const newIsWarnedInputData = { ...isWarnedInputData };
+        while (newInputData.memberCount > newIsWarnedInputData.members.length) {
+          newIsWarnedInputData.members.push({
+            name: false,
+            email: false,
+            institution: false,
+            phoneNumber: false,
+            age: false,
+            twibbonProof: false,
+            twibbonProofName: false,
+            studentProof: false,
+            studentProofName: false,
           });
         }
-      }
-      const newIsWarnedInputData = { ...isWarnedInputData };
-      while (newInputData.memberCount > newIsWarnedInputData.members.length) {
-        newIsWarnedInputData.members.push({
-          name: false,
-          email: false,
-          institution: false,
-          phoneNumber: false,
-          age: false,
-          twibbonProof: false,
-          twibbonProofName: false,
-          studentProof: false,
-          studentProofName: false,
-        });
-      }
-      while (newInputData.memberCount < newIsWarnedInputData.members.length) {
-        newIsWarnedInputData.members.pop();
-      }
-      if (isWarnedInputData !== newIsWarnedInputData) {
-        setIsWarnedInputData(newIsWarnedInputData);
-      }
+        while (newInputData.memberCount < newIsWarnedInputData.members.length) {
+          newIsWarnedInputData.members.pop();
+        }
+        if (isWarnedInputData !== newIsWarnedInputData) {
+          setIsWarnedInputData(newIsWarnedInputData);
+        }
 
-      newInputData.members = newMembers;
+        newInputData.members = newMembers;
+      }
     }
 
     if (newInputData !== inputData) {
       setInputData(newInputData);
-      localStorage.setItem('inputData', JSON.stringify(newInputData));
+      localStorage.setItem(inputDataHistoryKey, JSON.stringify(newInputData));
     }
   };
 
@@ -243,13 +250,13 @@ export default function TPCRegist() {
       newInputData.paymentProofUrl = filesForm2;
 
       setInputData(newInputData);
-      localStorage.setItem('inputData', JSON.stringify(newInputData));
+      localStorage.setItem(inputDataHistoryKey, JSON.stringify(newInputData));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filesForm2]);
 
   useEffect(() => {
-    const memoryInputData = localStorage.getItem('inputData');
+    const memoryInputData = localStorage.getItem(inputDataHistoryKey);
     if (memoryInputData) {
       try {
         const historyInputData: InputData = JSON.parse(memoryInputData);
@@ -327,7 +334,7 @@ export default function TPCRegist() {
           }
 
           localStorage.setItem(
-            'inputData',
+            inputDataHistoryKey,
             JSON.stringify({
               teamName,
               memberCount,
@@ -337,13 +344,14 @@ export default function TPCRegist() {
             }),
           );
         } else {
-          localStorage.removeItem('inputData');
+          localStorage.removeItem(inputDataHistoryKey);
         }
       } catch (error) {
-        localStorage.removeItem('inputData');
+        localStorage.removeItem(inputDataHistoryKey);
       }
     }
-  }, [isWarnedInputData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
