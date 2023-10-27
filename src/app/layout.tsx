@@ -35,26 +35,24 @@ export default function RootLayout({
       lang='id, en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
-      <body suppressHydrationWarning>
-        <>
-          <Partytown debug={true} forward={['dataLayer.push']} />
-          <script
-            async
-            src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
-            type='text/partytown'
-          />
-          <script
-            type='text/partytown'
-            dangerouslySetInnerHTML={{
-              __html: ` window.dataLayer = window.dataLayer || [];
+      <Partytown debug={true} forward={['dataLayer.push']} />
+      <script
+        async
+        src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
+        type='text/partytown'
+      />
+      <script
+        type='text/partytown'
+        dangerouslySetInnerHTML={{
+          __html: ` window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
             
               gtag('config', 'G-YQC27F86L7');`,
-            }}
-          />
-          {children}
-        </>
+        }}
+      />
+      <body suppressHydrationWarning>
+        <>{children}</>
       </body>
     </html>
   );
