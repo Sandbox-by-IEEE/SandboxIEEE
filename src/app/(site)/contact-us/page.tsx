@@ -39,6 +39,7 @@ const ContactUs = async () => {
         alt='Blink'
         priority
         className='absolute w-[190px] h-[120px] xl:w-[275px] xl:h-[246px] -top-4 xl:-top-10 -left-10 -z-1 opacity-50'
+        data-aos='zoom-in'
       />
       <Image
         src='/contact-us/mini-sparkle.svg'
@@ -46,6 +47,7 @@ const ContactUs = async () => {
         height={40}
         alt='mini-sparkle'
         className='absolute w-[20px] aspect-square xl:w-[40px] bottom-[200px] right-[50px] xl:right-[200px] -z-5'
+        data-aos='fade-in'
       />
       <Image
         src='/contact-us/sparkle.svg'
@@ -53,6 +55,7 @@ const ContactUs = async () => {
         height={55}
         alt='sparkle'
         className='absolute w-[30px] aspect-square xl:w-[55px] bottom-[150px] right-[60px] xl:right-[240px] -z-5'
+        data-aos='fade-in'
       />
       <Image
         src='/contact-us/mascot-top.png'
@@ -60,6 +63,7 @@ const ContactUs = async () => {
         height={174}
         alt='mascot-top'
         className='absolute w-[70px] h-[100px] xl:w-[112px] xl:h-[164px] top-8 xl:top-[50px] right-10 xl:right-[210px] -z-5'
+        data-aos='fade-down-left'
       />
       <Image
         src='/contact-us/mascot-bottom.png'
@@ -67,20 +71,30 @@ const ContactUs = async () => {
         height={232}
         alt='mascot-bottom'
         className='absolute w-[90px] h-[124px] xl:w-[125px] xl:h-[182px] bottom-[50px] left-4 xl:left-[150px] -z-5'
+        data-aos='fade-up-right'
       />
 
       {/* Title Page */}
-      <h1 className='relative z-5 text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'>
+      <h1
+        className='relative z-5 text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
+        data-aos='flip-up'
+      >
         {data.contactUsTitle}
       </h1>
       {/* Container details */}
       <div className='flex flex-col gap-10 lg:gap-14 items-center justify-center'>
         {/* Description */}
 
-        <h2 className='relative z-10 text-cream-secondary-light break-all font-poppins text-justify text-[15px] lg:text-lg lg:px-10 xl:px-40'>
+        <h2
+          className='relative z-10 text-cream-secondary-light break-all font-poppins text-justify text-[15px] lg:text-lg lg:px-10 xl:px-40'
+          data-aos='flip-down'
+        >
           <StructuredText data={data.description} />
         </h2>
-        <div className='bg-gradient-brown p-1 rounded-3xl w-full lg:max-w-[750px]'>
+        <div
+          className='bg-gradient-brown p-1 rounded-3xl w-full lg:max-w-[750px]'
+          data-aos='flip-up'
+        >
           <div
             className='bg-gradient-to-bl w-full from-[#081B0E] to-[#0e371d] rounded-3xl flex flex-col items-center justify-center py-8 lg:py-10 px-8 lg:px-16 gap-8 lg:gap-10'
             style={{
