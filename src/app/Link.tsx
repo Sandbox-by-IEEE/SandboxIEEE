@@ -53,7 +53,7 @@ const CustomLink = ({
           colorEffect[color].main
         }`}
       >
-        <p className='flex gap-3 w-full items-center justify-center font-poppins font-bold'>
+        <p className='flex gap-3 w-full text-center items-center justify-center font-poppins font-bold'>
           {children}
           {isIcon && <RightArrow arrowColor={`${colorEffect[color].arrow}`} />}
         </p>
