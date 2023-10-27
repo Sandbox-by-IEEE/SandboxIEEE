@@ -41,6 +41,7 @@ const YoutubeIframe = ({ youtubeId }) => {
           alt='Video Thumbnail'
           width={600}
           height={500}
+          sizes='(max-width: 1024px) 100%, 30vw'
           className=' h-[250px] md:h-[300px] object-contain w-full max-w-[400px] lg:h-[20vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[500px]'
         />
         <button
