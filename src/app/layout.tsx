@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/next-script-for-ga */
 import './globals.css';
 
 import { Partytown } from '@builder.io/partytown/react';
