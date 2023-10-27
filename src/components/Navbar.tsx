@@ -203,7 +203,10 @@ function NavBarLarge({ session }: { session: Session | null }) {
 
         <div className='bg-green-gradient w-full h-24 flex justify-center items-center relative'>
           <div className='flex flex-row items-center justify-between w-full px-10 2xl:px-20'>
-            <button className='aspect-square h-20 flex flex-row items-center justify-center z-20'>
+            <button
+              className='aspect-square h-20 flex flex-row items-center justify-center z-20'
+              aria-label='Home button'
+            >
               <SandboxLogo />
             </button>
 
@@ -291,6 +294,7 @@ function NavBarSmall({ session }: { session: Session | null }) {
               <SandboxLogo />
               <button
                 className='h-14 aspect-square flex flex-row justify-center items-center'
+                aria-label='Menu Button'
                 onClick={toggleDrawer}
               >
                 <HamburgerIcon height={35} width={50} className='fill-white' />
@@ -329,6 +333,7 @@ function NavBarSmall({ session }: { session: Session | null }) {
             <Image src='/bottom-drawer.svg' alt='.' fill />
           </div>
           <button
+            aria-label='Close Button'
             className={`aspect-square h-8 top-10 right-10 z-[100] absolute text-white transition-all duration-300 ${
               isOpen
                 ? 'opacity-100 pointer-events-auto rotate-[180deg]'
