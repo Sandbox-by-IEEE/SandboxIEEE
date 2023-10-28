@@ -3,7 +3,6 @@ import 'aos/dist/aos.css';
 
 import { type Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
-import Script from 'next/script';
 
 import { ModalContextProvider } from '@/components/Modal/ModalContext';
 import Toast from '@/components/Toast';
@@ -47,7 +46,7 @@ export default function RootLayout({
           <ModalContextProvider>{children}</ModalContextProvider>
         </body>
       </AuthProvider>
-      <Script
+      {/* <Script
         async
         src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
       />
@@ -60,9 +59,9 @@ export default function RootLayout({
         
           gtag('config', 'G-YQC27F86L7');`,
         }}
-      />
+      /> */}
       {/* <!-- Hotjar Tracking Code for Sandbox IEEE ITB --> */}
-      <Script
+      {/* <Script
         id='hotjar'
         dangerouslySetInnerHTML={{
           __html: `(function(h,o,t,j,a,r){
@@ -74,7 +73,7 @@ export default function RootLayout({
             a.appendChild(r);
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
         }}
-      />
+      /> */}
     </html>
   );
 }
