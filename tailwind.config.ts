@@ -89,10 +89,10 @@ const config: Config = {
           },
         },
         blink: {
-          '0%': { opacity: '0' },
-          '15%': { opacity: '1' },
-          '80%': { opacity: '1' },
-          '100%': { opacity: '0' },
+          '0%': {
+            opacity: '0',
+          },
+          '100%': { opacity: '1' },
         },
         shake: {
           '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },

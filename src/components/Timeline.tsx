@@ -46,13 +46,13 @@ const Timeline = ({ items }: { items: TimelineItem[] }) => {
             aos={i % 2 === 0 ? 'fade-right' : 'fade-left'}
           >
             <div className='flex flex-col w-fit mx-auto pl-2 sm:pr-8'>
-              <span
+              <h4
                 className='text-left font-bold text-lg sm:text-2xl text-[#FFE1B9]'
                 data-aos='zoom-in-down'
                 data-aos-duration='1000'
               >
                 {formatDate(new Date(el.date))}
-              </span>
+              </h4>
               <span
                 data-aos='zoom-in-up'
                 data-aos-duration='1000'

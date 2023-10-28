@@ -49,49 +49,44 @@ type DokumPastEventsPage = {
   }[];
 };
 
-function CarouselButtons({ numActive, setNumActive, capacity }) {
-  return (
-    <div className='w-[60%] lg:w-[9%] relative flex flex-row justify-between items-center'>
-      {Array.from(Array(capacity), (_, i) => (
-        <div key={i} className='relative rounded-full'>
-          <button
-            className='rounded-full aspect-square w-4  absolute'
-            onClick={() => setNumActive(i + 1)}
-          >
-            <Image
-              src={`${
-                i + 1 != numActive ? '/lightcircle.svg' : '/darkcircle.svg'
-              }`}
-              alt=''
-              fill
-            />
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DecoratedTitle({
-  title,
-  colorClass,
-}: {
-  title: string;
-  colorClass?: string;
-}) {
+function DecoratedTitle({ title }: { title: string }) {
   return (
     <div className='relative text-4xl font-extrabold text-[#9a7037] px-4 py-2 inline-block'>
       <div className='aspect-square w-4 md:w-8 absolute z-10 top-[-5px] left-[-5px] md:top-[-20px] md:left-[-30px] rotate-[23deg]'>
-        <Image src='/sparkle.svg' alt='' fill></Image>
+        <Image
+          src='/sparkle.svg'
+          alt=''
+          width={16}
+          height={16}
+          className='w-4 md:w-8'
+        ></Image>
       </div>
-      <div className='aspect-square w-4 md:w-[25px] absolute z-10 bottom-[-5px] left-[-5px] md:bottom-[-10px] md:left-[-30px] rotate-[43deg]'>
-        <Image src='/sparkle.svg' alt='' fill></Image>
+      <div className='aspect-square  absolute z-10 bottom-[-5px] left-[-5px] md:bottom-[-10px] md:left-[-30px] rotate-[43deg]'>
+        <Image
+          src='/sparkle.svg'
+          alt=''
+          width={16}
+          height={16}
+          className='w-4 md:w-8'
+        ></Image>
       </div>
       <div className='aspect-square w-4 md:w-[25px] absolute z-10 top-[-5px] right-[-5px] md:top-[-20px] w-[32px] md:right-[-20px] rotate-[23deg]'>
-        <Image src='/sparkle.svg' alt='' fill></Image>
+        <Image
+          src='/sparkle.svg'
+          alt=''
+          width={16}
+          height={16}
+          className='w-4 md:w-8'
+        ></Image>
       </div>
       <div className='aspect-square w-4 md:w-8 absolute z-10 bottom-[-5px] right-[-5px] md:bottom-[-10px] md:right-[-30px] rotate-[43deg]'>
-        <Image src='/sparkle.svg' alt='' fill></Image>
+        <Image
+          src='/sparkle.svg'
+          alt=''
+          width={16}
+          height={16}
+          className='w-4 md:w-8'
+        ></Image>
       </div>
       <p className='absolute top-0 left-0 text-[30px] md:text-[36px] text-[#FFE1B9] backdrop-blur-sm bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9] inline-block text-transparent bg-clip-text px-4 py-2'>
         {title}
@@ -130,7 +125,6 @@ export default async function PastEvent() {
     <>
       <main className='flex h-0 min-h-screen w-0 min-w-[100vw] bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex-col overflow-y-scroll font-museo-muderno overflow-x-hidden'>
         {/*OUR PAST EVENTS TITLE*/}
-
         <section
           className='w-full bg-gradient-to-b from-[#0b2712] to-[#123b1a] px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20 relative'
           style={{ background: 'rgba(7, 29, 16)' }}
@@ -139,10 +133,7 @@ export default async function PastEvent() {
             <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
               <Judule>
                 <div className='w-full flex flex-row items-center justify-center'>
-                  <DecoratedTitle
-                    title='Our past Events'
-                    colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-                  />
+                  <DecoratedTitle title='Our past Events' />
                 </div>
               </Judule>
             </div>
@@ -152,25 +143,48 @@ export default async function PastEvent() {
         {/*Mile Zero Project Section */}
         <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 relative'>
           <div className='aspect-square h-72 absolute z-10 left-0 top-[100px]'>
-            <Image src='/comet.svg' alt='commet' fill />
+            <Image
+              src='/comet.svg'
+              alt='commet'
+              width={300}
+              height={300}
+              className='h-72'
+            />
           </div>
 
           <div className='aspect-square h-72 absolute z-10 top-[500px] right-0 rotate-[180deg]'>
-            <Image src='/comet.svg' alt='commet' fill />
+            <Image
+              src='/comet.svg'
+              alt='commet'
+              width={300}
+              height={300}
+              className='h-72'
+            />
           </div>
 
           <div className='aspect-square h-36 absolute z-10 top-[750px] left-[-10px] rotate-[180deg]'>
-            <Image src='/StarDecoration2.svg' alt='commet' fill />
+            <Image
+              src='/StarDecoration2.svg'
+              alt='commet'
+              width={144}
+              height={144}
+              className='h-36'
+            />
           </div>
 
           <Judule>Mile Zero Project</Judule>
 
           <div className=' flex flex-col lg:flex-row gap-12 justify-center items-center'>
-            <div className='min-w-[300px] md:min-w-[450px] md:max-w-[450px] aspect-[4/3] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'>
+            <div
+              data-aos='fade-up'
+              className='min-w-[300px] md:min-w-[450px] md:max-w-[450px] aspect-[4/3] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'
+            >
               <Image
                 src={allPastEventsPages[1].mzpMainImage.url}
                 alt={allPastEventsPages[1].mzpMainImage.alt ?? ''}
-                fill
+                width={300}
+                height={300}
+                className='min-w-[300px] md:min-w-[450px] md:max-w-[450px] aspect-[4/3]'
                 objectFit='cover'
               />
             </div>
@@ -187,14 +201,16 @@ export default async function PastEvent() {
 
         <section className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 relative'>
           <div className='aspect-square h-16 absolute z-10 top-[200px] right-[-10px] rotate-[180deg]'>
-            <Image src='/StarDecoration1.svg' alt='commet' fill />
+            <Image
+              src='/StarDecoration1.svg'
+              alt='commet'
+              width={64}
+              height={64}
+            />
           </div>
           <Judule>
             <div className='w-full flex flex-row items-center justify-center'>
-              <DecoratedTitle
-                title='IEEEngagement'
-                colorClass='bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'
-              />
+              <DecoratedTitle title='IEEEngagement' />
             </div>
           </Judule>
 
@@ -203,7 +219,9 @@ export default async function PastEvent() {
               <Image
                 src={allPastEventsPages[0].mzpMainImage.url}
                 alt={allPastEventsPages[0].mzpMainImage.alt ?? ''}
-                fill
+                width={300}
+                height={225}
+                className='min-w-[300px] md:min-w-[450px] md:max-w-[450px] aspect-[4/3]'
                 objectFit='cover'
               />
             </div>
