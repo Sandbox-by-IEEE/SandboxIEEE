@@ -19,6 +19,7 @@ const FormDetails = ({
   isWarnedInputData,
   setIsWarnedInputData,
   submissionText,
+  isDisabledNext,
 }: {
   inputData: InputData;
   setInputData: React.Dispatch<React.SetStateAction<InputData>>;
@@ -29,6 +30,7 @@ const FormDetails = ({
   isWarnedInputData: IsWarnedInputData;
   setIsWarnedInputData: React.Dispatch<React.SetStateAction<IsWarnedInputData>>;
   submissionText: string;
+  isDisabledNext?: boolean;
 }) => {
   type PropType =
     | 'teamName'
@@ -277,6 +279,7 @@ const FormDetails = ({
               color='gold'
               isFullWidth
               onClick={() => setFillMemberIndex(fillMemberIndex + 1)}
+              disabled={isDisabledNext}
             >
               <span className='w-fit min-w-fit max-w-fit whitespace-nowrap'>
                 Next (Data {'Member ' + (fillMemberIndex + 2)})
@@ -284,7 +287,7 @@ const FormDetails = ({
             </Button>
           </div>
         ) : (
-          <Button color='gold' type='submit'>
+          <Button color='gold' type='submit' disabled={isDisabledNext}>
             {submissionText}
           </Button>
         )}
