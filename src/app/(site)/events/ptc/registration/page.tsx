@@ -10,7 +10,7 @@ import {
 } from '@/components/Forms/inputData-type';
 import { callToast } from '@/components/Toast';
 
-const inputDataHistoryKey = 'tpc-regist-history';
+const inputDataHistoryKey = 'ptc-regist-history';
 
 export default function PTCRegist() {
   const [inputData, setInputData] = useState<InputData>({
@@ -54,6 +54,7 @@ export default function PTCRegist() {
     },
   );
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
+  const [isDisabledNext, setIsDisabledNext] = useState<boolean>(false);
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
   const handleChange = (e) => {
     const name = e.target.name;
@@ -97,18 +98,8 @@ export default function PTCRegist() {
 
     if (name === 'memberCount') {
       setFillMemberIndex(0);
-      if (
-        newInputData.memberCount &&
-        newInputData.memberCount !== inputData.memberCount
-      ) {
-        if (newInputData.memberCount <= 0) {
-          newInputData.memberCount = inputData.memberCount;
-          callToast({
-            status: 'error',
-            description: 'Member count must be 1 to 5',
-          });
-        }
-        if (newInputData.memberCount > 5) {
+      if (newInputData.memberCount) {
+        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
@@ -116,9 +107,19 @@ export default function PTCRegist() {
           });
         }
       }
+
+      if (
+        !newInputData.memberCount ||
+        newInputData.memberCount <= 0 ||
+        newInputData.memberCount > 5
+      ) {
+        setIsDisabledNext(true);
+      } else {
+        setIsDisabledNext(false);
+      }
+
       if (newInputData.memberCount) {
         const newMembers: MemberInfo[] = [];
-
         for (let i = 0; i < newInputData.memberCount; i++) {
           if (newInputData.members[i]) {
             newMembers.push(newInputData.members[i]);
@@ -136,6 +137,7 @@ export default function PTCRegist() {
             });
           }
         }
+
         const newIsWarnedInputData = { ...isWarnedInputData };
         while (newInputData.memberCount > newIsWarnedInputData.members.length) {
           newIsWarnedInputData.members.push({
@@ -366,6 +368,7 @@ export default function PTCRegist() {
           handleSubmitFormIdentity={handleSubmitFormIdentity}
           isWarnedInputData={isWarnedInputData}
           setIsWarnedInputData={setIsWarnedInputData}
+          isDisabledNext={isDisabledNext}
           submissionText='Submit'
         />
       </div>
