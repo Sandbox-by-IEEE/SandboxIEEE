@@ -8,15 +8,17 @@ import Dot from '@/components/icons/dot';
 import Next from '@/components/icons/mentors/next';
 import Prev from '@/components/icons/mentors/prev';
 import TitleSection from '@/components/TitleSection';
+import { Documentation } from '@/types/past-events';
 
-type GlassCarousel = {
+type DocumentationCarouselProps = {
   title: string;
-  photos: {
-    url: string;
-  }[];
+  photos: Documentation[];
 };
 
-const GlassCarousel: React.FC<GlassCarousel> = ({ title, photos }) => {
+const DocumentationCarousel: React.FC<DocumentationCarouselProps> = ({
+  title,
+  photos,
+}) => {
   // State to keep track of the current mentor index
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -71,14 +73,15 @@ const GlassCarousel: React.FC<GlassCarousel> = ({ title, photos }) => {
           >
             {/* Content */}
             <TitleSection>{title}</TitleSection>
-            <div className='aspect-[4/3] max-h-[500px] max-md:min-h-[200px] md:min-h-[500px] flex flex-col md:flex-row gap-10 lg:gap-20 relative justify-center items-center overflow-hidden rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'>
+            <div className=' aspect-[4/3] max-h-[500px] max-md:min-h-[200px] md:min-h-[500px] flex flex-col md:flex-row gap-10 lg:gap-20 relative justify-center items-center overflow-hidden rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'>
               <Image
+                key={photos[currentIndex].title}
                 src={photos[currentIndex].url}
-                width={666}
-                height={500}
-                className='aspect-[4/3] max-h-[500px] max-md:min-h-[200px] md:min-h-[500px]'
-                objectFit='cover'
-                alt=''
+                width={photos[currentIndex].width}
+                height={photos[currentIndex].height}
+                className='aspect-[4/3] max-h-[500px] animate-blink object-cover object-center max-md:min-h-[200px] md:min-h-[500px]'
+                alt={photos[currentIndex].title}
+                sizes=''
               />
             </div>
           </div>
@@ -111,4 +114,4 @@ const GlassCarousel: React.FC<GlassCarousel> = ({ title, photos }) => {
   );
 };
 
-export default GlassCarousel;
+export default DocumentationCarousel;
