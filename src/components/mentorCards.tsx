@@ -16,6 +16,7 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
           className={`w-[270px] sm:w-full lg:max-w-[1000px] flex bg-dark-green ${
             index % 2 == 1 ? 'sm:flex-row-reverse' : 'sm:flex-row'
           } h-fit rounded-3xl flex-col sm:flex-row shadow-[0px_0px_10px_5px_rgba(0,0,0,1)] shadow-[#8c6e47] overflow-hidden`}
+          data-aos={index % 2 === 1 ? 'fade-left' : 'fade-right'}
         >
           {/* Setting for div imageUrl and the text imageUrl */}
           <Image
@@ -28,7 +29,10 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
           {/* Text Content */}
           <div className={`flex flex-col flex-1 gap-5 p-5 lg:p-[25px]`}>
             {/* Identity Gradient Box*/}
-            <div className='bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
+            <div
+              data-aos={index % 2 === 1 ? 'fade-down-left' : 'fade-down-right'}
+              className='bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'
+            >
               <div className='bg-dark-green rounded-3xl m-[4px]'>
                 <div className='bg-gradient-to-br p-1 lg:p-2 from-[#84694875] via-white/5 to-[#84694875] rounded-3xl flex flex-col text-center items-center justify-center'>
                   {/* Name */}
@@ -54,10 +58,14 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
             {/* Children */}
             <div
               className={`flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide`}
+              data-aos={index % 2 === 1 ? 'zoom-in-left' : 'zoom-in-right'}
             >
               <StructuredText data={option.desc} />
             </div>
-            <div className='gap-2 flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide'>
+            <div
+              data-aos={'zoom-in'}
+              className='gap-2 flex items-center break-all text-justify text-cream-secondary-light font-poppins text-xs sm:text-sm lg:text-base tracking-wide'
+            >
               {option.linkedin && (
                 <>
                   <LinkedInIcon size={25} className='fill-[#FFE1B9]' />
