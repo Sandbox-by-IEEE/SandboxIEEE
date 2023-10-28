@@ -89,6 +89,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                 width={option.image.width}
                 height={option.image.height}
                 alt={option.image.title}
+                priority
               ></Image>
               {/* Content */}
               <div className='w-full absolute bottom-3 lg:bottom-8 flex items-center justify-center'>
@@ -123,25 +124,34 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
             </div>
           ))}
         </div>
-        <div
+        <button
           data-aos='flip-down'
           className='my-4 lg:my-10 relative z-[40] flex items-center justify-center'
         >
           <h3 className='hidden'>See more</h3>
           <CustomLink color='gold' url='#seemore'>
-            <>See More</>
+            <span>See More</span>
           </CustomLink>
-        </div>
+        </button>
         <div
           data-aos='flip-up'
           className='flex items-center relative z-[40] justify-center'
         >
-          <button className='custom-prev-button' onClick={handlePrevClick}>
+          <button
+            aria-label='previous'
+            className='custom-prev-button'
+            onClick={handlePrevClick}
+          >
             <Prev size={80} className='w-[70px] lg:w-[80px] aspect-square' />
           </button>
           <div className='flex items-center gap-2 lg:gap-5 justify-center'>
             {options.map((option, index) => (
-              <button key={index} onClick={() => setCurrentIndex(index)}>
+              <button
+                aria-label={'dot' + index}
+                className='custom-dot-button'
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+              >
                 <Dot
                   size={20}
                   className={`${
@@ -153,7 +163,11 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
               </button>
             ))}
           </div>
-          <button className='custom-next-button' onClick={handleNextClick}>
+          <button
+            aria-label='next'
+            className='custom-next-button'
+            onClick={handleNextClick}
+          >
             <Next size={80} className='w-[70px] lg:w-[80px] aspect-square' />
           </button>
         </div>
