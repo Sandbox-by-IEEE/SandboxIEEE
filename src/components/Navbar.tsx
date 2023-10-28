@@ -189,7 +189,7 @@ function NavBarLarge({ session }: { session: Session | null }) {
 
   return (
     <div
-      className={`sticky bg-green-gradient w-full top-[${navbarPos}px]`}
+      className={`sticky bg-green-gradient z-50 w-full top-[${navbarPos}px]`}
       style={{
         borderBottom: '6px solid transparent',
         borderImage: 'linear-gradient(180deg, #AB814E 0%, #FFE1B9 100%) 0.5',
