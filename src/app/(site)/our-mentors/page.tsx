@@ -75,7 +75,10 @@ const OurMentorsPage = async () => {
         </div>
         {/* h1 Title Page */}
         <section className='flex flex-col gap-5 lg:gap-10 w-full items-center justify-center px-8 sm:px-10 md:px-20 xl:px-32 2xl:px-40'>
-          <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
+          <div
+            data-aos='zoom-in'
+            className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+          >
             <div className='relative bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
               <Basket1
                 size={25}
@@ -114,6 +117,7 @@ const OurMentorsPage = async () => {
               <div
                 id='seemore'
                 className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'
+                data-aos='zoom-in'
               >
                 <h2
                   style={{
@@ -127,7 +131,7 @@ const OurMentorsPage = async () => {
             </div>
           )}
 
-          <MentorCards options={allMentorDetails} />
+          <MentorCards options={allMentorDetails} data-aos='zoom-in' />
         </section>
       </div>
 
@@ -141,7 +145,7 @@ export default OurMentorsPage;
 export const metadata: Metadata = {
   title: 'Our Mentors | Sandbox IEEE ITB',
   description:
-    "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+    'Meet our team of expert mentors at Sandbox IEEE ITB. Explore expert profiles, gain valuable insights, and connect with them on LinkedIn. Elevate your knowledge and network with our mentors.',
   generator: 'Next.js',
   category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
@@ -170,7 +174,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+      'Meet our team of expert mentors at Sandbox IEEE ITB. Explore expert profiles, gain valuable insights, and connect with them on LinkedIn. Elevate your knowledge and network with our mentors.',
     url: 'https://sandbox.ieeeitb.com/our-mentors',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -188,7 +192,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+      'Meet our team of expert mentors at Sandbox IEEE ITB. Explore expert profiles, gain valuable insights, and connect with them on LinkedIn. Elevate your knowledge and network with our mentors.',
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
