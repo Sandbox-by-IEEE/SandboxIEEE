@@ -170,12 +170,12 @@ export default async function PastEvent() {
                   />
                 </div>
                 {/* Description */}
-                <div
+                <h3
                   className='w-full lg:w-[40%] text-[#FFE1B9] md:text-xl text-sm self-start font-poppins'
                   data-aos='zoom-in-left'
                 >
                   <StructuredText data={event.description} />
-                </div>
+                </h3>
               </div>
               <DocumentationCarousel
                 title={event.title + ' Documentation'}
@@ -196,6 +196,7 @@ export default async function PastEvent() {
                   sizes='(max-width: 768px) 64px, 64px'
                 />
               </div>
+              {/* title */}
               <TitleSection>
                 <div className='w-full flex flex-row items-center justify-center'>
                   <DecoratedTitle title={event.title} />
@@ -207,6 +208,7 @@ export default async function PastEvent() {
                   data-aos='zoom-in-left'
                   className='min-w-[300px] md:min-w-[450px] md:max-w-[450px] aspect-[4/3] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'
                 >
+                  {/* Image */}
                   <Image
                     src={event.image.url}
                     alt={event.image.title && 'Event Image'}
@@ -216,13 +218,13 @@ export default async function PastEvent() {
                     sizes='(max-width: 768px) 100%, 100%'
                   />
                 </div>
-
-                <div
+                {/* Description */}
+                <h3
                   data-aos='zoom-in-right'
                   className='w-full lg:w-[40%] text-[#FFE1B9] md:text-xl text-sm self-start font-poppins'
                 >
                   <StructuredText data={event.description} />
-                </div>
+                </h3>
               </div>
               <DocumentationCarousel
                 title={event.title + ' Documentation'}
