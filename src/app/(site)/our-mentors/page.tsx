@@ -113,24 +113,20 @@ const OurMentorsPage = async () => {
         >
           {/* Our Mentors subtitle */}
           {ourMentorsPage.subtitleSection && allMentorDetails.length > 2 && (
-            <div
-              data-aos='zoom-in'
-              className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
-            >
-              <div className='max-w-[1300px] bg-transparent p-0.5 rounded-2xl'>
-                <div
-                  id='seemore'
-                  className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'
+            <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
+              <div
+                id='seemore'
+                className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'
+                data-aos='zoom-in'
+              >
+                <h2
+                  style={{
+                    ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                  }}
+                  className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
                 >
-                  <h2
-                    style={{
-                      ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
-                    }}
-                    className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
-                  >
-                    {ourMentorsPage.subtitleSection}
-                  </h2>
-                </div>
+                  {ourMentorsPage.subtitleSection}
+                </h2>
               </div>
             </div>
           )}
