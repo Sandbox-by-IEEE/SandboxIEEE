@@ -35,7 +35,7 @@ export default function BackgroundCarousel({
         alt={images[currentIndex].title}
         priority
         className='animate-blink w-full object-cover h-[771px] max-h-screen object-center'
-        sizes='(max-width: 640px) 100vw, 100vw'
+        sizes='100vw'
       />
     </div>
   );

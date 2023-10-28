@@ -40,11 +40,9 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
                   <h4 className='text-center text-xl lg:text-2xl p-1 font-poppins font-bold bg-gradient-brown break-all bg-clip-text text-transparent leading-6 tracking-wide'>
                     {option.name}
                   </h4>
-                  <div className='flex gap-2 items-center justify-center'>
-                    {/* Position */}
-                    <span className='text-center font-poppins font-bold text-base lg:text-lg bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
-                      {option.post} at
-                    </span>
+                  {/* Position */}
+                  <span className='flex gap-2 items-center justify-center flex-wrap text-center font-poppins font-bold text-base lg:text-lg bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
+                    {option.post} at
                     <Image
                       src={option.company.url}
                       className='w-[70px] h-[40px] object-contain object-center'
@@ -53,7 +51,7 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
                       alt={option.company.title}
                       sizes='70px'
                     />
-                  </div>
+                  </span>
                 </div>
               </div>
             </div>
