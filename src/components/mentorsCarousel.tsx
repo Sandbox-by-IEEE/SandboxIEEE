@@ -143,7 +143,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
           >
             <Prev size={80} className='w-[70px] lg:w-[80px] aspect-square' />
           </button>
-          <div className='flex items-center gap-2 lg:gap-5 justify-center'>
+          <div className='mx-4 flex items-center gap-4 lg:gap-5 justify-center'>
             {options.map((option, index) => (
               <button
                 aria-label={'dot' + index}

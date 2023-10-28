@@ -142,7 +142,10 @@ const ExhibitionPage = async () => {
             {/* Title */}
             <TitleSection>{grandSeminar.explanationTitle}</TitleSection>
             {/* Split Mascot & Description */}
-            <div className='flex flex-col lg:flex-row w-full gap-4 lg:gap-10 xl:gap-20 items-center justify-center'>
+            <div
+              data-aos='zoom-in'
+              className='flex flex-col lg:flex-row w-full gap-4 lg:gap-10 xl:gap-20 items-center justify-center'
+            >
               {/* Image Mascot */}
               <Image
                 data-aos='fade-right'
@@ -251,7 +254,7 @@ export default ExhibitionPage;
 export const metadata: Metadata = {
   title: 'Grand Seminar | Sandbox IEEE ITB',
   description:
-    "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+    "Join us for the Grand Seminar by Sandbox IEEE ITB, an exciting event featuring in-depth discussions, expert speakers, and valuable insights on a wide range of technology topics. Learn about the event's agenda, registration process, exhibitors, and explore the profiles of our distinguished speakers. Get answers to frequently asked questions (FAQ) to make the most of your Grand Seminar experience. Don't miss this opportunity to expand your knowledge and connection in technology.",
   generator: 'Next.js',
   category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
@@ -280,7 +283,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+      "Join us for the Grand Seminar by Sandbox IEEE ITB, an exciting event featuring in-depth discussions, expert speakers, and valuable insights on a wide range of technology topics. Learn about the event's agenda, registration process, exhibitors, and explore the profiles of our distinguished speakers. Get answers to frequently asked questions (FAQ) to make the most of your Grand Seminar experience. Don't miss this opportunity to expand your knowledge and connection in technology.",
     url: 'https://sandbox.ieeeitb.com/grandseminar',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -298,7 +301,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+      "Join us for the Grand Seminar by Sandbox IEEE ITB, an exciting event featuring in-depth discussions, expert speakers, and valuable insights on a wide range of technology topics. Learn about the event's agenda, registration process, exhibitors, and explore the profiles of our distinguished speakers. Get answers to frequently asked questions (FAQ) to make the most of your Grand Seminar experience. Don't miss this opportunity to expand your knowledge and connection in technology.",
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
