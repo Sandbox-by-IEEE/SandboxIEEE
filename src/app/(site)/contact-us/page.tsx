@@ -31,6 +31,13 @@ const ContactUs = async () => {
     });
   return (
     <main className='relative w-full z-5 flex flex-col min-h-screen justify-center items-center bg-gradient-to-tr from-[#081B0E] to-[#0e371d] py-28 pt-14 lg:py-28 lg:pt-20 gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44'>
+      {/* Title Page */}
+      <h2
+        className='relative z-5 text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
+        data-aos='zoom-in'
+      >
+        {data.contactUsTitle}
+      </h2>
       {/* Hiasan */}
       <Image
         src='/contact-us/blink.svg'
@@ -39,6 +46,8 @@ const ContactUs = async () => {
         alt='Blink'
         priority
         className='absolute w-[190px] h-[120px] xl:w-[275px] xl:h-[246px] -top-4 xl:-top-10 -left-10 -z-1 opacity-50'
+        data-aos='zoom-in'
+        sizes='(max-width: 1280px) 190px, 275px'
       />
       <Image
         src='/contact-us/mini-sparkle.svg'
@@ -46,6 +55,8 @@ const ContactUs = async () => {
         height={40}
         alt='mini-sparkle'
         className='absolute w-[20px] aspect-square xl:w-[40px] bottom-[200px] right-[50px] xl:right-[200px] -z-5'
+        data-aos='fade-in'
+        sizes='(max-width: 1280px) 20px, 40px'
       />
       <Image
         src='/contact-us/sparkle.svg'
@@ -53,6 +64,8 @@ const ContactUs = async () => {
         height={55}
         alt='sparkle'
         className='absolute w-[30px] aspect-square xl:w-[55px] bottom-[150px] right-[60px] xl:right-[240px] -z-5'
+        data-aos='fade-in'
+        sizes='(max-width: 1280px) 30px, 55px'
       />
       <Image
         src='/contact-us/mascot-top.png'
@@ -60,6 +73,8 @@ const ContactUs = async () => {
         height={174}
         alt='mascot-top'
         className='absolute w-[70px] h-[100px] xl:w-[112px] xl:h-[164px] top-8 xl:top-[50px] right-10 xl:right-[210px] -z-5'
+        data-aos='fade-down-left'
+        sizes='(max-width: 1280px) 70px, 112px'
       />
       <Image
         src='/contact-us/mascot-bottom.png'
@@ -67,20 +82,23 @@ const ContactUs = async () => {
         height={232}
         alt='mascot-bottom'
         className='absolute w-[90px] h-[124px] xl:w-[125px] xl:h-[182px] bottom-[50px] left-4 xl:left-[150px] -z-5'
+        data-aos='fade-up-right'
+        sizes='(max-width: 1280px) 90px, 125px'
       />
 
-      {/* Title Page */}
-      <h1 className='relative z-5 text-4xl lg:text-5xl font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'>
-        {data.contactUsTitle}
-      </h1>
       {/* Container details */}
       <div className='flex flex-col gap-10 lg:gap-14 items-center justify-center'>
         {/* Description */}
-
-        <h2 className='relative z-10 text-cream-secondary-light break-all font-poppins text-justify text-[15px] lg:text-lg lg:px-10 xl:px-40'>
+        <h4
+          className='relative z-10 text-cream-secondary-light break-all font-poppins text-justify text-[15px] lg:text-lg lg:px-10 xl:px-40'
+          data-aos='fade-up'
+        >
           <StructuredText data={data.description} />
-        </h2>
-        <div className='bg-gradient-brown p-1 rounded-3xl w-full lg:max-w-[750px]'>
+        </h4>
+        <div
+          className='bg-gradient-brown p-1 rounded-3xl w-full lg:max-w-[750px]'
+          data-aos='flip-down'
+        >
           <div
             className='bg-gradient-to-bl w-full from-[#081B0E] to-[#0e371d] rounded-3xl flex flex-col items-center justify-center py-8 lg:py-10 px-8 lg:px-16 gap-8 lg:gap-10'
             style={{

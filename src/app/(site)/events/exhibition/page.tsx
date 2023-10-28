@@ -121,6 +121,7 @@ const ExhibitionPage = async () => {
           priority
           className='w-full object-cover h-[771px] max-h-screen object-center'
           data-aos='fade-in'
+          sizes='(max-width: 1024px) 100vw, 100vw'
         />
         {/* Text Content on background */}
         <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
@@ -168,6 +169,7 @@ const ExhibitionPage = async () => {
                 height={exhibition.imageMascot.height}
                 className='w-[130px] h-[200px] lg:w-[226px] lg:h-[301px] object-contain object-center'
                 data-aos='fade-right'
+                sizes='(max-width: 1024px) 130px, 226px'
               />
               {/* Description */}
               <h4
