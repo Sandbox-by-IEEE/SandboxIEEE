@@ -7,7 +7,6 @@ import GradientBox from '@/components/GradientBox';
 import Dot from '@/components/icons/dot';
 import Next from '@/components/icons/mentors/next';
 import Prev from '@/components/icons/mentors/prev';
-import TitleSection from '@/components/TitleSection';
 import { Documentation } from '@/types/past-events';
 
 type DocumentationCarouselProps = {
@@ -62,32 +61,49 @@ const DocumentationCarousel: React.FC<DocumentationCarouselProps> = ({
   };
 
   return (
-    <section className='w-full h-fit flex flex-col items-center justify-center overflow-hidden'>
-      <GradientBox className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'>
-        <div className=' flex py-10'>
-          <div
-            onMouseDown={handleDragStart}
-            onMouseUp={handleDragEnd}
-            onTouchStart={handleDragStart}
-            onTouchEnd={handleDragEnd}
+    <section
+      className='w-full h-fit flex flex-col items-center justify-center overflow-hidden'
+      data-aos='fade-in'
+      data-aos-duration='1000'
+    >
+      <GradientBox className='min-h-[660px] w-full max-w-[450px] sm:max-w-[500px] md:max-w-full md:w-[1100px]  flex flex-col items-center justify-center p-5 md:p-8 lg:p-6 2xlp-10'>
+        <div
+          onMouseDown={handleDragStart}
+          onMouseUp={handleDragEnd}
+          onTouchStart={handleDragStart}
+          onTouchEnd={handleDragEnd}
+          className='flex flex-col gap-10 px-10 lg:py-5'
+        >
+          {/* Content */}
+          <h4
+            style={{
+              ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+            }}
+            data-aos='zoom-in'
+            className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-2xl lg:text-3xl font-museo-muderno p-1 font-bold'
           >
-            {/* Content */}
-            <TitleSection>{title}</TitleSection>
-            <div className=' aspect-[4/3] max-h-[500px] max-md:min-h-[200px] md:min-h-[500px] flex flex-col md:flex-row gap-10 lg:gap-20 relative justify-center items-center overflow-hidden rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'>
-              <Image
-                key={photos[currentIndex].title}
-                src={photos[currentIndex].url}
-                width={photos[currentIndex].width}
-                height={photos[currentIndex].height}
-                className='aspect-[4/3] max-h-[500px] animate-blink object-cover object-center max-md:min-h-[200px] md:min-h-[500px]'
-                alt={photos[currentIndex].title}
-                sizes=''
-              />
-            </div>
+            {title}
+          </h4>
+          <div
+            key={photos[currentIndex].title}
+            data-aos='fade-in'
+            className='animate-blink m-auto max-lg:w-full lg:aspect-[5/3] h-[200px] md:h-[300px] lg:h-[350px] flex flex-col md:flex-row gap-10 lg:gap-20 justify-center items-center rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'
+          >
+            <Image
+              src={photos[currentIndex].url}
+              width={photos[currentIndex].width}
+              height={photos[currentIndex].height}
+              className='w-full h-full animate-blink object-contain object-center'
+              alt={photos[currentIndex].title}
+              sizes='(max-width: 768px) 100%, 100%'
+            />
           </div>
         </div>
 
-        <div className='flex items-center relative z-[40] justify-center'>
+        <div
+          className='flex items-center relative z-[40] justify-center'
+          data-aos='fade-up'
+        >
           <button className='custom-prev-button' onClick={handlePrevClick}>
             <Prev size={80} className='w-[70px] lg:w-[80px] aspect-square' />
           </button>

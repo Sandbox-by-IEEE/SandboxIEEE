@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
@@ -38,7 +39,7 @@ function DecoratedTitle({ title }: { title: string }) {
       className='relative text-4xl font-extrabold text-[#9a7037] px-4 py-2 inline-block'
       data-aos='zoom-in'
     >
-      <div className='aspect-square w-4 md:w-8 absolute z-10 top-[-5px] left-[-5px] md:top-[-20px] md:left-[-30px] rotate-[23deg]'>
+      <div className='aspect-square w-4 md:w-8 absolute -z-[3] top-[-5px] left-[-5px] md:top-[-20px] md:left-[-30px] rotate-[23deg]'>
         <Image
           src='/sparkle.svg'
           alt='Sparkle decoration'
@@ -47,17 +48,7 @@ function DecoratedTitle({ title }: { title: string }) {
           className='w-4 md:w-8'
         />
       </div>
-      <div className='aspect-square absolute z-10 bottom-[-5px] left-[-5px] md:bottom-[-10px] md:left-[-30px] rotate-[43deg]'>
-        <Image
-          src='/sparkle.svg'
-          alt='Sparkle decoration'
-          width={16}
-          height={16}
-          className='w-4 md:w-8'
-          sizes='(max-width: 768px) 16px, 32px'
-        />
-      </div>
-      <div className='aspect-square w-4 md:w-[25px] absolute z-10 top-[-5px] right-[-5px] md:top-[-20px] md:right-[-20px] rotate-[23deg]'>
+      <div className='aspect-square absolute -z-[3] bottom-[-5px] left-[-5px] md:bottom-[-10px] md:left-[-30px] rotate-[43deg]'>
         <Image
           src='/sparkle.svg'
           alt='Sparkle decoration'
@@ -67,7 +58,17 @@ function DecoratedTitle({ title }: { title: string }) {
           sizes='(max-width: 768px) 16px, 32px'
         />
       </div>
-      <div className='aspect-square w-4 md:w-8 absolute z-10 bottom-[-5px] right-[-5px] md:bottom-[-10px] md:right-[-30px] rotate-[43deg]'>
+      <div className='aspect-square w-4 md:w-[25px] absolute -z-[3] top-[-5px] right-[-5px] md:top-[-20px] md:right-[-20px] rotate-[23deg]'>
+        <Image
+          src='/sparkle.svg'
+          alt='Sparkle decoration'
+          width={16}
+          height={16}
+          className='w-4 md:w-8'
+          sizes='(max-width: 768px) 16px, 32px'
+        />
+      </div>
+      <div className='aspect-square w-4 md:w-8 absolute -z-[3] bottom-[-5px] right-[-5px] md:bottom-[-10px] md:right-[-30px] rotate-[43deg]'>
         <Image
           src='/sparkle.svg'
           alt='Sparkle decoration'
@@ -118,10 +119,10 @@ export default async function PastEvent() {
             // Mile Zero Project Section
             <section
               key={index}
-              className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 relative'
+              className='h-auto px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col z-[5] gap-16 relative'
             >
               {/* // Decoration */}
-              <div className='aspect-square h-72 absolute z-10 left-0 top-[100px]'>
+              <div className='aspect-square h-72 absolute -z-[3] left-0 top-[100px]'>
                 <Image
                   src='/comet.svg'
                   alt='comet'
@@ -132,7 +133,7 @@ export default async function PastEvent() {
                 />
               </div>
               {/* // Decoration */}
-              <div className='aspect-square h-72 absolute z-10 top-[500px] right-0 rotate-[180deg]'>
+              <div className='aspect-square h-72 absolute -z-[3] top-[500px] right-0 rotate-[180deg]'>
                 <Image
                   src='/comet.svg'
                   alt='comet'
@@ -143,7 +144,7 @@ export default async function PastEvent() {
                 />
               </div>
               {/* // Decoration */}
-              <div className='aspect-square h-36 absolute z-10 top-[750px] left-[-10px] rotate-[180deg]'>
+              <div className='aspect-square h-36 absolute -z-[3] top-[750px] left-[-10px] rotate-[180deg]'>
                 <Image
                   src='/StarDecoration2.svg'
                   alt='comet'
@@ -158,7 +159,7 @@ export default async function PastEvent() {
                 {/* Image events */}
                 <div
                   data-aos='zoom-in-right'
-                  className='min-w-[300px] md:min-w-[450px] md:max-w-[450px] aspect-[4/3] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'
+                  className='max-w-[300px]  md:max-w-[450px] aspect-[4/3] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'
                 >
                   <Image
                     src={event.image.url}
@@ -170,12 +171,12 @@ export default async function PastEvent() {
                   />
                 </div>
                 {/* Description */}
-                <h3
-                  className='w-full lg:w-[40%] text-[#FFE1B9] md:text-xl text-sm self-start font-poppins'
+                <h4
+                  className='w-full lg:w-[40%] text-[#FFE1B9] text-sm md:text-base xl:text-xl sm:px-10 lg:px-0 self-start font-poppins'
                   data-aos='zoom-in-left'
                 >
                   <StructuredText data={event.description} />
-                </h3>
+                </h4>
               </div>
               <DocumentationCarousel
                 title={event.title + ' Documentation'}
@@ -185,9 +186,9 @@ export default async function PastEvent() {
           ) : (
             <section
               key={index}
-              className='h-auto p-10 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 relative'
+              className='h-auto px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 relative z-[5]'
             >
-              <div className='aspect-square h-16 absolute z-10 top-[200px] right-[-10px] rotate-[180deg]'>
+              <div className='aspect-square h-16 absolute -z-[3] top-[200px] right-[-10px] rotate-[180deg]'>
                 <Image
                   src='/StarDecoration1.svg'
                   alt='comet'
@@ -206,7 +207,7 @@ export default async function PastEvent() {
               <div className='flex flex-col lg:flex-row-reverse gap-12 justify-center items-center'>
                 <div
                   data-aos='zoom-in-left'
-                  className='min-w-[300px] md:min-w-[450px] md:max-w-[450px] aspect-[4/3] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'
+                  className='max-w-[300px] md:max-w-[450px] aspect-[4/3] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B] relative'
                 >
                   {/* Image */}
                   <Image
@@ -219,12 +220,12 @@ export default async function PastEvent() {
                   />
                 </div>
                 {/* Description */}
-                <h3
+                <h4
                   data-aos='zoom-in-right'
-                  className='w-full lg:w-[40%] text-[#FFE1B9] md:text-xl text-sm self-start font-poppins'
+                  className='w-full lg:w-[40%] text-[#FFE1B9] text-sm md:text-base xl:text-xl sm:px-10 lg:px-0 self-start font-poppins'
                 >
                   <StructuredText data={event.description} />
-                </h3>
+                </h4>
               </div>
               <DocumentationCarousel
                 title={event.title + ' Documentation'}
@@ -237,3 +238,61 @@ export default async function PastEvent() {
     </>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Past Events | Sandbox IEEE ITB',
+  description:
+    "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+  generator: 'Next.js',
+  category: 'Technology',
+  applicationName: 'Sandbox IEEE ITB',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'Sandbox',
+    'Sandbox IEEE ITB',
+    'Sandbox ITB',
+    'IEEE ITB',
+    'ITB',
+    'TPC',
+    'PTC',
+  ],
+  colorScheme: 'normal',
+  alternates: {
+    canonical: '/past-events',
+    languages: {
+      'en-US': '/en-US/past-events',
+      'id-ID': '/id-ID/past-events',
+    },
+  },
+  openGraph: {
+    title: 'Sandbox IEEE ITB',
+    description:
+      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+    url: 'https://sandbox.ieeeitb.com/past-events',
+    siteName: 'Sandbox IEEE ITB',
+    images: [
+      {
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sandbox IEEE ITB Logo',
+      },
+    ],
+    locale: 'id_ID',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sandbox IEEE ITB',
+    description:
+      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+    images: [
+      {
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
+        width: 1200,
+        height: 630,
+        alt: 'Sandbox IEEE ITB Logo',
+      },
+    ],
+  },
+};
