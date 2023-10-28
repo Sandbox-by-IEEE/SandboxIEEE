@@ -65,7 +65,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
 
   return (
     options.length > 2 && (
-      <div className='w-full h-fit flex flex-col items-center justify-center overflow-x-hidden'>
+      <div className='w-full min-h-[600px] md:min-h-[660px] lg:min-h-[710px] flex flex-col items-center justify-center overflow-x-hidden'>
         <div data-aos='fade-up' className=' flex py-10'>
           {displayedMentors.map((option, index) => (
             <div
