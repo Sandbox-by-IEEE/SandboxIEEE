@@ -46,7 +46,6 @@ const CustomLink = ({
     url && (
       <Link
         href={url}
-        aria-label={url.replace(/\/|#/g, '') + 'Link'}
         className={`${
           isFullWidth ? 'w-full h-full' : 'min-w-[140px] lg:w-[200px]'
         } text-sm lg:text-base disabled:bg-[#D7D2D0] disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-3 px-4 rounded-md ${

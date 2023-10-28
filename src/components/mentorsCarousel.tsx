@@ -66,7 +66,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
   return (
     options.length > 2 && (
       <section className='w-full h-fit flex flex-col items-center justify-center overflow-hidden'>
-        <div className=' flex py-10'>
+        <div data-aos='fade-up' className=' flex py-10'>
           {displayedMentors.map((option, index) => (
             <div
               onMouseDown={handleDragStart}
@@ -82,14 +82,20 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                   : 'mx-1 sm:mx-3 lg:mx-12 opacity-80 blur-sm -mt-5'
               }`}
             >
-              {/* BAckground */}
+              {/* Background */}
               <Image
                 src={option.image.url}
                 className='w-full h-full object-cover object-center'
                 width={option.image.width}
                 height={option.image.height}
                 alt={option.image.title}
-              ></Image>
+                sizes='(max-width: 768px) 220px, 308px'
+                priority={
+                  option.id === displayedMentors[currentIndex].id ||
+                  option.id === displayedMentors[currentIndex + 1]?.id ||
+                  option.id === displayedMentors[currentIndex - 1]?.id
+                }
+              />
               {/* Content */}
               <div className='w-full absolute bottom-3 lg:bottom-8 flex items-center justify-center'>
                 <div className='w-[80%] bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-2xl lg:rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
@@ -114,7 +120,8 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                           width={option.company.width}
                           height={option.company.height}
                           alt={option.company.title}
-                        ></Image>
+                          sizes='50px'
+                        />
                       </div>
                     </div>
                   </div>
@@ -123,19 +130,34 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
             </div>
           ))}
         </div>
-        <div className='my-4 lg:my-10 relative z-[40] flex items-center justify-center'>
+        <button
+          data-aos='flip-down'
+          className='my-4 lg:my-10 relative z-[40] flex items-center justify-center'
+        >
           <h3 className='hidden'>See more</h3>
           <CustomLink color='gold' url='#seemore'>
-            <>See More</>
+            <span>See More</span>
           </CustomLink>
-        </div>
-        <div className='flex items-center relative z-[40] justify-center'>
-          <button className='custom-prev-button' onClick={handlePrevClick}>
+        </button>
+        <div
+          data-aos='flip-up'
+          className='flex items-center relative z-[40] justify-center'
+        >
+          <button
+            aria-label='previous'
+            className='custom-prev-button'
+            onClick={handlePrevClick}
+          >
             <Prev size={80} className='w-[70px] lg:w-[80px] aspect-square' />
           </button>
           <div className='flex items-center gap-2 lg:gap-5 justify-center'>
             {options.map((option, index) => (
-              <button key={index} onClick={() => setCurrentIndex(index)}>
+              <button
+                aria-label={'dot' + index}
+                className='custom-dot-button'
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+              >
                 <Dot
                   size={20}
                   className={`${
@@ -147,7 +169,11 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
               </button>
             ))}
           </div>
-          <button className='custom-next-button' onClick={handleNextClick}>
+          <button
+            aria-label='next'
+            className='custom-next-button'
+            onClick={handleNextClick}
+          >
             <Next size={80} className='w-[70px] lg:w-[80px] aspect-square' />
           </button>
         </div>
