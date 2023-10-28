@@ -277,7 +277,7 @@ function NavBarSmall({ session }: { session: Session | null }) {
         onClick={() => closeDrawer()}
       ></div>
       <div
-        className={`sticky bg-green-gradient max-w-full min-w-full py-1 top-[${navbarPos}px]`}
+        className={`sticky bg-green-gradient max-w-full min-w-full py-1 z-50 top-[${navbarPos}px]`}
         style={{
           borderBottom: '4px solid transparent',
           borderImage: 'linear-gradient(180deg, #AB814E 0%, #FFE1B9 100%) 1',
