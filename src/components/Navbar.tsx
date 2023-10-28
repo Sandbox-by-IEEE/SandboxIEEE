@@ -189,7 +189,7 @@ function NavBarLarge({ session }: { session: Session | null }) {
 
   return (
     <div
-      className={`sticky bg-green-gradient w-full z-50 top-[${navbarPos}px]`}
+      className={`sticky bg-green-gradient w-full top-[${navbarPos}px]`}
       style={{
         borderBottom: '6px solid transparent',
         borderImage: 'linear-gradient(180deg, #AB814E 0%, #FFE1B9 100%) 0.5',
@@ -197,8 +197,8 @@ function NavBarLarge({ session }: { session: Session | null }) {
           '0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(112, 82, 41, 0.25)',
       }}
     >
-      <div className='bg-green-gradient h-24 w-full relative'>
-        <div className='aspect-square h-36 absolute z-10 top-[-30px]'>
+      <div className='bg-green-gradient h-24 w-full relative z-50'>
+        <div className='aspect-square h-36 absolute -z-2 pointer-events-none top-[-30px]'>
           <Image src='/comet.svg' alt='commet' fill />
         </div>
 
@@ -215,11 +215,11 @@ function NavBarLarge({ session }: { session: Session | null }) {
           </div>
         </div>
 
-        <div className='aspect-square h-8 absolute top-0 right-4 z-0'>
+        <div className='aspect-square h-8 absolute top-0 right-4 -z-2 pointer-events-none'>
           <Image src='/twinkle.svg' alt='commet' fill />
         </div>
 
-        <div className='aspect-square h-16 absolute top-1/3 right-1/4 z-0'>
+        <div className='aspect-square h-16 absolute top-1/3 right-1/4 -z-2 pointer-events-none'>
           <Image src='/twinkle.svg' alt='commet' fill />
         </div>
       </div>
