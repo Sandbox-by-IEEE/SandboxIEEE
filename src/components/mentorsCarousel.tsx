@@ -65,7 +65,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
 
   return (
     options.length > 2 && (
-      <section className='w-full h-fit flex flex-col items-center justify-center overflow-hidden'>
+      <div className='w-full min-h-[600px] md:min-h-[660px] lg:min-h-[710px] flex flex-col items-center justify-center overflow-x-hidden'>
         <div data-aos='fade-up' className=' flex py-10'>
           {displayedMentors.map((option, index) => (
             <div
@@ -90,11 +90,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                 height={option.image.height}
                 alt={option.image.title}
                 sizes='(max-width: 768px) 220px, 308px'
-                priority={
-                  option.id === displayedMentors[currentIndex].id ||
-                  option.id === displayedMentors[currentIndex + 1]?.id ||
-                  option.id === displayedMentors[currentIndex - 1]?.id
-                }
+                priority
               />
               {/* Content */}
               <div className='w-full absolute bottom-3 lg:bottom-8 flex items-center justify-center'>
@@ -110,10 +106,8 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                       >
                         {option.name}
                       </span>
-                      <div className='align-middle flex gap-1 items-center justify-center'>
-                        <span className='align-middle text-center font-poppins font-bold text-sm md:text-base lg:text-lg bg-gradient-brown bg-clip-text text-transparent tracking-wide'>
-                          {option.post} at
-                        </span>
+                      <span className='flex flex-wrap gap-1 items-center justify-center text-center font-poppins font-bold text-sm md:text-base lg:text-lg bg-gradient-brown bg-clip-text text-transparent tracking-wide'>
+                        {option.post} at
                         <Image
                           src={option.company.url}
                           className='w-[50px] object-contain object-center h-[35px]'
@@ -122,7 +116,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                           alt={option.company.title}
                           sizes='50px'
                         />
-                      </div>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -131,12 +125,11 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
           ))}
         </div>
         <button
-          data-aos='flip-down'
+          data-aos='fade-down'
           className='my-4 lg:my-10 relative z-[40] flex items-center justify-center'
         >
-          <h3 className='hidden'>See more</h3>
           <CustomLink color='gold' url='#seemore'>
-            <span>See More</span>
+            See More
           </CustomLink>
         </button>
         <div
@@ -150,7 +143,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
           >
             <Prev size={80} className='w-[70px] lg:w-[80px] aspect-square' />
           </button>
-          <div className='flex items-center gap-2 lg:gap-5 justify-center'>
+          <div className='mx-4 flex items-center gap-4 lg:gap-5 justify-center'>
             {options.map((option, index) => (
               <button
                 aria-label={'dot' + index}
@@ -177,7 +170,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
             <Next size={80} className='w-[70px] lg:w-[80px] aspect-square' />
           </button>
         </div>
-      </section>
+      </div>
     )
   );
 };
