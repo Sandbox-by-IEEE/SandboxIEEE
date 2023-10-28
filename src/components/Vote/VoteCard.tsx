@@ -50,6 +50,7 @@ const VoteCard: React.FC<VoteCardProps> = ({
         height={imageHeight}
         alt={imageAlt}
         className='w-[100px] lg:w-[130px] aspect-square rounded-full overflow-hidden object-cover object-center'
+        sizes='(max-width: 1024px) 100px, 130px'
       />
       {urlCreation && (
         <div className='flex items-center justify-center gap-2'>
