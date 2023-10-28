@@ -210,7 +210,7 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* CountDown */}
-      <section className='w-full flex flex-col gap-2  px-8 sm:px-10 md:px-20 lg:px-40'>
+      <section className='w-full flex flex-col gap-2  px-6 sm:px-10 md:px-20 lg:px-40'>
         <div
           data-aos='flip-up'
           className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
@@ -221,7 +221,7 @@ const ExhibitionPage = async () => {
             {/* Countdown */}
             <Countdown targetDate={new Date(2023, 9, 20)} />
             {/* Button */}
-            <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
+            <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <div data-aos='zoom-in'>
                 {exhibition.buttonTextRegister && (
                   <CustomLink color='gold' url='/exhibition'>
