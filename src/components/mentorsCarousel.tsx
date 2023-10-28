@@ -82,15 +82,20 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                   : 'mx-1 sm:mx-3 lg:mx-12 opacity-80 blur-sm -mt-5'
               }`}
             >
-              {/* BAckground */}
+              {/* Background */}
               <Image
                 src={option.image.url}
                 className='w-full h-full object-cover object-center'
                 width={option.image.width}
                 height={option.image.height}
                 alt={option.image.title}
-                priority
-              ></Image>
+                sizes='(max-width: 768px) 220px, 308px'
+                priority={
+                  option.id === displayedMentors[currentIndex].id ||
+                  option.id === displayedMentors[currentIndex + 1]?.id ||
+                  option.id === displayedMentors[currentIndex - 1]?.id
+                }
+              />
               {/* Content */}
               <div className='w-full absolute bottom-3 lg:bottom-8 flex items-center justify-center'>
                 <div className='w-[80%] bg-gradient-to-br from-[#ffb050] via-white/5 to-[#84694875] rounded-2xl lg:rounded-[26px] drop-shadow-[0px_0px_10px_rgba(255,255,255,0.7)]'>
@@ -115,7 +120,8 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
                           width={option.company.width}
                           height={option.company.height}
                           alt={option.company.title}
-                        ></Image>
+                          sizes='50px'
+                        />
                       </div>
                     </div>
                   </div>

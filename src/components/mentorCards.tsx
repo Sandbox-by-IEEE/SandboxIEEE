@@ -22,10 +22,11 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
           <Image
             src={option.image.url}
             className={`w-full sm:w-[250px] md:w-[300px] xl:w-[400px] h-[250px] sm:min-h-[300px] lg:min-h-[350px] object-cover object-center`}
-            width={417}
-            height={255}
+            width={option.image.width}
+            height={option.image.height}
             alt={option.image.title}
-          ></Image>
+            sizes='(max-width: 640px) 100%, (max-width: 768px) 250px, (max-width: 1280px) 300px, 400px'
+          />
           {/* Text Content */}
           <div className={`flex flex-col flex-1 gap-5 p-5 lg:p-[25px]`}>
             {/* Identity Gradient Box*/}
@@ -36,9 +37,9 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
               <div className='bg-dark-green rounded-3xl m-[4px]'>
                 <div className='bg-gradient-to-br p-1 lg:p-2 from-[#84694875] via-white/5 to-[#84694875] rounded-3xl flex flex-col text-center items-center justify-center'>
                   {/* Name */}
-                  <h3 className='text-center text-xl lg:text-2xl p-1 font-poppins font-bold bg-gradient-brown break-all bg-clip-text text-transparent leading-6 tracking-wide'>
+                  <h4 className='text-center text-xl lg:text-2xl p-1 font-poppins font-bold bg-gradient-brown break-all bg-clip-text text-transparent leading-6 tracking-wide'>
                     {option.name}
-                  </h3>
+                  </h4>
                   <div className='flex gap-2 items-center justify-center'>
                     {/* Position */}
                     <span className='text-center font-poppins font-bold text-base lg:text-lg bg-gradient-brown bg-clip-text text-transparent leading-6 tracking-wide'>
@@ -50,7 +51,8 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
                       width={option.company.width}
                       height={option.company.height}
                       alt={option.company.title}
-                    ></Image>
+                      sizes='70px'
+                    />
                   </div>
                 </div>
               </div>

@@ -84,14 +84,14 @@ const OurMentorsPage = async () => {
                 size={25}
                 className='absolute -left-[130px] w-[130px] lg:w-[200px] lg:-left-[300px] -top-[70px]'
               />
-              <h1
+              <h2
                 style={{
                   ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                 }}
                 className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[45px] font-museo-muderno p-1 font-bold'
               >
                 {ourMentorsPage.title}
-              </h1>
+              </h2>
               <Basket2
                 size={25}
                 className='absolute -right-[130px] w-[130px] lg:w-[200px] lg:-right-[300px] -bottom-[80px]'
@@ -119,14 +119,14 @@ const OurMentorsPage = async () => {
                 className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'
                 data-aos='zoom-in'
               >
-                <h2
+                <h3
                   style={{
                     ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                   }}
                   className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
                 >
                   {ourMentorsPage.subtitleSection}
-                </h2>
+                </h3>
               </div>
             </div>
           )}
