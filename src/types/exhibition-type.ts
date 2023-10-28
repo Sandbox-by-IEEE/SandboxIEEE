@@ -38,6 +38,8 @@ export interface ExhibitionData {
   titleLocation: string;
   ptcSubtitle: string;
   tpcSubtitle: string;
+  urlLocationMaps: string;
+  buttonTextBackgroundOne: string;
 }
 
 export interface AllFinalProjectsExhibition {
