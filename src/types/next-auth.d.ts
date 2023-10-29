@@ -3,6 +3,7 @@ import { DefaultSession } from 'next-auth';
 declare module 'next-auth' {
   interface User {
     id: string;
+    username?: string;
     vote?: {
       status: boolean;
       karya?: {
@@ -36,6 +37,7 @@ declare module 'next-auth' {
   interface Session {
     user: DefaultSession['user'] & {
       id: string;
+      username?: string;
       vote?: {
         status: boolean;
         karya?: {

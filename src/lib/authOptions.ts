@@ -19,17 +19,17 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'email' },
+        username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('Missing email or password');
+        if (!credentials?.username || !credentials?.password) {
+          throw new Error('Missing username or password');
         }
 
         const existingUser = await prisma.user.findUnique({
           where: {
-            email: credentials?.email,
+            username: credentials?.username,
           },
           include: {
             karya: {
@@ -67,7 +67,21 @@ export const authOptions: AuthOptions = {
         });
 
         if (!existingUser) {
-          throw new Error('Email is unregistered');
+          throw new Error(
+            'Username is unregistered or user have been register with google before',
+          );
+        }
+
+        if (!existingUser.credential) {
+          throw new Error(
+            'User is register with google, please login with google',
+          );
+        }
+
+        if (!existingUser.active) {
+          throw new Error(
+            'User is not active, please activated your account first',
+          );
         }
 
         const isPasswordMatch = await compare(
@@ -101,7 +115,8 @@ export const authOptions: AuthOptions = {
 
         return {
           id: existingUser.id,
-          name: existingUser.name,
+          name: existingUser.name || '',
+          username: existingUser.username || '',
           email: existingUser.email,
           image: existingUser.image || '',
           vote: {
@@ -203,6 +218,8 @@ export const authOptions: AuthOptions = {
         user: {
           ...session.user,
           id: token.sub,
+          name: existingUser.name || '',
+          username: existingUser.username || '',
           image: token.picture || '',
           vote: {
             karya: karya,
