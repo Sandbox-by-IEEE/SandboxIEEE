@@ -87,6 +87,7 @@ export default function Home() {
       status: 'success',
       description: 'Register succesfull, check your email for activate account',
     });
+    router.push('/');
     // const resLogin = await signIn('credentials', {
     //   email: email,
     //   password: password,
@@ -102,7 +103,6 @@ export default function Home() {
     //   router.push('/login');
     // } else {
     //   callToast({ status: 'success', description: 'Login succesfull' });
-    //   router.push('/');
     // }
   };
 
