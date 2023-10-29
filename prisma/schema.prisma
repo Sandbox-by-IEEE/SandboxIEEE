@@ -112,6 +112,7 @@ model Team {
   ticketId     String                   @unique
   teamName     String                   @unique
   chairmanName String
+  chairmanEmail String
   members      ParticipantCompetition[]
   karya        Karya?
 

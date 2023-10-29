@@ -27,9 +27,10 @@ export async function POST(req: NextRequest) {
     const headingVerified = ` You've Cleared the Verification Stage!`;
 
     ticketVerified.forEach(async (ticket) => {
+      console.log(ticket.team);
       const mailOptions = {
         from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-        to: ticket.team?.members[0].email,
+        to: ticket.team?.chairmanEmail,
         subject: 'Your Ticket Verified',
         html: render(
           Email({

@@ -11,10 +11,16 @@ import { transporter } from '@/lib/mailTransporter';
 export async function POST(req: NextRequest) {
   let ticketIdTemp = '';
   try {
-    const { competitionType, teamName, chairmanName, members } =
+    const { competitionType, teamName, chairmanName, chairmanEmail, members } =
       await req.json();
 
-    if (!competitionType || !teamName || !chairmanName || !members) {
+    if (
+      !competitionType ||
+      !teamName ||
+      !chairmanName ||
+      !chairmanEmail ||
+      !members
+    ) {
       return NextResponse.json(
         { message: 'Missing some data!!' },
         { status: 400 },
@@ -67,6 +73,7 @@ export async function POST(req: NextRequest) {
         team: {
           create: {
             chairmanName: chairmanName,
+            chairmanEmail: chairmanEmail,
             teamName: teamName,
             members: {
               createMany: {

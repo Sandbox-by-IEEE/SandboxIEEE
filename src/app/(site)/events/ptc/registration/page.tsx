@@ -253,6 +253,7 @@ export default function PTCRegist() {
         competitionType: 'PTC',
         teamName: inputData.teamName,
         chairmanName: inputData.members[0].name,
+        chairmanEmail: inputData.members[0].email,
         members: inputData.members.map((member) => {
           return {
             name: member.name,
