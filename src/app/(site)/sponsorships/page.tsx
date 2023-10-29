@@ -39,34 +39,50 @@ export default async function GrandSeminar() {
             alt={'decoration1'}
             height={90}
             width={90}
-            className='absolute left-[0px] top-[300px] w-[60px] lg:w-[90px]'
-          ></Image>
+            className='absolute left-[0px] top-[300px] w-[60px] lg:w-[90px] opacity-50'
+            data-aos='fade-in'
+            sizes='(max-width: 1024px) 60px, 90px'
+          />
           <Image
             src={'/Starburst2.svg'}
             alt={'decoration1'}
             height={90}
             width={90}
-            className='absolute right-[0px] top-[500px] w-[60px] lg:w-[90px]'
-          ></Image>
+            className='absolute right-[0px] top-[500px] w-[60px] lg:w-[90px] opacity-50'
+            data-aos='fade-in'
+            sizes='(max-width: 1024px) 60px, 90px'
+          />
           {/* Title */}
-          <div className='m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
+          <div
+            data-aos='flip-up'
+            className='m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'
+          >
             <div className=' w-fit h-fit rounded-[28px] bg-gradient-light-cards px-12 py-5 flex items-center overflow-hidden m-[6px]'>
-              <h1 className='font-museo-muderno text-center w-full break-word font-bold text-3xl lg:text-[40px] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '>
+              <h2
+                data-aos='zoom-in'
+                className='font-museo-muderno text-center w-full break-word font-bold text-3xl lg:text-[40px] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '
+              >
                 {ourSponsorsPage.ourSponsorSectionTitle}
-              </h1>
+              </h2>
             </div>
           </div>
-          <div className='m-auto w-full sm:w-[80%] h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
+          <div
+            data-aos='fade-in'
+            className='m-auto w-full sm:w-[80%] h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'
+          >
             <div className=' m-auto w-[calc(100%-16px)] h-fit rounded-[28px] bg-gradient-light-cards flex items-center px-8 py-12 lg:p-16 my-2 overflow-hidden'>
               <div className=' w-full flex flex-wrap justify-center items-center gap-6 md:gap-6 lg:gap-10'>
-                {ourSponsorsPage.ourSponsorLogo.map((logo) => (
+                {ourSponsorsPage.ourSponsorLogo.map((logo, index) => (
                   <Image
                     key={logo.id}
                     src={logo.url}
                     width={logo.width}
                     height={logo.height}
                     alt={logo.title}
+                    data-aos='fade-up'
+                    data-aos-duration={500 + index * 100}
                     className='w-[150px] lg:w-[180px] 2xl:w-[200px] object-contain'
+                    sizes='(max-width: 1024px) 150px, (max-width: 1536px) 180px, 200px'
                   />
                 ))}
               </div>
@@ -80,34 +96,49 @@ export default async function GrandSeminar() {
               alt={'decoration3'}
               height={90}
               width={90}
-              className='absolute left-0 top-[300px] w-[60px] lg:w-[90px]'
-            ></Image>
+              className='absolute left-0 top-[300px] w-[60px] lg:w-[90px] opacity-50'
+              data-aos='fade-in'
+              sizes='(max-width: 1024px) 60px, 90px'
+            />
             <Image
               src={'/Ellipse123.svg'}
               alt={'decoration4'}
               height={90}
               width={90}
-              className='absolute left-18 top-[500px] w-[60px] lg:w-[90px]'
-            ></Image>
+              className='absolute left-18 top-[500px] w-[60px] lg:w-[90px] opacity-50'
+              data-aos='fade-in'
+              sizes='(max-width: 1024px) 60px, 90px'
+            />
             <Image
               src={'/StarDecoration2.svg'}
               alt={'decoration5'}
               height={90}
               width={90}
-              className='absolute right-0 top-[700px] w-[60px] lg:w-[90px]'
-            ></Image>
+              className='absolute right-0 top-[700px] w-[60px] lg:w-[90px] opacity-50'
+              data-aos='fade-in'
+              sizes='(max-width: 1024px) 60px, 90px'
+            />
           </div>
-          <div className='m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
+          <div
+            data-aos='flip-up'
+            className='m-auto w-fit h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'
+          >
             <div className=' w-fit h-fit rounded-[28px] bg-gradient-light-cards px-12 py-5 flex items-center overflow-hidden m-[6px]'>
-              <h1 className='font-museo-muderno text-center w-full break-word font-bold text-3xl lg:text-[40px] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '>
+              <h2
+                data-aos='zoom-in'
+                className='font-museo-muderno text-center w-full break-word font-bold text-3xl lg:text-[40px] bg-gradient-brown text-transparent bg-clip-text drop-shadow-[0_0px_20px_rgba(171,129,78,1)] '
+              >
                 {ourSponsorsPage.ourMediaPartner}
-              </h1>
+              </h2>
             </div>
           </div>
-          <div className='m-auto w-full sm:w-[80%] h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'>
+          <div
+            data-aos='fade-in'
+            className='m-auto w-full sm:w-[80%] h-fit rounded-[30px] bg-gradient-light-brown flex drop-shadow-[0_0px_20px_rgba(219,184,139,0.7)]'
+          >
             <div className=' m-auto w-[calc(100%-16px)] h-fit rounded-[28px] bg-gradient-light-cards flex items-center px-8 py-12 lg:p-16 my-2 overflow-hidden'>
               <div className=' w-full flex flex-wrap justify-center items-center gap-6 md:gap-6 lg:gap-10'>
-                {ourSponsorsPage.ourMediaPartnerLogo.map((logo) => (
+                {ourSponsorsPage.ourMediaPartnerLogo.map((logo, index) => (
                   <Image
                     key={logo.id}
                     src={logo.url}
@@ -115,6 +146,9 @@ export default async function GrandSeminar() {
                     height={logo.height}
                     alt={logo.title}
                     className='w-[150px] lg:w-[180px] 2xl:w-[200px] object-contain'
+                    data-aos='fade-up'
+                    data-aos-duration={500 + index * 100}
+                    sizes='(max-width: 1024px) 150px, (max-width: 1536px) 180px, 200px'
                   />
                 ))}
               </div>

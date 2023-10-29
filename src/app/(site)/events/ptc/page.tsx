@@ -86,7 +86,7 @@ const PTC = async () => {
     });
 
   return (
-    <main className='w-full min-h-screen flex flex-col items-center justify-center'>
+    <main className='w-full min-h-screen flex flex-col relative items-center justify-center'>
       {/*PROTOTECH CONTEST*/}
       <section className='relative w-full h-fit'>
         <Image
@@ -152,14 +152,23 @@ const PTC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden lg:right-0 lg:top-[-225px] lg:block md:right-0 md:top-[100px] right-0 top-[350px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:top-[-225px] lg:flex md:top-[100px] right-0 top-[350px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star4 size={40} />
           {/* <Star5 size={40} /> */}
         </div>
-        <div className='absolute hidden lg:right-[148px] lg:top-[830px] lg:block md:right-28 md:top-[900px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:right-[148px] lg:top-[830px] lg:flex md:right-28 md:top-[900px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden lg:right-[148px] lg:top-[830px] lg:block md:right-[7rem] md:top-[895px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:right-[148px] lg:top-[830px] lg:flex md:right-[7rem] md:top-[895px] right-28 top-[1150px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star6 size={30} />
         </div>
       </section>
@@ -203,13 +212,22 @@ const PTC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden lg:-left-10 lg:top-[805px] lg:block md:-left-10 md:top-[930px] left-0 top-[960px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:-left-10 lg:top-[805px] lg:block md:-left-10 md:top-[930px] left-0 top-[960px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star7 size={40} />
         </div>
-        <div className='absolute hidden lg:left-[88] lg:top-[1135px] lg:block md:left-[72px] md:top-[1380px] left-24 top-[1410px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:left-[88] lg:top-[1135px] lg:block md:left-[72px] md:top-[1380px] left-24 top-[1410px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden lg:left-[104px] lg:top-[1025px] lg:block md:left-[82px] md:top-[1315px] left-24 top-[1345px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:left-[104px] lg:top-[1025px] lg:block md:left-[82px] md:top-[1315px] left-24 top-[1345px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star6 size={40} />
         </div>
       </section>
@@ -253,13 +271,22 @@ const PTC = async () => {
         <div className='absolute lg:right-0 lg:top-[780px] lg:block md:-right-4 md:top-[1060px] -right-4 top-[1460px] lg:scale-100 scale-[52%] z-0'>
           <Starburst size={25} />
         </div>
-        <div className='absolute hidden left-52 top-[1615px] lg:block'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 left-52 top-[1615px] lg:block'
+        >
           <Star8 size={32} />
         </div>
-        <div className='absolute hidden left-64 top-[1595px] lg:block'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 left-64 top-[1595px] lg:block'
+        >
           <Star9 size={32} />
         </div>
-        <div className='absolute lg:right-4 lg:top-[1595px] lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[52%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute opacity-80 lg:right-4 lg:top-[1595px] lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[52%] z-0'
+        >
           <Star10 size={30} />
         </div>
       </section>
@@ -305,13 +332,22 @@ const PTC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden lg:-left-10 lg:top-[805px] lg:block md:-left-10 md:top-[930px] left-0 top-[960px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:-left-10 lg:top-[805px] lg:block md:-left-10 md:top-[930px] left-0 top-[960px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star7 size={40} />
         </div>
-        <div className='absolute hidden lg:left-[88] lg:top-[1135px] lg:block md:left-[72px] md:top-[1380px] left-24 top-[1410px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:left-[88] lg:top-[1135px] lg:block md:left-[72px] md:top-[1380px] left-24 top-[1410px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden lg:left-[104px] lg:top-[1025px] lg:block md:left-[82px] md:top-[1315px] left-24 top-[1345px] lg:scale-100 scale-[62%] z-0'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 lg:left-[104px] lg:top-[1025px] lg:block md:left-[82px] md:top-[1315px] left-24 top-[1345px] lg:scale-100 scale-[62%] z-0'
+        >
           <Star6 size={40} />
         </div>
       </section>
@@ -343,13 +379,22 @@ const PTC = async () => {
             </div>
           </div>
         </div>
-        <div className='absolute hidden left-0 top-[3145px] lg:block'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 left-0 top-[3145px] lg:block'
+        >
           <Star7 size={55} />
         </div>
-        <div className='absolute hidden left-48 top-[3210px] lg:block'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 left-48 top-[3210px] lg:block'
+        >
           <Star5 size={40} />
         </div>
-        <div className='absolute hidden left-48 top-[3125px] lg:block'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 left-48 top-[3125px] lg:block'
+        >
           <Star6 size={40} />
         </div>
       </section>
@@ -361,7 +406,10 @@ const PTC = async () => {
         className='w-full bg-gradient-section px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
         style={{ background: 'rgba(7, 29, 16)' }}
       >
-        <div className='absolute hidden left-[480px] top-[3625px] lg:block'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 left-[480px] top-[3625px] lg:block'
+        >
           <Star11 size={40} />
         </div>
         <div
@@ -370,10 +418,16 @@ const PTC = async () => {
         >
           <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             <TitleSection>{ptcPage.timelineSectionTitle}</TitleSection>
-            <div className='absolute hidden right-[520px] lg:top-[2890px] lg:block'>
+            <div
+              data-aos='fade-in'
+              className='absolute hidden opacity-80 right-[520px] lg:top-[2890px] lg:block'
+            >
               <Star8 size={25} />
             </div>
-            <div className='absolute hidden right-[500px] lg:top-[2880px] lg:block'>
+            <div
+              data-aos='fade-in'
+              className='absolute hidden opacity-80 right-[500px] lg:top-[2880px] lg:block'
+            >
               <Star9 size={25} />
             </div>
           </div>
@@ -393,10 +447,16 @@ const PTC = async () => {
         <div className='absolute lg:-left-4 lg:top-[3920px] lg:block md:-left-8 md:top-[4380px] -left-12 top-[5700px] lg:scale-100 scale-[52%] z-0'>
           <Explosion size={20} />
         </div>
-        <div className='absolute hidden right-[80px] lg:top-[4400px] lg:block'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 right-[80px] lg:top-[4400px] lg:block'
+        >
           <Star8 size={25} />
         </div>
-        <div className='absolute hidden right-[65px] lg:top-[4380px] lg:block'>
+        <div
+          data-aos='fade-in'
+          className='absolute hidden opacity-80 right-[65px] lg:top-[4380px] lg:block'
+        >
           <Star9 size={25} />
         </div>
       </section>
