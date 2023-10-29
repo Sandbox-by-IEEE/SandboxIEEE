@@ -245,7 +245,7 @@ export default function PTCRegist() {
       return;
     }
 
-    console.log('POST to cms', inputData);
+    // Submit data shoot API
     try {
       const dataTicket = {
         competitionType: 'PTC',
@@ -284,9 +284,9 @@ export default function PTCRegist() {
           status: 'success',
           description: bodyResponse.message,
         });
-        router.push('/');
         localStorage.removeItem(inputDataHistoryKey);
       }
+      router.push('/events/ptc/registration');
     } catch (err) {
       console.log('ERROR_POST_TPC: ', err);
       callToast({
