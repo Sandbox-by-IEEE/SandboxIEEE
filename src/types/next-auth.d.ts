@@ -31,10 +31,6 @@ declare module 'next-auth' {
         verified: boolean;
       };
     };
-    exhibition?: {
-      buy: boolean;
-      active: boolean;
-    };
   }
 
   interface Session {
@@ -67,10 +63,6 @@ declare module 'next-auth' {
           buy: boolean;
           verified: boolean;
         };
-      };
-      exhibition?: {
-        buy: boolean;
-        active: boolean;
       };
     };
   }
