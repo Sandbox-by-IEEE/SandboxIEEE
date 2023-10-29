@@ -54,6 +54,13 @@ export const authOptions: AuthOptions = {
             ticketsExhibition: {
               select: {
                 active: true,
+                verified: true,
+              },
+            },
+            ticketsCompetition: {
+              select: {
+                competitionType: true,
+                verified: true,
               },
             },
           },
@@ -85,6 +92,13 @@ export const authOptions: AuthOptions = {
           ? existingUser.ticketsExhibition
           : undefined;
 
+        const ticketTPC = existingUser.ticketsCompetition.find(
+          (ticket) => ticket.competitionType === 'TPC',
+        );
+        const ticketPTC = existingUser.ticketsCompetition.find(
+          (ticket) => ticket.competitionType === 'PTC',
+        );
+
         return {
           id: existingUser.id,
           name: existingUser.name,
@@ -94,9 +108,20 @@ export const authOptions: AuthOptions = {
             karya: karya,
             status: existingUser.karya ? true : false,
           },
-          exhibition: {
-            buy: ticketExhibition ? true : false,
-            active: ticketExhibition ? ticketExhibition.active : false,
+          ticket: {
+            exhibition: {
+              buy: ticketExhibition ? true : false,
+              active: ticketExhibition ? ticketExhibition.active : false,
+              verified: ticketExhibition ? ticketExhibition.verified : false,
+            },
+            PTC: {
+              buy: ticketPTC ? true : false,
+              verified: ticketPTC ? ticketPTC.verified : false,
+            },
+            TPC: {
+              buy: ticketTPC ? true : false,
+              verified: ticketTPC ? ticketTPC.verified : false,
+            },
           },
         };
       },
@@ -130,6 +155,13 @@ export const authOptions: AuthOptions = {
           ticketsExhibition: {
             select: {
               active: true,
+              verified: true,
+            },
+          },
+          ticketsCompetition: {
+            select: {
+              competitionType: true,
+              verified: true,
             },
           },
         },
@@ -159,6 +191,13 @@ export const authOptions: AuthOptions = {
         ? existingUser.ticketsExhibition
         : undefined;
 
+      const ticketTPC = existingUser.ticketsCompetition.find(
+        (ticket) => ticket.competitionType === 'TPC',
+      );
+      const ticketPTC = existingUser.ticketsCompetition.find(
+        (ticket) => ticket.competitionType === 'PTC',
+      );
+
       return {
         ...session,
         user: {
@@ -169,9 +208,20 @@ export const authOptions: AuthOptions = {
             karya: karya,
             status: existingUser.karya ? true : false,
           },
-          exhibition: {
-            buy: ticketExhibition ? true : false,
-            active: ticketExhibition ? ticketExhibition.active : false,
+          ticket: {
+            exhibition: {
+              buy: ticketExhibition ? true : false,
+              active: ticketExhibition ? ticketExhibition.active : false,
+              verified: ticketExhibition ? ticketExhibition.verified : false,
+            },
+            PTC: {
+              buy: ticketPTC ? true : false,
+              verified: ticketPTC ? ticketPTC.verified : false,
+            },
+            TPC: {
+              buy: ticketTPC ? true : false,
+              verified: ticketTPC ? ticketTPC.verified : false,
+            },
           },
         },
       };

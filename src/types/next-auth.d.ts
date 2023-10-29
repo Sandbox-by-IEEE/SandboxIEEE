@@ -16,6 +16,21 @@ declare module 'next-auth' {
         linkKarya: string;
       };
     };
+    ticket?: {
+      exhibition: {
+        buy: boolean;
+        verified: boolean;
+        active: boolean;
+      };
+      TPC: {
+        buy: boolean;
+        verified: boolean;
+      };
+      PTC: {
+        buy: boolean;
+        verified: boolean;
+      };
+    };
     exhibition?: {
       buy: boolean;
       active: boolean;
@@ -36,6 +51,21 @@ declare module 'next-auth' {
           };
           countVote: int;
           linkKarya: string;
+        };
+      };
+      ticket?: {
+        exhibition: {
+          buy: boolean;
+          verified: boolean;
+          active: boolean;
+        };
+        TPC: {
+          buy: boolean;
+          verified: boolean;
+        };
+        PTC: {
+          buy: boolean;
+          verified: boolean;
         };
       };
       exhibition?: {

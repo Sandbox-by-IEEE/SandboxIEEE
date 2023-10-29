@@ -1,5 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
 import { FileInputType } from '@/components/FileInput/fileInput-type';
@@ -15,6 +16,7 @@ const inputDataHistoryKey = 'ptc-regist-history';
 
 export default function PTCRegist() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
     memberCount: 1,
@@ -296,6 +298,37 @@ export default function PTCRegist() {
       });
     }
   };
+
+  useEffect(() => {
+    if (status === 'loading') {
+      return;
+    }
+    if (!session?.user) {
+      callToast({
+        status: 'error',
+        description: 'Unauthorized, please login first',
+      });
+      router.push('/login');
+    } else {
+      if (session.user.ticket?.PTC.buy && !session.user.ticket.PTC.verified) {
+        callToast({
+          status: 'error',
+          description: 'You have purchased this ticket, Waiting for validation',
+        });
+        router.push('/');
+      } else if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified
+      ) {
+        callToast({
+          status: 'error',
+          description:
+            'You have purchased this ticket, Your ticket has been validated',
+        });
+        router.push('/');
+      }
+    }
+  }, [status]);
 
   useEffect(() => {
     if (filesForm2?.length) {
