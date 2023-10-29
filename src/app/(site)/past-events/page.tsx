@@ -39,7 +39,7 @@ function DecoratedTitle({ title }: { title: string }) {
       className='relative text-4xl font-extrabold text-[#9a7037] px-4 py-2 inline-block'
       data-aos='zoom-in'
     >
-      <div className='aspect-square w-4 md:w-8 absolute -z-[3] top-[-5px] left-[-5px] md:top-[-20px] md:left-[-30px] rotate-[23deg]'>
+      <div className='aspect-square opacity-80 w-4 md:w-8 absolute -z-[3] top-[-5px] left-[-5px] md:top-[-20px] md:left-[-30px] rotate-[23deg]'>
         <Image
           src='/sparkle.svg'
           alt='Sparkle decoration'
@@ -48,7 +48,7 @@ function DecoratedTitle({ title }: { title: string }) {
           className='w-4 md:w-8'
         />
       </div>
-      <div className='aspect-square absolute -z-[3] bottom-[-5px] left-[-5px] md:bottom-[-10px] md:left-[-30px] rotate-[43deg]'>
+      <div className='aspect-square opacity-80 absolute -z-[3] bottom-[-5px] left-[-5px] md:bottom-[-10px] md:left-[-30px] rotate-[43deg]'>
         <Image
           src='/sparkle.svg'
           alt='Sparkle decoration'
@@ -56,9 +56,10 @@ function DecoratedTitle({ title }: { title: string }) {
           height={16}
           className='w-4 md:w-8'
           sizes='(max-width: 768px) 16px, 32px'
+          data-aos='fade-in'
         />
       </div>
-      <div className='aspect-square w-4 md:w-[25px] absolute -z-[3] top-[-5px] right-[-5px] md:top-[-20px] md:right-[-20px] rotate-[23deg]'>
+      <div className='aspect-square opacity-80 w-4 md:w-[25px] absolute -z-[3] top-[-5px] right-[-5px] md:top-[-20px] md:right-[-20px] rotate-[23deg]'>
         <Image
           src='/sparkle.svg'
           alt='Sparkle decoration'
@@ -66,9 +67,10 @@ function DecoratedTitle({ title }: { title: string }) {
           height={16}
           className='w-4 md:w-8'
           sizes='(max-width: 768px) 16px, 32px'
+          data-aos='fade-in'
         />
       </div>
-      <div className='aspect-square w-4 md:w-8 absolute -z-[3] bottom-[-5px] right-[-5px] md:bottom-[-10px] md:right-[-30px] rotate-[43deg]'>
+      <div className='aspect-square opacity-80 w-4 md:w-8 absolute -z-[3] bottom-[-5px] right-[-5px] md:bottom-[-10px] md:right-[-30px] rotate-[43deg]'>
         <Image
           src='/sparkle.svg'
           alt='Sparkle decoration'
@@ -76,6 +78,7 @@ function DecoratedTitle({ title }: { title: string }) {
           height={16}
           className='w-4 md:w-8'
           sizes='(max-width: 768px) 16px, 32px'
+          data-aos='fade-in'
         />
       </div>
       <h2
@@ -103,11 +106,14 @@ export default async function PastEvent() {
       <main className='flex min-h-screen w-full bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex-col font-museo-muderno'>
         {/*OUR PAST EVENTS TITLE*/}
         <div
+          data-aos='fade-in'
           className='w-full bg-gradient-to-b from-[#0b2712] to-[#123b1a] px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20 relative'
           style={{ background: 'rgba(7, 29, 16)' }}
-          data-aos='fade-up'
         >
-          <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
+          <div
+            data-aos='fade-up'
+            className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+          >
             <div className='bg-gradient-green w-full flex flex-row items-center justify-center  p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
               <DecoratedTitle title='Our past Events' />
             </div>
@@ -122,7 +128,7 @@ export default async function PastEvent() {
               className='h-auto px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col z-[5] gap-16 relative'
             >
               {/* // Decoration */}
-              <div className='aspect-square h-72 absolute -z-[3] left-0 top-[100px]'>
+              <div className='aspect-square opacity-80 h-72 absolute -z-[3] left-0 top-[100px]'>
                 <Image
                   src='/comet.svg'
                   alt='comet'
@@ -133,7 +139,7 @@ export default async function PastEvent() {
                 />
               </div>
               {/* // Decoration */}
-              <div className='aspect-square h-72 absolute -z-[3] top-[500px] right-0 rotate-[180deg]'>
+              <div className='aspect-square opacity-80 h-72 absolute -z-[3] top-[500px] right-0 rotate-[180deg]'>
                 <Image
                   src='/comet.svg'
                   alt='comet'
@@ -144,7 +150,7 @@ export default async function PastEvent() {
                 />
               </div>
               {/* // Decoration */}
-              <div className='aspect-square h-36 absolute -z-[3] top-[750px] left-[-10px] rotate-[180deg]'>
+              <div className='aspect-square opacity-80 h-36 absolute -z-[3] top-[750px] left-[-10px] rotate-[180deg]'>
                 <Image
                   src='/StarDecoration2.svg'
                   alt='comet'
@@ -188,7 +194,7 @@ export default async function PastEvent() {
               key={index}
               className='h-auto px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex flex-col gap-16 relative z-[5]'
             >
-              <div className='aspect-square h-16 absolute -z-[3] top-[200px] right-[-10px] rotate-[180deg]'>
+              <div className='aspect-square opacity-80 h-16 absolute -z-[3] top-[200px] right-[-10px] rotate-[180deg]'>
                 <Image
                   src='/StarDecoration1.svg'
                   alt='comet'

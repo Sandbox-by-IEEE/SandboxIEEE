@@ -55,22 +55,22 @@ const OurMentorsPage = async () => {
     <main className='w-full bg-[#0b341a] text-white min-h-screen '>
       <div className='w-full relative z-[3] flex flex-col justify-center py-[80px] lg:py-[120px] items-center bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
         <div>
-          <div className='absolute -z-[2] left-0 top-[400px]'>
+          <div className='absolute -z-[2] opacity-80 left-0 top-[400px]'>
             <Bintang2 size={25} />
           </div>
-          <div className='absolute -z-[2] right-0 top-[400px]'>
+          <div className='absolute -z-[2] opacity-80 right-0 top-[400px]'>
             <Elips1 size={25} />
           </div>
-          <div className='absolute -z-[2] left-0 top-[1100px]'>
+          <div className='absolute -z-[2] opacity-80 left-0 top-[1100px]'>
             <Elips2 size={25} />
           </div>
-          <div className='absolute -z-[2] right-0 top-[1050px]'>
+          <div className='absolute -z-[2] opacity-80 right-0 top-[1050px]'>
             <Abstrak size={25} />
           </div>
-          <div className='absolute -z-[2] left-0 top-[750px]'>
+          <div className='absolute -z-[2] opacity-80 left-0 top-[750px]'>
             <Jatuh1 size={25} />
           </div>
-          <div className='absolute -z-[2] right-0 top-[3400px] sm:top-[2850px]'>
+          <div className='absolute -z-[2] opacity-80 right-0 top-[3400px] sm:top-[2850px]'>
             <Jatuh2 size={25} />
           </div>
         </div>
