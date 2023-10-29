@@ -38,7 +38,7 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
         }}
       >
         <Body className='mx-auto my-auto font-sans h-fit w-full bg-white'>
-          <Container className='relative rounded w-[515px] overflow-hidden bg-background bg-cover bg-center bg-no-repeat'>
+          <Container className='relative rounded w-[485px] overflow-hidden bg-background bg-cover bg-center bg-no-repeat'>
             <Section className='w-full'>
               <Img
                 src={`https://res.cloudinary.com/dssrh53qx/image/upload/v1697283874/header_wrtaop.png`}
@@ -46,7 +46,7 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
                 className='w-full'
               />
             </Section>
-            <Section className='z-[10] w-[464px]'>
+            <Section className='z-[10] w-[437px]'>
               <Row className='w-full'>
                 <Text className='text-[#705229] text-sm font-black drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
                   Dear {name},
@@ -79,7 +79,7 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
                 </Text>
               </Row>
             </Section>
-            <Section className='w-[515px]'>
+            <Section className='w-[485px]'>
               <Img
                 src={`https://res.cloudinary.com/dssrh53qx/image/upload/v1697283840/footer_qslzrm.png`}
                 alt='Vercel'

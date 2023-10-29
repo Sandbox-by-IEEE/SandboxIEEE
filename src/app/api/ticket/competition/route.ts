@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         ticket: ticket,
-        message: 'ticket purchase successful and please check your email',
+        message: 'Ticket purchase successful and please check your email',
       },
       { status: 201 },
     );

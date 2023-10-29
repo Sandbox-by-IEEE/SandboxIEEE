@@ -286,7 +286,7 @@ export default function TPCRegist() {
           status: 'success',
           description: bodyResponse.message,
         });
-        router.push('/');
+        router.push('/events/tpc/registration');
         localStorage.removeItem(inputDataHistoryKey);
       }
     } catch (err) {

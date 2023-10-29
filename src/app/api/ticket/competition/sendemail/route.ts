@@ -24,9 +24,7 @@ export async function POST(req: NextRequest) {
       (ticket) => !ticket.verified,
     );
 
-    const headingVerified = 'haiidaieidajeaied';
-    const contentverified =
-      'diaineiadindoidnoaieneoaidnaoiedaoiednoiaednaoidnaoidnaoiedniaednaoiendaoidn';
+    const headingVerified = ` You've Cleared the Verification Stage!`;
 
     ticketVerified.forEach(async (ticket) => {
       const mailOptions = {
@@ -36,7 +34,12 @@ export async function POST(req: NextRequest) {
         html: render(
           Email({
             heading: headingVerified,
-            content: contentverified,
+            content: `
+            We are pleased to inform ${ticket.team?.teamName} that your documents have been successfully verified, and your team has been selected to advance to the next stage of the competition. Congratulations on reaching this milestone!
+            We are excited to see what your team will achieve in the upcoming stages. Make sure to prepare well and give your best performance.
+            If you have any questions or need further information regarding the next stages of the competition, please do not hesitate to reach out to us. We are here to assist you and ensure your successful participation in the event.
+            Once again, congratulations and best of luck in the next stages of the competition!
+            Warm regards,`,
             name: ticket.team?.chairmanName || '',
           }),
           { pretty: true },
@@ -45,9 +48,7 @@ export async function POST(req: NextRequest) {
       await transporter.sendMail(mailOptions);
     });
 
-    const headingNotVerified = 'haiidaieidajeaied';
-    const contentNotverified =
-      'diaineiadindoidnoaieneoaidnaoiedaoiednoiaednaoidnaoidnaoiedniaednaoiendaoidn';
+    const headingNotVerified = 'Document Verification Update';
 
     ticketNotVerified.forEach(async (ticket) => {
       const mailOptions = {
@@ -57,7 +58,11 @@ export async function POST(req: NextRequest) {
         html: render(
           Email({
             heading: headingNotVerified,
-            content: contentNotverified,
+            content: `
+            We regret to inform ${ticket.team?.teamName} that your documents did not pass our verification process, and unfortunately, your team has not been selected to advance to the next stage of the competition.
+            We understand that this may be disappointing, and we encourage you to review the document requirements and submission guidelines for future competitions. If you have any questions or concerns about the verification process, please feel free to reach out to us at [support email address]. We are here to assist you and provide clarification as needed.
+            Thank you for your interest and participation in our event. We hope to see you in future competitions and wish you the best in your future endeavors.
+            Warm regards,`,
             name: ticket.team?.chairmanName || '',
           }),
           { pretty: true },

@@ -286,9 +286,9 @@ export default function PTCRegist() {
           status: 'success',
           description: bodyResponse.message,
         });
+        router.push('/events/ptc');
         localStorage.removeItem(inputDataHistoryKey);
       }
-      router.push('/events/ptc/registration');
     } catch (err) {
       console.log('ERROR_POST_TPC: ', err);
       callToast({
