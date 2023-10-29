@@ -11,6 +11,7 @@ import Jatuh1 from '@/components/icons/mentors/jatuh1';
 import Jatuh2 from '@/components/icons/mentors/jatuh2';
 import MentorCards from '@/components/mentorCards';
 import MentorCarousel from '@/components/mentorsCarousel';
+import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { OurMentorsPageProps } from '@/types/our-mentors';
 
@@ -52,7 +53,7 @@ const OurMentorsPage = async () => {
 
   return (
     <main className='w-full bg-[#0b341a] text-white min-h-screen '>
-      <div className='w-full relative z-[3] flex flex-col justify-center py-[80px] lg:py-[120px] overflow-hidden items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
+      <div className='w-full relative z-[3] flex flex-col justify-center py-[80px] lg:py-[120px] items-center bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
         <div>
           <div className='absolute -z-[2] left-0 top-[400px]'>
             <Bintang2 size={25} />
@@ -75,20 +76,23 @@ const OurMentorsPage = async () => {
         </div>
         {/* h1 Title Page */}
         <section className='flex flex-col gap-5 lg:gap-10 w-full items-center justify-center px-8 sm:px-10 md:px-20 xl:px-32 2xl:px-40'>
-          <div className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'>
+          <div
+            data-aos='zoom-in'
+            className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+          >
             <div className='relative bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
               <Basket1
                 size={25}
                 className='absolute -left-[130px] w-[130px] lg:w-[200px] lg:-left-[300px] -top-[70px]'
               />
-              <h1
+              <h2
                 style={{
                   ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                 }}
                 className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[45px] font-museo-muderno p-1 font-bold'
               >
                 {ourMentorsPage.title}
-              </h1>
+              </h2>
               <Basket2
                 size={25}
                 className='absolute -right-[130px] w-[130px] lg:w-[200px] lg:-right-[300px] -bottom-[80px]'
@@ -97,7 +101,7 @@ const OurMentorsPage = async () => {
           </div>
           {/* Carousels */}
           {allMentorDetails.length > 2 && (
-            <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16'>
+            <div className='w-full flex flex-col items-center justify-center py-8 lg:py-16'>
               <MentorCarousel options={allMentorDetails} />
             </div>
           )}
@@ -110,24 +114,18 @@ const OurMentorsPage = async () => {
         >
           {/* Our Mentors subtitle */}
           {ourMentorsPage.subtitleSection && allMentorDetails.length > 2 && (
-            <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
-              <div
-                id='seemore'
-                className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'
-              >
-                <h2
-                  style={{
-                    ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
-                  }}
-                  className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
-                >
-                  {ourMentorsPage.subtitleSection}
-                </h2>
+            <div
+              data-aos='fade-up'
+              id='seemore'
+              className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'
+            >
+              <div className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+                <TitleSection>{ourMentorsPage.subtitleSection}</TitleSection>
               </div>
             </div>
           )}
 
-          <MentorCards options={allMentorDetails} />
+          <MentorCards options={allMentorDetails} data-aos='zoom-in' />
         </section>
       </div>
 
@@ -141,7 +139,7 @@ export default OurMentorsPage;
 export const metadata: Metadata = {
   title: 'Our Mentors | Sandbox IEEE ITB',
   description:
-    "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+    'Meet our team of expert mentors at Sandbox IEEE ITB. Explore expert profiles, gain valuable insights, and connect with them on LinkedIn. Elevate your knowledge and network with our mentors.',
   generator: 'Next.js',
   category: 'Technology',
   applicationName: 'Sandbox IEEE ITB',
@@ -170,7 +168,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+      'Meet our team of expert mentors at Sandbox IEEE ITB. Explore expert profiles, gain valuable insights, and connect with them on LinkedIn. Elevate your knowledge and network with our mentors.',
     url: 'https://sandbox.ieeeitb.com/our-mentors',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -188,7 +186,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+      'Meet our team of expert mentors at Sandbox IEEE ITB. Explore expert profiles, gain valuable insights, and connect with them on LinkedIn. Elevate your knowledge and network with our mentors.',
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',

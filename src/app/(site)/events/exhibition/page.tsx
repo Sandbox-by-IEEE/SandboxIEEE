@@ -10,8 +10,8 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
-import LazyLoadMap from '@/app/(site)/events/exhibition/lazy-load-map';
 import { FAQ } from '@/components/FAQ';
+import LazyLoadMap from '@/components/lazy-load-map';
 import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
@@ -120,18 +120,23 @@ const ExhibitionPage = async () => {
           alt={exhibition.backgroundImage.title}
           priority
           className='w-full object-cover h-[771px] max-h-screen object-center'
-          data-aos='fade-in'
+          sizes='100vw'
         />
         {/* Text Content on background */}
-        <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
+        <div
+          className='absolute top-1/2 p-24 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'
+          style={{
+            background:
+              'radial-gradient(50% 50% at 50% 50%, rgba(8, 30, 17, 0.90) 18.33%, rgba(0, 0, 0, 0.00) 99.48%)',
+          }}
+        >
           <h2
             style={{
               ['textShadow' as any]:
                 '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
             }}
-            className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
             data-aos='flip-up'
-            data-aos-duration='900'
+            className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
           >
             {exhibition.titleExhibitionPage}
           </h2>
@@ -168,6 +173,7 @@ const ExhibitionPage = async () => {
                 height={exhibition.imageMascot.height}
                 className='w-[130px] h-[200px] lg:w-[226px] lg:h-[301px] object-contain object-center'
                 data-aos='fade-right'
+                sizes='(max-width: 1024px) 130px, 226px'
               />
               {/* Description */}
               <h4

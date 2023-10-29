@@ -110,8 +110,12 @@ export async function POST(req: NextRequest) {
       throw new Error(`Failed to create ticket, ${resBody.message}`);
     }
 
-    const content =
-      'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
+    const content = `
+    We wanted to let you know that your registration is currently in the process of being reviewed and processed by our team. We understand that you may be eagerly awaiting the results, and we assure you that we are working diligently to ensure that your application is thoroughly evaluated.
+    Once the review process is complete, we will be sending out the results of your registration via email to the team leader's email address that was provided during registration. We understand the importance of this information to you, and we are committed to providing you with timely and accurate updates.
+    We appreciate your patience and understanding as we work through this process. If you have any questions or concerns in the meantime, please do not hesitate to reach out to us at [support email address]. Our team is here to assist you and we are committed to ensuring your satisfaction.
+    Thank you for choosing to be a part of our event.
+    Warm regards,`;
 
     for (let i = 0; i < members.length; i++) {
       const mailOptions = {
@@ -121,7 +125,7 @@ export async function POST(req: NextRequest) {
         html: render(
           Email({
             content,
-            heading: 'Ticket validation',
+            heading: 'Ticket Validation',
             name: ticket.team?.members[i].name || '',
           }),
           { pretty: true },

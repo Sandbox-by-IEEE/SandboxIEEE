@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
+import ButtonRegistration from '@/components/ButtonRegistration';
 import { FAQ } from '@/components/FAQ';
 import Explosion from '@/components/icons/explosion';
 import Star4 from '@/components/icons/star4';
@@ -119,9 +120,7 @@ const PTC = async () => {
           >
             {ptcPage.titleTpcPages}
           </h1>
-          <CustomLink color='green' url='/events/ptc/registration'>
-            {ptcPage.buttonTextRegister}
-          </CustomLink>
+          <ButtonRegistration>{ptcPage.buttonTextRegister}</ButtonRegistration>
         </div>
       </section>
       {/* END PROTOTECH CONTEST */}
