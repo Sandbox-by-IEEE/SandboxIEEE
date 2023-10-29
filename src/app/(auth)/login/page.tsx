@@ -21,17 +21,14 @@ import TextInput from '@/components/TextInput';
 import { callToast } from '@/components/Toast';
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .email('Emails is invalid')
-    .min(1, 'Email field is required'),
+  username: z.string().min(1, 'Username field is required'),
   password: z.string().min(1, 'Password field is required'),
 });
 
 // Defining the functional component Home
 export default function Home() {
   // Using useState hook to manage the state for email, username, and password inputs
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
@@ -46,7 +43,7 @@ export default function Home() {
   const handleOnSubmit = async (e: any) => {
     e.preventDefault();
     const body = {
-      email: email,
+      username: username,
       password: password,
     };
 
@@ -58,14 +55,14 @@ export default function Home() {
           callToast({ status: 'error', description: err.message });
         }, 500 * index);
       });
-      setEmail('');
+      setUsername('');
       setPassword('');
       router.refresh();
       return;
     }
 
     const resLogin = await signIn('credentials', {
-      email: email,
+      username: username,
       password: password,
       redirect: false,
       callbackUrl: '/',
@@ -76,7 +73,7 @@ export default function Home() {
         status: 'error',
         description: resLogin?.error || 'Login Failed',
       });
-      setEmail('');
+      setUsername('');
       setPassword('');
       router.refresh();
     } else {
@@ -160,14 +157,14 @@ export default function Home() {
               <div className='flex flex-col gap-2 w-full px-0 sm:px-[15%]'>
                 {/* Email input field */}
                 <div>
-                  <p>Email</p>
+                  <p>Username</p>
                   <TextInput
-                    text={email}
-                    setText={setEmail}
+                    text={username}
+                    setText={setUsername}
                     color='white'
                     fullwidth={true}
-                    type='email'
-                    placeholder='Your email address'
+                    type='text'
+                    placeholder='Your username'
                   />
                 </div>
                 {/* Password input field */}
