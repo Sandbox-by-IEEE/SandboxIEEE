@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as z from 'zod';
 
 // Importing custom components for UI elements and icons
@@ -26,10 +26,15 @@ const formSchema = z.object({
 });
 
 // Defining the functional component Home
-export default function Home() {
+export default function Home({
+  searchParams: { error },
+}: {
+  searchParams: { error: string };
+}) {
   // Using useState hook to manage the state for email, username, and password inputs
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
 
   const handleGoogle = async (e: any) => {
@@ -37,7 +42,6 @@ export default function Home() {
     await signIn('google', {
       callbackUrl: '/',
     });
-    router.push('/');
   };
 
   const handleOnSubmit = async (e: any) => {
@@ -81,6 +85,25 @@ export default function Home() {
       router.push('/');
     }
   };
+
+  useEffect(() => {
+    if (error && mounted) {
+      callToast({
+        status: 'error',
+        description:
+          'This user register with credentials, please login with credentials/password',
+      });
+      router.push('/login');
+    }
+  }, [mounted]);
+
+  useEffect(() => {
+    if (!mounted) {
+      setMounted(true);
+    }
+  }, []);
+
+  if (!mounted) return null;
 
   // The component returns the UI structure for the registration page
   return (

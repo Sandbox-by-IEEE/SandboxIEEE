@@ -67,7 +67,9 @@ export const authOptions: AuthOptions = {
         });
 
         if (!existingUser) {
-          throw new Error('Email is unregistered');
+          throw new Error(
+            'Username is unregistered or user have been register with google before',
+          );
         }
 
         if (!existingUser.credential) {
