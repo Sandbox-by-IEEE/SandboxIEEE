@@ -29,12 +29,12 @@ export const FAQ = ({
       {/* Container Question */}
       <div className='flex w-full justify-between items-center'>
         {/* Question */}
-        <h3
+        <h4
           data-aos='zoom-in'
           className='font-poppins bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-left text-transparent bg-clip-text text-base sm:text-lg lg:text-xl font-semibold'
         >
           {question}
-        </h3>
+        </h4>
         {/* Arrow */}
         <ArrowDropdownIcon
           size={25}
