@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
         ),
       };
 
-      await transporter.sendMail(mailOptions);
+      transporter.sendMail(mailOptions);
     }
 
     console.log('POST_TICKET: email was sent');
@@ -169,6 +169,7 @@ export async function POST(req: NextRequest) {
           },
         });
       }
+
       console.log('ERROR_POST_TICKET', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

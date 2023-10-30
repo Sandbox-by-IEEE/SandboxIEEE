@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
           { pretty: true },
         ),
       };
-      await transporter.sendMail(mailOptions);
+      transporter.sendMail(mailOptions);
     }
 
     const headingNotVerified = 'Document Verification Update';
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
           { pretty: true },
         ),
       };
-      await transporter.sendMail(mailOptions);
+      transporter.sendMail(mailOptions);
     }
     // ticketVerified.forEach(async (ticket) => {
     //   console.log(ticket.team);
