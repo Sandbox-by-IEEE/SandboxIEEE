@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
         ),
       };
 
-      transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
     }
 
     console.log('POST_TICKET: email was sent');
