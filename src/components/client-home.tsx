@@ -14,7 +14,7 @@ const ClientHome = () => {
     if (!mounted) {
       setMounted(true);
     }
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
     const message = searchParams.get('activationMsg');

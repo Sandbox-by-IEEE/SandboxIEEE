@@ -21,17 +21,19 @@ export async function POST(req: Request) {
       );
     }
 
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.user.findFirst({
       where: {
-        email: email,
+        OR: [{ email: email }, { username: username }],
       },
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { message: 'User with this email is already exists' },
-        { status: 409 },
-      );
+      const message =
+        existingUser.email === email
+          ? 'User with this email already exists'
+          : 'User with this username already exists';
+
+      return NextResponse.json({ message: message }, { status: 409 });
     }
 
     const hashPassword = await hash(password, 10);
