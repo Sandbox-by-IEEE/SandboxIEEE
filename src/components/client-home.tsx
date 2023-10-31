@@ -14,16 +14,13 @@ const ClientHome = () => {
     if (!mounted) {
       setMounted(true);
     }
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
     const token = searchParams.get('token');
     const func = async () => {
-      console.log('tes');
       const response = await fetch(`/api/user/activate/${token}`);
       const body = await response.json();
-
-      console.log(body);
 
       if (!response.ok) {
         callToast({
