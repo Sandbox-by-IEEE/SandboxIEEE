@@ -108,13 +108,13 @@ model TicketCompetition {
 }
 
 model Team {
-  id           String                   @id @default(uuid())
-  ticketId     String                   @unique
-  teamName     String                   @unique
-  chairmanName String
+  id            String                   @id @default(uuid())
+  ticketId      String                   @unique
+  teamName      String                   @unique
+  chairmanName  String
   chairmanEmail String
-  members      ParticipantCompetition[]
-  karya        Karya?
+  members       ParticipantCompetition[]
+  karya         Karya?
 
   ticketCompetition TicketCompetition @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
