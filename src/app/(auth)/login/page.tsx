@@ -27,9 +27,9 @@ const formSchema = z.object({
 
 // Defining the functional component Home
 export default function Home({
-  searchParams: { error },
+  searchParams: { error, activationMsg },
 }: {
-  searchParams: { error: string };
+  searchParams: { error: string; activationMsg: string };
 }) {
   // Using useState hook to manage the state for email, username, and password inputs
   const [username, setUsername] = useState('');
@@ -92,6 +92,14 @@ export default function Home({
         status: 'error',
         description:
           'This user register with credentials, please login with credentials/password',
+      });
+      router.push('/login');
+    }
+
+    if (activationMsg && mounted) {
+      callToast({
+        status: 'success',
+        description: activationMsg,
       });
       router.push('/login');
     }

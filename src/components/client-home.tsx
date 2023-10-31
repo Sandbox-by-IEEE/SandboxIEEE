@@ -17,47 +17,14 @@ const ClientHome = () => {
   }, []);
 
   useEffect(() => {
-    const token = searchParams.get('token');
-    const func = async () => {
-      console.log('tes');
-      const response = await fetch(`/api/user/activate/${token}`);
-      const body = await response.json();
-
-      console.log(body);
-
-      if (!response.ok) {
-        callToast({
-          status: 'error',
-          description: body.message,
-        });
-        router.push('/');
-      } else {
-        callToast({
-          status: 'success',
-          description: body.message,
-        });
-        router.push('/login');
-        // const resLogin = await signIn('credentials', {
-        //   username: body.user.username,
-        //   password: body.user.password,
-        //   redirect: false,
-        //   callbackUrl: '/',
-        // });
-
-        // if (resLogin?.error) {
-        //   callToast({
-        //     status: 'error',
-        //     description: resLogin?.error || 'Login failed',
-        //   });
-        //   router.push('/login');
-        // } else {
-        //   callToast({ status: 'success', description: 'Login succesfull' });
-        //   router.push('/');
-        // }
-      }
-    };
-
-    if (token && mounted) func();
+    const message = searchParams.get('activationMsg');
+    if (mounted) {
+      callToast({
+        status: 'error',
+        description: message || '',
+      });
+      router.push('/');
+    }
   }, [mounted]);
   if (!mounted) return null;
   return <></>;

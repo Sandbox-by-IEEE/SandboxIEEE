@@ -57,7 +57,7 @@ export const EmailAuth = ({ name, token, baseUrl }: EmailAuthProps) => {
               </Row>
               <Row className='mx-auto my-3 w-full'>
                 <Link
-                  href={`${baseUrl}?token=${token}`}
+                  href={`${baseUrl}/api/user/activate/${token}`}
                   className='mx-auto text-base text-center h-fit w-fit flex justify-center items-center py-2 px-3 rounded-md bg-[#0D432F] text-white cursor-pointer'
                 >
                   Verify Email
@@ -67,7 +67,7 @@ export const EmailAuth = ({ name, token, baseUrl }: EmailAuthProps) => {
                 <Text className='text-[#705229] text-[10px] font-black drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
                   if the button above {"doesn't"} work, please click{' '}
                   <Link
-                    href={`${baseUrl}?token=${token}`}
+                    href={`${baseUrl}/api/user/activate/${token}`}
                     className='cursor-pointer underline'
                   >
                     here

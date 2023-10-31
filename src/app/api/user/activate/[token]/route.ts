@@ -1,5 +1,6 @@
 import { render } from '@react-email/render';
 import { randomUUID } from 'crypto';
+import { redirect } from 'next/navigation';
 import { NextRequest, NextResponse } from 'next/server';
 
 import EmailAuth from '@/components/emails/EmailsAuth';
@@ -14,12 +15,15 @@ export async function GET(
   req: NextRequest,
   { params: { token } }: { params: Params },
 ) {
-  try {
-    if (!token) {
-      return NextResponse.json({ message: 'Missing token!!' }, { status: 400 });
-    }
+  const baseUrl = process.env.NEXTAUTH_URL || '';
 
-    const aToken = await prisma.activateToken.findUnique({
+  if (!token) {
+    return NextResponse.json({ message: 'Missing token!!' }, { status: 400 });
+  }
+
+  let aToken;
+  try {
+    aToken = await prisma.activateToken.findUnique({
       where: {
         token: token,
       },
@@ -27,35 +31,40 @@ export async function GET(
         user: true,
       },
     });
-
-    const baseUrl = process.env.NEXTAUTH_URL || '';
-
-    if (!aToken) {
-      return NextResponse.json({ message: 'No token found' }, { status: 404 });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('ERROR_ACTIVATED_USER: ', error);
+      redirect(`${baseUrl}?activationMsg=${error.message}`);
     }
+  }
 
-    if (aToken.activatedAt) {
-      return NextResponse.json(
-        { message: 'Token has been activated, please try to login' },
-        { status: 400 },
-      );
-    }
+  if (!aToken) {
+    redirect(`${baseUrl}?activationMsg=No token found!!`);
+  }
 
-    if (aToken.user.active) {
-      return NextResponse.json(
-        { message: 'User has been activated, please try to login' },
-        { status: 400 },
-      );
-    }
+  if (aToken.activatedAt) {
+    redirect(
+      `${baseUrl}?activationMsg=Token has been activated, please try to login!!`,
+    );
+  }
 
-    if (aToken.createdAt < new Date(Date.now() - 24 * 60 * 60 * 1000)) {
-      //token expired 1 day
-      const newToken = `${randomUUID()}${randomUUID()}${randomUUID()}`.replace(
-        '/-/g',
-        '',
-      );
+  if (aToken.user.active) {
+    redirect(
+      `${baseUrl}?activationMsg=User has been activated, please try to login`,
+    );
+  }
 
-      const newActivateToken = await prisma.activateToken.create({
+  if (aToken.createdAt < new Date(Date.now() - 24 * 60 * 60 * 1000)) {
+    //token expired 1 day
+    const newToken = `${randomUUID()}${randomUUID()}${randomUUID()}`.replace(
+      '/-/g',
+      '',
+    );
+
+    let newActivateToken;
+
+    try {
+      newActivateToken = await prisma.activateToken.create({
         data: {
           token: newToken,
           userId: aToken.user.id,
@@ -82,16 +91,22 @@ export async function GET(
       };
 
       await transporter.sendMail(mailOptions);
-
-      return NextResponse.json(
-        {
-          message: 'Token is expired, please check your email for a new token',
-        },
-        { status: 400 },
-      );
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log('ERROR_ACTIVATED_USER: ', error);
+        redirect(`${baseUrl}?activationMsg=${error.message}`);
+      }
     }
 
-    const user = await prisma.user.findFirst({
+    redirect(
+      `${baseUrl}?activationMsg=Token is expired, please check your email for a new token`,
+    );
+  }
+
+  let user;
+
+  try {
+    user = await prisma.user.findFirst({
       where: {
         activateToken: {
           some: {
@@ -112,22 +127,24 @@ export async function GET(
         },
       },
     });
-
-    if (!user) {
-      return NextResponse.json(
-        { message: 'Token invalid, user not found' },
-        { status: 404 },
-      );
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('ERROR_ACTIVATED_USER: ', error);
+      redirect(`${baseUrl}?activationMsg=${error.message}`);
     }
+  }
 
-    if (!user.credential) {
-      return NextResponse.json(
-        { message: 'User register with google' },
-        { status: 404 },
-      );
-    }
+  if (!user) {
+    redirect(`${baseUrl}?activationMsg=Token invalid, user not found`);
+  }
 
-    const [updatedToken, updatedUser] = await prisma.$transaction([
+  if (!user.credential) {
+    redirect(`${baseUrl}?activationMsg=User register with google`);
+  }
+
+  let transaction;
+  try {
+    transaction = await prisma.$transaction([
       prisma.activateToken.update({
         where: {
           token: token,
@@ -145,15 +162,12 @@ export async function GET(
         },
       }),
     ]);
-
-    return NextResponse.json(
-      { user: updatedUser, message: 'User activated succesfull' },
-      { status: 200 },
-    );
   } catch (error) {
     if (error instanceof Error) {
       console.log('ERROR_ACTIVATED_USER: ', error);
-      return NextResponse.json({ message: error.message }, { status: 500 });
+      redirect(`${baseUrl}?activationMsg=${error.message}`);
     }
   }
+
+  redirect(`${baseUrl}/login?activationMsg=User activated succesfull`);
 }
