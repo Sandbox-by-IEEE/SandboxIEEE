@@ -101,7 +101,7 @@ export default function Home({
     if (!mounted) {
       setMounted(true);
     }
-  }, []);
+  }, [mounted]);
 
   if (!mounted) return null;
 
@@ -201,6 +201,16 @@ export default function Home({
                     type='password'
                     placeholder='Enter a password'
                   />
+                </div>
+                <div>
+                  <Button
+                    color='gold'
+                    className='text-base text-cream-secondary-normal'
+                  >
+                    <p className='text-sm font-[500] hover:underline underline-offset-4'>
+                      Forgot the password?
+                    </p>
+                  </Button>
                 </div>
               </div>
               {/* Sign up button */}
