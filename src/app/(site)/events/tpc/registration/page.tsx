@@ -309,7 +309,10 @@ export default function TPCRegist() {
       });
       router.push('/login');
     } else {
-      if (session.user.ticket?.TPC.buy && !session.user.ticket.TPC.verified) {
+      if (
+        session.user.ticket?.TPC.buy &&
+        session.user.ticket.TPC.verified === 'pending'
+      ) {
         callToast({
           status: 'error',
           description: 'You have purchased this ticket, Waiting for validation',
@@ -317,12 +320,21 @@ export default function TPCRegist() {
         router.push('/');
       } else if (
         session.user.ticket?.TPC.buy &&
-        session.user.ticket.TPC.verified
+        session.user.ticket.TPC.verified === 'verified'
       ) {
         callToast({
           status: 'error',
           description:
             'You have purchased this ticket, Your ticket has been validated',
+        });
+        router.push('/');
+      } else if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'rejected'
+      ) {
+        callToast({
+          status: 'error',
+          description: 'You have purchased this ticket, Your ticket rejected',
         });
         router.push('/');
       }

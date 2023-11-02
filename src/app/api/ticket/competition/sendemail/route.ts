@@ -7,7 +7,17 @@ import { transporter } from '@/lib/mailTransporter';
 
 export async function POST(req: NextRequest) {
   try {
-    const allTicketCompetition = await prisma.ticketCompetition.findMany({
+    const ticketNotVerified = await prisma.ticketCompetition.findMany({
+      where: {
+        OR: [
+          {
+            verified: 'rejected',
+          },
+          {
+            verified: 'pending',
+          },
+        ],
+      },
       include: {
         team: {
           include: {
@@ -16,37 +26,6 @@ export async function POST(req: NextRequest) {
         },
       },
     });
-
-    const ticketVerified = allTicketCompetition.filter(
-      (ticket) => ticket.verified,
-    );
-    const ticketNotVerified = allTicketCompetition.filter(
-      (ticket) => !ticket.verified,
-    );
-
-    const headingVerified = ` You've Cleared the Verification Stage!`;
-
-    for (let i = 0; i < ticketVerified.length; i++) {
-      const mailOptions = {
-        from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-        to: ticketVerified[i].team?.chairmanEmail,
-        subject: 'Your Ticket Verified',
-        html: render(
-          Email({
-            heading: headingVerified,
-            content: `
-            We are pleased to inform ${ticketVerified[i].team?.teamName} that your documents have been successfully verified, and your team has been selected to advance to the next stage of the competition. Congratulations on reaching this milestone!
-            We are excited to see what your team will achieve in the upcoming stages. Make sure to prepare well and give your best performance.
-            If you have any questions or need further information regarding the next stages of the competition, please do not hesitate to reach out to us. We are here to assist you and ensure your successful participation in the event.
-            Once again, congratulations and best of luck in the next stages of the competition!
-            Warm regards,`,
-            name: ticketVerified[i].team?.chairmanName || '',
-          }),
-          { pretty: true },
-        ),
-      };
-      await transporter.sendMail(mailOptions);
-    }
 
     const headingNotVerified = 'Document Verification Update';
 
@@ -70,6 +49,15 @@ export async function POST(req: NextRequest) {
       };
       await transporter.sendMail(mailOptions);
     }
+
+    await prisma.ticketCompetition.updateMany({
+      where: {
+        verified: 'pending',
+      },
+      data: {
+        verified: 'rejected',
+      },
+    });
 
     console.log('POST_SEND_EMAIL: All email was sent');
     return NextResponse.json(

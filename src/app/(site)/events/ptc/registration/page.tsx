@@ -311,7 +311,10 @@ export default function PTCRegist() {
       });
       router.push('/login');
     } else {
-      if (session.user.ticket?.PTC.buy && !session.user.ticket.PTC.verified) {
+      if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'pending'
+      ) {
         callToast({
           status: 'error',
           description: 'You have purchased this ticket, Waiting for validation',
@@ -319,12 +322,21 @@ export default function PTCRegist() {
         router.push('/');
       } else if (
         session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified
+        session.user.ticket.PTC.verified === 'verified'
       ) {
         callToast({
           status: 'error',
           description:
             'You have purchased this ticket, Your ticket has been validated',
+        });
+        router.push('/');
+      } else if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'rejected'
+      ) {
+        callToast({
+          status: 'error',
+          description: 'You have purchased this ticket, Your ticket rejected',
         });
         router.push('/');
       }

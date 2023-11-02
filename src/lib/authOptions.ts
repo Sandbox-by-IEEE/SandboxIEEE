@@ -42,11 +42,6 @@ export const authOptions: AuthOptions = {
                     id: true,
                     teamName: true,
                     chairmanName: true,
-                    // members: {
-                    //   select: {
-                    //     name: true
-                    //   }
-                    // }
                   },
                 },
               },
@@ -131,11 +126,11 @@ export const authOptions: AuthOptions = {
             },
             PTC: {
               buy: ticketPTC ? true : false,
-              verified: ticketPTC ? ticketPTC.verified : false,
+              verified: ticketPTC ? ticketPTC.verified : '',
             },
             TPC: {
               buy: ticketTPC ? true : false,
-              verified: ticketTPC ? ticketTPC.verified : false,
+              verified: ticketTPC ? ticketTPC.verified : '',
             },
           },
         };
@@ -233,11 +228,11 @@ export const authOptions: AuthOptions = {
             },
             PTC: {
               buy: ticketPTC ? true : false,
-              verified: ticketPTC ? ticketPTC.verified : false,
+              verified: ticketPTC ? ticketPTC.verified : '',
             },
             TPC: {
               buy: ticketTPC ? true : false,
-              verified: ticketTPC ? ticketTPC.verified : false,
+              verified: ticketTPC ? ticketTPC.verified : '',
             },
           },
         },

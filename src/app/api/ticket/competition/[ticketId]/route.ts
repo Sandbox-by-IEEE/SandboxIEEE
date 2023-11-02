@@ -1,7 +1,10 @@
+import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 
+import Email from '@/components/emails/Emails';
 // import { render } from '@react-email/render';
 import { prisma } from '@/lib/db';
+import { transporter } from '@/lib/mailTransporter';
 // import Email from '@/components/emails/Emails';
 // import { transporter } from '@/lib/mailTransporter';
 
@@ -13,9 +16,8 @@ export async function PATCH(
   req: NextRequest,
   { params: { ticketId } }: { params: Params },
 ) {
-  // let isUpdated = false;
+  let isUpdated = false;
   try {
-    const v = req.nextUrl.searchParams.get('v');
     if (!ticketId) {
       return NextResponse.json(
         { message: 'Missing parameter!!' },
@@ -36,58 +38,55 @@ export async function PATCH(
       );
     }
 
-    let updatedTicket;
-
-    if (v === 'true') {
-      // if (existingTicket.verified) {
-      //   return NextResponse.json(
-      //     { message: 'Ticket has been verified' },
-      //     { status: 400 },
-      //   );
-      // }
-
-      updatedTicket = await prisma.ticketCompetition.update({
-        where: {
-          id: ticketId,
-        },
-        data: {
-          verified: true,
-        },
-      });
-    } else if (v === 'false') {
-      updatedTicket = await prisma.ticketCompetition.update({
-        where: {
-          id: ticketId,
-        },
-        data: {
-          verified: false,
-        },
-      });
+    // if (v === 'true') {
+    if (existingTicket.verified === 'verified') {
+      return NextResponse.json(
+        { message: 'Ticket has been verified' },
+        { status: 400 },
+      );
     }
 
-    // const heading = 'haiidaieidajeaied';
-    // const content =
-    //   'diaineiadindoidnoaieneoaidnaoiedaoiednoiaednaoidnaoidnaoiedniaednaoiendaoidn';
+    const updatedTicket = await prisma.ticketCompetition.update({
+      where: {
+        id: ticketId,
+      },
+      data: {
+        verified: 'verified',
+      },
+      include: {
+        team: {
+          select: {
+            teamName: true,
+            chairmanName: true,
+            chairmanEmail: true,
+          },
+        },
+      },
+    });
 
-    // for (let i = 0; i < updatedTicket.emails.length; i++) {
-    //   const mailOptions = {
-    //     from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-    //     to: updatedTicket.emails[i],
-    //     subject: 'Your Ticket Verified',
-    //     html: render(
-    //       Email({
-    //         heading: heading,
-    //         content: content,
-    //         name: updatedTicket.chairmanName,
-    //       }),
-    //       { pretty: true },
-    //     ),
-    //   };
+    isUpdated = true;
 
-    //   await transporter.sendMail(mailOptions);
-    // }
+    const headingVerified = ` You've Cleared the Verification Stage!`;
 
-    // console.log('PATCH_TICKET: email was sent');
+    const mailOptions = {
+      from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+      to: updatedTicket.team?.chairmanEmail || '',
+      subject: 'Your Ticket Verified',
+      html: render(
+        Email({
+          heading: headingVerified,
+          content: `
+            We are pleased to inform ${updatedTicket.team?.teamName} that your documents have been successfully verified, and your team has been selected to advance to the next stage of the competition. Congratulations on reaching this milestone!
+            We are excited to see what your team will achieve in the upcoming stages. Make sure to prepare well and give your best performance.
+            If you have any questions or need further information regarding the next stages of the competition, please do not hesitate to reach out to us. We are here to assist you and ensure your successful participation in the event.
+            Once again, congratulations and best of luck in the next stages of the competition!
+            Warm regards,`,
+          name: updatedTicket.team?.chairmanName || '',
+        }),
+        { pretty: true },
+      ),
+    };
+    await transporter.sendMail(mailOptions);
 
     return NextResponse.json(
       { ticket: updatedTicket, message: 'Ticket data updated successful' },
@@ -95,16 +94,16 @@ export async function PATCH(
     );
   } catch (error) {
     if (error instanceof Error) {
-      // if (isUpdated) {
-      //   await prisma.ticketCompetition.update({
-      //     where: {
-      //       id: ticketId,
-      //     },
-      //     data: {
-      //       verified: false,
-      //     },
-      //   });
-      // }
+      if (isUpdated) {
+        await prisma.ticketCompetition.update({
+          where: {
+            id: ticketId,
+          },
+          data: {
+            verified: 'pending',
+          },
+        });
+      }
       console.log('ERROR_PATCH_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
