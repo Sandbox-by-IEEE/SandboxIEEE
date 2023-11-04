@@ -1,11 +1,13 @@
 'use client';
 // Importing necessary components and libraries from Next.js and React
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import * as z from 'zod';
 
+import FormResetPassword from '@/app/(auth)/login/form-password-reset';
+import FormResendEmail from '@/app/(auth)/login/form-resend-email';
 // Importing custom components for UI elements and icons
 import Button from '@/components/Button';
 import Google from '@/components/icons/Register/google';
@@ -17,6 +19,10 @@ import Stars2 from '@/components/icons/Register/stars2';
 import Stars2mb from '@/components/icons/Register/stars2mb';
 import Stars3 from '@/components/icons/Register/stars3';
 import Stars3mb from '@/components/icons/Register/stars3mb';
+import {
+  ModalContext,
+  ModalContextContextType,
+} from '@/components/Modal/ModalContext';
 import TextInput from '@/components/TextInput';
 import { callToast } from '@/components/Toast';
 
@@ -35,8 +41,11 @@ export default function Home({
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [mounted, setMounted] = useState(false);
-  const router = useRouter();
+  const searchParams = useSearchParams();
 
+  const router = useRouter();
+  const { openModal, setOpenModal } =
+    useContext<ModalContextContextType>(ModalContext);
   const handleGoogle = async (e: any) => {
     e.preventDefault();
     await signIn('google', {
@@ -112,7 +121,6 @@ export default function Home({
   }, [mounted]);
 
   if (!mounted) return null;
-
   // The component returns the UI structure for the registration page
   return (
     // Main container with a full height, a white background, and center-aligned items
@@ -215,11 +223,20 @@ export default function Home({
                     color='gold'
                     className='text-base text-cream-secondary-normal'
                     type='button'
+                    onClick={() => setOpenModal(true)}
                   >
-                    <p className='text-sm font-[500] hover:underline underline-offset-4'>
+                    <span className='text-sm font-[500] hover:underline underline-offset-4'>
                       Forgot the password?
-                    </p>
+                    </span>
                   </Button>
+                  {/* Ini ntar tambahin logika && !token */}
+                  {openModal && !searchParams.get('resetPass') && (
+                    <FormResendEmail />
+                  )}
+                  {/* Ini ntar tambahin logika && token */}
+                  {searchParams.get('resetPass') === 'token' && (
+                    <FormResetPassword />
+                  )}
                 </div>
               </div>
               {/* Sign up button */}

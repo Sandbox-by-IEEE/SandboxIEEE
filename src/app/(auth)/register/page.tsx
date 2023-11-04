@@ -32,6 +32,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const router = useRouter();
 
   const handleGoogle = async (e: any) => {
@@ -44,6 +45,12 @@ export default function Home() {
 
   const handleOnSubmit = async (e: any) => {
     e.preventDefault();
+    if (password !== password2) {
+      return callToast({
+        status: 'error',
+        description: 'Password and password confirmation are different',
+      });
+    }
     const body = {
       email: email,
       username: username,
@@ -213,6 +220,17 @@ export default function Home() {
                     fullwidth={true}
                     type='password'
                     placeholder='Enter a password'
+                  />
+                </div>
+                <div>
+                  <p>Confirm Password</p>
+                  <TextInput
+                    text={password2}
+                    setText={setPassword2}
+                    color='white'
+                    fullwidth={true}
+                    type='password'
+                    placeholder='Re-Enter a password'
                   />
                 </div>
               </div>
