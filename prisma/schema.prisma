@@ -98,11 +98,11 @@ model TicketExhibition {
 }
 
 model TicketCompetition {
-  id              String  @id @default(uuid())
+  id              String @id @default(uuid())
   userId          String
   verified        String @default("pending")
   competitionType String
-  team            Team? 
+  team            Team?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

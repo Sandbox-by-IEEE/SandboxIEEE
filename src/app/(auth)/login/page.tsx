@@ -214,6 +214,7 @@ export default function Home({
                   <Button
                     color='gold'
                     className='text-base text-cream-secondary-normal'
+                    type='button'
                   >
                     <p className='text-sm font-[500] hover:underline underline-offset-4'>
                       Forgot the password?
