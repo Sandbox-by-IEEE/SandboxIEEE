@@ -64,7 +64,16 @@ const TextInput = ({
       )}
       <input
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setText ? setText(e.target.value) : onChange && onChange(e);
+          if (type === 'number') {
+            const value = parseInt(e.target.value);
+            if (value > 0 && !isNaN(value)) {
+              setText ? setText(e.target.value) : onChange && onChange(e);
+            } else {
+              ('');
+            }
+          } else {
+            setText ? setText(e.target.value) : onChange && onChange(e);
+          }
         }}
         onFocus={onFocus}
         min={minValue}
