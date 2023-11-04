@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    if (session.user.exhibition && session.user.exhibition.buy) {
+    if (session.user.ticket?.exhibition && session.user.ticket.exhibition.buy) {
       return NextResponse.json(
         { message: 'You have purchased Exhibition tickets before' },
         { status: 400 },

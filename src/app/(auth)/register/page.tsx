@@ -22,7 +22,7 @@ import { callToast } from '@/components/Toast';
 
 const formSchema = z.object({
   email: z.string().email('Email is invalid').min(1, 'Email field is required'),
-  name: z.string().min(1, 'Name field is required'),
+  username: z.string().min(1, 'Username field is required'),
   password: z.string().min(8, 'Password must contain at least 8 character'),
 });
 
@@ -46,7 +46,7 @@ export default function Home() {
     e.preventDefault();
     const body = {
       email: email,
-      name: username,
+      username: username,
       password: password,
     };
 
@@ -83,24 +83,27 @@ export default function Home() {
       return;
     }
 
-    callToast({ status: 'success', description: 'Register succesfull' });
-    const resLogin = await signIn('credentials', {
-      email: email,
-      password: password,
-      redirect: false,
-      callbackUrl: '/',
+    callToast({
+      status: 'success',
+      description: 'Register succesfull, check your email for activate account',
     });
+    router.push('/');
+    // const resLogin = await signIn('credentials', {
+    //   email: email,
+    //   password: password,
+    //   redirect: false,
+    //   callbackUrl: '/',
+    // });
 
-    if (resLogin?.error) {
-      callToast({
-        status: 'error',
-        description: resLogin?.error || 'Login failed',
-      });
-      router.push('/login');
-    } else {
-      callToast({ status: 'success', description: 'Login succesfull' });
-      router.push('/');
-    }
+    // if (resLogin?.error) {
+    //   callToast({
+    //     status: 'error',
+    //     description: resLogin?.error || 'Login failed',
+    //   });
+    //   router.push('/login');
+    // } else {
+    //   callToast({ status: 'success', description: 'Login succesfull' });
+    // }
   };
 
   // The component returns the UI structure for the registration page

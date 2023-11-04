@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import BackgroundCarousel from '@/components/background-carousel';
+import ClientHome from '@/components/client-home';
 import { FAQ } from '@/components/FAQ';
 import GradientBox from '@/components/GradientBox';
 import YoutubeIframe from '@/components/iframe-yt';
@@ -95,7 +96,11 @@ const CMS_QUERY = `{
     question
   }
 } `;
-export default async function Home() {
+export default async function Home({
+  searchParams: { token },
+}: {
+  searchParams: { token: string };
+}) {
   const {
     homepage,
     allTimelineSandboxes,
@@ -108,6 +113,7 @@ export default async function Home() {
 
   return (
     <main className='flex min-h-screen w-full flex-col font-museo-muderno'>
+      <ClientHome />
       <section className='relative w-full h-fit bg-green-dark-green'>
         <BackgroundCarousel images={homepage.background} />
         {/* Text Content on background */}
