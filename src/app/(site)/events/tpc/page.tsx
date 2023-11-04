@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
+import ButtonRegistration from '@/components/ButtonRegistration';
 import { FAQ } from '@/components/FAQ';
 import Explosion from '@/components/icons/explosion';
 import Star4 from '@/components/icons/star4';
@@ -99,7 +100,13 @@ const TPC = async () => {
           sizes='100vw'
         />
         {/* Text Content on background */}
-        <div className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'>
+        <div
+          style={{
+            background:
+              'radial-gradient(50% 50% at 50% 50%, rgba(8, 30, 17, 0.90) 18.33%, rgba(0, 0, 0, 0.00) 99.48%)',
+          }}
+          className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'
+        >
           <h2
             style={{
               ['textShadow' as any]:
@@ -111,9 +118,9 @@ const TPC = async () => {
             {tpcPage.titleTpcPages}
           </h2>
           <div className='animate-blink duration-500 transition-all'>
-            <CustomLink color='green' url='/events/ptc/registration'>
+            <ButtonRegistration type='TPC' color='green'>
               {tpcPage.buttonTextRegister}
-            </CustomLink>
+            </ButtonRegistration>
           </div>
         </div>
       </section>
@@ -364,9 +371,9 @@ const TPC = async () => {
             {/* Button */}
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <div data-aos='zoom-in'>
-                <CustomLink color='gold' url='/events/ptc/registration'>
+                <ButtonRegistration type='TPC' color='gold'>
                   {tpcPage.buttonTextRegister}
-                </CustomLink>
+                </ButtonRegistration>
               </div>
               <div data-aos='zoom-in'>
                 <CustomLink color='trans-orange' url='#timeline'>

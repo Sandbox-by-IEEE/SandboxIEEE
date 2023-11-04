@@ -13,11 +13,26 @@ export async function PATCH(req: Request) {
       },
     });
 
-    if (!existingUser)
+    if (!existingUser) {
       return NextResponse.json(
         { message: 'There is no user with this email' },
         { status: 404 },
       );
+    }
+
+    if (!existingUser.credential) {
+      return NextResponse.json(
+        { message: 'User is register with google' },
+        { status: 400 },
+      );
+    }
+
+    if (!existingUser.active) {
+      return NextResponse.json(
+        { message: 'User is not activate' },
+        { status: 400 },
+      );
+    }
 
     const hashPassword = await hash(newPassword, 10);
 

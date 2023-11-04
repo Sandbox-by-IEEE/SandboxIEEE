@@ -8,7 +8,7 @@ const LayoutRegistration = ({ children }: { children: React.ReactNode }) => {
 export default LayoutRegistration;
 
 export const metadata: Metadata = {
-  title: 'Registration TPC | Sandbox IEEE ITB',
+  title: 'Registration PTC | Sandbox IEEE ITB',
   description:
     'Technovate Paper Competition is a research national-scale competition with 8 stages, such as abstract submission, TPC semi-finalist announcement, TPC full paper, mentoring seminar with experts, full paper submission, finalist announcement, short campaign video, and TPC final pitching. ',
   generator: 'Next.js',
