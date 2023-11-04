@@ -16,6 +16,7 @@ const TextInput = ({
   onFocus,
   minValue,
   required = false,
+  children,
 }: {
   placeholder?: string;
   type:
@@ -37,6 +38,7 @@ const TextInput = ({
   onFocus?: () => void;
   minValue?: number;
   required?: boolean;
+  children?: any;
 }) => {
   const colorEffect = {
     'trans-white': {
@@ -94,6 +96,7 @@ const TextInput = ({
         className={` ${colorEffect[color].disabled} outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
         required={required}
       />
+      <div>{children}</div>
     </div>
   ) : (
     <div

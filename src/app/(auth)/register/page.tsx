@@ -8,6 +8,8 @@ import * as z from 'zod';
 
 // Importing custom components for UI elements and icons
 import Button from '@/components/Button';
+import Eye from '@/components/icons/Register/eye';
+import Eyeslash from '@/components/icons/Register/eyeslash';
 import Google from '@/components/icons/Register/google';
 import Smalllogo from '@/components/icons/Register/Ieee';
 import Logo from '@/components/icons/Register/sandbox';
@@ -32,6 +34,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [visible, setVisible] = useState(false);
   const router = useRouter();
 
   const handleGoogle = async (e: any) => {
@@ -211,9 +214,22 @@ export default function Home() {
                     setText={setPassword}
                     color='white'
                     fullwidth={true}
-                    type='password'
+                    type={visible ? 'text' : 'password'}
                     placeholder='Enter a password'
-                  />
+                  >
+                    <div
+                      className='cursor-pointer hover:scale-[1.1] transition-all'
+                      onClick={() => setVisible(!visible)}
+                    >
+                      {password === '' ? (
+                        <ul></ul>
+                      ) : visible ? (
+                        <Eye />
+                      ) : (
+                        <Eyeslash />
+                      )}
+                    </div>
+                  </TextInput>
                 </div>
               </div>
               {/* Sign up button */}
