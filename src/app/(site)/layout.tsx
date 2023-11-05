@@ -1,12 +1,35 @@
 import { Metadata } from 'next';
 
 import Footer from '@/components/footer';
+import Marquee from '@/components/Marque';
 import NavBar from '@/components/Navbar';
+import { performRequest } from '@/lib/datocms';
+import { MarquePropsData } from '@/types/marque-type';
 
-const SiteLayout = ({ children }: { children: React.ReactNode }) => {
+const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
+  const CMS_QUERY = ` {
+    ourSponsorsPage {
+      ourSponsorLogo {
+        id
+        title
+        url
+        width
+        height
+      }
+    }
+  }`;
+  const { ourSponsorsPage }: MarquePropsData = await performRequest({
+    query: CMS_QUERY,
+    revalidate: 0,
+  });
   return (
     <div className='flex flex-col min-h-screen overflow-x-clip'>
       <NavBar />
+      <Marquee
+        hideSeconds={10}
+        showSeconds={15}
+        data={ourSponsorsPage.ourSponsorLogo}
+      />
       {children}
       <Footer />
     </div>
