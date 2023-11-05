@@ -99,9 +99,6 @@ const TextInput = ({
         className={` ${colorEffect[color].disabled} outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
         required={required}
       />
-      {type === 'search' && (
-        <SearchIcon className={`${colorEffect[color].icon}`} size={20} />
-      )}
       {type === 'password' && (
         <div
           className='cursor-pointer hover:scale-[1.1] transition-all'
