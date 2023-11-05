@@ -50,7 +50,7 @@ const config: Config = {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(-100%)' },
         },
-        blink: {
+        trans: {
           '0%': { opacity: '0' },
           '15%': { opacity: '1' },
           '80%': { opacity: '1' },
@@ -143,8 +143,8 @@ const config: Config = {
         'ghost-left': 'ghost-left 5s ease-out infinite',
         walk: 'walk 18s linear infinite',
         shake: 'shake 4s ease-in-out infinite',
-        marquee: 'marquee 15s linear infinite',
-        blink: 'blink 16s ease-in-out',
+        marquee: 'marquee 16s linear infinite',
+        trans: 'trans 16s ease-in-out',
         'fade-in': 'fade-in 0.5s ease-in-out',
         'fade-out': 'fade-out 0.5s ease-in-out',
       },

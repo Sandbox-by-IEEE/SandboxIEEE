@@ -36,9 +36,20 @@ function Marquee({
           isVisible
             ? 'opacity-100 pointer-event-auto'
             : 'opacity-0 pointer-events-none'
-        } animate-blink fixed bottom-0 z-[1000] bg-green-primary h-[60px] lg:h-[75px] m-auto transition-all duration-300 whitespace-nowrap w-full`}
+        } animate-trans border-t border-cream-secondary-normal fixed bottom-0 z-[1000] h-[50px] lg:h-[60px] m-auto transition-all duration-300 whitespace-nowrap w-full`}
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(7, 29, 16, 0.48) 0%, rgba(1, 6, 3, 0.08) 33.85%, rgba(0, 0, 0, 0.00) 69.27%, rgba(6, 26, 14, 0.48) 100%), var(--Primary, #0D432F)',
+        }}
       >
-        <div className='flex gap-7 justify-around py-3 lg:py-4 animate-marquee w-full h-full items-center'>
+        <Image
+          src={'/sparkle-marquee.svg'}
+          alt='Marquee Sparkle'
+          width={30}
+          height={30}
+          className='absolute left-10 top-2 -z-[10]'
+        />
+        <div className='flex gap-7 justify-around py-2 animate-marquee w-full h-full items-center'>
           {data.map((image, index) => (
             <Image
               key={index}
@@ -51,6 +62,13 @@ function Marquee({
             />
           ))}
         </div>
+        <Image
+          src={'/sparkle-marquee.svg'}
+          alt='Marquee Sparkle'
+          width={30}
+          height={30}
+          className='absolute right-10 top-2 -z-[10] scale-x-[-1]'
+        />
       </div>
     )
   );
