@@ -1,10 +1,12 @@
 import './globals.css';
+import 'aos/dist/aos.css';
 
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
 
 import { ModalContextProvider } from '@/components/Modal/ModalContext';
 import Toast from '@/components/Toast';
+import AOSClient from '@/provider/aos';
 import AuthProvider from '@/provider/AuthProvider';
 
 const inter = Inter({
@@ -16,7 +18,7 @@ const inter = Inter({
 const poppins = Poppins({
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '900'],
   variable: '--font-poppins',
 });
 
@@ -34,19 +36,47 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang='id, en'
+      lang='en'
       className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
     >
       <AuthProvider>
         <body suppressHydrationWarning={true}>
+          <AOSClient />
           <Toast />
           <ModalContextProvider>{children}</ModalContextProvider>
         </body>
       </AuthProvider>
+      {/* <Script
+        async
+        src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
+      />
+      <Script
+        id='google-analytics'
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-YQC27F86L7');`,
+        }}
+      /> */}
+      {/* <!-- Hotjar Tracking Code for Sandbox IEEE ITB --> */}
+      {/* <Script
+        id='hotjar'
+        dangerouslySetInnerHTML={{
+          __html: `(function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:3712758,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
+        }}
+      /> */}
     </html>
   );
 }
-
 export const metadata: Metadata = {
   title: 'Coming Soon | Sandbox IEEE ITB',
   description:

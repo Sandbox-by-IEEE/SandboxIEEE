@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const colorEffect = {
     green: {
-      main: 'bg-[#0D432F] hover:shadow-[0px_0px_20px_5px_#315B4C] text-white disabled:bg-[#0D432F] disabled:bg-opacity-40',
+      main: 'bg-[#0D432F] hover:shadow-[0px_0px_20px_5px_#B49876] text-white disabled:text-[#f2efe1] disabled:bg-[#315B4C] disabled:hover:shadow-[0px_0px_20px_5px_#315B4C] ',
       arrow: '#FFFFFF',
     },
     black: {
@@ -59,9 +59,10 @@ const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       disabled={isDisabled}
+      aria-label={(children && children.toString()) || 'button'}
       className={`${
         isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[180px]'
-      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-2 px-3 lg:py-3 lg:px-4 rounded-md ${
+      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-3 px-4 rounded-md ${
         colorEffect[color].main
       }`}
       {...props}

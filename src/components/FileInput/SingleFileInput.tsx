@@ -8,6 +8,8 @@ import React, {
   useState,
 } from 'react';
 
+import Button from '@/components/Button';
+import { FileInputType } from '@/components/FileInput/fileInput-type';
 import FileIcon from '@/components/icons/FileIcon';
 import FileInputIconEmpty from '@/components/icons/FileInputIconEmpty';
 import FileInputIconError from '@/components/icons/FileInputIconError';
@@ -15,23 +17,18 @@ import FileInputIconSuccess from '@/components/icons/FileInputIconSuccess';
 import LinkIcon from '@/components/icons/LinkIcon';
 import SaveIcon from '@/components/icons/SaveIcon';
 
-export interface FileInputType {
-  fileName: string;
-  fileUrl: string;
-}
-
-const FileInput = ({
-  setFiles,
+const SingleFileInput = ({
+  setFile,
   allowedFileTypes = [],
   setUrl,
   message,
-  files,
+  file,
 }: {
-  setFiles: Dispatch<SetStateAction<FileInputType[] | undefined>>;
+  setFile: (FileInputType) => void;
   allowedFileTypes?: string[];
   setUrl?: Dispatch<SetStateAction<string>>;
   message: string;
-  files: FileInputType[] | undefined;
+  file: FileInputType | undefined;
 }) => {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -49,6 +46,10 @@ const FileInput = ({
   const uploadFile = async (fileUploaded: File) => {
     // eslint-disable-next-line no-useless-catch
     try {
+      if (fileUploaded.size > 10 * 1024 * 1024) {
+        throw 'File size exceeds the maximum allowed (10MB).';
+      }
+
       const fd = new FormData();
       fd.append(`file`, fileUploaded);
       fd.append('upload_preset', 'ddriwluc');
@@ -74,25 +75,21 @@ const FileInput = ({
     const filesToUpload = event.target.files;
     try {
       if (filesToUpload && filesToUpload.length > 0) {
-        const uploadedFiles: FileInputType[] = [];
-        for (let i = 0; i < filesToUpload.length; i++) {
-          const fileUploaded = filesToUpload[i];
-          const responseJSON = await uploadFile(fileUploaded);
+        const fileUploaded = filesToUpload[0];
+        const responseJSON = await uploadFile(fileUploaded);
 
-          const newFile: FileInputType = {
-            fileName: fileUploaded.name,
-            fileUrl: responseJSON?.secure_url,
-          };
-
-          uploadedFiles.push(newFile);
-        }
+        const newFile: FileInputType = {
+          fileName: fileUploaded.name,
+          fileUrl: responseJSON?.secure_url,
+        };
 
         setIsSuccess(true);
-        if (files) setFiles([...files, ...uploadedFiles]);
-        else setFiles(uploadedFiles);
+        setFile(newFile);
       }
     } catch (error) {
+      setErrorMsg(error as string);
       setIsError(true);
+      setTimeout(() => setIsError(false), 3000);
     }
   };
 
@@ -102,48 +99,40 @@ const FileInput = ({
 
       const filesDropped = e.dataTransfer.files;
       if (filesDropped.length > 0) {
-        const uploadedFiles: FileInputType[] = [];
         const allowedFileExtensions = allowedFileTypes.map((el) => el.slice(1));
 
-        for (let i = 0; i < filesDropped.length; i++) {
-          const fileUploaded = filesDropped[i];
-          const fileExtension = fileUploaded?.name
-            ?.split('.')
-            ?.pop()
-            ?.toLowerCase();
+        const fileUploaded = filesDropped[0];
+        const fileExtension = fileUploaded?.name
+          ?.split('.')
+          ?.pop()
+          ?.toLowerCase();
 
-          if (
+        if (
+          !(
             allowedFileExtensions.length === 0 ||
             allowedFileExtensions.includes(fileExtension as string)
-          ) {
-            const responseJSON = await uploadFile(fileUploaded);
-
-            const newFile = {
-              fileName: fileUploaded.name,
-              fileUrl: responseJSON?.secure_url,
-            };
-
-            uploadedFiles.push(newFile);
-          } else {
-            throw `Wrong file type, allowed file types are ${allowedFileExtensions.join(
-              ', ',
-            )}`;
-          }
+          )
+        ) {
+          throw `Wrong file type, allowed file types are ${allowedFileExtensions.join(
+            ', ',
+          )}`;
         }
+
+        const responseJSON = await uploadFile(fileUploaded);
+        const newFile = {
+          fileName: fileUploaded.name,
+          fileUrl: responseJSON?.secure_url,
+        };
 
         setIsSuccess(true);
-
-        if (files) {
-          setFiles([...files, ...uploadedFiles]);
-        } else {
-          setFiles(uploadedFiles);
-        }
+        setFile(newFile);
       } else {
         throw 'No files dropped';
       }
     } catch (error) {
       setErrorMsg(error as string);
       setIsError(true);
+      setTimeout(() => setIsError(false), 3000);
     }
   };
 
@@ -173,64 +162,15 @@ const FileInput = ({
     }
   };
 
-  if (isSuccess) {
-    return (
-      <div>
-        <div
-          className='text-[15px] lg:text-base font-poppins w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#00FFA1] text-[#e6e6e6] space-y-4'
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
-          <button onClick={handleClick}>
-            <FileInputIconSuccess className='w-[170px] lg:w-[214px]' />
-          </button>
-          <p className='text-[#00FFA1]'>
-            {inputUrl ? 'Link' : 'File'} berhasil diupload!
-          </p>
-          <div
-            className={`flex gap-2 items-center ${
-              files && files?.length > 1 && 'flex-col'
-            }`}
-          >
-            {inputUrl ? <LinkIcon /> : <FileIcon />}
-            {files && files[0].fileName ? (
-              <div className='flex flex-col'>
-                {files.map((file, index) => (
-                  <p key={index}>{file.fileName}</p>
-                ))}
-              </div>
-            ) : (
-              <Link
-                href={inputUrl}
-                target='_blank'
-                rel='noreferer'
-                className='max-w-[300px] md:max-w-[600px] overflow-hidden'
-              >
-                {inputUrl}
-              </Link>
-            )}
-          </div>
-        </div>
-        <input
-          type='file'
-          onChange={handleChange}
-          accept={allowedFileTypes.join(',')}
-          ref={hiddenFileInput}
-          className='hidden'
-        />
-      </div>
-    );
-  }
-
   if (isError) {
     return (
       <div>
         <div
-          className='text-[15px] lg:text-base font-poppins w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
+          className='text-[15px] lg:text-base font-poppins w-full max-w-full px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#FF7387] text-[#e6e6e6] space-y-4'
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          <button onClick={handleClick}>
+          <button onClick={handleClick} type='button'>
             <FileInputIconError className='w-[170px] lg:w-[214px]' />
           </button>
           <p
@@ -243,7 +183,7 @@ const FileInput = ({
           </p>
           <div className='flex gap-2'>
             <p className='max-w-[300px] md:max-w-[600px] overflow-hidden'>
-              {inputUrl ? 'Link' : 'File'} {errorMsg}
+              {errorMsg}
             </p>
           </div>
         </div>
@@ -258,16 +198,71 @@ const FileInput = ({
     );
   }
 
+  if (isSuccess || file?.fileName) {
+    return (
+      <div>
+        <div
+          className='text-[15px] lg:text-base font-poppins w-full max-w-full px-10 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#00FFA1] text-[#e6e6e6] space-y-4'
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
+          <button onClick={handleClick} type='button'>
+            <FileInputIconSuccess className='w-[170px] lg:w-[214px]' />
+          </button>
+          <p className='text-[#00FFA1]'>
+            {inputUrl ? 'Link' : 'File'} berhasil diupload!
+          </p>
+          <div className={`flex gap-2 items-center`}>
+            {inputUrl ? <LinkIcon /> : <FileIcon />}
+            {inputUrl ? (
+              <Link
+                href={inputUrl}
+                target='_blank'
+                rel='noreferer'
+                className='max-w-[300px] md:max-w-[600px] overflow-hidden'
+              >
+                {inputUrl}
+              </Link>
+            ) : (
+              <a href={file?.fileUrl} className='flex flex-col'>
+                <p>{file?.fileName}</p>
+              </a>
+            )}
+          </div>
+          <div className='w-full flex justify-center pt-6 gap-3'>
+            <Button
+              color='green'
+              onClick={() => setFile(undefined)}
+              type='button'
+            >
+              Remove
+            </Button>
+            <Button color='gold' type='button' onClick={handleClick}>
+              Edit
+            </Button>
+          </div>
+        </div>
+        <input
+          type='file'
+          onChange={handleChange}
+          accept={allowedFileTypes.join(',')}
+          ref={hiddenFileInput}
+          className='hidden'
+        />
+      </div>
+    );
+  }
+
   return (
     <div>
       <div
         className={
-          'w-full sm:w-[400px] md:w-[700px] lg:w-[730px] px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
+          'w-full max-w-full px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
         }
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        <button onClick={handleClick}>
+        <button onClick={handleClick} type='button'>
           <FileInputIconEmpty className='w-[170px] lg:w-[214px]' />
         </button>
         <p
@@ -312,10 +307,9 @@ const FileInput = ({
         ref={hiddenFileInput}
         accept={allowedFileTypes.join(',')}
         className='hidden'
-        multiple
       />
     </div>
   );
 };
 
-export default FileInput;
+export default SingleFileInput;

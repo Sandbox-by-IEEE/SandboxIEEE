@@ -22,7 +22,7 @@ import { callToast } from '@/components/Toast';
 
 const formSchema = z.object({
   email: z.string().email('Email is invalid').min(1, 'Email field is required'),
-  name: z.string().min(1, 'Name field is required'),
+  username: z.string().min(1, 'Username field is required'),
   password: z.string().min(8, 'Password must contain at least 8 character'),
 });
 
@@ -46,7 +46,7 @@ export default function Home() {
     e.preventDefault();
     const body = {
       email: email,
-      name: username,
+      username: username,
       password: password,
     };
 
@@ -83,24 +83,27 @@ export default function Home() {
       return;
     }
 
-    callToast({ status: 'success', description: 'Register succesfull' });
-    const resLogin = await signIn('credentials', {
-      email: email,
-      password: password,
-      redirect: false,
-      callbackUrl: '/',
+    callToast({
+      status: 'success',
+      description: 'Register succesfull, check your email for activate account',
     });
+    router.push('/');
+    // const resLogin = await signIn('credentials', {
+    //   email: email,
+    //   password: password,
+    //   redirect: false,
+    //   callbackUrl: '/',
+    // });
 
-    if (resLogin?.error) {
-      callToast({
-        status: 'error',
-        description: resLogin?.error || 'Login failed',
-      });
-      router.push('/login');
-    } else {
-      callToast({ status: 'success', description: 'Login succesfull' });
-      router.push('/');
-    }
+    // if (resLogin?.error) {
+    //   callToast({
+    //     status: 'error',
+    //     description: resLogin?.error || 'Login failed',
+    //   });
+    //   router.push('/login');
+    // } else {
+    //   callToast({ status: 'success', description: 'Login succesfull' });
+    // }
   };
 
   // The component returns the UI structure for the registration page
@@ -108,7 +111,7 @@ export default function Home() {
     // Main container with a full height, a white background, and center-aligned items
     <main className='h-screen font-poppins text-sm sm:text-base flex bg-white flex-col items-center'>
       {/* A container with a screen-wide height of 3000px to display the registration form */}
-      <div className='w-screen h-[3000px] flex'>
+      <div className='w-screen h-full flex'>
         {/* An empty div with a width of 0% on small screens and 50% on larger screens */}
         <div className='w-[0%] lg:w-[50%] justify-center z-10'></div>
         {/* A div with a background image, covering the full width on small screens and 50% on larger screens */}
