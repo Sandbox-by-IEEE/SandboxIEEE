@@ -58,7 +58,7 @@ const Modal = ({
 
   return createPortal(
     <div
-      className={`fixed inset-0 backdrop-blur-sm z-[10000] flex justify-center items-center bg-black/60 ease-in duration-300 ${
+      className={`fixed inset-0 backdrop-blur-sm z-[50] flex justify-center items-center bg-black/60 ease-in duration-300 ${
         isOpen
           ? 'opacity-1 transform translate-y-0 transition-all duration-300 ease-in-out'
           : 'opacity-0 transform -translate-y-20 transition-all duration-300 ease-in-out'

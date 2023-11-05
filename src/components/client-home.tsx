@@ -22,10 +22,18 @@ const ClientHome = () => {
 
   useEffect(() => {
     const message = searchParams.get('activationMsg');
+    const resetMessage = searchParams.get('resetMsgErr');
     if (mounted && message) {
       callToast({
         status: 'error',
         description: message || '',
+      });
+      router.push('/');
+    }
+    if (mounted && resetMessage) {
+      callToast({
+        status: 'error',
+        description: resetMessage || '',
       });
       router.push('/');
     }
