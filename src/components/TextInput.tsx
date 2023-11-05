@@ -18,7 +18,6 @@ const TextInput = ({
   onFocus,
   minValue,
   required = false,
-  children,
 }: {
   placeholder?: string;
   type:
@@ -40,7 +39,6 @@ const TextInput = ({
   onFocus?: () => void;
   minValue?: number;
   required?: boolean;
-  children?: any;
 }) => {
   const colorEffect = {
     'trans-white': {
@@ -96,16 +94,18 @@ const TextInput = ({
         })()}
         value={disabled ? '' : text}
         placeholder={placeholder}
-        className={` ${colorEffect[color].disabled} outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
+        className={` ${colorEffect[color].disabled} outline-none disabled:cursor-not-allowed font-medium text-sm w-full lg:text-base`}
         required={required}
       />
       {type === 'password' && (
-        <div
+        <button
+          type='button'
+          aria-label='Toggle password visibility'
           className='cursor-pointer hover:scale-[1.1] transition-all'
           onClick={() => setVisible(!visible)}
         >
-          {text === '' ? <ul></ul> : visible ? <Eye /> : <Eyeslash />}
-        </div>
+          {!visible ? <Eye /> : <Eyeslash />}
+        </button>
       )}
     </div>
   ) : (
@@ -125,7 +125,7 @@ const TextInput = ({
         disabled={disabled}
         value={disabled ? '' : text}
         placeholder={placeholder}
-        className={` ${colorEffect[color].disabled} custom-scrollbar outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
+        className={` ${colorEffect[color].disabled} custom-scrollbar outline-none disabled:cursor-not-allowed font-medium text-sm w-full lg:text-base`}
         required={required}
       />
     </div>
