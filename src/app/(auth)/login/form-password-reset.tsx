@@ -60,8 +60,6 @@ export default function FormResetPassword() {
 
   const handleSubmit = async () => {
     if (pass === pass2 && pass.length >= 8 && pass2.length >= 8) {
-      console.log('Password is valid ');
-
       try {
         const res = await fetch('/api/changepass', {
           method: 'PATCH',
@@ -77,7 +75,6 @@ export default function FormResetPassword() {
 
         const bodyRes = await res.json();
 
-        console.log('tes', bodyRes);
         if (!res.ok) {
           callToast({ status: 'error', description: bodyRes.message });
         } else {
@@ -97,7 +94,6 @@ export default function FormResetPassword() {
       router.push('/login');
     } else {
       setShowWarning(true);
-      console.log('Password is not valid');
     }
   };
 
@@ -109,7 +105,6 @@ export default function FormResetPassword() {
       buttonText2='Reset Password'
       buttonText1='Cancel'
       onClickButtonTwo={handleSubmit}
-      onClickButtonOne={() => router.push('/login')}
       isColButton
     />
   );

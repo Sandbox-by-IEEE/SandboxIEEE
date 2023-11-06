@@ -60,8 +60,8 @@ const Modal = ({
     <div
       className={`fixed inset-0 backdrop-blur-sm z-[50] flex justify-center items-center bg-black/60 ease-in duration-300 ${
         isOpen
-          ? 'opacity-1 transform translate-y-0 transition-all duration-300 ease-in-out'
-          : 'opacity-0 transform -translate-y-20 transition-all duration-300 ease-in-out'
+          ? 'opacity-1 pointer-events-auto transform translate-y-0 transition-all duration-300 ease-in-out'
+          : 'opacity-0 pointer-events-none transform -translate-y-20 transition-all duration-300 ease-in-out'
       }`}
       onClick={closeModal}
     >
@@ -119,11 +119,11 @@ const Modal = ({
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet auctor viverra. Nulla facilisis elit ac leo ornare congue. Morbi sed lectus maximus, efficitur orci a.'}
         </div>
         <div
-          className={`text-sm lg:text-base font-poppins h-fit w-full gap-3 font-bold mx-auto ${
+          className={`text-sm flex gap-3 lg:text-base font-poppins h-fit w-full font-bold mx-auto ${
             isColButton
-              ? 'flex-col-reverse items-center justify-center'
-              : 'flex items-stretch max-md:flex-col-reverse md:flex-row justify-end'
-          }`}
+              ? 'flex-col-reverse items-center justify-center gap-10'
+              : 'items-stretch max-md:flex-col-reverse md:flex-row justify-end'
+          } `}
         >
           <button
             className={`w-full ${

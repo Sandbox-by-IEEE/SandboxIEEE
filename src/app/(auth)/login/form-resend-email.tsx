@@ -40,8 +40,6 @@ export default function FormResendEmail() {
   const handleSubmit = async () => {
     setShowWarning(true);
     if (validateEmail(email)) {
-      console.log('Email is valid');
-
       try {
         const res = await fetch('/api/changepass/sendemail', {
           method: 'POST',
@@ -72,7 +70,6 @@ export default function FormResendEmail() {
 
       setOpenModal(false);
     } else {
-      console.log('Email is not valid');
       // callToast({
       //   status: 'error',
       //   description: 'Email is not valid',
