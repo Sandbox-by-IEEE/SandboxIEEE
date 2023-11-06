@@ -1,4 +1,6 @@
 'use client';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
 import { FileInputType } from '@/components/FileInput/fileInput-type';
@@ -10,9 +12,11 @@ import {
 } from '@/components/Forms/inputData-type';
 import { callToast } from '@/components/Toast';
 
-const inputDataHistoryKey = 'tpc-regist-history';
+const inputDataHistoryKey = 'ptc-regist-history';
 
 export default function PTCRegist() {
+  const router = useRouter();
+  const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
     memberCount: 1,
@@ -54,6 +58,7 @@ export default function PTCRegist() {
     },
   );
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
+  const [isDisabledNext, setIsDisabledNext] = useState<boolean>(false);
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
   const handleChange = (e) => {
     const name = e.target.name;
@@ -97,18 +102,8 @@ export default function PTCRegist() {
 
     if (name === 'memberCount') {
       setFillMemberIndex(0);
-      if (
-        newInputData.memberCount &&
-        newInputData.memberCount !== inputData.memberCount
-      ) {
-        if (newInputData.memberCount <= 0) {
-          newInputData.memberCount = inputData.memberCount;
-          callToast({
-            status: 'error',
-            description: 'Member count must be 1 to 5',
-          });
-        }
-        if (newInputData.memberCount > 5) {
+      if (newInputData.memberCount) {
+        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
@@ -116,9 +111,19 @@ export default function PTCRegist() {
           });
         }
       }
+
+      if (
+        !newInputData.memberCount ||
+        newInputData.memberCount <= 0 ||
+        newInputData.memberCount > 5
+      ) {
+        setIsDisabledNext(true);
+      } else {
+        setIsDisabledNext(false);
+      }
+
       if (newInputData.memberCount) {
         const newMembers: MemberInfo[] = [];
-
         for (let i = 0; i < newInputData.memberCount; i++) {
           if (newInputData.members[i]) {
             newMembers.push(newInputData.members[i]);
@@ -136,6 +141,7 @@ export default function PTCRegist() {
             });
           }
         }
+
         const newIsWarnedInputData = { ...isWarnedInputData };
         while (newInputData.memberCount > newIsWarnedInputData.members.length) {
           newIsWarnedInputData.members.push({
@@ -190,7 +196,7 @@ export default function PTCRegist() {
     });
   };
 
-  const handleSubmitFormIdentity = (e) => {
+  const handleSubmitFormIdentity = async (e) => {
     e.preventDefault();
 
     const isEmailValid = (email: string): boolean => {
@@ -241,8 +247,89 @@ export default function PTCRegist() {
       return;
     }
 
-    console.log('POST to cms', inputData);
+    // Submit data shoot API
+    try {
+      const dataTicket = {
+        competitionType: 'PTC',
+        teamName: inputData.teamName,
+        chairmanName: inputData.members[0].name,
+        chairmanEmail: inputData.members[0].email,
+        members: inputData.members.map((member) => {
+          return {
+            name: member.name,
+            email: member.email,
+            phoneNumber: member.phoneNumber,
+            institution: member.institution,
+            age: member.age.toString(),
+            studentProof: member.studentProof,
+            twibbonProof: member.twibbonProof,
+          };
+        }),
+      };
+
+      const response = await fetch('/api/ticket/competition', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataTicket),
+      });
+
+      const bodyResponse = await response.json();
+      if (!response.ok) {
+        callToast({
+          status: 'error',
+          description: bodyResponse.message,
+        });
+      } else {
+        callToast({
+          status: 'success',
+          description: bodyResponse.message,
+        });
+        router.push('/events/ptc');
+        localStorage.removeItem(inputDataHistoryKey);
+      }
+    } catch (err) {
+      console.log('ERROR_POST_TPC: ', err);
+      callToast({
+        status: 'error',
+        description:
+          'Something went wrong while submit your data, please try again',
+      });
+    }
   };
+
+  useEffect(() => {
+    if (status === 'loading') {
+      return;
+    }
+    if (!session?.user) {
+      callToast({
+        status: 'error',
+        description: 'Unauthorized, please login first',
+      });
+      router.push('/login');
+    } else {
+      if (session.user.ticket?.PTC.buy && !session.user.ticket.PTC.verified) {
+        callToast({
+          status: 'error',
+          description: 'You have purchased this ticket, Waiting for validation',
+        });
+        router.push('/');
+      } else if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified
+      ) {
+        callToast({
+          status: 'error',
+          description:
+            'You have purchased this ticket, Your ticket has been validated',
+        });
+        router.push('/');
+      }
+    }
+  }, [status]);
 
   useEffect(() => {
     if (filesForm2?.length) {
@@ -366,6 +453,7 @@ export default function PTCRegist() {
           handleSubmitFormIdentity={handleSubmitFormIdentity}
           isWarnedInputData={isWarnedInputData}
           setIsWarnedInputData={setIsWarnedInputData}
+          isDisabledNext={isDisabledNext}
           submissionText='Submit'
         />
       </div>

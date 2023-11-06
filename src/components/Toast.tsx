@@ -1,4 +1,4 @@
-import toast, { type Toast, Toaster } from 'react-hot-toast';
+import toast, { type Toast as ToastType, Toaster } from 'react-hot-toast';
 
 import XIcon from '@/components/icons/XIcon';
 
@@ -30,7 +30,7 @@ function callToast({ status, description, toastLoadingId }: ToastProps): void {
 function ToastComponent({
   toastprops: t,
   description,
-}: { toastprops: Toast } & { description: string }) {
+}: { toastprops: ToastType } & { description: string }) {
   return (
     <>
       <div className='flex gap-7 ml-3'>

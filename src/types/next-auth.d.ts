@@ -3,6 +3,7 @@ import { DefaultSession } from 'next-auth';
 declare module 'next-auth' {
   interface User {
     id: string;
+    username?: string;
     vote?: {
       status: boolean;
       karya?: {
@@ -16,15 +17,27 @@ declare module 'next-auth' {
         linkKarya: string;
       };
     };
-    exhibition?: {
-      buy: boolean;
-      active: boolean;
+    ticket?: {
+      exhibition: {
+        buy: boolean;
+        verified: boolean;
+        active: boolean;
+      };
+      TPC: {
+        buy: boolean;
+        verified: boolean;
+      };
+      PTC: {
+        buy: boolean;
+        verified: boolean;
+      };
     };
   }
 
   interface Session {
     user: DefaultSession['user'] & {
       id: string;
+      username?: string;
       vote?: {
         status: boolean;
         karya?: {
@@ -38,9 +51,20 @@ declare module 'next-auth' {
           linkKarya: string;
         };
       };
-      exhibition?: {
-        buy: boolean;
-        active: boolean;
+      ticket?: {
+        exhibition: {
+          buy: boolean;
+          verified: boolean;
+          active: boolean;
+        };
+        TPC: {
+          buy: boolean;
+          verified: boolean;
+        };
+        PTC: {
+          buy: boolean;
+          verified: boolean;
+        };
       };
     };
   }
