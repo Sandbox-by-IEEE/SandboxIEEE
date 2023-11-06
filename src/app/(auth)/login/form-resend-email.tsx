@@ -8,6 +8,7 @@ import {
   ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import TextInput from '@/components/TextInput';
+import { callToast } from '@/components/Toast';
 
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,13 +37,43 @@ export default function FormResendEmail() {
       </div>
     );
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setShowWarning(true);
     if (validateEmail(email)) {
-      console.log('Email is valid');
+      try {
+        const res = await fetch('/api/changepass/sendemail', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
+        });
+
+        const bodyRes = await res.json();
+
+        if (!res.ok) {
+          callToast({ status: 'error', description: bodyRes.message });
+        } else {
+          callToast({ status: 'success', description: bodyRes.message });
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          callToast({
+            status: 'error',
+            description: error.message,
+          });
+        }
+      }
+
       setOpenModal(false);
     } else {
-      console.log('Email is not valid');
+      // callToast({
+      //   status: 'error',
+      //   description: 'Email is not valid',
+      // });
     }
   };
   //Ga bisa pake form karena ketumpuk sama form register

@@ -27,9 +27,23 @@ model User {
   sessions           Session[]
   karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade)
   activateToken      ActivateToken[]
+  resetToken      ResetToken[]
+
 }
 
 model ActivateToken {
+  id          String    @id @default(uuid())
+  userId      String
+  token       String    @unique
+  activatedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ResetToken {
   id          String    @id @default(uuid())
   userId      String
   token       String    @unique

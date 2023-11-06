@@ -27,21 +27,21 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const headingNotVerified = 'Document Verification Update';
+    const headingNotVerified = `${ticketNotVerified[0].competitionType} Verification Update`;
 
     for (let i = 0; i < ticketNotVerified.length; i++) {
       const mailOptions = {
         from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
         to: ticketNotVerified[i].team?.chairmanEmail,
-        subject: 'Your Ticket Verified',
+        subject: 'Your Ticket Rejected',
         html: render(
           Email({
             heading: headingNotVerified,
             content: `
-            We regret to inform ${ticketNotVerified[i].team?.teamName} that your documents did not pass our verification process, and unfortunately, your team has not been selected to advance to the next stage of the competition.
-            We understand that this may be disappointing, and we encourage you to review the document requirements and submission guidelines for future competitions. If you have any questions or concerns about the verification process, please feel free to reach out to us at [support email address]. We are here to assist you and provide clarification as needed.
+            We regret to inform tour team ${ticketNotVerified[i].team?.teamName} that your documents did not pass our verification process, and unfortunately, your team has not been selected to advance to the next stage of the competition.
+            We understand that this may be disappointing, and we encourage you to review the document requirements and submission guidelines for future competitions. If you have any questions or concerns about the verification process, please feel free to reach out to us at our website. We are here to assist you and provide clarification as needed.
             Thank you for your interest and participation in our event. We hope to see you in future competitions and wish you the best in your future endeavors.
-            Warm regards,`,
+           `,
             name: ticketNotVerified[i].team?.chairmanName || '',
           }),
           { pretty: true },
