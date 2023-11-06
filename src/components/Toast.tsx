@@ -5,6 +5,7 @@ import XIcon from '@/components/icons/XIcon';
 interface ToastProps {
   status: 'error' | 'success';
   description: string;
+  toastLoadingId?: string;
 }
 
 function title(inputString: string) {
@@ -17,7 +18,12 @@ function title(inputString: string) {
   }
 }
 
-function callToast({ status, description }: ToastProps): void {
+function callLoading(desc) {
+  return loadingToast(desc);
+}
+
+function callToast({ status, description, toastLoadingId }: ToastProps): void {
+  toast.dismiss(toastLoadingId);
   status == 'success' ? successToast(description) : errorToast(description);
 }
 
@@ -58,6 +64,11 @@ const successToast = (desc: string) =>
   toast.success((t) => <ToastComponent toastprops={t} description={desc} />);
 const errorToast = (desc: string) =>
   toast.error((t) => <ToastComponent toastprops={t} description={desc} />);
+const loadingToast = (desc: string): string => {
+  return toast.loading((t) => (
+    <ToastComponent toastprops={t} description={desc} />
+  ));
+};
 
 function Toast() {
   return (
@@ -66,7 +77,6 @@ function Toast() {
         position='top-center'
         containerStyle={{}}
         toastOptions={{
-          duration: 1800,
           style: {
             boxShadow:
               '0 10px 15px -3px rgba(0, 0, 0, 0.1), , 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
@@ -79,11 +89,18 @@ function Toast() {
 
           error: {
             style: { borderColor: '#EF1B27' },
+            duration: 1800,
           },
 
           success: {
             style: {
               borderColor: '#3FB160 ',
+            },
+            duration: 1800,
+          },
+          loading: {
+            style: {
+              borderColor: '#fbbf24',
             },
           },
         }}
@@ -93,4 +110,4 @@ function Toast() {
 }
 
 export default Toast;
-export { callToast };
+export { callLoading,callToast };
