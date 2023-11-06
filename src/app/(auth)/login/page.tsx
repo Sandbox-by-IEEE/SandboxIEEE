@@ -230,13 +230,11 @@ export default function Home({
                     </span>
                   </Button>
                   {/* Ini ntar tambahin logika && !token */}
-                  {openModal && !searchParams.get('resetPass') && (
+                  {openModal && !searchParams.get('resetToken') && (
                     <FormResendEmail />
                   )}
                   {/* Ini ntar tambahin logika && token */}
-                  {searchParams.get('resetPass') === 'token' && (
-                    <FormResetPassword />
-                  )}
+                  {searchParams.get('resetToken') && <FormResetPassword />}
                 </div>
               </div>
               {/* Sign up button */}

@@ -46,6 +46,32 @@ const config: Config = {
         'brown-secondary': '#AB814E',
       },
       keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        trans: {
+          '0%': { opacity: '0' },
+          '15%': { opacity: '1' },
+          '80%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+        'fade-in': {
+          '0%': {
+            opacity: '0',
+          },
+          '100%': {
+            opacity: '1',
+          },
+        },
+        'fade-out': {
+          '0%': {
+            opacity: '1',
+          },
+          '100%': {
+            opacity: '0',
+          },
+        },
         'countdown-sec': {
           '0%': { transform: 'translateY(-64px)', opacity: '0' },
           '20%': { transform: 'translateY(0rem)', opacity: '1.0' },
@@ -101,7 +127,7 @@ const config: Config = {
           },
           '20%, 40%, 60%, 80%': { transform: 'translateX(10px) rotate(5deg)' },
         },
-        marquee: {
+        walk: {
           '0%': { transform: 'translateX(0%)', opacity: '1' },
           '25%': { transform: 'translateX(-10%)', opacity: '0.75' },
           '50%': { transform: 'translateX(0%)', opacity: '1' },
@@ -115,8 +141,12 @@ const config: Config = {
         'countdown-out': 'countdown-out 1s ease-out',
         blink: 'blink 1s ease-in-out',
         'ghost-left': 'ghost-left 5s ease-out infinite',
-        marquee: 'marquee 18s linear infinite',
+        walk: 'walk 18s linear infinite',
         shake: 'shake 4s ease-in-out infinite',
+        marquee: 'marquee 16s linear infinite',
+        trans: 'trans 16s ease-in-out',
+        'fade-in': 'fade-in 0.5s ease-in-out',
+        'fade-out': 'fade-out 0.5s ease-in-out',
       },
     },
   },
