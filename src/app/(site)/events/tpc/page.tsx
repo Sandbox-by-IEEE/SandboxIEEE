@@ -405,39 +405,41 @@ const TPC = async () => {
       {/* END COUNTDOWN */}
 
       {/* TIMELINE */}
-      <section
-        id='timeline'
-        className='w-full bg-gradient-section px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
-        style={{ background: 'rgba(7, 29, 16)' }}
-      >
-        <div
-          data-aos='fade-in'
-          className='absolute hidden opacity-80 left-[480px] top-[3625px] lg:block'
+      {tpcPage.timelineSectionTitle && (
+        <section
+          id='timeline'
+          className='w-full bg-gradient-section px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
+          style={{ background: 'rgba(7, 29, 16)' }}
         >
-          <Star11 size={40} />
-        </div>
-        <div
-          data-aos='fade-in'
-          className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
-        >
-          <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-            <TitleSection>{tpcPage.timelineSectionTitle}</TitleSection>
-            <div
-              data-aos='fade-in'
-              className='absolute hidden opacity-80 right-[520px] lg:top-[2890px] lg:block'
-            >
-              <Star8 size={25} />
-            </div>
-            <div
-              data-aos='fade-in'
-              className='absolute hidden opacity-80 right-[500px] lg:top-[2880px] lg:block'
-            >
-              <Star9 size={25} />
+          <div
+            data-aos='fade-in'
+            className='absolute hidden opacity-80 left-[480px] top-[3625px] lg:block'
+          >
+            <Star11 size={40} />
+          </div>
+          <div
+            data-aos='fade-in'
+            className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+          >
+            <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+              <TitleSection>{tpcPage.timelineSectionTitle}</TitleSection>
+              <div
+                data-aos='fade-in'
+                className='absolute hidden opacity-80 right-[520px] lg:top-[2890px] lg:block'
+              >
+                <Star8 size={25} />
+              </div>
+              <div
+                data-aos='fade-in'
+                className='absolute hidden opacity-80 right-[500px] lg:top-[2880px] lg:block'
+              >
+                <Star9 size={25} />
+              </div>
             </div>
           </div>
-        </div>
-        <Timeline items={allTimelineTpcs} />
-      </section>
+          <Timeline items={allTimelineTpcs} />
+        </section>
+      )}
       {/* END TIMELINE */}
 
       {/* FAQ */}
