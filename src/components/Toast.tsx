@@ -110,4 +110,4 @@ function Toast() {
 }
 
 export default Toast;
-export { callLoading,callToast };
+export { callLoading, callToast };
