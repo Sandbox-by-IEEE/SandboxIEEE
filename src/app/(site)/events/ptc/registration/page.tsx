@@ -291,7 +291,6 @@ export default function PTCRegist() {
         localStorage.removeItem(inputDataHistoryKey);
       }
     } catch (err) {
-      console.log('ERROR_POST_TPC: ', err);
       callToast({
         status: 'error',
         description:
@@ -341,7 +340,7 @@ export default function PTCRegist() {
         router.push('/');
       }
     }
-  }, [status]);
+  }, [status, router, session?.user]);
 
   useEffect(() => {
     if (filesForm2?.length) {

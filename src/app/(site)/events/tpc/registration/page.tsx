@@ -58,7 +58,7 @@ export default function TPCRegist() {
     },
   );
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
-  const [isDisabledNext, setIsDisabledNext] = useState<boolean>(false);
+  const [, setIsDisabledNext] = useState<boolean>(false);
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
   const handleChange = (e) => {
     const name = e.target.name;
@@ -247,7 +247,6 @@ export default function TPCRegist() {
       return;
     }
 
-    console.log('POST to cms', inputData);
     try {
       const dataTicket = {
         competitionType: 'TPC',
@@ -291,7 +290,6 @@ export default function TPCRegist() {
         localStorage.removeItem(inputDataHistoryKey);
       }
     } catch (err) {
-      console.log('ERROR_POST_TPC: ', err);
       callToast({
         status: 'error',
         description:
@@ -339,7 +337,7 @@ export default function TPCRegist() {
         router.push('/');
       }
     }
-  }, [status]);
+  }, [status, router, session?.user]);
 
   useEffect(() => {
     if (filesForm2?.length) {

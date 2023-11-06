@@ -112,7 +112,7 @@ export default function Home({
       });
       router.push('/login');
     }
-  }, [mounted]);
+  }, [mounted, activationMsg, error, router]);
 
   useEffect(() => {
     if (!mounted) {
