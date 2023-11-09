@@ -18,6 +18,7 @@ const FormDetails = ({
   setFillMemberIndex,
   isWarnedInputData,
   setIsWarnedInputData,
+  inputDataHistoryKey,
   submissionText,
   isDisabledNext,
 }: {
@@ -30,6 +31,7 @@ const FormDetails = ({
   isWarnedInputData: IsWarnedInputData;
   setIsWarnedInputData: React.Dispatch<React.SetStateAction<IsWarnedInputData>>;
   submissionText: string;
+  inputDataHistoryKey: string;
   isDisabledNext?: boolean;
 }) => {
   type PropType =
@@ -241,7 +243,7 @@ const FormDetails = ({
                           ] = newFile?.fileName as string;
 
                           localStorage.setItem(
-                            'inputData',
+                            inputDataHistoryKey,
                             JSON.stringify(newInputData),
                           );
 
