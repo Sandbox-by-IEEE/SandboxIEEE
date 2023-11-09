@@ -31,7 +31,7 @@ const SingleFileInput = ({
   file: FileInputType | undefined;
 }) => {
   const [errorMsg, setErrorMsg] = useState<string>('');
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [inputUrl, setInputUrl] = useState<string>('');
 
@@ -74,6 +74,7 @@ const SingleFileInput = ({
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const filesToUpload = event.target.files;
     try {
+      setIsLoading(true);
       if (filesToUpload && filesToUpload.length > 0) {
         const fileUploaded = filesToUpload[0];
         const responseJSON = await uploadFile(fileUploaded);
@@ -83,18 +84,20 @@ const SingleFileInput = ({
           fileUrl: responseJSON?.secure_url,
         };
 
-        setIsSuccess(true);
         setFile(newFile);
       }
     } catch (error) {
       setErrorMsg(error as string);
       setIsError(true);
       setTimeout(() => setIsError(false), 3000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     try {
+      setIsLoading(true);
       e.preventDefault();
 
       const filesDropped = e.dataTransfer.files;
@@ -124,7 +127,6 @@ const SingleFileInput = ({
           fileUrl: responseJSON?.secure_url,
         };
 
-        setIsSuccess(true);
         setFile(newFile);
       } else {
         throw 'No files dropped';
@@ -133,6 +135,8 @@ const SingleFileInput = ({
       setErrorMsg(error as string);
       setIsError(true);
       setTimeout(() => setIsError(false), 3000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -154,7 +158,6 @@ const SingleFileInput = ({
 
       if (isValidUrl) {
         setUrl(inputUrl);
-        setIsSuccess(true);
       } else {
         setIsError(true);
         setTimeout(() => setIsError(false), 2000);
@@ -198,7 +201,7 @@ const SingleFileInput = ({
     );
   }
 
-  if (isSuccess || file?.fileName) {
+  if (file?.fileName) {
     return (
       <div>
         <div
@@ -247,6 +250,63 @@ const SingleFileInput = ({
           onChange={handleChange}
           accept={allowedFileTypes.join(',')}
           ref={hiddenFileInput}
+          className='hidden'
+        />
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <div
+          className={
+            'w-full max-w-full px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
+          }
+        >
+          <button type='button' className='py-10'>
+            <div
+              className='w-[100px] aspect-square rounded-full animate-spin
+                    border-8 border-solid border-[#dbb88b] border-t-transparent'
+            ></div>
+          </button>
+          <p className='text-[15px] lg:text-base font-poppins font-bold cursor-pointer'>
+            Drag atau <span className='text-blue-500'>upload</span> file kamu di
+            sini
+          </p>
+          <p>{message}</p>
+          {setUrl && (
+            <div className='flex flex-col gap-4 text-sm lg:text-base font-poppins'>
+              <div className='flex gap-4 items-center mx-auto'>
+                <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
+                <p>atau</p>
+                <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
+              </div>
+              <div className='flex flex-col items-center gap-4'>
+                <p>cantumkan Link Google Drive</p>
+                <div className='flex w-full gap-2'>
+                  <input
+                    type='text'
+                    onChange={(e) => setInputUrl(e.target.value)}
+                    className='border-4 border-[#DBB88B] px-4 py-2 flex-grow bg-inherit rounded-lg'
+                  />
+                  <button
+                    className='py-2 lg:py-3 px-6 bg-[#AB814E] rounded-lg'
+                    onClick={handleSubmitUrl}
+                  >
+                    <SaveIcon className='w-[24px] aspect-square' />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        <input
+          type='file'
+          disabled
+          onChange={handleChange}
+          ref={hiddenFileInput}
+          accept={allowedFileTypes.join(',')}
           className='hidden'
         />
       </div>
