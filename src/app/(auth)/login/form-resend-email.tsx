@@ -1,6 +1,7 @@
 'use client';
 import React, { useContext } from 'react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Modal from '@/components/Modal/Modal';
 import {
@@ -8,7 +9,7 @@ import {
   ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import TextInput from '@/components/TextInput';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -40,6 +41,8 @@ export default function FormResendEmail() {
   const handleSubmit = async () => {
     setShowWarning(true);
     if (validateEmail(email)) {
+      const loadingToastId = callLoading('Sending email...');
+
       try {
         const res = await fetch('/api/changepass/sendemail', {
           method: 'POST',
@@ -66,6 +69,8 @@ export default function FormResendEmail() {
             description: error.message,
           });
         }
+      } finally {
+        toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman email selesai
       }
 
       setOpenModal(false);
@@ -76,6 +81,7 @@ export default function FormResendEmail() {
       // });
     }
   };
+
   //Ga bisa pake form karena ketumpuk sama form register
   return (
     <Modal

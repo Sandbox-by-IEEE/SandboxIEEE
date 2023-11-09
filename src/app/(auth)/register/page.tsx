@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import * as z from 'zod';
 
 // Importing custom components for UI elements and icons
@@ -18,7 +19,7 @@ import Stars2mb from '@/components/icons/Register/stars2mb';
 import Stars3 from '@/components/icons/Register/stars3';
 import Stars3mb from '@/components/icons/Register/stars3mb';
 import TextInput from '@/components/TextInput';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 
 const formSchema = z.object({
   email: z.string().email('Email is invalid').min(1, 'Email field is required'),
@@ -71,46 +72,38 @@ export default function Home() {
       return;
     }
 
-    const res = await fetch('/api/user', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+    const loadingToastId = callLoading('Loading...'); // Tampilkan toast loading
 
-    const resBody = await res.json();
-    if (!res.ok) {
-      callToast({ status: 'error', description: resBody.message });
-      setEmail('');
-      setUsername('');
-      setPassword('');
-      router.refresh();
-      return;
+    try {
+      const res = await fetch('/api/user', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      const resBody = await res.json();
+      if (!res.ok) {
+        callToast({ status: 'error', description: resBody.message });
+        setEmail('');
+        setUsername('');
+        setPassword('');
+        setPassword2('');
+        router.refresh();
+        return;
+      }
+
+      callToast({
+        status: 'success',
+        description:
+          'Register succesfull, check your email for activate account',
+      });
+      router.push('/');
+    } finally {
+      toast.dismiss(loadingToastId);
     }
-
-    callToast({
-      status: 'success',
-      description: 'Register succesfull, check your email for activate account',
-    });
-    router.push('/');
-    // const resLogin = await signIn('credentials', {
-    //   email: email,
-    //   password: password,
-    //   redirect: false,
-    //   callbackUrl: '/',
-    // });
-
-    // if (resLogin?.error) {
-    //   callToast({
-    //     status: 'error',
-    //     description: resLogin?.error || 'Login failed',
-    //   });
-    //   router.push('/login');
-    // } else {
-    //   callToast({ status: 'success', description: 'Login succesfull' });
-    // }
   };
 
   // The component returns the UI structure for the registration page

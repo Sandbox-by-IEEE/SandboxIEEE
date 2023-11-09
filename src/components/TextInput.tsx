@@ -69,10 +69,10 @@ const TextInput = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           if (type === 'number') {
             const value = parseInt(e.target.value);
-            if (value > 0 && !isNaN(value)) {
-              setText ? setText(e.target.value) : onChange && onChange(e);
-            } else {
+            if (value < 0) {
               ('');
+            } else {
+              setText ? setText(e.target.value) : onChange && onChange(e);
             }
           } else {
             setText ? setText(e.target.value) : onChange && onChange(e);

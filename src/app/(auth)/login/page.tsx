@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import React, { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import * as z from 'zod';
 
 import FormResetPassword from '@/app/(auth)/login/form-password-reset';
@@ -24,7 +25,7 @@ import {
   ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import TextInput from '@/components/TextInput';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 
 const formSchema = z.object({
   username: z.string().min(1, 'Username field is required'),
@@ -74,24 +75,30 @@ export default function Home({
       return;
     }
 
-    const resLogin = await signIn('credentials', {
-      username: username,
-      password: password,
-      redirect: false,
-      callbackUrl: '/',
-    });
+    const loadingToastId = callLoading('Logging in...');
 
-    if (resLogin?.error) {
-      callToast({
-        status: 'error',
-        description: resLogin?.error || 'Login Failed',
+    try {
+      const resLogin = await signIn('credentials', {
+        username: username,
+        password: password,
+        redirect: false,
+        callbackUrl: '/',
       });
-      setUsername('');
-      setPassword('');
-      router.refresh();
-    } else {
-      callToast({ status: 'success', description: 'Login succesfull' });
-      router.push('/');
+
+      if (resLogin?.error) {
+        callToast({
+          status: 'error',
+          description: resLogin?.error || 'Login Failed',
+        });
+        setUsername('');
+        setPassword('');
+        router.refresh();
+      } else {
+        callToast({ status: 'success', description: 'Login succesfull' });
+        router.push('/');
+      }
+    } finally {
+      toast.dismiss(loadingToastId); // Dismiss toast loading ketika login selesai
     }
   };
 

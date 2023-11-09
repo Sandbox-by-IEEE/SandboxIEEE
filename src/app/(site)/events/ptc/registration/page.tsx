@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { FileInputType } from '@/components/FileInput/fileInput-type';
 import FormDetails from '@/components/Forms/FormDetailsRegist1';
@@ -10,7 +11,7 @@ import {
   IsWarnedInputData,
   MemberInfo,
 } from '@/components/Forms/inputData-type';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 
 export default function PTCRegist() {
   const inputDataHistoryKey = 'ptc-regist-history';
@@ -247,6 +248,8 @@ export default function PTCRegist() {
       return;
     }
 
+    const loadingToastId = callLoading('Submitting form...'); // Tampilkan toast loading
+
     // Submit data shoot API
     try {
       const dataTicket = {
@@ -296,6 +299,8 @@ export default function PTCRegist() {
         description:
           'Something went wrong while submit your data, please try again',
       });
+    } finally {
+      toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
     }
   };
 

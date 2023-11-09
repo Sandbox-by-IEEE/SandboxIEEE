@@ -1,6 +1,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useContext } from 'react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Modal from '@/components/Modal/Modal';
 import {
@@ -8,7 +9,7 @@ import {
   ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import TextInput from '@/components/TextInput';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 
 export default function FormResetPassword() {
   const [pass, setPass] = useState('');
@@ -60,6 +61,8 @@ export default function FormResetPassword() {
 
   const handleSubmit = async () => {
     if (pass === pass2 && pass.length >= 8 && pass2.length >= 8) {
+      const loadingToastId = callLoading('Changing password...');
+
       try {
         const res = await fetch('/api/changepass', {
           method: 'PATCH',
@@ -87,6 +90,8 @@ export default function FormResetPassword() {
             description: error.message,
           });
         }
+      } finally {
+        toast.dismiss(loadingToastId);
       }
 
       setOpenModal(false);
