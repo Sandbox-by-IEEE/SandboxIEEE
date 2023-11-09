@@ -12,9 +12,9 @@ import {
 } from '@/components/Forms/inputData-type';
 import { callToast } from '@/components/Toast';
 
-const inputDataHistoryKey = 'tpc-regist-history';
-
 export default function TPCRegist() {
+  const inputDataHistoryKey = 'tpc-regist-history';
+
   const router = useRouter();
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
@@ -461,6 +461,8 @@ export default function TPCRegist() {
           handleSubmitFormIdentity={handleSubmitFormIdentity}
           isWarnedInputData={isWarnedInputData}
           setIsWarnedInputData={setIsWarnedInputData}
+          isDisabledNext={isDisabledNext}
+          inputDataHistoryKey={inputDataHistoryKey}
           submissionText='Submit'
         />
       </div>

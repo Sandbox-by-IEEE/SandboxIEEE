@@ -12,9 +12,9 @@ import {
 } from '@/components/Forms/inputData-type';
 import { callToast } from '@/components/Toast';
 
-const inputDataHistoryKey = 'ptc-regist-history';
-
 export default function PTCRegist() {
+  const inputDataHistoryKey = 'ptc-regist-history';
+
   const router = useRouter();
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
@@ -465,6 +465,7 @@ export default function PTCRegist() {
           isWarnedInputData={isWarnedInputData}
           setIsWarnedInputData={setIsWarnedInputData}
           isDisabledNext={isDisabledNext}
+          inputDataHistoryKey={inputDataHistoryKey}
           submissionText='Submit'
         />
       </div>

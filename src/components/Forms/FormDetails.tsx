@@ -19,6 +19,7 @@ const FormDetails = ({
   isWarnedInputData,
   setIsWarnedInputData,
   submissionText,
+  inputDataHistoryKey,
   isDisabledNext,
 }: {
   inputData: InputData;
@@ -30,6 +31,7 @@ const FormDetails = ({
   isWarnedInputData: IsWarnedInputData;
   setIsWarnedInputData: React.Dispatch<React.SetStateAction<IsWarnedInputData>>;
   submissionText: string;
+  inputDataHistoryKey: string;
   isDisabledNext?: boolean;
 }) => {
   const unWarn = (
@@ -291,7 +293,7 @@ const FormDetails = ({
                           newFile?.fileName as string;
 
                         localStorage.setItem(
-                          'inputData',
+                          inputDataHistoryKey,
                           JSON.stringify(newInputData),
                         );
 
@@ -333,7 +335,7 @@ const FormDetails = ({
                           newFiles?.fileName as string;
 
                         localStorage.setItem(
-                          'inputData',
+                          inputDataHistoryKey,
                           JSON.stringify(newInputData),
                         );
 
