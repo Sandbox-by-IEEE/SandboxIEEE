@@ -1,5 +1,7 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useState } from 'react';
 
+import Eye from '@/components/icons/Register/eye';
+import Eyeslash from '@/components/icons/Register/eyeslash';
 import SearchIcon from '@/components/icons/SearchIcon';
 
 const TextInput = ({
@@ -50,6 +52,7 @@ const TextInput = ({
       disabled: 'bg-transparent disabled:bg-white text-black',
     },
   };
+  const [visible, setVisible] = useState(false);
   return type !== 'textarea' ? (
     <div
       className={`flex gap-3 py-1.5 px-4 lg:px-6 lg:py-2 ${
@@ -70,7 +73,7 @@ const TextInput = ({
         min={minValue}
         disabled={disabled}
         name={name}
-        type={type}
+        type={type === 'password' ? (visible ? 'text' : 'password') : type}
         pattern={(() => {
           switch (type) {
             case 'email':
@@ -91,9 +94,19 @@ const TextInput = ({
         })()}
         value={disabled ? '' : text}
         placeholder={placeholder}
-        className={` ${colorEffect[color].disabled} outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
+        className={` ${colorEffect[color].disabled} outline-none disabled:cursor-not-allowed font-medium text-sm w-full lg:text-base`}
         required={required}
       />
+      {type === 'password' && (
+        <button
+          type='button'
+          aria-label='Toggle password visibility'
+          className='cursor-pointer hover:scale-[1.1] transition-all'
+          onClick={() => setVisible(!visible)}
+        >
+          {!visible ? <Eye /> : <Eyeslash />}
+        </button>
+      )}
     </div>
   ) : (
     <div
@@ -112,7 +125,7 @@ const TextInput = ({
         disabled={disabled}
         value={disabled ? '' : text}
         placeholder={placeholder}
-        className={` ${colorEffect[color].disabled} custom-scrollbar outline-none disabled:cursor-not-allowed rounded-md font-medium text-sm w-full lg:text-base`}
+        className={` ${colorEffect[color].disabled} custom-scrollbar outline-none disabled:cursor-not-allowed font-medium text-sm w-full lg:text-base`}
         required={required}
       />
     </div>
