@@ -142,19 +142,21 @@ export const metadata: Metadata = {
   description:
     'Meet our team of expert mentors at Sandbox IEEE ITB. Explore expert profiles, gain valuable insights, and connect with them on LinkedIn. Elevate your knowledge and network with our mentors.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/our-mentors',
@@ -162,9 +164,6 @@ export const metadata: Metadata = {
       'en-US': '/en-US/our-mentors',
       'id-ID': '/id-ID/our-mentors',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',

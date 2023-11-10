@@ -375,19 +375,21 @@ export const metadata: Metadata = {
   description:
     'The peak day of TheSandbox by IEEE event, where finalists of ProtoTech Contest will showcase their prototype as well do some pitching for further assessment. On the other hand, prior videos submitted by the finalists of Technovate Paper Competition will be displayed before their final pitching regarding their paper. Final judgment along with the awarding ceremony will be taking place during this time as well, hosted in collaboration with leaders of IEEE ITB Student Branch and judges from exterior institutions.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/events/exhibition',
@@ -396,14 +398,11 @@ export const metadata: Metadata = {
       'id-ID': '/id-ID/events/exhibition',
     },
   },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
-  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
       'The peak day of TheSandbox by IEEE event, where finalists of ProtoTech Contest will showcase their prototype as well do some pitching for further assessment. On the other hand, prior videos submitted by the finalists of Technovate Paper Competition will be displayed before their final pitching regarding their paper. Final judgment along with the awarding ceremony will be taking place during this time as well, hosted in collaboration with leaders of IEEE ITB Student Branch and judges from exterior institutions.',
-    url: 'https://sandbox.ieeeitb.com/events/exhibition',
+    url: 'https://sandbox.ieeeitb.com/events/exhibit ion',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {

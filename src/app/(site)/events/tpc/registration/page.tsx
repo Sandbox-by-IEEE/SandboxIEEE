@@ -249,7 +249,9 @@ export default function TPCRegist() {
       return;
     }
 
-    const loadingToastId = callLoading('Submitting form...'); // Tampilkan toast loading
+    const loadingToastId = callLoading(
+      'Processing your TPC form registration...',
+    ); // Tampilkan toast loading
 
     try {
       const dataTicket = {
@@ -456,7 +458,8 @@ export default function TPCRegist() {
 
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
-      <div className='h-fit w-full max-w-[1000px] py-10 px-4 pt-16 lg:pt-24 font-poppins'>
+      <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
+        <Title text='TPC Registration' />
         <Title text='Complete your details Below' />
         <FormDetails
           inputData={inputData}

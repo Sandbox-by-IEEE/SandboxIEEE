@@ -46,12 +46,7 @@ export default function Home() {
 
   const handleOnSubmit = async (e: any) => {
     e.preventDefault();
-    if (password !== password2) {
-      return callToast({
-        status: 'error',
-        description: 'Password and password confirmation are different',
-      });
-    }
+
     const body = {
       email: email,
       username: username,
@@ -68,11 +63,18 @@ export default function Home() {
       setEmail('');
       setUsername('');
       setPassword('');
+      setPassword2('');
       router.refresh();
       return;
     }
+    if (password !== password2) {
+      return callToast({
+        status: 'error',
+        description: 'Password and password confirmation are different',
+      });
+    }
 
-    const loadingToastId = callLoading('Loading...'); // Tampilkan toast loading
+    const loadingToastId = callLoading('Processing your data signup'); // Tampilkan toast loading
 
     try {
       const res = await fetch('/api/user', {

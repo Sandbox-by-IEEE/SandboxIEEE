@@ -74,7 +74,7 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
               </Row>
               <Row className='w-full px-10'>
                 <Hr className=' border border-solid border-[#705229] my-0 mt-4 w-full' />
-                <Text className='m-0 mb-1 p-0 text-xs font-semibold text-[#705229] w-full'>
+                <Text className='m-0 mb-1 p-0 text-xs font-semibold text-[#705229] w-full py-2'>
                   Contact{' '}
                   <Link href='https://sandbox.ieeeitb.com/contact-us'>
                     Our Website

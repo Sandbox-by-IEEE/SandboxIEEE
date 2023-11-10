@@ -260,35 +260,34 @@ export const metadata: Metadata = {
   description:
     "Join us for the Grand Seminar by Sandbox IEEE ITB, an exciting event featuring in-depth discussions, expert speakers, and valuable insights on a wide range of technology topics. Learn about the event's agenda, registration process, exhibitors, and explore the profiles of our distinguished speakers. Get answers to frequently asked questions (FAQ) to make the most of your Grand Seminar experience. Don't miss this opportunity to expand your knowledge and connection in technology.",
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
-    canonical: '/grandseminar',
+    canonical: '/events/grand-seminar',
     languages: {
-      'en-US': '/en-US/grandseminar',
-      'id-ID': '/id-ID/grandseminar',
+      'en-US': '/en-US/events/grand-seminar',
+      'id-ID': '/id-ID/events/grand-seminar',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
       "Join us for the Grand Seminar by Sandbox IEEE ITB, an exciting event featuring in-depth discussions, expert speakers, and valuable insights on a wide range of technology topics. Learn about the event's agenda, registration process, exhibitors, and explore the profiles of our distinguished speakers. Get answers to frequently asked questions (FAQ) to make the most of your Grand Seminar experience. Don't miss this opportunity to expand your knowledge and connection in technology.",
-    url: 'https://sandbox.ieeeitb.com/grandseminar',
+    url: 'https://sandbox.ieeeitb.com/events/grand-seminar',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {

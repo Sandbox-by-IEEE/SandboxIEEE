@@ -46,7 +46,7 @@ export const EmailResetPass = ({ name, url }: EmailResetPassProps) => {
             <Section className='z-[10] w-[437px]'>
               <Row className='w-full px-10'>
                 <Text className='text-[#705229] text-xl font-black drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
-                  Hello {name}
+                  Hello {name},
                 </Text>
                 <Text className='text-[#705229] text-sm font-bold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
                   You have requested an email to reset your password.
@@ -78,7 +78,7 @@ export const EmailResetPass = ({ name, url }: EmailResetPassProps) => {
               </Row>
               <Row className='w-full '>
                 <Hr className=' border border-solid border-[#705229] my-0 mt-4 w-full' />
-                <Text className='m-0 mb-1 p-0 text-xs font-semibold text-[#705229] w-full'>
+                <Text className='m-0 mb-1 p-0 text-xs font-semibold text-[#705229] w-full py-2'>
                   Contact{' '}
                   <Link href='https://sandbox.ieeeitb.com/contact-us'>
                     Our Website
