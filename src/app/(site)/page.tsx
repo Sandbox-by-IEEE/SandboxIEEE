@@ -11,7 +11,7 @@ import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
-import { HomepageProps } from '@/types/homepage';
+import { type HomepageProps } from '@/types/homepage';
 
 const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,

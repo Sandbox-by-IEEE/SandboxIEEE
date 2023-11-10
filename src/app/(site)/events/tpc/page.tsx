@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
@@ -20,7 +20,7 @@ import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
-import { TPCProps } from '@/types/tpc-type';
+import { type TPCProps } from '@/types/tpc-type';
 
 const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,

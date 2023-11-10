@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import React from 'react';
 
 const LayoutRegistration = ({ children }: { children: React.ReactNode }) => {

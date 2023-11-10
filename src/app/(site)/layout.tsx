@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 
 import Footer from '@/components/footer';
 import Marquee from '@/components/Marque';
 import NavBar from '@/components/Navbar';
 import { performRequest } from '@/lib/datocms';
-import { MarquePropsData } from '@/types/marque-type';
+import { type MarquePropsData } from '@/types/marque-type';
 
 const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
   const CMS_QUERY = ` {
