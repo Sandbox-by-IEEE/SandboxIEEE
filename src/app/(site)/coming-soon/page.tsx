@@ -42,7 +42,7 @@ export default function CommingSoonPage() {
           height={220}
         />
         <div className='flex flex-col items-center gap-2 lg:gap-4'>
-          <h1 className='font-poppins animate-marquee italic lg:text-4xl text-3xl tracking-wide text-center font-extrabold text-white transition-all duration-300'>
+          <h1 className='font-poppins animate-walk italic lg:text-4xl text-3xl tracking-wide text-center font-extrabold text-white transition-all duration-300'>
             Coming Soon!
           </h1>
           <h2 className='font-poppins text-lg italic lg:text-2xl text-center text-white transition-all duration-300'>
