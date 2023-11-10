@@ -153,19 +153,21 @@ export const metadata: Metadata = {
   description:
     "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/contact-us',
@@ -173,9 +175,6 @@ export const metadata: Metadata = {
       'en-US': '/en-US/contact-us',
       'id-ID': '/id-ID/contact-us',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',

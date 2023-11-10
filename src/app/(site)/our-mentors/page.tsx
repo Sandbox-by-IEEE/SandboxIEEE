@@ -106,27 +106,28 @@ const OurMentorsPage = async () => {
             </div>
           )}
         </section>
-
-        <section
-          className={`flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40 ${
-            allMentorDetails.length <= 2 && 'py-8 lg:py-16'
-          }`}
-        >
-          {/* Our Mentors subtitle */}
-          {ourMentorsPage.subtitleSection && allMentorDetails.length > 2 && (
-            <div
-              data-aos='fade-up'
-              id='seemore'
-              className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'
-            >
-              <div className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-                <TitleSection>{ourMentorsPage.subtitleSection}</TitleSection>
+        {ourMentorsPage.subtitleSection && (
+          <section
+            className={`flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40 ${
+              allMentorDetails.length <= 2 && 'py-8 lg:py-16'
+            }`}
+          >
+            {/* Our Mentors subtitle */}
+            {ourMentorsPage.subtitleSection && allMentorDetails.length > 2 && (
+              <div
+                data-aos='fade-up'
+                id='seemore'
+                className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'
+              >
+                <div className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+                  <TitleSection>{ourMentorsPage.subtitleSection}</TitleSection>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <MentorCards options={allMentorDetails} data-aos='zoom-in' />
-        </section>
+            <MentorCards options={allMentorDetails} data-aos='zoom-in' />
+          </section>
+        )}
       </div>
 
       {/* You can map through the filteredData to display the results */}
@@ -141,19 +142,21 @@ export const metadata: Metadata = {
   description:
     'Meet our team of expert mentors at Sandbox IEEE ITB. Explore expert profiles, gain valuable insights, and connect with them on LinkedIn. Elevate your knowledge and network with our mentors.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/our-mentors',
@@ -161,9 +164,6 @@ export const metadata: Metadata = {
       'en-US': '/en-US/our-mentors',
       'id-ID': '/id-ID/our-mentors',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',

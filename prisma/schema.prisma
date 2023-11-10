@@ -27,6 +27,8 @@ model User {
   sessions           Session[]
   karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade)
   activateToken      ActivateToken[]
+  resetToken      ResetToken[]
+
 }
 
 model ActivateToken {
@@ -38,7 +40,19 @@ model ActivateToken {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ResetToken {
+  id          String    @id @default(uuid())
+  userId      String
+  token       String    @unique
+  activatedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -98,9 +112,9 @@ model TicketExhibition {
 }
 
 model TicketCompetition {
-  id              String  @id @default(uuid())
+  id              String @id @default(uuid())
   userId          String
-  verified        Boolean @default(false)
+  verified        String @default("pending")
   competitionType String
   team            Team?
 

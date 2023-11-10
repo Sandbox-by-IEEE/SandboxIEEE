@@ -81,19 +81,21 @@ export const metadata: Metadata = {
   description:
     "Something exciting is on the way! Our team is working hard behind the scenes to bring you a new and improved experience. While we fine-tune the final details, we wanted to give you a sneak peek of what's coming. Get ready for a world of innovation, opportunities, and engaging content that will inspire and empower you. Make sure to sign up for updates so you can be the first to know when we launch. The wait will be worth it - stay tuned!",
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/coming-soon',
@@ -101,9 +103,6 @@ export const metadata: Metadata = {
       'en-US': '/en-US/coming-soon',
       'id-ID': '/id-ID/coming-soon',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',
