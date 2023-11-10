@@ -41,7 +41,7 @@ export default function ButtonRegistration({
     }
 
     // Ticket Validation
-    if (ticket?.buy && ticket?.verified) {
+    if (ticket?.buy && ticket?.verified === 'verified') {
       showToast(
         'error',
         'You have purchased this ticket, Your ticket has been validated',
@@ -50,10 +50,18 @@ export default function ButtonRegistration({
     }
 
     // Ticket Verification
-    if (ticket?.buy) {
+    if (ticket?.buy && ticket?.verified === 'pending') {
       showToast(
         'error',
         'You have purchased this ticket, Waiting for validation',
+      );
+      return;
+    }
+
+    if (ticket?.buy && ticket?.verified === 'rejected') {
+      showToast(
+        'error',
+        'You have purchased this ticket, Your ticket rejected',
       );
       return;
     }
@@ -66,14 +74,20 @@ export default function ButtonRegistration({
     <div>
       <Button
         color={color}
-        isDisabled={sessionData?.user.ticket?.PTC.buy}
+        isDisabled={
+          type === 'PTC'
+            ? sessionData?.user.ticket?.PTC.buy
+            : sessionData?.user.ticket?.TPC.buy
+        }
         isFullWidth
         onClick={onClick}
       >
-        {sessionData?.user.ticket?.[type].verified
+        {sessionData?.user.ticket?.[type].verified === 'verified'
           ? 'Your registration has been verified'
-          : sessionData?.user.ticket?.[type].buy
+          : sessionData?.user.ticket?.[type].verified === 'pending'
           ? 'Your registration is being processed'
+          : sessionData?.user.ticket?.[type].verified === 'rejected'
+          ? 'Your registration rejected'
           : children}
       </Button>
     </div>

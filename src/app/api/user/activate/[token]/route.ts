@@ -144,6 +144,7 @@ export async function GET(
 
   let transaction;
   try {
+    // eslint-disable-next-line unused-imports/no-unused-vars
     transaction = await prisma.$transaction([
       prisma.activateToken.update({
         where: {

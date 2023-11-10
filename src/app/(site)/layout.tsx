@@ -25,11 +25,15 @@ const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='flex flex-col min-h-screen overflow-x-clip'>
       <NavBar />
-      <Marquee
-        hideSeconds={10}
-        showSeconds={15}
-        data={ourSponsorsPage.ourSponsorLogo}
-      />
+      {ourSponsorsPage.ourSponsorLogo &&
+        ourSponsorsPage.ourSponsorLogo.length > 0 && (
+          <Marquee
+            hideSeconds={10}
+            showSeconds={15}
+            data={ourSponsorsPage.ourSponsorLogo}
+          />
+        )}
+
       {children}
       <Footer />
     </div>

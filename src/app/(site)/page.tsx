@@ -97,6 +97,7 @@ const CMS_QUERY = `{
   }
 } `;
 export default async function Home({
+  // eslint-disable-next-line unused-imports/no-unused-vars
   searchParams: { token },
 }: {
   searchParams: { token: string };

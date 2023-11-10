@@ -7,39 +7,38 @@ const LayoutRegistration = ({ children }: { children: React.ReactNode }) => {
 
 export default LayoutRegistration;
 export const metadata: Metadata = {
-  title: 'Registration PTC | Sandbox IEEE ITB',
+  title: 'TPC | Sandbox IEEE ITB',
   description:
-    'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
+    'Technovate Paper Competition is a research national-scale competition with 8 stages, such as abstract submission, TPC semi-finalist announcement, TPC full paper, mentoring seminar with experts, full paper submission, finalist announcement, short campaign video, and TPC final pitching.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
-    canonical: '/events/ptc/registration',
+    canonical: '/events/tpc',
     languages: {
-      'en-US': '/en-US/events/ptc/registration',
-      'id-ID': '/id-ID/events/ptc/registration',
+      'en-US': '/en-US/events/tpc',
+      'id-ID': '/id-ID/events/tpc',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
-    url: 'https://sandbox.ieeeitb.com/events/ptc/registration',
+      'Technovate Paper Competition is a research national-scale competition with 8 stages, such as abstract submission, TPC semi-finalist announcement, TPC full paper, mentoring seminar with experts, full paper submission, finalist announcement, short campaign video, and TPC final pitching.',
+    url: 'https://sandbox.ieeeitb.com/events/tpc',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
@@ -56,7 +55,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
+      'Technovate Paper Competition is a research national-scale competition with 8 stages, such as abstract submission, TPC semi-finalist announcement, TPC full paper, mentoring seminar with experts, full paper submission, finalist announcement, short campaign video, and TPC final pitching.',
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',

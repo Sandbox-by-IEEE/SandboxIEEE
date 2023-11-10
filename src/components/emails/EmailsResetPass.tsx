@@ -13,13 +13,12 @@ import {
 } from '@react-email/components';
 import * as React from 'react';
 
-interface EmailAuthProps {
+interface EmailResetPassProps {
   name: string;
-  token: string;
-  baseUrl: string;
+  url: string;
 }
 
-export const EmailAuth = ({ name, token, baseUrl }: EmailAuthProps) => {
+export const EmailResetPass = ({ name, url }: EmailResetPassProps) => {
   return (
     <Html>
       <Head></Head>
@@ -35,8 +34,8 @@ export const EmailAuth = ({ name, token, baseUrl }: EmailAuthProps) => {
           },
         }}
       >
-        <Body className='mx-auto my-auto font-sans h-fit w-full bg-white'>
-          <Container className='relative rounded w-[465px] overflow-hidden bg-background bg-cover bg-center bg-no-repeat'>
+        <Body className='m-auto font-sans h-fit w-full bg-white'>
+          <Container className='relative rounded w-[485px] overflow-hidden bg-background bg-cover bg-center bg-no-repeat'>
             <Section className='w-full'>
               <Img
                 src={`https://res.cloudinary.com/dssrh53qx/image/upload/v1697283874/header_wrtaop.png`}
@@ -44,32 +43,31 @@ export const EmailAuth = ({ name, token, baseUrl }: EmailAuthProps) => {
                 className='w-full'
               />
             </Section>
-            <Section className='z-[10] w-[417px]'>
+            <Section className='z-[10] w-[437px]'>
               <Row className='w-full px-10'>
                 <Text className='text-[#705229] text-xl font-black drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
                   Hello {name},
                 </Text>
+                <Text className='text-[#705229] text-sm font-bold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
+                  You have requested an email to reset your password.
+                </Text>
                 <Text className='text-[#705229] text-sm font-semibold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
-                  Please click on the button below to verify your email address
-                  for your SANDBOX account. if you {"didn't"} ask to verify this
-                  address, you can ignore this email.
+                  Please click the button below to reset your password, or
+                  ignore if you do not want to proceed.
                 </Text>
               </Row>
-              <Row className='mx-auto px-10 my-3 w-full'>
+              <Row className='px-10 my-3 w-full'>
                 <Link
-                  href={`${baseUrl}/api/user/activate/${token}`}
-                  className='mx-auto text-base text-center h-fit w-fit flex justify-center items-center py-2 px-3 rounded-md bg-[#0D432F] text-white cursor-pointer'
+                  href={url}
+                  className='mx-auto font-bold text-base text-center h-fit w-fit flex justify-center items-center py-2 px-3 rounded-md bg-[#0D432F] text-white cursor-pointer'
                 >
-                  Verify Email
+                  Click Here
                 </Link>
               </Row>
               <Row className='w-full px-10'>
                 <Text className='text-[#705229] text-sm font-semibold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
                   If the button above {"doesn't"} work, please click{' '}
-                  <Link
-                    href={`${baseUrl}/api/user/activate/${token}`}
-                    className='cursor-pointer underline'
-                  >
+                  <Link href={url} className='cursor-pointer underline'>
                     here
                   </Link>
                 </Text>
@@ -88,7 +86,7 @@ export const EmailAuth = ({ name, token, baseUrl }: EmailAuthProps) => {
                 </Text>
               </Row>
             </Section>
-            <Section className='w-[465px]'>
+            <Section className='w-[485px]'>
               <Img
                 src={`https://res.cloudinary.com/dssrh53qx/image/upload/v1697283840/footer_qslzrm.png`}
                 alt='Vercel'
@@ -102,4 +100,4 @@ export const EmailAuth = ({ name, token, baseUrl }: EmailAuthProps) => {
   );
 };
 
-export default EmailAuth;
+export default EmailResetPass;
