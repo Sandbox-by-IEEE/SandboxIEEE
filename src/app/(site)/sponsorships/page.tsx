@@ -166,19 +166,21 @@ export const metadata: Metadata = {
   description:
     'We offer a variety of sponsorship opportunities that allow you to engage with our diverse audience and gain valuable exposure for your brand. By sponsoring our event, you not only support the advancement of technology and innovation, but also have the chance to showcase your products and services to a targeted audience that values excellence and creativity.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/sponsorships',
@@ -186,9 +188,6 @@ export const metadata: Metadata = {
       'en-US': '/en-US/sponsorships',
       'id-ID': '/id-ID/sponsorships',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',

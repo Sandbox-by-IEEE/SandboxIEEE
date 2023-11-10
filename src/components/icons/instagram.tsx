@@ -1,10 +1,4 @@
-const Instagram = ({
-  size,
-  className,
-}: {
-  size: number;
-  className?: string;
-}) => {
+const Instagram = ({ className }: { className?: string }) => {
   return (
     <svg
       width='25'

@@ -16,8 +16,8 @@ const ClientVotePage = ({
   PTCData: AllFinalProjectsExhibition[];
 }) => {
   const { setOpenModal } = useContext<ModalContextContextType>(ModalContext);
-  const [selectedTPC, setSelectedTPC] = useState<string | undefined>('');
-  const [selectedPTC, setSelectedPTC] = useState<string | undefined>('');
+  const [, setSelectedTPC] = useState<string | undefined>('');
+  const [, setSelectedPTC] = useState<string | undefined>('');
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
   return (

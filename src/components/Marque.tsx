@@ -30,7 +30,9 @@ function Marquee({
   }, [showSeconds, hideSeconds, isVisible]);
 
   return (
-    isVisible && (
+    isVisible &&
+    data &&
+    data.length > 0 && (
       <div
         className={`overflow-hidden ${
           isVisible

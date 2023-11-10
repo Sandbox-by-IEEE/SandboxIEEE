@@ -25,11 +25,11 @@ declare module 'next-auth' {
       };
       TPC: {
         buy: boolean;
-        verified: boolean;
+        verified: string;
       };
       PTC: {
         buy: boolean;
-        verified: boolean;
+        verified: string;
       };
     };
   }
@@ -59,11 +59,11 @@ declare module 'next-auth' {
         };
         TPC: {
           buy: boolean;
-          verified: boolean;
+          verified: string;
         };
         PTC: {
           buy: boolean;
-          verified: boolean;
+          verified: string;
         };
       };
     };
