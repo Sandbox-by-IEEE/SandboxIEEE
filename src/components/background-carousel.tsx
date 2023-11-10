@@ -26,7 +26,7 @@ export default function BackgroundCarousel({
   }, [currentIndex, images.length]);
 
   return (
-    <div className='bg-[#808080] bg-opacity-70'>
+    <div className='bg-[#514e4e] bg-opacity-70'>
       <Image
         key={images[currentIndex].id}
         src={images[currentIndex].url}

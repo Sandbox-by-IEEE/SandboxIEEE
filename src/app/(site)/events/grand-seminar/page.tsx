@@ -169,73 +169,77 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* CountDown */}
-      <section className='w-full flex flex-col gap-2  px-8 sm:px-10 md:px-20 lg:px-40'>
-        <div
-          data-aos='flip-up'
-          className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
-        >
-          <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
-            {/* Title */}
-            <TitleSection>{grandSeminar.countdownTitle}</TitleSection>
-            {/* Countdown */}
-            <Countdown targetDate={new Date(2023, 9, 20)} />
-            {/* Button */}
-            <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-              <div data-aos='zoom-in'>
-                {grandSeminar.buttonTextRegister && (
-                  <CustomLink color='gold' url='/events/grand-seminar'>
-                    {grandSeminar.buttonTextRegister}
-                  </CustomLink>
-                )}
-              </div>
-              <div data-aos='zoom-in'>
-                <CustomLink color='trans-orange' url='#seemore'>
-                  {grandSeminar.buttonTextSeeMoreCountdown}
-                </CustomLink>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
-        {/* h1 Title Page */}
-        <section className='flex flex-col gap-5 lg:gap-10 w-full items-center justify-center px-8 sm:px-10 md:px-20 xl:px-32 2xl:px-40'>
+      {grandSeminar.targetDate && grandSeminar.countdownTitle && (
+        <section className='w-full flex flex-col gap-2  px-8 sm:px-10 md:px-20 lg:px-40'>
           <div
-            data-aos='fade-in'
-            className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+            data-aos='flip-up'
+            className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
           >
-            <div className='relative bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-              <TitleSection>{grandSeminar.titleSeminarPage}</TitleSection>
-            </div>
-          </div>
-          {/* Carousels */}
-          <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16 '>
-            <MentorCarousel options={allSpeakerDetails} />
-          </div>
-        </section>
-
-        <section
-          id='seemore'
-          className={`flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40 ${
-            allSpeakerDetails.length <= 2 && 'py-8 lg:py-16'
-          }`}
-        >
-          {/* Our Mentors subtitle */}
-          {grandSeminar.detailSpeakerSectionTitle &&
-            allSpeakerDetails.length > 2 && (
-              <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
-                <div className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-                  <TitleSection>
-                    {grandSeminar.detailSpeakerSectionTitle}
-                  </TitleSection>
+            <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
+              {/* Title */}
+              <TitleSection>{grandSeminar.countdownTitle}</TitleSection>
+              {/* Countdown */}
+              <Countdown targetDate={new Date(2023, 9, 20)} />
+              {/* Button */}
+              <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
+                <div data-aos='zoom-in'>
+                  {grandSeminar.buttonTextRegister && (
+                    <CustomLink color='gold' url='/events/grand-seminar'>
+                      {grandSeminar.buttonTextRegister}
+                    </CustomLink>
+                  )}
+                </div>
+                <div data-aos='zoom-in'>
+                  <CustomLink color='trans-orange' url='#seemore'>
+                    {grandSeminar.buttonTextSeeMoreCountdown}
+                  </CustomLink>
                 </div>
               </div>
-            )}
-
-          <MentorCards options={allSpeakerDetails} />
+            </div>
+          </div>
         </section>
-      </div>
+      )}
+
+      {grandSeminar.detailSpeakerSectionTitle && (
+        <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
+          {/* h1 Title Page */}
+          <section className='flex flex-col gap-5 lg:gap-10 w-full items-center justify-center px-8 sm:px-10 md:px-20 xl:px-32 2xl:px-40'>
+            <div
+              data-aos='fade-in'
+              className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+            >
+              <div className='relative bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+                <TitleSection>{grandSeminar.titleSeminarPage}</TitleSection>
+              </div>
+            </div>
+            {/* Carousels */}
+            <div className='h-fit w-full flex flex-col items-center justify-center py-8 lg:py-16 '>
+              <MentorCarousel options={allSpeakerDetails} />
+            </div>
+          </section>
+
+          <section
+            id='seemore'
+            className={`flex flex-col gap-20 w-full items-center justify-center px-8 sm:px-10 md:px-20 lg:px-40 ${
+              allSpeakerDetails.length <= 2 && 'py-8 lg:py-16'
+            }`}
+          >
+            {/* Our Mentors subtitle */}
+            {grandSeminar.detailSpeakerSectionTitle &&
+              allSpeakerDetails.length > 2 && (
+                <div className='max-w-[1300px] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-0.5 rounded-2xl'>
+                  <div className='bg-gradient-green items-center justify-center p-4 lg:py-6 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+                    <TitleSection>
+                      {grandSeminar.detailSpeakerSectionTitle}
+                    </TitleSection>
+                  </div>
+                </div>
+              )}
+
+            <MentorCards options={allSpeakerDetails} />
+          </section>
+        </div>
+      )}
       {/* FAQ */}
       <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
         <TitleSection>{grandSeminar.faqSectionTitle}</TitleSection>
@@ -256,35 +260,34 @@ export const metadata: Metadata = {
   description:
     "Join us for the Grand Seminar by Sandbox IEEE ITB, an exciting event featuring in-depth discussions, expert speakers, and valuable insights on a wide range of technology topics. Learn about the event's agenda, registration process, exhibitors, and explore the profiles of our distinguished speakers. Get answers to frequently asked questions (FAQ) to make the most of your Grand Seminar experience. Don't miss this opportunity to expand your knowledge and connection in technology.",
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
-    canonical: '/grandseminar',
+    canonical: '/events/grand-seminar',
     languages: {
-      'en-US': '/en-US/grandseminar',
-      'id-ID': '/id-ID/grandseminar',
+      'en-US': '/en-US/events/grand-seminar',
+      'id-ID': '/id-ID/events/grand-seminar',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
       "Join us for the Grand Seminar by Sandbox IEEE ITB, an exciting event featuring in-depth discussions, expert speakers, and valuable insights on a wide range of technology topics. Learn about the event's agenda, registration process, exhibitors, and explore the profiles of our distinguished speakers. Get answers to frequently asked questions (FAQ) to make the most of your Grand Seminar experience. Don't miss this opportunity to expand your knowledge and connection in technology.",
-    url: 'https://sandbox.ieeeitb.com/grandseminar',
+    url: 'https://sandbox.ieeeitb.com/events/grand-seminar',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {

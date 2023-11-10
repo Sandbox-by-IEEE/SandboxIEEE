@@ -248,21 +248,24 @@ export default async function PastEvent() {
 export const metadata: Metadata = {
   title: 'Past Events | Sandbox IEEE ITB',
   description:
-    "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+    'At IEEE ITB, we have a rich history of organizing and hosting a variety of successful events that have made a significant impact in the field of technology and engineering. Our past events have provided a platform for students, professionals, and enthusiasts to come together, learn from one another, and collaborate on innovative projects.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
   colorScheme: 'normal',
+  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/past-events',
     languages: {
@@ -273,7 +276,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+      'At IEEE ITB, we have a rich history of organizing and hosting a variety of successful events that have made a significant impact in the field of technology and engineering. Our past events have provided a platform for students, professionals, and enthusiasts to come together, learn from one another, and collaborate on innovative projects.',
     url: 'https://sandbox.ieeeitb.com/past-events',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -291,7 +294,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      "Reach out to us on our contact page! Whether you have a question, need assistance, or simply want to give us feedback, we're here to help. Our dedicated team is committed to providing you with the best support and ensuring your experience with us is exceptional. You can contact us through various channels, including email, phone, or by filling out our online form. We value your input and look forward to hearing from you. Get in touch now, and let's connect!",
+      'At IEEE ITB, we have a rich history of organizing and hosting a variety of successful events that have made a significant impact in the field of technology and engineering. Our past events have provided a platform for students, professionals, and enthusiasts to come together, learn from one another, and collaborate on innovative projects.',
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
