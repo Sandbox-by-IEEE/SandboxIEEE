@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import Modal from '@/components/Modal/Modal';
 import {
   ModalContext,
-  ModalContextContextType,
+  type ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import TextInput from '@/components/TextInput';
 import { callLoading, callToast } from '@/components/Toast';

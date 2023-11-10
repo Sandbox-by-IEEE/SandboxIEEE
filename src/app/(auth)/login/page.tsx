@@ -22,7 +22,7 @@ import Stars3 from '@/components/icons/Register/stars3';
 import Stars3mb from '@/components/icons/Register/stars3mb';
 import {
   ModalContext,
-  ModalContextContextType,
+  type ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import TextInput from '@/components/TextInput';
 import { callLoading, callToast } from '@/components/Toast';

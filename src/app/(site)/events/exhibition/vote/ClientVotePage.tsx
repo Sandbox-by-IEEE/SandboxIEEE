@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 
 import {
   ModalContext,
-  ModalContextContextType,
+  type ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import CollectionVoteCards from '@/components/Vote/CollectionCardVote';
 import { type AllFinalProjectsExhibition } from '@/types/exhibition-type';

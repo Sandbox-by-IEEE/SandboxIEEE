@@ -4,12 +4,12 @@ import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { FileInputType } from '@/components/FileInput/fileInput-type';
+import { type FileInputType } from '@/components/FileInput/fileInput-type';
 import FormDetails from '@/components/Forms/FormDetailsRegist1';
 import {
-  InputData,
-  IsWarnedInputData,
-  MemberInfo,
+  type InputData,
+  type IsWarnedInputData,
+  type MemberInfo,
 } from '@/components/Forms/inputData-type';
 import { callLoading, callToast } from '@/components/Toast';
 

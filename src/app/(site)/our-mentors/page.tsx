@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import React from 'react';
 
 import Abstrak from '@/components/icons/mentors/abstrak1';
@@ -13,7 +13,7 @@ import MentorCards from '@/components/mentorCards';
 import MentorCarousel from '@/components/mentorsCarousel';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
-import { OurMentorsPageProps } from '@/types/our-mentors';
+import { type OurMentorsPageProps } from '@/types/our-mentors';
 
 const OurMentorsPage = async () => {
   const CMS_QUERY = `

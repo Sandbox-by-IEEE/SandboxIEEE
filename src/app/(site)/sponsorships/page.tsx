@@ -1,8 +1,8 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import Image from 'next/image';
 
 import { performRequest } from '@/lib/datocms';
-import { OurSponsorsPageProps } from '@/types/sponsors';
+import { type OurSponsorsPageProps } from '@/types/sponsors';
 
 export default async function GrandSeminar() {
   const CMS_QUERY = `{

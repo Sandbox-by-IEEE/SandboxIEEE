@@ -2,7 +2,7 @@
 // const Countdown = dynamic(() => import('@/components/Countdown'), {
 //   ssr: false,
 // });
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import React from 'react';
 
 import CommingSoonPage from '@/app/(site)/coming-soon/page';

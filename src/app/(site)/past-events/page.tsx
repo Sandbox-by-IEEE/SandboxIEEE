@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
@@ -6,7 +6,7 @@ import { StructuredText } from 'react-datocms/structured-text';
 import DocumentationCarousel from '@/components/past-events/documentation-carousel';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
-import { pastEventsProps } from '@/types/past-events';
+import { type pastEventsProps } from '@/types/past-events';
 
 const CMS_QUERY = `
 {
