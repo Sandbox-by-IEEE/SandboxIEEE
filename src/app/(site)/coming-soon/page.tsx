@@ -8,14 +8,14 @@ export default function CommingSoonPage() {
   return (
     <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
       <Image
-        src='/coming-soon/Bintang_jatuh.svg'
+        src='/coming-soon-assets/Bintang_jatuh.svg'
         className='absolute -right-20 lg:right-2 w-[50%] sm:w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
         alt='Meteoroit'
         width={744}
         height={642}
       />
       <Image
-        src='/coming-soon/Ring.svg'
+        src='/coming-soon-assets/Ring.svg'
         className='absolute right-0 -top-14 w-[25%] sm:w-[10%] -translate-x-10 object-contain transition-all duration-300'
         alt='Ring'
         width={199}
@@ -23,7 +23,7 @@ export default function CommingSoonPage() {
       />
       {/*Background*/}
       <Image
-        src={'/coming-soon/Background_Sandbox_Logo.png'}
+        src={'/coming-soon-assets/Background_Sandbox_Logo.png'}
         alt='Sandbox Logo'
         className='absolute animate-pulse top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[408px] sm:w-[550px] md:w-[70%] 2xl:w-[50%] aspect-video object-contain transition-all duration-300'
         sizes='(max-width: 640px) 408px, (max-width: 768px) 550px, (max-width: 1024px) 70%, 50%'
@@ -35,7 +35,7 @@ export default function CommingSoonPage() {
       {/*Content*/}
       <div className='relative bg-scroll justify-items-center w-fit h-fit flex flex-col items-center'>
         <Image
-          src={'/coming-soon/Happy.png'}
+          src={'/coming-soon-assets/Happy.png'}
           alt='Bucket Image'
           className='z-[20] object-contain animate-bounce w-[124px] h-[251px] sm:w-[150px] lg:w-[182px] lg:h-[280px] transition-all duration-300'
           width={165}
@@ -59,14 +59,14 @@ export default function CommingSoonPage() {
         </div>
       </div>
       <Image
-        src='/coming-soon/Bintang_jatuh.svg'
+        src='/coming-soon-assets/Bintang_jatuh.svg'
         className='absolute rotate-[165deg] bottom-0 left-0 object-contain w-[20%] sm:-translate-x-10 -translate-x-20 -translate-y-10 transition-all duration-300'
         alt='Meteorit'
         width={744}
         height={642}
       />
       <Image
-        src='/coming-soon/Vector_155.svg'
+        src='/coming-soon-assets/Vector_155.svg'
         className='absolute bottom-0 left-1 object-contain w-[25%] sm:w-[13%] sm:translate-x-10  translate-x-15 -translate-y-5 transition-all duration-300'
         alt='GLowing Comet'
         width={236}

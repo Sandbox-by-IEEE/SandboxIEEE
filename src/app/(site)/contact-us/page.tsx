@@ -40,7 +40,7 @@ const ContactUs = async () => {
       </h2>
       {/* Hiasan */}
       <Image
-        src='/contact-us/blink.svg'
+        src='/contact-us-assets/blink.svg'
         width={275}
         height={246}
         alt='Blink'
@@ -50,7 +50,7 @@ const ContactUs = async () => {
         sizes='(max-width: 1280px) 190px, 275px'
       />
       <Image
-        src='/contact-us/mini-sparkle.svg'
+        src='/contact-us-assets/mini-sparkle.svg'
         width={40}
         height={40}
         alt='mini-sparkle'
@@ -59,7 +59,7 @@ const ContactUs = async () => {
         sizes='(max-width: 1280px) 20px, 40px'
       />
       <Image
-        src='/contact-us/sparkle.svg'
+        src='/contact-us-assets/sparkle.svg'
         width={55}
         height={55}
         alt='sparkle'
@@ -68,7 +68,7 @@ const ContactUs = async () => {
         sizes='(max-width: 1280px) 30px, 55px'
       />
       <Image
-        src='/contact-us/mascot-top.png'
+        src='/contact-us-assets/mascot-top.png'
         width={112}
         height={164}
         alt='mascot-top'
@@ -77,7 +77,7 @@ const ContactUs = async () => {
         sizes='(max-width: 1280px) 70px, 112px'
       />
       <Image
-        src='/contact-us/mascot-bottom.png'
+        src='/contact-us-assets/mascot-bottom.png'
         width={125}
         height={182}
         alt='mascot-bottom'
