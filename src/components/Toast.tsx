@@ -89,14 +89,14 @@ function Toast() {
 
           error: {
             style: { borderColor: '#EF1B27' },
-            duration: 1800,
+            duration: 3500,
           },
 
           success: {
             style: {
               borderColor: '#3FB160 ',
             },
-            duration: 1800,
+            duration: 3500,
           },
           loading: {
             style: {
