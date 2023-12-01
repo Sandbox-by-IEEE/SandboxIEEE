@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
 
     for (let i = 0; i < members.length; i++) {
       const mailOptions = {
-        from: '"The Sandbox" <sandboxieeewebsite@gmail.com>',
+        from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: ticket.team?.members[i].email,
         subject: `[SANDBOX] Verification Process for Your ${ticket.competitionType} Ticket`,
         html: render(

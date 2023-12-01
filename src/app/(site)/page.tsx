@@ -136,7 +136,7 @@ export default async function Home({
           >
             {homepage.titleHomepage}
           </h2>
-          <TitleSection>{homepage.tagline}</TitleSection>
+          {homepage.tagline && <TitleSection>{homepage.tagline}</TitleSection>}
           <div className='animate-blink duration-500 transition-all'>
             <CustomLink color='green' url={'#' + homepage.textButtonSeeMore}>
               {homepage.textButtonSeeMore}
@@ -262,7 +262,7 @@ export default async function Home({
                 height={event.image.width}
                 src={event.image.url}
                 alt={event.image.title || "Event's Image"}
-                className='object-contain w-full h-full'
+                className='object-cover w-full h-full'
                 sizes='(max-width: 640px) 100%, 30%'
               />
             </div>
