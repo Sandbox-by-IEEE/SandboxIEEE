@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import BackgroundCarousel from '@/components/background-carousel';
+import ButtonRegistration from '@/components/ButtonRegistration';
 import ClientHome from '@/components/client-home';
 import { FAQ } from '@/components/FAQ';
 import GradientBox from '@/components/GradientBox';
@@ -308,14 +309,19 @@ export default async function Home({
                 <div className='flex flex-wrap items-center justify-center gap-4 h-full py-5'>
                   {event.buttonRegister && (
                     <div data-aos='zoom-in'>
-                      <CustomLink
+                      <ButtonRegistration
+                        type={
+                          event.eventName.toLowerCase().replace(/\s+/g, '-') ==
+                            'technovate-paper-competition' ||
+                          event.eventName.toLowerCase().replace(/\s+/g, '-') ==
+                            'tpc'
+                            ? 'TPC'
+                            : 'PTC'
+                        }
                         color='gold'
-                        url={`/events/${event.eventName
-                          .toLowerCase()
-                          .replace(/\s+/g, '-')}/registration`}
                       >
                         Register
-                      </CustomLink>
+                      </ButtonRegistration>
                     </div>
                   )}
                   {event.buttonSeeMore && (

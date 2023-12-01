@@ -367,7 +367,7 @@ const TPC = async () => {
             {/* Title */}
             <TitleSection>{tpcPage.countdownSectionTitle}</TitleSection>
             {/* Countdown */}
-            <Countdown targetDate={new Date(2023, 9, 20)} />
+            <Countdown targetDate={new Date(tpcPage.targetDate)} />
             {/* Button */}
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <div data-aos='zoom-in'>
