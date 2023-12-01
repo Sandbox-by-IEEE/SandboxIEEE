@@ -1,5 +1,6 @@
 'use client';
 // Importing necessary components and libraries from Next.js and React
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
@@ -135,7 +136,16 @@ export default function Home({
       {/* A container with a screen-wide height of 3000px to display the registration form */}
       <div className='w-screen h-full flex'>
         {/* An empty div with a width of 0% on small screens and 50% on larger screens */}
-        <div className='w-[0%] lg:w-[50%] justify-center z-10'></div>
+        <div className='w-[0%] lg:w-[50%] justify-center z-10'>
+          {' '}
+          <Image
+            src='/login.png'
+            alt='Background login Page'
+            width={1920}
+            height={1080}
+            className='w-full h-full object-cover'
+          />
+        </div>
         {/* A div with a background image, covering the full width on small screens and 50% on larger screens */}
         <div className='relative w-[100%] lg:w-[50%] bg-[url("/assets/RelogBackground.png")] bg-cover bg-no-repeat text-white bg-black items-center justify-center'>
           {/* A wrapper div to contain various elements */}

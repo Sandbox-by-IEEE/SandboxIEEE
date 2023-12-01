@@ -66,12 +66,12 @@ export async function PATCH(
 
     isUpdated = true;
 
-    const headingVerified = ` You've Cleared the ${updatedTicket.competitionType} Verification Stage!`;
+    const headingVerified = ` Your Team Cleared the ${updatedTicket.competitionType} Verification Stage!`;
 
     const mailOptions = {
-      from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+      from: '"The Sandbox" <sandboxieeewebsite@gmail.com>',
       to: updatedTicket.team?.chairmanEmail || '',
-      subject: 'Your Ticket Verified',
+      subject: `[SANDBOX] Announcement of Verification Results of Your ${updatedTicket.competitionType} Ticket`,
       html: render(
         Email({
           heading: headingVerified,
@@ -81,7 +81,7 @@ export async function PATCH(
             If you have any questions or need further information regarding the next stages of the competition, please do not hesitate to reach out to us. We are here to assist you and ensure your successful participation in the event.
             Once again, congratulations and best of luck in the next stages of the competition!
            `,
-          name: updatedTicket.team?.chairmanName || '',
+          name: updatedTicket.team?.teamName || '',
         }),
         { pretty: true },
       ),

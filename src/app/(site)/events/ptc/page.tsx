@@ -370,7 +370,7 @@ const PTC = async () => {
             {/* Title */}
             <TitleSection>{ptcPage.countdownSectionTitle}</TitleSection>
             {/* Countdown */}
-            <Countdown targetDate={new Date(2023, 9, 20)} />
+            <Countdown targetDate={new Date(ptcPage.targetDate)} />
             {/* Button */}
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <div data-aos='zoom-in'>
