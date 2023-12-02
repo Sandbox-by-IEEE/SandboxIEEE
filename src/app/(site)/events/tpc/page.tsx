@@ -130,7 +130,7 @@ const TPC = async () => {
       <section className='w-full bg-gradient-section flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20'>
         <div
           data-aos='flip-up'
-          className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+          className='bg-gradient-brown border-1 lg:border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229]  p-1 lg:p-1.5 rounded-2xl'
         >
           <div className=' gap-4 bg-gradient-green lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             {/* Title */}
@@ -150,7 +150,7 @@ const TPC = async () => {
               {/* Description */}
               <h4
                 data-aos='fade-left'
-                className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px] text-justify'
+                className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px]'
               >
                 {tpcPage && (
                   <StructuredText data={tpcPage.explanationDescription} />
@@ -188,7 +188,7 @@ const TPC = async () => {
           <TitleSection>{tpcPage.hadiahSectionTitle}</TitleSection>
           <div className='w-full flex flex-col lg:flex-row gap-8 justify-center text-ce items-center'>
             {/* Image Mascot left */}
-            <div className='absolute w-fit top-24 sm:-top-10 xl:top-[-20px] -z-[8] -left-3 xl:left-[22px] rotate-[-23.7deg]'>
+            <div className='absolute w-fit top-44 sm:-top-10 xl:top-[-20px] -z-[8] -left-3 xl:left-[22px] rotate-[-23.7deg]'>
               <Image
                 width={200}
                 height={200}
@@ -206,7 +206,7 @@ const TPC = async () => {
             >
               <StructuredText data={tpcPage.hadiahDescription} />
             </h4>
-            <div className='aspect-square absolute -z-[8] xl:bottom-[-52px] -right-3 xl:right-[12px] top-[20px]'>
+            <div className='aspect-square absolute -z-[8] xl:bottom-[-52px] -right-3 xl:right-[12px] -top-[30px] lg:top-[20px]'>
               <Image
                 width={200}
                 height={200}
@@ -261,7 +261,7 @@ const TPC = async () => {
               <TitleSection>{tpcPage.guideSectionTitle}</TitleSection>
             </div>
             <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center lg:px-20 pb-12'>
-              <div className='w-full lg:w-[100%] font-poppins text-justify justify-center'>
+              <div className='w-full lg:w-[100%] font-poppins justify-center'>
                 <h4
                   className='text-white text-base font-semibold px-4'
                   data-aos='fade-up'
@@ -290,7 +290,7 @@ const TPC = async () => {
         >
           <Star9 size={32} />
         </div>
-        <div className='absolute lg:right-4 lg:top-[1595px] lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[52%] z-0'>
+        <div className='absolute lg:right-4 lg:top-[1595px] lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[52%] -z-10'>
           <Star10 size={30} />
         </div>
       </section>
