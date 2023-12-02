@@ -23,7 +23,7 @@ const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
     revalidate: 0,
   });
   return (
-    <div className='flex flex-col min-h-screen overflow-x-clip'>
+    <div className='flex flex-col min-h-screen overflow-x-clip custom-scrollbar'>
       <NavBar />
       {ourSponsorsPage.ourSponsorLogo &&
         ourSponsorsPage.ourSponsorLogo.length > 0 && (

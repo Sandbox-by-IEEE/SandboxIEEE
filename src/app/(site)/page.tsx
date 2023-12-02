@@ -7,8 +7,8 @@ import ButtonRegistration from '@/components/ButtonRegistration';
 import ClientHome from '@/components/client-home';
 import { FAQ } from '@/components/FAQ';
 import GradientBox from '@/components/GradientBox';
-import YoutubeIframe from '@/components/iframe-yt';
 import CustomLink from '@/components/Link';
+import ReelsEmbed from '@/components/reels-embed';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
@@ -156,7 +156,7 @@ export default async function Home({
             <div className='scale-75 sm:scale-100'>
               <Countdown targetDate={new Date(homepage.targetDate)} />
             </div>
-            <div className='flex gap-4 lg:gap-6'>
+            <div className='flex flex-wrap items-center justify-center gap-4 p-2 lg:gap-6'>
               <div data-aos='zoom-in'>
                 <CustomLink color='gold' url={homepage.linkButtonOne}>
                   {homepage.buttonTextOne}
@@ -176,10 +176,10 @@ export default async function Home({
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16] flex flex-col items-center space-y-12'>
         <TitleSection>{homepage.trailerSectionTitle}</TitleSection>
         <div
-          className='relative h-[250px] md:h-[300px] w-full max-w-[400px] lg:h-[20vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[500px] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'
+          className='relative custom-scrollbar h-[450px] sm:h-[500px] w-full max-w-[400px] lg:h-[40vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[700px] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'
           data-aos='zoom-out'
         >
-          <YoutubeIframe youtubeId={homepage.embedYoutubeId} />
+          <ReelsEmbed />
         </div>
         <div className='flex gap-4 lg:gap-8 flex-col sm:flex-row justify-center w-full items-stretch max-w-[200px] sm:max-w-[380px] lg:w-[28vw] lg:max-w-[580px]'>
           <div data-aos='zoom-in'>
