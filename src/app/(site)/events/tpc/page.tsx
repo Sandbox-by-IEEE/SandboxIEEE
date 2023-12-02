@@ -125,7 +125,7 @@ const TPC = async () => {
           </div>
           <div className='animate-blink duration-500 transition-all'>
             <a href='https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'>
-              <Button color='gold'>Unduh Guidebook</Button>
+              <Button color='gold'>Guidebooks</Button>
             </a>
           </div>
         </div>
