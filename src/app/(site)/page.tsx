@@ -217,7 +217,7 @@ export default async function Home({
               width={homepage.sandboxLogo.width}
               height={homepage.sandboxLogo.width}
               alt={homepage.sandboxLogo.title || 'Sandbox Logo'}
-              className='w-[130px] lg:w-[200px] object-contain'
+              className='w-[100px] lg:w-[200px] object-contain'
             />
             <Image
               data-aos='fade-down-left'
@@ -225,7 +225,7 @@ export default async function Home({
               width={homepage.ieeeLogo.width}
               height={homepage.ieeeLogo.width}
               alt={homepage.ieeeLogo.title || "IEEE ITB's Logo"}
-              className='w-[200px] lg:w-[300px] object-contain'
+              className='w-[150px] lg:w-[300px] object-contain'
             />
           </div>
           <h4 className='text-[#FFE1B9] sm:px-20' data-aos='zoom-in-up'>
@@ -386,7 +386,7 @@ export default async function Home({
                 width={logo.width}
                 height={logo.height}
                 alt={logo.title}
-                className='object-contain w-[150px] h-[100px] lg:w-[300px] lg:h-[200px]'
+                className='object-contain w-[200px] h-[100px] lg:w-[300px] lg:h-[200px]'
                 sizes='(max-width: 1024px) 100px, 300px'
                 data-aos='flip-up'
                 data-aos-duration={700 + index * 50}

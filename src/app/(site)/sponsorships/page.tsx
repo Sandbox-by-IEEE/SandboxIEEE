@@ -81,8 +81,8 @@ export default async function GrandSeminar() {
                     alt={logo.title}
                     data-aos='fade-up'
                     data-aos-duration={500 + index * 100}
-                    className='w-[150px] lg:w-[180px] 2xl:w-[200px] object-contain'
-                    sizes='(max-width: 1024px) 150px, (max-width: 1536px) 180px, 200px'
+                    className='w-[130px] lg:w-[180px] 2xl:w-[200px] object-contain'
+                    sizes='(max-width: 1024px) 130px, (max-width: 1536px) 180px, 200px'
                     priority
                   />
                 ))}
@@ -146,10 +146,10 @@ export default async function GrandSeminar() {
                     width={logo.width}
                     height={logo.height}
                     alt={logo.title}
-                    className='w-[150px] lg:w-[180px] 2xl:w-[200px] object-contain'
+                    className='w-[130px] lg:w-[180px] 2xl:w-[200px] object-contain'
                     data-aos='fade-up'
                     data-aos-duration={500 + index * 100}
-                    sizes='(max-width: 1024px) 150px, (max-width: 1536px) 180px, 200px'
+                    sizes='(max-width: 1024px) 130px, (max-width: 1536px) 180px, 200px'
                   />
                 ))}
               </div>

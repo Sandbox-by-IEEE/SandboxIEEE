@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
 
+import Instagram from '@/components/icons/instagram';
+
 import Copyright from './icons/copyright';
 import Copyrightsm from './icons/copyrightsm';
-import Linkedin from './icons/linkedin';
 import Logo from './icons/logo';
 import Logosm from './icons/logosm';
 import Star1 from './icons/star1';
@@ -114,10 +115,10 @@ const Footer = () => (
           <Copyrightsm size={25} />
         </div>
         <div className='flex gap-2 lg:gap-4'>
-          {/* <SocialIcon LinkComponent={Instagram} href='' size={25} /> */}
+          {/*                              <SocialIcon LinkComponent={Instagram} href='' size={25} /> */}
           <SocialIcon
             label={'Instagram'}
-            LinkComponent={Linkedin}
+            LinkComponent={Instagram}
             href='https://www.instagram.com/thesandbox.itb/'
             size={25}
           />
