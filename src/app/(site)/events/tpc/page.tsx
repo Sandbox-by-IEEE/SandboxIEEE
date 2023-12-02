@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
+import Button from '@/components/Button';
 import ButtonRegistration from '@/components/ButtonRegistration';
 import { FAQ } from '@/components/FAQ';
 import Explosion from '@/components/icons/explosion';
@@ -121,6 +122,11 @@ const TPC = async () => {
             <ButtonRegistration type='TPC' color='green'>
               {tpcPage.buttonTextRegister}
             </ButtonRegistration>
+          </div>
+          <div className='animate-blink duration-500 transition-all'>
+            <a href='https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'>
+              <Button color='gold'>Unduh Guidebook</Button>
+            </a>
           </div>
         </div>
       </section>
