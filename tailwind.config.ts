@@ -19,6 +19,8 @@ const config: Config = {
         'museo-muderno': ['var(--font-museo-moderno)'],
       },
       backgroundImage: {
+        'green-gradient':
+          'linear-gradient(180deg, rgba(5, 31, 18, 0.99) 0%, rgba(6, 25, 12, 0.99) 100%)',
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
@@ -28,6 +30,13 @@ const config: Config = {
           'linear-gradient(180deg, #0F3015 100%, rgba(0, 0, 0, 0.00) 69.27%)',
         'gradient-card-vote':
           'linear-gradient(180deg, #FFE1B9 0%, rgba(171, 129, 78, 0.86) 100%)',
+        'gradient-section': 'linear-gradient(to bottom, #0b2712, #123b1a)',
+        'g-seminar-radial-gradient':
+          'radial-gradient(rgba(8, 30, 17, 1) 0%, rgba(8, 30, 17, 0.6) 50% , rgba(8, 30, 17, 0.00) 70%)',
+        'gradient-light-brown':
+          'linear-gradient(160deg, #DBB88B 17.96%, #16471f 84.9%)',
+        'gradient-light-cards':
+          'linear-gradient(150deg, #1e4a30, #0F3015, #16471f)',
       },
       colors: {
         'green-primary': '#0D432F',
@@ -37,6 +46,32 @@ const config: Config = {
         'brown-secondary': '#AB814E',
       },
       keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        trans: {
+          '0%': { opacity: '0' },
+          '15%': { opacity: '1' },
+          '80%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+        'fade-in': {
+          '0%': {
+            opacity: '0',
+          },
+          '100%': {
+            opacity: '1',
+          },
+        },
+        'fade-out': {
+          '0%': {
+            opacity: '1',
+          },
+          '100%': {
+            opacity: '0',
+          },
+        },
         'countdown-sec': {
           '0%': { transform: 'translateY(-64px)', opacity: '0' },
           '20%': { transform: 'translateY(0rem)', opacity: '1.0' },
@@ -79,6 +114,12 @@ const config: Config = {
             opacity: '1.0',
           },
         },
+        blink: {
+          '0%': {
+            opacity: '0',
+          },
+          '100%': { opacity: '1' },
+        },
         shake: {
           '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
           '10%, 30%, 50%, 70%, 90%': {
@@ -86,7 +127,7 @@ const config: Config = {
           },
           '20%, 40%, 60%, 80%': { transform: 'translateX(10px) rotate(5deg)' },
         },
-        marquee: {
+        walk: {
           '0%': { transform: 'translateX(0%)', opacity: '1' },
           '25%': { transform: 'translateX(-10%)', opacity: '0.75' },
           '50%': { transform: 'translateX(0%)', opacity: '1' },
@@ -98,9 +139,14 @@ const config: Config = {
         'countdown-sec': 'countdown-sec 1.05s ease-in-out',
         'countdown-in': 'countdown-in 1s ease-in',
         'countdown-out': 'countdown-out 1s ease-out',
+        blink: 'blink 1s ease-in-out',
         'ghost-left': 'ghost-left 5s ease-out infinite',
-        marquee: 'marquee 18s linear infinite',
+        walk: 'walk 18s linear infinite',
         shake: 'shake 4s ease-in-out infinite',
+        marquee: 'marquee 16s linear infinite',
+        trans: 'trans 16s ease-in-out',
+        'fade-in': 'fade-in 0.5s ease-in-out',
+        'fade-out': 'fade-out 0.5s ease-in-out',
       },
     },
   },
