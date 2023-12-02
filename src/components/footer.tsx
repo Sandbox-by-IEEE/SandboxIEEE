@@ -32,7 +32,7 @@ const linksData = [
     {
       header: 'Home',
       links: [
-        { href: '/past-events', text: 'Past Events' },
+        // { href: '/past-events', text: 'Past Events' },
         { href: '/our-mentors', text: 'Our Mentors' },
       ],
     },
