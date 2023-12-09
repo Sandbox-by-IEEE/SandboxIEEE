@@ -117,7 +117,7 @@ export default function TPCRegist() {
       if (
         !newInputData.memberCount ||
         newInputData.memberCount <= 0 ||
-        newInputData.memberCount > 5
+        newInputData.memberCount > 3
       ) {
         setIsDisabledNext(true);
       } else {
