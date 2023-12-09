@@ -105,11 +105,11 @@ export default function TPCRegist() {
     if (name === 'memberCount') {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
-        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
+        if (newInputData.memberCount <= 0 || newInputData.memberCount > 3) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
-            description: 'Member count must be 1 to 5',
+            description: 'Member count must be 1 to 3',
           });
         }
       }
