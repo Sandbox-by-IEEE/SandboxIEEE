@@ -284,7 +284,7 @@ const FormDetails = ({
                         inputData.members[fillMemberIndex]?.studentProofName,
                       fileUrl: inputData.members[fillMemberIndex]?.studentProof,
                     }}
-                    setFile={(newFile: FileInputType) => {
+                    setFile={(newFile: FileInputType | undefined) => {
                       setInputData((inputData) => {
                         const newInputData = { ...inputData };
                         newInputData.members[fillMemberIndex].studentProof =

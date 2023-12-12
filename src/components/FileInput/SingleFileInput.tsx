@@ -24,7 +24,7 @@ const SingleFileInput = ({
   message,
   file,
 }: {
-  setFile: (FileInputType) => void;
+  setFile: (file: FileInputType | undefined) => void;
   allowedFileTypes?: string[];
   setUrl?: Dispatch<SetStateAction<string>>;
   message: string;
@@ -191,7 +191,7 @@ const SingleFileInput = ({
             onDragOver={handleDragOver}
             onDrop={handleDrop}
           >
-            {inputUrl ? 'Link' : 'File'} gagal diupload!
+            {inputUrl ? 'Link' : 'File'} failed to upload!
           </p>
           <div className='flex gap-2'>
             <p className='max-w-[300px] md:max-w-[600px] overflow-hidden'>
@@ -222,7 +222,7 @@ const SingleFileInput = ({
             <FileInputIconSuccess className='w-[170px] lg:w-[214px]' />
           </button>
           <p className='text-[#00FFA1]'>
-            {inputUrl ? 'Link' : 'File'} berhasil diupload!
+            {inputUrl ? 'Link' : 'File'} successfully uploaded!
           </p>
           <div className={`flex gap-2 items-center`}>
             {inputUrl ? <LinkIcon /> : <FileIcon />}
@@ -280,19 +280,18 @@ const SingleFileInput = ({
             ></div>
           </button>
           <p className='text-[15px] lg:text-base font-poppins font-bold cursor-pointer'>
-            Drag atau <span className='text-blue-500'>upload</span> file kamu di
-            sini
+            Drag or <span className='text-blue-500'>upload</span> your file here
           </p>
           <p>{message}</p>
           {setUrl && (
             <div className='flex flex-col gap-4 text-sm lg:text-base font-poppins'>
               <div className='flex gap-4 items-center mx-auto'>
                 <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
-                <p>atau</p>
+                <p>or</p>
                 <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
               </div>
               <div className='flex flex-col items-center gap-4'>
-                <p>cantumkan Link Google Drive</p>
+                <p>attach Google Drive Link</p>
                 <div className='flex w-full gap-2'>
                   <input
                     type='text'
@@ -340,19 +339,18 @@ const SingleFileInput = ({
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          Drag atau <span className='text-blue-500'>upload</span> file kamu di
-          sini
+          Drag or <span className='text-blue-500'>upload</span> your file here
         </p>
         <p>{message}</p>
         {setUrl && (
           <div className='flex flex-col gap-4 text-sm lg:text-base font-poppins'>
             <div className='flex gap-4 items-center mx-auto'>
               <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
-              <p>atau</p>
+              <p>or</p>
               <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
             </div>
             <div className='flex flex-col items-center gap-4'>
-              <p>cantumkan Link Google Drive</p>
+              <p>attach Google Drive Link</p>
               <div className='flex w-full gap-2'>
                 <input
                   type='text'
