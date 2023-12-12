@@ -75,7 +75,11 @@ const SingleFileInput = ({
     const filesToUpload = event.target.files;
     try {
       setIsLoading(true);
-      if (filesToUpload && filesToUpload.length > 0) {
+      if (filesToUpload && filesToUpload.length > 1) {
+        setErrorMsg('Only one file can be uploaded at a time');
+        setIsError(true);
+        setTimeout(() => setIsError(false), 3000);
+      } else if (filesToUpload) {
         const fileUploaded = filesToUpload[0];
         const responseJSON = await uploadFile(fileUploaded);
 
@@ -101,7 +105,12 @@ const SingleFileInput = ({
       e.preventDefault();
 
       const filesDropped = e.dataTransfer.files;
-      if (filesDropped.length > 0) {
+
+      if (filesDropped.length > 1) {
+        setErrorMsg('Only one file can be uploaded at a time');
+        setIsError(true);
+        setTimeout(() => setIsError(false), 3000);
+      } else if (filesDropped.length === 1) {
         const allowedFileExtensions = allowedFileTypes.map((el) => el.slice(1));
 
         const fileUploaded = filesDropped[0];

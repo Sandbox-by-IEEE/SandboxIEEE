@@ -200,6 +200,10 @@ const FormDetails = ({
             ))}
 
             <div className='w-full pb-10 lg:pb-20'>
+              <p className='text-base font-poppins py-4 text-center'>
+                Here single file upload. Please merge your files first before
+                uploading
+              </p>
               <div className='flex flex-col md:flex-row w-full justify-between gap-2'>
                 {fileInputs.map((fileInput, index) => (
                   <div
