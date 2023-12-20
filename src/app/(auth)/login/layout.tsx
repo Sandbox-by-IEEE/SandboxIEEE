@@ -1,29 +1,50 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children};</>;
+  return <>{children}</>;
 }
 
 export const metadata: Metadata = {
   title: 'Login | Sandbox IEEE ITB',
   description:
-    'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+    'Log in now to join a series of exciting events, including a Grand Seminar, the ProtoTech Contest (a practical electrical engineering contest), and the Technovate Paper Competition (a research and technical documents competition). Learn from experts, showcase your innovations, and compete for awards on Exhibition day.',
   generator: 'Next.js',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
-  colorScheme: 'dark',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'Sandbox',
+    'Sandbox IEEE ITB',
+    'Sandbox ITB',
+    'Sandbox IEEE',
+    'IEEE ITB',
+    'ITB',
+    'Lomba',
+    'TPC',
+    'PTC',
+  ],
+  colorScheme: 'normal',
+  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
+  alternates: {
+    canonical: '/login',
+    languages: {
+      'en-US': '/en-US/login',
+      'id-ID': '/id-ID/login',
+    },
+  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
-    url: 'https://sandbox.ieeeitb.com/',
+      'Log in now to join a series of exciting events, including a Grand Seminar, the ProtoTech Contest (a practical electrical engineering contest), and the Technovate Paper Competition (a research and technical documents competition). Learn from experts, showcase your innovations, and compete for awards on Exhibition day.',
+    url: 'https://sandbox.ieeeitb.com/login',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',
@@ -36,10 +57,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      'Log in now to join a series of exciting events, including a Grand Seminar, the ProtoTech Contest (a practical electrical engineering contest), and the Technovate Paper Competition (a research and technical documents competition). Learn from experts, showcase your innovations, and compete for awards on Exhibition day.',
     images: [
       {
-        url: 'https://sandbox.ieeeitb.com/link-preview.png',
+        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
         width: 1200,
         height: 630,
         alt: 'Sandbox IEEE ITB Logo',

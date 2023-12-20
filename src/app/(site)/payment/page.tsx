@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
+import { FileInputType } from '@/components/FileInput/fileInput-type';
 import MultipleFileInput from '@/components/FileInput/MultipleFileInput';
-import { FileInputType } from '@/components/FileInput/SingleFileInput';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
 import FileIcon from '@/components/icons/FileIcon';
@@ -510,7 +510,7 @@ const FormDetails = ({
                       inputData.members[fillMemberIndex]?.studentProofName,
                     fileUrl: inputData.members[fillMemberIndex]?.studentProof,
                   }}
-                  setFile={(newFile: FileInputType) => {
+                  setFile={(newFile: FileInputType | undefined) => {
                     setInputData((inputData) => {
                       const newInputData = { ...inputData };
                       newInputData.members[fillMemberIndex].studentProof =

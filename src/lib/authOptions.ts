@@ -19,22 +19,64 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'email' },
+        username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('Missing email or password');
+        if (!credentials?.username || !credentials?.password) {
+          throw new Error('Missing username or password');
         }
 
         const existingUser = await prisma.user.findUnique({
           where: {
-            email: credentials?.email,
+            username: credentials?.username,
+          },
+          include: {
+            karya: {
+              select: {
+                id: true,
+                countVote: true,
+                linkKarya: true,
+                team: {
+                  select: {
+                    id: true,
+                    teamName: true,
+                    chairmanName: true,
+                  },
+                },
+              },
+            },
+            ticketsExhibition: {
+              select: {
+                active: true,
+                verified: true,
+              },
+            },
+            ticketsCompetition: {
+              select: {
+                competitionType: true,
+                verified: true,
+              },
+            },
           },
         });
 
         if (!existingUser) {
-          throw new Error('Email is unregistered');
+          throw new Error(
+            'Username is unregistered or user have been register with google before',
+          );
+        }
+
+        if (!existingUser.credential) {
+          throw new Error(
+            'User is register with google, please login with google',
+          );
+        }
+
+        if (!existingUser.active) {
+          throw new Error(
+            'User is not active, please activated your account first',
+          );
         }
 
         const isPasswordMatch = await compare(
@@ -46,11 +88,51 @@ export const authOptions: AuthOptions = {
           throw new Error('Wrong password');
         }
 
+        const karya = existingUser.karya
+          ? {
+              ...existingUser.karya,
+              countVote: parseInt(
+                existingUser.karya?.countVote.toString() || '0',
+              ),
+            }
+          : undefined;
+
+        const ticketExhibition = existingUser.ticketsExhibition
+          ? existingUser.ticketsExhibition
+          : undefined;
+
+        const ticketTPC = existingUser.ticketsCompetition.find(
+          (ticket) => ticket.competitionType === 'TPC',
+        );
+        const ticketPTC = existingUser.ticketsCompetition.find(
+          (ticket) => ticket.competitionType === 'PTC',
+        );
+
         return {
           id: existingUser.id,
-          name: existingUser.name,
+          name: existingUser.name || '',
+          username: existingUser.username || '',
           email: existingUser.email,
           image: existingUser.image || '',
+          vote: {
+            karya: karya,
+            status: existingUser.karya ? true : false,
+          },
+          ticket: {
+            exhibition: {
+              buy: ticketExhibition ? true : false,
+              active: ticketExhibition ? ticketExhibition.active : false,
+              verified: ticketExhibition ? ticketExhibition.verified : false,
+            },
+            PTC: {
+              buy: ticketPTC ? true : false,
+              verified: ticketPTC ? ticketPTC.verified : '',
+            },
+            TPC: {
+              buy: ticketTPC ? true : false,
+              verified: ticketTPC ? ticketTPC.verified : '',
+            },
+          },
         };
       },
     }),
@@ -61,12 +143,98 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     async session({ token, session }) {
+      const existingUser = await prisma.user.findUnique({
+        where: {
+          id: token.sub,
+        },
+        include: {
+          karya: {
+            select: {
+              id: true,
+              countVote: true,
+              linkKarya: true,
+              team: {
+                select: {
+                  id: true,
+                  teamName: true,
+                  chairmanName: true,
+                },
+              },
+            },
+          },
+          ticketsExhibition: {
+            select: {
+              active: true,
+              verified: true,
+            },
+          },
+          ticketsCompetition: {
+            select: {
+              competitionType: true,
+              verified: true,
+            },
+          },
+        },
+      });
+
+      if (!existingUser) {
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            id: token.sub,
+            image: token.picture || '',
+          },
+        };
+      }
+
+      const karya = existingUser.karya
+        ? {
+            ...existingUser.karya,
+            countVote: parseInt(
+              existingUser.karya?.countVote.toString() || '0',
+            ),
+          }
+        : undefined;
+
+      const ticketExhibition = existingUser.ticketsExhibition
+        ? existingUser.ticketsExhibition
+        : undefined;
+
+      const ticketTPC = existingUser.ticketsCompetition.find(
+        (ticket) => ticket.competitionType === 'TPC',
+      );
+      const ticketPTC = existingUser.ticketsCompetition.find(
+        (ticket) => ticket.competitionType === 'PTC',
+      );
+
       return {
         ...session,
         user: {
           ...session.user,
           id: token.sub,
+          name: existingUser.name || '',
+          username: existingUser.username || '',
           image: token.picture || '',
+          vote: {
+            karya: karya,
+            status: existingUser.karya ? true : false,
+          },
+          ticket: {
+            exhibition: {
+              buy: ticketExhibition ? true : false,
+              active: ticketExhibition ? ticketExhibition.active : false,
+              verified: ticketExhibition ? ticketExhibition.verified : false,
+            },
+            PTC: {
+              buy: ticketPTC ? true : false,
+              verified: ticketPTC ? ticketPTC.verified : '',
+            },
+            TPC: {
+              buy: ticketTPC ? true : false,
+              verified: ticketTPC ? ticketTPC.verified : '',
+            },
+          },
         },
       };
     },

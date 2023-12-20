@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+Disallow: /events/ptc/registration
+Disallow: /events/tpc/registration
+Sitemap: https://sandbox.ieeeitb.com/sitemap.xml

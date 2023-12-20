@@ -19,15 +19,21 @@ const Modal = ({
   description,
   buttonText1,
   buttonText2,
+  isColButton,
   onClickButtonOne = () => {},
   onClickButtonTwo = () => {},
+  disabledButtonOne,
+  disabledButtonTwo,
 }: {
   title: string;
-  description: string;
+  description: React.ReactNode;
   buttonText1?: string;
   buttonText2?: string;
+  isColButton?: boolean;
   onClickButtonOne?: () => void;
   onClickButtonTwo?: () => void;
+  disabledButtonOne?: boolean;
+  disabledButtonTwo?: boolean;
 }) => {
   const context = useContext<ModalContextContextType>(ModalContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -42,17 +48,25 @@ const Modal = ({
     setTimeout(() => setOpenModal(false), 500);
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  }, [isOpen]);
+
   return createPortal(
     <div
-      className={`fixed inset-0 backdrop-blur-sm z-[200] flex justify-center items-center bg-black/40 ease-in duration-300 ${
+      className={`fixed inset-0 backdrop-blur-sm z-[50] flex justify-center items-center bg-black/60 ease-in duration-300 ${
         isOpen
-          ? 'opacity-1 transform translate-y-0 transition-all duration-300 ease-in-out'
-          : 'opacity-0 transform -translate-y-20 transition-all duration-300 ease-in-out'
+          ? 'opacity-1 pointer-events-auto transform translate-y-0 transition-all duration-300 ease-in-out'
+          : 'opacity-0 pointer-events-none transform -translate-y-20 transition-all duration-300 ease-in-out'
       }`}
       onClick={closeModal}
     >
       <div
-        className="relative max-w-[300px] md:max-w-[560px] pt-4 pb-8 px-8 text-orange-300 rounded-lg text-center md:text-left bg-[url('/assets/ModalBackground.png')] bg-no-repeat"
+        className="relative max-w-[300px] md:max-w-[560px] pt-4 pb-8 px-8 text-orange-300 rounded-lg bg-opacity-110 text-center md:text-left bg-[url('/assets/ModalBackground.png')] bg-no-repeat"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Design & Decorations */}
@@ -100,28 +114,41 @@ const Modal = ({
             </p>
           </div>
         </div>
-        <p className='pb-6 text-[#FFE1B9] z-[201]'>
+        <div className='pb-6 text-[#FFE1B9] z-[201] text-left'>
           {description ??
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In laoreet auctor viverra. Nulla facilisis elit ac leo ornare congue. Morbi sed lectus maximus, efficitur orci a.'}
-        </p>
-        <div className='flex flex-col w-fit md:flex-row justify-end md:w-full gap-3 font-bold mx-auto'>
+        </div>
+        <div
+          className={`text-sm flex gap-3 lg:text-base font-poppins h-fit w-full font-bold mx-auto ${
+            isColButton
+              ? 'flex-col-reverse items-center justify-center gap-10'
+              : 'items-stretch max-md:flex-col-reverse md:flex-row justify-end'
+          } `}
+        >
           <button
-            className='rounded-[4px] overflow-hidden transition-all duration-300 hover:brightness-[80%]'
+            className={`w-full ${
+              isColButton ? 'w-full' : 'w-full md:w-fit md:max-w-[50%]'
+            } disabled:cursor-not-allowed disabled:brightness-[70%] transition-all duration-300 hover:brightness-[80%]`}
             onClick={() => {
               onClickButtonOne();
               closeModal();
             }}
+            disabled={disabledButtonOne}
           >
-            <div className='gradient-border-bg'>{buttonText1}</div>
+            <div className='border-[#ab814e] w-full border-[4px] overflow-hidden rounded-xl px-5 py-2.5'>
+              {buttonText1}
+            </div>
           </button>
           <button
-            className='relative bg-[#AB814E] hover:brightness-[80%] transition-all duration-300 py-[0.7rem] px-[4.3rem] text-white rounded-[4px]'
+            className={`bg-[#AB814E] ${
+              isColButton ? 'w-full' : 'max-md:flex-1 md:w-fit'
+            } hover:brightness-[80%] rounded-xl disabled:cursor-not-allowed disabled:brightness-[70%] transition-all duration-300 px-5 max-md:py-3.5 py-2.5 text-white `}
             onClick={() => {
               onClickButtonTwo();
-              closeModal();
             }}
+            disabled={disabledButtonTwo}
           >
-            <div className='absolute inset-0 bg-[#AB814E] blur-sm' />
+            <div className=' bg-[#AB814E] blur-sm' />
             <div className='backdrop-blur w-full'>{buttonText2}</div>
           </button>
         </div>

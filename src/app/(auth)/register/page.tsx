@@ -1,9 +1,11 @@
 'use client';
 // Importing necessary components and libraries from Next.js and React
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import * as z from 'zod';
 
 // Importing custom components for UI elements and icons
@@ -18,11 +20,11 @@ import Stars2mb from '@/components/icons/Register/stars2mb';
 import Stars3 from '@/components/icons/Register/stars3';
 import Stars3mb from '@/components/icons/Register/stars3mb';
 import TextInput from '@/components/TextInput';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 
 const formSchema = z.object({
   email: z.string().email('Email is invalid').min(1, 'Email field is required'),
-  name: z.string().min(1, 'Name field is required'),
+  username: z.string().min(1, 'Username field is required'),
   password: z.string().min(8, 'Password must contain at least 8 character'),
 });
 
@@ -32,6 +34,7 @@ export default function Home() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const router = useRouter();
 
   const handleGoogle = async (e: any) => {
@@ -44,9 +47,10 @@ export default function Home() {
 
   const handleOnSubmit = async (e: any) => {
     e.preventDefault();
+
     const body = {
       email: email,
-      name: username,
+      username: username,
       password: password,
     };
 
@@ -60,46 +64,48 @@ export default function Home() {
       setEmail('');
       setUsername('');
       setPassword('');
+      setPassword2('');
       router.refresh();
       return;
     }
-
-    const res = await fetch('/api/user', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-
-    const resBody = await res.json();
-    if (!res.ok) {
-      callToast({ status: 'error', description: resBody.message });
-      setEmail('');
-      setUsername('');
-      setPassword('');
-      router.refresh();
-      return;
-    }
-
-    callToast({ status: 'success', description: 'Register succesfull' });
-    const resLogin = await signIn('credentials', {
-      email: email,
-      password: password,
-      redirect: false,
-      callbackUrl: '/',
-    });
-
-    if (resLogin?.error) {
-      callToast({
+    if (password !== password2) {
+      return callToast({
         status: 'error',
-        description: resLogin?.error || 'Login failed',
+        description: 'Password and password confirmation are different',
+      });
+    }
+
+    const loadingToastId = callLoading('Processing your data signup'); // Tampilkan toast loading
+
+    try {
+      const res = await fetch('/api/user', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      const resBody = await res.json();
+      if (!res.ok) {
+        callToast({ status: 'error', description: resBody.message });
+        setEmail('');
+        setUsername('');
+        setPassword('');
+        setPassword2('');
+        router.refresh();
+        return;
+      }
+
+      callToast({
+        status: 'success',
+        description:
+          'Register succesfull, check your email for activate account',
       });
       router.push('/login');
-    } else {
-      callToast({ status: 'success', description: 'Login succesfull' });
-      router.push('/');
+    } finally {
+      toast.dismiss(loadingToastId);
     }
   };
 
@@ -108,9 +114,17 @@ export default function Home() {
     // Main container with a full height, a white background, and center-aligned items
     <main className='h-screen font-poppins text-sm sm:text-base flex bg-white flex-col items-center'>
       {/* A container with a screen-wide height of 3000px to display the registration form */}
-      <div className='w-screen h-[3000px] flex'>
+      <div className='w-screen h-full flex'>
         {/* An empty div with a width of 0% on small screens and 50% on larger screens */}
-        <div className='w-[0%] lg:w-[50%] justify-center z-10'></div>
+        <div className='w-[0%] lg:w-[50%] justify-center z-10'>
+          <Image
+            src='/register.png'
+            alt='Background register Page'
+            width={1920}
+            height={1080}
+            className='w-full h-full object-cover'
+          />
+        </div>
         {/* A div with a background image, covering the full width on small screens and 50% on larger screens */}
         <div className='relative w-[100%] lg:w-[50%] bg-[url("/assets/RelogBackground.png")] bg-cover bg-no-repeat text-white bg-black items-center justify-center'>
           {/* A wrapper div to contain various elements */}
@@ -210,6 +224,17 @@ export default function Home() {
                     fullwidth={true}
                     type='password'
                     placeholder='Enter a password'
+                  />
+                </div>
+                <div>
+                  <p>Confirm Password</p>
+                  <TextInput
+                    text={password2}
+                    setText={setPassword2}
+                    color='white'
+                    fullwidth={true}
+                    type='password'
+                    placeholder='Re-Enter a password'
                   />
                 </div>
               </div>

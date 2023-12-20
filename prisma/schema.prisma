@@ -11,14 +11,48 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  accounts      Account[]
-  sessions      Session[]
+  id                 String              @id @default(cuid())
+  name               String?
+  username           String?             @unique
+  email              String?             @unique
+  emailVerified      DateTime?
+  credential         Boolean?            @default(false)
+  active             Boolean             @default(false)
+  image              String?
+  password           String?
+  karyaId            String?
+  ticketsExhibition  TicketExhibition?
+  ticketsCompetition TicketCompetition[]
+  accounts           Account[]
+  sessions           Session[]
+  karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade)
+  activateToken      ActivateToken[]
+  resetToken      ResetToken[]
+
+}
+
+model ActivateToken {
+  id          String    @id @default(uuid())
+  userId      String
+  token       String    @unique
+  activatedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ResetToken {
+  id          String    @id @default(uuid())
+  userId      String
+  token       String    @unique
+  activatedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -56,9 +90,69 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model TicketExhibition {
+  id            String  @id @default(uuid())
+  ticketType    String
+  verified      Boolean @default(false)
+  active        Boolean @default(false)
+  userId        String  @unique
+  nameCustomer  String
+  paymentMethod String
+  proof         String
+  names         String
+  email         String
+  phone         String
+  address       String
+  institution   String
+  phoneNumber   String
+  ages          String
+  amountPrice   String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TicketCompetition {
+  id              String @id @default(uuid())
+  userId          String
+  verified        String @default("pending")
+  competitionType String
+  team            Team?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Team {
+  id            String                   @id @default(uuid())
+  ticketId      String                   @unique
+  teamName      String                   @unique
+  chairmanName  String
+  chairmanEmail String
+  members       ParticipantCompetition[]
+  karya         Karya?
+
+  ticketCompetition TicketCompetition @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+model ParticipantCompetition {
+  id           String @id @default(uuid())
+  teamId       String
+  name         String
+  email        String
+  institution  String
+  phoneNumber  String
+  age          String
+  twibbonProof String
+  studentProof String
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
 model Karya {
-  id        String   @id @default(uuid())
-  teamName  String
-  anggota   String[]
-  countVote BigInt   @default(0)
+  id        String @id @default(uuid())
+  teamId    String @unique
+  linkKarya String
+  countVote BigInt @default(0)
+  usersVote User[]
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }

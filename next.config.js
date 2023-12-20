@@ -8,11 +8,20 @@ const nextConfig = {
         port: '',
         pathname: '/**/*',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        port: '',
+        pathname: '/**/*',
+      },
     ],
   },
   reactStrictMode: true,
   env: {
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    experimental: {
+      nextScriptWorkers: true,
+    },
   },
 };
 

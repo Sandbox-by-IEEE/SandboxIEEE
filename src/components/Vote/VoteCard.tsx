@@ -5,6 +5,8 @@ import Button from '@/components/Button';
 import ChainLinkIcon from '@/components/icons/ChainLinkIcon';
 
 interface VoteCardProps {
+  aos?: string;
+  aosDuration?: number;
   teamsName: string;
   topic: string;
   imageUrl: string;
@@ -19,6 +21,8 @@ interface VoteCardProps {
 }
 
 const VoteCard: React.FC<VoteCardProps> = ({
+  aos,
+  aosDuration,
   teamsName,
   topic,
   imageUrl,
@@ -32,16 +36,21 @@ const VoteCard: React.FC<VoteCardProps> = ({
   urlCreation,
 }) => {
   return (
-    <article className='w-[250px] lg:w-[330px] flex items-center justify-center rounded-xl shadow-[0_4px_4px_rgba(0,0,0,0.25),0_4px_1px_#FFE1B9,0_4px_4px_rgba(0,0,0,0.25)] flex-col gap-2 lg:gap-4 p-5 bg-gradient-card-vote'>
-      <h4 className='text-black font-poppins text-center text-xl lg:text-2xl font-bold'>
+    <article
+      data-aos={aos}
+      data-aos-duration={aosDuration}
+      className='w-[250px] lg:w-[330px] flex items-center justify-center rounded-xl shadow-[0_4px_4px_rgba(0,0,0,0.25),0_4px_1px_#FFE1B9,0_4px_4px_rgba(0,0,0,0.25)] flex-col gap-2 lg:gap-4 p-5 bg-gradient-card-vote'
+    >
+      <h5 className='text-black font-poppins text-center text-xl lg:text-2xl font-bold'>
         {teamsName}
-      </h4>
+      </h5>
       <Image
         src={imageUrl}
         width={imageWidth}
         height={imageHeight}
         alt={imageAlt}
         className='w-[100px] lg:w-[130px] aspect-square rounded-full overflow-hidden object-cover object-center'
+        sizes='(max-width: 1024px) 100px, 130px'
       />
       {urlCreation && (
         <div className='flex items-center justify-center gap-2'>

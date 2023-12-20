@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
 
+import { authOptions } from '@/lib/authOptions';
 import { prisma } from '@/lib/db';
 
 interface Params {
@@ -12,8 +14,12 @@ export async function PATCH(
 ) {
   let isUpdated = false;
   let countTemp = 0;
+  const session = await getServerSession(authOptions);
   try {
-    // Validate karya id
+    if (!session?.user) {
+      return NextResponse.json({ message: 'Unautorized' }, { status: 401 });
+    }
+
     if (!karyaId) {
       return NextResponse.json(
         { message: 'Missing karya id!!!' },
@@ -21,7 +27,6 @@ export async function PATCH(
       );
     }
 
-    // Check if karya exist
     const existingKarya = await prisma.karya.findUnique({
       where: {
         id: karyaId,
@@ -35,40 +40,78 @@ export async function PATCH(
       );
     }
 
-    // Update karya count vote
+    const currentUser = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
+
+    if (!currentUser) {
+      return NextResponse.json({ message: 'user id invalid' }, { status: 404 });
+    }
+
+    if (session.user.vote?.status) {
+      return NextResponse.json(
+        { message: 'User cannot voted 2 times or more!!' },
+        { status: 400 },
+      );
+    }
+
     const updatedKarya = await prisma.karya.update({
       where: {
         id: karyaId,
       },
       data: {
         countVote: ++existingKarya.countVote,
+        usersVote: {
+          connect: {
+            id: session.user.id,
+          },
+        },
+      },
+      include: {
+        team: {
+          include: {
+            members: true,
+          },
+        },
       },
     });
+
     isUpdated = true;
     countTemp = parseInt(updatedKarya.countVote.toString());
 
-    // Update to google sheet
-    const res = await fetch(
-      `${process.env.API_SHEET_VOTING_URL}?name=${updatedKarya.teamName}&count=${updatedKarya.countVote}`,
-      {
-        method: 'POST',
+    const updatedKaryaNormalize = {
+      ...updatedKarya,
+      countVote: updatedKarya.countVote.toString(),
+    };
+
+    const dataForSheet = {
+      teamName: updatedKaryaNormalize.team.teamName,
+      count: updatedKaryaNormalize.countVote,
+    };
+
+    const res = await fetch(`${process.env.API_SHEET_VOTING_URL}?t=voting`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(dataForSheet),
+    });
 
-    const data = await res.json();
+    const resBody = await res.json();
 
-    if (data.status !== 200) {
-      throw new Error(data.message);
+    if (resBody.status > 299 || resBody.status < 200) {
+      throw new Error(`Failed to updated karya, ${resBody.message}`);
     }
 
     return NextResponse.json(
       {
-        countVote: parseInt(updatedKarya.countVote.toString()),
+        karya: updatedKaryaNormalize,
         message: 'voting succesful',
       },
       { status: 200 },
     );
-    // Error handling
   } catch (error) {
     if (error instanceof Error) {
       if (isUpdated) {
@@ -78,9 +121,15 @@ export async function PATCH(
           },
           data: {
             countVote: BigInt(--countTemp),
+            usersVote: {
+              disconnect: {
+                id: session?.user.id,
+              },
+            },
           },
         });
       }
+      console.log('PATCH_VOTING: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }

@@ -78,30 +78,22 @@ export const metadata: Metadata = {
   description:
     "We couldn't find the page you're looking for. The page might have been removed or the URL may be incorrect. While we're fixing things, why not explore more of what we have to offer? You can head back to our homepage or check out our other exciting events and opportunities.",
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
-  alternates: {
-    canonical: '/',
-    languages: {
-      'en-US': '/en-US/',
-      'id-ID': '/id-ID/',
-    },
-  },
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
-  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:

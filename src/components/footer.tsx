@@ -1,29 +1,27 @@
 import Link from 'next/link';
 import React from 'react';
 
+import Instagram from '@/components/icons/instagram';
+
 import Copyright from './icons/copyright';
 import Copyrightsm from './icons/copyrightsm';
-import Instagram from './icons/instagram';
-import Linkedin from './icons/linkedin';
 import Logo from './icons/logo';
 import Logosm from './icons/logosm';
 import Star1 from './icons/star1';
 import Star2 from './icons/star2';
 import Starsm from './icons/starsm';
-import Tiktok from './icons/tiktok';
 
 const LinkColumn = ({ header, links }) => (
-  <div className='mb-8 md:mr-10 sm:mb-0 xl:mr-20'>
-    <Link href=''>
-      <h3 className='hover:underline text-base md:text-lg font-semibold mb-1'>
-        {header}
-      </h3>
-    </Link>
+  <div className='flex flex-col mb-8 md:mr-10 sm:mb-0 xl:mr-20 w-fit'>
+    <p className='text-base md:text-lg font-semibold mb-1 w-fit'>{header}</p>
     {links.map((link, index) => (
-      <Link href={link.href} key={index}>
-        <p className='hover:underline text-xs md:text-sm lg:text-base mb-1'>
-          {link.text}
-        </p>
+      <Link
+        href={link.href}
+        key={index}
+        aria-label={link.text}
+        className='hover:underline text-xs md:text-sm lg:text-base mb-1 w-fit'
+      >
+        {link.text}
       </Link>
     ))}
   </div>
@@ -34,47 +32,35 @@ const linksData = [
     {
       header: 'Home',
       links: [
-        { href: '', text: 'Timeline' },
-        { href: '', text: 'Merchandise' },
-        { href: '', text: 'Past Events' },
-        { href: '', text: 'Our Mentors' },
+        // { href: '/past-events', text: 'Past Events' },
+        { href: '/our-mentors', text: 'Our Mentors' },
       ],
     },
     {
       header: 'Events',
       links: [
-        { href: '', text: 'PTC' },
-        { href: '', text: 'TPC' },
-        { href: '', text: 'Exhibition' },
-        { href: '', text: 'Grand Seminar' },
+        { href: '/events/ptc', text: 'PTC' },
+        { href: '/events/tpc', text: 'TPC' },
+        { href: '/events/exhibition', text: 'Exhibition' },
+        { href: '/events/grand-seminar', text: 'Grand Seminar' },
       ],
     },
   ],
   [
     {
       header: 'Sponsor & Media',
-      links: [
-        { href: '', text: 'Our Sponsor' },
-        { href: '', text: 'Our Media partner' },
-        { href: '', text: 'Be Our Sponsor' },
-        { href: '', text: 'Be Our Media Partner' },
-      ],
+      links: [{ href: '/sponsorships', text: 'Sponsorship' }],
     },
     {
       header: 'Help Center',
-      links: [
-        { href: '', text: 'Register' },
-        { href: '', text: 'About Us' },
-        { href: '', text: 'FAQ' },
-        { href: '', text: 'Contact US' },
-      ],
+      links: [{ href: '/contact-us', text: 'Contact-us' }],
     },
   ],
 ];
 
-const SocialIcon = ({ LinkComponent, href, size }) => (
+const SocialIcon = ({ LinkComponent, href, size, label }) => (
   <div className='transition-all duration-300 hover:scale-110'>
-    <Link href={href}>
+    <Link href={href} aria-label={label}>
       <LinkComponent
         size={size}
         className='w-[18px] lg:w-[25px] aspect-square'
@@ -84,7 +70,7 @@ const SocialIcon = ({ LinkComponent, href, size }) => (
 );
 
 const Footer = () => (
-  <footer className='w-full h-fit max-lg:py-10 lg:h-[512px] flex bg-[#082211] text-white'>
+  <footer className='w-full relative z-[99] h-fit max-lg:py-10 lg:h-[512px] flex bg-[#082211] text-white'>
     <div className='absolute hidden lg:block'>
       <Star1 size={25} />
     </div>
@@ -129,13 +115,14 @@ const Footer = () => (
           <Copyrightsm size={25} />
         </div>
         <div className='flex gap-2 lg:gap-4'>
-          <SocialIcon LinkComponent={Instagram} href='' size={25} />
+          {/*                              <SocialIcon LinkComponent={Instagram} href='' size={25} /> */}
           <SocialIcon
-            LinkComponent={Linkedin}
-            href='https://www.instagram.com/'
+            label={'Instagram'}
+            LinkComponent={Instagram}
+            href='https://www.instagram.com/thesandbox.itb/'
             size={25}
           />
-          <SocialIcon LinkComponent={Tiktok} href='' size={25} />
+          {/* <SocialIcon LinkComponent={Tiktok} href='' size={25} /> */}
         </div>
       </div>
     </div>

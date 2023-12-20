@@ -1,10 +1,4 @@
-const Instagram = ({
-  size,
-  className,
-}: {
-  size: number;
-  className?: string;
-}) => {
+const Instagram = ({ className }: { className?: string }) => {
   return (
     <svg
       width='25'
@@ -12,7 +6,6 @@ const Instagram = ({
       viewBox='0 0 25 25'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
-      style={{ scale: size / 25 }}
       className={className}
     >
       <path

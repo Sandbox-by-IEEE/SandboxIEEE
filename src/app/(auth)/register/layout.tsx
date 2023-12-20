@@ -1,46 +1,44 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children};</>;
+  return <>{children}</>;
 }
+
 export const metadata: Metadata = {
-  title: 'Login | Sandbox IEEE ITB',
-  description:
-    "Welcome back! Log in to your account to access exclusive content, personalized recommendations, and a seamless experience tailored just for you. Your journey towards innovation and learning starts here. If you don't have an account yet, sign up now to unlock a world of opportunities. Let's get started - log in and make the most of what we have to offer. We're glad to have you with us!",
+  title: 'Register | Sandbox IEEE ITB',
+  description: `Sign up today and become part of a series of events that will challenge and inspire you. By registering, you'll gain access to a Grand Seminar, the ProtoTech Contest (a practical electrical engineering contest), and the Technovate Paper Competition (a research and technical documents competition). Plus, you'll have the chance to learn from expert trainers, judges, and webinar speakers, showcase your innovations, and compete for awards on Exhibition day.`,
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
-    canonical: '/login',
+    canonical: '/register',
     languages: {
-      'en-US': '/en-US/login',
-      'id-ID': '/id-ID/login',
+      'en-US': '/en-US/register',
+      'id-ID': '/id-ID/register',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',
-    description:
-      "Welcome back! Log in to your account to access exclusive content, personalized recommendations, and a seamless experience tailored just for you. Your journey towards innovation and learning starts here. If you don't have an account yet, sign up now to unlock a world of opportunities. Let's get started - log in and make the most of what we have to offer. We're glad to have you with us!",
-    url: 'https://sandbox.ieeeitb.com/login',
+    description: `Sign up today and become part of a series of events that will challenge and inspire you. By registering, you'll gain access to a Grand Seminar, the ProtoTech Contest (a practical electrical engineering contest), and the Technovate Paper Competition (a research and technical documents competition). Plus, you'll have the chance to learn from expert trainers, judges, and webinar speakers, showcase your innovations, and compete for awards on Exhibition day.`,
+    url: 'https://sandbox.ieeeitb.com/register',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
@@ -56,8 +54,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
-    description:
-      "Welcome back! Log in to your account to access exclusive content, personalized recommendations, and a seamless experience tailored just for you. Your journey towards innovation and learning starts here. If you don't have an account yet, sign up now to unlock a world of opportunities. Let's get started - log in and make the most of what we have to offer. We're glad to have you with us!",
+    description: `Sign up today and become part of a series of events that will challenge and inspire you. By registering, you'll gain access to a Grand Seminar, the ProtoTech Contest (a practical electrical engineering contest), and the Technovate Paper Competition (a research and technical documents competition). Plus, you'll have the chance to learn from expert trainers, judges, and webinar speakers, showcase your innovations, and compete for awards on Exhibition day.`,
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
