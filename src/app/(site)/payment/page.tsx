@@ -1,18 +1,23 @@
 'use client';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
-import { FileInputType } from '@/components/FileInput/fileInput-type';
-import FormDetails from '@/components/Forms/FormDetails';
+import { type FileInputType } from '@/components/FileInput/fileInput-type';
+import FormDetails from '@/components/Forms/FormDetailsRegist1';
 import FormPayment from '@/components/Forms/FormPayment';
 import {
-  InputData,
-  IsWarnedInputData,
-  MemberInfo,
+  type InputData,
+  type IsWarnedInputData,
+  type MemberInfo,
 } from '@/components/Forms/inputData-type';
-import GradientBox from '@/components/GradientBox';
 import { callToast } from '@/components/Toast';
 
-export default function Home() {
+export default function PTCRegist() {
+  const inputDataHistoryKey = 'payment-history-0';
+
+  const router = useRouter();
+  const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
     memberCount: 1,
@@ -54,19 +59,15 @@ export default function Home() {
     },
   );
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
+  const [isDisabledNext, setIsDisabledNext] = useState<boolean>(false);
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
-  const [step, setStep] = useState<number>(1);
-
+  const [stepPayment, setStepPayment] = useState<boolean>(false);
   const handleChange = (e) => {
     const name = e.target.name;
     const value =
       e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
     const newInputData = { ...inputData };
-
-    if (name == 'memberCount') {
-      setFillMemberIndex(0);
-    }
 
     // Use regex to extract the member index and field name
     const match = name.match(/members\[(\d+)\]\.(.+)/);
@@ -102,110 +103,198 @@ export default function Home() {
     }
 
     if (name === 'memberCount') {
-      const newMembers: MemberInfo[] = [];
-
-      for (let i = 0; i < newInputData.memberCount; i++) {
-        if (newInputData.members[i]) {
-          newMembers.push(newInputData.members[i]);
-        } else {
-          newMembers.push({
-            name: '',
-            email: '',
-            institution: '',
-            phoneNumber: '',
-            age: 0,
-            twibbonProof: '',
-            twibbonProofName: '',
-            studentProof: '',
-            studentProofName: '',
+      setFillMemberIndex(0);
+      if (newInputData.memberCount) {
+        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
+          newInputData.memberCount = inputData.memberCount;
+          callToast({
+            status: 'error',
+            description: 'Member count must be 1 to 5',
           });
         }
       }
 
-      newInputData.members = newMembers;
+      if (
+        !newInputData.memberCount ||
+        newInputData.memberCount <= 0 ||
+        newInputData.memberCount > 5
+      ) {
+        setIsDisabledNext(true);
+      } else {
+        setIsDisabledNext(false);
+      }
+
+      if (newInputData.memberCount) {
+        const newMembers: MemberInfo[] = [];
+        for (let i = 0; i < newInputData.memberCount; i++) {
+          if (newInputData.members[i]) {
+            newMembers.push(newInputData.members[i]);
+          } else {
+            newMembers.push({
+              name: '',
+              email: '',
+              institution: '',
+              phoneNumber: '',
+              age: 0,
+              twibbonProof: '',
+              twibbonProofName: '',
+              studentProof: '',
+              studentProofName: '',
+            });
+          }
+        }
+
+        const newIsWarnedInputData = { ...isWarnedInputData };
+        while (newInputData.memberCount > newIsWarnedInputData.members.length) {
+          newIsWarnedInputData.members.push({
+            name: false,
+            email: false,
+            institution: false,
+            phoneNumber: false,
+            age: false,
+            twibbonProof: false,
+            twibbonProofName: false,
+            studentProof: false,
+            studentProofName: false,
+          });
+        }
+        while (newInputData.memberCount < newIsWarnedInputData.members.length) {
+          newIsWarnedInputData.members.pop();
+        }
+        if (isWarnedInputData !== newIsWarnedInputData) {
+          setIsWarnedInputData(newIsWarnedInputData);
+        }
+
+        newInputData.members = newMembers;
+      }
     }
 
-    setInputData(newInputData);
-    localStorage.setItem('inputData', JSON.stringify(newInputData));
+    if (newInputData !== inputData) {
+      setInputData(newInputData);
+      localStorage.setItem(inputDataHistoryKey, JSON.stringify(newInputData));
+    }
   };
 
-  const handleSubmitFormIdentity = (e) => {
+  const warn = (
+    memberIndex: number,
+    prop:
+      | 'name'
+      | 'email'
+      | 'institution'
+      | 'phoneNumber'
+      | 'age'
+      | 'twibbonProof'
+      | 'twibbonProofName'
+      | 'studentProof'
+      | 'studentProofName',
+  ) => {
+    setIsWarnedInputData((isWarnedInputData) => {
+      const newIsWarnedInputData = { ...isWarnedInputData };
+      if (newIsWarnedInputData.members[memberIndex]) {
+        newIsWarnedInputData.members[memberIndex][prop] = true;
+      }
+
+      return newIsWarnedInputData;
+    });
+  };
+
+  const handleSubmitFormIdentity = async (e) => {
     e.preventDefault();
-    let isEmptyTwibbon = false;
-    let isEmptyStudentProof = false;
-    let isInvalidAge = false;
-    let isInvalidPhoneNumber = false;
+
+    const isEmailValid = (email: string): boolean => {
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    };
+
+    let validInput = true;
+
     inputData.members.forEach((el, i) => {
-      if (!el.twibbonProof) {
-        setFillMemberIndex(i);
-        isEmptyTwibbon = true;
-      }
-      if (!el.studentProof) {
-        setFillMemberIndex(i);
-        isEmptyStudentProof = true;
-      }
-      if (el.age <= 0) {
-        setFillMemberIndex(i);
-        isInvalidAge = true;
-      }
-      if (el.phoneNumber[0] != "'") {
-        setFillMemberIndex(i);
-        isInvalidPhoneNumber = true;
+      let warnedHere = false;
+      const checkAndWarn = (
+        bool: boolean,
+        prop:
+          | 'name'
+          | 'email'
+          | 'institution'
+          | 'phoneNumber'
+          | 'age'
+          | 'twibbonProof'
+          | 'twibbonProofName'
+          | 'studentProof'
+          | 'studentProofName',
+      ) => {
+        if (bool) {
+          setFillMemberIndex(i);
+          warn(i, prop);
+          validInput = false;
+          warnedHere = true;
+        }
+      };
+      checkAndWarn(!el.name, 'name');
+      checkAndWarn(!isEmailValid(el.email), 'email');
+      checkAndWarn(el.phoneNumber[0] != "'", 'phoneNumber');
+      checkAndWarn(el.age <= 0, 'age');
+      checkAndWarn(!el.institution, 'institution');
+      checkAndWarn(!el.twibbonProof, 'twibbonProof');
+      checkAndWarn(!el.studentProof, 'studentProof');
+      if (warnedHere) {
+        callToast({
+          status: 'error',
+          description: `Please fill in the ${
+            i + 1
+          } member's personal data correctly`,
+        });
       }
     });
-    if (isEmptyTwibbon) {
-      callToast({ status: 'error', description: 'Please fill all twibbons' });
-    }
-    if (isEmptyStudentProof) {
-      callToast({
-        status: 'error',
-        description: 'Please fill all Student Card Proof',
-      });
-    }
-    if (isInvalidAge) {
-      callToast({
-        status: 'error',
-        description: 'Please fill age correctly',
-      });
-    }
-    if (isInvalidPhoneNumber) {
-      callToast({
-        status: 'error',
-        description: 'Please fill phone number correctly (see description)',
-      });
-    }
-    if (
-      isEmptyTwibbon ||
-      isEmptyStudentProof ||
-      isInvalidAge ||
-      isInvalidPhoneNumber
-    ) {
-      return;
-    }
-
-    setStep(2);
+    if (validInput) setStepPayment(true);
   };
 
-  const handleSubmitFinal = (e) => {
+  const handleSubmitFinal = async (e) => {
     e.preventDefault();
-    //submission here
-    if (!inputData.paymentMethod) {
-      callToast({
-        status: 'error',
-        description: 'Please choose payment method',
-      });
-    }
-    if (!inputData.paymentProofUrl?.length) {
-      callToast({
-        status: 'error',
-        description: 'Please include your proof of payment',
-      });
-    }
-    if (!inputData.paymentMethod || !inputData.paymentProofUrl?.length) {
-      return;
-    }
     console.log(inputData);
   };
+
+  useEffect(() => {
+    if (status === 'loading') {
+      return;
+    }
+    if (!session?.user) {
+      callToast({
+        status: 'error',
+        description: 'Unauthorized, please login first',
+      });
+      router.push('/login');
+    } else {
+      if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'pending'
+      ) {
+        callToast({
+          status: 'error',
+          description: 'You have purchased this ticket, Waiting for validation',
+        });
+        router.push('/');
+      } else if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'verified'
+      ) {
+        callToast({
+          status: 'error',
+          description:
+            'You have purchased this ticket, Your ticket has been validated',
+        });
+        router.push('/');
+      } else if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'rejected'
+      ) {
+        callToast({
+          status: 'error',
+          description: 'You have purchased this ticket, Your ticket rejected',
+        });
+        router.push('/');
+      }
+    }
+  }, [status, router, session?.user]);
 
   useEffect(() => {
     if (filesForm2?.length) {
@@ -213,13 +302,13 @@ export default function Home() {
       newInputData.paymentProofUrl = filesForm2;
 
       setInputData(newInputData);
-      localStorage.setItem('inputData', JSON.stringify(newInputData));
+      localStorage.setItem(inputDataHistoryKey, JSON.stringify(newInputData));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filesForm2]);
 
   useEffect(() => {
-    const memoryInputData = localStorage.getItem('inputData');
+    const memoryInputData = localStorage.getItem(inputDataHistoryKey);
     if (memoryInputData) {
       try {
         const historyInputData: InputData = JSON.parse(memoryInputData);
@@ -270,8 +359,34 @@ export default function Home() {
             paymentMethod,
             paymentProofUrl,
           });
+
+          const newIsWarnedInputData = { ...isWarnedInputData };
+          while (
+            historyInputData.memberCount > newIsWarnedInputData.members.length
+          ) {
+            newIsWarnedInputData.members.push({
+              name: false,
+              email: false,
+              institution: false,
+              phoneNumber: false,
+              age: false,
+              twibbonProof: false,
+              twibbonProofName: false,
+              studentProof: false,
+              studentProofName: false,
+            });
+          }
+          while (
+            historyInputData.memberCount < newIsWarnedInputData.members.length
+          ) {
+            newIsWarnedInputData.members.pop();
+          }
+          if (isWarnedInputData !== newIsWarnedInputData) {
+            setIsWarnedInputData(newIsWarnedInputData);
+          }
+
           localStorage.setItem(
-            'inputData',
+            inputDataHistoryKey,
             JSON.stringify({
               teamName,
               memberCount,
@@ -281,68 +396,43 @@ export default function Home() {
             }),
           );
         } else {
-          localStorage.removeItem('inputData');
+          localStorage.removeItem(inputDataHistoryKey);
         }
       } catch (error) {
-        localStorage.removeItem('inputData');
+        localStorage.removeItem(inputDataHistoryKey);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <main className='bg-gradient-to-t from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
-      <nav className='fixed top-0 left-0 h-20 w-full bg-slate-950 z-[100]'>
-        replace with navbar{' '}
-      </nav>
-      <div className='h-fit w-full max-w-[1000px] py-10 px-4 pt-24 font-poppins'>
-        {step === 1 && (
-          <>
-            <Title text='Complete your details Below' />
-            <FormDetails
-              inputData={inputData}
-              setInputData={setInputData}
-              handleChange={handleChange}
-              handleSubmitFormIdentity={handleSubmitFormIdentity}
-              fillMemberIndex={fillMemberIndex}
-              setFillMemberIndex={setFillMemberIndex}
-              isWarnedInputData={isWarnedInputData}
-              setIsWarnedInputData={setIsWarnedInputData}
-              submissionText='Next'
-              inputDataHistoryKey='payment-regist-01'
-              isDisabledNext
-            />
-          </>
-        )}
-        {step === 2 && (
-          <>
-            <Title text='Payment' />
-            <p className='w-full text-center pt-4 pb-8 font-bold'>
-              Please follow the payment instructions to complete your purchase
-            </p>
-            <div className='flex flex-wrap justify-center w-full max-w-full gap-4 sm:gap-8 text-center text-[18px] sm:text-[24px] border-b-2 py-16 border-[#bb9567]'>
-              <GradientBox className='px-2 sm:px-8 sm:py-1 w-fit'>
-                <p className='border-b-2 py-2'>Early Bird</p>
-                <p className='px-4 sm:px-6 py-2 '>Rp. 150.000</p>
-              </GradientBox>
-              <GradientBox className='px-2 sm:px-8 sm:py-1 w-fit'>
-                <p className='border-b-2 py-2'>Normal</p>
-                <p className='px-4 sm:px-6 py-2 '>Rp. 150.000</p>
-              </GradientBox>
-              <GradientBox className='px-2 sm:px-8 sm:py-1 w-fit'>
-                <p className='border-b-2 py-2'>Group</p>
-                <p className='px-4 sm:px-6 py-2 '>Rp. 150.000</p>
-              </GradientBox>
-            </div>
-            <FormPayment
-              handleChange={handleChange}
-              inputData={inputData}
-              handleSubmitFinal={handleSubmitFinal}
-              filesForm2={filesForm2}
-              setFilesForm2={setFilesForm2}
-              step={step}
-              setStep={setStep}
-            />
-          </>
+    <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
+      <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
+        <Title text='Registration with Payment' />
+        <Title text='Complete your details below' />
+        {!stepPayment ? (
+          <FormDetails
+            inputData={inputData}
+            setInputData={setInputData}
+            handleChange={handleChange}
+            fillMemberIndex={fillMemberIndex}
+            setFillMemberIndex={setFillMemberIndex}
+            handleSubmitFormIdentity={handleSubmitFormIdentity}
+            isWarnedInputData={isWarnedInputData}
+            setIsWarnedInputData={setIsWarnedInputData}
+            isDisabledNext={isDisabledNext}
+            inputDataHistoryKey={inputDataHistoryKey}
+            submissionText='Next'
+          />
+        ) : (
+          <FormPayment
+            handleChange={handleChange}
+            inputData={inputData}
+            handleSubmitFinal={handleSubmitFinal}
+            filesForm2={filesForm2}
+            setFilesForm2={setFilesForm2}
+            setStep={setStepPayment}
+          />
         )}
       </div>
     </main>
@@ -350,7 +440,7 @@ export default function Home() {
 }
 
 const Title = ({ text }) => (
-  <div className='relative text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
+  <div className='relative text-3xl lg:text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
     <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full'>
       {text}
     </div>

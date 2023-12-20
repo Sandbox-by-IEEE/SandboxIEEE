@@ -11,7 +11,6 @@ const FormPayment = ({
   filesForm2,
   setFilesForm2,
   handleSubmitFinal,
-  step,
   setStep,
 }: {
   handleChange: (e: any) => void;
@@ -21,8 +20,7 @@ const FormPayment = ({
     React.SetStateAction<FileInputType[] | undefined>
   >;
   handleSubmitFinal: (e: React.FormEvent<HTMLFormElement>) => void;
-  step: number;
-  setStep: (number) => void;
+  setStep: React.Dispatch<React.SetStateAction<boolean>>;
 }) => (
   <form
     className='flex flex-col gap-8 py-8 font-poppins text-center w-full'
@@ -31,7 +29,7 @@ const FormPayment = ({
     <p className='text-2xl font-bold text-left'>Choose Your Payment method</p>
 
     <div className='flex gap-7 flex-wrap justify-between w-full border-b-2 pb-14 border-[#bb9567]'>
-      <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
+      <div className='flex gap-3 items-start w-0 min-w-[230px] md:min-w-[280px] sm:w-[50%] md:w-[30%] flex-shrink-0'>
         <input
           type='radio'
           name='paymentMethod'
@@ -50,7 +48,7 @@ const FormPayment = ({
         </label>
       </div>
 
-      <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
+      <div className='flex gap-3 items-start w-0 min-w-[230px] md:min-w-[280px] sm:w-[50%] md:w-[30%] flex-shrink-0'>
         <input
           type='radio'
           name='paymentMethod'
@@ -69,7 +67,7 @@ const FormPayment = ({
         </label>
       </div>
 
-      <div className='flex gap-3 items-start min-w-[230px] sm:w-[30%]'>
+      <div className='flex gap-3 items-start w-0 min-w-[230px] md:min-w-[280px] sm:w-[50%] md:w-[30%] flex-shrink-0'>
         <input
           type='radio'
           name='paymentMethod'
@@ -88,7 +86,7 @@ const FormPayment = ({
         </label>
       </div>
 
-      <div className='flex gap-3 items-start min-w-[230px] sm:w-[30%]'>
+      <div className='flex gap-3 items-start w-0 min-w-[230px] md:min-w-[280px] sm:w-[50%] md:w-[30%] flex-shrink-0'>
         <input
           type='radio'
           name='paymentMethod'
@@ -100,7 +98,7 @@ const FormPayment = ({
         <label htmlFor='QRIS' className='w-full'>
           <GradientBox className='px-2 sm:px-8 sm:py-1 w-full'>
             <p className='border-b-2 py-2'>QRIS</p>
-            <div className='py-4 px-2 w-48'>
+            <div className='py-4 px-6 lg:px-0 w-full'>
               <Button color='gold' isFullWidth>
                 Pay With QRIS
               </Button>
@@ -166,7 +164,13 @@ const FormPayment = ({
       </div>
     </div>
     <div className='w-full flex justify-center py-6 gap-3'>
-      <Button color='green' onClick={() => setStep(step - 1)} type='button'>
+      <Button
+        color='green'
+        onClick={() => {
+          setStep(false);
+        }}
+        type='button'
+      >
         Back
       </Button>
       <Button color='gold' type='submit'>
