@@ -82,7 +82,6 @@ const SingleFileInput = ({
       } else if (filesToUpload) {
         const fileUploaded = filesToUpload[0];
         const responseJSON = await uploadFile(fileUploaded);
-
         const newFile: FileInputType = {
           fileName: fileUploaded.name,
           fileUrl: responseJSON?.secure_url,
