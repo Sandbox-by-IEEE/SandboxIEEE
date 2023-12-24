@@ -139,19 +139,19 @@ export default function RSVPPage({
   const [isLegal, setIsLegal] = useState<boolean>(
     loadData('tokenGet') || false,
   );
-  useEffect(() => {}, []);
 
   useEffect(() => {
-    const statusToken = loadData('tokenGet');
     if (
       (!token || token !== process.env.NEXT_PUBLIC_RSVP_TOKEN) &&
-      isLegal !== true
+      isLegal !== true &&
+      !loadData('tokenGet')
     ) {
       return notFound();
     } else if (
       token &&
       token === process.env.NEXT_PUBLIC_RSVP_TOKEN &&
-      !isLegal
+      isLegal !== true &&
+      !loadData('tokenGet')
     ) {
       setIsLegal(true);
       saveData('tokenGet', true);
