@@ -1,13 +1,13 @@
-import TextInput from '@/components/TextInput';
+import TextInput, { TypeInput } from '@/components/TextInput';
 
 type FormInputFieldProps = {
   label: string;
   subLabel: string;
-  type: 'email' | 'text' | 'number';
+  type: TypeInput['type'];
   name: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFocus: () => void;
+  onFocus?: () => void;
   isWarned: boolean;
 };
 

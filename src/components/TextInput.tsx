@@ -3,7 +3,16 @@ import React, { SetStateAction, useState } from 'react';
 import Eye from '@/components/icons/Register/eye';
 import Eyeslash from '@/components/icons/Register/eyeslash';
 import SearchIcon from '@/components/icons/SearchIcon';
-
+export interface TypeInput {
+  type:
+    | 'text'
+    | 'password'
+    | 'search'
+    | 'email'
+    | 'textarea'
+    | 'number'
+    | 'tel';
+}
 const TextInput = ({
   placeholder,
   type,
@@ -20,14 +29,7 @@ const TextInput = ({
   required = false,
 }: {
   placeholder?: string;
-  type:
-    | 'text'
-    | 'password'
-    | 'search'
-    | 'email'
-    | 'textarea'
-    | 'number'
-    | 'tel';
+  type: TypeInput['type'];
   name?: string;
   disabled?: boolean;
   text: string;
