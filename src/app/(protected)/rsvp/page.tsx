@@ -11,12 +11,14 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import toast from 'react-hot-toast';
 
 import Loading from '@/app/loading';
 import Button from '@/components/Button';
 import FormInputField from '@/components/Forms/FormInputField';
 import RadioButtons from '@/components/radio';
 import { type TypeInput } from '@/components/TextInput';
+import { callLoading, callToast } from '@/components/Toast';
 
 enum StepEnum {
   DESCRIPTION = 1,
@@ -267,7 +269,7 @@ const Enum1 = () => {
   );
 };
 const Enum2 = memo(() => {
-  const { setStep, setFormData, idPerson, setIdPerson } =
+  const { setStep, formData, setFormData, idPerson, setIdPerson } =
     useContext(FormDataContext);
   const [institution, setInstitution] = useState<string>(
     loadData('institution', idPerson) || '',
@@ -283,6 +285,7 @@ const Enum2 = memo(() => {
   const [otherAttendance, setOtherAttendance] = useState<string | null>(
     loadData('otherAttendance', idPerson) || null,
   );
+
   const isAddData = otherAttendance === 'yes';
   useEffect(() => {
     saveData('institution', institution, idPerson);
@@ -311,21 +314,20 @@ const Enum2 = memo(() => {
       setOtherAttendance(parsedData.otherAttendance);
     }
   }, [idPerson]);
-  const handleSubmit = useCallback(() => {
-    // Check if institution is not null before passing it
 
+  const handleSubmit = useCallback(async () => {
+    // Check if institution is not null before passing it
     const newPersonData = {
       institution,
       name,
       contact,
       attendOption,
     };
-    //update data pada formData pada idPerson tertentu
-    setFormData((prevFormData) => {
-      const newFormData = [...prevFormData];
-      newFormData[idPerson] = newPersonData;
-      return newFormData;
-    });
+    const newFormData = [...formData];
+    newFormData[idPerson] = newPersonData;
+
+    // Update data in formData at a specific idPerson
+    setFormData(newFormData);
     if (isAddData) {
       const newId = idPerson + 1;
       setIdPerson(newId);
@@ -335,7 +337,42 @@ const Enum2 = memo(() => {
       setOtherAttendance(loadData('otherAttendance', idPerson) || null);
       setStep(StepEnum.FORM);
     } else {
-      setStep(StepEnum.CONFIRMATION);
+      const loadingToastId = callLoading('Processing your RSVP form ...');
+
+      try {
+        const response = await fetch('/api/rsvp', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newFormData),
+        });
+
+        const bodyResponse = await response.json();
+
+        if (!response.ok) {
+          callToast({
+            status: 'error',
+            description: bodyResponse.message,
+          });
+        } else {
+          callToast({
+            status: 'success',
+            description: bodyResponse.message,
+          });
+          localStorage.removeItem('formData');
+        }
+      } catch (err) {
+        callToast({
+          status: 'error',
+          description:
+            'Something went wrong while submitting your data, please try again',
+        });
+      } finally {
+        toast.dismiss(loadingToastId);
+        setStep(StepEnum.CONFIRMATION);
+      }
     }
   }, [
     isAddData,
@@ -347,6 +384,7 @@ const Enum2 = memo(() => {
     name,
     idPerson,
     setIdPerson,
+    formData,
   ]);
 
   return (
