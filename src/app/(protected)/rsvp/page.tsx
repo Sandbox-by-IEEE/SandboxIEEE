@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { notFound, useRouter } from 'next/navigation';
 import React, {
   createContext,
   Dispatch,
@@ -122,12 +123,44 @@ function saveData(type: string, data: any, userId?: number) {
   }
 }
 
-export default function RSVPPage() {
+export default function RSVPPage({
+  searchParams: { token },
+}: {
+  searchParams: { token: string };
+}) {
   const [clientRender, setClientRender] = useState(false);
-
   useEffect(() => {
     setClientRender(true);
+    if (loadData('tokenGet')) {
+      setIsLegal(true);
+    }
   }, []);
+  const router = useRouter();
+  const [isLegal, setIsLegal] = useState<boolean>(
+    loadData('tokenGet') || false,
+  );
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    const statusToken = loadData('tokenGet');
+    if (
+      (!token || token !== process.env.NEXT_PUBLIC_RSVP_TOKEN) &&
+      isLegal !== true
+    ) {
+      return notFound();
+    } else if (
+      token &&
+      token === process.env.NEXT_PUBLIC_RSVP_TOKEN &&
+      !isLegal
+    ) {
+      setIsLegal(true);
+      saveData('tokenGet', true);
+      router.push('/rsvp');
+    } else {
+      router.push('/rsvp');
+    }
+    router.refresh();
+  }, [token, router, isLegal]);
 
   const [formDataSet, setFormDataSet] = useState<DataFormTypes[]>(
     loadData('formData') || [],
@@ -163,7 +196,7 @@ export default function RSVPPage() {
         setClientRender,
       }}
     >
-      <main className='relative z-[50] bg-gradient-to-tl px-4 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 from-[#103020] to-[#061906] text-white flex min-h-screen flex-col items-center'>
+      <main className='overflow-hidden relative z-[50] font-poppins bg-gradient-to-tl px-4 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20 from-[#103020] to-[#061906] text-white flex min-h-screen flex-col items-center'>
         <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 pb-10 px-4  font-poppins'>
           <Title text='RSVP VIP Guests' />
         </div>
@@ -391,7 +424,7 @@ const Enum3 = () => {
   const isAttend = formData[0].attendOption !== 'Not attending';
 
   return (
-    <div className='text-white text-sm lg:text-base mt-12 font-poppins gap-3 flex flex-col max-lg:p-5 max-w-[700px]'>
+    <div className='text-white text-sm lg:text-base max-lg:mt-10 font-poppins gap-3 flex flex-col max-lg:p-5 max-w-[700px]'>
       <Image
         src='/Group_1235.svg'
         width={150}
