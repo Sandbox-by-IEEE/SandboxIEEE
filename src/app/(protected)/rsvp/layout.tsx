@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching.',
+      'RSVP form for VIP Guests of Sandbox IEEE ITB. Please fill the form to confirm your attendance.',
     url: 'https://sandbox.ieeeitb.com/rsvp',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching.',
+      'RSVP form for VIP Guests of Sandbox IEEE ITB. Please fill the form to confirm your attendance.',
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
