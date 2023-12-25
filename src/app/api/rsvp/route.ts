@@ -1,23 +1,12 @@
+import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+
+import Email from '@/components/emails/Emails';
+import { authOptions } from '@/lib/authOptions';
+import { transporter } from '@/lib/mailTransporter';
 
 export async function POST(req: NextRequest) {
-  function generateId() {
-    let result = '';
-    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    const segmentLength = 4;
-    const segments = 3;
-
-    for (let i = 0; i < segments; i++) {
-      for (let j = 0; j < segmentLength; j++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * characters.length),
-        );
-      }
-      if (i < segments - 1) result += '-';
-    }
-
-    return result;
-  }
   try {
     const data = await req.json();
 
@@ -28,14 +17,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
     const sheetAPI = process.env.API_SHEET_TICKET_URL || '';
     const bodyReq = JSON.stringify({
-      id: generateId(),
+      id: session.user.id,
       mainGuest: data[0],
       otherGuests: data.slice(1),
     });
 
-    console.log('BODY_REQ', bodyReq);
     const response = await fetch(`${sheetAPI}?type=RSVP}`, {
       method: 'POST',
       headers: {
@@ -49,6 +43,33 @@ export async function POST(req: NextRequest) {
     if (resBody.status > 299 || resBody.status < 200) {
       throw new Error(`Failed to create form RSVP, ${resBody.message}`);
     }
+
+    const content = `
+    Thank you for filling out the reservation RSVP as VIP Guests in Sandbox IEEE ITB.
+    ${
+      data[0].attendOption !== 'Not attending' &&
+      `We eagerly await welcoming you to this event. 
+       Looking forward to our next gathering, The Sandbox By IEEE ITB SB`
+    }
+    `;
+
+    const mailOptions = {
+      from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
+      to: session.user.email as string,
+      subject: `[SANDBOX] RSVP Form Status`,
+      html: render(
+        Email({
+          content,
+          heading: 'RSVP Form Status',
+          name: data[0].name,
+        }),
+        { pretty: true },
+      ),
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    console.log('POST_RSVP: email was sent');
 
     return NextResponse.json(
       {

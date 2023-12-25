@@ -46,9 +46,14 @@ const RadioButton: React.FC<RadioButtonProps> = ({
 interface RadioButtonsProps {
   options: ChildProps[];
   onChange: (value: string | null) => void;
+  outSideCheck?: string | null;
 }
 
-const RadioButtons: React.FC<RadioButtonsProps> = ({ options, onChange }) => {
+const RadioButtons: React.FC<RadioButtonsProps> = ({
+  options,
+  onChange,
+  outSideCheck,
+}) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const handleChange = useCallback(
     (value: string) => {
@@ -69,7 +74,7 @@ const RadioButtons: React.FC<RadioButtonsProps> = ({ options, onChange }) => {
           key={option.value}
           value={option.value}
           label={option.label}
-          checked={option.value === selectedOption}
+          checked={option.value === outSideCheck}
           onChange={() => handleChange(option.value)}
           disabled={option.disabled || false}
         />
