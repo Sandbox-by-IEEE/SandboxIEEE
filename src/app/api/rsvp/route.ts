@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       otherGuests: data.slice(1),
     });
 
-    const response = await fetch(`${sheetAPI}?type=RSVP}`, {
+    const response = await fetch(`${sheetAPI}?type=RSVP`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,11 +56,11 @@ export async function POST(req: NextRequest) {
     const mailOptions = {
       from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
       to: session.user.email as string,
-      subject: `[SANDBOX] RSVP Form Status`,
+      subject: `[SANDBOX] RSVP VIP Guest`,
       html: render(
         Email({
           content,
-          heading: 'RSVP Form Status',
+          heading: 'RSVP VIP Guest Sandbox ITB',
           name: data[0].name,
         }),
         { pretty: true },
