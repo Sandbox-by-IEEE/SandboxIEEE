@@ -12,6 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
+  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,6 +22,7 @@ const Button: React.FC<ButtonProps> = ({
   isIcon,
   isDisabled,
   isFullWidth,
+  className,
   ...props
 }) => {
   const colorEffect = {
@@ -64,7 +66,7 @@ const Button: React.FC<ButtonProps> = ({
         isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[180px]'
       } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-3 px-4 rounded-md ${
         colorEffect[color].main
-      }`}
+      } ${className}`}
       {...props}
     >
       <p className='flex gap-3 w-full text-center items-center justify-center font-poppins font-bold'>

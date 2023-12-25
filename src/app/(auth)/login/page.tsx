@@ -236,7 +236,7 @@ export default function Home({
                   />
                 </div>
                 <div>
-                  <Button
+                  <button
                     color='gold'
                     className='text-base text-cream-secondary-normal'
                     type='button'
@@ -245,7 +245,7 @@ export default function Home({
                     <span className='text-sm font-[500] hover:underline underline-offset-4'>
                       Forgot the password?
                     </span>
-                  </Button>
+                  </button>
                   {/* Ini ntar tambahin logika && !token */}
                   {openModal && !searchParams.get('resetToken') && (
                     <FormResendEmail />
