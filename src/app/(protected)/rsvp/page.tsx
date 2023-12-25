@@ -62,7 +62,7 @@ const enum1Data = {
     'Awarding of The Competition',
   ],
   confirmationText:
-    'Kindly confirm your attendance by completing the form below before January 1st, 2024.',
+    'Kindly confirm your attendance by completing the form below before December 28th, 2023.',
 };
 
 // Data for Enum2 component
@@ -438,7 +438,7 @@ const Enum2 = memo(() => {
 
   const handleSubmit = useCallback(async () => {
     if (
-      !institution ||
+      (idPerson == 0 && !institution) ||
       !name ||
       !attendOption ||
       !otherAttendance ||
@@ -544,25 +544,27 @@ const Enum2 = memo(() => {
 
   return (
     <form className='text-white font-poppins gap-3 w-full flex flex-col max-lg:p-5 max-w-[800px]'>
-      {formData.length > 1 && (
+      {(formData.length > 1 || isAddData || idPerson > 0) && (
         <p className='text-xl lg:text-2xl py-2 font-bold'>
           Data Person - {idPerson + 1}
         </p>
       )}
       {/* Form input */}
-      <FormInputField
-        label={enum2Data.formFields[0].label}
-        subLabel={enum2Data.formFields[0].instructions as string}
-        type={enum2Data.formFields[0].type as TypeInput['type']}
-        name={enum2Data.formFields[0].name}
-        value={institution}
-        onChange={(e) => {
-          setInstitution(e.target.value);
-          e.target.value !== '' &&
-            setIsWarned({ ...isWarned, institution: false });
-        }}
-        isWarned={isWarned.institution && isWarned.institution}
-      />
+      {idPerson == 0 && (
+        <FormInputField
+          label={enum2Data.formFields[0].label}
+          subLabel={enum2Data.formFields[0].instructions as string}
+          type={enum2Data.formFields[0].type as TypeInput['type']}
+          name={enum2Data.formFields[0].name}
+          value={institution}
+          onChange={(e) => {
+            setInstitution(e.target.value);
+            e.target.value !== '' &&
+              setIsWarned({ ...isWarned, institution: false });
+          }}
+          isWarned={isWarned.institution && isWarned.institution}
+        />
+      )}
       <FormInputField
         label={enum2Data.formFields[1].label}
         subLabel={enum2Data.formFields[1].instructions as string}
