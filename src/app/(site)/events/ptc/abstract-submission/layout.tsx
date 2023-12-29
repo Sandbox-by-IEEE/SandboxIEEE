@@ -8,7 +8,7 @@ const LayoutRegistration = ({ children }: { children: React.ReactNode }) => {
 export default LayoutRegistration;
 
 export const metadata: Metadata = {
-  title: 'PTC Registration | Sandbox IEEE ITB',
+  title: 'PTC Abstract Submission | Sandbox IEEE ITB',
   description:
     'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching.',
   generator: 'Next.js',
@@ -29,17 +29,17 @@ export const metadata: Metadata = {
   colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
-    canonical: '/events/ptc/registration',
+    canonical: '/events/ptc/abstract-submission',
     languages: {
-      'en-US': '/en-US/events/ptc/registration',
-      'id-ID': '/id-ID/events/ptc/registration',
+      'en-US': '/en-US/events/ptc/abstract-submission',
+      'id-ID': '/id-ID/events/ptc/abstract-submission',
     },
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
       'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching.',
-    url: 'https://sandbox.ieeeitb.com/events/ptc/registration',
+    url: 'https://sandbox.ieeeitb.com/events/ptc/abstract-submission',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {
