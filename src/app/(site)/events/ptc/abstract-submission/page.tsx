@@ -28,6 +28,7 @@ export default function PTCRegist() {
     abstractUrl: false,
   });
 
+  // Text Input onChange handler
   const handleChange = (e) => {
     const name = e.target.name;
     const value =
@@ -44,6 +45,7 @@ export default function PTCRegist() {
     }
   };
 
+  // Handle warn state function
   const setWarn = (
     prop:
       | 'teamName'
@@ -85,7 +87,7 @@ export default function PTCRegist() {
     if (isToastTriggered) {
       callToast({
         status: 'error',
-        description: `Please fill in all fields (text and files)`,
+        description: `Please fill all the required fields correctly`,
       });
       window.scrollTo({
         top: 0,
@@ -97,49 +99,61 @@ export default function PTCRegist() {
     }
   };
 
+  // Page handling session user
   useEffect(() => {
     if (status === 'loading') {
       return;
     }
+    // If the user is not logged in, redirect to login page
     if (!session?.user) {
       callToast({
         status: 'error',
         description: 'Unauthorized, please login first',
       });
       router.push('/login');
-    } else {
+    }
+    // Case not buy the ticket or not verified
+    else if (
+      session.user.ticket?.PTC.buy == false ||
+      session.user.ticket?.PTC.verified !== 'verified'
+    ) {
+      // Case the ticket pending or rejected
       if (
         session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified === 'pending'
-      ) {
-        callToast({
-          status: 'error',
-          description: 'You have purchased this ticket, Waiting for validation',
-        });
-        router.push('/');
-      } else if (
-        session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified === 'verified'
+        (session.user.ticket.PTC.verified === 'pending' ||
+          session.user.ticket.PTC.verified === 'rejected')
       ) {
         callToast({
           status: 'error',
           description:
-            'You have purchased this ticket, Your ticket has been validated',
+            'You cannot access this stage, thanks for your participation',
         });
-        router.push('/');
-      } else if (
-        session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified === 'rejected'
+        router.push('/events/ptc');
+      }
+      // Case not buy the ticket or not verified
+      else if (
+        session.user.ticket?.PTC.buy == false &&
+        session.user.ticket.PTC.verified === ''
       ) {
         callToast({
           status: 'error',
-          description: 'You have purchased this ticket, Your ticket rejected',
+          description:
+            'You cannot access this stage, you have not purchased the ticket before',
         });
-        router.push('/');
+        router.push('/events/ptc');
+      }
+      // Unknown case
+      else {
+        callToast({
+          status: 'error',
+          description: 'Something went wrong, please contact our admin',
+        });
+        router.push('/events/ptc');
       }
     }
   }, [status, router, session?.user]);
 
+  // Load Local Storage
   useEffect(() => {
     const memoryInputData = localStorage.getItem(inputDataHistoryKey);
     if (memoryInputData) {
@@ -176,13 +190,12 @@ export default function PTCRegist() {
         localStorage.removeItem(inputDataHistoryKey);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
       <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='Registration 2' />
+        <Title text='PTC Abstract Submission' />
         <Title text='Complete your details below' />
         <form
           onSubmit={handleSubmitFormIdentity}
@@ -199,6 +212,9 @@ export default function PTCRegist() {
             >
               Team Name
             </label>
+            <p className='mb-2'>
+              Please enter the team name as previously registered
+            </p>
             <TextInput
               placeholder={''}
               type='text'
@@ -210,8 +226,11 @@ export default function PTCRegist() {
               isWarned={isWarnedInputData.teamName}
               fullwidth
             />
+            <span className='mt-1' style={{ color: 'rgba(255, 0, 0, 0.9)' }}>
+              {isWarnedInputData.teamName && 'Please fill this data first'}
+            </span>
           </div>
-          <div className='flex justify-between pt-10'>
+          <div className='flex justify-between pt-10 items-stretch flex-wrap'>
             <div
               className='w-full md:w-[49%]'
               onClick={() => {
@@ -235,6 +254,7 @@ export default function PTCRegist() {
                   fileName: inputData?.plagiarismName,
                   fileUrl: inputData?.plagiarismUrl,
                 }}
+                allowedFileTypes={['application/pdf']}
                 setFile={(newFiles) => {
                   setInputData((inputData) => {
                     const newInputData = { ...inputData };
@@ -270,6 +290,7 @@ export default function PTCRegist() {
               <SingleFileInput
                 key={'AbstractionRegist2'}
                 message='Abstraction'
+                allowedFileTypes={['application/pdf']}
                 file={{
                   fileName: inputData?.abstractName,
                   fileUrl: inputData?.abstractUrl,
