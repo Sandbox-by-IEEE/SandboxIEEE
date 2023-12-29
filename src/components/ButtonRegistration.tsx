@@ -53,24 +53,29 @@ export default function ButtonRegistration({
     return router.push(`/events/${type.toLowerCase()}/abstract-submission`);
   };
 
-  return sessionData?.user.ticket?.[type].buy ? (
-    <div>
-      {sessionData?.user.ticket?.[type].verified === 'verified' ? (
-        // Button disable is already sent abstract submission
-        <Button color={color} isFullWidth onClick={onClick} isDisabled={false}>
-          Abstract Submission
-        </Button>
-      ) : (
-        <Button color={color} isDisabled isFullWidth>
-          {sessionData?.user.ticket?.[type].verified === 'pending'
-            ? 'Your registration is being processed'
-            : sessionData?.user.ticket?.[type].verified === 'rejected'
-            ? 'Your registration rejected'
-            : children}
-        </Button>
-      )}
-    </div>
-  ) : (
-    ''
+  return (
+    sessionData?.user.ticket?.[type].buy && (
+      <div>
+        {sessionData?.user.ticket?.[type].verified === 'verified' ? (
+          // Button disable is already sent abstract submission
+          <Button
+            color={color}
+            isFullWidth
+            onClick={onClick}
+            isDisabled={false}
+          >
+            Abstract Submission
+          </Button>
+        ) : (
+          <Button color={color} isDisabled isFullWidth>
+            {sessionData?.user.ticket?.[type].verified === 'pending'
+              ? 'Your registration is being processed'
+              : sessionData?.user.ticket?.[type].verified === 'rejected'
+              ? 'Your registration rejected'
+              : children}
+          </Button>
+        )}
+      </div>
+    )
   );
 }
