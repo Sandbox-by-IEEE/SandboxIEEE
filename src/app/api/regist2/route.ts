@@ -67,10 +67,10 @@ export async function POST(req: NextRequest) {
       include: {
         team: {
           include: {
-            members: true
-          }
-        }
-      }
+            members: true,
+          },
+        },
+      },
     });
 
     abstractId = newAbstract.id;

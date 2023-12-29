@@ -50,14 +50,13 @@ export const authOptions: AuthOptions = {
               select: {
                 active: true,
                 verified: true,
-                
               },
             },
             ticketsCompetition: {
               select: {
                 competitionType: true,
                 verified: true,
-                team: true
+                team: true,
               },
             },
           },
@@ -112,26 +111,26 @@ export const authOptions: AuthOptions = {
 
         let currTeamTPC;
         let currTeamPTC;
-        if (ticketTPC){
+        if (ticketTPC) {
           currTeamTPC = await prisma.team.findUnique({
             where: {
-              id: ticketTPC.team?.id
+              id: ticketTPC.team?.id,
             },
             include: {
-              abstract: true
-            }
-          })
+              abstract: true,
+            },
+          });
         }
 
-        if (ticketPTC){
+        if (ticketPTC) {
           currTeamPTC = await prisma.team.findUnique({
             where: {
-              id: ticketPTC.team?.id
+              id: ticketPTC.team?.id,
             },
             include: {
-              abstract: true
-            }
-          })
+              abstract: true,
+            },
+          });
         }
 
         return {
@@ -153,12 +152,12 @@ export const authOptions: AuthOptions = {
             PTC: {
               buy: ticketPTC ? true : false,
               verified: ticketPTC ? ticketPTC.verified : '',
-              regist2Status: currTeamPTC?.abstract?.status || ""
+              regist2Status: currTeamPTC?.abstract?.status || '',
             },
             TPC: {
               buy: ticketTPC ? true : false,
               verified: ticketTPC ? ticketTPC.verified : '',
-              regist2Status: currTeamTPC?.abstract?.status || ""
+              regist2Status: currTeamTPC?.abstract?.status || '',
             },
           },
         };
