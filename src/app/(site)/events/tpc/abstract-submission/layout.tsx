@@ -7,7 +7,7 @@ const LayoutRegistration = ({ children }: { children: React.ReactNode }) => {
 
 export default LayoutRegistration;
 export const metadata: Metadata = {
-  title: 'TPC Registration | Sandbox IEEE ITB',
+  title: 'TPC Abstract Submission | Sandbox IEEE ITB',
   description:
     'Technovate Paper Competition is a research national-scale competition with 8 stages, such as abstract submission, TPC semi-finalist announcement, TPC full paper, mentoring seminar with experts, full paper submission, finalist announcement, short campaign video, and TPC final pitching.',
   generator: 'Next.js',
@@ -28,17 +28,17 @@ export const metadata: Metadata = {
   colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
-    canonical: '/events/tpc/registration',
+    canonical: '/events/tpc/abstract-submission',
     languages: {
-      'en-US': '/en-US/events/tpc/registration',
-      'id-ID': '/id-ID/events/tpc/registration',
+      'en-US': '/en-US/events/tpc/abstract-submission',
+      'id-ID': '/id-ID/events/tpc/abstract-submission',
     },
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
       'Technovate Paper Competition is a research national-scale competition with 8 stages, such as abstract submission, TPC semi-finalist announcement, TPC full paper, mentoring seminar with experts, full paper submission, finalist announcement, short campaign video, and TPC final pitching.',
-    url: 'https://sandbox.ieeeitb.com/events/tpc/registration',
+    url: 'https://sandbox.ieeeitb.com/events/tpc/abstract-submission',
     siteName: 'Sandbox IEEE ITB',
     images: [
       {

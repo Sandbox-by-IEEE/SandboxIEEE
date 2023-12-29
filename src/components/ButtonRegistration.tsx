@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import React from 'react';
 
 import Button from '@/components/Button';
 import { callToast } from '@/components/Toast';
@@ -40,56 +39,43 @@ export default function ButtonRegistration({
       return;
     }
 
-    // Ticket Validation
-    if (ticket?.buy && ticket?.verified === 'verified') {
-      showToast(
-        'error',
-        'You have purchased this ticket, Your ticket has been validated',
-      );
-      return;
+    if (ticket?.buy == false) {
+      showToast('error', 'You cannot access this page!');
     }
 
-    // Ticket Verification
-    if (ticket?.buy && ticket?.verified === 'pending') {
+    if (ticket?.buy && ticket?.verified !== 'verified') {
       showToast(
         'error',
-        'You have purchased this ticket, Waiting for validation',
+        'You failed on document validation stage. Thank you for your participation!',
       );
-      return;
     }
 
-    if (ticket?.buy && ticket?.verified === 'rejected') {
-      showToast(
-        'error',
-        'You have purchased this ticket, Your ticket rejected',
-      );
-      return;
-    }
-
-    // Ticket Purchase
-    router.push(`/events/${type.toLowerCase()}/registration`);
+    return router.push(`/events/${type.toLowerCase()}/abstract-submission`);
   };
 
   return (
-    <div>
-      <Button
-        color={color}
-        isDisabled={
-          type === 'PTC'
-            ? sessionData?.user.ticket?.PTC.buy
-            : sessionData?.user.ticket?.TPC.buy
-        }
-        isFullWidth
-        onClick={onClick}
-      >
-        {sessionData?.user.ticket?.[type].verified === 'verified'
-          ? 'Your registration has been verified'
-          : sessionData?.user.ticket?.[type].verified === 'pending'
-          ? 'Your registration is being processed'
-          : sessionData?.user.ticket?.[type].verified === 'rejected'
-          ? 'Your registration rejected'
-          : children}
-      </Button>
-    </div>
+    sessionData?.user.ticket?.[type].buy && (
+      <div>
+        {sessionData?.user.ticket?.[type].verified === 'verified' ? (
+          // Button disable is already sent abstract submission
+          <Button
+            color={color}
+            isFullWidth
+            onClick={onClick}
+            isDisabled={false}
+          >
+            Abstract Submission
+          </Button>
+        ) : (
+          <Button color={color} isDisabled isFullWidth>
+            {sessionData?.user.ticket?.[type].verified === 'pending'
+              ? 'Your registration is being processed'
+              : sessionData?.user.ticket?.[type].verified === 'rejected'
+              ? 'Your registration rejected'
+              : children}
+          </Button>
+        )}
+      </div>
+    )
   );
 }
