@@ -1,10 +1,11 @@
+import { render } from '@react-email/render';
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+
 import Email from '@/components/emails/Emails';
 import { authOptions } from '@/lib/authOptions';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
-import { render } from '@react-email/render';
-import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   let abstractId = '';
@@ -67,10 +68,10 @@ export async function POST(req: NextRequest) {
       include: {
         team: {
           include: {
-            members: true
-          }
-        }
-      }
+            members: true,
+          },
+        },
+      },
     });
 
     abstractId = newAbstract.id;
