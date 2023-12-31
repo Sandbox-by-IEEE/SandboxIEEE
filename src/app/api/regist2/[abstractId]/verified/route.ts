@@ -13,7 +13,6 @@ export async function PATCH(
   req: NextRequest,
   { params: { abstractId } }: { params: Params },
 ) {
-  let isUpdated = false;
   try {
     if (!abstractId) {
       return NextResponse.json(
@@ -42,41 +41,7 @@ export async function PATCH(
       data: {
         status: 'success',
       },
-      include: {
-        team: {
-          select: {
-            chairmanEmail: true,
-            chairmanName: true,
-            teamName: true,
-            ticketCompetition: {
-              select: {
-                competitionType: true,
-              },
-            },
-          },
-        },
-      },
     });
-
-    isUpdated = true;
-
-    const headingSuccess = ``;
-    const content = ``;
-
-    const mailOptions = {
-      from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
-      to: updatedAbstract.team?.chairmanEmail || '',
-      subject: ``,
-      html: render(
-        Email({
-          heading: headingSuccess,
-          content,
-          name: updatedAbstract.team?.teamName || '',
-        }),
-        { pretty: true },
-      ),
-    };
-    await transporter.sendMail(mailOptions);
 
     return NextResponse.json(
       { data: updatedAbstract, message: 'Abstract update succesfull' },

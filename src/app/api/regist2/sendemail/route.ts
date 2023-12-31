@@ -30,7 +30,7 @@ export async function POST() {
     });
 
     const headingFailed = ``;
-    const content = ``;
+    const contentFailed = ``;
 
     for (let i = 0; i < failedAbstracts.length; i++) {
       const mailOptions = {
@@ -40,7 +40,7 @@ export async function POST() {
         html: render(
           Email({
             heading: headingFailed,
-            content,
+            content: contentFailed,
             name: failedAbstracts[i].team?.teamName || '',
           }),
           { pretty: true },
@@ -64,6 +64,43 @@ export async function POST() {
         status: 'failed',
       },
     });
+
+    const successAbstracts = await prisma.abstract.findMany({
+      where: {
+        status: 'success',
+      },
+      include: {
+        team: {
+          select: {
+            chairmanEmail: true,
+            chairmanName: true,
+            teamName: true,
+          },
+        },
+      },
+    });
+
+    const headingSuccess = ``;
+    const contentSuccess = ``;
+
+    for (let i = 0; i < successAbstracts.length; i++) {
+      const mailOptions = {
+        from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
+        to: successAbstracts[i].team?.chairmanEmail || '',
+        subject: ``,
+        html: render(
+          Email({
+            heading: headingSuccess,
+            content: contentSuccess,
+            name: successAbstracts[i].team?.teamName || '',
+          }),
+          { pretty: true },
+        ),
+      };
+      await transporter.sendMail(mailOptions);
+    }
+
+    
 
     console.log('POST_SEND_EMAIL_REGIST_2: All email was sent');
     return NextResponse.json(
