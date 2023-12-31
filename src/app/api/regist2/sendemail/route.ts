@@ -29,14 +29,20 @@ export async function POST() {
       },
     });
 
-    const headingFailed = ``;
-    const contentFailed = ``;
+    const headingFailed = `Announcement of Abstract Stage`;
+    const contentFailed = ` 
+    Greetings, Sandbox Participants,
+
+    We appreciate your participation in our competition. Unfortunately, we regret to inform you that your abstract submission did not meet the criteria for advancement to the next stage.
+    We understand the effort and dedication you put into your submission, and we encourage you to review our guidelines carefully. If you have any inquiries or need feedback to improve for future participation, please feel free to reach out to us.
+
+    Thank you for your interest in our event, and we hope to see you in future competitions.`;
 
     for (let i = 0; i < failedAbstracts.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: failedAbstracts[i].team?.chairmanEmail,
-        subject: ``,
+        subject: `[SANDBOX] Announcement of Abstract Stage`,
         html: render(
           Email({
             heading: headingFailed,
@@ -80,14 +86,18 @@ export async function POST() {
       },
     });
 
-    const headingSuccess = ``;
-    const contentSuccess = ``;
+    const headingSuccess = `Announcement of Abstract Stage`;
+    const contentSuccess = `
+    Greetings, Sandbox Participants!
+
+    Congratulations! You have successfully completed the abstract submission stage and are now progressing to the next phase – the semifinals, which involve full paper submission. Additional detailed information regarding full paper requirements can be found in our guidelines document in our website.
+`;
 
     for (let i = 0; i < successAbstracts.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: successAbstracts[i].team?.chairmanEmail || '',
-        subject: ``,
+        subject: `[SANDBOX] Announcement of Abstract Stage`,
         html: render(
           Email({
             heading: headingSuccess,
@@ -100,6 +110,7 @@ export async function POST() {
       await transporter.sendMail(mailOptions);
     }
 
+    // eslint-disable-next-line no-console
     console.log('POST_SEND_EMAIL_REGIST_2: All email was sent');
 
     return NextResponse.json(

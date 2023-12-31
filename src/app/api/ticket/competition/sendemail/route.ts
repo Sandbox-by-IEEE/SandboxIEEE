@@ -39,6 +39,8 @@ export async function POST(req: NextRequest) {
           Email({
             heading: headingNotVerified,
             content: `
+            Greetings, ${ticketNotVerified[i].competitionType} Participants!
+
             We regret to inform to your team ${ticketNotVerified[i].team?.teamName} that your documents did not pass our verification process, and unfortunately, your team has not been selected to advance to the next stage of the competition.
             We understand that this may be disappointing, and we encourage you to review the document requirements and submission guidelines for future competitions. If you have any questions or concerns about the verification process, please feel free to reach out to us at our website. We are here to assist you and provide clarification as needed.
             Thank you for your interest and participation in our event. We hope to see you in future competitions and wish you the best in your future endeavors.
