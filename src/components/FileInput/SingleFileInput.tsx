@@ -110,7 +110,9 @@ const SingleFileInput = ({
         setIsError(true);
         setTimeout(() => setIsError(false), 3000);
       } else if (filesDropped.length === 1) {
-        const allowedFileExtensions = allowedFileTypes.map((el) => el.slice(1));
+        const allowedFileExtensions = allowedFileTypes.map(
+          (el) => el.split('/')?.pop()?.toLowerCase(),
+        );
 
         const fileUploaded = filesDropped[0];
         const fileExtension = fileUploaded?.name
