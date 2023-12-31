@@ -52,12 +52,15 @@ export default function ButtonRegistration({
       return;
     }
 
-    if (ticket.regist2Status === 'waiting') {
+    if (
+      ticket.regist2Status === 'waiting' ||
+      ticket.regist2Status === 'success'
+    ) {
       showToast('error', 'Your team already submitted the abstract.');
       return;
     }
 
-    if (ticket.regist2Status === 'success') {
+    if (ticket.regist2Status === 'qualified') {
       showToast(
         'success',
         'Your team already passed the abstract submission stage.',
@@ -78,7 +81,8 @@ export default function ButtonRegistration({
             status === 'loading' ||
             ticket.regist2Status === 'waiting' ||
             ticket.regist2Status === 'success' ||
-            ticket.regist2Status === 'success'
+            ticket.regist2Status === 'failed' ||
+            ticket.regist2Status === 'qualified'
           }
           isFullWidth
           onClick={onClick}
@@ -87,9 +91,10 @@ export default function ButtonRegistration({
             ? 'Your registration is being processed'
             : ticket.verified === 'rejected'
             ? 'Your registration rejected'
-            : ticket.regist2Status === 'waiting'
+            : ticket.regist2Status === 'waiting' ||
+              ticket.regist2Status === 'success'
             ? 'Your team already submitted the abstract'
-            : ticket.regist2Status === 'success'
+            : ticket.regist2Status === 'qualified'
             ? 'Congratulations, your team has passed the abstract submission stage'
             : ticket.regist2Status === 'failed'
             ? 'Your team failed on abstract submission stage'
