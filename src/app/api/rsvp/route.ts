@@ -69,6 +69,7 @@ export async function POST(req: NextRequest) {
 
     await transporter.sendMail(mailOptions);
 
+    // eslint-disable-next-line no-console
     console.log('POST_RSVP: email was sent');
 
     return NextResponse.json(
@@ -79,6 +80,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_RSVP', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

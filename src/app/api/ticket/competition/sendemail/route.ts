@@ -5,6 +5,7 @@ import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 export async function POST(req: NextRequest) {
   try {
     const ticketNotVerified = await prisma.ticketCompetition.findMany({
@@ -145,6 +146,7 @@ export async function POST(req: NextRequest) {
       await transporter.sendMail(mailOptions);
     }
 
+    // eslint-disable-next-line no-console
     console.log('POST_SEND_EMAIL: All email was sent');
     return NextResponse.json(
       { message: 'All email was sent' },
@@ -152,6 +154,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_POST_SEND_EMAIL: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

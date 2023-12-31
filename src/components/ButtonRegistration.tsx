@@ -28,11 +28,12 @@ export default function ButtonRegistration({
 }) {
   const { data: sessionData, status } = useSession();
   const router = useRouter();
+  const ticket =
+    (type !== 'exhibition' && sessionData?.user.ticket?.[type]) || null;
+
   const onClick = () => {
     if (status === 'loading') return;
-
-    const ticket = sessionData?.user.ticket?.[type];
-
+    if (ticket == null) return;
     // Login Validation
     if (!sessionData?.user) {
       showToast('error', 'Unauthorized, please login first');
@@ -41,6 +42,7 @@ export default function ButtonRegistration({
 
     if (ticket?.buy == false) {
       showToast('error', 'You cannot access this page!');
+      return;
     }
 
     if (ticket?.buy && ticket?.verified !== 'verified') {
@@ -48,33 +50,52 @@ export default function ButtonRegistration({
         'error',
         'You failed on document validation stage. Thank you for your participation!',
       );
+      return;
+    }
+
+    if (ticket.regist2Status === 'waiting') {
+      showToast('error', 'Your team already submitted the abstract.');
+      return;
+    }
+
+    if (ticket.regist2Status === 'success') {
+      showToast(
+        'success',
+        'Your team already passed the abstract submission stage.',
+      );
+      return;
     }
 
     return router.push(`/events/${type.toLowerCase()}/abstract-submission`);
   };
 
   return (
-    sessionData?.user.ticket?.[type].buy && (
+    ticket &&
+    ticket.buy && (
       <div>
-        {sessionData?.user.ticket?.[type].verified === 'verified' ? (
-          // Button disable is already sent abstract submission
-          <Button
-            color={color}
-            isFullWidth
-            onClick={onClick}
-            isDisabled={false}
-          >
-            Abstract Submission
-          </Button>
-        ) : (
-          <Button color={color} isDisabled isFullWidth>
-            {sessionData?.user.ticket?.[type].verified === 'pending'
-              ? 'Your registration is being processed'
-              : sessionData?.user.ticket?.[type].verified === 'rejected'
-              ? 'Your registration rejected'
-              : children}
-          </Button>
-        )}
+        <Button
+          color={color}
+          isDisabled={
+            status === 'loading' ||
+            ticket.regist2Status === 'waiting' ||
+            ticket.regist2Status === 'success' ||
+            ticket.regist2Status === 'success'
+          }
+          isFullWidth
+          onClick={onClick}
+        >
+          {ticket.verified === 'pending'
+            ? 'Your registration is being processed'
+            : ticket.verified === 'rejected'
+            ? 'Your registration rejected'
+            : ticket.regist2Status === 'waiting'
+            ? 'Your team already submitted the abstract'
+            : ticket.regist2Status === 'success'
+            ? 'Congratulations, your team has passed the abstract submission stage'
+            : ticket.regist2Status === 'failed'
+            ? 'Your team failed on abstract submission stage'
+            : children}
+        </Button>
       </div>
     )
   );

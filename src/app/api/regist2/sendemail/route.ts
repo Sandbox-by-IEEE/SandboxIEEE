@@ -101,12 +101,14 @@ export async function POST() {
     }
 
     console.log('POST_SEND_EMAIL_REGIST_2: All email was sent');
+
     return NextResponse.json(
       { message: 'All email was sent' },
       { status: 200 },
     );
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_POST_SEND_EMAIL_REGIST_2: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
