@@ -33,6 +33,7 @@ export async function GET(
     });
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_ACTIVATED_USER: ', error);
       redirect(`${baseUrl}?activationMsg=${error.message}`);
     }
@@ -93,6 +94,7 @@ export async function GET(
       await transporter.sendMail(mailOptions);
     } catch (error) {
       if (error instanceof Error) {
+        // eslint-disable-next-line no-console
         console.log('ERROR_ACTIVATED_USER: ', error);
         redirect(`${baseUrl}?activationMsg=${error.message}`);
       }
@@ -129,6 +131,7 @@ export async function GET(
     });
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_ACTIVATED_USER: ', error);
       redirect(`${baseUrl}?activationMsg=${error.message}`);
     }
@@ -165,6 +168,7 @@ export async function GET(
     ]);
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_ACTIVATED_USER: ', error);
       redirect(`${baseUrl}?activationMsg=${error.message}`);
     }

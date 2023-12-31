@@ -26,10 +26,12 @@ declare module 'next-auth' {
       TPC: {
         buy: boolean;
         verified: string;
+        regist2Status: string;
       };
       PTC: {
         buy: boolean;
         verified: string;
+        regist2Status: string;
       };
     };
   }
@@ -60,10 +62,12 @@ declare module 'next-auth' {
         TPC: {
           buy: boolean;
           verified: string;
+          regist2Status: string;
         };
         PTC: {
           buy: boolean;
           verified: string;
+          regist2Status: string;
         };
       };
     };

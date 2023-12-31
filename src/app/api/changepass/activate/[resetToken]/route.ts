@@ -32,6 +32,7 @@ export async function GET(
     });
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_RESET_PASS: ', error);
       redirect(`${baseUrl}?resetMsgErr=${error.message}`);
     }

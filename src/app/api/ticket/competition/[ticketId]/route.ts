@@ -104,6 +104,7 @@ export async function PATCH(
           },
         });
       }
+      // eslint-disable-next-line no-console
       console.log('ERROR_PATCH_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
