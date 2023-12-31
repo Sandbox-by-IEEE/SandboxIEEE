@@ -81,6 +81,7 @@ export async function PATCH(
 
     await transporter.sendMail(mailOptions);
 
+    // eslint-disable-next-line no-console
     console.log('PATCH_TICKET: email was sent');
 
     return NextResponse.json(
@@ -99,6 +100,7 @@ export async function PATCH(
           },
         });
       }
+      // eslint-disable-next-line no-console
       console.log('ERROR_PATCH_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
