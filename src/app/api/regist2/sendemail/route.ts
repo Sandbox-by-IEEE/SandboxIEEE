@@ -110,6 +110,15 @@ export async function POST() {
       await transporter.sendMail(mailOptions);
     }
 
+    await prisma.abstract.updateMany({
+      where: {
+        status: 'success',
+      },
+      data: {
+        status: 'qualified',
+      },
+    });
+
     // eslint-disable-next-line no-console
     console.log('POST_SEND_EMAIL_REGIST_2: All email was sent');
 
