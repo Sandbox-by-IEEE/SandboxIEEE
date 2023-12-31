@@ -100,8 +100,6 @@ export async function POST() {
       await transporter.sendMail(mailOptions);
     }
 
-    
-
     console.log('POST_SEND_EMAIL_REGIST_2: All email was sent');
     return NextResponse.json(
       { message: 'All email was sent' },
