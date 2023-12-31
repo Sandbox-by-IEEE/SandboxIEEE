@@ -104,6 +104,7 @@ export async function POST(req: NextRequest) {
           },
         });
       }
+      // eslint-disable-next-line no-console
       console.log('ERROR_POST_KARYA', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

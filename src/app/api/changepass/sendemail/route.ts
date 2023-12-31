@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
     const resetToken =
       `${randomUUID()}r${randomUUID()}r${randomUUID()}`.replaceAll('-', '');
 
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const newResetToken = await prisma.resetToken.create({
       data: {
         token: resetToken,
@@ -78,6 +79,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_POST_SEND_EMAIL_RESET_PASS: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

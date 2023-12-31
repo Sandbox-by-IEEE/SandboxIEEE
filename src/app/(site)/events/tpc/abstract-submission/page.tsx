@@ -2,11 +2,12 @@
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Button from '@/components/Button';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import TextInput from '@/components/TextInput';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 
 export default function TPCAbstractSubmission() {
   const inputDataHistoryKey = 'abstraction-submit-history';
@@ -95,7 +96,47 @@ export default function TPCAbstractSubmission() {
       });
     } else {
       //shoot API here
-      console.log({ inputData });
+      const loadingToastId = callLoading('Submitting TPC abstract...'); // Tampilkan toast loading
+      try {
+        const dataTicket = {
+          teamName: inputData.teamName,
+          letterPlagiarism: inputData.plagiarismUrl,
+          abstract: inputData.abstractUrl,
+          type: 'TPC',
+        };
+
+        const response = await fetch('/api/regist2', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataTicket),
+        });
+
+        const bodyResponse = await response.json();
+        if (!response.ok) {
+          callToast({
+            status: 'error',
+            description: bodyResponse.message,
+          });
+        } else {
+          callToast({
+            status: 'success',
+            description: bodyResponse.message,
+          });
+          router.push('/events/tpc');
+          localStorage.removeItem(inputDataHistoryKey);
+        }
+      } catch (err) {
+        callToast({
+          status: 'error',
+          description:
+            'Something went wrong while submit your data, please try again',
+        });
+      } finally {
+        toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+      }
     }
   };
 

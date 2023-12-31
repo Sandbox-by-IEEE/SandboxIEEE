@@ -129,6 +129,7 @@ export async function PATCH(
           },
         });
       }
+      // eslint-disable-next-line no-console
       console.log('PATCH_VOTING: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

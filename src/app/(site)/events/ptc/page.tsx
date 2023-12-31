@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
-import Button from '@/components/Button';
+import LinkPTCCLient from '@/app/(site)/events/ptc/link-client';
 import ButtonRegistration from '@/components/ButtonRegistration';
 import { FAQ } from '@/components/FAQ';
 import Explosion from '@/components/icons/explosion';
@@ -120,13 +120,11 @@ const PTC = async () => {
           </h2>
           <div className='animate-blink duration-500 transition-all'>
             <ButtonRegistration type='PTC' color='green'>
-              {ptcPage.buttonTextRegister}
+              Abstract Submission
             </ButtonRegistration>
           </div>
           <div className='animate-blink duration-500 transition-all'>
-            <a href='https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'>
-              <Button color='gold'>Guidebooks</Button>
-            </a>
+            <LinkPTCCLient />
           </div>
         </div>
       </section>
@@ -381,7 +379,7 @@ const PTC = async () => {
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <div data-aos='zoom-in'>
                 <ButtonRegistration type='PTC' color='gold'>
-                  {ptcPage.buttonTextRegister}
+                  Abstract Submission
                 </ButtonRegistration>
               </div>
               <div data-aos='zoom-in'>

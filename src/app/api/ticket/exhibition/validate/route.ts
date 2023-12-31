@@ -65,6 +65,7 @@ export async function PATCH(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('VALIDATE_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
