@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
-import Button from '@/components/Button';
+import LinkTPCClient from '@/app/(site)/events/tpc/link-client';
 import ButtonRegistration from '@/components/ButtonRegistration';
 import { FAQ } from '@/components/FAQ';
 import Explosion from '@/components/icons/explosion';
@@ -120,13 +120,11 @@ const TPC = async () => {
           </h2>
           <div className='animate-blink duration-500 transition-all'>
             <ButtonRegistration type='TPC' color='green'>
-              {tpcPage.buttonTextRegister}
+              Abstract Submission
             </ButtonRegistration>
           </div>
           <div className='animate-blink duration-500 transition-all'>
-            <a href='https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'>
-              <Button color='gold'>Guidebooks</Button>
-            </a>
+            <LinkTPCClient />
           </div>
         </div>
       </section>
@@ -378,7 +376,7 @@ const TPC = async () => {
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <div data-aos='zoom-in'>
                 <ButtonRegistration type='TPC' color='gold'>
-                  {tpcPage.buttonTextRegister}
+                  Abstract Submission
                 </ButtonRegistration>
               </div>
               <div data-aos='zoom-in'>

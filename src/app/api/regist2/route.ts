@@ -135,7 +135,11 @@ export async function POST(req: NextRequest) {
     console.log('POST_REGIST_2: email was sent');
 
     return NextResponse.json(
-      { data: newAbstract, message: 'submission succesfull' },
+      {
+        data: newAbstract,
+        message:
+          'Abstract submission successful and please check your email for the announcement',
+      },
       { status: 201 },
     );
   } catch (error) {

@@ -30,7 +30,6 @@ export default function ButtonRegistration({
   const router = useRouter();
   const ticket =
     (type !== 'exhibition' && sessionData?.user.ticket?.[type]) || null;
-
   const onClick = () => {
     if (status === 'loading') return;
     if (ticket == null) return;

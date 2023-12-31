@@ -39,10 +39,9 @@ export async function POST(req: NextRequest) {
           Email({
             heading: headingNotVerified,
             content: `
-            Greetings, ${ticketNotVerified[i].competitionType} Participants!
+            Dear the Sandbox competition registrant,
 
-            We regret to inform to your team ${ticketNotVerified[i].team?.teamName} that your documents did not pass our verification process, and unfortunately, your team has not been selected to advance to the next stage of the competition.
-            We understand that this may be disappointing, and we encourage you to review the document requirements and submission guidelines for future competitions. If you have any questions or concerns about the verification process, please feel free to reach out to us at our website. We are here to assist you and provide clarification as needed.
+            We would like to express our gratitude for your participation in our competition selection process. Unfortunately, we regret to inform you that your application didn’t meet our requirement. We appreciate for your time and effort. Thank you for your participation in our events and we hope that you keep engaged with our further opportunity in the Sandbox by IEEE ITB SB.
             Thank you for your interest and participation in our event. We hope to see you in future competitions and wish you the best in your future endeavors.
            `,
             name: ticketNotVerified[i].team?.teamName || '',
