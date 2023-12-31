@@ -96,7 +96,7 @@ export default function TPCAbstractSubmission() {
       });
     } else {
       //shoot API here
-      const loadingToastId = callLoading('Submitting PTC abstract...'); // Tampilkan toast loading
+      const loadingToastId = callLoading('Submitting TPC abstract...'); // Tampilkan toast loading
       try {
         const dataTicket = {
           teamName: inputData.teamName,
