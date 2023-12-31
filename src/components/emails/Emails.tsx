@@ -55,12 +55,20 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
                   {heading}
                 </Heading>
                 <Text className='text-[#705229] gap-2 flex flex-col text-sm font-semibold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
-                  {content.split('\n').map((line, index) => (
-                    <React.Fragment key={index}>
-                      <p>{line}</p>
-                    </React.Fragment>
-                  ))}
+                  {content.split('\n').map((line, index) => {
+                    const urlPattern = new RegExp('(https?://[^\\s]+)', 'g');
+                    return (
+                      <React.Fragment key={index}>
+                        {urlPattern.test(line) ? (
+                          <Link href={line}>{line}</Link>
+                        ) : (
+                          <p>{line}</p>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
                 </Text>
+
                 {qrUrl ? (
                   <Img
                     src={qrUrl}

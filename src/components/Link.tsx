@@ -7,6 +7,7 @@ const CustomLink = ({
   isIcon,
   url,
   isFullWidth,
+  ...props
 }: {
   color: 'green' | 'gold' | 'black' | 'trans-green' | 'trans-orange' | 'white';
   children: JSX.Element | string;
@@ -51,6 +52,7 @@ const CustomLink = ({
         } text-sm lg:text-base disabled:bg-[#D7D2D0] disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-3 px-4 rounded-md ${
           colorEffect[color].main
         }`}
+        {...props}
       >
         <p className='flex gap-3 w-full items-center  text-center justify-center font-poppins font-bold'>
           {children}
