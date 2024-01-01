@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
@@ -14,9 +13,6 @@ import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type HomepageProps } from '@/types/homepage';
 
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
 const CMS_QUERY = `{
   homepage {
     trailerSectionTitle
@@ -153,9 +149,7 @@ export default async function Home({
         >
           <div className='py-4 2xl:py-6 flex flex-col gap-2 sm:gap-7 lg:gap-10 items-center justify-center w-full'>
             <TitleSection>{homepage.titleCountdownNearestEvent}</TitleSection>
-            <div className='scale-75 sm:scale-100'>
-              <Countdown targetDate={new Date(homepage.targetDate)} />
-            </div>
+            <div className='scale-75 sm:scale-100'></div>
             <div className='flex flex-wrap items-center justify-center gap-4 p-2 lg:gap-6'>
               <div data-aos='zoom-in'>
                 <CustomLink color='gold' url={homepage.linkButtonOne}>

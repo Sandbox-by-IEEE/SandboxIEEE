@@ -8,15 +8,6 @@ import { transporter } from '@/lib/mailTransporter';
 // eslint-disable-next-line unused-imports/no-unused-vars
 export async function POST(req: NextRequest) {
   try {
-    const update = await prisma.ticketCompetition.updateMany({
-      where: {
-        verified: 'pending',
-      },
-      data: {
-        verified: 'rejected',
-      },
-    });
-
     const ticketVerifiedPTC = await prisma.ticketCompetition.findMany({
       where: {
         verified: 'verified',
@@ -37,7 +28,7 @@ export async function POST(req: NextRequest) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: ticketVerifiedPTC[i].team?.chairmanEmail,
-        subject: `[SANDBOX] Announcement of Verification Results of Your ${ticketVerifiedPTC[i].competitionType} Ticket`,
+        subject: `[SANDBOX] ${ticketVerifiedPTC[i].competitionType} Abstract Submission Update`,
         html: render(
           Email({
             heading: headingVerifiedPTC,
@@ -80,7 +71,7 @@ export async function POST(req: NextRequest) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: ticketVerifiedTPC[i].team?.chairmanEmail,
-        subject: `[SANDBOX] Announcement of Verification Results of Your ${ticketVerifiedTPC[i].competitionType} Ticket`,
+        subject: `[SANDBOX] ${ticketVerifiedTPC[i].competitionType} Abstract Submission Update`,
         html: render(
           Email({
             heading: headingVerifiedTPC,
