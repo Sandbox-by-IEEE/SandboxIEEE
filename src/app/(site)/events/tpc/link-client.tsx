@@ -15,7 +15,7 @@ function LinkTPCClient() {
     <a href={linkHref} target='_blank' rel='noopener noreferrer'>
       <Button color='gold' isFullWidth>
         {session?.user.ticket?.TPC.verified === 'verified' &&
-          'Abstract Submission '}
+          'Abstract Submission '}{' '}
         Guidelines
       </Button>
     </a>
