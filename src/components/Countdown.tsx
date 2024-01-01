@@ -1,7 +1,9 @@
 'use client';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 import CollonIcon from '@/components/icons/CollonIcon';
+import TitleSection from '@/components/TitleSection';
 
 function Countdown({ targetDate }: { targetDate: Date }) {
   const [countdown, setCountdown] = useState(
@@ -517,4 +519,39 @@ function Countdown({ targetDate }: { targetDate: Date }) {
     </>
   );
 }
-export default Countdown;
+
+const CountDownDisplay = ({
+  sectionTitle,
+  targetDate,
+  type,
+  children,
+}: {
+  sectionTitle: string;
+  targetDate: Date;
+  type: string;
+  children: React.ReactNode;
+}) => {
+  const { data: sessionData } = useSession();
+  const ticket =
+    (type !== 'exhibition' && sessionData?.user.ticket?.[type]) || null;
+  if (
+    ticket === null ||
+    ticket.buy == false ||
+    !sessionData?.user ||
+    ticket?.verified !== 'verified'
+  )
+    return <></>;
+  else {
+    return (
+      <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
+        {/* Title */}
+        <TitleSection>{sectionTitle}</TitleSection>
+        {/* Countdown */}
+        <Countdown targetDate={targetDate} />
+        {/* Button */}
+        {children}
+      </div>
+    );
+  }
+};
+export default CountDownDisplay;

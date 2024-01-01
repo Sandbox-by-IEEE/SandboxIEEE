@@ -5,7 +5,6 @@ import Button from '@/components/Button';
 
 function LinkPTCCLient() {
   const { data: session } = useSession();
-
   return (
     <a
       target='_blank'
@@ -16,9 +15,9 @@ function LinkPTCCLient() {
       }
     >
       <Button color='gold' isFullWidth>
-        {session?.user.ticket?.PTC.verified === 'verified' &&
-          'Abstract Submission'}{' '}
-        Guidelines
+        {session?.user.ticket?.PTC.verified === 'verified'
+          ? 'Abstract Submission Guidelines'
+          : 'Guidebooks'}
       </Button>
     </a>
   );
