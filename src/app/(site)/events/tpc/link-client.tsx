@@ -16,7 +16,7 @@ function LinkTPCClient() {
       <Button color='gold' isFullWidth>
         {session?.user.ticket?.TPC.verified === 'verified' &&
           'Abstract Submission '}
-        Guidebooks
+        Guidelines
       </Button>
     </a>
   );

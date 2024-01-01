@@ -15,10 +15,10 @@ function LinkPTCCLient() {
           : "'https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'"
       }
     >
-      <Button color='gold'>
+      <Button color='gold' isFullWidth>
         {session?.user.ticket?.PTC.verified === 'verified' &&
           'Abstract Submission'}
-        Guidebooks
+        Guidelines
       </Button>
     </a>
   );
