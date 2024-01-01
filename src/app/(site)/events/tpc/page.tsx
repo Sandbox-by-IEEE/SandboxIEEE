@@ -371,20 +371,24 @@ const TPC = async () => {
             {/* Title */}
             <TitleSection>{tpcPage.countdownSectionTitle}</TitleSection>
             {/* Countdown */}
-            <Countdown targetDate={new Date(tpcPage.targetDate)} />
-            {/* Button */}
-            <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-              <div data-aos='zoom-in'>
-                <ButtonRegistration type='TPC' color='gold'>
-                  Abstract Submission
-                </ButtonRegistration>
+            <Countdown
+              sectionTitle={tpcPage.countdownSectionTitle}
+              targetDate={new Date(tpcPage.targetDate)}
+              type='PTC'
+            >
+              <div className='flex flex-wrap gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
+                <div data-aos='zoom-in'>
+                  <ButtonRegistration type='PTC' color='gold'>
+                    Abstract Submission
+                  </ButtonRegistration>
+                </div>
+                <div data-aos='zoom-in'>
+                  <CustomLink color='trans-orange' url='#timeline'>
+                    {tpcPage.buttonTextSeeMore}
+                  </CustomLink>
+                </div>
               </div>
-              <div data-aos='zoom-in'>
-                <CustomLink color='trans-orange' url='#timeline'>
-                  {tpcPage.buttonTextSeeMore}
-                </CustomLink>
-              </div>
-            </div>
+            </Countdown>
           </div>
         </div>
         <div

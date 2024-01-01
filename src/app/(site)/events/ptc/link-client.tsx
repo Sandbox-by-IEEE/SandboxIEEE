@@ -5,7 +5,6 @@ import Button from '@/components/Button';
 
 function LinkPTCCLient() {
   const { data: session } = useSession();
-
   return (
     <a
       target='_blank'
@@ -15,10 +14,10 @@ function LinkPTCCLient() {
           : "'https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'"
       }
     >
-      <Button color='gold'>
-        {session?.user.ticket?.PTC.verified === 'verified' &&
-          'Abstract Submission'}
-        Guidebooks
+      <Button color='gold' isFullWidth>
+        {session?.user.ticket?.PTC.verified === 'verified'
+          ? 'Abstract Submission Guidelines'
+          : 'Guidebooks'}
       </Button>
     </a>
   );
