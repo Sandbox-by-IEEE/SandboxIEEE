@@ -8,51 +8,7 @@ import { transporter } from '@/lib/mailTransporter';
 // eslint-disable-next-line unused-imports/no-unused-vars
 export async function POST(req: NextRequest) {
   try {
-    const ticketNotVerified = await prisma.ticketCompetition.findMany({
-      where: {
-        OR: [
-          {
-            verified: 'rejected',
-          },
-          {
-            verified: 'pending',
-          },
-        ],
-      },
-      include: {
-        team: {
-          include: {
-            members: true,
-          },
-        },
-      },
-    });
-
-    const headingNotVerified = `${ticketNotVerified[0].competitionType} Verification Update`;
-
-    for (let i = 0; i < ticketNotVerified.length; i++) {
-      const mailOptions = {
-        from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
-        to: ticketNotVerified[i].team?.chairmanEmail,
-        subject: `[SANDBOX] Announcement of Verification Results of Your ${ticketNotVerified[i].competitionType} Ticket`,
-        html: render(
-          Email({
-            heading: headingNotVerified,
-            content: `
-            Dear the Sandbox competition registrant,
-
-            We would like to express our gratitude for your participation in our competition selection process. Unfortunately, we regret to inform you that your application didn’t meet our requirement. We appreciate for your time and effort. Thank you for your participation in our events and we hope that you keep engaged with our further opportunity in the Sandbox by IEEE ITB SB.
-            Thank you for your interest and participation in our event. We hope to see you in future competitions and wish you the best in your future endeavors.
-           `,
-            name: ticketNotVerified[i].team?.teamName || '',
-          }),
-          { pretty: true },
-        ),
-      };
-      await transporter.sendMail(mailOptions);
-    }
-
-    await prisma.ticketCompetition.updateMany({
+    const update = await prisma.ticketCompetition.updateMany({
       where: {
         verified: 'pending',
       },
