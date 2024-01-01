@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
@@ -14,9 +13,6 @@ import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type HomepageProps } from '@/types/homepage';
 
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
 const CMS_QUERY = `{
   homepage {
     trailerSectionTitle
