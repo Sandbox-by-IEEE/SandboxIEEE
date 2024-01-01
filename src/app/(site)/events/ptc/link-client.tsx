@@ -17,7 +17,7 @@ function LinkPTCCLient() {
     >
       <Button color='gold' isFullWidth>
         {session?.user.ticket?.PTC.verified === 'verified' &&
-          'Abstract Submission '}{' '}
+          'Abstract Submission'}{' '}
         Guidelines
       </Button>
     </a>
