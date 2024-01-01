@@ -370,12 +370,11 @@ const PTC = async () => {
           data-aos='flip-up'
           className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
         >
-          <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
-            {/* Title */}
-            <TitleSection>{ptcPage.countdownSectionTitle}</TitleSection>
-            {/* Countdown */}
-            <Countdown targetDate={new Date(ptcPage.targetDate)} />
-            {/* Button */}
+          <Countdown
+            sectionTitle={ptcPage.countdownSectionTitle}
+            targetDate={new Date(ptcPage.targetDate)}
+            type='PTC'
+          >
             <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
               <div data-aos='zoom-in'>
                 <ButtonRegistration type='PTC' color='gold'>
@@ -388,7 +387,7 @@ const PTC = async () => {
                 </CustomLink>
               </div>
             </div>
-          </div>
+          </Countdown>
         </div>
         <div
           data-aos='fade-in'
