@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const headingVerifiedPTC = `${ticketVerifiedPTC[0].competitionType} Verification Update`;
+    const headingVerifiedPTC = `${ticketVerifiedPTC[0].competitionType} Abstract Submission Update`;
 
     for (let i = 0; i < ticketVerifiedPTC.length; i++) {
       const mailOptions = {
@@ -33,15 +33,13 @@ export async function POST(req: NextRequest) {
           Email({
             heading: headingVerifiedPTC,
             content: `
-            Greetings, Prototech Contest Participants!
-            
-            Congratulations, you have passed the document selection and are starting your journey in our competition with the abstract stage. More comprehensive information regarding abstracts can be accessed in our abstract guidline document below.
-            
-            Remember to submit your abstract along with a plagiarism letter. Failure to comply with existing provisions and rules will ensure your qualification at this stage.
-            https://docs.google.com/document/d/1wb8lnMVLLYpO7X3wy1ct07gra49pPPnbDI4CIXSZ87Y/edit?usp=sharing
-            
-            You can join our WhatsApp Group by clicking the link provided below.
-            https://chat.whatsapp.com/E7IFJ5arD8hHnurREL4JiF
+            Dear The Sandbox PTC participant, 
+
+            We are currently entering the abstract elimination stage. All information about the abstract guidelines and submission are attached in our website in each of competition page. To make it easier for you, the abstract guidelines is provided in link below. 
+
+            https://drive.google.com/file/d/1t4HAvE1Xvh3sLA8vl9yHN_gL42B93BD-/view?usp=sharing
+
+            Thank you for your understanding and best of luck!
            `,
             name: ticketVerifiedPTC[i].team?.teamName || '',
           }),
@@ -65,7 +63,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const headingVerifiedTPC = `${ticketVerifiedTPC[0].competitionType} Verification Update`;
+    const headingVerifiedTPC = `${ticketVerifiedTPC[0].competitionType} Abstract Submission Update`;
 
     for (let i = 0; i < ticketVerifiedTPC.length; i++) {
       const mailOptions = {
@@ -76,15 +74,13 @@ export async function POST(req: NextRequest) {
           Email({
             heading: headingVerifiedTPC,
             content: `
-            Greetings, Technovate Paper Competition Participants!
+            Dear The Sandbox TPC participant, 
+
+            We are currently entering the abstract elimination stage. All information about the abstract guidelines and submission are attached in our website in each of competition page. To make it easier for you, the abstract guidelines is provided in link below. 
             
-            Congratulations, you have passed the document selection and are starting your journey in our competition with the abstract stage. More comprehensive information regarding abstracts can be accessed in our abstract guidline document below.
-            
-            Remember to submit your abstract along with a plagiarism letter. Failure to comply with existing provisions and rules will ensure your qualification at this stage
-            https://docs.google.com/document/d/1r1e5gqsZrAlBBP7HuzP28jd54VgHKUnkBpoEkNz1WhI/edit?usp=sharing
-            
-            You can join our WhatsApp Group by clicking the link provided below.
-            https://chat.whatsapp.com/DNJPI2U2XbDJGPk5FfcxaJ
+            https://drive.google.com/file/d/1yfrPlYfwlcEOUEkiat2yhhHddV8KBcut/view?usp=sharing
+
+            Thank you for your understanding and best of luck!
            `,
             name: ticketVerifiedTPC[i].team?.teamName || '',
           }),
