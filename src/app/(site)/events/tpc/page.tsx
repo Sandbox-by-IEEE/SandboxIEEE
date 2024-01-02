@@ -369,7 +369,7 @@ const TPC = async () => {
         targetDate={new Date(tpcPage.targetDate)}
         type='PTC'
       >
-        <div className='flex flex-wrap gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
+        <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
           <div data-aos='zoom-in'>
             <ButtonRegistration type='PTC' color='gold'>
               Abstract Submission
