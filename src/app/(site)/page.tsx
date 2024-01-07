@@ -142,29 +142,6 @@ export default async function Home({
       </section>
 
       {/* Countdown Section */}
-      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] w-full'>
-        <div
-          className='gradient-border-bg border-2 max-w-[1100px] mx-auto rounded-md w-full'
-          data-aos='flip-up'
-        >
-          <div className='py-4 2xl:py-6 flex flex-col gap-2 sm:gap-7 lg:gap-10 items-center justify-center w-full'>
-            <TitleSection>{homepage.titleCountdownNearestEvent}</TitleSection>
-            <div className='scale-75 sm:scale-100'></div>
-            <div className='flex flex-wrap items-center justify-center gap-4 p-2 lg:gap-6'>
-              <div data-aos='zoom-in'>
-                <CustomLink color='gold' url={homepage.linkButtonOne}>
-                  {homepage.buttonTextOne}
-                </CustomLink>
-              </div>
-              <div data-aos='zoom-in'>
-                <CustomLink color='trans-orange' url={homepage.linkButtonTwo}>
-                  {homepage.buttonTextTwo}
-                </CustomLink>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Trailer Section */}
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16] flex flex-col items-center space-y-12'>

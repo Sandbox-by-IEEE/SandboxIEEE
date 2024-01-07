@@ -365,50 +365,44 @@ const PTC = async () => {
       {/* END REGISTRATION */}
 
       {/* COUNTDOWN */}
-      <section className='w-full flex flex-col gap-2 bg-gradient-section px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20'>
-        <div
-          data-aos='flip-up'
-          className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
-        >
-          <Countdown
-            sectionTitle={ptcPage.countdownSectionTitle}
-            targetDate={new Date(ptcPage.targetDate)}
-            type='PTC'
-          >
-            <div className='flex flex-wrap gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-              <div data-aos='zoom-in'>
-                <ButtonRegistration type='PTC' color='gold'>
-                  Abstract Submission
-                </ButtonRegistration>
-              </div>
-              <div data-aos='zoom-in'>
-                <CustomLink color='trans-orange' url='#timeline'>
-                  {ptcPage.buttonTextSeeMore}
-                </CustomLink>
-              </div>
-            </div>
-          </Countdown>
+      <Countdown
+        sectionTitle={ptcPage.countdownSectionTitle}
+        targetDate={new Date(ptcPage.targetDate)}
+        type='PTC'
+      >
+        <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
+          <div data-aos='zoom-in'>
+            <ButtonRegistration type='PTC' color='gold'>
+              Abstract Submission
+            </ButtonRegistration>
+          </div>
+          <div data-aos='zoom-in'>
+            <CustomLink color='trans-orange' url='#timeline'>
+              {ptcPage.buttonTextSeeMore}
+            </CustomLink>
+          </div>
         </div>
-        <div
-          data-aos='fade-in'
-          className='absolute hidden opacity-80 left-0 top-[3145px] lg:block'
-        >
-          <Star7 size={55} />
-        </div>
-        <div
-          data-aos='fade-in'
-          className='absolute hidden opacity-80 left-48 top-[3210px] lg:block'
-        >
-          <Star5 size={40} />
-        </div>
-        <div
-          data-aos='fade-in'
-          className='absolute hidden opacity-80 left-48 top-[3125px] lg:block'
-        >
-          <Star6 size={40} />
-        </div>
-      </section>
+      </Countdown>
+
       {/* END COUNTDOWN */}
+      <div
+        data-aos='fade-in'
+        className='absolute hidden opacity-80 left-0 top-[3145px] lg:block'
+      >
+        <Star7 size={55} />
+      </div>
+      <div
+        data-aos='fade-in'
+        className='absolute hidden opacity-80 left-48 top-[3210px] lg:block'
+      >
+        <Star5 size={40} />
+      </div>
+      <div
+        data-aos='fade-in'
+        className='absolute hidden opacity-80 left-48 top-[3125px] lg:block'
+      >
+        <Star6 size={40} />
+      </div>
 
       {/* TIMELINE */}
       {ptcPage.timelineSectionTitle && (
