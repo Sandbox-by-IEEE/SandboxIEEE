@@ -119,8 +119,8 @@ const PTC = async () => {
             {ptcPage.titleTpcPages}
           </h2>
           <div className='animate-blink duration-500 transition-all'>
-            <ButtonRegistration type='PTC' color='green'>
-              Abstract Submission
+            <ButtonRegistration isDisabled type='PTC' color='gold'>
+              Abstract Submission Closed
             </ButtonRegistration>
           </div>
           <div className='animate-blink duration-500 transition-all'>
@@ -372,8 +372,8 @@ const PTC = async () => {
       >
         <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
           <div data-aos='zoom-in'>
-            <ButtonRegistration type='PTC' color='gold'>
-              Abstract Submission
+            <ButtonRegistration isDisabled type='PTC' color='gold'>
+              Abstract Submission Closed
             </ButtonRegistration>
           </div>
           <div data-aos='zoom-in'>
