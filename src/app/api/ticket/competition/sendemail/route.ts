@@ -8,6 +8,7 @@ import { transporter } from '@/lib/mailTransporter';
 // eslint-disable-next-line unused-imports/no-unused-vars
 export async function POST(req: NextRequest) {
   try {
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const update = await prisma.ticketCompetition.updateMany({
       where: {
         verified: 'pending',
