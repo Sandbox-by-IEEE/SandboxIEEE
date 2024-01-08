@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const existingTeam = await prisma.team.findUnique({
+    let existingTeam = await prisma.team.findUnique({
       where: {
         teamName: teamName,
       },
@@ -28,6 +28,25 @@ export async function POST(req: NextRequest) {
         ticketCompetition: true,
       },
     });
+
+    // Add validation freak team user
+    if (!existingTeam) {
+      const sanitizedTeamName = teamName.replace(/['`’]/g, '');
+
+      const allTeams = await prisma.team.findMany({
+        include: {
+          ticketCompetition: true,
+        },
+      });
+
+      const filterTeam = allTeams.find(
+        (team) => team.teamName.replace(/['`’]/g, '') === sanitizedTeamName,
+      );
+
+      if (filterTeam) {
+        existingTeam = filterTeam;
+      }
+    }
 
     if (!existingTeam) {
       return NextResponse.json({ message: 'Team not found' }, { status: 404 });
