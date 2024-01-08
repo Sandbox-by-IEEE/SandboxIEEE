@@ -14,6 +14,7 @@ export default function ButtonRegistration({
   children,
   type,
   color,
+  isDisabled = false,
 }: {
   children?: JSX.Element | string;
   type: 'TPC' | 'PTC' | 'exhibition';
@@ -25,6 +26,7 @@ export default function ButtonRegistration({
     | 'trans-orange'
     | 'white'
     | 'light-gold';
+  isDisabled?: boolean;
 }) {
   const { data: sessionData, status } = useSession();
   const router = useRouter();
@@ -82,7 +84,8 @@ export default function ButtonRegistration({
             ticket.regist2Status === 'waiting' ||
             ticket.regist2Status === 'success' ||
             ticket.regist2Status === 'failed' ||
-            ticket.regist2Status === 'qualified'
+            ticket.regist2Status === 'qualified' ||
+            isDisabled
           }
           isFullWidth
           onClick={onClick}
