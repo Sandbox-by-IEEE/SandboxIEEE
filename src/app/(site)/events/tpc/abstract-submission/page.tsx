@@ -13,6 +13,7 @@ export default function TPCAbstractSubmission() {
   const inputDataHistoryKey = 'abstraction-submit-history';
 
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false); // State untuk loading
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState({
     teamName: '',
@@ -98,6 +99,7 @@ export default function TPCAbstractSubmission() {
       //shoot API here
       const loadingToastId = callLoading('Submitting TPC abstract...'); // Tampilkan toast loading
       try {
+        setIsLoading(true); // Set loading state
         const dataTicket = {
           teamName: inputData.teamName,
           letterPlagiarism: inputData.plagiarismUrl,
@@ -134,8 +136,10 @@ export default function TPCAbstractSubmission() {
           description:
             'Something went wrong while submit your data, please try again',
         });
+        setIsLoading(false); // Unset loading state
       } finally {
         toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+        setIsLoading(false); // Unset loading state
       }
     }
   };
@@ -354,7 +358,12 @@ export default function TPCAbstractSubmission() {
             </div>
           </div>
           <div className='w-fit max-w-fit mx-auto pt-20'>
-            <Button type='submit' color='gold' isFullWidth>
+            <Button
+              type='submit'
+              color='gold'
+              isFullWidth
+              isDisabled={isLoading || status == 'loading'}
+            >
               <span className='w-fit min-w-fit max-w-fit whitespace-nowrap px-20'>
                 Submit
               </span>

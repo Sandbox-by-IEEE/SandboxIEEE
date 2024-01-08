@@ -29,6 +29,7 @@ export default function PTCRegist() {
     abstractName: false,
     abstractUrl: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   // Text Input onChange handler
   const handleChange = (e) => {
@@ -99,6 +100,7 @@ export default function PTCRegist() {
       //shoot API here
       const loadingToastId = callLoading('Submitting PTC abstract...'); // Tampilkan toast loading
       try {
+        setIsLoading(true);
         const dataTicket = {
           teamName: inputData.teamName,
           letterPlagiarism: inputData.plagiarismUrl,
@@ -135,8 +137,10 @@ export default function PTCRegist() {
           description:
             'Something went wrong while submit your data, please try again',
         });
+        setIsLoading(false);
       } finally {
         toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+        setIsLoading(false);
       }
     }
   };
@@ -355,7 +359,12 @@ export default function PTCRegist() {
             </div>
           </div>
           <div className='w-fit max-w-fit mx-auto pt-20'>
-            <Button type='submit' color='gold' isFullWidth>
+            <Button
+              type='submit'
+              color='gold'
+              isFullWidth
+              isDisabled={isLoading || status == 'loading'}
+            >
               <span className='w-fit min-w-fit max-w-fit whitespace-nowrap px-20'>
                 Submit
               </span>
