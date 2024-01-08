@@ -1,9 +1,7 @@
 import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 
 import Email from '@/components/emails/Emails';
-import { authOptions } from '@/lib/authOptions';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 
@@ -20,12 +18,6 @@ export async function POST(req: NextRequest) {
         { message: 'Missing some data' },
         { status: 400 },
       );
-    }
-
-    const session = await getServerSession(authOptions);
-
-    if (!session?.user) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     const existingTeam = await prisma.team.findUnique({
@@ -58,29 +50,58 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const newAbstract = await prisma.abstract.create({
-      data: {
-        teamName,
-        letterPlagiarism,
-        abstract,
+    const existingAbstract = await prisma.abstract.findUnique({
+      where: {
         teamId: existingTeam.id,
       },
-      include: {
-        team: {
-          include: {
-            members: true,
+    });
+    let abstracts = {} as any;
+    if (!existingAbstract) {
+      const newAbstract = await prisma.abstract.create({
+        data: {
+          teamName,
+          letterPlagiarism,
+          abstract,
+          teamId: existingTeam.id,
+        },
+        include: {
+          team: {
+            include: {
+              members: true,
+            },
           },
         },
-      },
-    });
-
-    abstractId = newAbstract.id;
+      });
+      abstractId = newAbstract.id;
+      abstracts = newAbstract;
+    } else {
+      // Update the existing abstract
+      const updatedAbstract = await prisma.abstract.update({
+        where: {
+          teamId: existingTeam.id,
+        },
+        data: {
+          teamName,
+          letterPlagiarism,
+          abstract,
+        },
+        include: {
+          team: {
+            include: {
+              members: true,
+            },
+          },
+        },
+      });
+      abstractId = updatedAbstract.id;
+      abstracts = updatedAbstract;
+    }
 
     const dataRegist2 = {
       id: abstractId,
-      teamName: newAbstract.teamName,
-      letterPlagiarism: newAbstract.letterPlagiarism,
-      abstract: newAbstract.abstract,
+      teamName: abstracts.teamName,
+      letterPlagiarism: abstracts.letterPlagiarism,
+      abstract: abstracts.abstract,
     };
 
     const sheetUrl =
@@ -107,22 +128,22 @@ export async function POST(req: NextRequest) {
 
     //isi content email
     const content = `
-    We would like to inform you that the abstract submission for your team ${newAbstract.team?.teamName} is currently undergoing the judging process. We understand that you may be eagerly awaiting the results, and we assure you that we are working diligently to ensure that your abstract is thoroughly evaluated.
+    We would like to inform you that the abstract submission for your team ${abstracts.team?.teamName} is currently undergoing the judging process. We understand that you may be eagerly awaiting the results, and we assure you that we are working diligently to ensure that your abstract is thoroughly evaluated.
     Once the judging process is complete, we will send the results of your abstract submission via email to the team leader's email address provided during the submission. We recognize the significance of this information to you, and we are committed to providing you with timely and accurate updates.
     We appreciate your patience and understanding as we navigate through this process. If you have any questions or concerns in the meantime, please feel free to reach out to us at the website. Our team is here to assist you, and we are dedicated to ensuring your satisfaction.
     Thank you for choosing to participate in our event.
     `;
 
-    for (let i = 0; i < newAbstract.team.members.length; i++) {
+    for (let i = 0; i < abstracts.team.members.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
-        to: newAbstract.team?.members[i].email,
+        to: abstracts.team?.members[i].email,
         subject: `[SANDBOX] ${type.toUpperCase()} Abstract Submission`,
         html: render(
           Email({
             content,
             heading: `${type.toUpperCase()} Abstract Submission`,
-            name: newAbstract.team?.members[i].name || '',
+            name: abstracts.team?.members[i].name || '',
           }),
           { pretty: true },
         ),
@@ -136,7 +157,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        data: newAbstract,
+        data: abstracts,
         message:
           'Abstract submission successful and please check your email for the announcement',
       },
