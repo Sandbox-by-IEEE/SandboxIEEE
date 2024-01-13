@@ -26,22 +26,36 @@ const StageCircle = ({
   </div>
 );
 
+const width = {
+  currentStage: 'w-1/3 flex-grow md:flex-grow-0',
+  notCurrentStage: 'w-[10%] md:w-1/3',
+};
+
+const className = {
+  currentStage:
+    'w-1/3 flex-grow md:flex-grow-0 flex flex-col justify-between items-center gap-8',
+  notCurrentStage:
+    'w-[10%] md:w-1/3 flex flex-col justify-between items-center gap-8',
+};
+
 const page = () => {
   return (
     <section className='min-h-screen w-full bg-gradient-to-b from-[#051F12] to-[#06190C] flex justify-center pb-4'>
-      <div className='max-w-[1200px] w-full p-2 sm:p-4 space-y-20'>
-        <h1 className='font-museo-muderno text-center font-bold text-[50px] bg-clip-text text-[#00000000] bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'>
+      <div className='max-w-[1200px] w-full p-2 sm:p-4 space-y-8 md:space-y-20'>
+        <h1 className='font-museo-muderno text-center font-bold text-[32px] md:text-[50px] bg-clip-text text-[#00000000] bg-gradient-to-tr from-[#AB814E] to-[#FFFBB9]'>
           Team Information
         </h1>
         {/* Stage Timeline */}
         <section>
           <div className='w-full flex items-center justify-between'>
-            <div className='w-1/3 flex flex-col justify-between items-center gap-8'>
-              <StageCircle stage={1} bgColor='#49784F' />
+            <div className={className.notCurrentStage}>
+              <div className='hidden md:block'>
+                <StageCircle stage={1} bgColor='#49784F' />
+              </div>
             </div>
-            <div className='w-1/3 flex flex-col justify-between items-center gap-8'>
+            <div className={className.currentStage}>
               <GradientBox
-                className='min-h-[660px] w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-2xl text-center'
+                className='min-h-[660px] w-[100%] md:w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center text-sm sm:text-lg md:text-2xl'
                 style={{ borderRadius: '30px' }}
                 aos='fade-in'
                 duration={400}
@@ -54,48 +68,66 @@ const page = () => {
                 style={{ backgroundColor: '#B4B39D' }}
               />
             </div>
-            <div className='w-1/3 flex flex-col justify-between items-center gap-8'>
-              <StageCircle stage={3} bgColor='#ffe1b98a' />
+            <div className={className.notCurrentStage}>
+              <div className='hidden md:block'>
+                <StageCircle stage={3} bgColor='#ffe1b98a' />
+              </div>
             </div>
           </div>
-          <div className='w-full text-2xl flex font-bold font-poppins text-center'>
-            <div className='bg-[#49784F] w-1/3 rounded-l-2xl py-2'></div>
-            <div className='bg-[#B4B39D] w-1/3 py-2'>You are Here!</div>
-            <div className='bg-[#ffe1b98a] w-1/3 rounded-r-2xl py-2'></div>
+          <div className='w-full text-sm md:text-2xl flex font-bold font-poppins text-center'>
+            <div
+              className={`bg-[#49784F] rounded-l-2xl py-2 ${width.notCurrentStage}`}
+            ></div>
+            <div className={`bg-[#B4B39D] py-2 ${width.currentStage}`}>
+              You are Here!
+            </div>
+            <div
+              className={`bg-[#ffe1b98a] rounded-r-2xl py-2 ${width.notCurrentStage}`}
+            ></div>
           </div>
           <div className='w-full flex justify-between'>
-            <div className='w-1/3 flex flex-col justify-between items-center gap-8'>
-              <Triangle
-                position='top'
-                className='scale-150'
-                style={{ backgroundColor: '#49784F' }}
-              />
-              <GradientBox
-                className='min-h-[660px] w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-2xl text-center'
-                style={{ borderRadius: '30px' }}
-                aos='fade-in'
-                duration={400}
-              >
-                Abstract Submission
-              </GradientBox>
+            <div className={className.notCurrentStage}>
+              <div className='hidden md:block'>
+                <Triangle
+                  position='top'
+                  className='scale-150'
+                  style={{ backgroundColor: '#49784F' }}
+                />
+              </div>
+              <div className='hidden md:block'>
+                <GradientBox
+                  className='min-h-[660px] w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center text-sm sm:text-lg md:text-2xl'
+                  style={{ borderRadius: '30px' }}
+                  aos='fade-in'
+                  duration={400}
+                >
+                  <p className='px-8 py-4'>Registration</p>
+                </GradientBox>
+              </div>
             </div>
-            <div className='w-1/3 flex flex-col justify-between items-center pt-6'>
-              <StageCircle stage={2} bgColor='#B4B39D' />
+            <div className={className.currentStage}>
+              <div className='pt-6'>
+                <StageCircle stage={2} bgColor='#B4B39D' />
+              </div>
             </div>
-            <div className='w-1/3 flex flex-col justify-between items-center gap-8'>
-              <Triangle
-                position='top'
-                className='scale-150'
-                style={{ backgroundColor: '#ffe1b98a' }}
-              />
-              <GradientBox
-                className='min-h-[660px] w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-2xl text-center'
-                style={{ borderRadius: '30px' }}
-                aos='fade-in'
-                duration={400}
-              >
-                Abstract Submission
-              </GradientBox>
+            <div className={className.notCurrentStage}>
+              <div className='hidden md:block'>
+                <Triangle
+                  position='top'
+                  className='scale-150'
+                  style={{ backgroundColor: '#ffe1b98a' }}
+                />
+              </div>
+              <div className='hidden md:block'>
+                <GradientBox
+                  className='min-h-[660px] w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center  text-sm sm:text-lg md:text-2xl'
+                  style={{ borderRadius: '30px' }}
+                  aos='fade-in'
+                  duration={400}
+                >
+                  Full Paper Submission
+                </GradientBox>
+              </div>
             </div>
           </div>
         </section>
