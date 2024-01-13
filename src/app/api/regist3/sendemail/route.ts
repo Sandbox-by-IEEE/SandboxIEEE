@@ -93,9 +93,9 @@ export async function POST(req: NextRequest) {
             teamName: true,
             ticketCompetition: {
               select: {
-                competitionType: true
-              }
-            }
+                competitionType: true,
+              },
+            },
           },
         },
       },

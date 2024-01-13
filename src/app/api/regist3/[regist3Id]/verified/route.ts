@@ -11,7 +11,7 @@ export async function PATCH(
 ) {
   try {
     const value = req.nextUrl.searchParams.get('value');
-    console.log(regist3Id)
+    console.log(regist3Id);
     if (!regist3Id || !value) {
       return NextResponse.json(
         { message: 'some data is missing' },
