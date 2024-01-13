@@ -102,10 +102,10 @@ export const authOptions: AuthOptions = {
           ? existingUser.ticketsExhibition
           : undefined;
 
-        let ticketTPC = existingUser.ticketsCompetition.find(
+        const ticketTPC = existingUser.ticketsCompetition.find(
           (ticket) => ticket.competitionType === 'TPC',
         );
-        let ticketPTC = existingUser.ticketsCompetition.find(
+        const ticketPTC = existingUser.ticketsCompetition.find(
           (ticket) => ticket.competitionType === 'PTC',
         );
 
@@ -303,10 +303,10 @@ export const authOptions: AuthOptions = {
         ? existingUser.ticketsExhibition
         : undefined;
 
-      let ticketTPC = existingUser.ticketsCompetition.find(
+      const ticketTPC = existingUser.ticketsCompetition.find(
         (ticket) => ticket.competitionType === 'TPC',
       );
-      let ticketPTC = existingUser.ticketsCompetition.find(
+      const ticketPTC = existingUser.ticketsCompetition.find(
         (ticket) => ticket.competitionType === 'PTC',
       );
 
