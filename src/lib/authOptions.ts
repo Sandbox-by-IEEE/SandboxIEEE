@@ -111,8 +111,7 @@ export const authOptions: AuthOptions = {
 
         let currTeamTPC;
         let currTeamPTC;
-        let isLeaderTPC = true;
-        let isLeaderPTC = true;
+
         if (ticketTPC) {
           currTeamTPC = await prisma.team.findUnique({
             where: {
@@ -123,7 +122,6 @@ export const authOptions: AuthOptions = {
               regist3Data: true,
             },
           });
-          isLeaderTPC = true;
         } else {
           const participant = await prisma.participantCompetition.findFirst({
             where: {
@@ -150,7 +148,6 @@ export const authOptions: AuthOptions = {
               },
             });
             ticketTPC = currTeamTPC.ticketCompetition;
-            isLeaderTPC = false;
           }
         }
 
@@ -164,7 +161,6 @@ export const authOptions: AuthOptions = {
               regist3Data: true,
             },
           });
-          isLeaderPTC = true;
         } else {
           const participant = await prisma.participantCompetition.findFirst({
             where: {
@@ -190,7 +186,6 @@ export const authOptions: AuthOptions = {
               },
             });
             ticketPTC = currTeamPTC.ticketCompetition;
-            isLeaderPTC = false;
           }
         }
 
@@ -211,7 +206,7 @@ export const authOptions: AuthOptions = {
               verified: ticketExhibition ? ticketExhibition.verified : false,
             },
             PTC: {
-              isLeader: isLeaderPTC,
+              isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
               teamId: currTeamPTC?.id,
               buy: ticketPTC ? true : false,
               verified: ticketPTC ? ticketPTC.verified : '',
@@ -220,7 +215,7 @@ export const authOptions: AuthOptions = {
                 currTeamPTC?.regist3Data?.statusPayment || '',
             },
             TPC: {
-              isLeader: isLeaderTPC,
+              isLeader: currTeamTPC?.chairmanEmail === existingUser.email,
               teamId: currTeamTPC?.id,
               buy: ticketTPC ? true : false,
               verified: ticketTPC ? ticketTPC.verified : '',
@@ -307,8 +302,7 @@ export const authOptions: AuthOptions = {
 
       let currTeamTPC;
       let currTeamPTC;
-      let isLeaderTPC = true;
-      let isLeaderPTC = true;
+
       if (ticketTPC) {
         currTeamTPC = await prisma.team.findUnique({
           where: {
@@ -319,7 +313,6 @@ export const authOptions: AuthOptions = {
             regist3Data: true,
           },
         });
-        isLeaderTPC = true;
       } else {
         const participant = await prisma.participantCompetition.findFirst({
           where: {
@@ -346,7 +339,6 @@ export const authOptions: AuthOptions = {
             },
           });
           ticketTPC = currTeamTPC.ticketCompetition;
-          isLeaderTPC = false;
         }
       }
 
@@ -360,7 +352,6 @@ export const authOptions: AuthOptions = {
             regist3Data: true,
           },
         });
-        isLeaderPTC = true;
       } else {
         const participant = await prisma.participantCompetition.findFirst({
           where: {
@@ -386,7 +377,6 @@ export const authOptions: AuthOptions = {
             },
           });
           ticketPTC = currTeamPTC.ticketCompetition;
-          isLeaderPTC = false;
         }
       }
       return {
@@ -408,7 +398,7 @@ export const authOptions: AuthOptions = {
               verified: ticketExhibition ? ticketExhibition.verified : false,
             },
             PTC: {
-              isLeader: isLeaderPTC,
+              isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
               teamId: currTeamPTC?.id,
               buy: ticketPTC ? true : false,
               verified: ticketPTC ? ticketPTC.verified : '',
@@ -417,7 +407,7 @@ export const authOptions: AuthOptions = {
                 currTeamPTC?.regist3Data?.statusPayment || '',
             },
             TPC: {
-              isLeader: isLeaderTPC,
+              isLeader: currTeamTPC?.chairmanEmail === existingUser.email,
               teamId: currTeamTPC?.id,
               buy: ticketTPC ? true : false,
               verified: ticketTPC ? ticketTPC.verified : '',

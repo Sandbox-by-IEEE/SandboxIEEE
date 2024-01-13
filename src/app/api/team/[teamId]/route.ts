@@ -42,7 +42,7 @@ export async function GET(
       members: existingTeam.members,
       teamStatus: '',
       abstract: existingTeam.abstract,
-      fullPaper: existingTeam.karya,
+      fullPaper: { ...existingTeam.karya, countVote: parseInt(existingTeam.karya?.countVote.toString() || "0") },
     };
 
     if (!existingTeam.ticketCompetition.verified) {
