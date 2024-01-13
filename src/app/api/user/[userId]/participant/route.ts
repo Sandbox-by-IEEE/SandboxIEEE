@@ -1,13 +1,16 @@
-import { prisma } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
+import { prisma } from '@/lib/db';
+import { NextRequest, NextResponse } from 'next/server';
 
 interface Params {
   userId: string;
 }
 
-export async function GET({ params: { userId } }: { params: Params }, req: NextRequest) {
+export async function GET(
+  req: NextRequest,
+  { params: { userId } }: { params: Params },
+) {
   try {
-    const type = req.nextUrl.searchParams.get("type")
+    const type = req.nextUrl.searchParams.get('type');
     if (!userId || !type) {
       return NextResponse.json(
         { message: 'some data is missing' },
@@ -17,26 +20,23 @@ export async function GET({ params: { userId } }: { params: Params }, req: NextR
 
     const existingUser = await prisma.user.findUnique({
       where: {
-        id: userId
-      }
-    })
+        id: userId,
+      },
+    });
 
     if (!existingUser) {
-      return NextResponse.json(
-        { message: 'user not found' },
-        { status: 404 },
-      );
+      return NextResponse.json({ message: 'user not found' }, { status: 404 });
     }
 
     const existingParticipant = await prisma.participantCompetition.findFirst({
       where: {
-        email: existingUser.email || "",
-        team: { ticketCompetition: { competitionType: type } }
+        email: existingUser.email || '',
+        team: { ticketCompetition: { competitionType: type } },
       },
       include: {
-        team: true
-      }
-    })
+        team: true,
+      },
+    });
 
     if (!existingParticipant) {
       return NextResponse.json(
@@ -53,8 +53,11 @@ export async function GET({ params: { userId } }: { params: Params }, req: NextR
       institution: existingParticipant.institution,
       teamId: existingParticipant.teamId,
       age: existingParticipant.age,
-      position: existingParticipant.team.chairmanEmail === existingUser.email ? "Ketua" : "Anggota"
-    }
+      position:
+        existingParticipant.team.chairmanEmail === existingUser.email
+          ? 'Ketua'
+          : 'Anggota',
+    };
 
     return NextResponse.json(
       { data: result, message: 'get data succesfull' },
