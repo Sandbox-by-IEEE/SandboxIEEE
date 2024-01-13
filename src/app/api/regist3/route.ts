@@ -146,7 +146,7 @@ export async function POST(req: NextRequest) {
           paymentProof,
           teamName,
           teamId: existingTeam.id,
-          statusPayment: "waiting"
+          statusPayment: 'waiting',
         },
         include: {
           team: {
@@ -266,7 +266,7 @@ export async function POST(req: NextRequest) {
               paymentProof: registData.paymentProof,
               teamName: registData.teamName,
               teamId: registData.teamId,
-              statusPayment: registData.statusPayment
+              statusPayment: registData.statusPayment,
             },
           });
           if (karyaId) {

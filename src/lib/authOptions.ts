@@ -225,8 +225,9 @@ export const authOptions: AuthOptions = {
               isLeader: currTeamTPC?.chairmanEmail === existingUser.email,
               teamId: currTeamTPC?.id,
               buy: ticketTPC ? true : false,
-              verified: ticketTPC ? ticketTPC.verified : 
-              ticketTPC2
+              verified: ticketTPC
+                ? ticketTPC.verified
+                : ticketTPC2
                 ? ticketTPC2.verified
                 : '',
               regist2Status: currTeamTPC?.abstract?.status || '',
