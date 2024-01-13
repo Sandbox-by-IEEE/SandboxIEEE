@@ -266,6 +266,7 @@ export async function POST(req: NextRequest) {
               paymentProof: registData.paymentProof,
               teamName: registData.teamName,
               teamId: registData.teamId,
+              statusPayment: registData.statusPayment
             },
           });
           if (karyaId) {
