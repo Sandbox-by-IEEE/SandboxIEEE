@@ -146,6 +146,7 @@ export async function POST(req: NextRequest) {
           paymentProof,
           teamName,
           teamId: existingTeam.id,
+          statusPayment: "waiting"
         },
         include: {
           team: {
