@@ -130,6 +130,7 @@ model Team {
   members       ParticipantCompetition[]
   karya         Karya?
   abstract      Abstract?
+  regist3Data   Regist3Data?
 
   ticketCompetition TicketCompetition @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 
@@ -158,6 +159,19 @@ model ParticipantCompetition {
   studentProof String
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
+model Regist3Data {
+  id String @id @default(uuid())
+  teamId String @unique
+  teamName String
+  statusPayment String @default("waiting")
+  linkGDrive String
+  billName String
+  paymentProof String
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
 }
 
 model Karya {

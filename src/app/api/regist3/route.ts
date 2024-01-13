@@ -1,0 +1,288 @@
+import Email from '@/components/emails/Emails';
+import { prisma } from '@/lib/db';
+import { transporter } from '@/lib/mailTransporter';
+import { render } from '@react-email/render';
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(req: NextRequest) {
+  let registId;
+  let karyaId;
+  let isUpdated = false;
+  let registData = {} as any;
+  try {
+    const body = await req.json();
+    // console.log(body)
+
+    const { teamName, linkGDrive, paymentProof, billName, karya, type } = body;
+
+    if (
+      !teamName ||
+      !linkGDrive ||
+      !paymentProof ||
+      !type ||
+      !billName ||
+      !karya
+    ) {
+      return NextResponse.json(
+        { message: 'Missing some data' },
+        { status: 400 },
+      );
+    }
+
+    let existingTeam = await prisma.team.findUnique({
+      where: {
+        teamName: teamName,
+      },
+      include: {
+        ticketCompetition: true,
+        abstract: true,
+      },
+    });
+
+    // Add validation freak team user
+    if (!existingTeam) {
+      const sanitizedTeamName = teamName.replace(/['`’]/g, '');
+
+      const allTeams = await prisma.team.findMany({
+        include: {
+          ticketCompetition: true,
+          abstract: true,
+        },
+      });
+
+      const filterTeam = allTeams.find(
+        (team) => team.teamName.replace(/['`’]/g, '') === sanitizedTeamName,
+      );
+
+      if (filterTeam) {
+        existingTeam = filterTeam;
+      }
+    }
+
+    if (!existingTeam) {
+      return NextResponse.json({ message: 'Team not found' }, { status: 404 });
+    }
+
+    if (existingTeam.abstract?.status !== 'qualified') {
+      return NextResponse.json(
+        { message: 'You are not qualified' },
+        { status: 401 },
+      );
+    }
+
+    if (existingTeam.ticketCompetition.competitionType !== type) {
+      return NextResponse.json(
+        {
+          message:
+            'Wrong submission, your team not registered in this type of competition',
+        },
+        { status: 400 },
+      );
+    }
+
+    const existingRegist3Data = await prisma.regist3Data.findUnique({
+      where: {
+        teamId: existingTeam.id,
+      },
+      include: {
+        team: {
+          include: {
+            karya: true,
+            members: true,
+          },
+        },
+      },
+    });
+
+    let regist3Data = {} as any;
+    let karyaData = {} as any;
+    if (!existingRegist3Data) {
+      const newKarya = await prisma.karya.create({
+        data: {
+          linkKarya: karya,
+          teamId: existingTeam.id,
+        },
+      });
+      karyaData = newKarya;
+      karyaId = newKarya.id;
+      const newRegist3Data = await prisma.regist3Data.create({
+        data: {
+          billName,
+          linkGDrive,
+          paymentProof,
+          teamName,
+          teamId: existingTeam.id,
+        },
+        include: {
+          team: {
+            include: {
+              karya: true,
+              members: true,
+            },
+          },
+        },
+      });
+      regist3Data = newRegist3Data;
+      registId = newRegist3Data.id;
+    } else {
+      const updatedKarya = await prisma.karya.update({
+        where: {
+          id: existingRegist3Data.team.karya?.id,
+        },
+        data: {
+          linkKarya: karya,
+          teamId: existingTeam.id,
+        },
+      });
+      karyaData = updatedKarya;
+      karyaId = updatedKarya.id;
+      const updatedRegist3Data = await prisma.regist3Data.update({
+        where: {
+          id: existingRegist3Data.id,
+        },
+        data: {
+          billName,
+          linkGDrive,
+          paymentProof,
+          teamName,
+          teamId: existingTeam.id,
+        },
+        include: {
+          team: {
+            include: {
+              karya: true,
+              members: true,
+            },
+          },
+        },
+      });
+
+      regist3Data = updatedRegist3Data;
+      registId = updatedRegist3Data.id;
+
+      isUpdated = true;
+      registData = existingRegist3Data;
+    }
+
+    const dataRegist3 = {
+      id: regist3Data.id,
+      teamName: regist3Data.teamName,
+      billName: regist3Data.billName,
+      paymentProof: regist3Data.paymentProof,
+      linkGDrive: regist3Data.linkGDrive,
+      karya: karyaData.linkKarya,
+    };
+
+    const sheetUrl =
+      type === 'TPC'
+        ? process.env.API_SHEET_TPC_URL
+        : process.env.API_SHEET_PTC_URL;
+
+    // console.log(sheetUrl)
+    const response = await fetch(`${sheetUrl}?type=fullpaper` || '', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataRegist3),
+    });
+
+    const resBody = await response.json();
+
+    // console.log(resBody)
+
+    if (resBody.status > 299 || resBody.status < 200) {
+      throw new Error(`Failed to create ticket, ${resBody.message}`);
+    }
+
+    const content = `
+    
+    `;
+
+    for (let i = 0; i < regist3Data.team?.members.length; i++) {
+      const mailOptions = {
+        from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
+        to: regist3Data.team?.members[i].email,
+        subject: `[SANDBOX] ${type.toUpperCase()} Full Paper Submission`,
+        html: render(
+          Email({
+            content,
+            heading: `${type.toUpperCase()} Full Paper Submission`,
+            name: regist3Data.team?.members[i].name || '',
+          }),
+          { pretty: true },
+        ),
+      };
+
+      await transporter.sendMail(mailOptions);
+    }
+
+    // eslint-disable-next-line no-console
+    console.log('POST_REGIST_2: email was sent');
+
+    // console.log(JSON.stringify(regist3Data));
+
+    const serializedKarya = {
+      ...karyaData,
+      countVote: parseInt(karyaData.countVote.toString()),
+    };
+
+    return NextResponse.json(
+      {
+        data: { ...regist3Data, karya: serializedKarya },
+        message:
+          'Full paper submission successful and please check your email for the announcement',
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    if (error instanceof Error) {
+      if (!isUpdated) {
+        if (registId) {
+          await prisma.regist3Data.delete({
+            where: {
+              id: registId,
+            },
+          });
+        }
+
+        if (karyaId) {
+          await prisma.karya.delete({
+            where: {
+              id: karyaId,
+            },
+          });
+        }
+      } else {
+        if (registId) {
+          await prisma.regist3Data.update({
+            where: {
+              id: registId,
+            },
+            data: {
+              billName: registData.billName,
+              linkGDrive: registData.linkGDrive,
+              paymentProof: registData.paymentProof,
+              teamName: registData.teamName,
+              teamId: registData.teamId,
+            },
+          });
+          if (karyaId) {
+            await prisma.karya.update({
+              where: {
+                id: karyaId,
+              },
+              data: {
+                linkKarya: registData.team.karya?.linkKarya,
+              },
+            });
+          }
+        }
+      }
+
+      // eslint-disable-next-line no-console
+      console.log('ERROR_REGIST_3', error);
+      return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+  }
+}

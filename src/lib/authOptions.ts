@@ -102,15 +102,17 @@ export const authOptions: AuthOptions = {
           ? existingUser.ticketsExhibition
           : undefined;
 
-        const ticketTPC = existingUser.ticketsCompetition.find(
+        let ticketTPC = existingUser.ticketsCompetition.find(
           (ticket) => ticket.competitionType === 'TPC',
         );
-        const ticketPTC = existingUser.ticketsCompetition.find(
+        let ticketPTC = existingUser.ticketsCompetition.find(
           (ticket) => ticket.competitionType === 'PTC',
         );
 
         let currTeamTPC;
         let currTeamPTC;
+        let isLeaderTPC = true;
+        let isLeaderPTC = true;
         if (ticketTPC) {
           currTeamTPC = await prisma.team.findUnique({
             where: {
@@ -118,8 +120,38 @@ export const authOptions: AuthOptions = {
             },
             include: {
               abstract: true,
+              regist3Data: true,
             },
           });
+          isLeaderTPC = true;
+        } else {
+          const participant = await prisma.participantCompetition.findFirst({
+            where: {
+              email: existingUser.email || '',
+              team: { ticketCompetition: { competitionType: 'TPC' } },
+            },
+          });
+
+          if (participant) {
+            currTeamTPC = await prisma.team.findUnique({
+              where: {
+                id: participant.teamId,
+              },
+              include: {
+                abstract: true,
+                regist3Data: true,
+                ticketCompetition: {
+                  select: {
+                    team: true,
+                    verified: true,
+                    competitionType: true,
+                  },
+                },
+              },
+            });
+            ticketTPC = currTeamTPC.ticketCompetition;
+            isLeaderTPC = false;
+          }
         }
 
         if (ticketPTC) {
@@ -129,8 +161,37 @@ export const authOptions: AuthOptions = {
             },
             include: {
               abstract: true,
+              regist3Data: true,
             },
           });
+          isLeaderPTC = true;
+        } else {
+          const participant = await prisma.participantCompetition.findFirst({
+            where: {
+              email: existingUser.email || '',
+              team: { ticketCompetition: { competitionType: 'PTC' } },
+            },
+          });
+          if (participant) {
+            currTeamPTC = await prisma.team.findUnique({
+              where: {
+                id: participant?.teamId,
+              },
+              include: {
+                abstract: true,
+                regist3Data: true,
+                ticketCompetition: {
+                  select: {
+                    team: true,
+                    verified: true,
+                    competitionType: true,
+                  },
+                },
+              },
+            });
+            ticketPTC = currTeamPTC.ticketCompetition;
+            isLeaderPTC = false;
+          }
         }
 
         return {
@@ -150,14 +211,22 @@ export const authOptions: AuthOptions = {
               verified: ticketExhibition ? ticketExhibition.verified : false,
             },
             PTC: {
+              isLeader: isLeaderPTC,
+              teamId: currTeamPTC?.id,
               buy: ticketPTC ? true : false,
               verified: ticketPTC ? ticketPTC.verified : '',
               regist2Status: currTeamPTC?.abstract?.status || '',
+              regist3PaymentStatus:
+                currTeamPTC?.regist3Data?.statusPayment || '',
             },
             TPC: {
+              isLeader: isLeaderTPC,
+              teamId: currTeamTPC?.id,
               buy: ticketTPC ? true : false,
               verified: ticketTPC ? ticketTPC.verified : '',
               regist2Status: currTeamTPC?.abstract?.status || '',
+              regist3PaymentStatus:
+                currTeamTPC?.regist3Data?.statusPayment || '',
             },
           },
         };
@@ -229,15 +298,17 @@ export const authOptions: AuthOptions = {
         ? existingUser.ticketsExhibition
         : undefined;
 
-      const ticketTPC = existingUser.ticketsCompetition.find(
+      let ticketTPC = existingUser.ticketsCompetition.find(
         (ticket) => ticket.competitionType === 'TPC',
       );
-      const ticketPTC = existingUser.ticketsCompetition.find(
+      let ticketPTC = existingUser.ticketsCompetition.find(
         (ticket) => ticket.competitionType === 'PTC',
       );
 
       let currTeamTPC;
       let currTeamPTC;
+      let isLeaderTPC = true;
+      let isLeaderPTC = true;
       if (ticketTPC) {
         currTeamTPC = await prisma.team.findUnique({
           where: {
@@ -245,8 +316,38 @@ export const authOptions: AuthOptions = {
           },
           include: {
             abstract: true,
+            regist3Data: true,
           },
         });
+        isLeaderTPC = true;
+      } else {
+        const participant = await prisma.participantCompetition.findFirst({
+          where: {
+            email: existingUser.email || '',
+            team: { ticketCompetition: { competitionType: 'TPC' } },
+          },
+        });
+
+        if (participant) {
+          currTeamTPC = await prisma.team.findUnique({
+            where: {
+              id: participant.teamId,
+            },
+            include: {
+              abstract: true,
+              regist3Data: true,
+              ticketCompetition: {
+                select: {
+                  team: true,
+                  verified: true,
+                  competitionType: true,
+                },
+              },
+            },
+          });
+          ticketTPC = currTeamTPC.ticketCompetition;
+          isLeaderTPC = false;
+        }
       }
 
       if (ticketPTC) {
@@ -256,10 +357,38 @@ export const authOptions: AuthOptions = {
           },
           include: {
             abstract: true,
+            regist3Data: true,
           },
         });
+        isLeaderPTC = true;
+      } else {
+        const participant = await prisma.participantCompetition.findFirst({
+          where: {
+            email: existingUser.email || '',
+            team: { ticketCompetition: { competitionType: 'PTC' } },
+          },
+        });
+        if (participant) {
+          currTeamPTC = await prisma.team.findUnique({
+            where: {
+              id: participant?.teamId,
+            },
+            include: {
+              abstract: true,
+              regist3Data: true,
+              ticketCompetition: {
+                select: {
+                  team: true,
+                  verified: true,
+                  competitionType: true,
+                },
+              },
+            },
+          });
+          ticketPTC = currTeamPTC.ticketCompetition;
+          isLeaderPTC = false;
+        }
       }
-
       return {
         ...session,
         user: {
@@ -267,7 +396,7 @@ export const authOptions: AuthOptions = {
           id: token.sub,
           name: existingUser.name || '',
           username: existingUser.username || '',
-          image: token.picture || '',
+          image: existingUser.image || token.picture || '',
           vote: {
             karya: karya,
             status: existingUser.karya ? true : false,
@@ -279,14 +408,22 @@ export const authOptions: AuthOptions = {
               verified: ticketExhibition ? ticketExhibition.verified : false,
             },
             PTC: {
+              isLeader: isLeaderPTC,
+              teamId: currTeamPTC?.id,
               buy: ticketPTC ? true : false,
               verified: ticketPTC ? ticketPTC.verified : '',
               regist2Status: currTeamPTC?.abstract?.status || '',
+              regist3PaymentStatus:
+                currTeamPTC?.regist3Data?.statusPayment || '',
             },
             TPC: {
+              isLeader: isLeaderTPC,
+              teamId: currTeamTPC?.id,
               buy: ticketTPC ? true : false,
               verified: ticketTPC ? ticketTPC.verified : '',
               regist2Status: currTeamTPC?.abstract?.status || '',
+              regist3PaymentStatus:
+                currTeamTPC?.regist3Data?.statusPayment || '',
             },
           },
         },
