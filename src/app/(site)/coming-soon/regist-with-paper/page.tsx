@@ -269,10 +269,10 @@ export default function RegistWithPaper() {
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
       <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='Second Stage Regist' />
+        <Title text='Second Stage Registration and Paper Submission' />
         {step === 0 && (
           <>
-            <Title text='Complete your details below' />
+            <Title text='Complete your details below' isSmall />
             <form onSubmit={handleNext} className='space-y-2 py-6 w-full'>
               <div className='flex flex-col'>
                 <label
@@ -365,7 +365,7 @@ export default function RegistWithPaper() {
         )}
         {step === 1 && (
           <>
-            <Title text='Complete your details below' />
+            <Title text='Complete payment below' isSmall />
             <form onSubmit={handleSubmit} className='space-y-2 py-6 w-full'>
               <div className='flex flex-col pb-6'>
                 <label
@@ -448,7 +448,7 @@ export default function RegistWithPaper() {
                   <div className='w-full md:w-[49%]'>
                     <MultipleFileInput
                       key='FormPayment'
-                      message='Secondary Message'
+                      message='Payment Proof'
                       files={filesForm2}
                       setFiles={setFilesForm2}
                     />
@@ -535,8 +535,12 @@ export default function RegistWithPaper() {
   );
 }
 
-const Title = ({ text }) => (
-  <div className='relative text-3xl lg:text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
+const Title = ({ text, isSmall = false }) => (
+  <div
+    className={`relative ${
+      isSmall ? 'text-xl lg:text-2xl' : 'text-3xl lg:text-5xl'
+    } font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal`}
+  >
     <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full'>
       {text}
     </div>
