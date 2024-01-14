@@ -36,11 +36,14 @@ export async function PATCH(
         id: existingUser.id,
       },
       data: {
-        image: imageUrl
+        image: imageUrl,
       },
     });
 
-    return NextResponse.json({ data: updatedUser , message: 'upoald image succesfull' }, { status: 200 });
+    return NextResponse.json(
+      { data: updatedUser, message: 'upoald image succesfull' },
+      { status: 200 },
+    );
   } catch (error) {
     if (error instanceof Error) {
       // eslint-disable-next-line no-console
