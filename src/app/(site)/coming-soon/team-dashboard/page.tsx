@@ -1,5 +1,8 @@
+'use client';
 import Image from 'next/image';
+import { useState } from 'react';
 
+import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
 import Triangle from '@/components/icons/Triangle';
 
@@ -33,12 +36,38 @@ const width = {
 
 const className = {
   currentStage:
-    'w-1/3 flex-grow md:flex-grow-0 flex flex-col justify-between items-center gap-8',
+    'w-1/3 flex-grow md:flex-grow-0 flex flex-col justify-between items-center gap-6',
   notCurrentStage:
-    'w-[10%] md:w-1/3 flex flex-col justify-between items-center gap-8',
+    'w-[10%] md:w-1/3 flex flex-col justify-between items-center gap-6',
+  isShown: 'flex-col items-center flex gap-6',
+  notShown: 'flex-col items-center hidden md:flex gap-6',
 };
 
-const page = () => {
+const Page = () => {
+  const DEFAULT_PROFILE_PICTURE = '/assets/R-dummy.jpeg';
+  const [changingProfilePic, setChangingProfilePic] = useState(false);
+  const [profilePic, setProfilePic] = useState({
+    name: '',
+    url: '',
+  });
+
+  const handleChangePic = async (newFiles) => {
+    try {
+      setProfilePic((inputData) => {
+        const newInputData = { ...inputData };
+        newInputData.url = newFiles?.fileUrl as string;
+        newInputData.name = newFiles?.fileName as string;
+
+        return newInputData;
+      });
+      //shoot API here
+
+      setChangingProfilePic(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <section className='min-h-screen w-full bg-gradient-to-b from-[#051F12] to-[#06190C] flex justify-center pb-4'>
       <div className='max-w-[1200px] w-full p-2 sm:p-4 space-y-8 md:space-y-20'>
@@ -49,28 +78,34 @@ const page = () => {
         <section>
           <div className='w-full flex items-center justify-between'>
             <div className={className.notCurrentStage}>
-              <div className='hidden md:block'>
-                <StageCircle stage={1} bgColor='#49784F' />
+              <div className={className.notShown}>
+                <div className='pb-6'>
+                  <StageCircle stage={1} bgColor='#49784F' />
+                </div>
+              </div>
+            </div>
+            <div className={className.notCurrentStage}>
+              <div className={className.notShown}>
+                <GradientBox
+                  className='min-h-[660px] w-[100%] md:w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center text-sm sm:text-lg md:text-2xl'
+                  style={{ borderRadius: '30px' }}
+                  aos='fade-in'
+                  duration={400}
+                >
+                  Abstract Submission
+                </GradientBox>
+                <Triangle
+                  position='bottom'
+                  className='scale-150'
+                  style={{ backgroundColor: '#B4B39D' }}
+                />
               </div>
             </div>
             <div className={className.currentStage}>
-              <GradientBox
-                className='min-h-[660px] w-[100%] md:w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center text-sm sm:text-lg md:text-2xl'
-                style={{ borderRadius: '30px' }}
-                aos='fade-in'
-                duration={400}
-              >
-                Abstract Submission
-              </GradientBox>
-              <Triangle
-                position='bottom'
-                className='scale-150'
-                style={{ backgroundColor: '#B4B39D' }}
-              />
-            </div>
-            <div className={className.notCurrentStage}>
-              <div className='hidden md:block'>
-                <StageCircle stage={3} bgColor='#ffe1b98a' />
+              <div className={className.isShown}>
+                <div className='pb-6'>
+                  <StageCircle stage={3} bgColor='#ffe1b98a' />
+                </div>
               </div>
             </div>
           </div>
@@ -78,25 +113,23 @@ const page = () => {
             <div
               className={`bg-[#49784F] rounded-l-2xl py-2 ${width.notCurrentStage}`}
             ></div>
-            <div className={`bg-[#B4B39D] py-2 ${width.currentStage}`}>
+            <div className={`bg-[#B4B39D] py-2 ${width.notCurrentStage}`}></div>
+            <div
+              className={`bg-[#ffe1b98a] rounded-r-2xl py-2 ${width.currentStage}`}
+            >
               You are Here!
             </div>
-            <div
-              className={`bg-[#ffe1b98a] rounded-r-2xl py-2 ${width.notCurrentStage}`}
-            ></div>
           </div>
           <div className='w-full flex justify-between'>
             <div className={className.notCurrentStage}>
-              <div className='hidden md:block'>
+              <div className={className.notShown}>
                 <Triangle
                   position='top'
                   className='scale-150'
                   style={{ backgroundColor: '#49784F' }}
                 />
-              </div>
-              <div className='hidden md:block'>
                 <GradientBox
-                  className='min-h-[660px] w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center text-sm sm:text-lg md:text-2xl'
+                  className='min-h-[660px] w-[100%] md:w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center text-sm sm:text-lg md:text-2xl'
                   style={{ borderRadius: '30px' }}
                   aos='fade-in'
                   duration={400}
@@ -105,22 +138,22 @@ const page = () => {
                 </GradientBox>
               </div>
             </div>
-            <div className={className.currentStage}>
-              <div className='pt-6'>
-                <StageCircle stage={2} bgColor='#B4B39D' />
+            <div className={className.notCurrentStage}>
+              <div className={className.notShown}>
+                <div className='pt-6'>
+                  <StageCircle stage={2} bgColor='#B4B39D' />
+                </div>
               </div>
             </div>
-            <div className={className.notCurrentStage}>
-              <div className='hidden md:block'>
+            <div className={className.currentStage}>
+              <div className={className.isShown}>
                 <Triangle
                   position='top'
                   className='scale-150'
                   style={{ backgroundColor: '#ffe1b98a' }}
                 />
-              </div>
-              <div className='hidden md:block'>
                 <GradientBox
-                  className='min-h-[660px] w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center  text-sm sm:text-lg md:text-2xl'
+                  className='min-h-[660px] w-[100%] md:w-[70%] max-w-full flex flex-col items-center justify-center gap-8 px-8 py-4 text-white font-bold text-center text-sm sm:text-lg md:text-2xl'
                   style={{ borderRadius: '30px' }}
                   aos='fade-in'
                   duration={400}
@@ -148,7 +181,7 @@ const page = () => {
                 width={200}
                 height={200}
                 alt='Mascot'
-                className='w-[80%] h-auto'
+                className='min-w-[80%] h-auto'
               />
             </section>
             <section className='w-0 flex-grow bg-[#49784F] rounded-lg p-4 text-white font-semibold flex justify-between flex-col-reverse md:flex-row flex-wrap gap-4'>
@@ -171,14 +204,35 @@ const page = () => {
                 </LableValue>
               </div>
               <div className='w-full md:w-0 sm:min-w-[200px] flex-grow flex flex-col items-center justify-center'>
-                <Image
-                  src='/assets/R-dummy.jpeg'
-                  width={200}
-                  height={200}
-                  alt='Mascot'
-                  className='h-[200px] w-[170px] md:h-[80%] md:w-auto md:aspect-[2/3] object-cover'
-                />
+                {changingProfilePic ? (
+                  <div className='max-w-[90vw]'>
+                    <SingleFileInput
+                      key={'ProfilePic'}
+                      message='suggested Profile Picture in .png, .jpeg, .jpg'
+                      allowedFileTypes={['.png', '.jpeg', '.jpg']}
+                      file={{
+                        fileName: profilePic?.name,
+                        fileUrl: profilePic?.url,
+                      }}
+                      setFile={handleChangePic}
+                    />
+                  </div>
+                ) : (
+                  <Image
+                    src={profilePic.url || DEFAULT_PROFILE_PICTURE}
+                    width={200}
+                    height={200}
+                    alt='Mascot'
+                    className='h-[200px] w-[170px] md:h-[80%] md:w-auto md:aspect-[2/3] object-cover'
+                  />
+                )}
                 <p className='text-[#FFE1B9] py-2'>Team Status : Stage 2</p>
+                <button
+                  className='text-sm text-blue-300 hover:text-blue-400 hover:scale-105'
+                  onClick={() => setChangingProfilePic(!changingProfilePic)}
+                >
+                  Change Profile Picture
+                </button>
               </div>
             </section>
           </div>
@@ -188,4 +242,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
