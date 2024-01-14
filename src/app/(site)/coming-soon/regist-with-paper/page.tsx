@@ -523,7 +523,7 @@ export default function RegistWithPaper() {
                   isDisabled={isLoading || status == 'loading'}
                 >
                   <span className='w-fit min-w-fit max-w-fit whitespace-nowrap px-20'>
-                    Next
+                    Submit
                   </span>
                 </Button>
               </div>
