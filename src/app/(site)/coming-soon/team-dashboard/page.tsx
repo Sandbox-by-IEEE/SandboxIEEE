@@ -158,7 +158,7 @@ const Page = () => {
                   aos='fade-in'
                   duration={400}
                 >
-                  Full Paper Submission
+                  Full Paper and Video Submission
                 </GradientBox>
               </div>
             </div>
@@ -226,7 +226,7 @@ const Page = () => {
                     className='h-[200px] w-[170px] md:h-[80%] md:w-auto md:aspect-[2/3] object-cover'
                   />
                 )}
-                <p className='text-[#FFE1B9] py-2'>Team Status : Stage 2</p>
+                <p className='text-[#FFE1B9] py-2'>Team Status : Stage 3</p>
                 <button
                   className='text-sm text-blue-300 hover:text-blue-400 hover:scale-105'
                   onClick={() => setChangingProfilePic(!changingProfilePic)}
