@@ -5,6 +5,7 @@ import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import LinkPTCCLient from '@/app/(site)/events/ptc/link-client';
+import PTCnavigation from '@/app/(site)/events/ptc/ptc-nav';
 import ButtonRegistration from '@/components/ButtonRegistration';
 import { FAQ } from '@/components/FAQ';
 import Explosion from '@/components/icons/explosion';
@@ -122,6 +123,9 @@ const PTC = async () => {
             <ButtonRegistration isDisabled type='PTC' color='gold'>
               Abstract Submission Closed
             </ButtonRegistration>
+          </div>
+          <div className='animate-blink duration-500 transition-all'>
+            <PTCnavigation />
           </div>
           <div className='animate-blink duration-500 transition-all'>
             <LinkPTCCLient />
