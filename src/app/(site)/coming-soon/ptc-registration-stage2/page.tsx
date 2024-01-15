@@ -1,14 +1,18 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Button from '@/components/Button';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
 import TextInput from '@/components/TextInput';
+import { callLoading } from '@/components/Toast';
 import { callToast } from '@/components/Toast';
 
 export default function RegistWithPaper() {
+  const router = useRouter();
   const inputDataHistoryKey = 'ptc-regist-paper-history';
 
   // const router = useRouter();
@@ -42,7 +46,14 @@ export default function RegistWithPaper() {
     const newInputData = { ...inputData };
 
     // Handle top-level fields
-    newInputData[name] = value;
+    // Handle top-level fields
+    if (name === 'teamName') {
+      newInputData.teamName = value;
+    } else if (name === 'videoUrl') {
+      newInputData.paperUrl = value;
+    } else {
+      newInputData[name] = value;
+    }
 
     if (newInputData !== inputData) {
       setInputData(newInputData);
@@ -131,49 +142,50 @@ export default function RegistWithPaper() {
     } else {
       console.log({ inputData });
 
-      //shoot API here
-      // const loadingToastId = callLoading('Submitting PTC abstract...'); // Tampilkan toast loading
-      // try {
-      //   setIsLoading(true);
-      //   const dataTicket = {
-      //     teamName: inputData.teamName,
-      //     letterPlagiarism: inputData.plagiarismUrl,
-      //     abstract: inputData.abstractUrl,
-      //     type: 'PTC',
-      //   };
-      //   const response = await fetch('/api/regist2', {
-      //     method: 'POST',
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(dataTicket),
-      //   });
-      //   const bodyResponse = await response.json();
-      //   if (!response.ok) {
-      //     callToast({
-      //       status: 'error',
-      //       description: bodyResponse.message,
-      //     });
-      //   } else {
-      //     callToast({
-      //       status: 'success',
-      //       description: bodyResponse.message,
-      //     });
-      //     router.push('/events/ptc');
-      //     localStorage.removeItem(inputDataHistoryKey);
-      //   }
-      // } catch (err) {
-      //   callToast({
-      //     status: 'error',
-      //     description:
-      //       'Something went wrong while submit your data, please try again',
-      //   });
-      //   setIsLoading(false);
-      // } finally {
-      //   toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
-      //   setIsLoading(false);
-      // }
+      const loadingToastId = callLoading('Submitting Registration Form...'); // Tampilkan toast loading
+      try {
+        setIsLoading(true);
+        const dataTicket = {
+          teamName: inputData.teamName,
+          linkGDrive: inputData.paperUrl,
+          paymentProof: inputData.paymentProofUrl,
+          billName: inputData.bankAccName,
+          karya: inputData.paperUrl,
+          type: 'PTC',
+        };
+        const response = await fetch('/api/regist3', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataTicket),
+        });
+        const bodyResponse = await response.json();
+        if (!response.ok) {
+          callToast({
+            status: 'error',
+            description: bodyResponse.message,
+          });
+        } else {
+          callToast({
+            status: 'success',
+            description: bodyResponse.message,
+          });
+          router.push('/events/tpc');
+          localStorage.removeItem(inputDataHistoryKey);
+        }
+      } catch (err) {
+        callToast({
+          status: 'error',
+          description:
+            'Something went wrong while submit your data, please try again',
+        });
+        setIsLoading(false);
+      } finally {
+        toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+        setIsLoading(false);
+      }
     }
   };
 
@@ -277,7 +289,7 @@ export default function RegistWithPaper() {
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
       <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='Second Stage Registration and Paper Submission' />
+        <Title text='Second Stage Registration and Video Pitching Submission' />
         {step === 0 && (
           <>
             <Title text='Complete your details below' isSmall />
@@ -323,13 +335,13 @@ export default function RegistWithPaper() {
                       : {}
                   }
                 >
-                  Paper Link
+                  Video Pitching Link
                 </label>
                 <p className='mb-2'>Please submit your link here</p>
                 <TextInput
                   placeholder={''}
                   type='text'
-                  name='teamName'
+                  name='videoUrl'
                   text={inputData.paperUrl}
                   color='white'
                   onChange={handleChange}
