@@ -30,6 +30,7 @@ const MultipleFileInput = ({
   files: FileInputType[] | undefined;
 }) => {
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const [loadingFile, setLoadingFile] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [inputUrl, setInputUrl] = useState<string>('');
@@ -45,6 +46,7 @@ const MultipleFileInput = ({
   const uploadFile = async (fileUploaded: File) => {
     // eslint-disable-next-line no-useless-catch
     try {
+      setLoadingFile(fileUploaded.name);
       if (fileUploaded.size > 10 * 1024 * 1024) {
         throw 'File size exceeds the maximum allowed (10MB).';
       }
@@ -62,6 +64,7 @@ const MultipleFileInput = ({
       if (!response.ok) throw await response.json();
 
       const responseJSON = await response.json();
+      setLoadingFile('');
 
       return responseJSON;
     } catch (error) {
@@ -178,6 +181,70 @@ const MultipleFileInput = ({
       }
     }
   };
+
+  if (loadingFile) {
+    return (
+      <div>
+        <div
+          className={
+            'w-full max-w-full px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[3px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
+          }
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
+          <button onClick={handleClick} type='button'>
+            <div
+              className='w-[100px] aspect-square rounded-full animate-spin
+                    border-8 border-solid border-[#dbb88b] border-t-transparent'
+            ></div>
+          </button>
+          <p
+            className='text-[15px] lg:text-base font-poppins font-bold cursor-pointer'
+            onClick={handleClick}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            Uploading <span className='text-blue-500'>{loadingFile}</span>
+          </p>
+          <p>{message}</p>
+          {setUrl && (
+            <div className='flex flex-col gap-4 text-sm lg:text-base font-poppins'>
+              <div className='flex gap-4 items-center mx-auto'>
+                <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
+                <p>atau</p>
+                <div className='w-[120px] md:w-[168px] h-[2px] bg-white' />
+              </div>
+              <div className='flex flex-col items-center gap-4'>
+                <p>cantumkan Link Google Drive</p>
+                <div className='flex w-full gap-2'>
+                  <input
+                    type='text'
+                    onChange={(e) => setInputUrl(e.target.value)}
+                    className='border-4 border-[#DBB88B] px-4 py-2 flex-grow bg-inherit rounded-lg'
+                  />
+                  <button
+                    className='py-2 lg:py-3 px-6 bg-[#AB814E] rounded-lg'
+                    onClick={handleSubmitUrl}
+                  >
+                    <SaveIcon className='w-[24px] aspect-square' />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        <input
+          type='file'
+          onChange={handleChange}
+          ref={hiddenFileInput}
+          accept={allowedFileTypes.join(',')}
+          className='hidden'
+          multiple
+          disabled
+        />
+      </div>
+    );
+  }
 
   if (isError) {
     return (
