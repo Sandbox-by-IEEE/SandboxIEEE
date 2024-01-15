@@ -146,11 +146,9 @@ export default function RegistWithPaper() {
         behavior: 'smooth',
       });
     } else {
-
       console.log({ paymentProofs, inputData });
 
-      console.log({ filesForm2, inputData });
-
+      // console.log({ filesForm2, inputData });
 
       //shoot API here
       const loadingToastId = callLoading('Submitting Registration Form...'); // Tampilkan toast loading
