@@ -24,14 +24,20 @@ declare module 'next-auth' {
         active: boolean;
       };
       TPC: {
+        isLeader: boolean;
+        teamId: string;
         buy: boolean;
         verified: string;
         regist2Status: string;
+        regist3PaymentStatus: string;
       };
       PTC: {
+        isLeader: boolean;
+        teamId: string;
         buy: boolean;
         verified: string;
         regist2Status: string;
+        regist3PaymentStatus: string;
       };
     };
   }
@@ -60,14 +66,20 @@ declare module 'next-auth' {
           active: boolean;
         };
         TPC: {
+          isLeader: boolean;
+          teamId: string;
           buy: boolean;
           verified: string;
           regist2Status: string;
+          regist3PaymentStatus: string;
         };
         PTC: {
+          isLeader: boolean;
+          teamId: string;
           buy: boolean;
           verified: string;
           regist2Status: string;
+          regist3PaymentStatus: string;
         };
       };
     };
