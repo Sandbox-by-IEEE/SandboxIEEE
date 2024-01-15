@@ -20,8 +20,7 @@ export async function POST(req: NextRequest) {
       !linkGDrive ||
       !paymentProof ||
       !type ||
-      !billName ||
-      !karya
+      !billName
     ) {
       return NextResponse.json(
         { message: 'Missing some data' },
@@ -75,6 +74,16 @@ export async function POST(req: NextRequest) {
         {
           message:
             'Wrong submission, your team not registered in this type of competition',
+        },
+        { status: 400 },
+      );
+    }
+
+    if (type === 'TPC' && !karya && karya?.length === 0){
+      return NextResponse.json(
+        {
+          message:
+            'Full paper must be submitted in TPC',
         },
         { status: 400 },
       );
