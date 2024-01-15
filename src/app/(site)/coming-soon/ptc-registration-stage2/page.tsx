@@ -1,36 +1,38 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Button from '@/components/Button';
-import { FileInputType } from '@/components/FileInput/fileInput-type';
-import MultipleFileInput from '@/components/FileInput/MultipleFileInput';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
-import FileIcon from '@/components/icons/FileIcon';
 import TextInput from '@/components/TextInput';
+import { callLoading } from '@/components/Toast';
 import { callToast } from '@/components/Toast';
 
 export default function RegistWithPaper() {
-  const inputDataHistoryKey = 'regist-paper-history';
+  const router = useRouter();
+  const inputDataHistoryKey = 'ptc-regist-paper-history';
 
   // const router = useRouter();
-  const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>([]);
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState({
     teamName: '',
-    paperName: '',
     paperUrl: '',
     bankAccName: '',
     paymentMethod: '',
+    paymentProofName: '',
+    paymentProofUrl: '',
   });
 
   const [isWarnedInputData, setIsWarnedInputData] = useState({
     teamName: false,
-    paperName: false,
     paperUrl: false,
     bankAccName: false,
     paymentMethod: false,
+    paymentProofName: false,
+    paymentProofUrl: false,
   });
   const [step, setStep] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +46,14 @@ export default function RegistWithPaper() {
     const newInputData = { ...inputData };
 
     // Handle top-level fields
-    newInputData[name] = value;
+    // Handle top-level fields
+    if (name === 'teamName') {
+      newInputData.teamName = value;
+    } else if (name === 'videoUrl') {
+      newInputData.paperUrl = value;
+    } else {
+      newInputData[name] = value;
+    }
 
     if (newInputData !== inputData) {
       setInputData(newInputData);
@@ -56,10 +65,11 @@ export default function RegistWithPaper() {
   const setWarn = (
     prop:
       | 'teamName'
-      | 'paperName'
       | 'paperUrl'
       | 'bankAccName'
-      | 'paymentMethod',
+      | 'paymentMethod'
+      | 'paymentProofName'
+      | 'paymentProofUrl',
     bool: boolean,
   ) => {
     setIsWarnedInputData((isWarnedInputData) => {
@@ -73,17 +83,14 @@ export default function RegistWithPaper() {
     e.preventDefault();
 
     let isToastTriggered = false;
-    const checkAndWarn = (
-      bool: boolean,
-      prop: 'teamName' | 'paperName' | 'paperUrl',
-    ) => {
+    const checkAndWarn = (bool: boolean, prop: 'teamName' | 'paperUrl') => {
       if (bool) {
         setWarn(prop, true);
         isToastTriggered = true;
       }
     };
     checkAndWarn(!inputData.teamName, 'teamName');
-    checkAndWarn(!inputData.paperName, 'paperName');
+    checkAndWarn(!inputData.paperUrl, 'paperUrl');
 
     if (isToastTriggered) {
       callToast({
@@ -107,10 +114,11 @@ export default function RegistWithPaper() {
       bool: boolean,
       prop:
         | 'teamName'
-        | 'paperName'
         | 'paperUrl'
         | 'bankAccName'
-        | 'paymentMethod',
+        | 'paymentMethod'
+        | 'paymentProofName'
+        | 'paymentProofUrl',
     ) => {
       if (bool) {
         setWarn(prop, true);
@@ -118,8 +126,9 @@ export default function RegistWithPaper() {
       }
     };
     checkAndWarn(!inputData.teamName, 'teamName');
-    checkAndWarn(!inputData.paperName, 'paperName');
+    checkAndWarn(!inputData.paperUrl, 'paperUrl');
     checkAndWarn(!inputData.bankAccName, 'bankAccName');
+    checkAndWarn(!inputData.paymentProofName, 'paymentProofName');
 
     if (isToastTriggered) {
       callToast({
@@ -131,50 +140,52 @@ export default function RegistWithPaper() {
         behavior: 'smooth',
       });
     } else {
-      console.log({ filesForm2, inputData });
-      //shoot API here
-      // const loadingToastId = callLoading('Submitting PTC abstract...'); // Tampilkan toast loading
-      // try {
-      //   setIsLoading(true);
-      //   const dataTicket = {
-      //     teamName: inputData.teamName,
-      //     letterPlagiarism: inputData.plagiarismUrl,
-      //     abstract: inputData.abstractUrl,
-      //     type: 'PTC',
-      //   };
-      //   const response = await fetch('/api/regist2', {
-      //     method: 'POST',
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(dataTicket),
-      //   });
-      //   const bodyResponse = await response.json();
-      //   if (!response.ok) {
-      //     callToast({
-      //       status: 'error',
-      //       description: bodyResponse.message,
-      //     });
-      //   } else {
-      //     callToast({
-      //       status: 'success',
-      //       description: bodyResponse.message,
-      //     });
-      //     router.push('/events/ptc');
-      //     localStorage.removeItem(inputDataHistoryKey);
-      //   }
-      // } catch (err) {
-      //   callToast({
-      //     status: 'error',
-      //     description:
-      //       'Something went wrong while submit your data, please try again',
-      //   });
-      //   setIsLoading(false);
-      // } finally {
-      //   toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
-      //   setIsLoading(false);
-      // }
+      console.log({ inputData });
+
+      const loadingToastId = callLoading('Submitting Registration Form...'); // Tampilkan toast loading
+      try {
+        setIsLoading(true);
+        const dataTicket = {
+          teamName: inputData.teamName,
+          linkGDrive: inputData.paperUrl,
+          paymentProof: inputData.paymentProofUrl,
+          billName: inputData.bankAccName,
+          karya: inputData.paperUrl,
+          type: 'PTC',
+        };
+        const response = await fetch('/api/regist3', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataTicket),
+        });
+        const bodyResponse = await response.json();
+        if (!response.ok) {
+          callToast({
+            status: 'error',
+            description: bodyResponse.message,
+          });
+        } else {
+          callToast({
+            status: 'success',
+            description: bodyResponse.message,
+          });
+          router.push('/events/tpc');
+          localStorage.removeItem(inputDataHistoryKey);
+        }
+      } catch (err) {
+        callToast({
+          status: 'error',
+          description:
+            'Something went wrong while submit your data, please try again',
+        });
+        setIsLoading(false);
+      } finally {
+        toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+        setIsLoading(false);
+      }
     }
   };
 
@@ -233,6 +244,7 @@ export default function RegistWithPaper() {
   // }, [status, router, session?.user]);
 
   // Load Local Storage
+
   useEffect(() => {
     const memoryInputData = localStorage.getItem(inputDataHistoryKey);
     if (memoryInputData) {
@@ -242,20 +254,28 @@ export default function RegistWithPaper() {
         if (
           typeof historyInputData === 'object' &&
           'teamName' in historyInputData &&
-          'paperName' in historyInputData &&
           'paperUrl' in historyInputData &&
           'bankAccName' in historyInputData &&
-          'paymentMethod' in historyInputData
+          'paymentMethod' in historyInputData &&
+          'paymentProofName' in historyInputData &&
+          'paymentProofUrl' in historyInputData
         ) {
-          const { teamName, paperName, paperUrl, bankAccName, paymentMethod } =
-            historyInputData;
-
-          setInputData({
+          const {
             teamName,
-            paperName,
             paperUrl,
             bankAccName,
             paymentMethod,
+            paymentProofName,
+            paymentProofUrl,
+          } = historyInputData;
+
+          setInputData({
+            teamName,
+            paperUrl,
+            bankAccName,
+            paymentMethod,
+            paymentProofName,
+            paymentProofUrl,
           });
         } else {
           localStorage.removeItem(inputDataHistoryKey);
@@ -269,7 +289,7 @@ export default function RegistWithPaper() {
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
       <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='Second Stage Registration and Paper Submission' />
+        <Title text='Second Stage Registration and Video Pitching Submission' />
         {step === 0 && (
           <>
             <Title text='Complete your details below' isSmall />
@@ -306,47 +326,35 @@ export default function RegistWithPaper() {
                   {isWarnedInputData.teamName && 'Please fill this data first'}
                 </span>
               </div>
-              <div className='flex justify-between pt-10 items-stretch flex-wrap'>
-                <div
-                  className='w-full'
-                  onClick={() => {
-                    setWarn('paperName', false);
-                  }}
+              <div className='flex flex-col'>
+                <label
+                  className='text-xl py-2'
+                  style={
+                    isWarnedInputData.paperUrl
+                      ? { color: 'rgba(255, 0, 0, 0.9)' }
+                      : {}
+                  }
                 >
-                  <p
-                    className='text-3xl py-4 text-center'
-                    style={
-                      isWarnedInputData.paperName
-                        ? { color: 'rgba(255, 0, 0, 0.9)' }
-                        : {}
-                    }
-                  >
-                    Paper
-                  </p>
-                  <SingleFileInput
-                    key={'Paper'}
-                    message='Paper'
-                    file={{
-                      fileName: inputData?.paperName,
-                      fileUrl: inputData?.paperUrl,
-                    }}
-                    allowedFileTypes={['application/pdf']}
-                    setFile={(newFiles) => {
-                      setInputData((inputData) => {
-                        const newInputData = { ...inputData };
-                        newInputData.paperUrl = newFiles?.fileUrl as string;
-                        newInputData.paperName = newFiles?.fileName as string;
-
-                        localStorage.setItem(
-                          inputDataHistoryKey,
-                          JSON.stringify(newInputData),
-                        );
-
-                        return newInputData;
-                      });
-                    }}
-                  />
-                </div>
+                  Video Pitching Link
+                </label>
+                <p className='mb-2'>Please submit your link here</p>
+                <TextInput
+                  placeholder={''}
+                  type='text'
+                  name='videoUrl'
+                  text={inputData.paperUrl}
+                  color='white'
+                  onChange={handleChange}
+                  onFocus={() => setWarn('paperUrl', false)}
+                  isWarned={isWarnedInputData.paperUrl}
+                  fullwidth
+                />
+                <span
+                  className='mt-1'
+                  style={{ color: 'rgba(255, 0, 0, 0.9)' }}
+                >
+                  {isWarnedInputData.paperUrl && 'Please fill this data first'}
+                </span>
               </div>
               <div className='w-fit max-w-fit mx-auto pt-8'>
                 <Button
@@ -442,65 +450,48 @@ export default function RegistWithPaper() {
                   </div>
                 </div>
               </div>
-              <div className='pt-8'>
-                <p className='text-2xl font-bold text-left'>Proof of Payment</p>
-                <div className='flex flex-col md:flex-row flex-wrap pt-4 justify-between'>
-                  <div className='w-full md:w-[49%]'>
-                    <MultipleFileInput
-                      key='FormPayment'
-                      message='Payment Proof'
-                      files={filesForm2}
-                      setFiles={setFilesForm2}
-                    />
-                  </div>
-                  <div className='w-full md:w-[47%] text-left pt-8 md:pt-0'>
-                    <p className='text-2xl'>Uploaded Files</p>
-                    <ul className='list-none h-[300px] overflow-y-scroll pr-2'>
-                      {filesForm2?.map((el, i) => (
-                        <li
-                          key={'filesForm2' + i}
-                          className={
-                            i > 0
-                              ? 'w-full h-fit flex py-4 border-t-2 border-[#4D4D4D]'
-                              : 'w-full h-fit flex py-4'
-                          }
-                        >
-                          <div className='w-fit p-2 px-4'>
-                            <FileIcon scale={1.7} fill='#FFE1B9' />
-                          </div>
-                          <div className='w-0 flex-grow flex flex-col justify-start'>
-                            <p>{el.fileName}</p>
-                            <a href={el.fileUrl} className='text-blue-500'>
-                              view file
-                            </a>
-                          </div>
-                          <button
-                            className='w-4 h-full flex text-lg font-bold'
-                            onClick={() =>
-                              setFilesForm2(
-                                (filesForm2: FileInputType[] | undefined) => {
-                                  const newFilesForm: FileInputType[] = [];
-                                  if (filesForm2?.length) {
-                                    for (
-                                      let j = 0;
-                                      j < filesForm2.length;
-                                      j++
-                                    ) {
-                                      if (j == i) continue;
-                                      newFilesForm.push(filesForm2[j]);
-                                    }
-                                  }
-                                  return newFilesForm;
-                                },
-                              )
-                            }
-                          >
-                            x
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <div className='flex justify-between pt-10 items-stretch flex-wrap'>
+                <div
+                  className='w-full'
+                  onClick={() => {
+                    setWarn('paymentProofName', false);
+                  }}
+                >
+                  <p
+                    className='text-3xl py-4 text-center'
+                    style={
+                      isWarnedInputData.paymentProofName
+                        ? { color: 'rgba(255, 0, 0, 0.9)' }
+                        : {}
+                    }
+                  >
+                    Payment Proof
+                  </p>
+                  <SingleFileInput
+                    key={'Payment Proof'}
+                    message='Payment Proof'
+                    file={{
+                      fileName: inputData?.paymentProofName,
+                      fileUrl: inputData?.paymentProofUrl,
+                    }}
+                    allowedFileTypes={['application/pdf']}
+                    setFile={(newFiles) => {
+                      setInputData((inputData) => {
+                        const newInputData = { ...inputData };
+                        newInputData.paymentProofUrl =
+                          newFiles?.fileUrl as string;
+                        newInputData.paymentProofName =
+                          newFiles?.fileName as string;
+
+                        localStorage.setItem(
+                          inputDataHistoryKey,
+                          JSON.stringify(newInputData),
+                        );
+
+                        return newInputData;
+                      });
+                    }}
+                  />
                 </div>
               </div>
 
