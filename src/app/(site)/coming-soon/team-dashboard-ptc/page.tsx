@@ -140,7 +140,10 @@ const Page = () => {
           imageUrl: profilePic.url,
         },
       );
-      console.log(sessionData?.user.id);
+      console.log(
+        'regist status :',
+        sessionData?.user.ticket?.PTC.regist2Status,
+      );
       console.log(response);
 
       setChangingProfilePic(false);
