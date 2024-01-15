@@ -92,17 +92,19 @@ function TPCnavigation() {
             </Button>
           </a>
         )}
-      <a
-        className='button ml-2 mr-2'
-        target='_blank'
-        onClick={() => {
-          dashboardHandler();
-        }}
-      >
-        <Button color='green' isFullWidth>
-          TPC Team Dashboard
-        </Button>
-      </a>
+      {teamInfo.data.id && (
+        <a
+          className='button ml-2 mr-2'
+          target='_blank'
+          onClick={() => {
+            dashboardHandler();
+          }}
+        >
+          <Button color='green' isFullWidth>
+            TPC Team Dashboard
+          </Button>
+        </a>
+      )}
     </div>
   );
 }

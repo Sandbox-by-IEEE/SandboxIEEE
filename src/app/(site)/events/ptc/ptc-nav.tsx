@@ -46,7 +46,7 @@ function PTCnavigation() {
 
       // DEBUG LINK
       const response = await axios.get(
-        `/api/user/clqrpmgkd0000k108s2o27cmw/participant?type=TPC`,
+        `/api/user/clqrpmgkd0000k108s2o27cmw/participant?type=PTC`,
       );
       getTeamInfo(response.data.data.teamId);
     } catch (error) {
@@ -92,17 +92,19 @@ function PTCnavigation() {
             </Button>
           </a>
         )}
-      <a
-        className='button ml-2 mr-2'
-        target='_blank'
-        onClick={() => {
-          dashboardHandler();
-        }}
-      >
-        <Button color='green' isFullWidth>
-          PTC Team Dashboard
-        </Button>
-      </a>
+      {teamInfo.data.id && (
+        <a
+          className='button ml-2 mr-2'
+          target='_blank'
+          onClick={() => {
+            dashboardHandler();
+          }}
+        >
+          <Button color='green' isFullWidth>
+            PTC Team Dashboard
+          </Button>
+        </a>
+      )}
     </div>
   );
 }
