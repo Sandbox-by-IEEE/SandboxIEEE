@@ -111,7 +111,8 @@ export async function POST(req: NextRequest) {
     if (!existingRegist3Data) {
       const newKarya = await prisma.karya.create({
         data: {
-          linkKarya: karya,
+          linkFullPaper: karya,
+          linkVideo: linkGDrive,
           teamId: existingTeam.id,
         },
       });
@@ -120,7 +121,6 @@ export async function POST(req: NextRequest) {
       const newRegist3Data = await prisma.regist3Data.create({
         data: {
           billName,
-          linkGDrive,
           paymentProof,
           teamName,
           paymentMethod,
@@ -143,7 +143,8 @@ export async function POST(req: NextRequest) {
           id: existingRegist3Data.team.karya?.id,
         },
         data: {
-          linkKarya: karya,
+          linkFullPaper: karya,
+          linkVideo: linkGDrive,
           teamId: existingTeam.id,
         },
       });
@@ -155,7 +156,6 @@ export async function POST(req: NextRequest) {
         },
         data: {
           billName,
-          linkGDrive,
           paymentProof,
           teamName,
           paymentMethod,
@@ -185,8 +185,8 @@ export async function POST(req: NextRequest) {
       billName: regist3Data.billName,
       paymentProof: regist3Data.paymentProof,
       paymentMethod: regist3Data.paymentMethod,
-      linkGDrive: regist3Data.linkGDrive,
-      karya: karyaData.linkKarya,
+      linkGDrive: karyaData.linkVideo,
+      karya: karyaData.linkFullPaper,
     };
 
     const sheetUrl =
@@ -243,6 +243,8 @@ export async function POST(req: NextRequest) {
       countVote: parseInt(karyaData.countVote.toString()),
     };
 
+    regist3Data.team.karya = null
+
     return NextResponse.json(
       {
         data: { ...regist3Data, karya: serializedKarya },
@@ -277,7 +279,6 @@ export async function POST(req: NextRequest) {
             },
             data: {
               billName: registData.billName,
-              linkGDrive: registData.linkGDrive,
               paymentProof: registData.paymentProof,
               paymentMethod: registData.paymentMethod,
               teamName: registData.teamName,
@@ -291,7 +292,8 @@ export async function POST(req: NextRequest) {
                 id: karyaId,
               },
               data: {
-                linkKarya: registData.team.karya?.linkKarya,
+                linkFullPaper: registData.team.karya?.linkFullPaper,
+                linkVideo: registData.team.karya?.linkVideo,
               },
             });
           }
