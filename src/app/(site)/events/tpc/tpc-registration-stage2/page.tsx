@@ -8,17 +8,19 @@ import Button from '@/components/Button';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
 import TextInput from '@/components/TextInput';
-import { callLoading } from '@/components/Toast';
 import { callToast } from '@/components/Toast';
+import { callLoading } from '@/components/Toast';
 
 export default function RegistWithPaper() {
   const router = useRouter();
-  const inputDataHistoryKey = 'ptc-regist-paper-history';
+  const inputDataHistoryKey = 'regist-paper-history';
 
   // const router = useRouter();
+
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState({
     teamName: '',
+    paperName: '',
     paperUrl: '',
     bankAccName: '',
     paymentMethod: '',
@@ -28,9 +30,11 @@ export default function RegistWithPaper() {
 
   const [isWarnedInputData, setIsWarnedInputData] = useState({
     teamName: false,
+    paperName: false,
     paperUrl: false,
     bankAccName: false,
     paymentMethod: false,
+    paymentProof: false,
     paymentProofName: false,
     paymentProofUrl: false,
   });
@@ -46,14 +50,7 @@ export default function RegistWithPaper() {
     const newInputData = { ...inputData };
 
     // Handle top-level fields
-    // Handle top-level fields
-    if (name === 'teamName') {
-      newInputData.teamName = value;
-    } else if (name === 'videoUrl') {
-      newInputData.paperUrl = value;
-    } else {
-      newInputData[name] = value;
-    }
+    newInputData[name] = value;
 
     if (newInputData !== inputData) {
       setInputData(newInputData);
@@ -65,6 +62,7 @@ export default function RegistWithPaper() {
   const setWarn = (
     prop:
       | 'teamName'
+      | 'paperName'
       | 'paperUrl'
       | 'bankAccName'
       | 'paymentMethod'
@@ -83,14 +81,17 @@ export default function RegistWithPaper() {
     e.preventDefault();
 
     let isToastTriggered = false;
-    const checkAndWarn = (bool: boolean, prop: 'teamName' | 'paperUrl') => {
+    const checkAndWarn = (
+      bool: boolean,
+      prop: 'teamName' | 'paperName' | 'paperUrl',
+    ) => {
       if (bool) {
         setWarn(prop, true);
         isToastTriggered = true;
       }
     };
     checkAndWarn(!inputData.teamName, 'teamName');
-    checkAndWarn(!inputData.paperUrl, 'paperUrl');
+    checkAndWarn(!inputData.paperName, 'paperName');
 
     if (isToastTriggered) {
       callToast({
@@ -114,6 +115,7 @@ export default function RegistWithPaper() {
       bool: boolean,
       prop:
         | 'teamName'
+        | 'paperName'
         | 'paperUrl'
         | 'bankAccName'
         | 'paymentMethod'
@@ -126,7 +128,7 @@ export default function RegistWithPaper() {
       }
     };
     checkAndWarn(!inputData.teamName, 'teamName');
-    checkAndWarn(!inputData.paperUrl, 'paperUrl');
+    checkAndWarn(!inputData.paperName, 'paperName');
     checkAndWarn(!inputData.bankAccName, 'bankAccName');
     checkAndWarn(!inputData.paymentProofName, 'paymentProofName');
 
@@ -142,16 +144,19 @@ export default function RegistWithPaper() {
     } else {
       console.log({ inputData });
 
+      // console.log({ filesForm2, inputData });
+
+      //shoot API here
       const loadingToastId = callLoading('Submitting Registration Form...'); // Tampilkan toast loading
       try {
         setIsLoading(true);
         const dataTicket = {
           teamName: inputData.teamName,
-          linkGDrive: inputData.paperUrl,
+          linkGDrive: '',
           paymentProof: inputData.paymentProofUrl,
           billName: inputData.bankAccName,
           karya: inputData.paperUrl,
-          type: 'PTC',
+          type: 'TPC',
         };
         const response = await fetch('/api/regist3', {
           method: 'POST',
@@ -244,7 +249,6 @@ export default function RegistWithPaper() {
   // }, [status, router, session?.user]);
 
   // Load Local Storage
-
   useEffect(() => {
     const memoryInputData = localStorage.getItem(inputDataHistoryKey);
     if (memoryInputData) {
@@ -254,6 +258,7 @@ export default function RegistWithPaper() {
         if (
           typeof historyInputData === 'object' &&
           'teamName' in historyInputData &&
+          'paperName' in historyInputData &&
           'paperUrl' in historyInputData &&
           'bankAccName' in historyInputData &&
           'paymentMethod' in historyInputData &&
@@ -262,6 +267,7 @@ export default function RegistWithPaper() {
         ) {
           const {
             teamName,
+            paperName,
             paperUrl,
             bankAccName,
             paymentMethod,
@@ -271,6 +277,7 @@ export default function RegistWithPaper() {
 
           setInputData({
             teamName,
+            paperName,
             paperUrl,
             bankAccName,
             paymentMethod,
@@ -289,7 +296,7 @@ export default function RegistWithPaper() {
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
       <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='Second Stage Registration and Video Pitching Submission' />
+        <Title text='Second Stage Registration and Paper Submission' />
         {step === 0 && (
           <>
             <Title text='Complete your details below' isSmall />
@@ -326,35 +333,47 @@ export default function RegistWithPaper() {
                   {isWarnedInputData.teamName && 'Please fill this data first'}
                 </span>
               </div>
-              <div className='flex flex-col'>
-                <label
-                  className='text-xl py-2'
-                  style={
-                    isWarnedInputData.paperUrl
-                      ? { color: 'rgba(255, 0, 0, 0.9)' }
-                      : {}
-                  }
+              <div className='flex justify-between pt-10 items-stretch flex-wrap'>
+                <div
+                  className='w-full'
+                  onClick={() => {
+                    setWarn('paperName', false);
+                  }}
                 >
-                  Video Pitching Link
-                </label>
-                <p className='mb-2'>Please submit your link here</p>
-                <TextInput
-                  placeholder={''}
-                  type='text'
-                  name='videoUrl'
-                  text={inputData.paperUrl}
-                  color='white'
-                  onChange={handleChange}
-                  onFocus={() => setWarn('paperUrl', false)}
-                  isWarned={isWarnedInputData.paperUrl}
-                  fullwidth
-                />
-                <span
-                  className='mt-1'
-                  style={{ color: 'rgba(255, 0, 0, 0.9)' }}
-                >
-                  {isWarnedInputData.paperUrl && 'Please fill this data first'}
-                </span>
+                  <p
+                    className='text-3xl py-4 text-center'
+                    style={
+                      isWarnedInputData.paperName
+                        ? { color: 'rgba(255, 0, 0, 0.9)' }
+                        : {}
+                    }
+                  >
+                    Paper
+                  </p>
+                  <SingleFileInput
+                    key={'Paper'}
+                    message='Paper'
+                    file={{
+                      fileName: inputData?.paperName,
+                      fileUrl: inputData?.paperUrl,
+                    }}
+                    allowedFileTypes={['application/pdf']}
+                    setFile={(newFiles) => {
+                      setInputData((inputData) => {
+                        const newInputData = { ...inputData };
+                        newInputData.paperUrl = newFiles?.fileUrl as string;
+                        newInputData.paperName = newFiles?.fileName as string;
+
+                        localStorage.setItem(
+                          inputDataHistoryKey,
+                          JSON.stringify(newInputData),
+                        );
+
+                        return newInputData;
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <div className='w-fit max-w-fit mx-auto pt-8'>
                 <Button
