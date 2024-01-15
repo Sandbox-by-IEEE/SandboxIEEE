@@ -1,6 +1,8 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Button from '@/components/Button';
 import { FileInputType } from '@/components/FileInput/fileInput-type';
@@ -10,8 +12,10 @@ import GradientBox from '@/components/GradientBox';
 import FileIcon from '@/components/icons/FileIcon';
 import TextInput from '@/components/TextInput';
 import { callToast } from '@/components/Toast';
+import { callLoading } from '@/components/Toast';
 
 export default function RegistWithPaper() {
+  const router = useRouter();
   const inputDataHistoryKey = 'regist-paper-history';
 
   // const router = useRouter();
@@ -132,49 +136,52 @@ export default function RegistWithPaper() {
       });
     } else {
       console.log({ filesForm2, inputData });
+
       //shoot API here
-      // const loadingToastId = callLoading('Submitting PTC abstract...'); // Tampilkan toast loading
-      // try {
-      //   setIsLoading(true);
-      //   const dataTicket = {
-      //     teamName: inputData.teamName,
-      //     letterPlagiarism: inputData.plagiarismUrl,
-      //     abstract: inputData.abstractUrl,
-      //     type: 'PTC',
-      //   };
-      //   const response = await fetch('/api/regist2', {
-      //     method: 'POST',
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(dataTicket),
-      //   });
-      //   const bodyResponse = await response.json();
-      //   if (!response.ok) {
-      //     callToast({
-      //       status: 'error',
-      //       description: bodyResponse.message,
-      //     });
-      //   } else {
-      //     callToast({
-      //       status: 'success',
-      //       description: bodyResponse.message,
-      //     });
-      //     router.push('/events/ptc');
-      //     localStorage.removeItem(inputDataHistoryKey);
-      //   }
-      // } catch (err) {
-      //   callToast({
-      //     status: 'error',
-      //     description:
-      //       'Something went wrong while submit your data, please try again',
-      //   });
-      //   setIsLoading(false);
-      // } finally {
-      //   toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
-      //   setIsLoading(false);
-      // }
+      const loadingToastId = callLoading('Submitting Registration Form...'); // Tampilkan toast loading
+      try {
+        setIsLoading(true);
+        const dataTicket = {
+          teamName: inputData.teamName,
+          linkGDrive: '',
+          paymentProof: '',
+          billName: inputData.bankAccName,
+          karya: inputData.paperUrl,
+          type: 'TPC',
+        };
+        const response = await fetch('/api/regist3', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataTicket),
+        });
+        const bodyResponse = await response.json();
+        if (!response.ok) {
+          callToast({
+            status: 'error',
+            description: bodyResponse.message,
+          });
+        } else {
+          callToast({
+            status: 'success',
+            description: bodyResponse.message,
+          });
+          router.push('/events/tpc');
+          localStorage.removeItem(inputDataHistoryKey);
+        }
+      } catch (err) {
+        callToast({
+          status: 'error',
+          description:
+            'Something went wrong while submit your data, please try again',
+        });
+        setIsLoading(false);
+      } finally {
+        toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+        setIsLoading(false);
+      }
     }
   };
 
