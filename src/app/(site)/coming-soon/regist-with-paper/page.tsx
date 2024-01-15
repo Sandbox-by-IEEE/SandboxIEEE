@@ -15,7 +15,9 @@ export default function RegistWithPaper() {
   const inputDataHistoryKey = 'regist-paper-history';
 
   // const router = useRouter();
-  const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>([]);
+  const [paymentProofs, setPaymentProofs] = useState<
+    FileInputType[] | undefined
+  >([]);
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState({
     teamName: '',
@@ -31,6 +33,7 @@ export default function RegistWithPaper() {
     paperUrl: false,
     bankAccName: false,
     paymentMethod: false,
+    paymentProof: false,
   });
   const [step, setStep] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -120,6 +123,14 @@ export default function RegistWithPaper() {
     checkAndWarn(!inputData.teamName, 'teamName');
     checkAndWarn(!inputData.paperName, 'paperName');
     checkAndWarn(!inputData.bankAccName, 'bankAccName');
+    if (!paymentProofs?.length) {
+      setIsWarnedInputData((isWarnedInputData) => {
+        const newIsWarnedInputData = { ...isWarnedInputData };
+        newIsWarnedInputData.paymentProof = true;
+        return newIsWarnedInputData;
+      });
+      isToastTriggered = true;
+    }
 
     if (isToastTriggered) {
       callToast({
@@ -131,7 +142,8 @@ export default function RegistWithPaper() {
         behavior: 'smooth',
       });
     } else {
-      console.log({ filesForm2, inputData });
+      console.log({ paymentProofs, inputData });
+
       //shoot API here
       // const loadingToastId = callLoading('Submitting PTC abstract...'); // Tampilkan toast loading
       // try {
@@ -442,23 +454,36 @@ export default function RegistWithPaper() {
                   </div>
                 </div>
               </div>
-              <div className='pt-8'>
+              <div
+                className={`pt-8 ${
+                  isWarnedInputData.paymentProof && 'text-red-500'
+                }`}
+                onClick={() =>
+                  setIsWarnedInputData((oldData) => ({
+                    ...oldData,
+                    paymentProof: false,
+                  }))
+                }
+              >
                 <p className='text-2xl font-bold text-left'>Proof of Payment</p>
+                {isWarnedInputData.paymentProof && (
+                  <p>Please upload atleast 1 payment proof</p>
+                )}
                 <div className='flex flex-col md:flex-row flex-wrap pt-4 justify-between'>
                   <div className='w-full md:w-[49%]'>
                     <MultipleFileInput
                       key='FormPayment'
                       message='Payment Proof'
-                      files={filesForm2}
-                      setFiles={setFilesForm2}
+                      files={paymentProofs}
+                      setFiles={setPaymentProofs}
                     />
                   </div>
                   <div className='w-full md:w-[47%] text-left pt-8 md:pt-0'>
                     <p className='text-2xl'>Uploaded Files</p>
                     <ul className='list-none h-[300px] overflow-y-scroll pr-2'>
-                      {filesForm2?.map((el, i) => (
+                      {paymentProofs?.map((el, i) => (
                         <li
-                          key={'filesForm2' + i}
+                          key={'paymentProofs' + i}
                           className={
                             i > 0
                               ? 'w-full h-fit flex py-4 border-t-2 border-[#4D4D4D]'
@@ -477,17 +502,19 @@ export default function RegistWithPaper() {
                           <button
                             className='w-4 h-full flex text-lg font-bold'
                             onClick={() =>
-                              setFilesForm2(
-                                (filesForm2: FileInputType[] | undefined) => {
+                              setPaymentProofs(
+                                (
+                                  paymentProofs: FileInputType[] | undefined,
+                                ) => {
                                   const newFilesForm: FileInputType[] = [];
-                                  if (filesForm2?.length) {
+                                  if (paymentProofs?.length) {
                                     for (
                                       let j = 0;
-                                      j < filesForm2.length;
+                                      j < paymentProofs.length;
                                       j++
                                     ) {
                                       if (j == i) continue;
-                                      newFilesForm.push(filesForm2[j]);
+                                      newFilesForm.push(paymentProofs[j]);
                                     }
                                   }
                                   return newFilesForm;
