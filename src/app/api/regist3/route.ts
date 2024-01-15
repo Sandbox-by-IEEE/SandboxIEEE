@@ -15,13 +15,7 @@ export async function POST(req: NextRequest) {
 
     const { teamName, linkGDrive, paymentProof, billName, karya, type } = body;
 
-    if (
-      !teamName ||
-      !linkGDrive ||
-      !paymentProof ||
-      !type ||
-      !billName
-    ) {
+    if (!teamName || !linkGDrive || !paymentProof || !type || !billName) {
       return NextResponse.json(
         { message: 'Missing some data' },
         { status: 400 },
@@ -79,11 +73,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (type === 'TPC' && !karya && karya?.length === 0){
+    if (type === 'TPC' && !karya && karya?.length === 0) {
       return NextResponse.json(
         {
-          message:
-            'Full paper must be submitted in TPC',
+          message: 'Full paper must be submitted in TPC',
         },
         { status: 400 },
       );
