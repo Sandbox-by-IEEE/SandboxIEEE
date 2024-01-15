@@ -11,11 +11,11 @@ function TPCnavigation() {
   const { data: session } = useSession();
 
   const submissionHandler = () => {
-    router.push('');
+    router.push('/events/tpc/tpc-registration-stage2');
   };
 
   const dashboardHandler = () => {
-    router.push('');
+    router.push('/events/tpc/team-dashboard-tpc');
   };
 
   const [teamInfo, setTeamInfo] = useState({
