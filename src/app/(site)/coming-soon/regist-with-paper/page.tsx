@@ -3,11 +3,8 @@ import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
-import { FileInputType } from '@/components/FileInput/fileInput-type';
-import MultipleFileInput from '@/components/FileInput/MultipleFileInput';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
-import FileIcon from '@/components/icons/FileIcon';
 import TextInput from '@/components/TextInput';
 import { callToast } from '@/components/Toast';
 
@@ -15,9 +12,7 @@ export default function RegistWithPaper() {
   const inputDataHistoryKey = 'regist-paper-history';
 
   // const router = useRouter();
-  const [paymentProofs, setPaymentProofs] = useState<
-    FileInputType[] | undefined
-  >([]);
+
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState({
     teamName: '',
@@ -25,6 +20,8 @@ export default function RegistWithPaper() {
     paperUrl: '',
     bankAccName: '',
     paymentMethod: '',
+    paymentProofName: '',
+    paymentProofUrl: '',
   });
 
   const [isWarnedInputData, setIsWarnedInputData] = useState({
@@ -34,6 +31,8 @@ export default function RegistWithPaper() {
     bankAccName: false,
     paymentMethod: false,
     paymentProof: false,
+    paymentProofName: false,
+    paymentProofUrl: false,
   });
   const [step, setStep] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,7 +61,9 @@ export default function RegistWithPaper() {
       | 'paperName'
       | 'paperUrl'
       | 'bankAccName'
-      | 'paymentMethod',
+      | 'paymentMethod'
+      | 'paymentProofName'
+      | 'paymentProofUrl',
     bool: boolean,
   ) => {
     setIsWarnedInputData((isWarnedInputData) => {
@@ -113,7 +114,9 @@ export default function RegistWithPaper() {
         | 'paperName'
         | 'paperUrl'
         | 'bankAccName'
-        | 'paymentMethod',
+        | 'paymentMethod'
+        | 'paymentProofName'
+        | 'paymentProofUrl',
     ) => {
       if (bool) {
         setWarn(prop, true);
@@ -123,14 +126,7 @@ export default function RegistWithPaper() {
     checkAndWarn(!inputData.teamName, 'teamName');
     checkAndWarn(!inputData.paperName, 'paperName');
     checkAndWarn(!inputData.bankAccName, 'bankAccName');
-    if (!paymentProofs?.length) {
-      setIsWarnedInputData((isWarnedInputData) => {
-        const newIsWarnedInputData = { ...isWarnedInputData };
-        newIsWarnedInputData.paymentProof = true;
-        return newIsWarnedInputData;
-      });
-      isToastTriggered = true;
-    }
+    checkAndWarn(!inputData.paymentProofName, 'paymentProofName');
 
     if (isToastTriggered) {
       callToast({
@@ -142,7 +138,7 @@ export default function RegistWithPaper() {
         behavior: 'smooth',
       });
     } else {
-      console.log({ paymentProofs, inputData });
+      console.log({ inputData });
 
       //shoot API here
       // const loadingToastId = callLoading('Submitting PTC abstract...'); // Tampilkan toast loading
@@ -257,10 +253,19 @@ export default function RegistWithPaper() {
           'paperName' in historyInputData &&
           'paperUrl' in historyInputData &&
           'bankAccName' in historyInputData &&
-          'paymentMethod' in historyInputData
+          'paymentMethod' in historyInputData &&
+          'paymentProofName' in historyInputData &&
+          'paymentProofUrl' in historyInputData
         ) {
-          const { teamName, paperName, paperUrl, bankAccName, paymentMethod } =
-            historyInputData;
+          const {
+            teamName,
+            paperName,
+            paperUrl,
+            bankAccName,
+            paymentMethod,
+            paymentProofName,
+            paymentProofUrl,
+          } = historyInputData;
 
           setInputData({
             teamName,
@@ -268,6 +273,8 @@ export default function RegistWithPaper() {
             paperUrl,
             bankAccName,
             paymentMethod,
+            paymentProofName,
+            paymentProofUrl,
           });
         } else {
           localStorage.removeItem(inputDataHistoryKey);
@@ -454,80 +461,48 @@ export default function RegistWithPaper() {
                   </div>
                 </div>
               </div>
-              <div
-                className={`pt-8 ${
-                  isWarnedInputData.paymentProof && 'text-red-500'
-                }`}
-                onClick={() =>
-                  setIsWarnedInputData((oldData) => ({
-                    ...oldData,
-                    paymentProof: false,
-                  }))
-                }
-              >
-                <p className='text-2xl font-bold text-left'>Proof of Payment</p>
-                {isWarnedInputData.paymentProof && (
-                  <p>Please upload atleast 1 payment proof</p>
-                )}
-                <div className='flex flex-col md:flex-row flex-wrap pt-4 justify-between'>
-                  <div className='w-full md:w-[49%]'>
-                    <MultipleFileInput
-                      key='FormPayment'
-                      message='Payment Proof'
-                      files={paymentProofs}
-                      setFiles={setPaymentProofs}
-                    />
-                  </div>
-                  <div className='w-full md:w-[47%] text-left pt-8 md:pt-0'>
-                    <p className='text-2xl'>Uploaded Files</p>
-                    <ul className='list-none h-[300px] overflow-y-scroll pr-2'>
-                      {paymentProofs?.map((el, i) => (
-                        <li
-                          key={'paymentProofs' + i}
-                          className={
-                            i > 0
-                              ? 'w-full h-fit flex py-4 border-t-2 border-[#4D4D4D]'
-                              : 'w-full h-fit flex py-4'
-                          }
-                        >
-                          <div className='w-fit p-2 px-4'>
-                            <FileIcon scale={1.7} fill='#FFE1B9' />
-                          </div>
-                          <div className='w-0 flex-grow flex flex-col justify-start'>
-                            <p>{el.fileName}</p>
-                            <a href={el.fileUrl} className='text-blue-500'>
-                              view file
-                            </a>
-                          </div>
-                          <button
-                            className='w-4 h-full flex text-lg font-bold'
-                            onClick={() =>
-                              setPaymentProofs(
-                                (
-                                  paymentProofs: FileInputType[] | undefined,
-                                ) => {
-                                  const newFilesForm: FileInputType[] = [];
-                                  if (paymentProofs?.length) {
-                                    for (
-                                      let j = 0;
-                                      j < paymentProofs.length;
-                                      j++
-                                    ) {
-                                      if (j == i) continue;
-                                      newFilesForm.push(paymentProofs[j]);
-                                    }
-                                  }
-                                  return newFilesForm;
-                                },
-                              )
-                            }
-                          >
-                            x
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <div className='flex justify-between pt-10 items-stretch flex-wrap'>
+                <div
+                  className='w-full'
+                  onClick={() => {
+                    setWarn('paymentProofName', false);
+                  }}
+                >
+                  <p
+                    className='text-3xl py-4 text-center'
+                    style={
+                      isWarnedInputData.paymentProofName
+                        ? { color: 'rgba(255, 0, 0, 0.9)' }
+                        : {}
+                    }
+                  >
+                    Payment Proof
+                  </p>
+                  <SingleFileInput
+                    key={'Payment Proof'}
+                    message='Payment Proof'
+                    file={{
+                      fileName: inputData?.paymentProofName,
+                      fileUrl: inputData?.paymentProofUrl,
+                    }}
+                    allowedFileTypes={['application/pdf']}
+                    setFile={(newFiles) => {
+                      setInputData((inputData) => {
+                        const newInputData = { ...inputData };
+                        newInputData.paymentProofUrl =
+                          newFiles?.fileUrl as string;
+                        newInputData.paymentProofName =
+                          newFiles?.fileName as string;
+
+                        localStorage.setItem(
+                          inputDataHistoryKey,
+                          JSON.stringify(newInputData),
+                        );
+
+                        return newInputData;
+                      });
+                    }}
+                  />
                 </div>
               </div>
 
