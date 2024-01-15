@@ -5,6 +5,7 @@ import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import LinkTPCClient from '@/app/(site)/events/tpc/link-client';
+import TPCnavigation from '@/app/(site)/events/tpc/tpc-nav';
 import ButtonRegistration from '@/components/ButtonRegistration';
 import { FAQ } from '@/components/FAQ';
 import Explosion from '@/components/icons/explosion';
@@ -122,6 +123,9 @@ const TPC = async () => {
             <ButtonRegistration isDisabled type='TPC' color='gold'>
               Abstract Submission Closed
             </ButtonRegistration>
+          </div>
+          <div className='animate-blink duration-500 transition-all'>
+            <TPCnavigation />
           </div>
           <div className='animate-blink duration-500 transition-all'>
             <LinkTPCClient />

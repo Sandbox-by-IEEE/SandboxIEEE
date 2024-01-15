@@ -1,6 +1,8 @@
 'use client';
+import axios from 'axios';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
 import GradientBox from '@/components/GradientBox';
@@ -44,12 +46,83 @@ const className = {
 };
 
 const Page = () => {
-  const DEFAULT_PROFILE_PICTURE = '/assets/R-dummy.jpeg';
+  // Shot API User Info
+  const { data: sessionData, status } = useSession();
+  // console.log("ini data sesi:" , sessionData?.user.id)
+
+  const DEFAULT_PROFILE_PICTURE = '/Mascot.png';
   const [changingProfilePic, setChangingProfilePic] = useState(false);
   const [profilePic, setProfilePic] = useState({
     name: '',
     url: '',
   });
+
+  const [userInfo, setUserInfo] = useState({
+    data: {
+      id: '',
+      name: '',
+      email: '',
+      image: '',
+      phoneNumber: '',
+      institution: '',
+      teamId: '',
+      age: '',
+      position: '',
+    },
+    message: '',
+  });
+
+  const [teamInfo, setTeamInfo] = useState({
+    data: {
+      id: '',
+      teamName: '',
+      chairmanName: '',
+      chairmanEmail: '',
+      members: [{ name: '' }],
+      teamStatus: '',
+      abstract: { status: '' },
+      fullPaper: {},
+    },
+    message: '',
+  });
+
+  useEffect(() => {
+    if (sessionData?.user.id) {
+      getUserInfo();
+    }
+  }, [sessionData?.user.id]);
+
+  const getUserInfo = async () => {
+    try {
+      // const response = await axios.get(
+      //   `/api/user/${sessionData?.user.id}/participant?type=PTC`,
+      // );
+
+      // DEBUG LINK
+      const response = await axios.get(
+        `/api/user/clqrpmgkd0000k108s2o27cmw/participant?type=PTC`,
+      );
+
+      setUserInfo(response.data);
+      setProfilePic({
+        name: '',
+        url: response.data.data.image,
+      });
+
+      getTeamInfo(response.data.data.teamId);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getTeamInfo = async (teamId) => {
+    try {
+      const response = await axios.get(`/api/team/${teamId}`);
+      setTeamInfo(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleChangePic = async (newFiles) => {
     try {
@@ -61,13 +134,23 @@ const Page = () => {
         return newInputData;
       });
       //shoot API here
+      const response = await axios.patch(
+        `/api/user/${sessionData?.user.id}/image`,
+        {
+          imageUrl: profilePic.url,
+        },
+      );
+      console.log(
+        'regist status :',
+        sessionData?.user.ticket?.PTC.regist2Status,
+      );
+      console.log(response);
 
       setChangingProfilePic(false);
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <section className='min-h-screen w-full bg-gradient-to-b from-[#051F12] to-[#06190C] flex justify-center pb-4'>
       <div className='max-w-[1200px] w-full p-2 sm:p-4 space-y-8 md:space-y-20'>
@@ -117,7 +200,7 @@ const Page = () => {
             <div
               className={`bg-[#ffe1b98a] rounded-r-2xl py-2 ${width.currentStage}`}
             >
-              You are Here!
+              {teamInfo.data.teamStatus === 'Stage 3' ? 'You are Here!' : null}
             </div>
           </div>
           <div className='w-full flex justify-between'>
@@ -175,7 +258,7 @@ const Page = () => {
           <div className='w-full justify-between h-fit flex flex-row gap-4'>
             <section className='bg-gradient-to-b from-[#FFE1B9] to-[#AB814EDB] w-[32%] rounded-lg hidden md:flex md:flex-col justify-center items-center font-bold text-3xl py-8 gap-4'>
               <p>Hi,</p>
-              <p>TEAM ABC</p>
+              <p>{teamInfo.data.teamName}</p>
               <Image
                 src='/Group_1289.png'
                 width={200}
@@ -186,20 +269,24 @@ const Page = () => {
             </section>
             <section className='w-0 flex-grow bg-[#49784F] rounded-lg p-4 text-white font-semibold flex justify-between flex-col-reverse md:flex-row flex-wrap gap-4'>
               <div className='w-fit flex-grow-0 flex-shrink-0'>
-                <LableValue lable='Name'>Fairuz Aseloleh M.D</LableValue>
-                <LableValue lable='Position'>Ketua</LableValue>
-                <LableValue lable='Email Address'>
-                  Fairuzaseloleh@gmai.com
+                <LableValue lable='Name'>{userInfo.data.name}</LableValue>
+                <LableValue lable='Position'>
+                  {userInfo.data.position}
                 </LableValue>
-                <LableValue lable='Whatsapp Number'>081234567890</LableValue>
+                <LableValue lable='Email Address'>
+                  {userInfo.data.email}
+                </LableValue>
+                <LableValue lable='Whatsapp Number'>
+                  {userInfo.data.phoneNumber}
+                </LableValue>
                 <LableValue lable='Institution'>
-                  Institut Terbaik Bangsa
+                  {userInfo.data.institution}
                 </LableValue>
                 <LableValue lable='Team members :'>
                   <ul className='list-disc'>
-                    <li>Fairuz Satu</li>
-                    <li>Fairuz Dua</li>
-                    <li>Fairuz Lagi</li>
+                    {teamInfo.data.members.map((member, index) => (
+                      <li key={index}>{member.name}</li>
+                    ))}
                   </ul>
                 </LableValue>
               </div>
@@ -226,7 +313,9 @@ const Page = () => {
                     className='h-[200px] w-[170px] md:h-[80%] md:w-auto md:aspect-[2/3] object-cover'
                   />
                 )}
-                <p className='text-[#FFE1B9] py-2'>Team Status : Stage 3</p>
+                <p className='text-[#FFE1B9] py-2'>
+                  Team Status : {teamInfo.data.teamStatus}
+                </p>
                 <button
                   className='text-sm text-blue-300 hover:text-blue-400 hover:scale-105'
                   onClick={() => setChangingProfilePic(!changingProfilePic)}
