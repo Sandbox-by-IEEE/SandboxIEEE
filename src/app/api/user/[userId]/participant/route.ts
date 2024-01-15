@@ -47,6 +47,7 @@ export async function GET(
 
     const result = {
       id: existingUser.id,
+      name: existingParticipant.name,
       email: existingUser.email,
       image: existingUser.image,
       phoneNumber: existingParticipant.phoneNumber,
