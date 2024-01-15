@@ -11,11 +11,11 @@ function PTCnavigation() {
   const { data: session } = useSession();
 
   const submissionHandler = () => {
-    router.push('');
+    router.push('/events/ptc/ptc-registration-stage2');
   };
 
   const dashboardHandler = () => {
-    router.push('');
+    router.push('/events/ptc/team-dashboard-ptc');
   };
 
   const [teamInfo, setTeamInfo] = useState({
