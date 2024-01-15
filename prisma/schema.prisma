@@ -169,6 +169,7 @@ model Regist3Data {
   linkGDrive String
   billName String
   paymentProof String
+  paymentMethod String
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 

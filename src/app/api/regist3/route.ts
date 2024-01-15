@@ -14,9 +14,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     // console.log(body)
 
-    const { teamName, linkGDrive, paymentProof, billName, karya, type } = body;
+    const { teamName, linkGDrive, paymentProof, paymentMethod, billName, karya, type } = body;
 
-    if (!teamName || !paymentProof || !type || !billName) {
+    if (!teamName || !paymentProof || !type || !billName || !paymentMethod) {
       return NextResponse.json(
         { message: 'Missing some data' },
         { status: 400 },
@@ -123,6 +123,7 @@ export async function POST(req: NextRequest) {
           linkGDrive,
           paymentProof,
           teamName,
+          paymentMethod,
           teamId: existingTeam.id,
         },
         include: {
@@ -157,6 +158,7 @@ export async function POST(req: NextRequest) {
           linkGDrive,
           paymentProof,
           teamName,
+          paymentMethod,
           teamId: existingTeam.id,
           statusPayment: 'waiting',
         },
@@ -182,6 +184,7 @@ export async function POST(req: NextRequest) {
       teamName: regist3Data.teamName,
       billName: regist3Data.billName,
       paymentProof: regist3Data.paymentProof,
+      paymentMethod: regist3Data.paymentMethod,
       linkGDrive: regist3Data.linkGDrive,
       karya: karyaData.linkKarya,
     };
@@ -276,6 +279,7 @@ export async function POST(req: NextRequest) {
               billName: registData.billName,
               linkGDrive: registData.linkGDrive,
               paymentProof: registData.paymentProof,
+              paymentMethod: registData.paymentMethod,
               teamName: registData.teamName,
               teamId: registData.teamId,
               statusPayment: registData.statusPayment,
