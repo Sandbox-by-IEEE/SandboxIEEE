@@ -96,11 +96,10 @@ export const authOptions: AuthOptions = {
               countVote: parseInt(
                 existingUser.karya?.countVote.toString() || '0',
               ),
-              linkFullPaper: existingUser.karya.linkFullPaper || "",
-              linkVideo: existingUser.karya.linkVideo || ""
+              linkFullPaper: existingUser.karya.linkFullPaper || '',
+              linkVideo: existingUser.karya.linkVideo || '',
             }
           : undefined;
-
 
         const ticketExhibition = existingUser.ticketsExhibition
           ? existingUser.ticketsExhibition
@@ -259,7 +258,7 @@ export const authOptions: AuthOptions = {
               id: true,
               countVote: true,
               linkFullPaper: true,
-              linkVideo:true,
+              linkVideo: true,
               team: {
                 select: {
                   id: true,

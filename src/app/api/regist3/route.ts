@@ -14,7 +14,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     // console.log(body)
 
-    const { teamName, linkGDrive, paymentProof, paymentMethod, billName, karya, type } = body;
+    const {
+      teamName,
+      linkGDrive,
+      paymentProof,
+      paymentMethod,
+      billName,
+      karya,
+      type,
+    } = body;
 
     if (!teamName || !paymentProof || !type || !billName || !paymentMethod) {
       return NextResponse.json(
@@ -243,7 +251,7 @@ export async function POST(req: NextRequest) {
       countVote: parseInt(karyaData.countVote.toString()),
     };
 
-    regist3Data.team.karya = null
+    regist3Data.team.karya = null;
 
     return NextResponse.json(
       {
