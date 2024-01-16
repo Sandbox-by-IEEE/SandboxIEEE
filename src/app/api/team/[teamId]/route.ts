@@ -43,7 +43,7 @@ export async function GET(
       members: existingTeam.members,
       teamStatus: '',
       abstract: existingTeam.abstract,
-      fullPaper: {
+      karya: {
         ...existingTeam.karya,
         countVote: parseInt(existingTeam.karya?.countVote.toString() || '0'),
       },
