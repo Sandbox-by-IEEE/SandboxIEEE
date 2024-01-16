@@ -8,14 +8,18 @@ function LinkTPCClient() {
 
   const linkHref =
     session?.user.ticket?.TPC.verified === 'verified'
-      ? 'https://drive.google.com/file/d/1yfrPlYfwlcEOUEkiat2yhhHddV8KBcut/view?usp=sharing'
+      ? session?.user.ticket?.TPC.regist2Status === 'qualified'
+        ? 'https://drive.google.com/file/d/1exhZwUVVCNWARio57EM56WPZ4wX_UB00/view'
+        : 'https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'
       : 'https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link';
 
   return (
     <a href={linkHref} target='_blank' rel='noopener noreferrer'>
       <Button color='gold' isFullWidth>
         {session?.user.ticket?.TPC.verified === 'verified'
-          ? 'Abstract Submission Guidelines'
+          ? session?.user.ticket?.TPC.regist2Status === 'qualified'
+            ? 'TPC Semi-Final Guidelines'
+            : 'Abstract Submission Guidelines'
           : 'Guidebooks'}
       </Button>
     </a>
