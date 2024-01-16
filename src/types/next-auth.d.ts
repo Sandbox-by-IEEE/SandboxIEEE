@@ -14,7 +14,8 @@ declare module 'next-auth' {
           chairmanName: string;
         };
         countVote: int;
-        linkKarya: string;
+        linkFullPaper: string;
+        linkVideo: string;
       };
     };
     ticket?: {
@@ -56,7 +57,8 @@ declare module 'next-auth' {
             chairmanName: string;
           };
           countVote: int;
-          linkKarya: string;
+          linkFullPaper: string;
+          linkVideo: string;
         };
       };
       ticket?: {
