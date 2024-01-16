@@ -34,31 +34,34 @@ function TPCnavigation() {
 
   useEffect(() => {
     if (session?.user.id) {
-      getUserInfo();
+      // getUserInfo();
+      getTeamInfo(session.user.ticket?.TPC.teamId);
     }
   }, [session?.user.id]);
 
-  const getUserInfo = async () => {
-    try {
-      // const response = await axios.get(
-      //   `/api/user/${sessionData?.user.id}/participant?type=PTC`,
-      // );
+  // const getUserInfo = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `/api/user/${session?.user.id}/participant?type=PTC`,
+  //     );
 
-      // DEBUG LINK
-      const response = await axios.get(
-        `/api/user/clqrpmgkd0000k108s2o27cmw/participant?type=TPC`,
-      );
-      getTeamInfo(response.data.data.teamId);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     // // DEBUG LINK
+  //     // const response = await axios.get(
+  //     //   `/api/user/clqrpmgkd0000k108s2o27cmw/participant?type=TPC`,
+  //     // );
+  //     getTeamInfo(response.data.data.teamId);
+  //   } catch (error) {
+  //     // eslint-disable-next-line no-console
+  //     console.error(error);
+  //   }
+  // };
 
   const getTeamInfo = async (teamId) => {
     try {
       const response = await axios.get(`/api/team/${teamId}`);
       setTeamInfo(response.data);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -79,7 +82,7 @@ function TPCnavigation() {
     <div className='container w-fit flex'>
       {session?.user.ticket?.PTC.isLeader &&
         now < deadline &&
-        teamInfo.data.teamStatus === 'Stage 3' && (
+        teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
           <a
             className='button ml-2 mr-2'
             target='_blank'

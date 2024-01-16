@@ -140,8 +140,6 @@ export default function RegistWithPaper() {
         behavior: 'smooth',
       });
     } else {
-      console.log({ inputData });
-
       const loadingToastId = callLoading('Submitting Registration Form...'); // Tampilkan toast loading
       try {
         setIsLoading(true);
@@ -149,8 +147,9 @@ export default function RegistWithPaper() {
           teamName: inputData.teamName,
           linkGDrive: inputData.paperUrl,
           paymentProof: inputData.paymentProofUrl,
+          paymentMethod: inputData.paymentMethod,
           billName: inputData.bankAccName,
-          karya: inputData.paperUrl,
+          karya: '',
           type: 'PTC',
         };
         const response = await fetch('/api/regist3', {

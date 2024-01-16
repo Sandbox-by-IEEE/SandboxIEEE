@@ -142,7 +142,7 @@ export default function RegistWithPaper() {
         behavior: 'smooth',
       });
     } else {
-      console.log({ inputData });
+      // console.log({ inputData });
 
       // console.log({ filesForm2, inputData });
 
@@ -154,6 +154,7 @@ export default function RegistWithPaper() {
           teamName: inputData.teamName,
           linkGDrive: '',
           paymentProof: inputData.paymentProofUrl,
+          paymentMethod: inputData.paymentMethod,
           billName: inputData.bankAccName,
           karya: inputData.paperUrl,
           type: 'TPC',
