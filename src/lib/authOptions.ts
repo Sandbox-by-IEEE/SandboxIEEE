@@ -36,7 +36,8 @@ export const authOptions: AuthOptions = {
               select: {
                 id: true,
                 countVote: true,
-                linkKarya: true,
+                linkFullPaper: true,
+                linkVideo: true,
                 team: {
                   select: {
                     id: true,
@@ -95,8 +96,11 @@ export const authOptions: AuthOptions = {
               countVote: parseInt(
                 existingUser.karya?.countVote.toString() || '0',
               ),
+              linkFullPaper: existingUser.karya.linkFullPaper || "",
+              linkVideo: existingUser.karya.linkVideo || ""
             }
           : undefined;
+
 
         const ticketExhibition = existingUser.ticketsExhibition
           ? existingUser.ticketsExhibition
@@ -254,7 +258,8 @@ export const authOptions: AuthOptions = {
             select: {
               id: true,
               countVote: true,
-              linkKarya: true,
+              linkFullPaper: true,
+              linkVideo:true,
               team: {
                 select: {
                   id: true,

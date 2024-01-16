@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
     const newKarya = await prisma.karya.create({
       data: {
-        linkKarya: karya,
+        linkFullPaper: karya,
         teamId: existingTeam.id,
       },
       include: {
