@@ -94,14 +94,14 @@ const Page = () => {
 
   const getUserInfo = async () => {
     try {
-      // const response = await axios.get(
-      //   `/api/user/${sessionData?.user.id}/participant?type=PTC`,
-      // );
-
-      // DEBUG LINK
       const response = await axios.get(
-        `/api/user/clqrpmgkd0000k108s2o27cmw/participant?type=TPC`,
+        `/api/user/${sessionData?.user.id}/participant?type=PTC`,
       );
+
+      // // DEBUG LINK
+      // const response = await axios.get(
+      //   `/api/user/clqrpmgkd0000k108s2o27cmw/participant?type=TPC`,
+      // );
 
       setUserInfo(response.data);
       setProfilePic({
@@ -111,6 +111,7 @@ const Page = () => {
 
       getTeamInfo(response.data.data.teamId);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -120,6 +121,7 @@ const Page = () => {
       const response = await axios.get(`/api/team/${teamId}`);
       setTeamInfo(response.data);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -140,11 +142,10 @@ const Page = () => {
           imageUrl: profilePic.url,
         },
       );
-      console.log(sessionData?.user.id);
-      console.log(response);
 
       setChangingProfilePic(false);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
