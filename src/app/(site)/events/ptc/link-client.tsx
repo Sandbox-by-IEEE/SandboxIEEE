@@ -10,13 +10,17 @@ function LinkPTCCLient() {
       target='_blank'
       href={
         session?.user.ticket?.PTC.verified === 'verified'
-          ? 'https://drive.google.com/file/d/1t4HAvE1Xvh3sLA8vl9yHN_gL42B93BD-/view?usp=sharing'
+          ? session?.user.ticket?.PTC.regist2Status === 'qualified'
+            ? 'https://drive.google.com/file/d/1XnjWpTmI6MHzf1ZgDWzODqDEwsHfkacA/view'
+            : 'https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'
           : 'https://drive.google.com/drive/folders/1BRnRPJV18QAmtyLj-CJkmXFafEXyhyUU?usp=drive_link'
       }
     >
       <Button color='gold' isFullWidth>
         {session?.user.ticket?.PTC.verified === 'verified'
-          ? 'Abstract Submission Guidelines'
+          ? session?.user.ticket?.PTC.regist2Status === 'qualified'
+            ? 'PTC Semi-Final Guidelines'
+            : 'Abstract Submission Guidelines'
           : 'Guidebooks'}
       </Button>
     </a>
