@@ -235,7 +235,11 @@ export async function POST(req: NextRequest) {
         html: render(
           Email({
             content,
-            heading: `${type.toUpperCase() === "TPC" ? "Full Paper Submission" : "Video Pitching Submission"}`,
+            heading: `${
+              type.toUpperCase() === 'TPC'
+                ? 'Full Paper Submission'
+                : 'Video Pitching Submission'
+            }`,
             name: regist3Data.team?.members[i].name || '',
           }),
           { pretty: true },
