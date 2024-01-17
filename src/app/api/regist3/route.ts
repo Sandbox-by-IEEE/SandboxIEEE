@@ -227,7 +227,7 @@ export async function POST(req: NextRequest) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: regist3Data.team?.members[i].email,
-        subject: `[SANDBOX] ${type.toUpperCase()} Full Paper Submission`,
+        subject: `[SANDBOX] ${type.toUpperCase() === "TPC" ? "Full Paper Submission" : "Video Pitching Submission"}`,
         html: render(
           Email({
             content,
@@ -242,7 +242,7 @@ export async function POST(req: NextRequest) {
     }
 
     // eslint-disable-next-line no-console
-    console.log('POST_REGIST_2: email was sent');
+    console.log('POST_REGIST_3: email was sent');
 
     // console.log(JSON.stringify(regist3Data));
 
