@@ -227,7 +227,11 @@ export async function POST(req: NextRequest) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: regist3Data.team?.members[i].email,
-        subject: `[SANDBOX] ${type.toUpperCase() === "TPC" ? "Full Paper Submission" : "Video Pitching Submission"}`,
+        subject: `[SANDBOX] ${
+          type.toUpperCase() === 'TPC'
+            ? 'Full Paper Submission'
+            : 'Video Pitching Submission'
+        }`,
         html: render(
           Email({
             content,
