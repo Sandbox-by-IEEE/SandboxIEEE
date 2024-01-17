@@ -133,22 +133,28 @@ const Page = () => {
         newInputData.url = newFiles?.fileUrl as string;
         newInputData.name = newFiles?.fileName as string;
 
+        //shoot API here
+        axios
+          .patch(`/api/user/${sessionData?.user.id}/image`, {
+            imageUrl: newInputData.url,
+          })
+          .then((response) => {
+            // console.log("API Response :", response)
+            setChangingProfilePic(false);
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.error(error);
+          });
+
         return newInputData;
       });
-      //shoot API here
-      const response = await axios.patch(
-        `/api/user/${sessionData?.user.id}/image`,
-        {
-          imageUrl: profilePic.url,
-        },
-      );
-
-      setChangingProfilePic(false);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
     }
   };
+
   return (
     <section className='min-h-screen w-full bg-gradient-to-b from-[#051F12] to-[#06190C] flex justify-center pb-4'>
       <div className='max-w-[1200px] w-full p-2 sm:p-4 space-y-8 md:space-y-20'>
@@ -309,6 +315,7 @@ const Page = () => {
                     height={200}
                     alt='Mascot'
                     className='h-[200px] w-[170px] md:h-[80%] md:w-auto md:aspect-[2/3] object-cover'
+                    priority
                   />
                 )}
                 <p className='text-[#FFE1B9] py-2'>
