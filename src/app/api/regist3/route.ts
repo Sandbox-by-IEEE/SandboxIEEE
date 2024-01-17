@@ -216,7 +216,7 @@ export async function POST(req: NextRequest) {
     // console.log(resBody)
 
     if (resBody.status > 299 || resBody.status < 200) {
-      throw new Error(`Failed to create ticket, ${resBody.message}`);
+      throw new Error(`Failed to create regist3 data, ${resBody.message}`);
     }
 
     const content = `
@@ -231,7 +231,7 @@ export async function POST(req: NextRequest) {
         html: render(
           Email({
             content,
-            heading: `${type.toUpperCase()} Full Paper Submission`,
+            heading: `${type.toUpperCase() === "TPC" ? "Full Paper Submission" : "Video Pitching Submission"}`,
             name: regist3Data.team?.members[i].name || '',
           }),
           { pretty: true },
