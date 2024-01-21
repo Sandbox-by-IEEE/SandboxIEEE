@@ -35,7 +35,7 @@ function PTCnavigation() {
   useEffect(() => {
     if (session?.user.id) {
       // getUserInfo();
-      getTeamInfo(session.user.ticket?.TPC.teamId);
+      getTeamInfo(session.user.ticket?.PTC.teamId);
     }
   }, [session?.user.id]);
 
