@@ -80,7 +80,7 @@ function TPCnavigation() {
 
   return (
     <div className='container w-fit flex'>
-      {session?.user.ticket?.PTC.isLeader &&
+      {session?.user.ticket?.TPC.isLeader &&
         now < deadline &&
         teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
           <a
