@@ -38,6 +38,7 @@ export const authOptions: AuthOptions = {
                 countVote: true,
                 linkFullPaper: true,
                 linkVideo: true,
+                linkVideo2: true,
                 team: {
                   select: {
                     id: true,
@@ -45,12 +46,6 @@ export const authOptions: AuthOptions = {
                     chairmanName: true,
                   },
                 },
-              },
-            },
-            ticketsExhibition: {
-              select: {
-                active: true,
-                verified: true,
               },
             },
             ticketsCompetition: {
@@ -98,12 +93,18 @@ export const authOptions: AuthOptions = {
               ),
               linkFullPaper: existingUser.karya.linkFullPaper || '',
               linkVideo: existingUser.karya.linkVideo || '',
+              linkVideo2: existingUser.karya.linkVideo2 || '',
             }
           : undefined;
 
-        const ticketExhibition = existingUser.ticketsExhibition
-          ? existingUser.ticketsExhibition
-          : undefined;
+        const ticketExhibition = await prisma.ticketExhibition.findUnique({
+          where: {
+            email: existingUser.email || '',
+          },
+          include: {
+            regisData: true,
+          },
+        });
 
         const ticketTPC = existingUser.ticketsCompetition.find(
           (ticket) => ticket.competitionType === 'TPC',
@@ -209,7 +210,9 @@ export const authOptions: AuthOptions = {
             exhibition: {
               buy: ticketExhibition ? true : false,
               active: ticketExhibition ? ticketExhibition.active : false,
-              verified: ticketExhibition ? ticketExhibition.verified : false,
+              verified: ticketExhibition
+                ? ticketExhibition.regisData.verified
+                : false,
             },
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
@@ -259,6 +262,7 @@ export const authOptions: AuthOptions = {
               countVote: true,
               linkFullPaper: true,
               linkVideo: true,
+              linkVideo2: true,
               team: {
                 select: {
                   id: true,
@@ -266,12 +270,6 @@ export const authOptions: AuthOptions = {
                   chairmanName: true,
                 },
               },
-            },
-          },
-          ticketsExhibition: {
-            select: {
-              active: true,
-              verified: true,
             },
           },
           ticketsCompetition: {
@@ -301,12 +299,20 @@ export const authOptions: AuthOptions = {
             countVote: parseInt(
               existingUser.karya?.countVote.toString() || '0',
             ),
+            linkFullPaper: existingUser.karya.linkFullPaper || '',
+            linkVideo: existingUser.karya.linkVideo || '',
+            linkVideo2: existingUser.karya.linkVideo2 || '',
           }
         : undefined;
 
-      const ticketExhibition = existingUser.ticketsExhibition
-        ? existingUser.ticketsExhibition
-        : undefined;
+      const ticketExhibition = await prisma.ticketExhibition.findUnique({
+        where: {
+          email: existingUser.email || '',
+        },
+        include: {
+          regisData: true,
+        },
+      });
 
       const ticketTPC = existingUser.ticketsCompetition.find(
         (ticket) => ticket.competitionType === 'TPC',
@@ -412,7 +418,9 @@ export const authOptions: AuthOptions = {
             exhibition: {
               buy: ticketExhibition ? true : false,
               active: ticketExhibition ? ticketExhibition.active : false,
-              verified: ticketExhibition ? ticketExhibition.verified : false,
+              verified: ticketExhibition
+                ? ticketExhibition.regisData.verified
+                : false,
             },
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,

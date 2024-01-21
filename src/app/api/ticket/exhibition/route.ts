@@ -8,37 +8,12 @@ import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 
 export async function POST(req: NextRequest) {
-  let ticketIdTemp = '';
+  let regisIdTemp = '';
   try {
-    const {
-      nameCustomer,
-      paymentMethod,
-      ticketType,
-      proof,
-      names,
-      email,
-      phone,
-      address,
-      institution,
-      phoneNumber,
-      ages,
-      amountPrice,
-    } = await req.json();
+    const { paymentMethod, paymentProof, registrationType, participants } =
+      await req.json();
 
-    if (
-      !nameCustomer ||
-      !paymentMethod ||
-      !ticketType ||
-      !proof ||
-      !names ||
-      !email ||
-      !phone ||
-      !address ||
-      !institution ||
-      !phoneNumber ||
-      !ages ||
-      !amountPrice
-    ) {
+    if (!paymentMethod || !paymentProof || !registrationType || !participants) {
       return NextResponse.json(
         { message: 'Missing some data!!' },
         { status: 400 },
@@ -47,7 +22,7 @@ export async function POST(req: NextRequest) {
 
     const session = await getServerSession(authOptions);
 
-    if (!session?.user?.id) {
+    if (!session) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
@@ -58,45 +33,52 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const ticket = await prisma.ticketExhibition.create({
+    const collectiveType = participants.length.toString();
+
+    const regisData = await prisma.regisExhiData.create({
       data: {
-        userId: session.user.id,
-        nameCustomer,
         paymentMethod,
-        ticketType,
-        proof,
-        names,
-        email,
-        phone,
-        address,
-        institution,
-        phoneNumber,
-        ages: `${ages}`,
-        amountPrice: `${amountPrice}`,
+        paymentProof,
+        registrationType,
+        collectiveType,
+        userId: session.user.id,
       },
     });
 
-    ticketIdTemp = ticket.id;
+    regisIdTemp = regisData.id;
+
+    // - Nama
+    // - Email
+    // - Nomor
+    // - ID Line (opsional)
+
+    let tickets: any[] = [];
+
+    for (let i = 0; i < participants.length; i++) {
+      const ticket = await prisma.ticketExhibition.create({
+        data: {
+          email: participants[i].email,
+          idLine: participants[i].idLine,
+          name: participants[i].name,
+          phone: participants[i].phone,
+          regisId: regisData.id,
+        },
+      });
+
+      tickets.push(ticket as any);
+    }
 
     const data = {
-      ticketId: ticket.id,
-      nameCustomer: nameCustomer,
-      paymentMethod: paymentMethod,
-      ticketType: ticketType,
-      proof: proof,
-      names: names,
-      email: email,
-      phone: phone,
-      address: address,
-      institution: institution,
-      phoneNumber: phoneNumber,
-      ages: ticket.ages,
-      amountPrice: ticket.amountPrice,
+      paymentMethod,
+      paymentProof,
+      collectiveType,
+      registrationType,
+      tickets,
     };
 
-    const sheetAPI = process.env.API_SHEET_TICKET_URL || '';
+    const sheetAPI = process.env.API_SHEET_EXHIBITION_URL || '';
 
-    const response = await fetch(`${sheetAPI}?type=Exhibition`, {
+    const response = await fetch(`${sheetAPI}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -110,40 +92,42 @@ export async function POST(req: NextRequest) {
       throw new Error(`Failed to create ticket, ${resBody.message}`);
     }
 
-    const heading = 'jiajisjaj';
+    const heading = 'Verification Process for Your Exhibition Ticket Purchase';
     const content =
       'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
 
-    const mailOptions = {
-      from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-      to: ticket.email,
-      subject: 'Verification Process for Your Ticket Purchase',
-      html: render(
-        Email({
-          content: content,
-          heading: heading,
-          name: ticket.nameCustomer,
-        }),
-        { pretty: true },
-      ),
-    };
+    const emails = participants.map(p => p.email)  
+    for (let i = 0; i < participants.length; i++) {
+      const mailOptions = {
+        from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+        to: participants[i].email,
+        subject: 'Verification Process for Your Exhibition Ticket Purchase',
+        html: render(
+          Email({
+            content: content,
+            heading: heading,
+            name: participants[i].name,
+          }),
+          { pretty: true },
+        ),
+      };
 
-    // eslint-disable-next-line unused-imports/no-unused-vars
-    const info = await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
+    }
 
     // eslint-disable-next-line no-console
     console.log('POST_TICKET: email was sent');
 
     return NextResponse.json({
-      ticket: ticket,
+      data: data,
       message: 'ticket purchase successful and please check your email',
-    });
+    }, { status: 201 });
   } catch (error) {
     if (error instanceof Error) {
-      if (ticketIdTemp) {
-        await prisma.ticketExhibition.delete({
+      if (regisIdTemp) {
+        await prisma.regisExhiData.delete({
           where: {
-            id: ticketIdTemp,
+            id: regisIdTemp,
           },
         });
       }

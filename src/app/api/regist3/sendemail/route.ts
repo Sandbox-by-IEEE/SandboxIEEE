@@ -49,6 +49,7 @@ export async function POST(req: NextRequest) {
     const contentFailed = ` 
     `;
 
+    const promises: any[] = [];
     for (let i = 0; i < failedRegist3.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
@@ -63,8 +64,10 @@ export async function POST(req: NextRequest) {
           { pretty: true },
         ),
       };
-      await transporter.sendMail(mailOptions);
+      promises.push(transporter.sendMail(mailOptions));
     }
+
+    await Promise.all(promises);
 
     await prisma.regist3Data.updateMany({
       where: {
@@ -116,7 +119,7 @@ export async function POST(req: NextRequest) {
     const contentSuccess = `
     
 `;
-
+    const promises2: any[] = [];
     for (let i = 0; i < successRegist3.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
@@ -131,8 +134,10 @@ export async function POST(req: NextRequest) {
           { pretty: true },
         ),
       };
-      await transporter.sendMail(mailOptions);
+      promises2.push(transporter.sendMail(mailOptions));
     }
+
+    await Promise.all(promises2)
 
     await prisma.regist3Data.updateMany({
       where: {

@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 export const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -9,3 +10,5 @@ export const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS,
   },
 });
+
+export const resend = new Resend("re_3CpvF9aQ_56AyBzdidBppxGcAPDFhHkj9")
