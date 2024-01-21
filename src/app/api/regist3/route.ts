@@ -11,6 +11,8 @@ export async function POST(req: NextRequest) {
   let isUpdated = false;
   let registData = {} as any;
   try {
+    const dateNow = Date.now();
+
     const body = await req.json();
     // console.log(body)
 
@@ -82,6 +84,23 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (type === 'PTC' && dateNow > new Date(2024, 0, 23, 21, 0).valueOf()) {
+      return NextResponse.json(
+        {
+          message: 'You past the deadline',
+        },
+        { status: 400 },
+      );
+    }
+
+    if (type === 'TPC' && dateNow > new Date(2024, 0, 30, 22, 0).valueOf()) {
+      return NextResponse.json(
+        {
+          message: 'You past the deadline',
+        },
+        { status: 400 },
+      );
+    }
     if (type === 'TPC' && !karya && karya?.length === 0) {
       return NextResponse.json(
         {
@@ -220,8 +239,10 @@ export async function POST(req: NextRequest) {
     }
 
     const content = `
-    
+    Your data has been received, please wait for confirmation from the Sanbox team.
     `;
+
+    const promises: any[] = [];
 
     for (let i = 0; i < regist3Data.team?.members.length; i++) {
       const mailOptions = {
@@ -246,8 +267,10 @@ export async function POST(req: NextRequest) {
         ),
       };
 
-      await transporter.sendMail(mailOptions);
+      promises.push(transporter.sendMail(mailOptions));
     }
+
+    await Promise.all(promises);
 
     // eslint-disable-next-line no-console
     console.log('POST_REGIST_3: email was sent');

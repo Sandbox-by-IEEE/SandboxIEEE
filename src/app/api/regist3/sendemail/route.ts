@@ -45,15 +45,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const headingFailed = ``;
+    const headingFailed =
+      type === 'TPC'
+        ? `[SANDBOX] Announcement of Full Paper Submission`
+        : `[SANDBOX] Announcement of Video Pitching Submission`;
     const contentFailed = ` 
+    Sorry, your data has not been confirmed correctly, please contact our team immediately for further information
     `;
+
+    const promises: any[] = [];
 
     for (let i = 0; i < failedRegist3.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: failedRegist3[i].team?.chairmanEmail,
-        subject: `[SANDBOX] Announcement of Abstract Stage`,
+        subject:
+          type === 'TPC'
+            ? `[SANDBOX] Announcement of Full Paper Submission`
+            : `[SANDBOX] Announcement of Video Pitching Submission`,
         html: render(
           Email({
             heading: headingFailed,
@@ -63,8 +72,10 @@ export async function POST(req: NextRequest) {
           { pretty: true },
         ),
       };
-      await transporter.sendMail(mailOptions);
+      promises.push(transporter.sendMail(mailOptions));
     }
+
+    await Promise.all(promises);
 
     await prisma.regist3Data.updateMany({
       where: {
@@ -112,16 +123,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const headingSuccess = ``;
+    const headingSuccess =
+      type === 'TPC'
+        ? `[SANDBOX] Announcement of Full Paper Submission`
+        : `[SANDBOX] Announcement of Video Pitching Submission`;
     const contentSuccess = `
-    
-`;
+    Your data has been confirmed, please wait for further announcements. Good luck!
+    `;
+
+    const promises2: any[] = [];
 
     for (let i = 0; i < successRegist3.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: successRegist3[i].team?.chairmanEmail || '',
-        subject: `[SANDBOX] Announcement of Abstract Stage`,
+        subject:
+          type === 'TPC'
+            ? `[SANDBOX] Announcement of Full Paper Submission`
+            : `[SANDBOX] Announcement of Video Pitching Submission`,
         html: render(
           Email({
             heading: headingSuccess,
@@ -131,8 +150,10 @@ export async function POST(req: NextRequest) {
           { pretty: true },
         ),
       };
-      await transporter.sendMail(mailOptions);
+      promises2.push(transporter.sendMail(mailOptions));
     }
+
+    await Promise.all(promises2);
 
     await prisma.regist3Data.updateMany({
       where: {
