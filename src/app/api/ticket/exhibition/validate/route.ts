@@ -4,9 +4,9 @@ import { prisma } from '@/lib/db';
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { ticketId, userId } = await req.json();
+    const { ticketId, email } = await req.json();
 
-    if (!ticketId || !userId) {
+    if (!ticketId || !email) {
       return NextResponse.json(
         { message: 'Missing ticket id or user id' },
         { status: 400 },
@@ -26,18 +26,18 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
+    // const existingUser = await prisma.user.findUnique({
+    //   where: {
+    //     email: email,
+    //   },
+    // });
 
-    if (!existingUser) {
-      return NextResponse.json(
-        { message: 'User id is invalid!!!' },
-        { status: 404 },
-      );
-    }
+    // if (!existingUser) {
+    //   return NextResponse.json(
+    //     { message: 'User id is invalid!!!' },
+    //     { status: 404 },
+    //   );
+    // }
 
     if (existingTicket.active) {
       return NextResponse.json(
@@ -58,7 +58,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json(
       {
         ticket: updatedTicket,
-        user: existingUser,
+        // user: existingUser,
         message: 'Validate ticket succesful',
       },
       { status: 200 },

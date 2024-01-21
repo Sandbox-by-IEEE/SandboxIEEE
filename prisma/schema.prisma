@@ -21,13 +21,13 @@ model User {
   image              String?
   password           String?
   karyaId            String?
-  ticketsExhibition  TicketExhibition?
   ticketsCompetition TicketCompetition[]
   accounts           Account[]
   sessions           Session[]
   karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade)
   activateToken      ActivateToken[]
   resetToken         ResetToken[]
+  regisExhiData      RegisExhiData?
 }
 
 model ActivateToken {
@@ -89,25 +89,29 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model TicketExhibition {
-  id            String  @id @default(uuid())
-  ticketType    String
-  verified      Boolean @default(false)
-  active        Boolean @default(false)
-  userId        String  @unique
-  nameCustomer  String
-  paymentMethod String
-  proof         String
-  names         String
-  email         String
-  phone         String
-  address       String
-  institution   String
-  phoneNumber   String
-  ages          String
-  amountPrice   String
+model RegisExhiData {
+  id               String             @id @default(uuid())
+  userId           String             @unique
+  collectiveType   String             @default("1")
+  registrationType String
+  verified         Boolean            @default(false)
+  paymentMethod    String
+  paymentProof     String
+  tickets          TicketExhibition[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TicketExhibition {
+  id      String  @id @default(uuid())
+  active  Boolean @default(false)
+  name    String
+  email   String  @unique
+  phone   String
+  idLine  String
+  regisId String
+
+  regisData RegisExhiData @relation(fields: [regisId], references: [id], onDelete: Cascade)
 }
 
 model TicketCompetition {
@@ -172,12 +176,13 @@ model Regist3Data {
 }
 
 model Karya {
-  id        String  @id @default(uuid())
-  teamId    String  @unique
+  id            String  @id @default(uuid())
+  teamId        String  @unique
   linkFullPaper String?
-  linkVideo String?
-  countVote BigInt  @default(0)
-  usersVote User[]
+  linkVideo     String?
+  linkVideo2    String?
+  countVote     BigInt  @default(0)
+  usersVote     User[]
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
