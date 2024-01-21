@@ -16,6 +16,8 @@ declare module 'next-auth' {
         countVote: int;
         linkFullPaper: string;
         linkVideo: string;
+        linkVideo2: string;
+
       };
     };
     ticket?: {
@@ -59,6 +61,7 @@ declare module 'next-auth' {
           countVote: int;
           linkFullPaper: string;
           linkVideo: string;
+          linkVideo2: string;
         };
       };
       ticket?: {
