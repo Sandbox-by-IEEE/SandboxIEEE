@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         ? `[SANDBOX] Announcement of Full Paper Submission`
         : `[SANDBOX] Announcement of Video Pitching Submission`;
     const contentFailed = ` 
-    Sorry, your data has not been confirmed correctly, please contact our team immediately for further information
+    Thank you for your participation in the Sanbox project. Unfortunately, our team has verified that your team did not fulfill the requirements by the deadline. If you believe that this is a mistake, please reach out to our team at the contact center that we have shared with you. We appreciate your interest and wish you all the best in your future endeavors.
     `;
 
     const promises: any[] = [];
@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
         ? `[SANDBOX] Announcement of Full Paper Submission`
         : `[SANDBOX] Announcement of Video Pitching Submission`;
     const contentSuccess = `
-    Your data has been confirmed, please wait for further announcements. Good luck!
+    Thank you for your participation in the Sanbox project. Your data has been confirmed, please wait for further announcements. Good luck!
     `;
 
     const promises2: any[] = [];

@@ -239,7 +239,7 @@ export async function POST(req: NextRequest) {
     }
 
     const content = `
-    Your data has been received, please wait for confirmation from the Sanbox team.
+    Thank you for your participation in the Sanbox project. Your data has been received, please wait for confirmation from the Sanbox team.
     `;
 
     const promises: any[] = [];
