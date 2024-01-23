@@ -10,8 +10,13 @@ function TPCnavigation() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const submissionHandler = () => {
-    router.push('/events/tpc/tpc-registration-stage2');
+  const submissionHandler = (type: string) => {
+    if (type == 'paper') {
+      router.push('/events/tpc/tpc-registration-stage2');
+    } else if (type == 'video') {
+      // router.push('/events/tpc/video-campaign-submission');
+      console.log('hiya');
+    }
   };
 
   const dashboardHandler = () => {
@@ -68,6 +73,8 @@ function TPCnavigation() {
 
   // Tanggal dan waktu tenggat
   const deadline = new Date('2024-01-30T22:00:00'); // Batas Waktu
+  const videoOpen = new Date('2024-02-09T00:00:00');
+  const videoDeadline = new Date('2024-02-15T18:00:00');
 
   const [now, setNow] = useState(new Date());
 
@@ -79,35 +86,59 @@ function TPCnavigation() {
   }, []);
 
   return (
-    <div className='container w-fit flex'>
-      {session?.user.ticket?.TPC.isLeader &&
-        now < deadline &&
-        teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
-          <a
-            className='button ml-2 mr-2'
-            target='_blank'
-            onClick={() => {
-              submissionHandler();
-            }}
-          >
-            <Button color='green' isFullWidth>
-              Re-registration and Paper Submisson
-            </Button>
-          </a>
-        )}
-      {teamInfo.data.id && (
-        <a
-          className='button ml-2 mr-2'
-          target='_blank'
-          onClick={() => {
-            dashboardHandler();
-          }}
-        >
-          <Button color='green' isFullWidth>
-            TPC Team Dashboard
-          </Button>
-        </a>
-      )}
+    <div className='rows w-full block'>
+      <div className='row1 w-full flex'>
+        <div className='container w-fit flex m-auto'>
+          {session?.user.ticket?.TPC.isLeader &&
+            now < deadline &&
+            teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
+              <a
+                className='button ml-2 mr-2'
+                target='_blank'
+                onClick={() => {
+                  submissionHandler('paper');
+                }}
+              >
+                <Button color='green' isFullWidth>
+                  Re-registration and Paper Submisson
+                </Button>
+              </a>
+            )}
+          {teamInfo.data.id && (
+            <a
+              className='button ml-2 mr-2'
+              target='_blank'
+              onClick={() => {
+                dashboardHandler();
+              }}
+            >
+              <Button color='green' isFullWidth>
+                TPC Team Dashboard
+              </Button>
+            </a>
+          )}
+        </div>
+      </div>
+      <div className='row2 w-full flex'>
+        <div className='container w-fit flex m-auto'>
+          {session?.user.ticket?.TPC.isLeader &&
+            // now > videoOpen &&
+            now < videoDeadline &&
+            teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
+              <a
+                className='button ml-2 mr-2 mt-4'
+                target='_blank'
+                onClick={() => {
+                  submissionHandler('video');
+                }}
+              >
+                <Button color='green' isFullWidth>
+                  Video Campaign Submission
+                </Button>
+              </a>
+            )}
+        </div>
+      </div>
     </div>
   );
 }
