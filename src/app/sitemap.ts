@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: 'https://sandbox.ieeeitb.com/events/grandseminar',
+      url: 'https://sandbox.ieeeitb.com/events/grand-seminar',
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.7,
@@ -37,12 +37,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.5,
-    },
-    {
-      url: 'https://sandbox.ieeeitb.com/merchandise',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
     },
     {
       url: 'https://sandbox.ieeeitb.com/past-events',
@@ -61,6 +55,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.7,
+    },
+    {
+      url: 'https://sandbox.ieeeitb.com/contact-us',
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.6,
     },
   ];
 }

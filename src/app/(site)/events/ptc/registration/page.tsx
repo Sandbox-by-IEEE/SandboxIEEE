@@ -2,19 +2,20 @@
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-import { FileInputType } from '@/components/FileInput/fileInput-type';
+import { type FileInputType } from '@/components/FileInput/fileInput-type';
 import FormDetails from '@/components/Forms/FormDetailsRegist1';
 import {
-  InputData,
-  IsWarnedInputData,
-  MemberInfo,
+  type InputData,
+  type IsWarnedInputData,
+  type MemberInfo,
 } from '@/components/Forms/inputData-type';
-import { callToast } from '@/components/Toast';
-
-const inputDataHistoryKey = 'ptc-regist-history';
+import { callLoading, callToast } from '@/components/Toast';
 
 export default function PTCRegist() {
+  const inputDataHistoryKey = 'ptc-regist-history';
+
   const router = useRouter();
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
@@ -247,6 +248,10 @@ export default function PTCRegist() {
       return;
     }
 
+    const loadingToastId = callLoading(
+      'Processing your PTC form registration...',
+    ); // Tampilkan toast loading
+
     // Submit data shoot API
     try {
       const dataTicket = {
@@ -291,12 +296,13 @@ export default function PTCRegist() {
         localStorage.removeItem(inputDataHistoryKey);
       }
     } catch (err) {
-      console.log('ERROR_POST_TPC: ', err);
       callToast({
         status: 'error',
         description:
           'Something went wrong while submit your data, please try again',
       });
+    } finally {
+      toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
     }
   };
 
@@ -311,7 +317,10 @@ export default function PTCRegist() {
       });
       router.push('/login');
     } else {
-      if (session.user.ticket?.PTC.buy && !session.user.ticket.PTC.verified) {
+      if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'pending'
+      ) {
         callToast({
           status: 'error',
           description: 'You have purchased this ticket, Waiting for validation',
@@ -319,7 +328,7 @@ export default function PTCRegist() {
         router.push('/');
       } else if (
         session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified
+        session.user.ticket.PTC.verified === 'verified'
       ) {
         callToast({
           status: 'error',
@@ -327,9 +336,18 @@ export default function PTCRegist() {
             'You have purchased this ticket, Your ticket has been validated',
         });
         router.push('/');
+      } else if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'rejected'
+      ) {
+        callToast({
+          status: 'error',
+          description: 'You have purchased this ticket, Your ticket rejected',
+        });
+        router.push('/');
       }
     }
-  }, [status]);
+  }, [status, router, session?.user]);
 
   useEffect(() => {
     if (filesForm2?.length) {
@@ -442,8 +460,9 @@ export default function PTCRegist() {
 
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
-      <div className='h-fit w-full max-w-[1000px] py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='Complete your details Below' />
+      <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
+        <Title text='PTC Registration' />
+        <Title text='Complete your details below' />
         <FormDetails
           inputData={inputData}
           setInputData={setInputData}
@@ -454,6 +473,7 @@ export default function PTCRegist() {
           isWarnedInputData={isWarnedInputData}
           setIsWarnedInputData={setIsWarnedInputData}
           isDisabledNext={isDisabledNext}
+          inputDataHistoryKey={inputDataHistoryKey}
           submissionText='Submit'
         />
       </div>

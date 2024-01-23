@@ -1,21 +1,18 @@
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import BackgroundCarousel from '@/components/background-carousel';
+import ButtonRegistration from '@/components/ButtonRegistration';
 import ClientHome from '@/components/client-home';
 import { FAQ } from '@/components/FAQ';
 import GradientBox from '@/components/GradientBox';
-import YoutubeIframe from '@/components/iframe-yt';
 import CustomLink from '@/components/Link';
+import ReelsEmbed from '@/components/reels-embed';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
-import { HomepageProps } from '@/types/homepage';
+import { type HomepageProps } from '@/types/homepage';
 
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
 const CMS_QUERY = `{
   homepage {
     trailerSectionTitle
@@ -97,6 +94,7 @@ const CMS_QUERY = `{
   }
 } `;
 export default async function Home({
+  // eslint-disable-next-line unused-imports/no-unused-vars
   searchParams: { token },
 }: {
   searchParams: { token: string };
@@ -130,11 +128,11 @@ export default async function Home({
                 '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
             }}
             data-aos='flip-up'
-            className='text-4xl lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
+            className='text-4xl text-center lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
           >
             {homepage.titleHomepage}
           </h2>
-          <TitleSection>{homepage.tagline}</TitleSection>
+          {homepage.tagline && <TitleSection>{homepage.tagline}</TitleSection>}
           <div className='animate-blink duration-500 transition-all'>
             <CustomLink color='green' url={'#' + homepage.textButtonSeeMore}>
               {homepage.textButtonSeeMore}
@@ -144,40 +142,15 @@ export default async function Home({
       </section>
 
       {/* Countdown Section */}
-      <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] w-full'>
-        <div
-          className='gradient-border-bg border-2 max-w-[1100px] mx-auto rounded-md w-full'
-          data-aos='flip-up'
-        >
-          <div className='py-4 2xl:py-6 flex flex-col gap-2 sm:gap-7 lg:gap-10 items-center justify-center w-full'>
-            <TitleSection>{homepage.titleCountdownNearestEvent}</TitleSection>
-            <div className='scale-75 sm:scale-100'>
-              <Countdown targetDate={new Date(homepage.targetDate)} />
-            </div>
-            <div className='flex gap-4 lg:gap-6'>
-              <div data-aos='zoom-in'>
-                <CustomLink color='gold' url={homepage.linkButtonOne}>
-                  {homepage.buttonTextOne}
-                </CustomLink>
-              </div>
-              <div data-aos='zoom-in'>
-                <CustomLink color='trans-orange' url={homepage.linkButtonTwo}>
-                  {homepage.buttonTextTwo}
-                </CustomLink>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Trailer Section */}
       <section className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16] flex flex-col items-center space-y-12'>
         <TitleSection>{homepage.trailerSectionTitle}</TitleSection>
         <div
-          className='relative h-[250px] md:h-[300px] w-full max-w-[400px] lg:h-[20vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[500px] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'
+          className='relative custom-scrollbar h-[450px] sm:h-[500px] w-full max-w-[400px] lg:h-[40vw] lg:w-[30vw] lg:max-w-[600px] lg:max-h-[700px] rounded-xl overflow-hidden shadow-[0px_0px_20px_7px_#D8B88B]'
           data-aos='zoom-out'
         >
-          <YoutubeIframe youtubeId={homepage.embedYoutubeId} />
+          <ReelsEmbed />
         </div>
         <div className='flex gap-4 lg:gap-8 flex-col sm:flex-row justify-center w-full items-stretch max-w-[200px] sm:max-w-[380px] lg:w-[28vw] lg:max-w-[580px]'>
           <div data-aos='zoom-in'>
@@ -215,7 +188,7 @@ export default async function Home({
               width={homepage.sandboxLogo.width}
               height={homepage.sandboxLogo.width}
               alt={homepage.sandboxLogo.title || 'Sandbox Logo'}
-              className='w-[130px] lg:w-[200px] object-contain'
+              className='w-[100px] lg:w-[200px] object-contain'
             />
             <Image
               data-aos='fade-down-left'
@@ -223,7 +196,7 @@ export default async function Home({
               width={homepage.ieeeLogo.width}
               height={homepage.ieeeLogo.width}
               alt={homepage.ieeeLogo.title || "IEEE ITB's Logo"}
-              className='w-[200px] lg:w-[300px] object-contain'
+              className='w-[150px] lg:w-[300px] object-contain'
             />
           </div>
           <h4 className='text-[#FFE1B9] sm:px-20' data-aos='zoom-in-up'>
@@ -260,7 +233,7 @@ export default async function Home({
                 height={event.image.width}
                 src={event.image.url}
                 alt={event.image.title || "Event's Image"}
-                className='object-contain w-full h-full'
+                className='object-cover w-full h-full'
                 sizes='(max-width: 640px) 100%, 30%'
               />
             </div>
@@ -307,14 +280,19 @@ export default async function Home({
                 <div className='flex flex-wrap items-center justify-center gap-4 h-full py-5'>
                   {event.buttonRegister && (
                     <div data-aos='zoom-in'>
-                      <CustomLink
+                      <ButtonRegistration
+                        type={
+                          event.eventName.toLowerCase().replace(/\s+/g, '-') ==
+                            'technovate-paper-competition' ||
+                          event.eventName.toLowerCase().replace(/\s+/g, '-') ==
+                            'tpc'
+                            ? 'TPC'
+                            : 'PTC'
+                        }
                         color='gold'
-                        url={`/events/${event.eventName
-                          .toLowerCase()
-                          .replace(/\s+/g, '-')}/registration`}
                       >
                         Register
-                      </CustomLink>
+                      </ButtonRegistration>
                     </div>
                   )}
                   {event.buttonSeeMore && (
@@ -379,7 +357,7 @@ export default async function Home({
                 width={logo.width}
                 height={logo.height}
                 alt={logo.title}
-                className='object-contain w-[150px] h-[100px] lg:w-[300px] lg:h-[200px]'
+                className='object-contain w-[200px] h-[100px] lg:w-[300px] lg:h-[200px]'
                 sizes='(max-width: 1024px) 100px, 300px'
                 data-aos='flip-up'
                 data-aos-duration={700 + index * 50}

@@ -12,6 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
+  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,11 +22,12 @@ const Button: React.FC<ButtonProps> = ({
   isIcon,
   isDisabled,
   isFullWidth,
+  className,
   ...props
 }) => {
   const colorEffect = {
     green: {
-      main: 'bg-[#0D432F] hover:shadow-[0px_0px_20px_5px_#B49876] text-white disabled:text-[#f2efe1] disabled:bg-[#315B4C] disabled:hover:shadow-[0px_0px_20px_5px_#315B4C] ',
+      main: 'bg-[#0D432F] hover:shadow-[0px_0px_20px_5px_#B49876] text-white disabled:text-[#f2efe1] disabled:bg-[#315B4C] border-[#0D432F] border-[3px] disabled:hover:shadow-[0px_0px_20px_5px_#315B4C] ',
       arrow: '#FFFFFF',
     },
     black: {
@@ -33,7 +35,7 @@ const Button: React.FC<ButtonProps> = ({
       arrow: '#FFFFFF',
     },
     gold: {
-      main: 'bg-[#AB814E] rounded-md hover:shadow-[0px_0px_20px_5px_#B49876] text-white disabled:bg-[#D7D2D0]',
+      main: 'bg-[#AB814E] rounded-md hover:shadow-[0px_0px_20px_5px_#B49876] text-white disabled:bg-[#D7D2D0] border-[#AB814E] border-[3px]',
       arrow: '#FFFFFF',
     },
     white: {
@@ -64,7 +66,7 @@ const Button: React.FC<ButtonProps> = ({
         isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[180px]'
       } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-3 px-4 rounded-md ${
         colorEffect[color].main
-      }`}
+      } ${className}`}
       {...props}
     >
       <p className='flex gap-3 w-full text-center items-center justify-center font-poppins font-bold'>

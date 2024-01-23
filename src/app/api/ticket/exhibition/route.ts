@@ -128,8 +128,10 @@ export async function POST(req: NextRequest) {
       ),
     };
 
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const info = await transporter.sendMail(mailOptions);
 
+    // eslint-disable-next-line no-console
     console.log('POST_TICKET: email was sent');
 
     return NextResponse.json({
@@ -145,6 +147,7 @@ export async function POST(req: NextRequest) {
           },
         });
       }
+      // eslint-disable-next-line no-console
       console.log('ERROR_POST_TICKET', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

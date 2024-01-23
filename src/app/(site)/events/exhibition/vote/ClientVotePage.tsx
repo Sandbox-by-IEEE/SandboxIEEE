@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 
 import {
   ModalContext,
-  ModalContextContextType,
+  type ModalContextContextType,
 } from '@/components/Modal/ModalContext';
 import CollectionVoteCards from '@/components/Vote/CollectionCardVote';
 import { type AllFinalProjectsExhibition } from '@/types/exhibition-type';
@@ -16,8 +16,8 @@ const ClientVotePage = ({
   PTCData: AllFinalProjectsExhibition[];
 }) => {
   const { setOpenModal } = useContext<ModalContextContextType>(ModalContext);
-  const [selectedTPC, setSelectedTPC] = useState<string | undefined>('');
-  const [selectedPTC, setSelectedPTC] = useState<string | undefined>('');
+  const [, setSelectedTPC] = useState<string | undefined>('');
+  const [, setSelectedPTC] = useState<string | undefined>('');
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
   return (

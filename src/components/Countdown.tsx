@@ -1,7 +1,9 @@
 'use client';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 import CollonIcon from '@/components/icons/CollonIcon';
+import TitleSection from '@/components/TitleSection';
 
 function Countdown({ targetDate }: { targetDate: Date }) {
   const [countdown, setCountdown] = useState(
@@ -517,4 +519,46 @@ function Countdown({ targetDate }: { targetDate: Date }) {
     </>
   );
 }
-export default Countdown;
+
+const CountDownDisplay = ({
+  sectionTitle,
+  targetDate,
+  type,
+  children,
+}: {
+  sectionTitle: string;
+  targetDate: Date;
+  type: string;
+  children: React.ReactNode;
+}) => {
+  const { data: sessionData } = useSession();
+  const ticket =
+    (type !== 'exhibition' && sessionData?.user.ticket?.[type]) || null;
+  if (
+    ticket === null ||
+    ticket.buy == false ||
+    !sessionData?.user ||
+    ticket?.verified !== 'verified'
+  )
+    return <></>;
+  else {
+    return (
+      <section className='w-full flex flex-col gap-2 bg-gradient-section px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20'>
+        <div
+          data-aos='flip-up'
+          className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
+        >
+          <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
+            {/* Title */}
+            <TitleSection>{sectionTitle}</TitleSection>
+            {/* Countdown */}
+            <Countdown targetDate={targetDate} />
+            {/* Button */}
+            {children}
+          </div>
+        </div>
+      </section>
+    );
+  }
+};
+export default CountDownDisplay;

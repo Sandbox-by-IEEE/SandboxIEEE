@@ -5,9 +5,24 @@ import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 export async function POST(req: NextRequest) {
   try {
-    const allTicketCompetition = await prisma.ticketCompetition.findMany({
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    const update = await prisma.ticketCompetition.updateMany({
+      where: {
+        verified: 'pending',
+      },
+      data: {
+        verified: 'rejected',
+      },
+    });
+
+    const ticketVerifiedPTC = await prisma.ticketCompetition.findMany({
+      where: {
+        verified: 'verified',
+        competitionType: 'PTC',
+      },
       include: {
         team: {
           include: {
@@ -17,30 +32,28 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const ticketVerified = allTicketCompetition.filter(
-      (ticket) => ticket.verified,
-    );
-    const ticketNotVerified = allTicketCompetition.filter(
-      (ticket) => !ticket.verified,
-    );
+    const headingVerifiedPTC = `${ticketVerifiedPTC[0].competitionType} Verification Update`;
 
-    const headingVerified = ` You've Cleared the Verification Stage!`;
-
-    for (let i = 0; i < ticketVerified.length; i++) {
+    for (let i = 0; i < ticketVerifiedPTC.length; i++) {
       const mailOptions = {
-        from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-        to: ticketVerified[i].team?.chairmanEmail,
-        subject: 'Your Ticket Verified',
+        from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
+        to: ticketVerifiedPTC[i].team?.chairmanEmail,
+        subject: `[SANDBOX] Announcement of Verification Results of Your ${ticketVerifiedPTC[i].competitionType} Ticket`,
         html: render(
           Email({
-            heading: headingVerified,
+            heading: headingVerifiedPTC,
             content: `
-            We are pleased to inform ${ticketVerified[i].team?.teamName} that your documents have been successfully verified, and your team has been selected to advance to the next stage of the competition. Congratulations on reaching this milestone!
-            We are excited to see what your team will achieve in the upcoming stages. Make sure to prepare well and give your best performance.
-            If you have any questions or need further information regarding the next stages of the competition, please do not hesitate to reach out to us. We are here to assist you and ensure your successful participation in the event.
-            Once again, congratulations and best of luck in the next stages of the competition!
-            Warm regards,`,
-            name: ticketVerified[i].team?.chairmanName || '',
+            Greetings, Prototech Contest Participants!
+            
+            Congratulations, you have passed the document selection and are starting your journey in our competition with the abstract stage. More comprehensive information regarding abstracts can be accessed in our abstract guidline document below.
+            
+            Remember to submit your abstract along with a plagiarism letter. Failure to comply with existing provisions and rules will ensure your qualification at this stage.
+            https://docs.google.com/document/d/1wb8lnMVLLYpO7X3wy1ct07gra49pPPnbDI4CIXSZ87Y/edit?usp=sharing
+            
+            You can join our WhatsApp Group by clicking the link provided below.
+            https://chat.whatsapp.com/E7IFJ5arD8hHnurREL4JiF
+           `,
+            name: ticketVerifiedPTC[i].team?.teamName || '',
           }),
           { pretty: true },
         ),
@@ -48,22 +61,42 @@ export async function POST(req: NextRequest) {
       await transporter.sendMail(mailOptions);
     }
 
-    const headingNotVerified = 'Document Verification Update';
+    const ticketVerifiedTPC = await prisma.ticketCompetition.findMany({
+      where: {
+        verified: 'verified',
+        competitionType: 'TPC',
+      },
+      include: {
+        team: {
+          include: {
+            members: true,
+          },
+        },
+      },
+    });
 
-    for (let i = 0; i < ticketNotVerified.length; i++) {
+    const headingVerifiedTPC = `${ticketVerifiedTPC[0].competitionType} Verification Update`;
+
+    for (let i = 0; i < ticketVerifiedTPC.length; i++) {
       const mailOptions = {
-        from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-        to: ticketNotVerified[i].team?.chairmanEmail,
-        subject: 'Your Ticket Verified',
+        from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
+        to: ticketVerifiedTPC[i].team?.chairmanEmail,
+        subject: `[SANDBOX] Announcement of Verification Results of Your ${ticketVerifiedTPC[i].competitionType} Ticket`,
         html: render(
           Email({
-            heading: headingNotVerified,
+            heading: headingVerifiedTPC,
             content: `
-            We regret to inform ${ticketNotVerified[i].team?.teamName} that your documents did not pass our verification process, and unfortunately, your team has not been selected to advance to the next stage of the competition.
-            We understand that this may be disappointing, and we encourage you to review the document requirements and submission guidelines for future competitions. If you have any questions or concerns about the verification process, please feel free to reach out to us at [support email address]. We are here to assist you and provide clarification as needed.
-            Thank you for your interest and participation in our event. We hope to see you in future competitions and wish you the best in your future endeavors.
-            Warm regards,`,
-            name: ticketNotVerified[i].team?.chairmanName || '',
+            Greetings, Technovate Paper Competition Participants!
+            
+            Congratulations, you have passed the document selection and are starting your journey in our competition with the abstract stage. More comprehensive information regarding abstracts can be accessed in our abstract guidline document below.
+            
+            Remember to submit your abstract along with a plagiarism letter. Failure to comply with existing provisions and rules will ensure your qualification at this stage
+            https://docs.google.com/document/d/1r1e5gqsZrAlBBP7HuzP28jd54VgHKUnkBpoEkNz1WhI/edit?usp=sharing
+            
+            You can join our WhatsApp Group by clicking the link provided below.
+            https://chat.whatsapp.com/DNJPI2U2XbDJGPk5FfcxaJ
+           `,
+            name: ticketVerifiedTPC[i].team?.teamName || '',
           }),
           { pretty: true },
         ),
@@ -71,6 +104,7 @@ export async function POST(req: NextRequest) {
       await transporter.sendMail(mailOptions);
     }
 
+    // eslint-disable-next-line no-console
     console.log('POST_SEND_EMAIL: All email was sent');
     return NextResponse.json(
       { message: 'All email was sent' },
@@ -78,6 +112,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      // eslint-disable-next-line no-console
       console.log('ERROR_POST_SEND_EMAIL: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

@@ -1,4 +1,8 @@
 User-Agent: *
 Allow: /
-Disallow: 
+Disallow: /events/ptc/registration
+Disallow: /events/tpc/registration
+Disallow: /events/ptc/abstract-submission
+Disallow: /events/tpc/abstract-submission
+Disallow: /rsvp
 Sitemap: https://sandbox.ieeeitb.com/sitemap.xml

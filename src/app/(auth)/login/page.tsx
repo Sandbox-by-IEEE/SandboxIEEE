@@ -1,11 +1,15 @@
 'use client';
 // Importing necessary components and libraries from Next.js and React
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import * as z from 'zod';
 
+import FormResetPassword from '@/app/(auth)/login/form-password-reset';
+import FormResendEmail from '@/app/(auth)/login/form-resend-email';
 // Importing custom components for UI elements and icons
 import Button from '@/components/Button';
 import Google from '@/components/icons/Register/google';
@@ -17,8 +21,12 @@ import Stars2 from '@/components/icons/Register/stars2';
 import Stars2mb from '@/components/icons/Register/stars2mb';
 import Stars3 from '@/components/icons/Register/stars3';
 import Stars3mb from '@/components/icons/Register/stars3mb';
+import {
+  ModalContext,
+  type ModalContextContextType,
+} from '@/components/Modal/ModalContext';
 import TextInput from '@/components/TextInput';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 
 const formSchema = z.object({
   username: z.string().min(1, 'Username field is required'),
@@ -35,8 +43,11 @@ export default function Home({
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [mounted, setMounted] = useState(false);
-  const router = useRouter();
+  const searchParams = useSearchParams();
 
+  const router = useRouter();
+  const { openModal, setOpenModal } =
+    useContext<ModalContextContextType>(ModalContext);
   const handleGoogle = async (e: any) => {
     e.preventDefault();
     await signIn('google', {
@@ -65,24 +76,30 @@ export default function Home({
       return;
     }
 
-    const resLogin = await signIn('credentials', {
-      username: username,
-      password: password,
-      redirect: false,
-      callbackUrl: '/',
-    });
+    const loadingToastId = callLoading('Logging in...');
 
-    if (resLogin?.error) {
-      callToast({
-        status: 'error',
-        description: resLogin?.error || 'Login Failed',
+    try {
+      const resLogin = await signIn('credentials', {
+        username: username,
+        password: password,
+        redirect: false,
+        callbackUrl: '/',
       });
-      setUsername('');
-      setPassword('');
-      router.refresh();
-    } else {
-      callToast({ status: 'success', description: 'Login succesfull' });
-      router.push('/');
+
+      if (resLogin?.error) {
+        callToast({
+          status: 'error',
+          description: resLogin?.error || 'Login Failed',
+        });
+        setUsername('');
+        setPassword('');
+        router.refresh();
+      } else {
+        callToast({ status: 'success', description: 'Login succesfull' });
+        router.push('/');
+      }
+    } finally {
+      toast.dismiss(loadingToastId); // Dismiss toast loading ketika login selesai
     }
   };
 
@@ -103,7 +120,7 @@ export default function Home({
       });
       router.push('/login');
     }
-  }, [mounted]);
+  }, [mounted, activationMsg, error, router]);
 
   useEffect(() => {
     if (!mounted) {
@@ -112,7 +129,6 @@ export default function Home({
   }, [mounted]);
 
   if (!mounted) return null;
-
   // The component returns the UI structure for the registration page
   return (
     // Main container with a full height, a white background, and center-aligned items
@@ -120,7 +136,16 @@ export default function Home({
       {/* A container with a screen-wide height of 3000px to display the registration form */}
       <div className='w-screen h-full flex'>
         {/* An empty div with a width of 0% on small screens and 50% on larger screens */}
-        <div className='w-[0%] lg:w-[50%] justify-center z-10'></div>
+        <div className='w-[0%] lg:w-[50%] justify-center z-10'>
+          {' '}
+          <Image
+            src='/login.png'
+            alt='Background login Page'
+            width={1920}
+            height={1080}
+            className='w-full h-full object-cover'
+          />
+        </div>
         {/* A div with a background image, covering the full width on small screens and 50% on larger screens */}
         <div className='relative w-[100%] lg:w-[50%] bg-[url("/assets/RelogBackground.png")] bg-cover bg-no-repeat text-white bg-black items-center justify-center'>
           {/* A wrapper div to contain various elements */}
@@ -211,14 +236,22 @@ export default function Home({
                   />
                 </div>
                 <div>
-                  <Button
+                  <button
                     color='gold'
                     className='text-base text-cream-secondary-normal'
+                    type='button'
+                    onClick={() => setOpenModal(true)}
                   >
-                    <p className='text-sm font-[500] hover:underline underline-offset-4'>
+                    <span className='text-sm font-[500] hover:underline underline-offset-4'>
                       Forgot the password?
-                    </p>
-                  </Button>
+                    </span>
+                  </button>
+                  {/* Ini ntar tambahin logika && !token */}
+                  {openModal && !searchParams.get('resetToken') && (
+                    <FormResendEmail />
+                  )}
+                  {/* Ini ntar tambahin logika && token */}
+                  {searchParams.get('resetToken') && <FormResetPassword />}
                 </div>
               </div>
               {/* Sign up button */}

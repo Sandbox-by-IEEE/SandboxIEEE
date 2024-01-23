@@ -118,21 +118,21 @@ export async function POST(req: NextRequest) {
     }
 
     const content = `
-    We wanted to let you know that your registration is currently in the process of being reviewed and processed by our team. We understand that you may be eagerly awaiting the results, and we assure you that we are working diligently to ensure that your application is thoroughly evaluated.
+    We wanted to let you know that your team ${ticket.team?.teamName} registration is currently in the process of being reviewed and processed by our team. We understand that you may be eagerly awaiting the results, and we assure you that we are working diligently to ensure that your application is thoroughly evaluated.
     Once the review process is complete, we will be sending out the results of your registration via email to the team leader's email address that was provided during registration. We understand the importance of this information to you, and we are committed to providing you with timely and accurate updates.
-    We appreciate your patience and understanding as we work through this process. If you have any questions or concerns in the meantime, please do not hesitate to reach out to us at [support email address]. Our team is here to assist you and we are committed to ensuring your satisfaction.
+    We appreciate your patience and understanding as we work through this process. If you have any questions or concerns in the meantime, please do not hesitate to reach out to us at website. Our team is here to assist you and we are committed to ensuring your satisfaction.
     Thank you for choosing to be a part of our event.
-    Warm regards,`;
+    `;
 
     for (let i = 0; i < members.length; i++) {
       const mailOptions = {
-        from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+        from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: ticket.team?.members[i].email,
-        subject: 'Verification Process for Your Ticket Purchase',
+        subject: `[SANDBOX] Verification Process for Your ${ticket.competitionType} Ticket`,
         html: render(
           Email({
             content,
-            heading: 'Ticket Validation',
+            heading: `${ticket.competitionType} Ticket Verification`,
             name: ticket.team?.members[i].name || '',
           }),
           { pretty: true },
@@ -142,6 +142,7 @@ export async function POST(req: NextRequest) {
       await transporter.sendMail(mailOptions);
     }
 
+    // eslint-disable-next-line no-console
     console.log('POST_TICKET: email was sent');
 
     return NextResponse.json(
@@ -155,6 +156,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof Error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
+          // eslint-disable-next-line no-console
           console.log('ERROR_POST_TICKET', error);
           return NextResponse.json(
             { message: 'The team name is already in use' },
@@ -170,6 +172,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
+      // eslint-disable-next-line no-console
       console.log('ERROR_POST_TICKET', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
