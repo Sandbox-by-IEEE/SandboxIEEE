@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (type === 'PTC' && dateNow > new Date(2024, 0, 23, 21, 0).valueOf()) {
+    if (type === 'PTC' && dateNow > new Date(2024, 0, 23, 23, 59).valueOf()) {
       return NextResponse.json(
         {
           message: 'You past the deadline',
