@@ -79,10 +79,10 @@ const MENU: PairDrawerButton[] = [
     text: 'OUR MENTORS',
     route: '/our-mentors',
   },
-  {
-    text: 'OUR PAST EVENTS',
-    route: '/past-events',
-  },
+  // {
+  //   text: 'OUR PAST EVENTS',
+  //   route: '/past-events',
+  // },
   { text: 'CONTACT US', route: '/contact-us' },
   {
     text: 'SPONSORSHIPS',

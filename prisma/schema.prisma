@@ -27,6 +27,7 @@ model User {
   sessions           Session[]
   karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade)
   activateToken      ActivateToken[]
+  resetToken         ResetToken[]
 }
 
 model ActivateToken {
@@ -38,7 +39,19 @@ model ActivateToken {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ResetToken {
+  id          String    @id @default(uuid())
+  userId      String
+  token       String    @unique
+  activatedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -98,9 +111,9 @@ model TicketExhibition {
 }
 
 model TicketCompetition {
-  id              String  @id @default(uuid())
+  id              String @id @default(uuid())
   userId          String
-  verified        Boolean @default(false)
+  verified        String @default("pending")
   competitionType String
   team            Team?
 
@@ -115,8 +128,21 @@ model Team {
   chairmanEmail String
   members       ParticipantCompetition[]
   karya         Karya?
+  abstract      Abstract?
+  regist3Data   Regist3Data?
 
   ticketCompetition TicketCompetition @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+}
+
+model Abstract {
+  id               String @id @default(uuid())
+  teamId           String @unique
+  teamName         String
+  letterPlagiarism String
+  abstract         String
+  status           String @default("waiting")
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model ParticipantCompetition {
@@ -133,11 +159,24 @@ model ParticipantCompetition {
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
+model Regist3Data {
+  id            String @id @default(uuid())
+  teamId        String @unique
+  teamName      String
+  statusPayment String @default("waiting")
+  billName      String
+  paymentProof  String
+  paymentMethod String
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
 model Karya {
-  id        String @id @default(uuid())
-  teamId    String @unique
-  linkKarya String
-  countVote BigInt @default(0)
+  id        String  @id @default(uuid())
+  teamId    String  @unique
+  linkFullPaper String?
+  linkVideo String?
+  countVote BigInt  @default(0)
   usersVote User[]
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)

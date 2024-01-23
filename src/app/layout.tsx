@@ -3,6 +3,7 @@ import 'aos/dist/aos.css';
 
 import { type Metadata } from 'next';
 import { Inter, MuseoModerno, Poppins } from 'next/font/google';
+import Script from 'next/script';
 
 import { ModalContextProvider } from '@/components/Modal/ModalContext';
 import Toast from '@/components/Toast';
@@ -46,7 +47,7 @@ export default function RootLayout({
           <ModalContextProvider>{children}</ModalContextProvider>
         </body>
       </AuthProvider>
-      {/* <Script
+      <Script
         async
         src='https://www.googletagmanager.com/gtag/js?id=G-YQC27F86L7'
       />
@@ -59,9 +60,9 @@ export default function RootLayout({
         
           gtag('config', 'G-YQC27F86L7');`,
         }}
-      /> */}
+      />
       {/* <!-- Hotjar Tracking Code for Sandbox IEEE ITB --> */}
-      {/* <Script
+      <Script
         id='hotjar'
         dangerouslySetInnerHTML={{
           __html: `(function(h,o,t,j,a,r){
@@ -73,28 +74,30 @@ export default function RootLayout({
             a.appendChild(r);
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
         }}
-      /> */}
+      />
     </html>
   );
 }
+
 export const metadata: Metadata = {
-  title: 'Coming Soon | Sandbox IEEE ITB',
+  title: 'Sandbox IEEE ITB',
   description:
     'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox ITB',
     'IEEE ITB',
     'ITB',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   alternates: {
     canonical: '/',
     languages: {

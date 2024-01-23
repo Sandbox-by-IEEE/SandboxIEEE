@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
     const newKarya = await prisma.karya.create({
       data: {
-        linkKarya: karya,
+        linkFullPaper: karya,
         teamId: existingTeam.id,
       },
       include: {
@@ -104,6 +104,7 @@ export async function POST(req: NextRequest) {
           },
         });
       }
+      // eslint-disable-next-line no-console
       console.log('ERROR_POST_KARYA', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }

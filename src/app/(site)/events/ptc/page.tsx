@@ -1,9 +1,11 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
 
+import LinkPTCCLient from '@/app/(site)/events/ptc/link-client';
+import PTCnavigation from '@/app/(site)/events/ptc/ptc-nav';
 import ButtonRegistration from '@/components/ButtonRegistration';
 import { FAQ } from '@/components/FAQ';
 import Explosion from '@/components/icons/explosion';
@@ -20,7 +22,7 @@ import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
-import { PTCProps } from '@/types/ptc-type';
+import { type PTCProps } from '@/types/ptc-type';
 
 const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
@@ -118,9 +120,15 @@ const PTC = async () => {
             {ptcPage.titleTpcPages}
           </h2>
           <div className='animate-blink duration-500 transition-all'>
-            <ButtonRegistration type='PTC' color='green'>
-              {ptcPage.buttonTextRegister}
+            <ButtonRegistration isDisabled type='PTC' color='gold'>
+              Abstract Submission Closed
             </ButtonRegistration>
+          </div>
+          <div className='animate-blink duration-500 transition-all'>
+            <PTCnavigation />
+          </div>
+          <div className='animate-blink duration-500 transition-all'>
+            <LinkPTCCLient />
           </div>
         </div>
       </section>
@@ -130,7 +138,7 @@ const PTC = async () => {
       <section className='w-full bg-gradient-section flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20'>
         <div
           data-aos='flip-up'
-          className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+          className='bg-gradient-brown border-1 lg:border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1 lg:p-1.5 rounded-2xl'
         >
           <div className=' gap-4 bg-gradient-green lg:gap-10 flex flex-col items-center justify-center py-10 px-4 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             {/* Title */}
@@ -150,7 +158,7 @@ const PTC = async () => {
               {/* Description */}
               <h4
                 data-aos='fade-left'
-                className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px] text-justify'
+                className='text-cream-secondary-light font-poppins text-base lg:text-lg font-medium w-full lg:w-[1000px]'
               >
                 {ptcPage && (
                   <StructuredText data={ptcPage.explanationDescription} />
@@ -188,7 +196,7 @@ const PTC = async () => {
           <TitleSection>{ptcPage.hadiahSectionTitle}</TitleSection>
           <div className='w-full flex flex-col lg:flex-row gap-8 justify-center text-ce items-center'>
             {/* Image Mascot left */}
-            <div className='absolute w-fit top-24 sm:-top-10 xl:top-[-20px] -z-[8] -left-3 xl:left-[22px] rotate-[-23.7deg]'>
+            <div className='absolute w-fit top-44 sm:-top-10 xl:top-[-20px] -z-[8] -left-3 xl:left-[22px] rotate-[-23.7deg]'>
               <Image
                 width={200}
                 height={200}
@@ -206,7 +214,7 @@ const PTC = async () => {
             >
               <StructuredText data={ptcPage.hadiahDescription} />
             </h4>
-            <div className='aspect-square absolute -z-[8] xl:bottom-[-52px] -right-3 xl:right-[12px] top-[20px]'>
+            <div className='aspect-square absolute -z-[8] xl:bottom-[-52px] -right-3 xl:right-[12px] top-[-30px] md:top-[20px]'>
               <Image
                 width={200}
                 height={200}
@@ -261,7 +269,7 @@ const PTC = async () => {
               <TitleSection>{ptcPage.guideSectionTitle}</TitleSection>
             </div>
             <div className='w-full flex flex-col lg:flex-row gap-8 justify-left items-center lg:px-20 pb-12'>
-              <div className='w-full lg:w-[100%] font-poppins text-justify justify-center'>
+              <div className='w-full lg:w-[100%] font-poppins justify-center'>
                 <h4
                   className='text-white text-base font-semibold px-4'
                   data-aos='fade-up'
@@ -292,7 +300,7 @@ const PTC = async () => {
         </div>
         <div
           data-aos='fade-in'
-          className='absolute opacity-80 lg:right-4 lg:top-[1595px] lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[52%] z-0'
+          className='absolute opacity-80 lg:right-4 lg:top-[1595px] lg:block md:-right-6 md:top-[1960px] -right-[1rem] top-[2060px] lg:scale-100 scale-[32%] -z-[8]'
         >
           <Star10 size={30} />
         </div>
@@ -361,86 +369,81 @@ const PTC = async () => {
       {/* END REGISTRATION */}
 
       {/* COUNTDOWN */}
-      <section className='w-full flex flex-col gap-2 bg-gradient-section px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20'>
-        <div
-          data-aos='flip-up'
-          className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
-        >
-          <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
-            {/* Title */}
-            <TitleSection>{ptcPage.countdownSectionTitle}</TitleSection>
-            {/* Countdown */}
-            <Countdown targetDate={new Date(2023, 9, 20)} />
-            {/* Button */}
-            <div className='flex gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-              <div data-aos='zoom-in'>
-                <ButtonRegistration type='PTC' color='gold'>
-                  {ptcPage.buttonTextRegister}
-                </ButtonRegistration>
-              </div>
-              <div data-aos='zoom-in'>
-                <CustomLink color='trans-orange' url='#timeline'>
-                  {ptcPage.buttonTextSeeMore}
-                </CustomLink>
-              </div>
-            </div>
+      <Countdown
+        sectionTitle={ptcPage.countdownSectionTitle}
+        targetDate={new Date(ptcPage.targetDate)}
+        type='PTC'
+      >
+        <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
+          <div data-aos='zoom-in'>
+            <ButtonRegistration isDisabled type='PTC' color='gold'>
+              Abstract Submission Closed
+            </ButtonRegistration>
+          </div>
+          <div data-aos='zoom-in'>
+            <CustomLink color='trans-orange' url='#timeline'>
+              {ptcPage.buttonTextSeeMore}
+            </CustomLink>
           </div>
         </div>
-        <div
-          data-aos='fade-in'
-          className='absolute hidden opacity-80 left-0 top-[3145px] lg:block'
-        >
-          <Star7 size={55} />
-        </div>
-        <div
-          data-aos='fade-in'
-          className='absolute hidden opacity-80 left-48 top-[3210px] lg:block'
-        >
-          <Star5 size={40} />
-        </div>
-        <div
-          data-aos='fade-in'
-          className='absolute hidden opacity-80 left-48 top-[3125px] lg:block'
-        >
-          <Star6 size={40} />
-        </div>
-      </section>
+      </Countdown>
+
       {/* END COUNTDOWN */}
+      <div
+        data-aos='fade-in'
+        className='absolute hidden opacity-80 left-0 top-[3145px] lg:block'
+      >
+        <Star7 size={55} />
+      </div>
+      <div
+        data-aos='fade-in'
+        className='absolute hidden opacity-80 left-48 top-[3210px] lg:block'
+      >
+        <Star5 size={40} />
+      </div>
+      <div
+        data-aos='fade-in'
+        className='absolute hidden opacity-80 left-48 top-[3125px] lg:block'
+      >
+        <Star6 size={40} />
+      </div>
 
       {/* TIMELINE */}
-      <section
-        id='timeline'
-        className='w-full bg-gradient-section px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
-        style={{ background: 'rgba(7, 29, 16)' }}
-      >
-        <div
-          data-aos='fade-in'
-          className='absolute hidden opacity-80 left-[480px] top-[3625px] lg:block'
+      {ptcPage.timelineSectionTitle && (
+        <section
+          id='timeline'
+          className='w-full bg-gradient-section px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52 py-8 lg:py-10 xl:py-14 2xl:py-20 flex flex-col gap-12 lg:gap-20'
+          style={{ background: 'rgba(7, 29, 16)' }}
         >
-          <Star11 size={40} />
-        </div>
-        <div
-          data-aos='fade-in'
-          className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
-        >
-          <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-            <TitleSection>{ptcPage.timelineSectionTitle}</TitleSection>
-            <div
-              data-aos='fade-in'
-              className='absolute hidden opacity-80 right-[520px] lg:top-[2890px] lg:block'
-            >
-              <Star8 size={25} />
-            </div>
-            <div
-              data-aos='fade-in'
-              className='absolute hidden opacity-80 right-[500px] lg:top-[2880px] lg:block'
-            >
-              <Star9 size={25} />
+          <div
+            data-aos='fade-in'
+            className='absolute hidden opacity-80 left-[480px] top-[3625px] lg:block'
+          >
+            <Star11 size={40} />
+          </div>
+          <div
+            data-aos='fade-in'
+            className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl'
+          >
+            <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+              <TitleSection>{ptcPage.timelineSectionTitle}</TitleSection>
+              <div
+                data-aos='fade-in'
+                className='absolute hidden opacity-80 right-[520px] lg:top-[2890px] lg:block'
+              >
+                <Star8 size={25} />
+              </div>
+              <div
+                data-aos='fade-in'
+                className='absolute hidden opacity-80 right-[500px] lg:top-[2880px] lg:block'
+              >
+                <Star9 size={25} />
+              </div>
             </div>
           </div>
-        </div>
-        <Timeline items={allTimelinesPtcs} />
-      </section>
+          <Timeline items={allTimelinesPtcs} />
+        </section>
+      )}
       {/* END TIMELINE */}
 
       {/* FAQ */}
@@ -477,21 +480,23 @@ export default PTC;
 export const metadata: Metadata = {
   title: 'PTC | Sandbox IEEE ITB',
   description:
-    'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
+    'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/events/ptc',
@@ -500,13 +505,10 @@ export const metadata: Metadata = {
       'id-ID': '/id-ID/events/ptc',
     },
   },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
-  },
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
+      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching.',
     url: 'https://sandbox.ieeeitb.com/events/ptc',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -524,7 +526,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching. ',
+      'ProtoTech Contest is a national-scale Prototype innovation competition with ten stages, namely abstract submission, PTC semi-finalist announcement,  technical mentoring by IEEE, idea pitching, introduction to professional mentor, PTC finalist announcement, professional mentor selection, prototyping weekly, progress report, and final pitching.',
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',

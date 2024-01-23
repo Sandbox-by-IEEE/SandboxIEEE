@@ -14,14 +14,23 @@ const nextConfig = {
         port: '',
         pathname: '/**/*',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**/*',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/**/*',
+      },
     ],
   },
   reactStrictMode: true,
   env: {
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-    experimental: {
-      nextScriptWorkers: true,
-    },
   },
 };
 

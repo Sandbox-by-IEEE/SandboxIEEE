@@ -4,9 +4,9 @@
 
 /* tailwind can't handler border-image for gradient border */
 .gradient-border-bg {
-  border: 3px solid;
   border-image: linear-gradient(45deg, #ab814e, #ffe1b9) 1;
-  padding: 0.7rem 4.3rem;
+  border: 5px solid transparent;
+  border-radius: 10px;
 }
 
 /* Scrollbar */

@@ -1,8 +1,8 @@
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 import Image from 'next/image';
 
 import { performRequest } from '@/lib/datocms';
-import { OurSponsorsPageProps } from '@/types/sponsors';
+import { type OurSponsorsPageProps } from '@/types/sponsors';
 
 export default async function GrandSeminar() {
   const CMS_QUERY = `{
@@ -81,8 +81,8 @@ export default async function GrandSeminar() {
                     alt={logo.title}
                     data-aos='fade-up'
                     data-aos-duration={500 + index * 100}
-                    className='w-[150px] lg:w-[180px] 2xl:w-[200px] object-contain'
-                    sizes='(max-width: 1024px) 150px, (max-width: 1536px) 180px, 200px'
+                    className='w-[130px] lg:w-[180px] 2xl:w-[200px] object-contain'
+                    sizes='(max-width: 1024px) 130px, (max-width: 1536px) 180px, 200px'
                     priority
                   />
                 ))}
@@ -146,10 +146,10 @@ export default async function GrandSeminar() {
                     width={logo.width}
                     height={logo.height}
                     alt={logo.title}
-                    className='w-[150px] lg:w-[180px] 2xl:w-[200px] object-contain'
+                    className='w-[130px] lg:w-[180px] 2xl:w-[200px] object-contain'
                     data-aos='fade-up'
                     data-aos-duration={500 + index * 100}
-                    sizes='(max-width: 1024px) 150px, (max-width: 1536px) 180px, 200px'
+                    sizes='(max-width: 1024px) 130px, (max-width: 1536px) 180px, 200px'
                   />
                 ))}
               </div>
@@ -166,19 +166,21 @@ export const metadata: Metadata = {
   description:
     'We offer a variety of sponsorship opportunities that allow you to engage with our diverse audience and gain valuable exposure for your brand. By sponsoring our event, you not only support the advancement of technology and innovation, but also have the chance to showcase your products and services to a targeted audience that values excellence and creativity.',
   generator: 'Next.js',
-  category: 'Technology',
+  category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
   referrer: 'origin-when-cross-origin',
   keywords: [
     'Sandbox',
     'Sandbox IEEE ITB',
     'Sandbox ITB',
+    'Sandbox IEEE',
     'IEEE ITB',
     'ITB',
+    'Lomba',
     'TPC',
     'PTC',
   ],
-  colorScheme: 'dark',
+  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   alternates: {
     canonical: '/sponsorships',
@@ -186,9 +188,6 @@ export const metadata: Metadata = {
       'en-US': '/en-US/sponsorships',
       'id-ID': '/id-ID/sponsorships',
     },
-  },
-  verification: {
-    google: 'GNYbAgsMCZ49BqBiEJz5TQE0X3H0XZGtURIryEvrNU8',
   },
   openGraph: {
     title: 'Sandbox IEEE ITB',

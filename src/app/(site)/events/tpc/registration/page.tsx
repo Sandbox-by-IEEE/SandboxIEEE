@@ -2,19 +2,20 @@
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-import { FileInputType } from '@/components/FileInput/fileInput-type';
+import { type FileInputType } from '@/components/FileInput/fileInput-type';
 import FormDetails from '@/components/Forms/FormDetailsRegist1';
 import {
-  InputData,
-  IsWarnedInputData,
-  MemberInfo,
+  type InputData,
+  type IsWarnedInputData,
+  type MemberInfo,
 } from '@/components/Forms/inputData-type';
-import { callToast } from '@/components/Toast';
-
-const inputDataHistoryKey = 'tpc-regist-history';
+import { callLoading, callToast } from '@/components/Toast';
 
 export default function TPCRegist() {
+  const inputDataHistoryKey = 'tpc-regist-history';
+
   const router = useRouter();
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
@@ -60,6 +61,7 @@ export default function TPCRegist() {
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
   const [isDisabledNext, setIsDisabledNext] = useState<boolean>(false);
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
+
   const handleChange = (e) => {
     const name = e.target.name;
     const value =
@@ -103,11 +105,11 @@ export default function TPCRegist() {
     if (name === 'memberCount') {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
-        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
+        if (newInputData.memberCount <= 0 || newInputData.memberCount > 3) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
-            description: 'Member count must be 1 to 5',
+            description: 'Member count must be 1 to 3',
           });
         }
       }
@@ -115,7 +117,7 @@ export default function TPCRegist() {
       if (
         !newInputData.memberCount ||
         newInputData.memberCount <= 0 ||
-        newInputData.memberCount > 5
+        newInputData.memberCount > 3
       ) {
         setIsDisabledNext(true);
       } else {
@@ -247,7 +249,10 @@ export default function TPCRegist() {
       return;
     }
 
-    console.log('POST to cms', inputData);
+    const loadingToastId = callLoading(
+      'Processing your TPC form registration...',
+    ); // Tampilkan toast loading
+
     try {
       const dataTicket = {
         competitionType: 'TPC',
@@ -291,12 +296,13 @@ export default function TPCRegist() {
         localStorage.removeItem(inputDataHistoryKey);
       }
     } catch (err) {
-      console.log('ERROR_POST_TPC: ', err);
       callToast({
         status: 'error',
         description:
           'Something went wrong while submit your data, please try again',
       });
+    } finally {
+      toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
     }
   };
 
@@ -309,7 +315,10 @@ export default function TPCRegist() {
       });
       router.push('/login');
     } else {
-      if (session.user.ticket?.TPC.buy && !session.user.ticket.TPC.verified) {
+      if (
+        session.user.ticket?.TPC.buy &&
+        session.user.ticket.TPC.verified === 'pending'
+      ) {
         callToast({
           status: 'error',
           description: 'You have purchased this ticket, Waiting for validation',
@@ -317,7 +326,7 @@ export default function TPCRegist() {
         router.push('/');
       } else if (
         session.user.ticket?.TPC.buy &&
-        session.user.ticket.TPC.verified
+        session.user.ticket.TPC.verified === 'verified'
       ) {
         callToast({
           status: 'error',
@@ -325,9 +334,18 @@ export default function TPCRegist() {
             'You have purchased this ticket, Your ticket has been validated',
         });
         router.push('/');
+      } else if (
+        session.user.ticket?.PTC.buy &&
+        session.user.ticket.PTC.verified === 'rejected'
+      ) {
+        callToast({
+          status: 'error',
+          description: 'You have purchased this ticket, Your ticket rejected',
+        });
+        router.push('/');
       }
     }
-  }, [status]);
+  }, [status, router, session?.user]);
 
   useEffect(() => {
     if (filesForm2?.length) {
@@ -440,7 +458,8 @@ export default function TPCRegist() {
 
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
-      <div className='h-fit w-full max-w-[1000px] py-10 px-4 pt-16 lg:pt-24 font-poppins'>
+      <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
+        <Title text='TPC Registration' />
         <Title text='Complete your details Below' />
         <FormDetails
           inputData={inputData}
@@ -451,6 +470,8 @@ export default function TPCRegist() {
           handleSubmitFormIdentity={handleSubmitFormIdentity}
           isWarnedInputData={isWarnedInputData}
           setIsWarnedInputData={setIsWarnedInputData}
+          isDisabledNext={isDisabledNext}
+          inputDataHistoryKey={inputDataHistoryKey}
           submissionText='Submit'
         />
       </div>
