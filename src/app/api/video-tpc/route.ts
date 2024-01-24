@@ -1,7 +1,11 @@
 import { authOptions } from '@/lib/authOptions';
 import { prisma } from '@/lib/db';
+import moment from 'moment-timezone';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
+
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   try {
@@ -68,6 +72,15 @@ export async function POST(req: NextRequest) {
     if (existingTeam.regist3Data?.statusPayment !== 'verified') {
       return NextResponse.json(
         { message: 'Your payment for stage 3 has not been verified' },
+        { status: 400 },
+      );
+    }
+
+    if (moment().tz("Asia/Jakarta").unix() > moment.tz("2024-02-15 18:00", "Asia/Jakarta").unix()) {
+      return NextResponse.json(
+        {
+          message: 'You past the deadline',
+        },
         { status: 400 },
       );
     }

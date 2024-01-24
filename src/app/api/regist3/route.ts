@@ -4,6 +4,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
+import moment from 'moment-timezone';
+
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   let registId;
@@ -11,7 +15,7 @@ export async function POST(req: NextRequest) {
   let isUpdated = false;
   let registData = {} as any;
   try {
-    const dateNow = Date.now();
+    const dateNow = moment().tz("Asia/Jakarta").unix();
 
     const body = await req.json();
     // console.log(body)
@@ -84,7 +88,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (type === 'PTC' && dateNow > new Date(2024, 0, 23, 23, 59).valueOf()) {
+    if (type === 'PTC' && dateNow > moment.tz("2024-01-23 23:59", "Asia/Jakarta").unix()) {
       return NextResponse.json(
         {
           message: 'You past the deadline',
@@ -93,7 +97,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (type === 'TPC' && dateNow > new Date(2024, 0, 30, 22, 0).valueOf()) {
+    if (type === 'TPC' && dateNow > moment.tz("2024-01-30 22:00", "Asia/Jakarta").unix()) {
       return NextResponse.json(
         {
           message: 'You past the deadline',
