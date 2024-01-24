@@ -17,7 +17,6 @@ declare module 'next-auth' {
         linkFullPaper: string;
         linkVideo: string;
         linkVideo2: string;
-
       };
     };
     ticket?: {
