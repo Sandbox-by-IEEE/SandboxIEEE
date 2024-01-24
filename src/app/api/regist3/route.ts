@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   let isUpdated = false;
   let registData = {} as any;
   try {
-    const dateNow = moment().tz("Asia/Jakarta").unix();
+    const dateNow = moment().tz('Asia/Jakarta').unix();
 
     const body = await req.json();
     // console.log(body)
@@ -88,7 +88,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (type === 'PTC' && dateNow > moment.tz("2024-01-23 23:59", "Asia/Jakarta").unix()) {
+    if (
+      type === 'PTC' &&
+      dateNow > moment.tz('2024-01-23 23:59', 'Asia/Jakarta').unix()
+    ) {
       return NextResponse.json(
         {
           message: 'You past the deadline',
@@ -97,7 +100,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (type === 'TPC' && dateNow > moment.tz("2024-01-30 22:00", "Asia/Jakarta").unix()) {
+    if (
+      type === 'TPC' &&
+      dateNow > moment.tz('2024-01-30 22:00', 'Asia/Jakarta').unix()
+    ) {
       return NextResponse.json(
         {
           message: 'You past the deadline',
