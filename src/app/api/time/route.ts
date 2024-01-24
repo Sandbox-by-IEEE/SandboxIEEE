@@ -4,8 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export function GET(req: NextRequest) {
   try {
     const now = moment();
-    const time = now.tz("Asia/Jakarta")
-  
+    const time = now.tz('Asia/Jakarta');
 
     return NextResponse.json(
       {
@@ -19,7 +18,7 @@ export function GET(req: NextRequest) {
             hour: time.hours(),
             minute: time.minutes(),
             second: time.seconds(),
-            string: time.format()
+            string: time.format(),
           },
           utc: {
             day: time.utc().days(),
@@ -29,7 +28,7 @@ export function GET(req: NextRequest) {
             hour: time.utc().hours(),
             minute: time.utc().minutes(),
             second: time.utc().seconds(),
-            string: time.utc().format()
+            string: time.utc().format(),
           },
         },
         message: 'get server time succesfull',
