@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const fetchCache = 'force-no-store';
-
 export function GET(req: NextRequest) {
   try {
     const now = Date.now();
@@ -34,12 +32,29 @@ export function GET(req: NextRequest) {
         },
         message: 'get server time succesfull',
       },
-      { status: 200 },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'max-age=1',
+          'CDN-Cache-Control': 'max-age=1',
+          'Vercel-CDN-Cache-Control': 'max-age=1',
+        },
+      },
     );
   } catch (error) {
     if (error instanceof Error) {
       console.log('ERROR_TIME: ', error);
-      return NextResponse.json({ message: error.message }, { status: 500 });
+      return NextResponse.json(
+        { message: error.message },
+        {
+          status: 500,
+          headers: {
+            'Cache-Control': 'max-age=1',
+            'CDN-Cache-Control': 'max-age=1',
+            'Vercel-CDN-Cache-Control': 'max-age=1',
+          },
+        },
+      );
     }
   }
 }
