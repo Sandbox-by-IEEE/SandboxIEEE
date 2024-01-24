@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(
-      { data: updatedKarya, message: 'Upload video success' },
+      { data: { ...updatedKarya, countVote: updatedKarya.countVote.toString() }, message: 'Upload video success' },
       { status: 200 },
     );
   } catch (error) {

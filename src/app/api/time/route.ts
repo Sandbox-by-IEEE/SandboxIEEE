@@ -1,33 +1,35 @@
+import moment from 'moment-timezone';
 import { NextRequest, NextResponse } from 'next/server';
 
 export function GET(req: NextRequest) {
   try {
-    const now = Date.now();
-    const time = new Date(now);
-    const time2 = new Date(now);
-    time.setHours(time.getUTCHours() + 7);
+    const now = moment();
+    const time = now.tz("Asia/Jakarta")
+  
 
     return NextResponse.json(
       {
         data: {
-          unix: now,
+          unix: now.unix(),
           wib: {
-            day: time.getDay(),
-            date: time.getDate(),
-            month: time.getMonth(),
-            year: time.getFullYear(),
-            hour: time.getHours(),
-            minute: time.getMinutes(),
-            second: time.getSeconds(),
+            day: time.days(),
+            date: time.date(),
+            month: time.month(),
+            year: time.year(),
+            hour: time.hours(),
+            minute: time.minutes(),
+            second: time.seconds(),
+            string: time.format()
           },
           utc: {
-            day: time2.getDay(),
-            date: time2.getDate(),
-            month: time2.getMonth(),
-            year: time2.getFullYear(),
-            hour: time2.getHours(),
-            minute: time2.getMinutes(),
-            second: time2.getSeconds(),
+            day: time.utc().days(),
+            date: time.utc().date(),
+            month: time.utc().month(),
+            year: time.utc().year(),
+            hour: time.utc().hours(),
+            minute: time.utc().minutes(),
+            second: time.utc().seconds(),
+            string: time.utc().format()
           },
         },
         message: 'get server time succesfull',
