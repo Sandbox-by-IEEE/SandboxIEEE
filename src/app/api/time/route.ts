@@ -10,7 +10,7 @@ export function GET(req: NextRequest) {
     return NextResponse.json(
       {
         data: {
-          unix: time.getTime(),
+          unix: now,
           wib: {
             day: time.getDay(),
             date: time.getDate(),
