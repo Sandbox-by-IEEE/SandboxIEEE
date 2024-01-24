@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     if (!session) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401  });
 
-      
+
     }
 
     const body = await req.json();
