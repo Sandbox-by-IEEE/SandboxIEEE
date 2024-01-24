@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export function GET(req: NextRequest) {
   try {
-    const time = new Date();
+    const now = Date.now()
+    const time = new Date(now);
+    const time2 = new Date(now);
     time.setHours(time.getUTCHours() + 7);
 
     return NextResponse.json(
@@ -11,23 +13,21 @@ export function GET(req: NextRequest) {
           unix: time.getTime(),
           wib: {
             day: time.getDay(),
-            time: time.getDate(),
+            date: time.getDate(),
             month: time.getMonth(),
             year: time.getFullYear(),
             hour: time.getHours(),
             minute: time.getMinutes(),
             second: time.getSeconds(),
-            string: time.toString(),
           },
           utc: {
-            day: time.getUTCDay(),
-            time: time.getUTCDate(),
-            month: time.getUTCMonth(),
-            year: time.getUTCFullYear(),
-            hour: time.getUTCHours(),
-            minute: time.getUTCMinutes(),
-            second: time.getUTCSeconds(),
-            string: time.toUTCString(),
+            day: time2.getDay(),
+            date: time2.getDate(),
+            month: time2.getMonth(),
+            year: time2.getFullYear(),
+            hour: time2.getHours(),
+            minute: time2.getMinutes(),
+            second: time2.getSeconds(),
           }
         },
         message: 'get time time succesfull',
