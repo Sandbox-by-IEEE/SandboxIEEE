@@ -32,7 +32,6 @@ export function GET(req: NextRequest) {
             minute: time.utc().minutes(),
             second: time.utc().seconds(),
             string: time.utc().format(),
-
           },
         },
         message: 'get server time succesfull',

@@ -12,9 +12,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401  });
-
-
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await req.json();
@@ -78,7 +76,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (moment().tz("Asia/Jakarta").unix() > moment.tz("2024-02-15 18:00", "Asia/Jakarta").unix()) {
+    if (
+      moment().tz('Asia/Jakarta').unix() >
+      moment.tz('2024-02-15 18:00', 'Asia/Jakarta').unix()
+    ) {
       return NextResponse.json(
         {
           message: 'You past the deadline',
