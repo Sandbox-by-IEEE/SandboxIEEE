@@ -1,6 +1,10 @@
 import moment from 'moment-timezone';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const config = {
+  runtime: "edge"
+}
+
 export function GET(req: NextRequest) {
   try {
     const now = moment();
