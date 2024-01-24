@@ -6,7 +6,7 @@ import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 import moment from 'moment-timezone';
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
