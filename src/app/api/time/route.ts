@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export function GET(req: NextRequest) {
   try {
-    const now = Date.now()
+    const now = Date.now();
     const time = new Date(now);
     const time2 = new Date(now);
     time.setHours(time.getUTCHours() + 7);
@@ -28,7 +28,7 @@ export function GET(req: NextRequest) {
             hour: time2.getHours(),
             minute: time2.getMinutes(),
             second: time2.getSeconds(),
-          }
+          },
         },
         message: 'get time time succesfull',
       },
