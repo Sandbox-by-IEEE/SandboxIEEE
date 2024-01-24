@@ -12,7 +12,7 @@ export function GET(req: NextRequest) {
     return NextResponse.json(
       {
         data: {
-          unix: now.unix(),
+          unix: time.unix(),
           wib: {
             day: time.days(),
             date: time.date(),
@@ -21,6 +21,7 @@ export function GET(req: NextRequest) {
             hour: time.hours(),
             minute: time.minutes(),
             second: time.seconds(),
+            string: time.format(),
           },
           utc: {
             day: time.utc().days(),
@@ -30,6 +31,8 @@ export function GET(req: NextRequest) {
             hour: time.utc().hours(),
             minute: time.utc().minutes(),
             second: time.utc().seconds(),
+            string: time.utc().format(),
+
           },
         },
         message: 'get server time succesfull',
