@@ -4,8 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export function GET(req: NextRequest) {
   try {
     const now = moment();
-    const time = now.tz("Asia/Jakarta")
-  
+    const time = now.tz('Asia/Jakarta');
 
     return NextResponse.json(
       {
@@ -34,11 +33,6 @@ export function GET(req: NextRequest) {
       },
       {
         status: 200,
-        headers: {
-          'Cache-Control': 'max-age=1',
-          'CDN-Cache-Control': 'max-age=1',
-          'Vercel-CDN-Cache-Control': 'max-age=1',
-        },
       },
     );
   } catch (error) {
@@ -48,11 +42,6 @@ export function GET(req: NextRequest) {
         { message: error.message },
         {
           status: 500,
-          headers: {
-            'Cache-Control': 'max-age=1',
-            'CDN-Cache-Control': 'max-age=1',
-            'Vercel-CDN-Cache-Control': 'max-age=1',
-          },
         },
       );
     }
