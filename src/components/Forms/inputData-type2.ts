@@ -1,6 +1,3 @@
-
-
-
 export type MemberInfo = {
   name: string;
   email: string;
@@ -12,6 +9,7 @@ export type InputData = {
   memberCount: number;
   bankAccName: string;
   members: MemberInfo[];
+  registrationType?: string;
   paymentMethod?: string;
   paymentProofName: string;
   paymentProofUrl: string;
@@ -29,6 +27,7 @@ export type IsWarnedInputData = {
   bankAccName: boolean;
   members: IsWarnedMemberInfo[];
   paymentMethod?: boolean;
+  registrationType?: boolean;
   paymentProofName: boolean;
   paymentProofUrl: boolean;
 };

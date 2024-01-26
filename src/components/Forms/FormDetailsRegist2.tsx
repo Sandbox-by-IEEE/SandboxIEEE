@@ -189,7 +189,7 @@ const FormDetails2 = ({
               onClick={() => setFillMemberIndex(fillMemberIndex - 1)}
             >
               <span className='w-fit min-w-fit max-w-fit whitespace-nowrap'>
-                Back (Data {'Member ' + fillMemberIndex})
+                Back (Data {'Person ' + fillMemberIndex})
               </span>
             </Button>
           </div>
@@ -204,7 +204,7 @@ const FormDetails2 = ({
               disabled={isDisabledNext}
             >
               <span className='w-fit min-w-fit max-w-fit whitespace-nowrap'>
-                Next (Data {'Member ' + (fillMemberIndex + 2)})
+                Next (Data {'Person ' + (fillMemberIndex + 2)})
               </span>
             </Button>
           </div>
@@ -218,7 +218,7 @@ const FormDetails2 = ({
               disabled={isDisabledNext}
             >
               <span className='w-fit min-w-fit max-w-fit whitespace-nowrap'>
-                Next (Data {'Member ' + (fillMemberIndex + 2)})
+                Next (Data {'Person ' + (fillMemberIndex + 2)})
               </span>
             </Button>
           </div>

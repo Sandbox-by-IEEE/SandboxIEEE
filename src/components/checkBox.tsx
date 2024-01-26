@@ -12,7 +12,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ checked, onChange, children }) => {
       <input
         type='checkbox'
         className='appearance-none h-[17px] w-[17px] cursor-pointer border-2 border-solid border-white flex justify-center content-center outline-none
-        after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked.svg")] after:bg-no-repeat after:bg-center
+        after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked1.svg")] after:bg-no-repeat after:bg-center
         hover:border-2 hover:border-solid hover:border-[#ab814e]
         checked:border-0 checked:border-solid
         checked:after:block'
