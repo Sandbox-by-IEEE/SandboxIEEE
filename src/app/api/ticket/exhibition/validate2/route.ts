@@ -5,9 +5,9 @@ import { prisma } from '@/lib/db';
 export async function PATCH(req: NextRequest) {
   let ticketIdTemp;
   try {
-    const { ticketId, email } = await req.json();
+    const { ticketId } = await req.json();
 
-    if (!ticketId || !email) {
+    if (!ticketId ) {
       return NextResponse.json(
         { message: 'Missing ticket id or user id' },
         { status: 400 },
@@ -43,7 +43,7 @@ export async function PATCH(req: NextRequest) {
     if (existingTicket.active) {
       return NextResponse.json(
         { message: 'Ticket has been used!!' },
-        { status: 400 },
+        { status: 200 },
       );
     }
 
@@ -56,28 +56,6 @@ export async function PATCH(req: NextRequest) {
       },
     });
 
-    ticketIdTemp = updatedTicket.id;
-    // const data = {
-    //   ticketId,
-    // };
-
-    // if (!existingTicket.active) {
-    //   const sheetAPI = process.env.API_SHEET_EXHIBITION_URL || '';
-
-    //   const response = await fetch(`${sheetAPI}?type=attendance`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-
-    //   const resBody = await response.json();
-
-    //   if (resBody.status > 299 || response.status < 200) {
-    //     throw new Error(`Failed to create ticket, ${resBody.message}`);
-    //   }
-    // }
 
     return NextResponse.json(
       {
