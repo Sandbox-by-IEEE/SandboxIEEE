@@ -17,7 +17,12 @@ import TextInput from '@/components/TextInput';
 import { callLoading, callToast } from '@/components/Toast';
 
 export default function PTCRegist() {
-  const inputDataHistoryKey = 'ptc-regist-history';
+  const inputDataHistoryKey = 'exhibition-regist-history';
+  // for checkbox
+  const [isChecked, setIsChecked] = useState(false);
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
 
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -32,6 +37,7 @@ export default function PTCRegist() {
       },
     ],
     bankAccName: '',
+    registrationType: '',
     paymentProofName: '',
     paymentMethod: '',
     paymentProofUrl: '',
@@ -48,6 +54,7 @@ export default function PTCRegist() {
         },
       ],
       bankAccName: false,
+      registrationType: false,
       paymentProofName: false,
       paymentMethod: false,
       paymentProofUrl: false,
@@ -287,7 +294,7 @@ export default function PTCRegist() {
           status: 'success',
           description: bodyResponse.message,
         });
-        router.push('/events/ptc');
+        router.push('/events/exhibition');
         localStorage.removeItem(inputDataHistoryKey);
       }
     } catch (err) {
@@ -388,6 +395,7 @@ export default function PTCRegist() {
             memberCount,
             members,
             bankAccName,
+            registrationType,
             paymentMethod,
             paymentProofName,
             paymentProofUrl,
@@ -397,6 +405,7 @@ export default function PTCRegist() {
             memberCount,
             members,
             bankAccName,
+            registrationType,
             paymentMethod,
             paymentProofName,
             paymentProofUrl,
@@ -428,6 +437,7 @@ export default function PTCRegist() {
               teamName,
               memberCount,
               members,
+              registrationType,
               paymentMethod,
               paymentProofUrl,
             }),
@@ -445,7 +455,7 @@ export default function PTCRegist() {
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
       <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='Exhibition Registration' />
+        <Title text='Exhibition Early Registration' />
         <Title text='Complete your details below' />
         {step === 0 && (
           <form onSubmit={handleNext} className='space-y-2 py-6 w-full'>
@@ -473,6 +483,64 @@ export default function PTCRegist() {
         )}
         {step === 1 && (
           <form onSubmit={handleNext} className='space-y-2 py-6 w-full'>
+            <div className='flex flex-col gap-7 flex-wrap justify-center w-full border-y-2 pt-4 pb-14 border-[#bb9567]'>
+              <p className='text-2xl font-bold text-left'>
+                Choose Your Registration type
+              </p>
+              <div className='flex gap-8 items-stretch flex-wrap'>
+                <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
+                  <input
+                    type='radio'
+                    name='registrationType'
+                    id='single'
+                    className='scale-150'
+                    onChange={handleChange}
+                    checked={inputData.registrationType === 'Single'}
+                    value='Single'
+                  />
+                  <label htmlFor='Single' className='w-full h-full'>
+                    <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
+                      <p className='border-b-2 py-2 w-full'>1 Person</p>
+                      <p className='py-1 sm:py-2 font-bold'>Rp 30.000,00</p>
+                    </GradientBox>
+                  </label>
+                </div>
+                <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
+                  <input
+                    type='radio'
+                    name='registrationType'
+                    id='Collective-3'
+                    className='scale-150'
+                    checked={inputData.registrationType === 'Collective-3'}
+                    onChange={handleChange}
+                    value='Collective-3'
+                  />
+                  <label htmlFor='Collective-3' className='w-full h-full'>
+                    <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
+                      <p className='border-b-2 py-2 w-full'>3 Person</p>
+                      <p className='py-1 sm:py-2 font-bold'>Rp 75.000,00</p>
+                    </GradientBox>
+                  </label>
+                </div>
+                <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
+                  <input
+                    type='radio'
+                    name='registrationType'
+                    id='Collective-5'
+                    className='scale-150'
+                    checked={inputData.registrationType === 'Collective-5'}
+                    onChange={handleChange}
+                    value='Collective-5'
+                  />
+                  <label htmlFor='Collective-5' className='w-full h-full'>
+                    <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
+                      <p className='border-b-2 py-2 w-full'>5 Person</p>
+                      <p className='py-1 sm:py-2 font-bold'>Rp 100.000,00</p>
+                    </GradientBox>
+                  </label>
+                </div>
+              </div>
+            </div>
             <div className='flex flex-col pb-6'>
               <label
                 className='text-xl py-2'
@@ -586,7 +654,22 @@ export default function PTCRegist() {
                 />
               </div>
             </div>
-
+            <div>
+              <label className='text-white inline-flex items-center'>
+                <input
+                  type='checkbox'
+                  className='appearance-none h-[17px] w-[17px] cursor-pointer border-2 border-solid border-white flex justify-center content-center outline-none
+                after:content-[""] after:w-full after:h-full after:hidden after:bg-[url("/checked1.svg")] after:bg-no-repeat after:bg-center
+                hover:border-2 hover:border-solid hover:border-[#ab814e]
+                checked:border-0 checked:border-solid
+                checked:after:block'
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                  required
+                />
+                <span className='ml-2'>Setuju dengan Syarat dan Ketentuan</span>
+              </label>
+            </div>
             <div className='w-fit max-w-fit mx-auto pt-8 flex gap-4'>
               <Button
                 type='button'
