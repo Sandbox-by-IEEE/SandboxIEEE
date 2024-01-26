@@ -61,7 +61,7 @@ export async function PATCH(
     // const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
     //   {
     //     ticketId,
-    //     userId: updatedTicket.userId,
+    //     email: updatedTicket.email,
     //   },
     // )}&amp;size=200x200`;
 
@@ -77,7 +77,7 @@ export async function PATCH(
     //     Email({
     //       heading: heading,
     //       content: content,
-    //       name: updatedTicket.nameCustomer,
+    //       name: updatedTicket.name,
     //       qrUrl: qrUrl,
     //     }),
     //     { pretty: true },

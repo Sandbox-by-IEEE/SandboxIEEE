@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
 
     const sheetAPI = process.env.API_SHEET_EXHIBITION_URL || '';
 
-    const response = await fetch(`${sheetAPI}`, {
+    const response = await fetch(`${sheetAPI}?type=ticket`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
