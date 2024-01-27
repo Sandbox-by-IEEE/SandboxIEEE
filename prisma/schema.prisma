@@ -21,13 +21,13 @@ model User {
   image              String?
   password           String?
   karyaId            String?
-  ticketsExhibition  TicketExhibition?
   ticketsCompetition TicketCompetition[]
   accounts           Account[]
   sessions           Session[]
   karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade)
   activateToken      ActivateToken[]
   resetToken         ResetToken[]
+  transaction        TransactionDetail[]
 }
 
 model ActivateToken {
@@ -90,24 +90,15 @@ model VerificationToken {
 }
 
 model TicketExhibition {
-  id            String  @id @default(uuid())
-  ticketType    String
-  verified      Boolean @default(false)
-  active        Boolean @default(false)
-  userId        String  @unique
-  nameCustomer  String
-  paymentMethod String
-  proof         String
-  names         String
-  email         String
-  phone         String
-  address       String
-  institution   String
-  phoneNumber   String
-  ages          String
-  amountPrice   String
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                  String            @id @default(uuid())
+  verified            Boolean           @default(false)
+  active              Boolean           @default(false)
+  name                String
+  email               String
+  phone               String
+  idLine              String
+  transactionDetail   TransactionDetail @relation(fields: [transactionDetailId], references: [id])
+  transactionDetailId String
 }
 
 model TicketCompetition {
@@ -172,13 +163,27 @@ model Regist3Data {
 }
 
 model Karya {
-  id        String  @id @default(uuid())
-  teamId    String  @unique
+  id            String  @id @default(uuid())
+  teamId        String  @unique
   linkFullPaper String?
-  linkVideo String?
-  linkVideo2 String?
-  countVote BigInt  @default(0)
-  usersVote User[]
+  linkVideo     String?
+  linkVideo2    String?
+  countVote     BigInt  @default(0)
+  usersVote     User[]
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
+model TransactionDetail {
+  id               String             @id @default(uuid())
+  total            BigInt
+  status           String
+  customerName     String
+  customerEmail    String
+  paymentType      String?
+  snapToken        String
+  snapRedirectURL  String
+  userId           String
+  User             User               @relation(fields: [userId], references: [id])
+  ticketExhibition TicketExhibition[]
 }
