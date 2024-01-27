@@ -2,7 +2,6 @@
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 
 import Button from '@/components/Button';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
@@ -16,9 +15,9 @@ import GradientBox from '@/components/GradientBox';
 import TextInput from '@/components/TextInput';
 import { callLoading, callToast } from '@/components/Toast';
 
-export default function PTCRegist() {
+export default function ExhibitionRegist() {
   const inputDataHistoryKey = 'exhibition-regist-history';
-  // for checkbox
+
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -255,96 +254,96 @@ export default function PTCRegist() {
     }
 
     const loadingToastId = callLoading(
-      'Processing your PTC form registration...',
+      'Processing your Exhibiton form registration...',
     ); // Tampilkan toast loading
 
     // Submit data shoot API
-    try {
-      const dataTicket = {
-        competitionType: 'PTC',
-        chairmanName: inputData.members[0].name,
-        chairmanEmail: inputData.members[0].email,
-        members: inputData.members.map((member) => {
-          return {
-            name: member.name,
-            email: member.email,
-            phoneNumber: member.phoneNumber,
-            lineId: member.lineId,
-          };
-        }),
-      };
+    // try {
+    //   const dataTicket = {
+    //     competitionType: 'PTC',
+    //     chairmanName: inputData.members[0].name,
+    //     chairmanEmail: inputData.members[0].email,
+    //     members: inputData.members.map((member) => {
+    //       return {
+    //         name: member.name,
+    //         email: member.email,
+    //         phoneNumber: member.phoneNumber,
+    //         lineId: member.lineId,
+    //       };
+    //     }),
+    //   };
 
-      const response = await fetch('/api/ticket/competition', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataTicket),
-      });
+    //   const response = await fetch('/api/ticket/competition', {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(dataTicket),
+    //   });
 
-      const bodyResponse = await response.json();
-      if (!response.ok) {
-        callToast({
-          status: 'error',
-          description: bodyResponse.message,
-        });
-      } else {
-        callToast({
-          status: 'success',
-          description: bodyResponse.message,
-        });
-        router.push('/events/exhibition');
-        localStorage.removeItem(inputDataHistoryKey);
-      }
-    } catch (err) {
-      callToast({
-        status: 'error',
-        description:
-          'Something went wrong while submit your data, please try again',
-      });
-    } finally {
-      toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
-    }
+    //   const bodyResponse = await response.json();
+    //   if (!response.ok) {
+    //     callToast({
+    //       status: 'error',
+    //       description: bodyResponse.message,
+    //     });
+    //   } else {
+    //     callToast({
+    //       status: 'success',
+    //       description: bodyResponse.message,
+    //     });
+    //     router.push('/events/ptc');
+    //     localStorage.removeItem(inputDataHistoryKey);
+    //   }
+    // } catch (err) {
+    //   callToast({
+    //     status: 'error',
+    //     description:
+    //       'Something went wrong while submit your data, please try again',
+    //   });
+    // } finally {
+    //   toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+    // }
   };
 
   useEffect(() => {
     if (status === 'loading') {
       return;
     }
-    if (!session?.user) {
-      //
-    } else {
-      if (
-        session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified === 'pending'
-      ) {
-        callToast({
-          status: 'error',
-          description: 'You have purchased this ticket, Waiting for validation',
-        });
-        router.push('/');
-      } else if (
-        session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified === 'verified'
-      ) {
-        callToast({
-          status: 'error',
-          description:
-            'You have purchased this ticket, Your ticket has been validated',
-        });
-        router.push('/');
-      } else if (
-        session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified === 'rejected'
-      ) {
-        callToast({
-          status: 'error',
-          description: 'You have purchased this ticket, Your ticket rejected',
-        });
-        router.push('/');
-      }
-    }
+    // if (!session?.user) {
+    //   //
+    // } else {
+    //   if (
+    //     session.user.ticket?.PTC.buy &&
+    //     session.user.ticket.PTC.verified === 'pending'
+    //   ) {
+    //     callToast({
+    //       status: 'error',
+    //       description: 'You have purchased this ticket, Waiting for validation',
+    //     });
+    //     router.push('/');
+    //   } else if (
+    //     session.user.ticket?.PTC.buy &&
+    //     session.user.ticket.PTC.verified === 'verified'
+    //   ) {
+    //     callToast({
+    //       status: 'error',
+    //       description:
+    //         'You have purchased this ticket, Your ticket has been validated',
+    //     });
+    //     router.push('/');
+    //   } else if (
+    //     session.user.ticket?.PTC.buy &&
+    //     session.user.ticket.PTC.verified === 'rejected'
+    //   ) {
+    //     callToast({
+    //       status: 'error',
+    //       description: 'You have purchased this ticket, Your ticket rejected',
+    //     });
+    //     router.push('/');
+    //   }
+    // }
   }, [status, router, session?.user]);
 
   useEffect(() => {
