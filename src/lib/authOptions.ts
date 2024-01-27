@@ -38,6 +38,7 @@ export const authOptions: AuthOptions = {
                 countVote: true,
                 linkFullPaper: true,
                 linkVideo: true,
+                linkVideo2: true,
                 team: {
                   select: {
                     id: true,
@@ -98,6 +99,7 @@ export const authOptions: AuthOptions = {
               ),
               linkFullPaper: existingUser.karya.linkFullPaper || '',
               linkVideo: existingUser.karya.linkVideo || '',
+              linkVideo2: existingUser.karya.linkVideo2 || '',
             }
           : undefined;
 
@@ -259,6 +261,7 @@ export const authOptions: AuthOptions = {
               countVote: true,
               linkFullPaper: true,
               linkVideo: true,
+              linkVideo2: true,
               team: {
                 select: {
                   id: true,
@@ -301,6 +304,9 @@ export const authOptions: AuthOptions = {
             countVote: parseInt(
               existingUser.karya?.countVote.toString() || '0',
             ),
+            linkFullPaper: existingUser.karya.linkFullPaper || '',
+            linkVideo: existingUser.karya.linkVideo || '',
+            linkVideo2: existingUser.karya.linkVideo2 || '',
           }
         : undefined;
 
