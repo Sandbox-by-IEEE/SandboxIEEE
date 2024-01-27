@@ -5,6 +5,8 @@ import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 
+// export const runtime = 'edge';
+
 export async function POST(req: NextRequest) {
   try {
     const type = req.nextUrl.searchParams.get('type');
