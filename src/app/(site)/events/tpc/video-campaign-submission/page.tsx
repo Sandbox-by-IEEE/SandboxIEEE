@@ -2,10 +2,12 @@
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Button from '@/components/Button';
 import TextInput from '@/components/TextInput';
 import { callToast } from '@/components/Toast';
+import { callLoading } from '@/components/Toast';
 
 export default function RegistWithPaper() {
   const router = useRouter();
@@ -82,109 +84,105 @@ export default function RegistWithPaper() {
       });
     } else {
       //shoot API here
-      console.log(inputData);
+      // console.log(inputData);
+
       // -- EXAMPLE --
-      // const loadingToastId = callLoading('Submitting Registration Form...'); // Tampilkan toast loading
-      // try {
-      //   setIsLoading(true);
-      //   const dataTicket = {
-      //     teamName: inputData.teamName,
-      //     linkGDrive: inputData.paperUrl,
-      //     paymentProof: inputData.paymentProofUrl,
-      //     paymentMethod: inputData.paymentMethod,
-      //     billName: inputData.bankAccName,
-      //     karya: '',
-      //     type: 'PTC',
-      //   };
-      //   const response = await fetch('/api/regist3', {
-      //     method: 'POST',
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(dataTicket),
-      //   });
-      //   const bodyResponse = await response.json();
-      //   if (!response.ok) {
-      //     callToast({
-      //       status: 'error',
-      //       description: bodyResponse.message,
-      //     });
-      //   } else {
-      //     callToast({
-      //       status: 'success',
-      //       description: bodyResponse.message,
-      //     });
-      //     router.push('/events/ptc');
-      //     localStorage.removeItem(inputDataHistoryKey);
-      //   }
-      // } catch (err) {
-      //   callToast({
-      //     status: 'error',
-      //     description:
-      //       'Something went wrong while submit your data, please try again',
-      //   });
-      //   setIsLoading(false);
-      // } finally {
-      //   toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
-      //   setIsLoading(false);
-      // }
+      const loadingToastId = callLoading('Submitting Video Campaign Form...'); // Tampilkan toast loading
+      try {
+        setIsLoading(true);
+        const dataTicket = {
+          teamName: inputData.teamName,
+          linkVideo: inputData.videoUrl,
+        };
+        const response = await fetch('/api/video-tpc', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataTicket),
+        });
+        const bodyResponse = await response.json();
+        if (!response.ok) {
+          callToast({
+            status: 'error',
+            description: bodyResponse.message,
+          });
+        } else {
+          callToast({
+            status: 'success',
+            description: bodyResponse.message,
+          });
+          router.push('/events/tpc');
+          localStorage.removeItem(inputDataHistoryKey);
+        }
+      } catch (err) {
+        callToast({
+          status: 'error',
+          description:
+            'Something went wrong while submit your data, please try again',
+        });
+        setIsLoading(false);
+      } finally {
+        toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+        setIsLoading(false);
+      }
     }
   };
 
   // Page handling session user
-  // useEffect(() => {
-  //   if (status === 'loading') {
-  //     return;
-  //   }
-  //   // If the user is not logged in, redirect to login page
-  //   if (!session?.user) {
-  //     callToast({
-  //       status: 'error',
-  //       description: 'Unauthorized, please login first',
-  //     });
-  //     router.push('/login');
-  //   }
-  //   // Case not buy the ticket or not verified
-  //   else if (
-  //     session.user.ticket?.PTC.buy == false ||
-  //     session.user.ticket?.PTC.verified !== 'verified'
-  //   ) {
-  //     // Case the ticket pending or rejected
-  //     if (
-  //       session.user.ticket?.PTC.buy &&
-  //       (session.user.ticket.PTC.verified === 'pending' ||
-  //         session.user.ticket.PTC.verified === 'rejected')
-  //     ) {
-  //       callToast({
-  //         status: 'error',
-  //         description:
-  //           'You cannot access this stage, thanks for your participation',
-  //       });
-  //       router.push('/events/ptc');
-  //     }
-  //     // Case not buy the ticket or not verified
-  //     else if (
-  //       session.user.ticket?.PTC.buy == false &&
-  //       session.user.ticket.PTC.verified === ''
-  //     ) {
-  //       callToast({
-  //         status: 'error',
-  //         description:
-  //           'You cannot access this stage, you have not purchased the ticket before',
-  //       });
-  //       router.push('/events/ptc');
-  //     }
-  //     // Unknown case
-  //     else {
-  //       callToast({
-  //         status: 'error',
-  //         description: 'Something went wrong, please contact our admin',
-  //       });
-  //       router.push('/events/ptc');
-  //     }
-  //   }
-  // }, [status, router, session?.user]);
+  useEffect(() => {
+    if (status === 'loading') {
+      return;
+    }
+    // If the user is not logged in, redirect to login page
+    if (!session?.user) {
+      callToast({
+        status: 'error',
+        description: 'Unauthorized, please login first',
+      });
+      router.push('/login');
+    }
+    // Case not buy the ticket or not verified
+    else if (
+      session.user.ticket?.TPC.buy == false ||
+      session.user.ticket?.TPC.verified !== 'verified'
+    ) {
+      // Case the ticket pending or rejected
+      if (
+        session.user.ticket?.TPC.buy &&
+        (session.user.ticket.TPC.verified === 'pending' ||
+          session.user.ticket.TPC.verified === 'rejected')
+      ) {
+        callToast({
+          status: 'error',
+          description:
+            'You cannot access this stage, thanks for your participation',
+        });
+        router.push('/events/tpc');
+      }
+      // Case not buy the ticket or not verified
+      else if (
+        session.user.ticket?.TPC.buy == false &&
+        session.user.ticket.TPC.verified === ''
+      ) {
+        callToast({
+          status: 'error',
+          description:
+            'You cannot access this stage, you have not purchased the ticket before',
+        });
+        router.push('/events/tpc');
+      }
+      // Unknown case
+      else {
+        callToast({
+          status: 'error',
+          description: 'Something went wrong, please contact our admin',
+        });
+        router.push('/events/tpc');
+      }
+    }
+  }, [status, router, session?.user]);
 
   // Load Local Storage
 
