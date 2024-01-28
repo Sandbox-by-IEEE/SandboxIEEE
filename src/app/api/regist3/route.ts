@@ -1,10 +1,10 @@
 import { render } from '@react-email/render';
+import moment from 'moment-timezone';
 import { NextRequest, NextResponse } from 'next/server';
 
 import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
-import moment from 'moment-timezone';
 
 // export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
