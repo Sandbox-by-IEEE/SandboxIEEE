@@ -10,8 +10,12 @@ function TPCnavigation() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const submissionHandler = () => {
-    router.push('/events/tpc/tpc-registration-stage2');
+  const submissionHandler = (type: string) => {
+    if (type == 'paper') {
+      router.push('/events/tpc/tpc-registration-stage2');
+    } else if (type == 'video') {
+      router.push('/events/tpc/video-campaign-submission');
+    }
   };
 
   const dashboardHandler = () => {
@@ -32,12 +36,9 @@ function TPCnavigation() {
     message: '',
   });
 
-  useEffect(() => {
-    if (session?.user.id) {
-      // getUserInfo();
-      getTeamInfo(session.user.ticket?.TPC.teamId);
-    }
-  }, [session?.user.id]);
+  const [serverTime, setServerTime] = useState<Date | null>(null);
+
+  // console.log(serverTime)
 
   // const getUserInfo = async () => {
   //   try {
@@ -56,6 +57,18 @@ function TPCnavigation() {
   //   }
   // };
 
+  const getServerTime = async () => {
+    try {
+      const response = await axios.get(
+        'http://worldtimeapi.org/api/timezone/Etc/UTC',
+      );
+      setServerTime(new Date(response.data.datetime));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
+
   const getTeamInfo = async (teamId) => {
     try {
       const response = await axios.get(`/api/team/${teamId}`);
@@ -66,8 +79,27 @@ function TPCnavigation() {
     }
   };
 
+  useEffect(() => {
+    if (session?.user.id) {
+      // getUserInfo();
+      getTeamInfo(session.user.ticket?.TPC.teamId);
+    }
+
+    getServerTime();
+    const interval = setInterval(() => {
+      setServerTime((prevTime) =>
+        prevTime ? new Date(prevTime.getTime() + 1000) : null,
+      );
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [session?.user.id]);
+
   // Tanggal dan waktu tenggat
-  const deadline = new Date('2024-01-30T22:00:00'); // Batas Waktu
+  const deadline = new Date('2024-01-30T15:00:00Z'); // Batas Waktu
+  const videoOpen = new Date('2024-02-08T17:00:00Z');
+  const videoDeadline = new Date('2024-02-15T11:00:00Z');
+
+  // console.log(deadline)
 
   const [now, setNow] = useState(new Date());
 
@@ -79,35 +111,59 @@ function TPCnavigation() {
   }, []);
 
   return (
-    <div className='container w-fit flex'>
-      {session?.user.ticket?.TPC.isLeader &&
-        now < deadline &&
-        teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
-          <a
-            className='button ml-2 mr-2'
-            target='_blank'
-            onClick={() => {
-              submissionHandler();
-            }}
-          >
-            <Button color='green' isFullWidth>
-              Re-registration and Paper Submisson
-            </Button>
-          </a>
-        )}
-      {teamInfo.data.id && (
-        <a
-          className='button ml-2 mr-2'
-          target='_blank'
-          onClick={() => {
-            dashboardHandler();
-          }}
-        >
-          <Button color='green' isFullWidth>
-            TPC Team Dashboard
-          </Button>
-        </a>
-      )}
+    <div className='rows w-full block'>
+      <div className='row1 w-full flex'>
+        <div className='container w-fit flex m-auto'>
+          {session?.user.ticket?.TPC.isLeader &&
+            now < deadline &&
+            teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
+              <a
+                className='button ml-2 mr-2'
+                target='_blank'
+                onClick={() => {
+                  submissionHandler('paper');
+                }}
+              >
+                <Button color='green' isFullWidth>
+                  Re-registration and Paper Submisson
+                </Button>
+              </a>
+            )}
+          {teamInfo.data.id && (
+            <a
+              className='button ml-2 mr-2'
+              target='_blank'
+              onClick={() => {
+                dashboardHandler();
+              }}
+            >
+              <Button color='green' isFullWidth>
+                TPC Team Dashboard
+              </Button>
+            </a>
+          )}
+        </div>
+      </div>
+      <div className='row2 w-full flex'>
+        <div className='container w-fit flex m-auto'>
+          {session?.user.ticket?.TPC.isLeader &&
+            now > videoOpen &&
+            now < videoDeadline &&
+            teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
+              <a
+                className='button ml-2 mr-2 mt-4'
+                target='_blank'
+                onClick={() => {
+                  submissionHandler('video');
+                }}
+              >
+                <Button color='green' isFullWidth>
+                  Video Campaign Submission
+                </Button>
+              </a>
+            )}
+        </div>
+      </div>
     </div>
   );
 }

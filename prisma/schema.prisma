@@ -176,6 +176,7 @@ model Karya {
   teamId    String  @unique
   linkFullPaper String?
   linkVideo String?
+  linkVideo2 String?
   countVote BigInt  @default(0)
   usersVote User[]
 
