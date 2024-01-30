@@ -37,7 +37,6 @@ function TPCnavigation() {
   });
 
   const [serverTime, setServerTime] = useState<Date | null>(null);
-  const [now, setNow] = useState(new Date());
 
   // console.log(serverTime)
 
@@ -102,12 +101,12 @@ function TPCnavigation() {
 
   // console.log(deadline)
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setNow(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setNow(new Date());
+  //   }, 1000);
+  //   return () => clearInterval(timer);
+  // }, []);
 
   return (
     <div className='rows w-full block'>
