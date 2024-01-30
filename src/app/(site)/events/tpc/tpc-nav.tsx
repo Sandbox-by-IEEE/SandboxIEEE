@@ -37,6 +37,7 @@ function TPCnavigation() {
   });
 
   const [serverTime, setServerTime] = useState<Date | null>(null);
+  const [now, setNow] = useState(new Date());
 
   // console.log(serverTime)
 
@@ -95,13 +96,11 @@ function TPCnavigation() {
   }, [session?.user.id]);
 
   // Tanggal dan waktu tenggat
-  const deadline = new Date('2024-01-30T15:00:00Z'); // Batas Waktu
+  const deadline = new Date('2024-01-30T17:00:00Z'); // Batas Waktu
   const videoOpen = new Date('2024-02-08T17:00:00Z');
   const videoDeadline = new Date('2024-02-15T11:00:00Z');
 
   // console.log(deadline)
-
-  const [now, setNow] = useState(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -115,7 +114,8 @@ function TPCnavigation() {
       <div className='row1 w-full flex'>
         <div className='container w-fit flex m-auto'>
           {session?.user.ticket?.TPC.isLeader &&
-            now < deadline &&
+            serverTime &&
+            serverTime < deadline &&
             teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
               <a
                 className='button ml-2 mr-2'
@@ -147,8 +147,9 @@ function TPCnavigation() {
       <div className='row2 w-full flex'>
         <div className='container w-fit flex m-auto'>
           {session?.user.ticket?.TPC.isLeader &&
-            now > videoOpen &&
-            now < videoDeadline &&
+            serverTime &&
+            serverTime > videoOpen &&
+            serverTime < videoDeadline &&
             teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
               <a
                 className='button ml-2 mr-2 mt-4'

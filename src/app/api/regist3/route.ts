@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
 
     if (
       type === 'TPC' &&
-      dateNow > moment.tz('2024-01-30 22:00', 'Asia/Jakarta').unix()
+      dateNow > moment.tz('2024-01-31 00:00', 'Asia/Jakarta').unix()
     ) {
       return NextResponse.json(
         {
