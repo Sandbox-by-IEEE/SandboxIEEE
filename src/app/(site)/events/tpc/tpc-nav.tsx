@@ -147,8 +147,9 @@ function TPCnavigation() {
       <div className='row2 w-full flex'>
         <div className='container w-fit flex m-auto'>
           {session?.user.ticket?.TPC.isLeader &&
-            now > videoOpen &&
-            now < videoDeadline &&
+            serverTime &&
+            serverTime > videoOpen &&
+            serverTime < videoDeadline &&
             teamInfo.data.teamStatus.substring(0, 7) == 'Stage 3' && (
               <a
                 className='button ml-2 mr-2 mt-4'
