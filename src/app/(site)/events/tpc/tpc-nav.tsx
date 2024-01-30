@@ -60,7 +60,7 @@ function TPCnavigation() {
   const getServerTime = async () => {
     try {
       const response = await axios.get(
-        'http://worldtimeapi.org/api/timezone/Etc/UTC',
+        'https://worldtimeapi.org/api/timezone/Etc/UTC',
       );
       setServerTime(new Date(response.data.datetime));
     } catch (error) {
