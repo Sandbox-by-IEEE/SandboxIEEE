@@ -16,15 +16,20 @@ import TextInput from '@/components/TextInput';
 import { callLoading, callToast } from '@/components/Toast';
 
 export default function ExhibitionRegist() {
+  // Mengambil data pengisian form sebelumnya (unsaved) dari local storage
   const inputDataHistoryKey = 'exhibition-regist-history';
 
+  // State dan handle untuk menyetujui Terms and Condition
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
 
+  // Inisialisasi Router dan data session
   const router = useRouter();
   const { data: session, status } = useSession();
+
+  // Inisialisasi data form pendaftaran
   const [inputData, setInputData] = useState<InputData>({
     memberCount: 1,
     members: [
@@ -41,6 +46,8 @@ export default function ExhibitionRegist() {
     paymentMethod: '',
     paymentProofUrl: '',
   });
+
+  // State pengecekan ulang adanya peringatan kolom kosong
   const [isWarnedInputData, setIsWarnedInputData] = useState<IsWarnedInputData>(
     {
       memberCount: false,
@@ -59,10 +66,20 @@ export default function ExhibitionRegist() {
       paymentProofUrl: false,
     },
   );
+
+  // Url single file input
   const [filesForm2, setFilesForm2] = useState<string>();
+
+  // State untuk laman pendaftaran, state 0 untuk pengisian data peserta dan state 1 untuk pembayaran
   const [step, setStep] = useState<number>(0);
+
+  // State untuk pengecekan apakah diperbolehkan next
   const [isDisabledNext, setIsDisabledNext] = useState<boolean>(false);
+
+  // State untuk pengecekan
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
+
+  // Change Handler for All form (packed)
   const handleChange = (e) => {
     const name = e.target.name;
     const value =
@@ -101,7 +118,10 @@ export default function ExhibitionRegist() {
     if (name === 'memberCount') {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
-        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
+        if (
+          newInputData.memberCount == 1 ||
+          (newInputData.memberCount == 3) == (newInputData.memberCount == 5)
+        ) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
@@ -161,18 +181,10 @@ export default function ExhibitionRegist() {
     }
   };
 
+  // Undefined warn function
   const warn = (
     memberIndex: number,
-    prop:
-      | 'name'
-      | 'email'
-      | 'institution'
-      | 'phoneNumber'
-      | 'lineId'
-      | 'twibbonProof'
-      | 'twibbonProofName'
-      | 'studentProof'
-      | 'studentProofName',
+    prop: 'name' | 'email' | 'institution' | 'phoneNumber' | 'lineId',
   ) => {
     setIsWarnedInputData((isWarnedInputData) => {
       const newIsWarnedInputData = { ...isWarnedInputData };
@@ -183,6 +195,8 @@ export default function ExhibitionRegist() {
       return newIsWarnedInputData;
     });
   };
+
+  // Undefined warn function
   const setWarn = (
     prop:
       | 'teamName'
@@ -200,11 +214,13 @@ export default function ExhibitionRegist() {
     });
   };
 
+  // Next to payment function handler
   const handleNext = async (e) => {
     e.preventDefault();
     setStep(1);
   };
 
+  // Submit handler
   const handleSubmitFormIdentity = async (e) => {
     e.preventDefault();
 
@@ -218,16 +234,7 @@ export default function ExhibitionRegist() {
       let warnedHere = false;
       const checkAndWarn = (
         bool: boolean,
-        prop:
-          | 'name'
-          | 'email'
-          | 'institution'
-          | 'phoneNumber'
-          | 'lineId'
-          | 'twibbonProof'
-          | 'twibbonProofName'
-          | 'studentProof'
-          | 'studentProofName',
+        prop: 'name' | 'email' | 'institution' | 'phoneNumber' | 'lineId',
       ) => {
         if (bool) {
           setFillMemberIndex(i);
@@ -258,6 +265,7 @@ export default function ExhibitionRegist() {
     ); // Tampilkan toast loading
 
     // Submit data shoot API
+
     // try {
     //   const dataTicket = {
     //     competitionType: 'PTC',
@@ -307,45 +315,17 @@ export default function ExhibitionRegist() {
     // }
   };
 
+  // Login account verification
   useEffect(() => {
     if (status === 'loading') {
       return;
     }
-    // if (!session?.user) {
-    //   //
-    // } else {
-    //   if (
-    //     session.user.ticket?.PTC.buy &&
-    //     session.user.ticket.PTC.verified === 'pending'
-    //   ) {
-    //     callToast({
-    //       status: 'error',
-    //       description: 'You have purchased this ticket, Waiting for validation',
-    //     });
-    //     router.push('/');
-    //   } else if (
-    //     session.user.ticket?.PTC.buy &&
-    //     session.user.ticket.PTC.verified === 'verified'
-    //   ) {
-    //     callToast({
-    //       status: 'error',
-    //       description:
-    //         'You have purchased this ticket, Your ticket has been validated',
-    //     });
-    //     router.push('/');
-    //   } else if (
-    //     session.user.ticket?.PTC.buy &&
-    //     session.user.ticket.PTC.verified === 'rejected'
-    //   ) {
-    //     callToast({
-    //       status: 'error',
-    //       description: 'You have purchased this ticket, Your ticket rejected',
-    //     });
-    //     router.push('/');
-    //   }
-    // }
+    if (!session?.user) {
+      router.push('/login');
+    }
   }, [status, router, session?.user]);
 
+  // Update data upload file
   useEffect(() => {
     if (filesForm2?.length) {
       const newInputData = { ...inputData };
@@ -357,6 +337,7 @@ export default function ExhibitionRegist() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filesForm2]);
 
+  // get data from local storage in initial
   useEffect(() => {
     const memoryInputData = localStorage.getItem(inputDataHistoryKey);
     if (memoryInputData) {
