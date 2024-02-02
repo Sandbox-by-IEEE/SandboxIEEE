@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
-import FormDetails from '@/components/Forms/FormDetailsRegist2';
+import FormDetails2 from '@/components/Forms/FormDetailsRegist2';
 import {
   type InputData,
   type IsWarnedInputData,
@@ -338,99 +338,101 @@ export default function ExhibitionRegist() {
   }, [filesForm2]);
 
   // get data from local storage in initial
-  useEffect(() => {
-    const memoryInputData = localStorage.getItem(inputDataHistoryKey);
-    if (memoryInputData) {
-      try {
-        const historyInputData: InputData = JSON.parse(memoryInputData);
+  // useEffect(() => {
+  //   const memoryInputData = localStorage.getItem(inputDataHistoryKey);
+  //   if (memoryInputData) {
+  //     try {
+  //       const historyInputData: InputData = JSON.parse(memoryInputData);
 
-        if (
-          typeof historyInputData === 'object' &&
-          'teamName' in historyInputData &&
-          'memberCount' in historyInputData &&
-          'members' in historyInputData &&
-          Array.isArray(historyInputData.members) &&
-          'paymentMethod' in historyInputData &&
-          Array.isArray(historyInputData.paymentProofUrl)
-        ) {
-          if (historyInputData.paymentProofUrl)
-            setFilesForm2(historyInputData.paymentProofUrl);
+  //       if (
+  //         typeof historyInputData === 'object' &&
+  //         'teamName' in historyInputData &&
+  //         'memberCount' in historyInputData &&
+  //         'members' in historyInputData &&
+  //         Array.isArray(historyInputData.members) &&
+  //         'paymentMethod' in historyInputData &&
+  //         Array.isArray(historyInputData.paymentProofUrl)
+  //       ) {
+  //         if (historyInputData.paymentProofUrl)
+  //           setFilesForm2(historyInputData.paymentProofUrl);
 
-          if (!historyInputData.memberCount) {
-            historyInputData.memberCount = 1;
-          }
-          if (!historyInputData.members.length) {
-            historyInputData.members = [
-              {
-                name: '',
-                email: '',
-                phoneNumber: '',
-                lineId: '',
-              },
-            ];
-          }
+  //         if (!historyInputData.memberCount) {
+  //           historyInputData.memberCount = 1;
+  //         }
+  //         if (!historyInputData.members.length) {
+  //           historyInputData.members = [
+  //             {
+  //               name: '',
+  //               email: '',
+  //               phoneNumber: '',
+  //               lineId: '',
+  //             },
+  //           ];
+  //         }
 
-          const {
-            teamName,
-            memberCount,
-            members,
-            bankAccName,
-            registrationType,
-            paymentMethod,
-            paymentProofName,
-            paymentProofUrl,
-          } = historyInputData;
+  //         const {
+  //           teamName,
+  //           memberCount,
+  //           members,
+  //           bankAccName,
+  //           registrationType,
+  //           paymentMethod,
+  //           paymentProofName,
+  //           paymentProofUrl,
+  //         } = historyInputData;
 
-          setInputData({
-            memberCount,
-            members,
-            bankAccName,
-            registrationType,
-            paymentMethod,
-            paymentProofName,
-            paymentProofUrl,
-          });
+  //         setInputData({
+  //           memberCount,
+  //           members,
+  //           bankAccName,
+  //           registrationType,
+  //           paymentMethod,
+  //           paymentProofName,
+  //           paymentProofUrl,
+  //         });
 
-          const newIsWarnedInputData = { ...isWarnedInputData };
-          while (
-            historyInputData.memberCount > newIsWarnedInputData.members.length
-          ) {
-            newIsWarnedInputData.members.push({
-              name: false,
-              email: false,
-              phoneNumber: false,
-              lineId: false,
-            });
-          }
-          while (
-            historyInputData.memberCount < newIsWarnedInputData.members.length
-          ) {
-            newIsWarnedInputData.members.pop();
-          }
-          if (isWarnedInputData !== newIsWarnedInputData) {
-            setIsWarnedInputData(newIsWarnedInputData);
-          }
+  //         const newIsWarnedInputData = { ...isWarnedInputData };
+  //         while (
+  //           historyInputData.memberCount > newIsWarnedInputData.members.length
+  //         ) {
+  //           newIsWarnedInputData.members.push({
+  //             name: false,
+  //             email: false,
+  //             phoneNumber: false,
+  //             lineId: false,
+  //           });
+  //         }
+  //         while (
+  //           historyInputData.memberCount < newIsWarnedInputData.members.length
+  //         ) {
+  //           newIsWarnedInputData.members.pop();
+  //         }
+  //         if (isWarnedInputData !== newIsWarnedInputData) {
+  //           setIsWarnedInputData(newIsWarnedInputData);
+  //         }
 
-          localStorage.setItem(
-            inputDataHistoryKey,
-            JSON.stringify({
-              teamName,
-              memberCount,
-              members,
-              registrationType,
-              paymentMethod,
-              paymentProofUrl,
-            }),
-          );
-        } else {
-          localStorage.removeItem(inputDataHistoryKey);
-        }
-      } catch (error) {
-        localStorage.removeItem(inputDataHistoryKey);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //         localStorage.setItem(
+  //           inputDataHistoryKey,
+  //           JSON.stringify({
+  //             teamName,
+  //             memberCount,
+  //             members,
+  //             registrationType,
+  //             paymentMethod,
+  //             paymentProofUrl,
+  //           }),
+  //         );
+  //       } else {
+  //         localStorage.removeItem(inputDataHistoryKey);
+  //       }
+  //     } catch (error) {
+  //       localStorage.removeItem(inputDataHistoryKey);
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  console.log(inputData);
 
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
@@ -439,9 +441,8 @@ export default function ExhibitionRegist() {
         <Title text='Complete your details below' />
         {step === 0 && (
           <form onSubmit={handleNext} className='space-y-2 py-6 w-full'>
-            <FormDetails
+            <FormDetails2
               inputData={inputData}
-              setInputData={setInputData}
               handleChange={handleChange}
               fillMemberIndex={fillMemberIndex}
               setFillMemberIndex={setFillMemberIndex}
@@ -449,8 +450,6 @@ export default function ExhibitionRegist() {
               isWarnedInputData={isWarnedInputData}
               setIsWarnedInputData={setIsWarnedInputData}
               isDisabledNext={isDisabledNext}
-              inputDataHistoryKey={inputDataHistoryKey}
-              submissionText='Submit'
             />
             <div className='w-fit max-w-fit mx-auto'>
               <Button type='submit' color='gold' isFullWidth isDisabled={false}>
