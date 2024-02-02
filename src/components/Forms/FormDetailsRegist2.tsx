@@ -10,27 +10,21 @@ import TextInput from '@/components/TextInput';
 
 const FormDetails2 = ({
   inputData,
-  setInputData,
   handleChange,
   handleSubmitFormIdentity,
   fillMemberIndex,
   setFillMemberIndex,
   isWarnedInputData,
   setIsWarnedInputData,
-  inputDataHistoryKey,
-  submissionText,
   isDisabledNext,
 }: {
   inputData: InputData;
-  setInputData: React.Dispatch<React.SetStateAction<InputData>>;
   handleChange: (e: any) => void;
   handleSubmitFormIdentity: (e: React.FormEvent<HTMLFormElement>) => void;
   fillMemberIndex: number;
   setFillMemberIndex: React.Dispatch<React.SetStateAction<number>>;
   isWarnedInputData: IsWarnedInputData;
   setIsWarnedInputData: React.Dispatch<React.SetStateAction<IsWarnedInputData>>;
-  submissionText: string;
-  inputDataHistoryKey: string;
   isDisabledNext?: boolean;
 }) => {
   type PropType =
@@ -41,13 +35,7 @@ const FormDetails2 = ({
     | 'email'
     | 'institution'
     | 'phoneNumber'
-    | 'lineId'
-    | 'twibbonProof'
-    | 'twibbonProofName'
-    | 'studentProof'
-    | 'studentProofName';
-
-  //...
+    | 'lineId';
 
   const unWarn = (isMember: boolean, memberIndex: number, prop: PropType) => {
     setIsWarnedInputData((isWarnedInputData) => {
@@ -94,17 +82,6 @@ const FormDetails2 = ({
       name: 'lineId',
       subLabel: 'Please enter your line id (optional)',
       type: 'text',
-    },
-  ];
-  // File data
-  const fileInputs: Array<{ type: PropType; message: string }> = [
-    {
-      type: 'studentProof',
-      message: 'Student Card Proof',
-    },
-    {
-      type: 'twibbonProof',
-      message: 'Twibbon Proof',
     },
   ];
 
