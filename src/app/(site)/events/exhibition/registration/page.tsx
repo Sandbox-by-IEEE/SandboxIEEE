@@ -432,7 +432,9 @@ export default function ExhibitionRegist() {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
 
-  console.log(inputData);
+  // Debugging Console
+
+  // console.log(inputData);
 
   return (
     <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
