@@ -20,7 +20,7 @@ const products = {
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, name, email, participants } = await req.json();
+    const { userId, name, email, participants, regisType } = await req.json();
 
     const exist = await prisma.ticketExhibition.findMany({
       where: {
@@ -93,6 +93,7 @@ export async function POST(req: NextRequest) {
         total: BigInt(prod.price),
         id: parameter.transaction_details.order_id,
         userId,
+        regisType
       },
     });
 

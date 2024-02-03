@@ -91,12 +91,11 @@ model VerificationToken {
 
 model TicketExhibition {
   id                  String            @id @default(uuid())
-  verified            Boolean           @default(false)
   active              Boolean           @default(false)
   name                String
   email               String
   phone               String
-  idLine              String
+  idLine              String?
   transactionDetail   TransactionDetail @relation(fields: [transactionDetailId], references: [id])
   transactionDetailId String
 }
@@ -177,13 +176,16 @@ model Karya {
 model TransactionDetail {
   id               String             @id @default(uuid())
   total            BigInt
-  status           String
+  status           String             @default("pending")
+  statusData       String             @default("waiting")
   customerName     String
   customerEmail    String
+  registrationType String
   paymentType      String?
   snapToken        String
   snapRedirectURL  String
   userId           String
   User             User               @relation(fields: [userId], references: [id])
   ticketExhibition TicketExhibition[]
+  metadata         Json?
 }
