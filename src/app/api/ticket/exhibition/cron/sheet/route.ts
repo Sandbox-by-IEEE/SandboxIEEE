@@ -31,6 +31,8 @@ export async function POST(req: NextRequest) {
       tickets: t.ticketGS,
     }));
 
+    console.log(JSON.stringify(dataSheet))
+
     const response = await fetch(
       `${process.env.SHEET_EXHI_MID}?type=tickets` || '',
       {
@@ -38,7 +40,9 @@ export async function POST(req: NextRequest) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(dataSheet),
+        body: JSON.stringify({
+          transactions: dataSheet
+        }),
       },
     );
 
@@ -56,7 +60,7 @@ export async function POST(req: NextRequest) {
           id: t.id
         },
         data: {
-          status: "sheet"
+          statusData: "sheet"
         }
       })
     })
