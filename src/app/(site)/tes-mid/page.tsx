@@ -1,3 +1,5 @@
+"use client"
+
 import Midtrans from '@/components/midtrans';
 import React from 'react';
 
