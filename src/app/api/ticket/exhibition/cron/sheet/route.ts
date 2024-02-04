@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
       orderBy: {
         customerName: 'asc',
       },
-      take: 3,
+      take: 2,
       include: {
         ticketGS: {
           select: {
