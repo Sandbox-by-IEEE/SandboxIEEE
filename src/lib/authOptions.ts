@@ -97,7 +97,7 @@ export const authOptions: AuthOptions = {
             }
           : undefined;
 
-        const ticketExhibition = await prisma.ticketExhibition.findUnique({
+        const ticketGS = await prisma.ticketGS.findUnique({
           where: {
             email: existingUser.email || '',
           },
@@ -208,10 +208,10 @@ export const authOptions: AuthOptions = {
           },
           ticket: {
             exhibition: {
-              buy: ticketExhibition ? true : false,
-              active: ticketExhibition ? ticketExhibition.active : false,
-              verified: ticketExhibition
-                ? ticketExhibition.regisData.verified
+              buy: ticketGS ? true : false,
+              active: ticketGS ? ticketGS.active : false,
+              verified: ticketGS
+                ? ticketGS.regisData.verified
                 : false,
             },
             PTC: {
@@ -305,7 +305,7 @@ export const authOptions: AuthOptions = {
           }
         : undefined;
 
-      const ticketExhibition = await prisma.ticketExhibition.findUnique({
+      const ticketGS = await prisma.ticketGS.findUnique({
         where: {
           email: existingUser.email || '',
         },
@@ -416,10 +416,10 @@ export const authOptions: AuthOptions = {
           },
           ticket: {
             exhibition: {
-              buy: ticketExhibition ? true : false,
-              active: ticketExhibition ? ticketExhibition.active : false,
-              verified: ticketExhibition
-                ? ticketExhibition.regisData.verified
+              buy: ticketGS ? true : false,
+              active: ticketGS ? ticketGS.active : false,
+              verified: ticketGS
+                ? ticketGS.regisData.verified
                 : false,
             },
             PTC: {

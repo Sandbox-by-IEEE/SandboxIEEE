@@ -23,7 +23,7 @@ export async function PATCH(
       );
     }
 
-    const existingTicket = await prisma.ticketExhibition.findUnique({
+    const existingTicket = await prisma.ticketGS.findUnique({
       where: {
         id: ticketId,
       },
