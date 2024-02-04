@@ -15,14 +15,14 @@ const handleFailure = async (orderId: string, status: string) => {
         status: 'failure',
       },
       include: {
-        ticketExhibition: true,
+        ticketGS: true,
       },
     });
 
     const heading = 'Verification Process for Your Ticket Purchase';
     const content = '';
 
-    const promise = updated.ticketExhibition.map((t) => {
+    const promise = updated.ticketGS.map((t) => {
       return transporter.sendMail({
         from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
         to: t.email,
@@ -47,7 +47,7 @@ const handleFailure = async (orderId: string, status: string) => {
     //     email: 'sandboxieeewebsite@gmail.com',
     //   },
     //   subject: 'Verification Process for Your Ticket Purchase',
-    //   messageVersions: updated.ticketExhibition.map((t) => {
+    //   messageVersions: updated.ticketGS.map((t) => {
     //     return {
     //       to: [
     //         {
@@ -90,7 +90,7 @@ const handleSuccess = async (orderId: string, status: string) => {
         status: 'success',
       },
       include: {
-        ticketExhibition: {
+        ticketGS: {
           select: {
             email: true,
             id: true,
@@ -104,8 +104,8 @@ const handleSuccess = async (orderId: string, status: string) => {
 
     const data = {
       registrationType: updated.registrationType,
-      collectiveType: `collective ${updated.ticketExhibition.length}`,
-      participants: updated.ticketExhibition,
+      collectiveType: `collective ${updated.ticketGS.length}`,
+      participants: updated.ticketGS,
     };
 
     const response = await fetch(
@@ -131,7 +131,7 @@ const handleSuccess = async (orderId: string, status: string) => {
     const content =
       'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
 
-    const promise = updated.ticketExhibition.map((t) => {
+    const promise = updated.ticketGS.map((t) => {
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
         {
           ticketId: t.id,

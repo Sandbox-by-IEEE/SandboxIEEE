@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       },
       take: 3,
       include: {
-        ticketExhibition: {
+        ticketGS: {
           select: {
             email: true,
             id: true,
@@ -27,8 +27,8 @@ export async function POST(req: NextRequest) {
 
     const dataSheet = transactions.map((t) => ({
       registrationType: t.registrationType,
-      collectiveType: `collective ${t.ticketExhibition.length}`,
-      tickets: t.ticketExhibition,
+      collectiveType: `collective ${t.ticketGS.length}`,
+      tickets: t.ticketGS,
     }));
 
     const response = await fetch(

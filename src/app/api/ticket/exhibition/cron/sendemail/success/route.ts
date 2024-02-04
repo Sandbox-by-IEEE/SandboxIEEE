@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         customerName: 'asc',
       },
       include: {
-        ticketExhibition: true,
+        ticketGS: true,
       },
       take: 2,
     });
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     let promise: any[] = []
     for (let i = 0; i < transactions.length; i++) {
-      const promiseTemp = transactions[i].ticketExhibition.map((t) => {
+      const promiseTemp = transactions[i].ticketGS.map((t) => {
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
           {
             ticketId: t.id,

@@ -20,9 +20,9 @@ const products = {
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, name, email, participants, regisType } = await req.json();
+    const { userId, name, email, participants, registrationType } = await req.json();
 
-    const exist = await prisma.ticketExhibition.findMany({
+    const exist = await prisma.ticketGS.findMany({
       where: {
         OR: participants.map((p) => ({
           email: p.email,
@@ -93,11 +93,11 @@ export async function POST(req: NextRequest) {
         total: BigInt(prod.price),
         id: parameter.transaction_details.order_id,
         userId,
-        regisType
+        registrationType
       },
     });
 
-    const newTicket = await prisma.ticketExhibition.createMany({
+    const newTicket = await prisma.ticketGS.createMany({
       data: participants.map((p) => ({
         email: p.email,
         name: p.name,
