@@ -10,13 +10,18 @@ export async function POST(req: NextRequest) {
     const ticketsVerified = await prisma.regisExhiData.findMany({
       where: {
         verified: true,
+        statusData: 'waiting',
       },
       include: {
         tickets: true,
       },
+      orderBy: {
+        id: 'asc',
+      },
+      // take: 3
     });
 
-    const emails: Promise<SMTPTransport.SentMessageInfo>[] = []
+    const emails: Promise<SMTPTransport.SentMessageInfo>[] = [];
     for (let i = 0; i < ticketsVerified.length; i++) {
       const emailsTemp = ticketsVerified[i].tickets.map((t) => {
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
@@ -48,7 +53,7 @@ export async function POST(req: NextRequest) {
         return transporter.sendMail(mailOptions);
       });
 
-      emails.push(...emailsTemp)
+      emails.push(...emailsTemp);
 
       // const { error } = await resend.batch.send(emails);
 
@@ -57,7 +62,20 @@ export async function POST(req: NextRequest) {
       // }
     }
 
-    await Promise.all(emails)
+    await Promise.all(emails);
+
+    const updated = ticketsVerified.map((t) => {
+      return prisma.regisExhiData.update({
+        where: {
+          id: t.id,
+        },
+        data: {
+          statusData: 'sheet',
+        },
+      });
+    });
+
+    await Promise.all(updated);
 
     return NextResponse.json({ message: 'email was sent' }, { status: 200 });
   } catch (error) {
