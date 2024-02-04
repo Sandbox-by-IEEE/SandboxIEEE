@@ -14,7 +14,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const existingTicket = await prisma.ticketExhibition.findUnique({
+    const existingTicket = await prisma.ticketGS.findUnique({
       where: {
         id: ticketId,
       },
@@ -47,7 +47,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const updatedTicket = await prisma.ticketExhibition.update({
+    const updatedTicket = await prisma.ticketGS.update({
       where: {
         id: ticketId,
       },
@@ -90,7 +90,7 @@ export async function PATCH(req: NextRequest) {
   } catch (error) {
     if (error instanceof Error) {
       if (ticketIdTemp) {
-        await prisma.ticketExhibition.update({
+        await prisma.ticketGS.update({
           where: {
             id: ticketIdTemp,
           },

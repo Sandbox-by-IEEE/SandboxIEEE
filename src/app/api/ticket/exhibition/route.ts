@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     let tickets: any[] = [];
 
     for (let i = 0; i < participants.length; i++) {
-      const ticket = await prisma.ticketExhibition.create({
+      const ticket = await prisma.ticketGS.create({
         data: {
           email: participants[i].email,
           idLine: participants[i].idLine,
