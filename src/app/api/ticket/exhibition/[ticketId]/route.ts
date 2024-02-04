@@ -1,9 +1,6 @@
-import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 
-import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
-import { transporter } from '@/lib/mailTransporter';
 
 interface Params {
   ticketId: string;
@@ -39,7 +36,7 @@ export async function PATCH(
       );
     }
 
-    if (existingTicket.regisData.verified) {
+    if (existingTicket.regisData?.verified) {
       return NextResponse.json(
         { message: 'Ticket has been verified' },
         { status: 400 },
@@ -48,7 +45,7 @@ export async function PATCH(
 
     const updatedRegisData = await prisma.regisExhiData.update({
       where: {
-        id: existingTicket.regisData.id,
+        id: existingTicket.regisData?.id,
       },
       data: {
         verified: value === 'true' ? true : false,
