@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         customerName: 'asc',
       },
       include: {
-        ticketExhibition: true,
+        ticketGS: true,
       },
       take: 2,
     });
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     let promise: any[] = [];
     for (let i = 0; i < transactions.length; i++) {
-      const promiseTemp = transactions[i].ticketExhibition.map((t) => {
+      const promiseTemp = transactions[i].ticketGS.map((t) => {
         return transporter.sendMail({
           from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
           to: t.email,

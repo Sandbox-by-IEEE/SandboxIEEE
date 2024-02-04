@@ -21,6 +21,7 @@ model User {
   image              String?
   password           String?
   karyaId            String?
+  ticketsExhibition  TicketExhibition?
   ticketsCompetition TicketCompetition[]
   accounts           Account[]
   sessions           Session[]
@@ -89,7 +90,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model TicketExhibition {
+model TicketGS {
   id                  String            @id @default(uuid())
   active              Boolean           @default(false)
   name                String
@@ -186,6 +187,27 @@ model TransactionDetail {
   snapRedirectURL  String
   userId           String
   User             User               @relation(fields: [userId], references: [id])
-  ticketExhibition TicketExhibition[]
+  ticketGS TicketGS[]
   metadata         Json?
+}
+
+model TicketExhibition {
+  id            String  @id @default(uuid())
+  ticketType    String
+  verified      Boolean @default(false)
+  active        Boolean @default(false)
+  userId        String  @unique
+  nameCustomer  String
+  paymentMethod String
+  proof         String
+  names         String
+  email         String
+  phone         String
+  address       String
+  institution   String
+  phoneNumber   String
+  ages          String
+  amountPrice   String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
