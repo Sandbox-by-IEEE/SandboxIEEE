@@ -1,8 +1,9 @@
 import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
-import { resend, transporter } from '@/lib/mailTransporter';
+import { transporter } from '@/lib/mailTransporter';
 import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,8 +16,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const emails: Promise<SMTPTransport.SentMessageInfo>[] = []
     for (let i = 0; i < ticketsVerified.length; i++) {
-      const emails = ticketsVerified[i].tickets.map((t) => {
+      const emailsTemp = ticketsVerified[i].tickets.map((t) => {
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
           {
             ticketId: t.id,
@@ -43,15 +45,19 @@ export async function POST(req: NextRequest) {
           ),
         };
 
-        return mailOptions;
+        return transporter.sendMail(mailOptions);
       });
 
-      const { error } = await resend.batch.send(emails);
+      emails.push(...emailsTemp)
 
-      if (error) {
-        throw new Error('Something went wrong while sending email');
-      }
+      // const { error } = await resend.batch.send(emails);
+
+      // if (error) {
+      //   throw new Error('Something went wrong while sending email');
+      // }
     }
+
+    await Promise.all(emails)
 
     return NextResponse.json({ message: 'email was sent' }, { status: 200 });
   } catch (error) {
