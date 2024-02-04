@@ -166,9 +166,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     const statusResponse = await snap.transaction.notification(body);
-    let orderId = statusResponse.order_id;
-    let transactionStatus = statusResponse.transaction_status;
-    let fraudStatus = statusResponse.fraud_status;
+    const orderId = statusResponse.order_id;
+    const transactionStatus = statusResponse.transaction_status;
+    const fraudStatus = statusResponse.fraud_status;
 
     console.log(
       `Transaction notification received. Order ID: ${orderId}. Transaction status: ${transactionStatus}. Fraud status: ${fraudStatus}`,
@@ -214,5 +214,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ message: 'OK' }, { status: 200 });
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json({ message: "" }, { status: 200 })
+  }
 }

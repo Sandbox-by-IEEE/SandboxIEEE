@@ -48,12 +48,6 @@ export const authOptions: AuthOptions = {
                 },
               },
             },
-            ticketsExhibition: {
-              select: {
-                active: true,
-                verified: true,
-              },
-            },
             ticketsCompetition: {
               select: {
                 competitionType: true,
@@ -103,9 +97,14 @@ export const authOptions: AuthOptions = {
             }
           : undefined;
 
-        const ticketExhibition = existingUser.ticketsExhibition
-          ? existingUser.ticketsExhibition
-          : undefined;
+        const ticketGS = await prisma.ticketGS.findUnique({
+          where: {
+            email: existingUser.email || '',
+          },
+          include: {
+            transactionDetail: true,
+          },
+        });
 
         const ticketTPC = existingUser.ticketsCompetition.find(
           (ticket) => ticket.competitionType === 'TPC',
@@ -209,9 +208,9 @@ export const authOptions: AuthOptions = {
           },
           ticket: {
             exhibition: {
-              buy: ticketExhibition ? true : false,
-              active: ticketExhibition ? ticketExhibition.active : false,
-              verified: ticketExhibition ? ticketExhibition.verified : false,
+              buy: ticketGS ? true : false,
+              active: ticketGS ? ticketGS.active : false,
+              verified: ticketGS?.transactionDetail?.status || "",
             },
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
@@ -310,9 +309,14 @@ export const authOptions: AuthOptions = {
           }
         : undefined;
 
-      const ticketExhibition = existingUser.ticketsExhibition
-        ? existingUser.ticketsExhibition
-        : undefined;
+      const ticketGS = await prisma.ticketGS.findUnique({
+        where: {
+          email: existingUser.email || '',
+        },
+        include: {
+          transactionDetail: true,
+        },
+      });
 
       const ticketTPC = existingUser.ticketsCompetition.find(
         (ticket) => ticket.competitionType === 'TPC',
@@ -416,9 +420,9 @@ export const authOptions: AuthOptions = {
           },
           ticket: {
             exhibition: {
-              buy: ticketExhibition ? true : false,
-              active: ticketExhibition ? ticketExhibition.active : false,
-              verified: ticketExhibition ? ticketExhibition.verified : false,
+              buy: ticketGS ? true : false,
+              active: ticketGS ? ticketGS.active : false,
+              verified: ticketGS?.transactionDetail?.status || "",
             },
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
