@@ -68,18 +68,22 @@ export async function POST(req: NextRequest) {
       prod = products.collective5;
     }
 
+    console.log(prod)
+
     const parameter = {
       transaction_details: {
         order_id: uuidv4(),
-        amount_gross: prod.price,
+        gross_amount: prod.price,
       },
-      item_details: {
+      item_details: [{
         name: prod.name,
         price: prod.price,
         quantity: 1,
-      },
+      }],
       enable_payments: ['bca_va', 'gopay'],
     };
+
+    console.log(parameter)
 
     const transaction = await snap.createTransaction(parameter);
 
@@ -97,13 +101,14 @@ export async function POST(req: NextRequest) {
       },
     });
 
+
     const newTicket = await prisma.ticketGS.createMany({
       data: participants.map((p) => ({
         email: p.email,
         name: p.name,
         idLine: p.idLine,
         phone: p.phone,
-        transactionId: newTransac.id,
+        transactionDetailId: newTransac.id
       })),
     });
 
@@ -120,6 +125,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      console.log(error)
       return NextResponse.json(
         { message: `Something went wrong in server: ${error.message}` },
         { status: 500 },

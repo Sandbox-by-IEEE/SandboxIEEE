@@ -105,30 +105,30 @@ const handleSuccess = async (orderId: string, status: string, statusResponse: Js
       },
     });
 
-    const data = {
-      registrationType: updated.registrationType,
-      collectiveType: `collective ${updated.ticketGS.length}`,
-      participants: updated.ticketGS,
-    };
+    // const data = {
+    //   registrationType: updated.registrationType,
+    //   collectiveType: `collective ${updated.ticketGS.length}`,
+    //   participants: updated.ticketGS,
+    // };
 
-    const response = await fetch(
-      `${process.env.SHEET_EXHI_MID}?type=ticket` || '',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      },
-    );
+    // const response = await fetch(
+    //   `${process.env.SHEET_EXHI_MID}?type=ticket` || '',
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data),
+    //   },
+    // );
 
-    const resBody = await response.json();
+    // const resBody = await response.json();
 
-    // console.log(resBody)
+    // // console.log(resBody)
 
-    if (resBody.status > 299 || resBody.status < 200) {
-      throw new Error(`Failed to create data, ${resBody.message}`);
-    }
+    // if (resBody.status > 299 || resBody.status < 200) {
+    //   throw new Error(`Failed to create data, ${resBody.message}`);
+    // }
 
     const heading = 'Verification Process for Your Ticket Purchase';
     const content =
