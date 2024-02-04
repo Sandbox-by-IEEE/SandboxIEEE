@@ -1,12 +1,13 @@
 "use client"
 
+import Button from '@/components/Button';
 import Midtrans from '@/components/midtrans';
 import React from 'react';
 
 const MidPage = () => {
   const handleBayar = async () => {
     const data = {
-      userId: '',
+      userId: 'cls79p4ut0000botcaognv5hr',
       name: 'Mesach',
       email: 'mesachharmasendro@gmail.com',
       participants: [
@@ -51,6 +52,8 @@ const MidPage = () => {
 
     const resData = await res.json()
 
+    console.log(resData)
+
     const w = window as any
 
     w.snap.pay(resData.data.snapToken)
@@ -59,7 +62,7 @@ const MidPage = () => {
     <>
       <Midtrans />
       <div>MidPage</div>
-      <button onClick={handleBayar}>bayar</button>
+      <Button color='gold' onClick={handleBayar}>bayar</Button>
     </>
   );
 };
