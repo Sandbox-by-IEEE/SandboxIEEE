@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     // - Nomor
     // - ID Line (opsional)
 
-    let tickets: any[] = [];
+    const tickets: any[] = [];
 
     for (let i = 0; i < participants.length; i++) {
       const ticket = await prisma.ticketGS.create({

@@ -210,8 +210,8 @@ export const authOptions: AuthOptions = {
             exhibition: {
               buy: ticketGS ? true : false,
               active: ticketGS ? ticketGS.active : false,
-              verified: ticketGS
-                ? ticketGS.regisData.verified
+              verified: ticketGS && ticketGS.regisData
+                ? ticketGS.regisData.verified 
                 : false,
             },
             PTC: {
@@ -418,7 +418,7 @@ export const authOptions: AuthOptions = {
             exhibition: {
               buy: ticketGS ? true : false,
               active: ticketGS ? ticketGS.active : false,
-              verified: ticketGS
+              verified: ticketGS && ticketGS.regisData
                 ? ticketGS.regisData.verified
                 : false,
             },
