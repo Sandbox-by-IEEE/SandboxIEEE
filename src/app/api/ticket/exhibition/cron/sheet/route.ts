@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       tickets: t.ticketGS,
     }));
 
-    console.log(JSON.stringify(dataSheet))
+    console.log(JSON.stringify(dataSheet));
 
     const response = await fetch(
       `${process.env.SHEET_EXHI_MID}?type=tickets` || '',
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          transactions: dataSheet
+          transactions: dataSheet,
         }),
       },
     );
@@ -54,19 +54,18 @@ export async function POST(req: NextRequest) {
       throw new Error(`Failed to create data, ${resBody.message}`);
     }
 
-    const updated = transactions.map(t => {
+    const updated = transactions.map((t) => {
       return prisma.transactionDetail.update({
         where: {
-          id: t.id
+          id: t.id,
         },
         data: {
-          statusData: "sheet"
-        }
-      })
-    })
+          statusData: 'sheet',
+        },
+      });
+    });
 
     await Promise.all(updated);
-  
 
     return NextResponse.json(
       { message: 'Data sheet send successfully' },
