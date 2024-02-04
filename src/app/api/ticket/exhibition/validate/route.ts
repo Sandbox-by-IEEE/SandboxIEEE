@@ -13,7 +13,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const existingTicket = await prisma.ticketExhibition.findUnique({
+    const existingTicket = await prisma.ticketGS.findUnique({
       where: {
         id: ticketId,
       },
@@ -70,7 +70,7 @@ export async function PATCH(req: NextRequest) {
       throw new Error(`Failed to create data, ${resBody.message}`);
     }
 
-    const updatedTicket = await prisma.ticketExhibition.update({
+    const updatedTicket = await prisma.ticketGS.update({
       where: {
         id: ticketId,
       },

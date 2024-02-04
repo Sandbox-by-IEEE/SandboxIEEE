@@ -21,13 +21,14 @@ model User {
   image              String?
   password           String?
   karyaId            String?
-  ticketsExhibition  TicketExhibition?
   ticketsCompetition TicketCompetition[]
+  ticketsExhibition  TicketExhibition?
   accounts           Account[]
   sessions           Session[]
   karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade)
   activateToken      ActivateToken[]
   resetToken         ResetToken[]
+  regisExhiData      RegisExhiData?
   transaction        TransactionDetail[]
 }
 
@@ -90,15 +91,53 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model RegisExhiData {
+  id               String     @id @default(uuid())
+  userId           String     @unique
+  collectiveType   String     @default("1")
+  registrationType String
+  verified         Boolean    @default(false)
+  paymentMethod    String
+  paymentProof     String
+  tickets          TicketGS[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model TicketGS {
-  id                  String            @id @default(uuid())
-  active              Boolean           @default(false)
-  name                String
-  email               String
-  phone               String
-  idLine              String?
-  transactionDetail   TransactionDetail @relation(fields: [transactionDetailId], references: [id])
-  transactionDetailId String
+  id      String  @id @default(uuid())
+  active  Boolean @default(false)
+  name    String
+  email   String  @unique
+  phone   String
+  idLine  String
+  regisId String?
+
+  regisData RegisExhiData? @relation(fields: [regisId], references: [id], onDelete: Cascade)
+
+  transactionDetail   TransactionDetail? @relation(fields: [transactionDetailId], references: [id])
+  transactionDetailId String?
+}
+
+model TicketExhibition {
+  id            String  @id @default(uuid())
+  ticketType    String
+  verified      Boolean @default(false)
+  active        Boolean @default(false)
+  userId        String  @unique
+  nameCustomer  String
+  paymentMethod String
+  proof         String
+  names         String
+  email         String
+  phone         String
+  address       String
+  institution   String
+  phoneNumber   String
+  ages          String
+  amountPrice   String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TicketCompetition {
@@ -175,10 +214,10 @@ model Karya {
 }
 
 model TransactionDetail {
-  id               String             @id @default(uuid())
+  id               String     @id @default(uuid())
   total            BigInt
-  status           String             @default("pending")
-  statusData       String             @default("waiting")
+  status           String     @default("pending")
+  statusData       String     @default("waiting")
   customerName     String
   customerEmail    String
   registrationType String
@@ -186,28 +225,7 @@ model TransactionDetail {
   snapToken        String
   snapRedirectURL  String
   userId           String
-  User             User               @relation(fields: [userId], references: [id])
-  ticketGS TicketGS[]
+  User             User       @relation(fields: [userId], references: [id])
+  ticketGS         TicketGS[]
   metadata         Json?
-}
-
-model TicketExhibition {
-  id            String  @id @default(uuid())
-  ticketType    String
-  verified      Boolean @default(false)
-  active        Boolean @default(false)
-  userId        String  @unique
-  nameCustomer  String
-  paymentMethod String
-  proof         String
-  names         String
-  email         String
-  phone         String
-  address       String
-  institution   String
-  phoneNumber   String
-  ages          String
-  amountPrice   String
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
