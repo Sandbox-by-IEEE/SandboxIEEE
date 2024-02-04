@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       tickets: t.ticketGS,
     }));
 
-    console.log(JSON.stringify(dataSheet));
+    // console.log(JSON.stringify(dataSheet));
 
     const response = await fetch(
       `${process.env.SHEET_EXHI_MID}?type=tickets` || '',
@@ -73,6 +73,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
+      console.log(error)
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }
