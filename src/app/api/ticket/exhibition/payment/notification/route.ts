@@ -4,8 +4,9 @@ import { prisma } from '@/lib/db';
 import { render } from '@react-email/render';
 import Email from '@/components/emails/Emails';
 import { transporter } from '@/lib/mailTransporter';
+import { JsonObject } from '@prisma/client/runtime/library';
 
-const handleFailure = async (orderId: string, status: string) => {
+const handleFailure = async (orderId: string, status: string, statusResponse: JsonObject) => {
   if (status === 'pending') {
     const updated = await prisma.transactionDetail.update({
       where: {
@@ -13,6 +14,7 @@ const handleFailure = async (orderId: string, status: string) => {
       },
       data: {
         status: 'failure',
+        metadata: statusResponse
       },
       include: {
         ticketGS: true,
@@ -80,7 +82,7 @@ const handleFailure = async (orderId: string, status: string) => {
   }
 };
 
-const handleSuccess = async (orderId: string, status: string) => {
+const handleSuccess = async (orderId: string, status: string, statusResponse: JsonObject) => {
   if (status === 'pending') {
     const updated = await prisma.transactionDetail.update({
       where: {
@@ -88,6 +90,7 @@ const handleSuccess = async (orderId: string, status: string) => {
       },
       data: {
         status: 'success',
+        metadata: statusResponse
       },
       include: {
         ticketGS: {
@@ -176,26 +179,26 @@ export async function POST(req: NextRequest) {
         id: orderId,
       },
     });
-    // Sample transactionStatus handling logic
 
+    // Sample transactionStatus handling logic
     if (transactionStatus == 'capture') {
       // capture only applies to card transaction, which you need to check for the fraudStatus
       if (fraudStatus == 'challenge') {
         // set transaction status on your databaase to 'challenge'
       } else if (fraudStatus == 'accept') {
         // set transaction status on your databaase to 'success'
-        await handleSuccess(orderId, exist?.status || '');
+        await handleSuccess(orderId, exist?.status || '', statusResponse);
       }
     } else if (transactionStatus == 'settlement') {
       // set transaction status on your databaase to 'success'
 
-      await handleSuccess(orderId, exist?.status || '');
+      await handleSuccess(orderId, exist?.status || '', statusResponse);
     } else if (transactionStatus == 'deny') {
       // you can ignore 'deny', because most of the time it allows payment retries
       // and later can become success
     } else if (transactionStatus == 'cancel' || transactionStatus == 'expire') {
       // set transaction status on your databaase to 'failure'
-      await handleFailure(orderId, exist?.status || '');
+      await handleFailure(orderId, exist?.status || '', statusResponse);
     } else if (transactionStatus == 'pending') {
       // set transaction status on your databaase to 'pending' / waiting payment
       // if (exist?.status !== 'success' && exist?.status !== 'failure' ) {
