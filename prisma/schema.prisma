@@ -29,6 +29,7 @@ model User {
   activateToken      ActivateToken[]
   resetToken         ResetToken[]
   regisExhiData      RegisExhiData?
+  transaction        TransactionDetail[]
 }
 
 model ActivateToken {
@@ -110,9 +111,12 @@ model TicketGS {
   email   String  @unique
   phone   String
   idLine  String
-  regisId String
+  regisId String?
 
-  regisData RegisExhiData @relation(fields: [regisId], references: [id], onDelete: Cascade)
+  regisData RegisExhiData? @relation(fields: [regisId], references: [id], onDelete: Cascade)
+
+  transactionDetail   TransactionDetail? @relation(fields: [transactionDetailId], references: [id])
+  transactionDetailId String?
 }
 
 model TicketExhibition {
@@ -207,4 +211,21 @@ model Karya {
   usersVote     User[]
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
+model TransactionDetail {
+  id               String     @id @default(uuid())
+  total            BigInt
+  status           String     @default("pending")
+  statusData       String     @default("waiting")
+  customerName     String
+  customerEmail    String
+  registrationType String
+  paymentType      String?
+  snapToken        String
+  snapRedirectURL  String
+  userId           String
+  User             User       @relation(fields: [userId], references: [id])
+  ticketGS         TicketGS[]
+  metadata         Json?
 }
