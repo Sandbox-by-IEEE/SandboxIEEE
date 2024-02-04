@@ -26,17 +26,17 @@ export async function POST(req: NextRequest) {
       where: {
         OR: participants.map((p) => ({
           email: p.email,
-          transactionDetail: {
-            AND: [
-              {
-                status: 'success',
-              },
-              {
-                status: 'pending',
-              },
-            ],
-          },
         })),
+        transactionDetail: {
+          OR: [
+            {
+              status: "pending"
+            },
+            {
+              status: "success"
+            }
+          ]
+        }
       },
       include: {
         transactionDetail: {
@@ -46,6 +46,8 @@ export async function POST(req: NextRequest) {
         }
       }
     });
+
+    // console.log(exist)
 
     if (exist.length > 0) {
       return NextResponse.json(
@@ -68,7 +70,7 @@ export async function POST(req: NextRequest) {
       prod = products.collective5;
     }
 
-    console.log(prod)
+    // console.log(prod)
 
     const parameter = {
       transaction_details: {
@@ -83,7 +85,7 @@ export async function POST(req: NextRequest) {
       enable_payments: ['bca_va', 'gopay'],
     };
 
-    console.log(parameter)
+    // console.log(parameter)
 
     const transaction = await snap.createTransaction(parameter);
 
