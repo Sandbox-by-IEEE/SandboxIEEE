@@ -17,8 +17,8 @@ import { callLoading, callToast } from '@/components/Toast';
 
 export default function ExhibitionRegist() {
   // Set Status
-  const [generalStatus, setGeneralStatus] = useState('Normal');
-  console.log(generalStatus);
+  const [generalStatus, setGeneralStatus] = useState('Deactivate');
+  // console.log(generalStatus);
 
   // Price
   const SpecialPrice = {
@@ -81,9 +81,9 @@ export default function ExhibitionRegist() {
       setGeneralStatus('Deactivate');
     }
 
-    if (generalStatus == 'Deactivate') {
+    if (!(generalStatus == 'Deactivate')) {
       setInputData({
-        memberCount: 0,
+        memberCount: 1,
         members: [
           {
             name: '',
@@ -116,7 +116,7 @@ export default function ExhibitionRegist() {
 
   // Inisialisasi data form pendaftaran
   const [inputData, setInputData] = useState<InputData>({
-    memberCount: 1,
+    memberCount: 0,
     members: [
       {
         name: '',
