@@ -5,6 +5,8 @@ import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
 
+// export const runtime = 'edge';
+
 export async function POST(req: NextRequest) {
   try {
     const type = req.nextUrl.searchParams.get('type');
@@ -45,16 +47,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const headingFailed = ``;
+    const headingFailed =
+      type === 'TPC'
+        ? `[SANDBOX] Announcement of Full Paper Submission`
+        : `[SANDBOX] Announcement of Video Pitching Submission`;
     const contentFailed = ` 
+    Thank you for your participation in the Sanbox project. Unfortunately, our team has verified that your team did not fulfill the requirements by the deadline. If you believe that this is a mistake, please reach out to our team at the contact center that we have shared with you. We appreciate your interest and wish you all the best in your future endeavors.
     `;
 
     const promises: any[] = [];
+
     for (let i = 0; i < failedRegist3.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: failedRegist3[i].team?.chairmanEmail,
-        subject: `[SANDBOX] Announcement of Abstract Stage`,
+        subject:
+          type === 'TPC'
+            ? `[SANDBOX] Announcement of Full Paper Submission`
+            : `[SANDBOX] Announcement of Video Pitching Submission`,
         html: render(
           Email({
             heading: headingFailed,
@@ -115,16 +125,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const headingSuccess = ``;
+    const headingSuccess =
+      type === 'TPC'
+        ? `[SANDBOX] Announcement of Full Paper Submission`
+        : `[SANDBOX] Announcement of Video Pitching Submission`;
     const contentSuccess = `
-    
-`;
+    Thank you for your participation in the Sanbox project. Your data has been confirmed, please wait for further announcements. Good luck!
+    `;
+
     const promises2: any[] = [];
+    
     for (let i = 0; i < successRegist3.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
         to: successRegist3[i].team?.chairmanEmail || '',
-        subject: `[SANDBOX] Announcement of Abstract Stage`,
+        subject:
+          type === 'TPC'
+            ? `[SANDBOX] Announcement of Full Paper Submission`
+            : `[SANDBOX] Announcement of Video Pitching Submission`,
         html: render(
           Email({
             heading: headingSuccess,
@@ -138,6 +156,7 @@ export async function POST(req: NextRequest) {
     }
 
     await Promise.all(promises2)
+
 
     await prisma.regist3Data.updateMany({
       where: {

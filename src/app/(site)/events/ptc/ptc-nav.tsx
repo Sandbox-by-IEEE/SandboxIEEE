@@ -35,7 +35,7 @@ function PTCnavigation() {
   useEffect(() => {
     if (session?.user.id) {
       // getUserInfo();
-      getTeamInfo(session.user.ticket?.TPC.teamId);
+      getTeamInfo(session.user.ticket?.PTC.teamId);
     }
   }, [session?.user.id]);
 
@@ -67,7 +67,7 @@ function PTCnavigation() {
   };
 
   // Tanggal dan waktu tenggat
-  const deadline = new Date('2024-01-23T21:00:00'); // Batas Waktu
+  const deadline = new Date('2024-01-23T23:59:59'); // Batas Waktu
 
   const [now, setNow] = useState(new Date());
 

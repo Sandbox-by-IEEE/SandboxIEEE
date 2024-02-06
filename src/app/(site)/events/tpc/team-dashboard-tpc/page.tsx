@@ -95,7 +95,7 @@ const Page = () => {
   const getUserInfo = async () => {
     try {
       const response = await axios.get(
-        `/api/user/${sessionData?.user.id}/participant?type=PTC`,
+        `/api/user/${sessionData?.user.id}/participant?type=TPC`,
       );
 
       // // DEBUG LINK
