@@ -7,7 +7,7 @@ export async function PATCH(req: NextRequest) {
   try {
     const { ticketId } = await req.json();
 
-    if (!ticketId ) {
+    if (!ticketId) {
       return NextResponse.json(
         { message: 'Missing ticket id or user id' },
         { status: 400 },
@@ -55,7 +55,6 @@ export async function PATCH(req: NextRequest) {
         active: true,
       },
     });
-
 
     return NextResponse.json(
       {

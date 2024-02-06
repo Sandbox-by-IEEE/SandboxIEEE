@@ -134,7 +134,7 @@ export async function POST(req: NextRequest) {
     `;
 
     const promises2: any[] = [];
-    
+
     for (let i = 0; i < successRegist3.length; i++) {
       const mailOptions = {
         from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
@@ -155,8 +155,7 @@ export async function POST(req: NextRequest) {
       promises2.push(transporter.sendMail(mailOptions));
     }
 
-    await Promise.all(promises2)
-
+    await Promise.all(promises2);
 
     await prisma.regist3Data.updateMany({
       where: {

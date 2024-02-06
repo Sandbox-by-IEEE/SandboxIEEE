@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
         registrationType,
         collectiveType,
         // userId: session.user.id,
-        userId: "clpn8o0f90000ij64ahlckct3",
+        userId: 'clpn8o0f90000ij64ahlckct3',
       },
     });
 
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
     const content =
       'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
 
-    const emails = participants.map(p => {
+    const emails = participants.map((p) => {
       const mailOptions = {
         from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
         to: p.email,
@@ -112,9 +112,9 @@ export async function POST(req: NextRequest) {
         ),
       };
       return transporter.sendMail(mailOptions);
-    })  
+    });
 
-    await Promise.all(emails)
+    await Promise.all(emails);
     // for (let i = 0; i < participants.length; i++) {
     //   const mailOptions = {
     //     from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
@@ -136,10 +136,13 @@ export async function POST(req: NextRequest) {
     // eslint-disable-next-line no-console
     console.log('POST_TICKET: email was sent');
 
-    return NextResponse.json({
-      data: data,
-      message: 'ticket purchase successful and please check your email',
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        data: data,
+        message: 'ticket purchase successful and please check your email',
+      },
+      { status: 201 },
+    );
   } catch (error) {
     if (error instanceof Error) {
       if (regisIdTemp) {

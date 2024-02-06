@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const emails: Promise<SMTPTransport.SentMessageInfo>[] = []
+    const emails: Promise<SMTPTransport.SentMessageInfo>[] = [];
     for (let i = 0; i < ticketsVerified.length; i++) {
       const emailsTemp = ticketsVerified[i].tickets.map((t) => {
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         return transporter.sendMail(mailOptions);
       });
 
-      emails.push(...emailsTemp)
+      emails.push(...emailsTemp);
 
       // const { error } = await resend.batch.send(emails);
 
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
       // }
     }
 
-    await Promise.all(emails)
+    await Promise.all(emails);
 
     return NextResponse.json({ message: 'email was sent' }, { status: 200 });
   } catch (error) {
