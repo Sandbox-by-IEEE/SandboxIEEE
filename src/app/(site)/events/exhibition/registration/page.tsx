@@ -1,4 +1,5 @@
 'use client';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +17,91 @@ import TextInput from '@/components/TextInput';
 import { callLoading, callToast } from '@/components/Toast';
 
 export default function ExhibitionRegist() {
+  // Set Status
+  const [generalStatus, setGeneralStatus] = useState('Normal');
+  // console.log(generalStatus);
+
+  // Price
+  const SpecialPrice = {
+    SingleInt: 30000,
+    SingleStr: 'Rp 30.000,00',
+    Collective3Int: 75000,
+    Collective3Str: 'Rp 75.000,00',
+    Collective5Int: 100000,
+    Collective5Str: 'Rp 100.000,00',
+  };
+  const NormalPrice = {
+    SingleInt: 40000,
+    SingleStr: 'Rp 40.000,00',
+    Collective3Int: 105000,
+    Collective3Str: 'Rp 105.000,00',
+  };
+
+  // mengambil data waktu
+  const [serverTime, setServerTime] = useState<Date | null>(null);
+  const getServerTime = async () => {
+    try {
+      const response = await axios.get(
+        'https://worldtimeapi.org/api/timezone/Etc/UTC',
+      );
+      setServerTime(new Date(response.data.datetime));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getServerTime();
+  }, []);
+
+  // Update data harga
+
+  useEffect(() => {
+    const StartEarly = new Date('2024-02-16T17:00:00Z');
+    const StartNormal = new Date('2024-03-05T17:00:00Z');
+    const StartSpecial = new Date('2024-03-02T17:00:00Z');
+    const EndSpecial = new Date('2024-03-03T17:00:00Z');
+    const EndRegistration = new Date('2024-03-05T17:00:00Z');
+
+    // if (
+    //   serverTime &&
+    //   serverTime >= StartEarly &&
+    //   serverTime <= EndRegistration
+    // ) {
+    //   if (serverTime < StartNormal) {
+    //     setGeneralStatus('Early');
+    //   } else {
+    //     if (serverTime >= StartSpecial && serverTime <= EndSpecial) {
+    //       setGeneralStatus('Special');
+    //     } else {
+    //       setGeneralStatus('Normal');
+    //     }
+    //   }
+    // } else {
+    //   setGeneralStatus('Deactivate');
+    // }
+
+    if (!(generalStatus == 'Deactivate')) {
+      setInputData({
+        memberCount: 1,
+        members: [
+          {
+            name: '',
+            email: '',
+            phoneNumber: '',
+            lineId: '',
+          },
+        ],
+        bankAccName: '',
+        registrationType: '',
+        paymentProofName: '',
+        paymentMethod: '',
+        paymentProofUrl: '',
+      });
+    }
+  }, [serverTime]);
+
   // Mengambil data pengisian form sebelumnya (unsaved) dari local storage
   const inputDataHistoryKey = 'exhibition-regist-history';
 
@@ -31,7 +117,7 @@ export default function ExhibitionRegist() {
 
   // Inisialisasi data form pendaftaran
   const [inputData, setInputData] = useState<InputData>({
-    memberCount: 1,
+    memberCount: 0,
     members: [
       {
         name: '',
@@ -118,18 +204,40 @@ export default function ExhibitionRegist() {
     if (name === 'memberCount') {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
-        if (
-          newInputData.memberCount == 1 ||
-          newInputData.memberCount == 3 ||
-          newInputData.memberCount == 5
-        ) {
-          // do nothing
+        if (generalStatus == 'Early' || generalStatus == 'Special') {
+          if (
+            newInputData.memberCount == 1 ||
+            newInputData.memberCount == 3 ||
+            newInputData.memberCount == 5
+          ) {
+            // do nothing
+          } else {
+            newInputData.memberCount = inputData.memberCount;
+            callToast({
+              status: 'error',
+              description: 'Member count must be 1, 3 or 5',
+            });
+          }
+        } else if (generalStatus == 'Normal') {
+          if (newInputData.memberCount == 1 || newInputData.memberCount == 3) {
+            // do nothing
+          } else {
+            newInputData.memberCount = inputData.memberCount;
+            callToast({
+              status: 'error',
+              description: 'Member count must be 1 or 3',
+            });
+          }
         } else {
-          newInputData.memberCount = inputData.memberCount;
-          callToast({
-            status: 'error',
-            description: 'Member count must be 1, 3 or 5',
-          });
+          if (newInputData.memberCount == 0) {
+            // do nothing
+          } else {
+            newInputData.memberCount = inputData.memberCount;
+            callToast({
+              status: 'error',
+              description: 'Registration is currently closed',
+            });
+          }
         }
       }
 
@@ -187,7 +295,7 @@ export default function ExhibitionRegist() {
   // Undefined warn function
   const warn = (
     memberIndex: number,
-    prop: 'name' | 'email' | 'institution' | 'phoneNumber' | 'lineId',
+    prop: 'name' | 'email' | 'phoneNumber' | 'lineId',
   ) => {
     setIsWarnedInputData((isWarnedInputData) => {
       const newIsWarnedInputData = { ...isWarnedInputData };
@@ -237,7 +345,7 @@ export default function ExhibitionRegist() {
       let warnedHere = false;
       const checkAndWarn = (
         bool: boolean,
-        prop: 'name' | 'email' | 'institution' | 'phoneNumber' | 'lineId',
+        prop: 'name' | 'email' | 'phoneNumber' | 'lineId',
       ) => {
         if (bool) {
           setFillMemberIndex(i);
@@ -249,7 +357,7 @@ export default function ExhibitionRegist() {
       checkAndWarn(!el.name, 'name');
       checkAndWarn(!isEmailValid(el.email), 'email');
       checkAndWarn(el.phoneNumber[0] != "'", 'phoneNumber');
-      checkAndWarn(!el.lineId, 'lineId');
+      // checkAndWarn(!el.lineId, 'lineId');
       if (warnedHere) {
         callToast({
           status: 'error',
@@ -259,6 +367,36 @@ export default function ExhibitionRegist() {
         });
       }
     });
+
+    if (!inputData.paymentProofUrl) {
+      callToast({
+        status: 'error',
+        description: 'You have not uploaded your proof of payment',
+      });
+      isToastTriggered = true;
+    }
+    if (!inputData.paymentMethod) {
+      callToast({
+        status: 'error',
+        description: 'You have not selected the type of your payment method',
+      });
+      isToastTriggered = true;
+    }
+    if (!inputData.bankAccName) {
+      callToast({
+        status: 'error',
+        description: 'Please fill in the name of the bank account holder',
+      });
+      isToastTriggered = true;
+    }
+    if (!inputData.registrationType) {
+      callToast({
+        status: 'error',
+        description: 'You have not selected the type of registration package',
+      });
+      isToastTriggered = true;
+    }
+
     if (isToastTriggered) {
       return;
     }
@@ -466,64 +604,84 @@ export default function ExhibitionRegist() {
           </form>
         )}
         {step === 1 && (
-          <form onSubmit={handleNext} className='space-y-2 py-6 w-full'>
+          <form
+            onSubmit={handleSubmitFormIdentity}
+            className='space-y-2 py-6 w-full'
+          >
             <div className='flex flex-col gap-7 flex-wrap justify-center w-full border-y-2 pt-4 pb-14 border-[#bb9567]'>
               <p className='text-2xl font-bold text-left'>
                 Choose Your Registration type
               </p>
-              <div className='flex gap-8 items-stretch flex-wrap'>
-                <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
-                  <input
-                    type='radio'
-                    name='registrationType'
-                    id='single'
-                    className='scale-150'
-                    onChange={handleChange}
-                    checked={inputData.registrationType === 'Single'}
-                    value='Single'
-                  />
-                  <label htmlFor='Single' className='w-full h-full'>
-                    <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
-                      <p className='border-b-2 py-2 w-full'>1 Person</p>
-                      <p className='py-1 sm:py-2 font-bold'>Rp 30.000,00</p>
-                    </GradientBox>
-                  </label>
+
+              {!(generalStatus === 'Deactivate') ? (
+                <div className='flex gap-8 items-stretch flex-wrap'>
+                  <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
+                    <input
+                      type='radio'
+                      name='registrationType'
+                      id='single'
+                      className='scale-150'
+                      onChange={handleChange}
+                      checked={inputData.registrationType === 'Single'}
+                      value='Single'
+                    />
+                    <label htmlFor='Single' className='w-full h-full'>
+                      <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
+                        <p className='border-b-2 py-2 w-full'>1 Person</p>
+                        <p className='py-1 sm:py-2 font-bold'>
+                          {generalStatus === 'Early' ||
+                          generalStatus === 'Special'
+                            ? SpecialPrice.SingleStr
+                            : NormalPrice.SingleStr}
+                        </p>
+                      </GradientBox>
+                    </label>
+                  </div>
+                  <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
+                    <input
+                      type='radio'
+                      name='registrationType'
+                      id='Collective-3'
+                      className='scale-150'
+                      checked={inputData.registrationType === 'Collective-3'}
+                      onChange={handleChange}
+                      value='Collective-3'
+                    />
+                    <label htmlFor='Collective-3' className='w-full h-full'>
+                      <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
+                        <p className='border-b-2 py-2 w-full'>3 Person</p>
+                        <p className='py-1 sm:py-2 font-bold'>
+                          {generalStatus === 'Early' ||
+                          generalStatus === 'Special'
+                            ? SpecialPrice.Collective3Str
+                            : NormalPrice.Collective3Str}
+                        </p>
+                      </GradientBox>
+                    </label>
+                  </div>
+                  {generalStatus === 'Early' || generalStatus === 'Special' ? (
+                    <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
+                      <input
+                        type='radio'
+                        name='registrationType'
+                        id='Collective-5'
+                        className='scale-150'
+                        checked={inputData.registrationType === 'Collective-5'}
+                        onChange={handleChange}
+                        value='Collective-5'
+                      />
+                      <label htmlFor='Collective-5' className='w-full h-full'>
+                        <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
+                          <p className='border-b-2 py-2 w-full'>5 Person</p>
+                          <p className='py-1 sm:py-2 font-bold'>
+                            Rp 100.000,00
+                          </p>
+                        </GradientBox>
+                      </label>
+                    </div>
+                  ) : null}
                 </div>
-                <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
-                  <input
-                    type='radio'
-                    name='registrationType'
-                    id='Collective-3'
-                    className='scale-150'
-                    checked={inputData.registrationType === 'Collective-3'}
-                    onChange={handleChange}
-                    value='Collective-3'
-                  />
-                  <label htmlFor='Collective-3' className='w-full h-full'>
-                    <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
-                      <p className='border-b-2 py-2 w-full'>3 Person</p>
-                      <p className='py-1 sm:py-2 font-bold'>Rp 75.000,00</p>
-                    </GradientBox>
-                  </label>
-                </div>
-                <div className='flex gap-3 items-start w-[230px] sm:w-[30%]'>
-                  <input
-                    type='radio'
-                    name='registrationType'
-                    id='Collective-5'
-                    className='scale-150'
-                    checked={inputData.registrationType === 'Collective-5'}
-                    onChange={handleChange}
-                    value='Collective-5'
-                  />
-                  <label htmlFor='Collective-5' className='w-full h-full'>
-                    <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
-                      <p className='border-b-2 py-2 w-full'>5 Person</p>
-                      <p className='py-1 sm:py-2 font-bold'>Rp 100.000,00</p>
-                    </GradientBox>
-                  </label>
-                </div>
-              </div>
+              ) : null}
             </div>
             <div className='flex flex-col pb-6'>
               <label
