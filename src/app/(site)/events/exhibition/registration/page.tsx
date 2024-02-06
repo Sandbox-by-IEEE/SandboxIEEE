@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Button from '@/components/Button';
 import SingleFileInput from '@/components/FileInput/SingleFileInput';
@@ -58,29 +59,32 @@ export default function ExhibitionRegist() {
   // Update data harga
 
   useEffect(() => {
-    const StartEarly = new Date('2024-02-16T17:00:00Z');
+    // Production Variable
+    // const StartEarly = new Date('2024-02-16T17:00:00Z');
+    // Development Variable
+    const StartEarly = new Date('2024-01-16T17:00:00Z');
     const StartNormal = new Date('2024-03-05T17:00:00Z');
     const StartSpecial = new Date('2024-03-02T17:00:00Z');
     const EndSpecial = new Date('2024-03-03T17:00:00Z');
     const EndRegistration = new Date('2024-03-05T17:00:00Z');
 
-    // if (
-    //   serverTime &&
-    //   serverTime >= StartEarly &&
-    //   serverTime <= EndRegistration
-    // ) {
-    //   if (serverTime < StartNormal) {
-    //     setGeneralStatus('Early');
-    //   } else {
-    //     if (serverTime >= StartSpecial && serverTime <= EndSpecial) {
-    //       setGeneralStatus('Special');
-    //     } else {
-    //       setGeneralStatus('Normal');
-    //     }
-    //   }
-    // } else {
-    //   setGeneralStatus('Deactivate');
-    // }
+    if (
+      serverTime &&
+      serverTime >= StartEarly &&
+      serverTime <= EndRegistration
+    ) {
+      if (serverTime < StartNormal) {
+        setGeneralStatus('Early');
+      } else {
+        if (serverTime >= StartSpecial && serverTime <= EndSpecial) {
+          setGeneralStatus('Special');
+        } else {
+          setGeneralStatus('Normal');
+        }
+      }
+    } else {
+      setGeneralStatus('Deactivate');
+    }
 
     if (!(generalStatus == 'Deactivate')) {
       setInputData({
@@ -407,53 +411,53 @@ export default function ExhibitionRegist() {
 
     // Submit data shoot API
 
-    // try {
-    //   const dataTicket = {
-    //     competitionType: 'PTC',
-    //     chairmanName: inputData.members[0].name,
-    //     chairmanEmail: inputData.members[0].email,
-    //     members: inputData.members.map((member) => {
-    //       return {
-    //         name: member.name,
-    //         email: member.email,
-    //         phoneNumber: member.phoneNumber,
-    //         lineId: member.lineId,
-    //       };
-    //     }),
-    //   };
+    try {
+      const dataTicket = {
+        paymentMethod: inputData.paymentMethod,
+        paymentProof: inputData.paymentProofUrl,
+        registrationType: inputData.registrationType,
+        participants: inputData.members.map((member) => {
+          return {
+            name: member.name,
+            email: member.email,
+            phone: member.phoneNumber,
+            idLine: member.lineId,
+          };
+        }),
+      };
 
-    //   const response = await fetch('/api/ticket/competition', {
-    //     method: 'POST',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(dataTicket),
-    //   });
+      const response = await fetch('/api/ticket/exhibition', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataTicket),
+      });
 
-    //   const bodyResponse = await response.json();
-    //   if (!response.ok) {
-    //     callToast({
-    //       status: 'error',
-    //       description: bodyResponse.message,
-    //     });
-    //   } else {
-    //     callToast({
-    //       status: 'success',
-    //       description: bodyResponse.message,
-    //     });
-    //     router.push('/events/ptc');
-    //     localStorage.removeItem(inputDataHistoryKey);
-    //   }
-    // } catch (err) {
-    //   callToast({
-    //     status: 'error',
-    //     description:
-    //       'Something went wrong while submit your data, please try again',
-    //   });
-    // } finally {
-    //   toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
-    // }
+      const bodyResponse = await response.json();
+      if (!response.ok) {
+        callToast({
+          status: 'error',
+          description: bodyResponse.message,
+        });
+      } else {
+        callToast({
+          status: 'success',
+          description: bodyResponse.message,
+        });
+        router.push('/');
+        localStorage.removeItem(inputDataHistoryKey);
+      }
+    } catch (err) {
+      callToast({
+        status: 'error',
+        description:
+          'Something went wrong while submit your data, please try again',
+      });
+    } finally {
+      toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
+    }
   };
 
   // Login account verification
