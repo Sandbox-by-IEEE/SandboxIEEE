@@ -210,9 +210,10 @@ export const authOptions: AuthOptions = {
             exhibition: {
               buy: ticketGS ? true : false,
               active: ticketGS ? ticketGS.active : false,
-              verified: ticketGS && ticketGS.regisData
-                ? ticketGS.regisData.verified 
-                : false,
+              verified:
+                ticketGS && ticketGS.regisData
+                  ? ticketGS.regisData.verified
+                  : false,
             },
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
@@ -418,9 +419,10 @@ export const authOptions: AuthOptions = {
             exhibition: {
               buy: ticketGS ? true : false,
               active: ticketGS ? ticketGS.active : false,
-              verified: ticketGS && ticketGS.regisData
-                ? ticketGS.regisData.verified
-                : false,
+              verified:
+                ticketGS && ticketGS.regisData
+                  ? ticketGS.regisData.verified
+                  : false,
             },
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
