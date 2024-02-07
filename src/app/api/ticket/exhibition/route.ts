@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
         paymentProof,
         registrationType,
         collectiveType,
-        // userId: session.user.id,
-        userId: 'clpn8o0f90000ij64ahlckct3',
+        userId: session.user.id,
+        // userId: 'clpn8o0f90000ij64ahlckct3',
       },
     });
 
