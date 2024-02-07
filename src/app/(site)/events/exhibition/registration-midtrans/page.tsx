@@ -39,6 +39,8 @@ export default function ExhibitionRegist() {
 
   // mengambil data waktu
   const [serverTime, setServerTime] = useState<Date | null>(null);
+  //debugging
+  console.log(serverTime);
   const getServerTime = async () => {
     try {
       const response = await axios.get(
