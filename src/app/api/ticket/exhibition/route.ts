@@ -20,18 +20,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
 
-    // if (!session) {
-    //   return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    // }
+    if (!session) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
 
-    // if (session.user.ticket?.exhibition && session.user.ticket.exhibition.buy) {
-    //   return NextResponse.json(
-    //     { message: 'You have purchased Exhibition tickets before' },
-    //     { status: 400 },
-    //   );
-    // }
+    if (session.user.ticket?.exhibition && session.user.ticket.exhibition.buy) {
+      return NextResponse.json(
+        { message: 'You have purchased Exhibition tickets before' },
+        { status: 400 },
+      );
+    }
 
     const collectiveType = participants.length.toString();
 
