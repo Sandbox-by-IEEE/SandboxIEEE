@@ -39,8 +39,6 @@ export default function ExhibitionRegist() {
 
   // mengambil data waktu
   const [serverTime, setServerTime] = useState<Date | null>(null);
-  //debugging
-  console.log(serverTime);
   const getServerTime = async () => {
     try {
       const response = await axios.get(
@@ -105,7 +103,6 @@ export default function ExhibitionRegist() {
         paymentProofUrl: '',
       });
     }
-    console.log('update variable');
   }, [serverTime]);
 
   // Mengambil data pengisian form sebelumnya (unsaved) dari local storage
