@@ -1,9 +1,13 @@
 import { render } from '@react-email/render';
+import moment from 'moment-timezone';
 import { NextRequest, NextResponse } from 'next/server';
 
 import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
+
+// export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   let registId;
@@ -11,6 +15,8 @@ export async function POST(req: NextRequest) {
   let isUpdated = false;
   let registData = {} as any;
   try {
+    const dateNow = moment().tz('Asia/Jakarta').unix();
+
     const body = await req.json();
     // console.log(body)
 
@@ -82,6 +88,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (
+      type === 'PTC' &&
+      dateNow > moment.tz('2024-01-23 23:59', 'Asia/Jakarta').unix()
+    ) {
+      return NextResponse.json(
+        {
+          message: 'You past the deadline',
+        },
+        { status: 400 },
+      );
+    }
+
+    if (
+      type === 'TPC' &&
+      dateNow > moment.tz('2024-01-31 00:00', 'Asia/Jakarta').unix()
+    ) {
+      return NextResponse.json(
+        {
+          message: 'You past the deadline',
+        },
+        { status: 400 },
+      );
+    }
     if (type === 'TPC' && !karya && karya?.length === 0) {
       return NextResponse.json(
         {
@@ -220,8 +249,10 @@ export async function POST(req: NextRequest) {
     }
 
     const content = `
-    
+    Thank you for your participation in the Sanbox project. Your data has been received, please wait for confirmation from the Sanbox team.
     `;
+
+    const promises: any[] = [];
 
     for (let i = 0; i < regist3Data.team?.members.length; i++) {
       const mailOptions = {
@@ -246,8 +277,10 @@ export async function POST(req: NextRequest) {
         ),
       };
 
-      await transporter.sendMail(mailOptions);
+      promises.push(transporter.sendMail(mailOptions));
     }
+
+    await Promise.all(promises);
 
     // eslint-disable-next-line no-console
     console.log('POST_REGIST_3: email was sent');

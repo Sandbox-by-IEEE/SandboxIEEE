@@ -211,6 +211,7 @@ model Karya {
   countVote     BigInt  @default(0)
   usersVote     User[]
 
+
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 

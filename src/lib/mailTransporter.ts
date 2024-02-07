@@ -11,4 +11,4 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-export const resend = new Resend("re_3CpvF9aQ_56AyBzdidBppxGcAPDFhHkj9")
+export const resend = new Resend('re_3CpvF9aQ_56AyBzdidBppxGcAPDFhHkj9');
