@@ -97,6 +97,7 @@ model RegisExhiData {
   collectiveType   String     @default("1")
   registrationType String
   verified         Boolean    @default(false)
+  statusData       String     @default("waiting")
   paymentMethod    String
   paymentProof     String
   tickets          TicketGS[]

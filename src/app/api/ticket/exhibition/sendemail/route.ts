@@ -10,10 +10,15 @@ export async function POST(req: NextRequest) {
     const ticketsVerified = await prisma.regisExhiData.findMany({
       where: {
         verified: true,
+        statusData: 'waiting',
       },
       include: {
         tickets: true,
       },
+      orderBy: {
+        id: 'asc',
+      },
+      // take: 3
     });
 
     const emails: Promise<SMTPTransport.SentMessageInfo>[] = [];
@@ -58,6 +63,19 @@ export async function POST(req: NextRequest) {
     }
 
     await Promise.all(emails);
+
+    const updated = ticketsVerified.map((t) => {
+      return prisma.regisExhiData.update({
+        where: {
+          id: t.id,
+        },
+        data: {
+          statusData: 'sheet',
+        },
+      });
+    });
+
+    await Promise.all(updated);
 
     return NextResponse.json({ message: 'email was sent' }, { status: 200 });
   } catch (error) {
