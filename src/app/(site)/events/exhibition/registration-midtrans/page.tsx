@@ -105,6 +105,7 @@ export default function ExhibitionRegist() {
         paymentProofUrl: '',
       });
     }
+    console.log('update variable');
   }, [serverTime]);
 
   // Mengambil data pengisian form sebelumnya (unsaved) dari local storage
