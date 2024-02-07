@@ -1,5 +1,6 @@
 'use client';
 import axios from 'axios';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
@@ -813,7 +814,16 @@ export default function ExhibitionRegist() {
                   onChange={handleCheckboxChange}
                   required
                 />
-                <span className='ml-2'>Setuju dengan Syarat dan Ketentuan</span>
+                <span className='ml-2'>
+                  I have read and agreed to{' '}
+                  <Link
+                    href='/events/exhibition/registration/terms-of-service'
+                    className='tos text-blue-400 font-semibold'
+                    target='_blank'
+                  >
+                    the terms and conditions
+                  </Link>
+                </span>
               </label>
             </div>
             <div className='w-fit max-w-fit mx-auto pt-8 flex gap-4'>
