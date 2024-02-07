@@ -234,7 +234,10 @@ const ExhibitionPage = async () => {
               <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
                 <div data-aos='zoom-in'>
                   {exhibition.buttonTextRegister && (
-                    <CustomLink color='gold' url='/events/exhibition'>
+                    <CustomLink
+                      color='gold'
+                      url='/events/exhibition/registration-midtrans'
+                    >
                       {exhibition.buttonTextRegister}
                     </CustomLink>
                   )}
