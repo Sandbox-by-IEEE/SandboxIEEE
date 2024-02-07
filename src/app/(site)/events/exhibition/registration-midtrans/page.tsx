@@ -546,6 +546,59 @@ export default function ExhibitionRegist() {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
 
+  // Mengatur harga akhir
+  const [totalPrice, setTotalPrice] = useState({
+    str: '',
+    int: 0,
+  });
+  useEffect(() => {
+    if (generalStatus) {
+      if (generalStatus == 'Early' || generalStatus == 'Special') {
+        if (inputData.memberCount == 1) {
+          setTotalPrice({
+            str: SpecialPrice.SingleStr,
+            int: SpecialPrice.SingleInt,
+          });
+        } else if (inputData.memberCount == 3) {
+          setTotalPrice({
+            str: SpecialPrice.Collective3Str,
+            int: SpecialPrice.Collective3Int,
+          });
+        } else if (inputData.memberCount == 5) {
+          setTotalPrice({
+            str: SpecialPrice.Collective5Str,
+            int: SpecialPrice.Collective5Int,
+          });
+        }
+      } else if (generalStatus == 'Normal') {
+        if (inputData.memberCount == 1) {
+          setTotalPrice({
+            str: NormalPrice.SingleStr,
+            int: NormalPrice.SingleInt,
+          });
+        } else if (inputData.memberCount == 3) {
+          setTotalPrice({
+            str: NormalPrice.Collective3Str,
+            int: NormalPrice.Collective3Int,
+          });
+        }
+      }
+    }
+  }, [
+    NormalPrice.Collective3Int,
+    NormalPrice.Collective3Str,
+    NormalPrice.SingleInt,
+    NormalPrice.SingleStr,
+    SpecialPrice.Collective3Int,
+    SpecialPrice.Collective3Str,
+    SpecialPrice.Collective5Int,
+    SpecialPrice.Collective5Str,
+    SpecialPrice.SingleInt,
+    SpecialPrice.SingleStr,
+    generalStatus,
+    inputData,
+  ]);
+
   // Debugging Console
 
   // console.log(inputData);
@@ -628,7 +681,7 @@ export default function ExhibitionRegist() {
               <ReceiptRow
                 memberCount={inputData.memberCount}
                 members={inputData.members}
-                price='Rp 100.000,00'
+                price={totalPrice.str}
               />
             </div>
             <div className='flex flex-col pb-6'>
