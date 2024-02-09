@@ -12,7 +12,7 @@ export async function POST(req) {
   const quantity = 1;
   const parameter = {
     item_details: {
-      name: ticketType,
+      name: ticketType + ' - The Sandbox Exhibition and Seminar',
       category: salesPeriod,
       price: price,
       quantity: quantity,
