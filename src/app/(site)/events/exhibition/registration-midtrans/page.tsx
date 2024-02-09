@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Button from '@/components/Button';
 import FormDetails2 from '@/components/Forms/FormDetailsRegist2';
@@ -55,6 +56,20 @@ export default function ExhibitionRegist() {
     getServerTime();
   }, []);
 
+  useEffect(() => {
+    const snapScript = 'https://app.sandbox.midtrans.com/snap/snap.js';
+    const clientKey = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT;
+    const script = document.createElement('script');
+    script.src = snapScript;
+    script.setAttribute('data-client-key', clientKey!);
+    script.async = true;
+
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   // Update data harga
 
   useEffect(() => {
@@ -103,6 +118,7 @@ export default function ExhibitionRegist() {
         paymentProofUrl: '',
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serverTime]);
 
   // Mengambil data pengisian form sebelumnya (unsaved) dari local storage
@@ -157,6 +173,7 @@ export default function ExhibitionRegist() {
   );
 
   // Url single file input
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const [filesForm2, setFilesForm2] = useState<string>();
 
   // State untuk laman pendaftaran, state 0 untuk pengisian data peserta dan state 1 untuk pembayaran
@@ -311,6 +328,7 @@ export default function ExhibitionRegist() {
   };
 
   // Undefined warn function
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const setWarn = (
     prop:
       | 'teamName'
@@ -332,6 +350,33 @@ export default function ExhibitionRegist() {
   const handleNext = async (e) => {
     e.preventDefault();
     setStep(1);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  // Mengatur harga akhir
+  const [totalPrice, setTotalPrice] = useState({
+    str: '',
+    int: 0,
+  });
+
+  const generateId = () => {
+    // Membuat variabel result untuk menyimpan string hasil
+    let result = '';
+    // Membuat variabel characters untuk menyimpan karakter-karakter yang diinginkan
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    // Membuat variabel charactersLength untuk menyimpan panjang string characters
+    const charactersLength = characters.length;
+    // Mengulangi sebanyak length kali
+    for (let i = 0; i < 12; i++) {
+      // Menambahkan karakter acak dari string characters ke result
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    // Mengembalikan result
+    return result;
   };
 
   // Submit handler
@@ -380,53 +425,35 @@ export default function ExhibitionRegist() {
 
     // Submit data shoot API
 
-    // try {
-    //   const dataTicket = {
-    //     competitionType: 'PTC',
-    //     chairmanName: inputData.members[0].name,
-    //     chairmanEmail: inputData.members[0].email,
-    //     members: inputData.members.map((member) => {
-    //       return {
-    //         name: member.name,
-    //         email: member.email,
-    //         phoneNumber: member.phoneNumber,
-    //         lineId: member.lineId,
-    //       };
-    //     }),
-    //   };
+    try {
+      const dataTicket = {
+        id: generateId(),
+        salesPeriod: generalStatus,
+        ticketType:
+          inputData.memberCount === 1
+            ? 'Single'
+            : inputData.memberCount === 3
+            ? 'Collective-3'
+            : 'Collective-5',
+        price: totalPrice.int,
+      };
 
-    //   const response = await fetch('/api/ticket/competition', {
-    //     method: 'POST',
-    //     headers: {
-    //       Accept: 'application/json',
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(dataTicket),
-    //   });
+      const response = await axios.post(
+        '/api/ticket/exhibition/midtrans-tokenizer',
+        dataTicket,
+      );
+      const tokenData = await response.data;
 
-    //   const bodyResponse = await response.json();
-    //   if (!response.ok) {
-    //     callToast({
-    //       status: 'error',
-    //       description: bodyResponse.message,
-    //     });
-    //   } else {
-    //     callToast({
-    //       status: 'success',
-    //       description: bodyResponse.message,
-    //     });
-    //     router.push('/events/ptc');
-    //     localStorage.removeItem(inputDataHistoryKey);
-    //   }
-    // } catch (err) {
-    //   callToast({
-    //     status: 'error',
-    //     description:
-    //       'Something went wrong while submit your data, please try again',
-    //   });
-    // } finally {
-    //   toast.dismiss(loadingToastId); // Dismiss toast loading ketika proses pengiriman formulir selesai
-    // }
+      (window as any).snap.pay(tokenData.token); // Type assertion to treat window as any
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description:
+          'Something went wrong while submit your data, please try again',
+      });
+    } finally {
+      toast.dismiss(loadingToastId);
+    }
   };
 
   // Login account verification
@@ -546,11 +573,6 @@ export default function ExhibitionRegist() {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
 
-  // Mengatur harga akhir
-  const [totalPrice, setTotalPrice] = useState({
-    str: '',
-    int: 0,
-  });
   useEffect(() => {
     if (generalStatus) {
       if (generalStatus == 'Early' || generalStatus == 'Special') {
