@@ -47,8 +47,8 @@ export async function PATCH(req: NextRequest) {
     }
 
     const data = {
-     ticketId,
-     value: true
+      ticketId,
+      value: true,
     };
 
     const response = await fetch(
