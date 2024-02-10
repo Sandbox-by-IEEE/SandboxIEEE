@@ -22,7 +22,7 @@ declare module 'next-auth' {
     ticket?: {
       exhibition: {
         buy: boolean;
-        verified: boolean;
+        verified: string;
         active: boolean;
       };
       TPC: {
@@ -66,7 +66,7 @@ declare module 'next-auth' {
       ticket?: {
         exhibition: {
           buy: boolean;
-          verified: boolean;
+          verified: string;
           active: boolean;
         };
         TPC: {

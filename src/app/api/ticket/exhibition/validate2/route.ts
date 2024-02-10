@@ -3,11 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
 export async function PATCH(req: NextRequest) {
-  let ticketIdTemp;
   try {
-    const { ticketId } = await req.json();
+    const { ticketId, value } = await req.json();
 
-    if (!ticketId) {
+    if (!ticketId || !value) {
       return NextResponse.json(
         { message: 'Missing ticket id or user id' },
         { status: 400 },
@@ -43,7 +42,7 @@ export async function PATCH(req: NextRequest) {
     if (existingTicket.active) {
       return NextResponse.json(
         { message: 'Ticket has been used!!' },
-        { status: 200 },
+        { status: 400 },
       );
     }
 
@@ -52,30 +51,19 @@ export async function PATCH(req: NextRequest) {
         id: ticketId,
       },
       data: {
-        active: true,
+        active: value === 'true' ? true : false,
       },
     });
 
     return NextResponse.json(
       {
         ticket: updatedTicket,
-        // user: existingUser,
         message: 'Validate ticket succesful',
       },
       { status: 200 },
     );
   } catch (error) {
     if (error instanceof Error) {
-      if (ticketIdTemp) {
-        await prisma.ticketGS.update({
-          where: {
-            id: ticketIdTemp,
-          },
-          data: {
-            active: false,
-          },
-        });
-      }
       // eslint-disable-next-line no-console
       console.log('VALIDATE_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });

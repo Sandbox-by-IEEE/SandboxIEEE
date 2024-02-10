@@ -1,10 +1,9 @@
-import { render } from '@react-email/render';
-import { NextRequest, NextResponse } from 'next/server';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
-
 import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
+import { render } from '@react-email/render';
+import { NextRequest, NextResponse } from 'next/server';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 export async function POST(req: NextRequest) {
   try {
