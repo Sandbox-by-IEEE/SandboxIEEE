@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     const content =
       'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
 
-    const promise: any[] = []
+    const promise: any[] = [];
     for (let i = 0; i < transactions.length; i++) {
       const promiseTemp = transactions[i].ticketGS.map((t) => {
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         });
       });
 
-      promise.push(promiseTemp)
+      promise.push(promiseTemp);
     }
     await Promise.all(promise);
 
@@ -60,12 +60,12 @@ export async function POST(req: NextRequest) {
           id: t.id,
         },
         data: {
-          statusData: "email",
+          statusData: 'email',
         },
       });
     });
 
-    await Promise.all(update)
+    await Promise.all(update);
 
     return NextResponse.json(
       { message: 'Send success email' },
