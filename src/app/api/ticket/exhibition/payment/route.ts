@@ -1,8 +1,9 @@
-import { prisma } from '@/lib/db';
-import { snap } from '@/lib/midtrans';
 // import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
+
+import { prisma } from '@/lib/db';
+import { snap } from '@/lib/midtrans';
 
 // const products = {
 //   collective1: {
@@ -48,14 +49,14 @@ export async function POST(req: NextRequest) {
 
     const emails: string[] = participants.map((p) => p.email);
 
-    const fnd = exist.filter(v => emails.includes(v.email))
+    const fnd = exist.filter((v) => emails.includes(v.email));
 
     // console.log(exist)
 
     if (fnd.length > 0) {
       return NextResponse.json(
         {
-          data: fnd.map(v => v.email),
+          data: fnd.map((v) => v.email),
           message:
             'Some participant email has been used to buy ticket before (ticket status may be pending or success)',
         },
@@ -66,9 +67,7 @@ export async function POST(req: NextRequest) {
     if (count >= 100) {
       return NextResponse.json(
         {
-          
-          message:
-            'Ticket has been sold out',
+          message: 'Ticket has been sold out',
         },
         { status: 400 },
       );
@@ -100,10 +99,10 @@ export async function POST(req: NextRequest) {
       ],
       enable_payments: ['bca_va', 'gopay'],
       callbacks: {
-        finish: "https://sandbox-ieee-k0lqcp14l-sandboxieeeitb1.vercel.app/",
+        finish: 'https://sandbox-ieee-k0lqcp14l-sandboxieeeitb1.vercel.app/',
         // error: "",
         // pending: "",
-      }
+      },
     };
 
     // console.log(parameter)
@@ -130,8 +129,8 @@ export async function POST(req: NextRequest) {
       data: participants.map((p) => ({
         email: p.email,
         name: p.name,
-        idLine: p.idLine,
-        phone: p.phone,
+        idLine: p.lineId,
+        phone: p.phoneNumber,
         transactionDetailId: newTransac.id,
       })),
     });

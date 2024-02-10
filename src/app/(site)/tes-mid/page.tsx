@@ -1,8 +1,9 @@
-"use client"
+'use client';
+
+import React from 'react';
 
 import Button from '@/components/Button';
 import Midtrans from '@/components/midtrans';
-import React from 'react';
 
 const MidPage = () => {
   const handleBayar = async () => {
@@ -15,55 +16,57 @@ const MidPage = () => {
         {
           name: 'Mesach',
           email: 'mesachharmasendro@gmail.com',
-          idLine: 'tes',
-          phone: "'085700287190",
+          lineId: 'tes',
+          phoneNumber: "'085700287190",
         },
         {
           name: 'Mesach',
           email: '13522117@std.stei.itb.ac.id',
-          idLine: 'tes',
-          phone: "'085700287190",
+          lineId: 'tes',
+          phoneNumber: "'085700287190",
         },
         {
           name: 'Fairuz',
           email: 'fairuzalauddinyahya08@gmail.com',
-          idLine: 'tes',
-          phone: "'085700287190",
+          lineId: 'tes',
+          phoneNumber: "'085700287190",
         },
         {
           name: 'Fairuz',
           email: 'harmasendromesach@gmail.com',
-          idLine: 'tes',
-          phone: "'085700287190",
+          lineId: 'tes',
+          phoneNumber: "'085700287190",
         },
         {
           name: 'Fairuz',
           email: 'sandboxieeewebsite@gmail.com',
-          idLine: 'tes',
-          phone: "'085700287190",
+          lineId: 'tes',
+          phoneNumber: "'085700287190",
         },
       ],
       registrationType: 'Early Bid',
     };
 
-    const res = await fetch("/api/ticket/exhibition/payment", {
-      method: "POST",
-      body: JSON.stringify(data)
-    })
+    const res = await fetch('/api/ticket/exhibition/payment', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
 
-    const resData = await res.json()
+    const resData = await res.json();
 
-    console.log(resData)
+    console.log(resData);
 
-    const w = window as any
+    const w = window as any;
 
-    w.snap.pay(resData.data.snapToken)
+    w.snap.pay(resData.data.snapToken);
   };
   return (
     <>
       <Midtrans />
       <div>MidPage</div>
-      <Button color='gold' onClick={handleBayar}>bayar</Button>
+      <Button color='gold' onClick={handleBayar}>
+        bayar
+      </Button>
     </>
   );
 };

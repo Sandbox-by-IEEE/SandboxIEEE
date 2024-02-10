@@ -1,5 +1,6 @@
-import { prisma } from '@/lib/db';
 import { NextRequest, NextResponse } from 'next/server';
+
+import { prisma } from '@/lib/db';
 
 export async function POST(req: NextRequest) {
   try {
@@ -73,7 +74,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
-      console.log(error)
+      console.log(error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }
