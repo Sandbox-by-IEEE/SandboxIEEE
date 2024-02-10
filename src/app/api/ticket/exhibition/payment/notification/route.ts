@@ -6,7 +6,11 @@ import Email from '@/components/emails/Emails';
 import { transporter } from '@/lib/mailTransporter';
 import { JsonObject } from '@prisma/client/runtime/library';
 
-const handleFailure = async (orderId: string, status: string, statusResponse: JsonObject) => {
+const handleFailure = async (
+  orderId: string,
+  status: string,
+  statusResponse: JsonObject,
+) => {
   if (status === 'pending') {
     const updated = await prisma.transactionDetail.update({
       where: {
@@ -14,12 +18,31 @@ const handleFailure = async (orderId: string, status: string, statusResponse: Js
       },
       data: {
         status: 'failure',
-        metadata: statusResponse
+        metadata: statusResponse,
       },
       include: {
         ticketGS: true,
       },
     });
+
+    // await prisma.transactionDetail.update({
+    //   where: {
+    //     id: updated.id,
+    //   },
+    //   data: {
+    //     deletedData: { data: updated.ticketGS },
+    //   },
+    // });
+
+    // const deleted = updated.ticketGS.map((t) => {
+    //   return prisma.ticketGS.delete({
+    //     where: {
+    //       id: t.id,
+    //     },
+    //   });
+    // });
+
+    // await Promise.all(deleted);
 
     const heading = 'Verification Process for Your Ticket Purchase';
     const content = '';
@@ -61,8 +84,6 @@ const handleFailure = async (orderId: string, status: string, statusResponse: Js
 
     await Promise.all(promise);
 
-    
-
     // const payload = {
     //   sender: {
     //     email: 'sandboxieeewebsite@gmail.com',
@@ -101,7 +122,11 @@ const handleFailure = async (orderId: string, status: string, statusResponse: Js
   }
 };
 
-const handleSuccess = async (orderId: string, status: string, statusResponse: JsonObject) => {
+const handleSuccess = async (
+  orderId: string,
+  status: string,
+  statusResponse: JsonObject,
+) => {
   if (status === 'pending') {
     const updated = await prisma.transactionDetail.update({
       where: {
@@ -109,7 +134,7 @@ const handleSuccess = async (orderId: string, status: string, statusResponse: Js
       },
       data: {
         status: 'success',
-        metadata: statusResponse
+        metadata: statusResponse,
       },
       include: {
         ticketGS: {
@@ -220,7 +245,7 @@ export async function POST(req: NextRequest) {
       await handleFailure(orderId, exist?.status || '', statusResponse);
     } else if (transactionStatus == 'pending') {
       // set transaction status on your databaase to 'pending' / waiting payment
-      if (exist?.status !== 'success' && exist?.status !== 'failure' ) {
+      if (exist?.status !== 'success' && exist?.status !== 'failure') {
         await prisma.transactionDetail.update({
           where: {
             id: orderId,
@@ -234,6 +259,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: 'OK' }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "" }, { status: 200 })
+    return NextResponse.json({ message: '' }, { status: 200 });
   }
 }
