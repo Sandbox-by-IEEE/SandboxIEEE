@@ -1,10 +1,10 @@
 import { render } from '@react-email/render';
+import moment from 'moment-timezone';
 import { NextRequest, NextResponse } from 'next/server';
 
 import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
-import moment from 'moment-timezone';
 
 // export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
 
     if (
       type === 'TPC' &&
-      dateNow > moment.tz('2024-01-30 22:00', 'Asia/Jakarta').unix()
+      dateNow > moment.tz('2024-01-31 00:00', 'Asia/Jakarta').unix()
     ) {
       return NextResponse.json(
         {
