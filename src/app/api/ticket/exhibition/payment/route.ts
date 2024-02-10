@@ -129,8 +129,8 @@ export async function POST(req: NextRequest) {
       data: participants.map((p) => ({
         email: p.email,
         name: p.name,
-        idLine: p.idLine,
-        phone: p.phone,
+        idLine: p.lineId,
+        phone: p.phoneNumber,
         transactionDetailId: newTransac.id,
       })),
     });
