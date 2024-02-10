@@ -1,58 +1,61 @@
 import { prisma } from '@/lib/db';
 import { snap } from '@/lib/midtrans';
+// import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
-const products = {
-  collective1: {
-    name: '1',
-    price: 20000,
-  },
-  collective3: {
-    name: '3',
-    price: 30000,
-  },
-  collective5: {
-    name: '5',
-    price: 40000,
-  },
-};
+// const products = {
+//   collective1: {
+//     name: 'collective1',
+//   },
+//   collective3: {
+//     name: 'collective3',
+//   },
+//   collective5: {
+//     name: 'collective5',
+//   },
+// };
 
 export async function POST(req: NextRequest) {
+  let idT = '';
   try {
-    const { userId, name, email, participants, registrationType } = await req.json();
+    const { userId, name, price, email, participants, registrationType } =
+      await req.json();
 
     const exist = await prisma.ticketGS.findMany({
       where: {
-        OR: participants.map((p) => ({
-          email: p.email,
-        })),
         transactionDetail: {
           OR: [
             {
-              status: "pending"
+              status: 'pending',
             },
             {
-              status: "success"
-            }
-          ]
-        }
+              status: 'success',
+            },
+          ],
+        },
       },
       include: {
         transactionDetail: {
           select: {
-            status: true
-          }
-        }
-      }
+            status: true,
+          },
+        },
+      },
     });
+
+    const count = exist.length;
+
+    const emails: string[] = participants.map((p) => p.email);
+
+    const fnd = exist.filter(v => emails.includes(v.email))
 
     // console.log(exist)
 
-    if (exist.length > 0) {
+    if (fnd.length > 0) {
       return NextResponse.json(
         {
-          data: exist,
+          data: fnd.map(v => v.email),
           message:
             'Some participant email has been used to buy ticket before (ticket status may be pending or success)',
         },
@@ -60,14 +63,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let prod: any;
+    if (count >= 100) {
+      return NextResponse.json(
+        {
+          
+          message:
+            'Ticket has been sold out',
+        },
+        { status: 400 },
+      );
+    }
+
+    let prod = '';
 
     if (participants.length === 1) {
-      prod = products.collective1;
+      prod = 'single';
     } else if (participants.length === 3) {
-      prod = products.collective3;
+      prod = 'colective 3';
     } else if (participants.length === 5) {
-      prod = products.collective5;
+      prod = 'collective 5';
     }
 
     // console.log(prod)
@@ -75,13 +89,15 @@ export async function POST(req: NextRequest) {
     const parameter = {
       transaction_details: {
         order_id: uuidv4(),
-        gross_amount: prod.price,
+        gross_amount: price,
       },
-      item_details: [{
-        name: prod.name,
-        price: prod.price,
-        quantity: 1,
-      }],
+      item_details: [
+        {
+          name: `${prod} - - The Sandbox Exhibition and Seminar`,
+          price: price,
+          quantity: 1,
+        },
+      ],
       enable_payments: ['bca_va', 'gopay'],
     };
 
@@ -95,14 +111,15 @@ export async function POST(req: NextRequest) {
         customerName: name,
         snapToken: transaction.token,
         snapRedirectURL: transaction.redirect_url,
-        status: 'pending',
-        total: BigInt(prod.price),
+        status: 'no-status',
+        total: BigInt(price),
         id: parameter.transaction_details.order_id,
         userId,
-        registrationType
+        registrationType,
       },
     });
 
+    idT = newTransac.id;
 
     const newTicket = await prisma.ticketGS.createMany({
       data: participants.map((p) => ({
@@ -110,7 +127,7 @@ export async function POST(req: NextRequest) {
         name: p.name,
         idLine: p.idLine,
         phone: p.phone,
-        transactionDetailId: newTransac.id
+        transactionDetailId: newTransac.id,
       })),
     });
 
@@ -127,7 +144,23 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
-      console.log(error)
+      // if (error instanceof PrismaClientKnownRequestError){
+      //   if (error.code === 'P2002') {
+      //     console.log('The character already exists', error)
+      //     return NextResponse.json(
+      //       { message: `Some email has be` },
+      //       { status: 500 },
+      //     );
+      //   }
+      // }
+      if (idT) {
+        await prisma.transactionDetail.delete({
+          where: {
+            id: idT,
+          },
+        });
+      }
+      console.log(error);
       return NextResponse.json(
         { message: `Something went wrong in server: ${error.message}` },
         { status: 500 },

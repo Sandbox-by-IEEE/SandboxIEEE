@@ -106,6 +106,15 @@ export const authOptions: AuthOptions = {
           },
         });
 
+        // const ticketGS = await prisma.ticketGS.findUnique({
+        //   where: {
+        //     email: existingUser.email || '',
+        //   },
+        //   include: {
+        //     regisData: true,
+        //   },
+        // });
+
         const ticketTPC = existingUser.ticketsCompetition.find(
           (ticket) => ticket.competitionType === 'TPC',
         );
@@ -210,8 +219,16 @@ export const authOptions: AuthOptions = {
             exhibition: {
               buy: ticketGS ? true : false,
               active: ticketGS ? ticketGS.active : false,
-              verified: ticketGS?.transactionDetail?.status || "",
+              verified: ticketGS?.transactionDetail?.status || '',
             },
+            // exhibition: {
+            //   buy: ticketGS ? true : false,
+            //   active: ticketGS ? ticketGS.active : false,
+            //   verified:
+            //     ticketGS && ticketGS.regisData
+            //       ? ticketGS.regisData.verified
+            //       : false,
+            // },
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
               teamId: currTeamPTC?.id,
@@ -318,6 +335,15 @@ export const authOptions: AuthOptions = {
         },
       });
 
+      // const ticketGS = await prisma.ticketGS.findUnique({
+      //   where: {
+      //     email: existingUser.email || '',
+      //   },
+      //   include: {
+      //     regisData: true,
+      //   },
+      // });
+
       const ticketTPC = existingUser.ticketsCompetition.find(
         (ticket) => ticket.competitionType === 'TPC',
       );
@@ -422,8 +448,16 @@ export const authOptions: AuthOptions = {
             exhibition: {
               buy: ticketGS ? true : false,
               active: ticketGS ? ticketGS.active : false,
-              verified: ticketGS?.transactionDetail?.status || "",
+              verified: ticketGS?.transactionDetail?.status || '',
             },
+            // exhibition: {
+            //   buy: ticketGS ? true : false,
+            //   active: ticketGS ? ticketGS.active : false,
+            //   verified:
+            //     ticketGS && ticketGS.regisData
+            //       ? ticketGS.regisData.verified
+            //       : false,
+            // },
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
               teamId: currTeamPTC?.id,

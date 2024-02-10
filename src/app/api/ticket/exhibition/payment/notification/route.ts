@@ -201,16 +201,16 @@ export async function POST(req: NextRequest) {
       await handleFailure(orderId, exist?.status || '', statusResponse);
     } else if (transactionStatus == 'pending') {
       // set transaction status on your databaase to 'pending' / waiting payment
-      // if (exist?.status !== 'success' && exist?.status !== 'failure' ) {
-      //   await prisma.transactionDetail.update({
-      //     where: {
-      //       id: orderId,
-      //     },
-      //     data: {
-      //       status: 'pending',
-      //     },
-      //   });
-      // }
+      if (exist?.status !== 'success' && exist?.status !== 'failure' ) {
+        await prisma.transactionDetail.update({
+          where: {
+            id: orderId,
+          },
+          data: {
+            status: 'pending',
+          },
+        });
+      }
     }
 
     return NextResponse.json({ message: 'OK' }, { status: 200 });
