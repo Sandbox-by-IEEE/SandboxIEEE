@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { snap } from '@/lib/midtrans';
-import { prisma } from '@/lib/db';
-import { render } from '@react-email/render';
-import Email from '@/components/emails/Emails';
-import { transporter } from '@/lib/mailTransporter';
 import { JsonObject } from '@prisma/client/runtime/library';
+import { render } from '@react-email/render';
+import { NextRequest, NextResponse } from 'next/server';
+
+import Email from '@/components/emails/Emails';
+import { prisma } from '@/lib/db';
+import { transporter } from '@/lib/mailTransporter';
+import { snap } from '@/lib/midtrans';
 
 const handleFailure = async (
   orderId: string,
