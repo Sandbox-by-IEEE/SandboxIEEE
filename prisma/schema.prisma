@@ -97,6 +97,7 @@ model RegisExhiData {
   collectiveType   String     @default("1")
   registrationType String
   verified         Boolean    @default(false)
+  statusData       String     @default("waiting")
   paymentMethod    String
   paymentProof     String
   tickets          TicketGS[]
@@ -209,6 +210,7 @@ model Karya {
   linkVideo2    String?
   countVote     BigInt  @default(0)
   usersVote     User[]
+
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
