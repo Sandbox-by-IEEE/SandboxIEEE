@@ -230,4 +230,5 @@ model TransactionDetail {
   User             User       @relation(fields: [userId], references: [id])
   ticketGS         TicketGS[]
   metadata         Json?
+  deletedData      Json?
 }

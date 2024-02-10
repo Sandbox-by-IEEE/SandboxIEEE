@@ -24,6 +24,25 @@ const handleFailure = async (orderId: string, status: string, statusResponse: Js
     const heading = 'Verification Process for Your Ticket Purchase';
     const content = '';
 
+    // await prisma.transactionDetail.update({
+    //   where: {
+    //     id: updated.id
+    //   },
+    //   data: {
+    //     deletedData: { data: updated.ticketGS }
+    //   }
+    // })
+
+    // const deleted = updated.ticketGS.map(t => {
+    //   return prisma.ticketGS.delete({
+    //     where: {
+    //       id: t.id
+    //     },
+    //   })
+    // })
+
+    // await Promise.all(deleted)
+
     const promise = updated.ticketGS.map((t) => {
       return transporter.sendMail({
         from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
