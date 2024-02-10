@@ -1,29 +1,25 @@
-"use client"
+'use client';
 
-import { useEffect } from "react"
-
+import { useEffect } from 'react';
 
 const Midtrans = () => {
-
   useEffect(() => {
-    const snapScript = "https://app.sandbox.midtrans.com/snap/snap.js"
-    const clientKey = process.env.NEXT_PUBLIC_CLIENT || ""
+    const snapScript = 'https://app.sandbox.midtrans.com/snap/snap.js';
+    const clientKey = process.env.NEXT_PUBLIC_CLIENT || '';
 
-    const script = document.createElement("script")
+    const script = document.createElement('script');
 
-    script.src = snapScript
-    script.setAttribute('data-client-key', clientKey)
-    script.async = true
+    script.src = snapScript;
+    script.setAttribute('data-client-key', clientKey);
+    script.async = true;
 
-    document.body.appendChild(script)
+    document.body.appendChild(script);
 
     return () => {
-      document.body.removeChild(script)
-    }
-  }, [])
-  return (
-    <></>
-  )
-}
+      document.body.removeChild(script);
+    };
+  }, []);
+  return <></>;
+};
 
-export default Midtrans
+export default Midtrans;

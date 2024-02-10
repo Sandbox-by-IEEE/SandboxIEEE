@@ -1,8 +1,9 @@
+import { render } from '@react-email/render';
+import { NextRequest, NextResponse } from 'next/server';
+
 import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
-import { render } from '@react-email/render';
-import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
