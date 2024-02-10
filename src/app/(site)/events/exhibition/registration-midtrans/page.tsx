@@ -426,25 +426,54 @@ export default function ExhibitionRegist() {
     // Submit data shoot API
 
     try {
+      // const dataTicket = {
+      //   id: generateId(),
+      //   salesPeriod: generalStatus,
+      //   ticketType:
+      //     inputData.memberCount === 1
+      //       ? 'Single'
+      //       : inputData.memberCount === 3
+      //       ? 'Collective-3'
+      //       : 'Collective-5',
+      //   price: totalPrice.int,
+      // };
+
+      // const response = await axios.post(
+      //   '/api/ticket/exhibition/midtrans-tokenizer',
+      //   dataTicket,
+      // );
+
       const dataTicket = {
-        id: generateId(),
-        salesPeriod: generalStatus,
-        ticketType:
-          inputData.memberCount === 1
-            ? 'Single'
-            : inputData.memberCount === 3
-            ? 'Collective-3'
-            : 'Collective-5',
+        userId: session?.user.id,
+        name: session?.user.name,
         price: totalPrice.int,
+        email: session?.user.email,
+        participants: inputData.members,
+        registrationType: generalStatus,
       };
+      console.log(dataTicket);
 
-      const response = await axios.post(
-        '/api/ticket/exhibition/midtrans-tokenizer',
-        dataTicket,
-      );
-      const tokenData = await response.data;
+      // const response = await axios.post(
+      //   '/api/ticket/exhibition/payment',
+      //   dataTicket,
+      // );
 
-      (window as any).snap.pay(tokenData.token); // Type assertion to treat window as any
+      // const tokenData = await response.data;
+
+      // (window as any).snap.pay(tokenData.token); // Type assertion to treat window as any
+
+      const res = await fetch('/api/ticket/exhibition/payment', {
+        method: 'POST',
+        body: JSON.stringify(dataTicket),
+      });
+
+      const resData = await res.json();
+
+      console.log(resData);
+
+      const w = window as any;
+
+      w.snap.pay(resData.data.snapToken);
     } catch (error) {
       callToast({
         status: 'error',
