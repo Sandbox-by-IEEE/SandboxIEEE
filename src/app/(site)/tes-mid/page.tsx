@@ -10,6 +10,7 @@ const MidPage = () => {
       userId: 'cls79p4ut0000botcaognv5hr',
       name: 'Mesach',
       email: 'mesachharmasendro@gmail.com',
+      price: 20000,
       participants: [
         {
           name: 'Mesach',
