@@ -99,6 +99,11 @@ export async function POST(req: NextRequest) {
         },
       ],
       enable_payments: ['bca_va', 'gopay'],
+      callbacks: {
+        finish: "https://sandbox-ieee-k0lqcp14l-sandboxieeeitb1.vercel.app/",
+        // error: "",
+        // pending: "",
+      }
     };
 
     // console.log(parameter)
