@@ -1,8 +1,9 @@
 'use client';
 
+import React from 'react';
+
 import Button from '@/components/Button';
 import Midtrans from '@/components/midtrans';
-import React from 'react';
 
 const MidPage = () => {
   const handleBayar = async () => {
