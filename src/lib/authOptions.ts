@@ -330,17 +330,17 @@ export const authOptions: AuthOptions = {
           }
         : undefined;
 
-        const ticketGS = await prisma.ticketGS.findFirst({
-          where: {
-            email: existingUser.email || '',
-            transactionDetail: {
-              status: "success"
-            }
+      const ticketGS = await prisma.ticketGS.findFirst({
+        where: {
+          email: existingUser.email || '',
+          transactionDetail: {
+            status: 'success',
           },
-          include: {
-            transactionDetail: true,
-          },
-        });
+        },
+        include: {
+          transactionDetail: true,
+        },
+      });
 
       // const ticketGS = await prisma.ticketGS.findUnique({
       //   where: {
