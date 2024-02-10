@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
 export async function PATCH(req: NextRequest) {
-  let ticketIdTemp;
   try {
     const { ticketId, email } = await req.json();
 
@@ -47,6 +46,30 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
+    const data = {
+     ticketId,
+     value: true
+    };
+
+    const response = await fetch(
+      `${process.env.SHEET_EXHI_MID}?type=attendance` || '',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      },
+    );
+
+    const resBody = await response.json();
+
+    // console.log(resBody)
+
+    if (resBody.status > 299 || resBody.status < 200) {
+      throw new Error(`Failed to create data, ${resBody.message}`);
+    }
+
     const updatedTicket = await prisma.ticketGS.update({
       where: {
         id: ticketId,
@@ -56,49 +79,15 @@ export async function PATCH(req: NextRequest) {
       },
     });
 
-    ticketIdTemp = updatedTicket.id;
-    // const data = {
-    //   ticketId,
-    // };
-
-    // if (!existingTicket.active) {
-    //   const sheetAPI = process.env.API_SHEET_EXHIBITION_URL || '';
-
-    //   const response = await fetch(`${sheetAPI}?type=attendance`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-
-    //   const resBody = await response.json();
-
-    //   if (resBody.status > 299 || response.status < 200) {
-    //     throw new Error(`Failed to create ticket, ${resBody.message}`);
-    //   }
-    // }
-
     return NextResponse.json(
       {
         ticket: updatedTicket,
-        // user: existingUser,
         message: 'Validate ticket succesful',
       },
       { status: 200 },
     );
   } catch (error) {
     if (error instanceof Error) {
-      if (ticketIdTemp) {
-        await prisma.ticketGS.update({
-          where: {
-            id: ticketIdTemp,
-          },
-          data: {
-            active: false,
-          },
-        });
-      }
       // eslint-disable-next-line no-console
       console.log('VALIDATE_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });

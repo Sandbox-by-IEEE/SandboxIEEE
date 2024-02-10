@@ -1,6 +1,9 @@
+import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 
+import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
+import { transporter } from '@/lib/mailTransporter';
 
 interface Params {
   ticketId: string;
@@ -10,9 +13,8 @@ export async function PATCH(
   req: NextRequest,
   { params: { ticketId } }: { params: Params },
 ) {
+  let isUpdated = false;
   try {
-    const value = req.nextUrl.searchParams.get('value');
-
     if (!ticketId) {
       return NextResponse.json(
         { message: 'Missing parameter!!' },
@@ -20,12 +22,9 @@ export async function PATCH(
       );
     }
 
-    const existingTicket = await prisma.ticketGS.findUnique({
+    const existingTicket = await prisma.ticketExhibition.findUnique({
       where: {
         id: ticketId,
-      },
-      include: {
-        regisData: true,
       },
     });
 
@@ -36,64 +35,73 @@ export async function PATCH(
       );
     }
 
-    if (existingTicket.regisData?.verified) {
+    if (existingTicket.verified) {
       return NextResponse.json(
         { message: 'Ticket has been verified' },
         { status: 400 },
       );
     }
 
-    const updatedRegisData = await prisma.regisExhiData.update({
+    const updatedTicket = await prisma.ticketExhibition.update({
       where: {
-        id: existingTicket.regisData?.id,
+        id: ticketId,
       },
       data: {
-        verified: value === 'true' ? true : false,
-      },
-      include: {
-        tickets: true,
+        verified: true,
       },
     });
 
-    // const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
-    //   {
-    //     ticketId,
-    //     email: updatedTicket.email,
-    //   },
-    // )}&amp;size=200x200`;
+    isUpdated = true;
 
-    // // console.log(qr)
-    // const heading = '';
-    // const content = '';
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
+      {
+        ticketId,
+        userId: updatedTicket.userId,
+      },
+    )}&amp;size=200x200`;
 
-    // const mailOptions = {
-    //   from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-    //   to: updatedTicket.email,
-    //   subject: 'Your Ticket Verified',
-    //   html: render(
-    //     Email({
-    //       heading: heading,
-    //       content: content,
-    //       name: updatedTicket.name,
-    //       qrUrl: qrUrl,
-    //     }),
-    //     { pretty: true },
-    //   ),
-    // };
+    // console.log(qr)
+    const heading = '';
+    const content = '';
 
-    // await transporter.sendMail(mailOptions);
+    const mailOptions = {
+      from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+      to: updatedTicket.email,
+      subject: 'Your Ticket Verified',
+      html: render(
+        Email({
+          heading: heading,
+          content: content,
+          name: updatedTicket.nameCustomer,
+          qrUrl: qrUrl,
+        }),
+        { pretty: true },
+      ),
+    };
 
-    // // eslint-disable-next-line no-console
-    // console.log('PATCH_TICKET: email was sent');
+    await transporter.sendMail(mailOptions);
+
+    // eslint-disable-next-line no-console
+    console.log('PATCH_TICKET: email was sent');
 
     return NextResponse.json(
-      { ticket: updatedRegisData, message: 'Ticket data updated successful' },
+      { ticket: updatedTicket, message: 'Ticket data updated successful' },
       { status: 200 },
     );
   } catch (error) {
     if (error instanceof Error) {
+      if (isUpdated) {
+        await prisma.ticketExhibition.update({
+          where: {
+            id: ticketId,
+          },
+          data: {
+            verified: false,
+          },
+        });
+      }
       // eslint-disable-next-line no-console
-      console.log('ERROR_PATCH_TICKET_EXHI: ', error);
+      console.log('ERROR_PATCH_TICKET: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }
