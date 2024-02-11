@@ -98,13 +98,13 @@ export async function POST(req: NextRequest) {
         },
       ],
       customer_details: {
-        email: email
+        email: email,
       },
       enable_payments: ['bca_va', 'gopay'],
       callbacks: {
         finish: 'https://sandbox-ieee-72xwa2npu-sandboxieeeitb1.vercel.app/',
-        error: "https://sandbox-ieee-72xwa2npu-sandboxieeeitb1.vercel.app/",
-        pending: "https://sandbox-ieee-72xwa2npu-sandboxieeeitb1.vercel.app/",
+        error: 'https://sandbox-ieee-72xwa2npu-sandboxieeeitb1.vercel.app/',
+        pending: 'https://sandbox-ieee-72xwa2npu-sandboxieeeitb1.vercel.app/',
       },
     };
 
