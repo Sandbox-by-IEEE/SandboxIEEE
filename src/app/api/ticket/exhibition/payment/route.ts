@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     const fnd = exist.filter((v) => emails.includes(v.email));
 
-    console.log(exist)
+    console.log(exist);
 
     if (fnd.length > 0) {
       return NextResponse.json(
