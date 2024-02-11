@@ -12,7 +12,7 @@ const handleFailure = async (
   status: string,
   statusResponse: JsonObject,
 ) => {
-  if (status === 'pending') {
+  if (status === 'pending' || status === 'no-status') {
     const updated = await prisma.transactionDetail.update({
       where: {
         id: orderId,

@@ -33,7 +33,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const collectiveType = participants.length.toString();
+    let collectiveType = ""
+    const len = participants.length;
+
+    if (len === 1) {
+      collectiveType = 'single';
+    } else if (participants.length === 3) {
+      collectiveType = 'colective 3';
+    } else if (participants.length === 5) {
+      collectiveType = 'collective 5';
+    }
 
     const regisData = await prisma.regisExhiData.create({
       data: {

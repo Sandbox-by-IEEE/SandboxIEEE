@@ -416,7 +416,7 @@ export default function ExhibitionRegist() {
       const dataTicket = {
         paymentMethod: inputData.paymentMethod,
         paymentProof: inputData.paymentProofUrl,
-        registrationType: inputData.registrationType,
+        registrationType: generalStatus,
         participants: inputData.members.map((member) => {
           return {
             name: member.name,

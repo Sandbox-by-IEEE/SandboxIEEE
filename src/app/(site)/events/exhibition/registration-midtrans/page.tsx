@@ -468,12 +468,18 @@ export default function ExhibitionRegist() {
       });
 
       const resData = await res.json();
-
       console.log(resData);
 
-      const w = window as any;
+      if (!res.ok) {
+        callToast({
+          status: 'error',
+          description: resData.message,
+        });
+      } else {
+        const w = window as any;
 
-      w.snap.pay(resData.data.snapToken);
+        w.snap.pay(resData.data.snapToken);
+      }
     } catch (error) {
       callToast({
         status: 'error',
