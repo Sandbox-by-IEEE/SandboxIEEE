@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let collectiveType = ""
+    let collectiveType = '';
     const len = participants.length;
 
     if (len === 1) {
