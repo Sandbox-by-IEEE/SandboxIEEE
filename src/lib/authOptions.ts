@@ -469,7 +469,7 @@ export const authOptions: AuthOptions = {
                     : false,
               },
             },
-           
+
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
               teamId: currTeamPTC?.id,

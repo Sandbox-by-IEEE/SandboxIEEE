@@ -17,8 +17,8 @@ export async function GET(req: NextRequest) {
         },
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
 
     return NextResponse.json(
