@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
         },
       ],
       customer_details: {
-        email: email
+        email: email,
       },
       enable_payments: ['bca_va', 'gopay'],
       callbacks: {
