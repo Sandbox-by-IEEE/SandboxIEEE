@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
       },
       item_details: [
         {
-          name: `${prod} - - The Sandbox Exhibition and Seminar`,
+          name: `${prod} - The Sandbox Exhibition and Seminar`,
           price: price,
           quantity: 1,
         },
@@ -102,9 +102,9 @@ export async function POST(req: NextRequest) {
       },
       enable_payments: ['bca_va', 'gopay'],
       callbacks: {
-        finish: 'https://sandbox-ieee-72xwa2npu-sandboxieeeitb1.vercel.app/',
-        error: "https://sandbox-ieee-72xwa2npu-sandboxieeeitb1.vercel.app/",
-        pending: "https://sandbox-ieee-72xwa2npu-sandboxieeeitb1.vercel.app/",
+        finish: process.env.WEB_URL,
+        error: process.env.WEB_URL,
+        pending: process.env.WEB_URL,
       },
     };
 
