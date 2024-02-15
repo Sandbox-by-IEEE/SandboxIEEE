@@ -45,7 +45,7 @@ const handleFailure = async (
 
     // await Promise.all(deleted);
 
-    const heading = 'Verification Process for Your Ticket Purchase';
+    const heading = 'Registration Process for Your Grand Seminar Ticket';
     const content = '';
 
     // await prisma.transactionDetail.update({
@@ -71,7 +71,7 @@ const handleFailure = async (
       return transporter.sendMail({
         from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
         to: t.email,
-        subject: 'Verification Process for Your Ticket Purchase',
+        subject: 'Registration Process for Your Grand Seminar Ticket',
         html: render(
           Email({
             content: content,
@@ -89,7 +89,7 @@ const handleFailure = async (
     //   sender: {
     //     email: 'sandboxieeewebsite@gmail.com',
     //   },
-    //   subject: 'Verification Process for Your Ticket Purchase',
+    //   subject: 'Registration Process for Your Grand Seminar Ticket',
     //   messageVersions: updated.ticketGS.map((t) => {
     //     return {
     //       to: [
@@ -175,9 +175,9 @@ const handleSuccess = async (
     //   throw new Error(`Failed to create data, ${resBody.message}`);
     // }
 
-    const heading = 'Verification Process for Your Ticket Purchase';
+    const heading = 'Registration Process for Your Grand Seminar Ticket';
     const content =
-      'We would like to inform you that we have received your ticket purchase order. Currently, our team is in the process of verifying this transaction to ensure its security and accuracy. Please be patient for a moment, as our team is diligently working to expedite this verification. We promise to provide you with the latest update as soon as the verification process is completed. We appreciate your understanding and patience throughout this process. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
+      'We would like to inform you that we have received your ticket purchase order. This barcode below shows that you are confirmed as a Grand Seminar participant. You can show this barcode before the event starts and it will be scanned by the committee to verify your attendance. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards,';
 
     const promise = updated.ticketGS.map((t) => {
       const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
@@ -190,7 +190,7 @@ const handleSuccess = async (
       return transporter.sendMail({
         from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
         to: t.email,
-        subject: 'Verification Process for Your Ticket Purchase',
+        subject: 'Registration Process for Your Grand Seminar Ticket',
         html: render(
           Email({
             content: content,
