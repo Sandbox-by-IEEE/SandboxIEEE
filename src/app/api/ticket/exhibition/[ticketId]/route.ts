@@ -1,10 +1,9 @@
+import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 
+import Email from '@/components/emails/Emails';
 import { prisma } from '@/lib/db';
 import { transporter } from '@/lib/mailTransporter';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { render } from '@react-email/render';
-import Email from '@/components/emails/Emails';
 
 interface Params {
   ticketId: string;
