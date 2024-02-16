@@ -60,7 +60,6 @@ export async function PATCH(
     });
 
     if (value === 'true') {
-      const emails: Promise<SMTPTransport.SentMessageInfo>[] = [];
       const emailsTemp = updatedRegisData.tickets.map((t) => {
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
           {
@@ -91,8 +90,8 @@ export async function PATCH(
 
         return transporter.sendMail(mailOptions);
       });
-      emails.push(...emailsTemp);
 
+      await Promise.all(emailsTemp)
       // eslint-disable-next-line no-console
       console.log('PATCH_TICKET: email was sent');
     }
