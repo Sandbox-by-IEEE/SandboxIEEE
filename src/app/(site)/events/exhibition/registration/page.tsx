@@ -624,7 +624,7 @@ export default function ExhibitionRegist() {
                     <input
                       type='radio'
                       name='registrationType'
-                      id='single'
+                      id='Single'
                       className='scale-150'
                       onChange={handleChange}
                       checked={inputData.registrationType === 'Single'}

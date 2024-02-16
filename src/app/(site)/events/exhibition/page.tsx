@@ -236,7 +236,7 @@ const ExhibitionPage = async () => {
                   {exhibition.buttonTextRegister && (
                     <CustomLink
                       color='gold'
-                      url='/events/exhibition/registration-midtrans'
+                      url='/events/exhibition/registration'
                     >
                       {exhibition.buttonTextRegister}
                     </CustomLink>
