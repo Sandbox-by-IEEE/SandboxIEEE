@@ -70,7 +70,7 @@ export async function PATCH(
         // console.log(qr)
         const heading = 'Registration Process for Your Grand Seminar Ticket';
         const content =
-          'We would like to inform you that we have received your ticket purchase order. This barcode below shows that you are confirmed as a Grand Seminar participant. You can show this barcode before the event starts and it will be scanned by the committee to verify your attendance. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards, ';
+          'We would like to inform you that we have received your ticket order. The QRcode below confirms your registration for the Grand Seminar and Exhibition. You can present this barcode before the event starts, and it will be scanned by the committee to verify your attendance. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address <sandboxieeewebsite@gmail.com>. Thank you and warm regards,';
 
         const mailOptions = {
           from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
