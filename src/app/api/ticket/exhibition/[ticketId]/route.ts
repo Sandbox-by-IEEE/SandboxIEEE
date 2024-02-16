@@ -91,7 +91,7 @@ export async function PATCH(
         return transporter.sendMail(mailOptions);
       });
 
-      await Promise.all(emailsTemp)
+      await Promise.all(emailsTemp);
       // eslint-disable-next-line no-console
       console.log('PATCH_TICKET: email was sent');
     }
