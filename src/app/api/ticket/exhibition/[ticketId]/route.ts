@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/db';
+import { transporter } from '@/lib/mailTransporter';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { render } from '@react-email/render';
+import Email from '@/components/emails/Emails';
 
 interface Params {
   ticketId: string;
@@ -55,36 +59,43 @@ export async function PATCH(
       },
     });
 
-    // const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
-    //   {
-    //     ticketId,
-    //     email: updatedTicket.email,
-    //   },
-    // )}&amp;size=200x200`;
+    if (value === 'true') {
+      const emails: Promise<SMTPTransport.SentMessageInfo>[] = [];
+      const emailsTemp = updatedRegisData.tickets.map((t) => {
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
+          {
+            ticketId: t.id,
+            email: t.email,
+          },
+        )}&amp;size=200x200`;
 
-    // // console.log(qr)
-    // const heading = '';
-    // const content = '';
+        // console.log(qr)
+        const heading = 'Registration Process for Your Grand Seminar Ticket';
+        const content =
+          'We would like to inform you that we have received your ticket purchase order. This barcode below shows that you are confirmed as a Grand Seminar participant. You can show this barcode before the event starts and it will be scanned by the committee to verify your attendance. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address. Thank you and warm regards, ';
 
-    // const mailOptions = {
-    //   from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-    //   to: updatedTicket.email,
-    //   subject: 'Your Ticket Verified',
-    //   html: render(
-    //     Email({
-    //       heading: heading,
-    //       content: content,
-    //       name: updatedTicket.name,
-    //       qrUrl: qrUrl,
-    //     }),
-    //     { pretty: true },
-    //   ),
-    // };
+        const mailOptions = {
+          from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+          to: t.email,
+          subject: 'Registration Process for Your Grand Seminar Ticket',
+          html: render(
+            Email({
+              heading: heading,
+              content: content,
+              name: t.name,
+              qrUrl: qrUrl,
+            }),
+            { pretty: true },
+          ),
+        };
 
-    // await transporter.sendMail(mailOptions);
+        return transporter.sendMail(mailOptions);
+      });
+      emails.push(...emailsTemp);
 
-    // // eslint-disable-next-line no-console
-    // console.log('PATCH_TICKET: email was sent');
+      // eslint-disable-next-line no-console
+      console.log('PATCH_TICKET: email was sent');
+    }
 
     return NextResponse.json(
       { ticket: updatedRegisData, message: 'Ticket data updated successful' },
