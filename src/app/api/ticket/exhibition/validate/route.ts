@@ -47,6 +47,30 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
+    const data = {
+      ticketId,
+      value: true,
+    };
+
+    const response = await fetch(
+      `${process.env.SHEET_EXHI_MID}?type=attendance` || '',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      },
+    );
+
+    const resBody = await response.json();
+
+    // console.log(resBody)
+
+    if (resBody.status > 299 || resBody.status < 200) {
+      throw new Error(`Failed to create data, ${resBody.message}`);
+    }
+
     const updatedTicket = await prisma.ticketGS.update({
       where: {
         id: ticketId,

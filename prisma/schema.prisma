@@ -109,7 +109,7 @@ model TicketGS {
   id      String  @id @default(uuid())
   active  Boolean @default(false)
   name    String
-  email   String  @unique
+  email   String 
   phone   String
   idLine  String
   regisId String?
@@ -218,7 +218,7 @@ model Karya {
 model TransactionDetail {
   id               String     @id @default(uuid())
   total            BigInt
-  status           String     @default("pending")
+  status           String     @default("no-status")
   statusData       String     @default("waiting")
   customerName     String
   customerEmail    String
@@ -230,4 +230,5 @@ model TransactionDetail {
   User             User       @relation(fields: [userId], references: [id])
   ticketGS         TicketGS[]
   metadata         Json?
+  deletedData      Json?
 }
