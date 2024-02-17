@@ -85,7 +85,7 @@ const MentorCarousel: React.FC<MentorsCarouselProps> = ({ options }) => {
               {/* Background */}
               <Image
                 src={option.image.url}
-                className='w-full h-full object-cover object-center'
+                className='w-[220px] h-[320px] md:w-[308px] md:h-[400px] object-cover object-center'
                 width={option.image.width}
                 height={option.image.height}
                 alt={option.image.title}
