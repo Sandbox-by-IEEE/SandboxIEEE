@@ -97,7 +97,19 @@ export const authOptions: AuthOptions = {
             }
           : undefined;
 
-        const ticketGS = await prisma.ticketGS.findUnique({
+        const ticketGSMid = await prisma.ticketGS.findFirst({
+          where: {
+            email: existingUser.email || '',
+            transactionDetail: {
+              status: 'success',
+            },
+          },
+          include: {
+            transactionDetail: true,
+          },
+        });
+
+        const ticketGS = await prisma.ticketGS.findFirst({
           where: {
             email: existingUser.email || '',
           },
@@ -208,13 +220,21 @@ export const authOptions: AuthOptions = {
           },
           ticket: {
             exhibition: {
-              buy: ticketGS ? true : false,
-              active: ticketGS ? ticketGS.active : false,
-              verified:
-                ticketGS && ticketGS.regisData
-                  ? ticketGS.regisData.verified
-                  : false,
+              midtrans: {
+                buy: ticketGSMid ? true : false,
+                active: ticketGSMid ? ticketGSMid.active : false,
+                verified: ticketGSMid?.transactionDetail?.status || '',
+              },
+              normal: {
+                buy: ticketGS ? true : false,
+                active: ticketGS ? ticketGS.active : false,
+                verified:
+                  ticketGS && ticketGS.regisData
+                    ? ticketGS.regisData.verified
+                    : false,
+              },
             },
+
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
               teamId: currTeamPTC?.id,
@@ -273,6 +293,12 @@ export const authOptions: AuthOptions = {
               },
             },
           },
+          ticketsExhibition: {
+            select: {
+              active: true,
+              verified: true,
+            },
+          },
           ticketsCompetition: {
             select: {
               competitionType: true,
@@ -306,7 +332,19 @@ export const authOptions: AuthOptions = {
           }
         : undefined;
 
-      const ticketGS = await prisma.ticketGS.findUnique({
+      const ticketGSMid = await prisma.ticketGS.findFirst({
+        where: {
+          email: existingUser.email || '',
+          transactionDetail: {
+            status: 'success',
+          },
+        },
+        include: {
+          transactionDetail: true,
+        },
+      });
+
+      const ticketGS = await prisma.ticketGS.findFirst({
         where: {
           email: existingUser.email || '',
         },
@@ -417,13 +455,21 @@ export const authOptions: AuthOptions = {
           },
           ticket: {
             exhibition: {
-              buy: ticketGS ? true : false,
-              active: ticketGS ? ticketGS.active : false,
-              verified:
-                ticketGS && ticketGS.regisData
-                  ? ticketGS.regisData.verified
-                  : false,
+              midtrans: {
+                buy: ticketGSMid ? true : false,
+                active: ticketGSMid ? ticketGSMid.active : false,
+                verified: ticketGSMid?.transactionDetail?.status || '',
+              },
+              normal: {
+                buy: ticketGS ? true : false,
+                active: ticketGS ? ticketGS.active : false,
+                verified:
+                  ticketGS && ticketGS.regisData
+                    ? ticketGS.regisData.verified
+                    : false,
+              },
             },
+
             PTC: {
               isLeader: currTeamPTC?.chairmanEmail === existingUser.email,
               teamId: currTeamPTC?.id,

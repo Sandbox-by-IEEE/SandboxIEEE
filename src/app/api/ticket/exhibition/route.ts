@@ -26,14 +26,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    if (session.user.ticket?.exhibition && session.user.ticket.exhibition.buy) {
+    if (
+      session.user.ticket?.exhibition &&
+      session.user.ticket.exhibition.normal.buy
+    ) {
       return NextResponse.json(
         { message: 'You have purchased Exhibition tickets before' },
         { status: 400 },
       );
     }
 
-    const collectiveType = participants.length.toString();
+    let collectiveType = '';
+    const len = participants.length;
+
+    if (len === 1) {
+      collectiveType = 'single';
+    } else if (participants.length === 3) {
+      collectiveType = 'colective 3';
+    } else if (participants.length === 5) {
+      collectiveType = 'collective 5';
+    }
 
     const regisData = await prisma.regisExhiData.create({
       data: {

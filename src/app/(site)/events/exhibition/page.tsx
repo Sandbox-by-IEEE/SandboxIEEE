@@ -1,13 +1,13 @@
+import { type Metadata } from 'next';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Link from 'next/link';
+import { StructuredText } from 'react-datocms/structured-text';
 const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
 });
-import { type Metadata } from 'next';
-import Image from 'next/image';
-import React from 'react';
-import { StructuredText } from 'react-datocms/structured-text';
 
+import Button from '@/components/Button';
 // import CommingSoonPage from '@/app/(site)/coming-soon/page';
 import { FAQ } from '@/components/FAQ';
 import LazyLoadMap from '@/components/lazy-load-map';
@@ -219,38 +219,23 @@ const ExhibitionPage = async () => {
       )}
 
       {/* CountDown */}
-      {exhibition.countdownTitle && (
-        <section className='w-full flex flex-col gap-2  px-6 sm:px-10 md:px-20 lg:px-40'>
-          <div
-            data-aos='flip-up'
-            className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
-          >
-            <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
-              {/* Title */}
-              <TitleSection>{exhibition.countdownTitle}</TitleSection>
-              {/* Countdown */}
-              {/* <Countdown targetDate={new Date(2023, 9, 20)}/> */}
-              {/* Button */}
-              <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-                <div data-aos='zoom-in'>
-                  {exhibition.buttonTextRegister && (
-                    <CustomLink color='gold' url='/events/exhibition'>
-                      {exhibition.buttonTextRegister}
-                    </CustomLink>
-                  )}
-                </div>
-                <div data-aos='zoom-in'>
-                  <CustomLink
-                    color='trans-orange'
-                    url={'#Timeline ' + exhibition.buttonTextSeeMote}
-                  >
-                    {exhibition.buttonTextSeeMote}
-                  </CustomLink>
-                </div>
-              </div>
+      {exhibition.countdownTitle && exhibition.targetDate && (
+        <Countdown
+          sectionTitle={exhibition.countdownTitle}
+          targetDate={new Date(exhibition.targetDate)}
+          type='exhibition'
+        >
+          <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
+            <div data-aos='zoom-in'>
+              <Button color='gold'>{exhibition.buttonTextRegister}</Button>
+            </div>
+            <div data-aos='zoom-in'>
+              <CustomLink color='trans-orange' url='#seemore'>
+                {exhibition.buttonTextSeeMore}
+              </CustomLink>
             </div>
           </div>
-        </section>
+        </Countdown>
       )}
 
       {/* Voting Regulations */}
