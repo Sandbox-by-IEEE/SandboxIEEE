@@ -535,10 +535,11 @@ const CountDownDisplay = ({
   const ticket =
     (type !== 'exhibition' && sessionData?.user.ticket?.[type]) || null;
   if (
-    ticket === null ||
-    ticket.buy == false ||
-    !sessionData?.user ||
-    ticket?.verified !== 'verified'
+    type !== 'exhibition' &&
+    (ticket === null ||
+      ticket.buy == false ||
+      !sessionData?.user ||
+      ticket?.verified !== 'verified')
   )
     return <></>;
   else {

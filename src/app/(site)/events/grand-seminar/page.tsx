@@ -1,14 +1,9 @@
-import dynamic from 'next/dynamic';
-import React from 'react';
-
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
-
 import { type Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
+import Button from '@/components/Button';
 import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
 import MentorCards from '@/components/mentorCards';
@@ -16,6 +11,10 @@ import MentorCarousel from '@/components/mentorsCarousel';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { GrandSeminarPageProps } from '@/types/grand-seminar';
+
+const Countdown = dynamic(() => import('@/components/Countdown'), {
+  ssr: false,
+});
 
 // import CommingSoonPage from '@/app/(site)/coming-soon/page';
 
@@ -171,38 +170,23 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* CountDown */}
-      {grandSeminar.targetDate && grandSeminar.countdownTitle && (
-        <section className='w-full flex flex-col gap-2  px-8 sm:px-10 md:px-20 lg:px-40'>
-          <div
-            data-aos='flip-up'
-            className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
-          >
-            <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
-              {/* Title */}
-              <TitleSection>{grandSeminar.countdownTitle}</TitleSection>
-              {/* Countdown */}
-              {/* <Countdown targetDate={new Date(2023, 9, 20)} /> */}
-              {/* Button */}
-              <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-                <div data-aos='zoom-in'>
-                  {grandSeminar.buttonTextRegister && (
-                    <CustomLink
-                      color='gold'
-                      url='/events/exhibition/registration'
-                    >
-                      {grandSeminar.buttonTextRegister}
-                    </CustomLink>
-                  )}
-                </div>
-                <div data-aos='zoom-in'>
-                  <CustomLink color='trans-orange' url='#seemore'>
-                    {grandSeminar.buttonTextSeeMoreCountdown}
-                  </CustomLink>
-                </div>
-              </div>
+      {grandSeminar.countdownTitle && grandSeminar.targetDate && (
+        <Countdown
+          sectionTitle={grandSeminar.countdownTitle}
+          targetDate={new Date(grandSeminar.targetDate)}
+          type='exhibition'
+        >
+          <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
+            <div data-aos='zoom-in'>
+              <Button color='gold'>{grandSeminar.buttonTextRegister}</Button>
+            </div>
+            <div data-aos='zoom-in'>
+              <CustomLink color='trans-orange' url='#seemore'>
+                {grandSeminar.buttonTextSeeMoreCountdown}
+              </CustomLink>
             </div>
           </div>
-        </section>
+        </Countdown>
       )}
 
       {grandSeminar.detailSpeakerSectionTitle && (

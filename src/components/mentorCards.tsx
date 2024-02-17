@@ -15,13 +15,13 @@ const MentorCards: React.FC<MentorCardsProps> = ({ options }) => {
           key={index}
           className={`w-[270px] sm:w-full lg:max-w-[1000px] flex bg-dark-green ${
             index % 2 == 1 ? 'sm:flex-row-reverse' : 'sm:flex-row'
-          } h-fit rounded-3xl flex-col sm:flex-row shadow-[0px_0px_10px_5px_rgba(0,0,0,1)] shadow-[#8c6e47] overflow-hidden`}
+          } h-fit rounded-3xl flex-col sm:flex-row shadow-[0px_0px_10px_5px_rgba(0,0,0,1)] shadow-[#8c6e47] overflow-hidden items-center sm:items-stretch`}
           data-aos={index % 2 === 1 ? 'fade-left' : 'fade-right'}
         >
           {/* Setting for div imageUrl and the text imageUrl */}
           <Image
             src={option.image.url}
-            className={`w-full sm:w-[250px] md:w-[300px] xl:w-[400px] h-[250px] sm:min-h-[300px] lg:min-h-[350px] object-cover object-center`}
+            className={`w-full sm:w-[250px] md:w-[300px] xl:w-[400px] h-auto sm:min-h-[300px] lg:min-h-[350px] object-cover object-center`}
             width={option.image.width}
             height={option.image.height}
             alt={option.image.title}
