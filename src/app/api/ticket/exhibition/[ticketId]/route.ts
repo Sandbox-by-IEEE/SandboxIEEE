@@ -13,8 +13,9 @@ export async function PATCH(
   req: NextRequest,
   { params: { ticketId } }: { params: Params },
 ) {
-  let isUpdated = false;
   try {
+    const value = req.nextUrl.searchParams.get('value');
+
     if (!ticketId) {
       return NextResponse.json(
         { message: 'Missing parameter!!' },
@@ -22,9 +23,12 @@ export async function PATCH(
       );
     }
 
-    const existingTicket = await prisma.ticketExhibition.findUnique({
+    const existingTicket = await prisma.ticketGS.findUnique({
       where: {
         id: ticketId,
+      },
+      include: {
+        regisData: true,
       },
     });
 
@@ -35,73 +39,70 @@ export async function PATCH(
       );
     }
 
-    if (existingTicket.verified) {
+    if (existingTicket.regisData?.verified) {
       return NextResponse.json(
         { message: 'Ticket has been verified' },
         { status: 400 },
       );
     }
 
-    const updatedTicket = await prisma.ticketExhibition.update({
+    const updatedRegisData = await prisma.regisExhiData.update({
       where: {
-        id: ticketId,
+        id: existingTicket.regisData?.id,
       },
       data: {
-        verified: true,
+        verified: value === 'true' ? true : false,
+      },
+      include: {
+        tickets: true,
       },
     });
 
-    isUpdated = true;
+    if (value === 'true') {
+      const emailsTemp = updatedRegisData.tickets.map((t) => {
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
+          {
+            ticketId: t.id,
+            email: t.email,
+          },
+        )}&amp;size=200x200`;
 
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
-      {
-        ticketId,
-        userId: updatedTicket.userId,
-      },
-    )}&amp;size=200x200`;
+        // console.log(qr)
+        const heading = 'Registration Process for Your Grand Seminar Ticket';
+        const content =
+          'We would like to inform you that we have received your ticket order. The QRcode below confirms your registration for the Grand Seminar and Exhibition. You can present this barcode before the event starts, and it will be scanned by the committee to verify your attendance. If you have any questions or need further assistance, please do not hesitate to contact our support team at this email address <sandboxieeewebsite@gmail.com>. Thank you and warm regards,';
 
-    // console.log(qr)
-    const heading = '';
-    const content = '';
+        const mailOptions = {
+          from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
+          to: t.email,
+          subject: 'Registration Process for Your Grand Seminar Ticket',
+          html: render(
+            Email({
+              heading: heading,
+              content: content,
+              name: t.name,
+              qrUrl: qrUrl,
+            }),
+            { pretty: true },
+          ),
+        };
 
-    const mailOptions = {
-      from: '"Sandbox IEEE" <sandboxieeewebsite@gmail.com>',
-      to: updatedTicket.email,
-      subject: 'Your Ticket Verified',
-      html: render(
-        Email({
-          heading: heading,
-          content: content,
-          name: updatedTicket.nameCustomer,
-          qrUrl: qrUrl,
-        }),
-        { pretty: true },
-      ),
-    };
+        return transporter.sendMail(mailOptions);
+      });
 
-    await transporter.sendMail(mailOptions);
-
-    // eslint-disable-next-line no-console
-    console.log('PATCH_TICKET: email was sent');
+      await Promise.all(emailsTemp);
+      // eslint-disable-next-line no-console
+      console.log('PATCH_TICKET: email was sent');
+    }
 
     return NextResponse.json(
-      { ticket: updatedTicket, message: 'Ticket data updated successful' },
+      { ticket: updatedRegisData, message: 'Ticket data updated successful' },
       { status: 200 },
     );
   } catch (error) {
     if (error instanceof Error) {
-      if (isUpdated) {
-        await prisma.ticketExhibition.update({
-          where: {
-            id: ticketId,
-          },
-          data: {
-            verified: false,
-          },
-        });
-      }
       // eslint-disable-next-line no-console
-      console.log('ERROR_PATCH_TICKET: ', error);
+      console.log('ERROR_PATCH_TICKET_EXHI: ', error);
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }

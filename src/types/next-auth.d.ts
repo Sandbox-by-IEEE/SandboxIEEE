@@ -21,9 +21,16 @@ declare module 'next-auth' {
     };
     ticket?: {
       exhibition: {
-        buy: boolean;
-        verified: boolean;
-        active: boolean;
+        normal: {
+          buy: boolean;
+          verified: boolean;
+          active: boolean;
+        };
+        midtrans: {
+          buy: boolean;
+          verified: string;
+          active: boolean;
+        };
       };
       TPC: {
         isLeader: boolean;
@@ -65,9 +72,16 @@ declare module 'next-auth' {
       };
       ticket?: {
         exhibition: {
-          buy: boolean;
-          verified: boolean;
-          active: boolean;
+          normal: {
+            buy: boolean;
+            verified: boolean;
+            active: boolean;
+          };
+          midtrans: {
+            buy: boolean;
+            verified: string;
+            active: boolean;
+          };
         };
         TPC: {
           isLeader: boolean;
