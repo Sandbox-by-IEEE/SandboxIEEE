@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import Button from '@/components/Button';
-import { FAQ } from '@/components/FAQ';
 import CustomLink from '@/components/Link';
 import MentorCards from '@/components/mentorCards';
 import MentorCarousel from '@/components/mentorsCarousel';
@@ -230,14 +229,14 @@ const ExhibitionPage = async () => {
         </div>
       )}
       {/* FAQ */}
-      <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
+      {/* <section className='w-full flex flex-col px-8 sm:px-10 md:px-20 lg:px-40 items-center justify-center gap-10 pb-20'>
         <TitleSection>{grandSeminar.faqSectionTitle}</TitleSection>
         <div className='w-full h-full flex flex-col gap-3'>
           {faqData.map((faq, index) => (
             <FAQ key={index} question={faq.question} answer={faq.answer} />
           ))}
         </div>
-      </section>
+      </section> */}
     </main>
   );
 };
