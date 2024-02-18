@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
-import Button from '@/components/Button';
 import CustomLink from '@/components/Link';
 import MentorCards from '@/components/mentorCards';
 import MentorCarousel from '@/components/mentorsCarousel';
@@ -177,7 +176,10 @@ const ExhibitionPage = async () => {
         >
           <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
             <div data-aos='zoom-in'>
-              <Button color='gold'>{grandSeminar.buttonTextRegister}</Button>
+              {/* <Button onClick={()=> {RegisterHandle()}} color='gold'>{grandSeminar.buttonTextRegister}</Button> */}
+              <CustomLink color='gold' url='/events/exhibition/registration'>
+                {grandSeminar.buttonTextRegister}
+              </CustomLink>
             </div>
             <div data-aos='zoom-in'>
               <CustomLink color='trans-orange' url='#seemore'>
