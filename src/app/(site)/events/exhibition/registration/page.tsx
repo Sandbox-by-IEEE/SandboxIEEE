@@ -781,7 +781,7 @@ export default function ExhibitionRegist() {
                     fileName: inputData?.paymentProofName,
                     fileUrl: inputData?.paymentProofUrl,
                   }}
-                  allowedFileTypes={['application/pdf']}
+                  allowedFileTypes={['application/pdf', 'image/*']}
                   setFile={(newFiles) => {
                     setInputData((inputData) => {
                       const newInputData = { ...inputData };
