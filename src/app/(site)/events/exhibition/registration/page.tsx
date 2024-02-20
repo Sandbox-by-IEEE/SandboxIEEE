@@ -700,7 +700,7 @@ export default function ExhibitionRegist() {
                 Bank Account Username
               </label>
               <p className='mb-2'>
-                Please enter the you bank account username correctly
+                Please enter your bank account username correctly
               </p>
               <TextInput
                 placeholder={''}
