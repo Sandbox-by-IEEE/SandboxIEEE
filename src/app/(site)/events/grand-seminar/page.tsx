@@ -85,6 +85,10 @@ const ExhibitionPage = async () => {
     query: CMS_QUERY,
     revalidate: 0,
   });
+
+  const WIBtargetDate = new Date(grandSeminar.targetDate);
+  WIBtargetDate.setHours(WIBtargetDate.getHours() + 17);
+
   // return <CommingSoonPage />;
   return (
     <main className='w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#152d1b] via-[90%] to-[#0f2f15] gap-16 lg:gap-20 xl:gap-24 2xl:gap-28'>
@@ -171,7 +175,8 @@ const ExhibitionPage = async () => {
       {grandSeminar.countdownTitle && grandSeminar.targetDate && (
         <Countdown
           sectionTitle={grandSeminar.countdownTitle}
-          targetDate={new Date(grandSeminar.targetDate)}
+          // targetDate={new Date(grandSeminar.targetDate)}
+          targetDate={new Date(WIBtargetDate)}
           type='exhibition'
         >
           <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
