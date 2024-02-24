@@ -26,7 +26,7 @@ export default function QRCode() {
       setIsLoading(true);
       const data = JSON.parse(scanCode);
 
-      console.log(data)
+      // console.log(data)
 
       const response = await fetch('/api/ticket/exhibition/validate', {
         method: 'PATCH',
@@ -38,6 +38,7 @@ export default function QRCode() {
       });
 
       const bodyResponse = await response.json();
+      // console.log(bodyResponse)
       if (!response.ok) {
         callToast({
           status: 'error',
