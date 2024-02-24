@@ -110,6 +110,9 @@ const ExhibitionPage = async () => {
     revalidate: 0,
   });
 
+  const WIBtargetDate = new Date(exhibition.targetDate);
+  WIBtargetDate.setHours(WIBtargetDate.getHours() + 17);
+
   return (
     <main className='w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#152d1b] via-[90%] to-[#0f2f15] gap-16 lg:gap-20 xl:gap-24 2xl:gap-28'>
       {/* Background Section */}
@@ -222,7 +225,7 @@ const ExhibitionPage = async () => {
       {exhibition.countdownTitle && exhibition.targetDate && (
         <Countdown
           sectionTitle={exhibition.countdownTitle}
-          targetDate={new Date(exhibition.targetDate)}
+          targetDate={new Date(WIBtargetDate)}
           type='exhibition'
         >
           <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>

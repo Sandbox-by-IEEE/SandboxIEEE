@@ -26,8 +26,10 @@ export default function QRCode() {
       setIsLoading(true);
       const data = JSON.parse(scanCode);
 
-      const response = await fetch('/api/ticket/exhibition/validate3', {
-        method: 'POST',
+      console.log(data)
+
+      const response = await fetch('/api/ticket/exhibition/validate', {
+        method: 'PATCH',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
