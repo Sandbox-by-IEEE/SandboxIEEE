@@ -20,21 +20,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
 
-    // if (!session) {
-    //   return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    // }
+    if (!session) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
 
-    // if (
-    //   session.user.ticket?.exhibition &&
-    //   session.user.ticket.exhibition.normal.buy
-    // ) {
-    //   return NextResponse.json(
-    //     { message: 'You have purchased Exhibition tickets before' },
-    //     { status: 400 },
-    //   );
-    // }
+    if (
+      session.user.ticket?.exhibition &&
+      session.user.ticket.exhibition.normal.buy
+    ) {
+      return NextResponse.json(
+        { message: 'You have purchased Exhibition tickets before' },
+        { status: 400 },
+      );
+    }
 
     let collectiveType = '';
     const len = participants.length;
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     if (len === 1) {
       collectiveType = 'single';
     } else if (participants.length === 3) {
-      collectiveType = 'colective 3';
+      collectiveType = 'collective 3';
     } else if (participants.length === 5) {
       collectiveType = 'collective 5';
     }
@@ -53,8 +53,8 @@ export async function POST(req: NextRequest) {
         paymentProof,
         registrationType,
         collectiveType,
-        // userId: session.user.id,
-        userId: 'cls79p4ut0000botcaognv5hr',
+        userId: session.user.id,
+        // userId: 'cls79p4ut0000botcaognv5hr',
       },
     });
 
