@@ -69,7 +69,7 @@ const FormDetails2 = ({
       label: 'Email',
       name: 'email',
       subLabel:
-        'Please nter the participant’s email that is integrated with the Sandbox account',
+        'Please enter the participant’s email that is integrated with the Sandbox account',
       type: 'email',
     },
     {
