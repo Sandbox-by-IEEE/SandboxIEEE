@@ -29,17 +29,29 @@ const CollectionVoteCards = ({
 }) => {
   const [voteStatus, setVoteStatus] = useState<string>('');
   const [tempVoteStatus, setTempVoteStatus] = useState<string>('');
+  const [tempVoteStatus2, setTempVoteStatus2] = useState<string>('');
   const [voteSelected, setVoteSelected] = useState<boolean>(false);
 
   // Handle vote onClick Card
-  const handleChange = (id: string) => {
+  const handleChange = (id: string, teamsName: string) => {
     setIsOpenModal(true);
     setSelectedCardId(title);
     setTempVoteStatus(id);
+    setTempVoteStatus2(teamsName);
   };
 
-  const handleOnSubmit = async (karyaId: string) => {
-    const res = await fetch(`/api/voting/${karyaId}`, {
+  const handleOnSubmit = async (karyaId: string, teamsName: string) => {
+    // const name = "Margaji"
+    // const id = "df450508-ce3f-40ca-8235-f6304357a58d"
+    // const res = await fetch(`/api/voting/team/${teamsName}`, {
+    //   method: 'PATCH',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    // });
+
+    const res = await fetch(`/api/voting/karya/${karyaId}`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
@@ -54,17 +66,18 @@ const CollectionVoteCards = ({
     }
 
     callToast({ status: 'success', description: 'Voting berhasil!' });
+    console.log(karyaId, teamsName);
   };
 
   // Handle onVote onClick Modal Button
-  const handleVote = (id: string) => {
+  const handleVote = (id: string, teamsName: string) => {
     setVoteSelected(true);
     setVoteStatus(id);
     if (voteSelectedId) {
       voteSelectedId(id);
     }
     setIsOpenModal(false);
-    handleOnSubmit(id);
+    handleOnSubmit(id, teamsName);
     setSelectedCardId(null);
   };
 
@@ -93,7 +106,7 @@ const CollectionVoteCards = ({
             imageWidth={card.image.width}
             isVoted={true}
             onVote={() => {
-              handleChange(card.id);
+              handleChange(card.id, card.teamsName);
             }}
             alreadyVoted={voteStatus === card.id}
             isDisabled={voteSelected}
@@ -107,7 +120,7 @@ const CollectionVoteCards = ({
           buttonText1='Cancel'
           buttonText2='Vote'
           onClickButtonOne={() => setIsOpenModal(false)}
-          onClickButtonTwo={() => handleVote(tempVoteStatus)}
+          onClickButtonTwo={() => handleVote(tempVoteStatus, tempVoteStatus2)}
         />
       )}
     </section>
