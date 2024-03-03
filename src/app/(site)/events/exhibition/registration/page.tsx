@@ -210,17 +210,13 @@ export default function ExhibitionRegist() {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
         if (generalStatus == 'Early' || generalStatus == 'Special') {
-          if (
-            newInputData.memberCount == 1 ||
-            newInputData.memberCount == 3 ||
-            newInputData.memberCount == 5
-          ) {
+          if (newInputData.memberCount == 1 || newInputData.memberCount == 3) {
             // do nothing
           } else {
             newInputData.memberCount = inputData.memberCount;
             callToast({
               status: 'error',
-              description: 'Member count must be 1, 3 or 5',
+              description: 'Member count must be 1 or 3',
             });
           }
         } else if (generalStatus == 'Normal') {
