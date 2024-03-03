@@ -32,7 +32,7 @@ export const authOptions: AuthOptions = {
             username: credentials?.username,
           },
           include: {
-            karya: {
+            votesKarya: {
               select: {
                 id: true,
                 countVote: true,
@@ -44,6 +44,11 @@ export const authOptions: AuthOptions = {
                     id: true,
                     teamName: true,
                     chairmanName: true,
+                    ticketCompetition: {
+                      select: {
+                        competitionType: true,
+                      },
+                    },
                   },
                 },
               },
@@ -85,17 +90,45 @@ export const authOptions: AuthOptions = {
           throw new Error('Wrong password');
         }
 
-        const karya = existingUser.karya
-          ? {
-              ...existingUser.karya,
-              countVote: parseInt(
-                existingUser.karya?.countVote.toString() || '0',
-              ),
-              linkFullPaper: existingUser.karya.linkFullPaper || '',
-              linkVideo: existingUser.karya.linkVideo || '',
-              linkVideo2: existingUser.karya.linkVideo2 || '',
-            }
-          : undefined;
+        
+
+        const karyaPTCArr = existingUser.votesKarya.filter(
+          (k) => k.team.ticketCompetition.competitionType === 'PTC',
+        );
+
+        let karyaPTC;
+        if (karyaPTCArr.length > 0) {
+          karyaPTC = {
+            ...karyaPTCArr[0],
+            countVote: parseInt(
+              karyaPTCArr[0].countVote.toString() || '0',
+            ),
+            linkFullPaper: karyaPTCArr[0].linkFullPaper || '',
+            linkVideo: karyaPTCArr[0].linkVideo || '',
+            linkVideo2: karyaPTCArr[0].linkVideo2 || '',
+          };
+        } else {
+          karyaPTC = undefined
+        }
+
+        const karyaTPCArr = existingUser.votesKarya.filter(
+          (k) => k.team.ticketCompetition.competitionType === 'TPC',
+        );
+
+        let karyaTPC;
+        if (karyaTPCArr.length > 0) {
+          karyaTPC = {
+            ...karyaTPCArr[0],
+            countVote: parseInt(
+              karyaTPCArr[0].countVote.toString() || '0',
+            ),
+            linkFullPaper: karyaTPCArr[0].linkFullPaper || '',
+            linkVideo: karyaTPCArr[0].linkVideo || '',
+            linkVideo2: karyaTPCArr[0].linkVideo2 || '',
+          };
+        } else {
+          karyaTPC = undefined
+        }
 
         const ticketGSMid = await prisma.ticketGS.findFirst({
           where: {
@@ -215,8 +248,14 @@ export const authOptions: AuthOptions = {
           email: existingUser.email,
           image: existingUser.image || '',
           vote: {
-            karya: karya,
-            status: existingUser.karya ? true : false,
+            PTC: {
+              karya: karyaPTC,
+              status: karyaPTC ? true: false
+            },
+            TPC: {
+              karya: karyaTPC,
+              status: karyaTPC ? true: false
+            }
           },
           ticket: {
             exhibition: {
@@ -277,7 +316,7 @@ export const authOptions: AuthOptions = {
           id: token.sub,
         },
         include: {
-          karya: {
+          votesKarya: {
             select: {
               id: true,
               countVote: true,
@@ -289,6 +328,11 @@ export const authOptions: AuthOptions = {
                   id: true,
                   teamName: true,
                   chairmanName: true,
+                  ticketCompetition: {
+                    select: {
+                      competitionType: true
+                    }
+                  }
                 },
               },
             },
@@ -320,17 +364,43 @@ export const authOptions: AuthOptions = {
         };
       }
 
-      const karya = existingUser.karya
-        ? {
-            ...existingUser.karya,
-            countVote: parseInt(
-              existingUser.karya?.countVote.toString() || '0',
-            ),
-            linkFullPaper: existingUser.karya.linkFullPaper || '',
-            linkVideo: existingUser.karya.linkVideo || '',
-            linkVideo2: existingUser.karya.linkVideo2 || '',
-          }
-        : undefined;
+      const karyaPTCArr = existingUser.votesKarya.filter(
+        (k) => k.team.ticketCompetition.competitionType === 'PTC',
+      );
+
+      let karyaPTC;
+      if (karyaPTCArr.length > 0) {
+        karyaPTC = {
+          ...karyaPTCArr[0],
+          countVote: parseInt(
+            karyaPTCArr[0].countVote.toString() || '0',
+          ),
+          linkFullPaper: karyaPTCArr[0].linkFullPaper || '',
+          linkVideo: karyaPTCArr[0].linkVideo || '',
+          linkVideo2: karyaPTCArr[0].linkVideo2 || '',
+        };
+      } else {
+        karyaPTC = undefined
+      }
+
+      const karyaTPCArr = existingUser.votesKarya.filter(
+        (k) => k.team.ticketCompetition.competitionType === 'TPC',
+      );
+
+      let karyaTPC;
+      if (karyaTPCArr.length > 0) {
+        karyaTPC = {
+          ...karyaTPCArr[0],
+          countVote: parseInt(
+            karyaTPCArr[0].countVote.toString() || '0',
+          ),
+          linkFullPaper: karyaTPCArr[0].linkFullPaper || '',
+          linkVideo: karyaTPCArr[0].linkVideo || '',
+          linkVideo2: karyaTPCArr[0].linkVideo2 || '',
+        };
+      } else {
+        karyaTPC = undefined
+      }
 
       const ticketGSMid = await prisma.ticketGS.findFirst({
         where: {
@@ -450,8 +520,16 @@ export const authOptions: AuthOptions = {
           username: existingUser.username || '',
           image: existingUser.image || token.picture || '',
           vote: {
-            karya: karya,
-            status: existingUser.karya ? true : false,
+            vote: {
+              PTC: {
+                karya: karyaPTC,
+                status: karyaPTC ? true: false
+              },
+              TPC: {
+                karya: karyaTPC,
+                status: karyaTPC ? true: false
+              }
+            },
           },
           ticket: {
             exhibition: {
