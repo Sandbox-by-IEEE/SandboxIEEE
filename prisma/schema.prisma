@@ -25,7 +25,8 @@ model User {
   ticketsExhibition  TicketExhibition?
   accounts           Account[]
   sessions           Session[]
-  karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade)
+  karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade, name: "OldKaryaRelation")
+  votesKarya           Karya[]             @relation(name: "NewKaryaRelation")
   activateToken      ActivateToken[]
   resetToken         ResetToken[]
   regisExhiData      RegisExhiData?
@@ -109,7 +110,7 @@ model TicketGS {
   id      String  @id @default(uuid())
   active  Boolean @default(false)
   name    String
-  email   String 
+  email   String
   phone   String
   idLine  String
   regisId String?
@@ -209,8 +210,8 @@ model Karya {
   linkVideo     String?
   linkVideo2    String?
   countVote     BigInt  @default(0)
-  usersVote     User[]
-
+  usersVote     User[]  @relation(name: "OldKaryaRelation")
+  usersVoteNew  User[]  @relation(name: "NewKaryaRelation")
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
