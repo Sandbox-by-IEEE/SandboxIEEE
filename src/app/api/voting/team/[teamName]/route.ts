@@ -5,37 +5,69 @@ import { authOptions } from '@/lib/authOptions';
 import { prisma } from '@/lib/db';
 
 interface Params {
-  karyaId: string;
+  teamName: string;
 }
 
 export async function PATCH(
   req: NextRequest,
-  { params: { karyaId } }: { params: Params },
+  { params: { teamName } }: { params: Params },
 ) {
   let isUpdated = false;
   let countTemp = 0;
+  let idTemp = '';
   const session = await getServerSession(authOptions);
   try {
     if (!session?.user) {
       return NextResponse.json({ message: 'Unautorized' }, { status: 401 });
     }
 
-    if (!karyaId) {
+    if (!teamName) {
       return NextResponse.json(
-        { message: 'Missing karya id!!!' },
+        { message: 'Missing team name!!!' },
         { status: 400 },
+      );
+    }
+
+    const existingTeam = await prisma.team.findUnique({
+      where: {
+        teamName: teamName,
+      },
+      select: {
+        karya: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (!existingTeam || !existingTeam.karya) {
+      return NextResponse.json(
+        { message: 'Team name invalid' },
+        { status: 404 },
       );
     }
 
     const existingKarya = await prisma.karya.findUnique({
       where: {
-        id: karyaId,
+        id: existingTeam.karya.id,
+      },
+      include: {
+        team: {
+          include: {
+            ticketCompetition: {
+              select: {
+                competitionType: true,
+              },
+            },
+          },
+        },
       },
     });
 
     if (!existingKarya) {
       return NextResponse.json(
-        { message: 'karya id invalid' },
+        { message: 'Team name invalid' },
         { status: 404 },
       );
     }
@@ -50,20 +82,31 @@ export async function PATCH(
       return NextResponse.json({ message: 'user id invalid' }, { status: 404 });
     }
 
-    if (session.user.vote?.status) {
-      return NextResponse.json(
-        { message: 'User cannot voted 2 times or more!!' },
-        { status: 400 },
-      );
+    if (existingKarya.team.ticketCompetition.competitionType === 'TPC') {
+      if (session.user.vote?.TPC?.status) {
+        return NextResponse.json(
+          { message: 'User cannot voted 2 times or more!!' },
+          { status: 400 },
+        );
+      }
+    }
+
+    if (existingKarya.team.ticketCompetition.competitionType === 'PTC') {
+      if (session.user.vote?.PTC?.status) {
+        return NextResponse.json(
+          { message: 'User cannot voted 2 times or more!!' },
+          { status: 400 },
+        );
+      }
     }
 
     const updatedKarya = await prisma.karya.update({
       where: {
-        id: karyaId,
+        id: existingKarya.id,
       },
       data: {
         countVote: ++existingKarya.countVote,
-        usersVote: {
+        usersVoteNew: {
           connect: {
             id: session.user.id,
           },
@@ -80,6 +123,7 @@ export async function PATCH(
 
     isUpdated = true;
     countTemp = parseInt(updatedKarya.countVote.toString());
+    idTemp = updatedKarya.id;
 
     const updatedKaryaNormalize = {
       ...updatedKarya,
@@ -89,15 +133,19 @@ export async function PATCH(
     const dataForSheet = {
       teamName: updatedKaryaNormalize.team.teamName,
       count: updatedKaryaNormalize.countVote,
+      members: updatedKaryaNormalize.team.members.map((m) => m.name),
     };
 
-    const res = await fetch(`${process.env.API_SHEET_VOTING_URL}?t=voting`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `${process.env.API_SHEET_VOTING_URL}?t=voting${existingKarya.team.ticketCompetition.competitionType}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataForSheet),
       },
-      body: JSON.stringify(dataForSheet),
-    });
+    );
 
     const resBody = await res.json();
 
@@ -117,11 +165,11 @@ export async function PATCH(
       if (isUpdated) {
         await prisma.karya.update({
           where: {
-            id: karyaId,
+            id: idTemp,
           },
           data: {
             countVote: BigInt(--countTemp),
-            usersVote: {
+            usersVoteNew: {
               disconnect: {
                 id: session?.user.id,
               },
