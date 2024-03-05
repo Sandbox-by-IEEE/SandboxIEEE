@@ -1,20 +1,9 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useEffect } from 'react';
 
 export default function DynamicQr({ params }) {
   const target = params.id;
-
-  //Fungsi untuk animasi loading titik-titik
-  const [dots, setDots] = useState('');
-  const interval = setInterval(() => {
-    if (dots.length > 4) {
-      setDots('');
-    } else {
-      setDots(dots + '. ');
-    }
-  }, 1000);
 
   //Fungsi untuk redirect ke halaman lain
   const router = useRouter();
@@ -62,7 +51,7 @@ export default function DynamicQr({ params }) {
   return (
     <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
       <h1 className='title text-[#ffff] color-white font-medium'>
-        Redirecting {dots}
+        Hold on, we’re getting it ready
       </h1>
     </main>
   );
