@@ -28,19 +28,19 @@ export default function DynamicQr({ params }) {
         break;
 
       case 'TPC-Team1':
-        router.push('/events/ptc/finalist-overview/BIO-WANNA');
+        router.push('/events/tpc/finalist-overview/BIO-WANNA');
         break;
       case 'TPC-Team2':
-        router.push('/events/ptc/finalist-overview/Doa-(W)ibu');
+        router.push('/events/tpc/finalist-overview/Doa-(W)ibu');
         break;
       case 'TPC-Team3':
-        router.push('/events/ptc/finalist-overview/Environtmeng');
+        router.push('/events/tpc/finalist-overview/Environtmeng');
         break;
       case 'TPC-Team4':
-        router.push('/events/ptc/finalist-overview/Kuya-Kuyi-Adhira');
+        router.push('/events/tpc/finalist-overview/Kuya-Kuyi-Adhira');
         break;
       case 'TPC-Team5':
-        router.push('/events/ptc/finalist-overview/Venter');
+        router.push('/events/tpc/finalist-overview/Venter');
         break;
       default:
         router.push('/404');
