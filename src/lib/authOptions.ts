@@ -90,8 +90,6 @@ export const authOptions: AuthOptions = {
           throw new Error('Wrong password');
         }
 
-        
-
         const karyaPTCArr = existingUser.votesKarya.filter(
           (k) => k.team.ticketCompetition.competitionType === 'PTC',
         );
@@ -100,15 +98,13 @@ export const authOptions: AuthOptions = {
         if (karyaPTCArr.length > 0) {
           karyaPTC = {
             ...karyaPTCArr[0],
-            countVote: parseInt(
-              karyaPTCArr[0].countVote.toString() || '0',
-            ),
+            countVote: parseInt(karyaPTCArr[0].countVote.toString() || '0'),
             linkFullPaper: karyaPTCArr[0].linkFullPaper || '',
             linkVideo: karyaPTCArr[0].linkVideo || '',
             linkVideo2: karyaPTCArr[0].linkVideo2 || '',
           };
         } else {
-          karyaPTC = undefined
+          karyaPTC = undefined;
         }
 
         const karyaTPCArr = existingUser.votesKarya.filter(
@@ -119,15 +115,13 @@ export const authOptions: AuthOptions = {
         if (karyaTPCArr.length > 0) {
           karyaTPC = {
             ...karyaTPCArr[0],
-            countVote: parseInt(
-              karyaTPCArr[0].countVote.toString() || '0',
-            ),
+            countVote: parseInt(karyaTPCArr[0].countVote.toString() || '0'),
             linkFullPaper: karyaTPCArr[0].linkFullPaper || '',
             linkVideo: karyaTPCArr[0].linkVideo || '',
             linkVideo2: karyaTPCArr[0].linkVideo2 || '',
           };
         } else {
-          karyaTPC = undefined
+          karyaTPC = undefined;
         }
 
         const ticketGSMid = await prisma.ticketGS.findFirst({
@@ -250,12 +244,12 @@ export const authOptions: AuthOptions = {
           vote: {
             PTC: {
               karya: karyaPTC,
-              status: karyaPTC ? true: false
+              status: karyaPTC ? true : false,
             },
             TPC: {
               karya: karyaTPC,
-              status: karyaTPC ? true: false
-            }
+              status: karyaTPC ? true : false,
+            },
           },
           ticket: {
             exhibition: {
@@ -330,9 +324,9 @@ export const authOptions: AuthOptions = {
                   chairmanName: true,
                   ticketCompetition: {
                     select: {
-                      competitionType: true
-                    }
-                  }
+                      competitionType: true,
+                    },
+                  },
                 },
               },
             },
@@ -372,15 +366,13 @@ export const authOptions: AuthOptions = {
       if (karyaPTCArr.length > 0) {
         karyaPTC = {
           ...karyaPTCArr[0],
-          countVote: parseInt(
-            karyaPTCArr[0].countVote.toString() || '0',
-          ),
+          countVote: parseInt(karyaPTCArr[0].countVote.toString() || '0'),
           linkFullPaper: karyaPTCArr[0].linkFullPaper || '',
           linkVideo: karyaPTCArr[0].linkVideo || '',
           linkVideo2: karyaPTCArr[0].linkVideo2 || '',
         };
       } else {
-        karyaPTC = undefined
+        karyaPTC = undefined;
       }
 
       const karyaTPCArr = existingUser.votesKarya.filter(
@@ -391,15 +383,13 @@ export const authOptions: AuthOptions = {
       if (karyaTPCArr.length > 0) {
         karyaTPC = {
           ...karyaTPCArr[0],
-          countVote: parseInt(
-            karyaTPCArr[0].countVote.toString() || '0',
-          ),
+          countVote: parseInt(karyaTPCArr[0].countVote.toString() || '0'),
           linkFullPaper: karyaTPCArr[0].linkFullPaper || '',
           linkVideo: karyaTPCArr[0].linkVideo || '',
           linkVideo2: karyaTPCArr[0].linkVideo2 || '',
         };
       } else {
-        karyaTPC = undefined
+        karyaTPC = undefined;
       }
 
       const ticketGSMid = await prisma.ticketGS.findFirst({
@@ -523,12 +513,12 @@ export const authOptions: AuthOptions = {
             vote: {
               PTC: {
                 karya: karyaPTC,
-                status: karyaPTC ? true: false
+                status: karyaPTC ? true : false,
               },
               TPC: {
                 karya: karyaTPC,
-                status: karyaTPC ? true: false
-              }
+                status: karyaTPC ? true : false,
+              },
             },
           },
           ticket: {

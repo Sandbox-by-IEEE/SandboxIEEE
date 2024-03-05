@@ -17,7 +17,7 @@ declare module 'next-auth' {
               competitionType: string;
             };
           };
-          
+
           countVote: int;
           linkFullPaper: string;
           linkVideo: string;
@@ -36,7 +36,7 @@ declare module 'next-auth' {
               competitionType: string;
             };
           };
-          
+
           countVote: int;
           linkFullPaper: string;
           linkVideo: string;
@@ -93,7 +93,7 @@ declare module 'next-auth' {
                 competitionType: string;
               };
             };
-            
+
             countVote: int;
             linkFullPaper: string;
             linkVideo: string;
@@ -112,7 +112,7 @@ declare module 'next-auth' {
                 competitionType: string;
               };
             };
-            
+
             countVote: int;
             linkFullPaper: string;
             linkVideo: string;

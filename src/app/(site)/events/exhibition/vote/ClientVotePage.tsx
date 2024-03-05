@@ -20,7 +20,6 @@ const ClientVotePage = ({
   const [, setSelectedPTC] = useState<string | undefined>('');
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
-
   return (
     <section className='flex flex-col gap-10 items-center justify-center'>
       {/* PTC */}

@@ -111,16 +111,19 @@ export async function PATCH(
     const dataForSheet = {
       teamName: updatedKaryaNormalize.team.teamName,
       count: updatedKaryaNormalize.countVote,
-      members: updatedKaryaNormalize.team.members.map(m => m.name)
+      members: updatedKaryaNormalize.team.members.map((m) => m.name),
     };
 
-    const res = await fetch(`${process.env.API_SHEET_VOTING_URL}?t=voting${existingKarya.team.ticketCompetition.competitionType}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `${process.env.API_SHEET_VOTING_URL}?t=voting${existingKarya.team.ticketCompetition.competitionType}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataForSheet),
       },
-      body: JSON.stringify(dataForSheet),
-    });
+    );
 
     const resBody = await res.json();
 
