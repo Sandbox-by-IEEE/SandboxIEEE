@@ -30,16 +30,16 @@ export async function PATCH(
 
     const existingTeam = await prisma.team.findUnique({
       where: {
-        teamName: teamName
-      }, 
+        teamName: teamName,
+      },
       select: {
         karya: {
           select: {
-            id: true
-          }
-        }
-      }
-    })
+            id: true,
+          },
+        },
+      },
+    });
 
     if (!existingTeam || !existingTeam.karya) {
       return NextResponse.json(
@@ -50,7 +50,7 @@ export async function PATCH(
 
     const existingKarya = await prisma.karya.findUnique({
       where: {
-        id: existingTeam.karya.id
+        id: existingTeam.karya.id,
       },
       include: {
         team: {
