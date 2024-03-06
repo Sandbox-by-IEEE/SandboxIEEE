@@ -53,7 +53,7 @@ export async function PATCH(req: NextRequest) {
     };
 
     const response = await fetch(
-      `${process.env.SHEET_EXHI_MID}?type=attendance` || '',
+      `${process.env.API_SHEET_EXHIBITION_URL}?type=attendance` || '',
       {
         method: 'POST',
         headers: {
@@ -63,6 +63,7 @@ export async function PATCH(req: NextRequest) {
       },
     );
 
+    // console.log(response)
     const resBody = await response.json();
 
     // console.log(resBody)
