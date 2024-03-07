@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     if (len === 1) {
       collectiveType = 'single';
     } else if (participants.length === 3) {
-      collectiveType = 'colective 3';
+      collectiveType = 'collective 3';
     } else if (participants.length === 5) {
       collectiveType = 'collective 5';
     }
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         registrationType,
         collectiveType,
         userId: session.user.id,
-        // userId: 'clpn8o0f90000ij64ahlckct3',
+        // userId: 'cls79p4ut0000botcaognv5hr',
       },
     });
 
