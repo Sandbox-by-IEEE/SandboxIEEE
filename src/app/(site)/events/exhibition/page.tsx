@@ -289,6 +289,7 @@ const ExhibitionPage = async () => {
                 imageHeight={card.image.height}
                 imageWidth={card.image.width}
                 isVoted={false}
+                urlCreation={card.projectsUrl}
               />
             ))}
           </div>
@@ -315,12 +316,14 @@ const ExhibitionPage = async () => {
                 imageHeight={card.image.height}
                 imageWidth={card.image.width}
                 isVoted={false}
+                urlCreation={card.projectsUrl}
               />
             ))}
           </div>
           <div data-aos='zoom-in'>
             <CustomLink color='gold' url='events/exhibition/vote'>
-              {exhibition.buttonTextSeeMore}
+              {/* {exhibition.buttonTextSeeMore} */}
+              Vote Your Favorite
             </CustomLink>
           </div>
         </section>

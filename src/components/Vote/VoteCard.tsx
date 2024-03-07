@@ -1,5 +1,7 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import Button from '@/components/Button';
 import ChainLinkIcon from '@/components/icons/ChainLinkIcon';
@@ -35,11 +37,18 @@ const VoteCard: React.FC<VoteCardProps> = ({
   isDisabled,
   urlCreation,
 }) => {
+  const router = useRouter();
+  const showOffPageHandler = (url: string) => {
+    router.push(url);
+  };
   return (
     <article
       data-aos={aos}
       data-aos-duration={aosDuration}
-      className='w-[250px] lg:w-[330px] flex items-center justify-center rounded-xl shadow-[0_4px_4px_rgba(0,0,0,0.25),0_4px_1px_#FFE1B9,0_4px_4px_rgba(0,0,0,0.25)] flex-col gap-2 lg:gap-4 p-5 bg-gradient-card-vote'
+      onClick={() => {
+        showOffPageHandler(urlCreation ? urlCreation : '/');
+      }}
+      className='w-[250px] lg:w-[330px] flex items-center justify-center rounded-xl shadow-[0_4px_4px_rgba(0,0,0,0.25),0_4px_1px_#FFE1B9,0_4px_4px_rgba(0,0,0,0.25)] flex-col gap-2 lg:gap-4 p-5 bg-gradient-card-vote cursor-pointer drop-shadow-none hover:drop-shadow-lg shadow-amber-100 transition-all duration-300 ease-in-out'
     >
       <h5 className='text-black font-poppins text-center text-xl lg:text-2xl font-bold'>
         {teamsName}
