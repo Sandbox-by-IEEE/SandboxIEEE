@@ -14,14 +14,19 @@ const TPCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'ampun abang',
-      chairmanName: 'waduh',
-      chairmanEmail: 'waduh',
-      members: [{ name: 'Budi Jantan' }],
+      teamName: 'Venter',
+      chairmanName: 'Muhammad Fiqri Al Farisi Sitepu',
+      chairmanEmail: '',
+      members: [
+        { name: 'Muhammad Fiqri Al Farisi Sitepu' },
+        { name: 'Ziyad Nabil Al Ghifari' },
+        { name: 'Muhammad Gilang Riandinata' },
+      ],
       teamStatus: 'ga',
-      topicName: 'dribble',
+      topicName:
+        'Implementasi SPKLU Mini Hybrid Tenaga Surya sebagai Solusi Unggul dalam Mengatasi Kelangkaan SPKLU pada Era Modern',
       abstract: { status: '' },
-      institution: 'bagas',
+      institution: 'Institut Teknologi Bandung',
       fullPaper: {},
     },
     message: '',
@@ -48,9 +53,9 @@ const TPCTeamInformation = () => {
                 style={{
                   ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                 }}
-                className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
+                className='bg-gradient-brown ml-0 m-auto text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                Team Name
+                {teamInfo.data.teamName}
               </h1>
               {/* <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
                 Insert Topic Name
@@ -69,11 +74,42 @@ const TPCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-            <p className='max-w-full md:max-w-[50%] font-bold leading-loose'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
-              tincidunt justo, ac viverra leo. Integer a dignissim magna.
-              Quisque lacinia augue ut tortor iaculis mollis. Quisque rhoncus
-              imperdiet est vel faucibus.
+            <div className='judul bg-gradient-to-br from-green-200 to-green-500 bg-clip-text text-transparent max-w-full md:max-w-[50%] font-bold leading-loose text-justify font-'>
+              {teamInfo.data.topicName}
+            </div>
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
+              Era perubahan iklim mendorong fokus pada sektor transportasi untuk
+              mengurangi emisi gas rumah kaca. Namun, kelangkaan SPKLU
+              menghambat penggunaan kendaraan listrik. SPKLU Mini Hybrid Tenaga
+              Surya merupakan inovasi yang dibawakan sebagai solusi untuk
+              mengatasi kelangkaan SPKLU pada era modern, keterbatasan lahan,
+              dan peningkatan aksesibilitas pengguna kendaraan listrik. SPKLU
+              mini berbasis Hybrid ini menggunakan 60% energi berasal dari
+              listrik dan 40% dari panel surya. Pemilihan panel surya sebagai
+              salah satu sumber energi SPKLU Hybrid didasarkan pada
+              keberlanjutan dan ketersediaan energi surya yang melimpah di
+              Indonesia. Panel Surya yang dipasang di SPKLU diatur agar
+              mengikuti arah cahaya matahari untuk memastikan pengumpulan energi
+              mencapai tingkat maksimal dan mengurangi ketergantungan pada
+              sumber listrik konvensional. Dengan memanfaatkan tenaga surya,
+              diharapkan tercapai efisiensi optimal dalam manajemen energi.
+              Langkah tambahan untuk mengatasi keterbatasan lahan dilakukan
+              dengan menerapkan SPKLU mini berbasis Hybrid, dirancang khusus
+              untuk meminimalkan penggunaan lahan. Hal ini diharapkan dapat
+              mengatasi kelangkaan SPKLU dengan memaksimalkan pemanfaatan lahan
+              yang tersedia. Adapun implementasi SPKLU mini berbasis Hybrid ini
+              tidak hanya melibatkan aspek teknis, tetapi juga melibatkan aspek
+              penggunaan dan aksesibilitas. Oleh karena itu, sistem pembayaran
+              yang mandiri diusulkan sebagai bagian dari rekomendasi. Pengguna
+              dapat melakukan pembayaran secara mandiri melalui metode QRIS atau
+              menggunakan uang tunai melalui vending machine SPKLU. Hal ini
+              bertujuan untuk meningkatkan kenyamanan dan aksesibilitas bagi
+              pengguna kendaraan listrik. Tujuan utama penelitian ini adalah
+              menciptakan solusi inovatif untuk mengatasi kelangkaan SPKLU
+              melalui pendekatan berbasis Hybrid, yaitu menggabungkan Tenaga
+              Surya dan Listrik Konvensional. Dengan mengkombinasikan sumber
+              energi ini, diharapkan dapat menciptakan SPKLU yang lebih andal
+              dan berkelanjutan.
             </p>
           </div>
         </section>
@@ -82,9 +118,9 @@ const TPCTeamInformation = () => {
       {/* Poster */}
       <section className='w-full max-w-[800px] max-h-fit mx-auto p-4'>
         <Image
-          src='/Group_1289.png'
-          width={200}
-          height={200}
+          src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709938374/The%20Sandbox%20by%20IEEE%20ITBSB/kesustss8l1ln7d6e4zd.jpg'
+          width={1000}
+          height={1000}
           alt='Mascot'
           className='min-w-full w-full h-auto object-contain bg-slate-100'
         />

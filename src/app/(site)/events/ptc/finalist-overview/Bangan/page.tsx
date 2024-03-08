@@ -14,14 +14,20 @@ const PTCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'ampun abang',
-      chairmanName: 'waduh',
+      teamName: 'Bangan',
+      chairmanName: 'Muhammad Athariq Yurisqi Riswandi',
       chairmanEmail: 'waduh',
-      members: [{ name: 'Budi Jantan' }],
+      members: [
+        { name: 'Muhammad Athariq Yurisqi Riswandi' },
+        { name: 'Edwin Juanda Samuel Sirait' },
+        { name: 'Muhammad Khairan Azzam' },
+        { name: 'Muhammad Dzaky Kamal' },
+        { name: 'Mochammad Naufal Hakim' },
+      ],
       teamStatus: 'ga',
-      topicName: 'dribble',
+      topicName: 'Hysteresis Dynamic Response Adapter (HYDRA)',
       abstract: { status: '' },
-      institution: 'bagas',
+      institution: 'Institut Teknologi Sepuluh Nopember',
       fullPaper: {},
     },
     message: '',
@@ -50,10 +56,10 @@ const PTCTeamInformation = () => {
                 }}
                 className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                Team Name
+                {teamInfo.data.teamName}
               </h1>
               <h2 className='font-bold text-lg lg:text-[30px] max-w-full md:max-w-[50%]'>
-                Insert Topic Name
+                {teamInfo.data.topicName}
               </h2>
             </div>
           </div>
@@ -69,47 +75,48 @@ const PTCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-            <p className='max-w-full md:max-w-[50%] font-bold leading-loose'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
-              tincidunt justo, ac viverra leo. Integer a dignissim magna.
-              Quisque lacinia augue ut tortor iaculis mollis. Quisque rhoncus
-              imperdiet est vel faucibus.
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
+              HYDRA offers a bidirectional inverter with an extremely fast
+              dynamic response, making it highly suitable for addressing new
+              renewable energy sources with intermittency dependency.
+              Additionally, HYDRA has good efficiency values, enabling it to
+              provide more optimal power compared to conventional inverters.
             </p>
             <div className='grid grid-cols-2 h-fit py-4 lg:pt-16 gap-8'>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709939053/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/Bangan/b9hfmlhn0h16sg1lzweh.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709939049/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/Bangan/xhzjol7l2quvzchpphvp.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709939044/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/Bangan/junltoeuzpewg627jakm.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709939041/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/Bangan/iztpysj2z2omy8vtbzi9.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
             </div>
@@ -127,8 +134,15 @@ const PTCTeamInformation = () => {
         >
           Prototype Video
         </h3>
-        <div className='w-full max-w-[80%] h-auto aspect-[5/3] bg-slate-100'>
-          replace with video
+        <div className='w-full max-w-[80%] h-auto aspect-[5/3]'>
+          <iframe
+            className='video w-full h-full'
+            width='847'
+            height='476'
+            src='https://www.youtube.com/embed/yhfy1z9UmRE'
+            title='Video Demonstrasi HYDRA - Team Bangan'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          ></iframe>
         </div>
       </section>
 
