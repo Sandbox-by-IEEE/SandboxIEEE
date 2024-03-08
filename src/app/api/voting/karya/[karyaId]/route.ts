@@ -134,7 +134,7 @@ export async function PATCH(
     return NextResponse.json(
       {
         karya: updatedKaryaNormalize,
-        message: 'voting succesful',
+        message: 'Voting Succesful',
       },
       { status: 200 },
     );
