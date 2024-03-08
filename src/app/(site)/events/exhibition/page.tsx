@@ -7,7 +7,6 @@ const Countdown = dynamic(() => import('@/components/Countdown'), {
   ssr: false,
 });
 
-import Button from '@/components/Button';
 // import CommingSoonPage from '@/app/(site)/coming-soon/page';
 import { FAQ } from '@/components/FAQ';
 import LazyLoadMap from '@/components/lazy-load-map';
@@ -230,7 +229,10 @@ const ExhibitionPage = async () => {
         >
           <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
             <div data-aos='zoom-in'>
-              <Button color='gold'>{exhibition.buttonTextRegister}</Button>
+              <CustomLink color='gold' url='/events/exhibition/registration'>
+                {exhibition.buttonTextRegister}
+              </CustomLink>
+              {/* <Button color='gold'>{exhibition.buttonTextRegister}</Button> */}
             </div>
             <div data-aos='zoom-in'>
               <CustomLink color='trans-orange' url='#seemore'>
