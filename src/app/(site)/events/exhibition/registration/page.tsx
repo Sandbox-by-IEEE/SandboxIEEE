@@ -67,7 +67,7 @@ export default function ExhibitionRegist() {
     const StartNormal = new Date('2024-02-24T10:00:00Z');
     const StartSpecial = new Date('2024-03-02T17:00:00Z');
     const EndSpecial = new Date('2024-03-03T17:00:00Z');
-    const EndRegistration = new Date('2024-03-07T17:00:00Z');
+    const EndRegistration = new Date('2024-03-08T17:00:00Z');
 
     if (
       serverTime &&
