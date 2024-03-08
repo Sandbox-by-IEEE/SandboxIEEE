@@ -14,14 +14,19 @@ const TPCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'ampun abang',
-      chairmanName: 'waduh',
-      chairmanEmail: 'waduh',
-      members: [{ name: 'Budi Jantan' }],
+      teamName: 'Doa (W)ibu',
+      chairmanName: 'Muhammad Rafli Bagaskara',
+      chairmanEmail: '',
+      members: [
+        { name: 'Muhammad Rafli Bagaskara' },
+        { name: 'Rumaisha Afiqah Taqiyya' },
+        { name: 'Muhammad Fauzan' },
+      ],
       teamStatus: 'ga',
-      topicName: 'dribble',
+      topicName:
+        'Microbial Fuel Cell sebagai Solusi Green Technology yang Inovatif untuk Pengelolaan Limbah Rumah Tangga dan Pembangkitan Energi Listrik Skala Mikro',
       abstract: { status: '' },
-      institution: 'bagas',
+      institution: 'Institut Teknologi Bandung',
       fullPaper: {},
     },
     message: '',
@@ -48,9 +53,9 @@ const TPCTeamInformation = () => {
                 style={{
                   ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                 }}
-                className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
+                className='bg-gradient-brown ml-0 m-auto text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                Team Name
+                {teamInfo.data.teamName}
               </h1>
               {/* <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
                 Insert Topic Name
@@ -69,11 +74,27 @@ const TPCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-            <p className='max-w-full md:max-w-[50%] font-bold leading-loose'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
-              tincidunt justo, ac viverra leo. Integer a dignissim magna.
-              Quisque lacinia augue ut tortor iaculis mollis. Quisque rhoncus
-              imperdiet est vel faucibus.
+            <div className='judul bg-gradient-to-br from-green-200 to-green-500 bg-clip-text text-transparent max-w-full md:max-w-[50%] font-bold leading-loose text-justify font-'>
+              {teamInfo.data.topicName}
+            </div>
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
+              Salah satu permasalahan penting yang dihadapi oleh bangsa
+              Indonesia adalah tingginya angka limbah rumah tangga. Namun di
+              sisi lain, tingginya angka limbah rumah tangga membuka peluang
+              inovasi dalam pemanfaatan limbah tersebut. Salah satunya adalah
+              penggunaan teknologi Microbial Fuel Cell (MFC). Paper ini membahas
+              dan mengkaji secara rinci efektivitas teknologi MFC dalam
+              pengelolaan limbah rumah tangga dan sekaligus memanfaatkan energi
+              yang dihasilkan dalam proses tersebut. MFC dirancang sedemikian
+              rupa agar listrik yang dihasilkan dapat digunakan oleh perangkat
+              bertenaga rendah dengan menggunakan sistem penyimpanan energi yang
+              sederhana. Penelitian ini menggunakan tinjauan literatur yang
+              komprehensif dengan eksperimen dan simulasi praktis. Hasil
+              penelitian menunjukkan bahwa MFC mampu menangani limbah rumah
+              tangga sehingga ketika dibuang, limbah tersebut menjadi jauh lebih
+              tidak berbahaya bagi lingkungan. Dalam proses pengolahannya,
+              dihasilkan listrik yang berhasil dimanfaatkan untuk mengoperasikan
+              perangkat berdaya rendah.
             </p>
           </div>
         </section>
@@ -82,9 +103,9 @@ const TPCTeamInformation = () => {
       {/* Poster */}
       <section className='w-full max-w-[800px] max-h-fit mx-auto p-4'>
         <Image
-          src='/Group_1289.png'
-          width={200}
-          height={200}
+          src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709922788/The%20Sandbox%20by%20IEEE%20ITBSB/rhwzilpiqy5r5uv2p8k1.png'
+          width={1000}
+          height={1000}
           alt='Mascot'
           className='min-w-full w-full h-auto object-contain bg-slate-100'
         />

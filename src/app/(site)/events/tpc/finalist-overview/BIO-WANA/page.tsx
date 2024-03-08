@@ -14,14 +14,19 @@ const TPCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'ampun abang',
-      chairmanName: 'waduh',
-      chairmanEmail: 'waduh',
-      members: [{ name: 'Budi Jantan' }],
+      teamName: 'BIO-WANA',
+      chairmanName: 'Zahrah Faridathul Athifah',
+      chairmanEmail: '',
+      members: [
+        { name: 'Zahrah Faridathul Athifah' },
+        { name: 'Sang Ara Musthika' },
+        { name: "Haliza Qintar Ma'aya" },
+      ],
       teamStatus: 'ga',
-      topicName: 'dribble',
+      topicName:
+        'PERANCANGAN PERSEMAIAN BALANGERAN (Shorea Balangeran): INFRASTRUKTUR BERKELANJUTAN DALAM MENDUKUNG UPAYA RESTORASI LAHAN GAMBUT DI IBU KOTA NUSANTARA',
       abstract: { status: '' },
-      institution: 'bagas',
+      institution: 'Institut Teknologi Bandung',
       fullPaper: {},
     },
     message: '',
@@ -48,9 +53,9 @@ const TPCTeamInformation = () => {
                 style={{
                   ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                 }}
-                className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
+                className='bg-gradient-brown ml-0 m-auto text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                Team Name
+                BIO-WANA
               </h1>
               {/* <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
                 Insert Topic Name
@@ -69,11 +74,27 @@ const TPCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-            <p className='max-w-full md:max-w-[50%] font-bold leading-loose'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
-              tincidunt justo, ac viverra leo. Integer a dignissim magna.
-              Quisque lacinia augue ut tortor iaculis mollis. Quisque rhoncus
-              imperdiet est vel faucibus.
+            <div className='judul bg-gradient-to-br from-green-200 to-green-500 bg-clip-text text-transparent max-w-full md:max-w-[50%] font-bold leading-loose text-justify font-'>
+              {teamInfo.data.topicName}
+            </div>
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
+              Persemaian Balangeran (Shorea Balangeran) adalah infrastruktur
+              berkelanjutan yang berfokus sebagai penyuplai bibit berkualitas
+              Shorea Balangeran yang akan ditanam pada lahan gambut dengan
+              potensi kerusakan tinggi terutama di Kalimantan Timur sebagai
+              upaya merestorasi lahan gambut di Ibu Kota Nusantara. Persemaian
+              ini mampu memproduksi 3000 bibit setiap tahunnya untuk merestorasi
+              lahan gambut seluas 2,7 Ha setiap tahunnya. Pengaruh perlakuan
+              Perendaman dengan tinggi polybag setinggi 17 cm yang memberikan
+              pengaruh pertambahan tinggi sekitar 2 cm. Pengaruh perlakuan
+              penyimpanan selama 6 hari di dalam kardus pada shade house dan
+              tanpa perlakuan pemeliharaan dalam sungkup yang memberikan
+              pengaruh pertambahan tinggi sebesar 3,25 cm. Melalui pemulihan
+              29.7 hektar lahan gambut dalam waktu 10 tahun diproyeksikan mampu
+              menghasilkan keuntungan ekonomi dengan NPV sebesar
+              Rp8.868.180.533,24 dengan rasio B/C sebesar 10.35. Perancangan
+              persemaian ini akan memberikan potensi restorasi yang baik untuk
+              lahan gambut dengan proyeksi keuntungan ekonomi berkelanjutan
             </p>
           </div>
         </section>
@@ -82,9 +103,9 @@ const TPCTeamInformation = () => {
       {/* Poster */}
       <section className='w-full max-w-[800px] max-h-fit mx-auto p-4'>
         <Image
-          src='/Group_1289.png'
-          width={200}
-          height={200}
+          src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709921097/The%20Sandbox%20by%20IEEE%20ITBSB/yzuyntba185tip76xbnh.png'
+          width={1000}
+          height={1000}
           alt='Mascot'
           className='min-w-full w-full h-auto object-contain bg-slate-100'
         />

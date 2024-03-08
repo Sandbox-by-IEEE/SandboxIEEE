@@ -14,14 +14,19 @@ const TPCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'ampun abang',
-      chairmanName: 'waduh',
-      chairmanEmail: 'waduh',
-      members: [{ name: 'Budi Jantan' }],
+      teamName: 'Kuya Kuyi Adhira',
+      chairmanName: 'Kivlan',
+      chairmanEmail: '',
+      members: [
+        { name: 'Kivlan' },
+        { name: 'Syamil Muhammad Rizky' },
+        { name: 'Naila Nurul Hania' },
+      ],
       teamStatus: 'ga',
-      topicName: 'dribble',
+      topicName:
+        'HEJO (HARMONIOUS ECO-FRIENDLY JOINT OPERATIONS): STRATEGI INFRASTRUKTUR BERKELANJUTAN BERBASIS SPONGE CITY DI KOTA BANDUNG DAN IMPLEMENTASINYA DI KECAMATAN COBLONG',
       abstract: { status: '' },
-      institution: 'bagas',
+      institution: 'Institut Teknologi Bandung',
       fullPaper: {},
     },
     message: '',
@@ -48,9 +53,9 @@ const TPCTeamInformation = () => {
                 style={{
                   ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                 }}
-                className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
+                className='bg-gradient-brown ml-0 m-auto text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                Team Name
+                {teamInfo.data.teamName}
               </h1>
               {/* <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
                 Insert Topic Name
@@ -69,11 +74,15 @@ const TPCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-            <p className='max-w-full md:max-w-[50%] font-bold leading-loose'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
-              tincidunt justo, ac viverra leo. Integer a dignissim magna.
-              Quisque lacinia augue ut tortor iaculis mollis. Quisque rhoncus
-              imperdiet est vel faucibus.
+            <div className='judul bg-gradient-to-br from-green-200 to-green-500 bg-clip-text text-transparent max-w-full md:max-w-[50%] font-bold leading-loose text-justify font-'>
+              {teamInfo.data.topicName}
+            </div>
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
+              Paper kami berisikan tentang rencana/strategi beserta penerapannya
+              di Kecamatan Coblong, Bandung untuk memodelkan kota yang
+              menerapkan konsep infrastructure sustainability, memiliki kondisi
+              lingkungan hidup yang baik, dan mampu meregulasi keairan melalui
+              konsep sponge city.
             </p>
           </div>
         </section>
@@ -82,9 +91,9 @@ const TPCTeamInformation = () => {
       {/* Poster */}
       <section className='w-full max-w-[800px] max-h-fit mx-auto p-4'>
         <Image
-          src='/Group_1289.png'
-          width={200}
-          height={200}
+          src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709937676/The%20Sandbox%20by%20IEEE%20ITBSB/nqfjicfbahgnlfisvk7w.jpg'
+          width={1000}
+          height={1000}
           alt='Mascot'
           className='min-w-full w-full h-auto object-contain bg-slate-100'
         />

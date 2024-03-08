@@ -65,7 +65,7 @@ const PageVote = async () => {
       </h1>
 
       <div className='flex flex-col gap-10'>
-        <h2 className='text-white font-poppins font-medium text-justify text-base lg:text-lg'>
+        <h2 className='text-white font-poppins font-medium text-center text-base lg:text-lg'>
           <StructuredText data={votePage.descriptionVote} />
         </h2>
         <ClientVotePage TPCData={TPCData} PTCData={PTCData} />
