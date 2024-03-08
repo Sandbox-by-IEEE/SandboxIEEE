@@ -7,6 +7,7 @@ import { AiOutlineLink } from 'react-icons/ai';
 
 import Button from '@/components/Button';
 import NormalSlider from '@/components/Slider/NormalSlider';
+import { callLoading, callToast } from '@/components/Toast';
 
 const TitleSection = dynamic(() => import('@/components/TitleSection'), {
   ssr: false,
@@ -122,7 +123,8 @@ export default function FinalProjectVote() {
       name: 'Eureka',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/ptc/finalist-overview/Eureka',
       topic: 'Green Keys',
       desc: ' Keyboard ramah lingkungan kami mengurangi limbah elektronik dengan casing dari filamen PLA.',
     },
@@ -132,7 +134,8 @@ export default function FinalProjectVote() {
       name: 'FansPakBandung',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/ptc/finalist-overview/FansPakBandung',
       topic: 'AFMS',
       desc: ' Our system revolutionizes agriculture with smart sensors and machine learning for efficient, sustainable farming.',
     },
@@ -142,7 +145,8 @@ export default function FinalProjectVote() {
       name: 'HehoGawk',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/ptc/finalist-overview/HehoGawk',
       topic: 'ReformX',
       desc: ' Reform The Reformer',
     },
@@ -152,7 +156,8 @@ export default function FinalProjectVote() {
       name: 'Bangan',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/ptc/finalist-overview/Bangan',
       topic: 'Hysteresis Dynamic Response Adapter (HYDRA)',
       desc: ' HYDRA offers a bidirectional inverter with an extremely fast.',
     },
@@ -162,7 +167,8 @@ export default function FinalProjectVote() {
       name: 'WANGSIT NEW GEN',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/ptc/finalist-overview/WANGSIT-NEW-GEN',
       topic: 'Ufobi',
       desc: " We don't have to sacrifice a strong economy for a healthy environment. Ufobi is the solution.",
     },
@@ -175,7 +181,8 @@ export default function FinalProjectVote() {
       name: 'Doa (W)ibu',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/tpc/finalist-overview/Doa-(W)ibu',
       topic:
         'Microbial Fuel Cell sebagai Solusi Green Technology yang Inovatif untuk Pengelolaan Limbah Rumah Tangga dan Pembangkitan Energi Listrik Skala Mikro',
       desc: 'Take Action',
@@ -186,7 +193,8 @@ export default function FinalProjectVote() {
       name: 'BIO-WANA',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/tpc/finalist-overview/BIO-WANA',
       topic:
         'PERANCANGAN PERSEMAIAN BALANGERAN (Shorea Balangeran): INFRASTRUKTUR BERKELANJUTAN DALAM MENDUKUNG UPAYA RESTORASI LAHAN GAMBUT DI IBU KOTA NUSANTARA',
       desc: '',
@@ -194,38 +202,69 @@ export default function FinalProjectVote() {
     {
       id: 3,
       label: 'Item 3',
-      name: "Team's Name",
+      name: 'Kuya Kuyi Adhira',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
-      topic: 'Topic Name Topic Name Topic Name',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/tpc/finalist-overview/Kuya-Kuyi-Adhira',
+      topic:
+        'HEJO (HARMONIOUS ECO-FRIENDLY JOINT OPERATIONS): STRATEGI INFRASTRUKTUR BERKELANJUTAN BERBASIS SPONGE CITY DI KOTA BANDUNG DAN IMPLEMENTASINYA DI KECAMATAN COBLONG',
       desc: 'Take Action',
     },
     {
       id: 3,
       label: 'Item 4',
-      name: "Team's Name",
+      name: 'Venter',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
-      topic: 'Topic Name Topic Name Topic Name',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/tpc/finalist-overview/Venter',
+      topic:
+        'Implementasi SPKLU Mini Hybrid Tenaga Surya sebagai Solusi Unggul dalam Mengatasi Kelangkaan SPKLU pada Era Modern',
       desc: 'Take Action',
     },
     {
       id: 4,
       label: 'Item 5',
-      name: "Team's Name",
+      name: 'environtmeng',
       imgUrl: 'https://sandbox.ieeeitb.com/sandbox-gold.svg',
       instagramLink: 'https://instagram.com',
-      introductionLink: 'https://instagram.com',
-      topic: 'Topic Name Topic Name Topic Name',
+      introductionLink:
+        'https://sandbox.ieeeitb.com/events/tpc/finalist-overview/Environtmeng',
+      topic:
+        'GREENTAVI: PERANCANGAN KONSEP BIOPACKAGING SERUM  TAVI BERBASIS BIOPLASTIK PEF/TiO2 NANOWIRES DAN  KARTON TERLAPISI NANOFIBRIL CELLULOSE (NFC)  BERBAHAN LIMBAH SEKAM PADI DAN BAGASSE',
       desc: 'Take Action',
     },
   ];
 
-  const handleButtonVote = async () => {
+  const handleButtonVote = async (karyaId: string) => {
     try {
       // hit API here
+      const loadingToastId = callLoading('Registering your choice...');
+
+      const response = await fetch(`/api/voting/karya`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ karyaId }),
+      });
+      const data = await response.json();
+
+      if (response.status != 200) {
+        callToast({
+          status: 'error',
+          description: data.message,
+        });
+        return;
+      } else {
+        callToast({
+          status: 'success',
+          description: data.message,
+        });
+      }
+
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -284,10 +323,16 @@ export default function FinalProjectVote() {
               </div>
 
               <p className='font-bold text-2xl pb-4'>
-                &apos;{item.topic}:{item.desc}&apos;
+                &apos;{item.topic}&apos;
               </p>
 
-              <Button type='button' color='green'>
+              <Button
+                type='button'
+                color='green'
+                onClick={() => {
+                  handleButtonVote(item.name);
+                }}
+              >
                 Vote
               </Button>
             </div>
@@ -331,10 +376,16 @@ export default function FinalProjectVote() {
               </div>
 
               <p className='font-bold text-2xl pb-4'>
-                &apos;{item.topic}:{item.desc}&apos;
+                &apos;{item.topic}&apos;
               </p>
 
-              <Button type='button' color='green' onClick={handleButtonVote}>
+              <Button
+                type='button'
+                color='green'
+                onClick={() => {
+                  handleButtonVote(item.name);
+                }}
+              >
                 Vote
               </Button>
             </div>
@@ -385,7 +436,13 @@ export default function FinalProjectVote() {
                 &apos;{item.topic}:{item.desc}&apos;
               </p>
 
-              <Button type='button' color='green'>
+              <Button
+                type='button'
+                color='green'
+                onClick={() => {
+                  handleButtonVote(item.name);
+                }}
+              >
                 Vote
               </Button>
             </div>
@@ -432,7 +489,13 @@ export default function FinalProjectVote() {
                 &apos;{item.topic}:{item.desc}&apos;
               </p>
 
-              <Button type='button' color='green' onClick={handleButtonVote}>
+              <Button
+                type='button'
+                color='green'
+                onClick={() => {
+                  handleButtonVote(item.name);
+                }}
+              >
                 Vote
               </Button>
             </div>
