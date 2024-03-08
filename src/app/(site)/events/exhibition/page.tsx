@@ -323,7 +323,7 @@ const ExhibitionPage = async () => {
             ))}
           </div>
           <div data-aos='zoom-in'>
-            <CustomLink color='gold' url='events/exhibition/vote'>
+            <CustomLink color='gold' url='/events/exhibition/vote'>
               {/* {exhibition.buttonTextSeeMore} */}
               Vote Your Favorite
             </CustomLink>
