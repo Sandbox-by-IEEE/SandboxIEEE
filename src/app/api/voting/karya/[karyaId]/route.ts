@@ -31,6 +31,17 @@ export async function PATCH(
       where: {
         id: karyaId,
       },
+      include: {
+        team: {
+          include: {
+            ticketCompetition: {
+              select: {
+                competitionType: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!existingKarya) {
@@ -50,11 +61,22 @@ export async function PATCH(
       return NextResponse.json({ message: 'user id invalid' }, { status: 404 });
     }
 
-    if (session.user.vote?.status) {
-      return NextResponse.json(
-        { message: 'User cannot voted 2 times or more!!' },
-        { status: 400 },
-      );
+    if (existingKarya.team.ticketCompetition.competitionType === 'TPC') {
+      if (session.user.vote?.TPC?.status) {
+        return NextResponse.json(
+          { message: 'User cannot voted 2 times or more!!' },
+          { status: 400 },
+        );
+      }
+    }
+
+    if (existingKarya.team.ticketCompetition.competitionType === 'PTC') {
+      if (session.user.vote?.PTC?.status) {
+        return NextResponse.json(
+          { message: 'User cannot voted 2 times or more!!' },
+          { status: 400 },
+        );
+      }
     }
 
     const updatedKarya = await prisma.karya.update({
@@ -63,7 +85,7 @@ export async function PATCH(
       },
       data: {
         countVote: ++existingKarya.countVote,
-        usersVote: {
+        usersVoteNew: {
           connect: {
             id: session.user.id,
           },
@@ -89,15 +111,19 @@ export async function PATCH(
     const dataForSheet = {
       teamName: updatedKaryaNormalize.team.teamName,
       count: updatedKaryaNormalize.countVote,
+      members: updatedKaryaNormalize.team.members.map((m) => m.name),
     };
 
-    const res = await fetch(`${process.env.API_SHEET_VOTING_URL}?t=voting`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const res = await fetch(
+      `${process.env.API_SHEET_VOTING_URL}?t=voting${existingKarya.team.ticketCompetition.competitionType}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataForSheet),
       },
-      body: JSON.stringify(dataForSheet),
-    });
+    );
 
     const resBody = await res.json();
 
@@ -108,7 +134,7 @@ export async function PATCH(
     return NextResponse.json(
       {
         karya: updatedKaryaNormalize,
-        message: 'voting succesful',
+        message: 'Voting Succesful',
       },
       { status: 200 },
     );
@@ -121,7 +147,7 @@ export async function PATCH(
           },
           data: {
             countVote: BigInt(--countTemp),
-            usersVote: {
+            usersVoteNew: {
               disconnect: {
                 id: session?.user.id,
               },
