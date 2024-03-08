@@ -118,7 +118,7 @@ const PTCTeamInformation = () => {
       </section>
 
       {/* Prototype Video */}
-      <section className='w-full max-w-[1240px] mx-auto flex flex-col justify-center items-center py-16 bg-[#0E3D1F] gap-8'>
+      <section className='w-full max-w-[1240px] mx-auto flex flex-col justify-center items-center py-16 bg-[#0E3D1F] rounded-lg gap-8'>
         <h3
           style={{
             ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
@@ -134,7 +134,7 @@ const PTCTeamInformation = () => {
 
       {/* Team Profile */}
       <section className='flex flex-col gap-4 max-w-[800px] mx-auto w-full px-4 py-16'>
-        <p className='w-full py-4 text-center text-white font-bold text-3xl bg-[#49784F]'>
+        <p className='w-full py-4 text-center text-white font-bold text-3xl bg-[#49784F] rounded-lg'>
           Team Profile
         </p>
         <div className='flex flex-wrap gap-4 py-6'>
