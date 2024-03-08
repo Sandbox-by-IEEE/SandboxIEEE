@@ -52,9 +52,9 @@ const TPCTeamInformation = () => {
               >
                 Team Name
               </h1>
-              <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
+              {/* <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
                 Insert Topic Name
-              </h2>
+              </h2> */}
             </div>
           </div>
 
@@ -96,7 +96,7 @@ const TPCTeamInformation = () => {
           Team Profile
         </p>
         <div className='flex flex-wrap gap-4 py-6'>
-          <div className='aspect-square w-0 min-w-full sm:min-w-[27rem] flex-grow grid grid-cols-2 h-fit gap-8 rounded-lg'>
+          {/* <div className='aspect-square w-0 min-w-full sm:min-w-[27rem] flex-grow grid grid-cols-2 h-fit gap-8 rounded-lg'>
             <div className='bg-slate-100 rounded-full flex justify-center items-center'>
               <Image
                 src='/Group_1289.png'
@@ -133,7 +133,7 @@ const TPCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-          </div>
+          </div> */}
           <section className='flex-grow w-0 min-w-[10rem] flex-shrink-0 bg-[#49784F] text-white font-bold p-4 rounded-lg'>
             <LableValue lable='Team Name'>{teamInfo.data.teamName}</LableValue>
             <LableValue lable='Team Leader'>
