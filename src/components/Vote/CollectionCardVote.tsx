@@ -67,6 +67,7 @@ const CollectionVoteCards = ({
 
     callToast({ status: 'success', description: 'Voting berhasil!' });
     console.log(karyaId, teamsName);
+    setIsOpenModal(false);
   };
 
   // Handle onVote onClick Modal Button
