@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 import Modal from '@/components/Modal/Modal';
-import { callToast } from '@/components/Toast';
+import { callLoading, callToast } from '@/components/Toast';
 import VoteCard from '@/components/Vote/VoteCard';
 import { AllFinalProjectsExhibition } from '@/types/exhibition-type';
 export interface VoteCardProps {
@@ -50,8 +50,8 @@ const CollectionVoteCards = ({
     //     'Content-Type': 'application/json',
     //   },
     // });
-
-    const res = await fetch(`/api/voting/karya/${karyaId}`, {
+    const loadingToastId = callLoading('Registering your choice...');
+    const res = await fetch(`/api/voting/team/${teamsName}`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
@@ -66,7 +66,7 @@ const CollectionVoteCards = ({
     }
 
     callToast({ status: 'success', description: 'Voting berhasil!' });
-    console.log(karyaId, teamsName);
+    // console.log(karyaId, teamsName);
     setIsOpenModal(false);
   };
 
@@ -109,6 +109,7 @@ const CollectionVoteCards = ({
             isVoted={true}
             onVote={() => {
               handleChange(card.id, card.teamsName);
+              console.log(card.id, card.teamsName);
             }}
             alreadyVoted={voteStatus === card.id}
             isDisabled={voteSelected}
