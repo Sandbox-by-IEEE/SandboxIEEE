@@ -13,7 +13,7 @@ import LazyLoadMap from '@/components/lazy-load-map';
 import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
-import VoteCard from '@/components/Vote/VoteCard';
+import VoteCardExhPage from '@/components/Vote/VoteCardExhPage';
 import { performRequest } from '@/lib/datocms';
 import { type ExhibitionDataProps } from '@/types/exhibition-type';
 
@@ -280,7 +280,7 @@ const ExhibitionPage = async () => {
           </h4>
           <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
             {TPCData.map((card, index) => (
-              <VoteCard
+              <VoteCardExhPage
                 aos='flip-down'
                 aosDuration={600 + index * 200}
                 key={index}
@@ -307,7 +307,7 @@ const ExhibitionPage = async () => {
           </h4>
           <div className='flex items-stretch justify-center flex-wrap gap-10 lg:gap-14 2xl:gap-16'>
             {PTCData.map((card, index) => (
-              <VoteCard
+              <VoteCardExhPage
                 aos='flip-down'
                 aosDuration={600 + index * 200}
                 key={index}
@@ -323,7 +323,7 @@ const ExhibitionPage = async () => {
             ))}
           </div>
           <div data-aos='zoom-in'>
-            <CustomLink color='gold' url='events/exhibition/vote'>
+            <CustomLink color='gold' url='/events/exhibition/vote'>
               {/* {exhibition.buttonTextSeeMore} */}
               Vote Your Favorite
             </CustomLink>

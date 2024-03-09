@@ -1,140 +1,197 @@
-import { type Metadata } from 'next';
+'use client';
+
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
-import CustomLink from '@/components/Link';
+const LableValue = ({ lable, children }) => (
+  <>
+    <p className='text-[#FFE1B9] py-1'>{lable}</p>
+    <div className='py-1'>{children}</div>
+  </>
+);
 
-function Overview() {
-  return (
-    <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
-      <Image
-        src='/coming-soon-assets/Bintang_jatuh.svg'
-        className='absolute -right-20 lg:right-2 w-[50%] sm:w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
-        alt='Meteoroit'
-        width={744}
-        height={642}
-      />
-      <Image
-        src='/coming-soon-assets/Ring.svg'
-        className='absolute right-0 -top-14 w-[25%] sm:w-[10%] -translate-x-10 object-contain transition-all duration-300'
-        alt='Ring'
-        width={199}
-        height={199}
-      />
-      {/*Background*/}
-      <Image
-        src={'/coming-soon-assets/Background_Sandbox_Logo.png'}
-        alt='Sandbox Logo'
-        className='absolute animate-pulse top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[408px] sm:w-[550px] md:w-[70%] 2xl:w-[50%] aspect-video object-contain transition-all duration-300'
-        sizes='(max-width: 640px) 408px, (max-width: 768px) 550px, (max-width: 1024px) 70%, 50%'
-        priority
-        width={1315}
-        height={887}
-      />
-
-      {/*Content*/}
-      <div className='relative bg-scroll justify-items-center w-fit h-fit flex flex-col items-center'>
-        <Image
-          src={'/coming-soon-assets/Happy.png'}
-          alt='Bucket Image'
-          className='z-[20] object-contain animate-bounce w-[124px] h-[251px] sm:w-[150px] lg:w-[182px] lg:h-[280px] transition-all duration-300'
-          width={165}
-          height={220}
-        />
-        <div className='flex flex-col items-center gap-2 lg:gap-4'>
-          <h1 className='font-poppins animate-walk italic lg:text-4xl text-3xl tracking-wide text-center font-extrabold text-white transition-all duration-300'>
-            Coming Soon!
-          </h1>
-          <h2 className='font-poppins text-lg italic lg:text-2xl text-center text-white transition-all duration-300'>
-            Stay tuned! Something exciting is on the way.
-          </h2>
-          <div className='mt-2 lg:mt-4'>
-            <CustomLink
-              url='https://www.instagram.com/thesandbox.itb/'
-              color='gold'
-            >
-              Our Instagram
-            </CustomLink>
-          </div>
-        </div>
-      </div>
-      <Image
-        src='/coming-soon-assets/Bintang_jatuh.svg'
-        className='absolute rotate-[165deg] bottom-0 left-0 object-contain w-[20%] sm:-translate-x-10 -translate-x-20 -translate-y-10 transition-all duration-300'
-        alt='Meteorit'
-        width={744}
-        height={642}
-      />
-      <Image
-        src='/coming-soon-assets/Vector_155.svg'
-        className='absolute bottom-0 left-1 object-contain w-[25%] sm:w-[13%] sm:translate-x-10  translate-x-15 -translate-y-5 transition-all duration-300'
-        alt='GLowing Comet'
-        width={236}
-        height={206}
-      />
-    </main>
-  );
-}
-
-export default Overview;
-
-export const metadata: Metadata = {
-  title: 'Coming Soon | Sandbox IEEE ITB',
-  description:
-    "Something exciting is on the way! Our team is working hard behind the scenes to bring you a new and improved experience. While we fine-tune the final details, we wanted to give you a sneak peek of what's coming. Get ready for a world of innovation, opportunities, and engaging content that will inspire and empower you. Make sure to sign up for updates so you can be the first to know when we launch. The wait will be worth it - stay tuned!",
-  generator: 'Next.js',
-  category: 'Events',
-  applicationName: 'Sandbox IEEE ITB',
-  referrer: 'origin-when-cross-origin',
-  keywords: [
-    'Sandbox',
-    'Sandbox IEEE ITB',
-    'Sandbox ITB',
-    'Sandbox IEEE',
-    'IEEE ITB',
-    'ITB',
-    'Lomba',
-    'TPC',
-    'PTC',
-  ],
-  colorScheme: 'normal',
-  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
-  alternates: {
-    canonical: '/coming-soon',
-    languages: {
-      'en-US': '/en-US/coming-soon',
-      'id-ID': '/id-ID/coming-soon',
+const TPCTeamInformation = () => {
+  const [teamInfo, setTeamInfo] = useState({
+    data: {
+      id: '',
+      teamName: 'Venter',
+      chairmanName: 'Muhammad Fiqri Al Farisi Sitepu',
+      chairmanEmail: '',
+      members: [
+        { name: 'Muhammad Fiqri Al Farisi Sitepu' },
+        { name: 'Ziyad Nabil Al Ghifari' },
+        { name: 'Muhammad Gilang Riandinata' },
+      ],
+      teamStatus: 'ga',
+      topicName:
+        'Implementasi SPKLU Mini Hybrid Tenaga Surya sebagai Solusi Unggul dalam Mengatasi Kelangkaan SPKLU pada Era Modern',
+      abstract: { status: '' },
+      institution: 'Institut Teknologi Bandung',
+      fullPaper: {},
     },
-  },
-  openGraph: {
-    title: 'Sandbox IEEE ITB',
-    description:
-      "Something exciting is on the way! Our team is working hard behind the scenes to bring you a new and improved experience. While we fine-tune the final details, we wanted to give you a sneak peek of what's coming. Get ready for a world of innovation, opportunities, and engaging content that will inspire and empower you. Make sure to sign up for updates so you can be the first to know when we launch. The wait will be worth it - stay tuned!",
-    url: 'https://sandbox.ieeeitb.com/coming-soon',
-    siteName: 'Sandbox IEEE ITB',
-    images: [
-      {
-        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
-        width: 1200,
-        height: 630,
-        alt: 'Sandbox IEEE ITB Logo',
-      },
-    ],
-    locale: 'id_ID',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Sandbox IEEE ITB',
-    description:
-      "Something exciting is on the way! Our team is working hard behind the scenes to bring you a new and improved experience. While we fine-tune the final details, we wanted to give you a sneak peek of what's coming. Get ready for a world of innovation, opportunities, and engaging content that will inspire and empower you. Make sure to sign up for updates so you can be the first to know when we launch. The wait will be worth it - stay tuned!",
-    images: [
-      {
-        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
-        width: 1200,
-        height: 630,
-        alt: 'Sandbox IEEE ITB Logo',
-      },
-    ],
-  },
+    message: '',
+  });
+
+  return (
+    <div className='h-fit min-h-screen w-0 min-w-full flex flex-col bg-gradient-to-b from-[#051F12] to-[#06190C] gap-6'>
+      {/* Team Name, topic, and album */}
+      <section className='flex w-full max-w-[1000px] mx-auto py-8 lg:py-16'>
+        <section className='flex flex-col text-white font-museo-muderno gap-6 p-4'>
+          {/* Team Name & topic */}
+          <div className='h-28 flex w-full'>
+            <div className='flex md:hidden h-0 min-h-full w-auto aspect-square rounded-full bg-slate-100 justify-center items-center'>
+              <Image
+                src='/Group_1289.png'
+                width={200}
+                height={200}
+                alt='Mascot'
+                className='min-w-full w-0 h-auto'
+              />
+            </div>
+            <div className='flex flex-col p-4 lg:p-8 justify-start text-start gap-2 flex-grow'>
+              <h1
+                style={{
+                  ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
+                }}
+                className='bg-gradient-brown ml-0 m-auto text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
+              >
+                {teamInfo.data.teamName}
+              </h1>
+              {/* <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
+                Insert Topic Name
+              </h2> */}
+            </div>
+          </div>
+
+          {/* Description & image */}
+          <div className='relative h-fit min-h-[50%] w-full p-4 lg:px-8 rounded-md bg-[#49784F] mx-auto'>
+            <div className='hidden absolute right-4 sm:right-8 md:right-12 lg:right-20 -top-36 w-72 h-72 rounded-full bg-slate-50 md:flex items-center justify-center'>
+              <Image
+                src='/Group_1289.png'
+                width={200}
+                height={200}
+                alt='Mascot'
+                className='min-w-full w-0 h-auto'
+              />
+            </div>
+            <div className='judul bg-gradient-to-br from-green-200 to-green-500 bg-clip-text text-transparent max-w-full md:max-w-[50%] font-bold leading-loose text-justify font-'>
+              {teamInfo.data.topicName}
+            </div>
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
+              Era perubahan iklim mendorong fokus pada sektor transportasi untuk
+              mengurangi emisi gas rumah kaca. Namun, kelangkaan SPKLU
+              menghambat penggunaan kendaraan listrik. SPKLU Mini Hybrid Tenaga
+              Surya merupakan inovasi yang dibawakan sebagai solusi untuk
+              mengatasi kelangkaan SPKLU pada era modern, keterbatasan lahan,
+              dan peningkatan aksesibilitas pengguna kendaraan listrik. SPKLU
+              mini berbasis Hybrid ini menggunakan 60% energi berasal dari
+              listrik dan 40% dari panel surya. Pemilihan panel surya sebagai
+              salah satu sumber energi SPKLU Hybrid didasarkan pada
+              keberlanjutan dan ketersediaan energi surya yang melimpah di
+              Indonesia. Panel Surya yang dipasang di SPKLU diatur agar
+              mengikuti arah cahaya matahari untuk memastikan pengumpulan energi
+              mencapai tingkat maksimal dan mengurangi ketergantungan pada
+              sumber listrik konvensional. Dengan memanfaatkan tenaga surya,
+              diharapkan tercapai efisiensi optimal dalam manajemen energi.
+              Langkah tambahan untuk mengatasi keterbatasan lahan dilakukan
+              dengan menerapkan SPKLU mini berbasis Hybrid, dirancang khusus
+              untuk meminimalkan penggunaan lahan. Hal ini diharapkan dapat
+              mengatasi kelangkaan SPKLU dengan memaksimalkan pemanfaatan lahan
+              yang tersedia. Adapun implementasi SPKLU mini berbasis Hybrid ini
+              tidak hanya melibatkan aspek teknis, tetapi juga melibatkan aspek
+              penggunaan dan aksesibilitas. Oleh karena itu, sistem pembayaran
+              yang mandiri diusulkan sebagai bagian dari rekomendasi. Pengguna
+              dapat melakukan pembayaran secara mandiri melalui metode QRIS atau
+              menggunakan uang tunai melalui vending machine SPKLU. Hal ini
+              bertujuan untuk meningkatkan kenyamanan dan aksesibilitas bagi
+              pengguna kendaraan listrik. Tujuan utama penelitian ini adalah
+              menciptakan solusi inovatif untuk mengatasi kelangkaan SPKLU
+              melalui pendekatan berbasis Hybrid, yaitu menggabungkan Tenaga
+              Surya dan Listrik Konvensional. Dengan mengkombinasikan sumber
+              energi ini, diharapkan dapat menciptakan SPKLU yang lebih andal
+              dan berkelanjutan.
+            </p>
+          </div>
+        </section>
+      </section>
+
+      {/* Poster */}
+      <section className='w-full max-w-[800px] max-h-fit mx-auto p-4'>
+        <Image
+          src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709938374/The%20Sandbox%20by%20IEEE%20ITBSB/kesustss8l1ln7d6e4zd.jpg'
+          width={1000}
+          height={1000}
+          alt='Mascot'
+          className='min-w-full w-full h-auto object-contain bg-slate-100'
+        />
+      </section>
+
+      {/* Team Profile */}
+      <section className='flex flex-col gap-4 max-w-[800px] mx-auto w-full px-4 py-16'>
+        <p className='w-full py-4 text-center text-white font-bold text-3xl bg-[#49784F] rounded-lg'>
+          Team Profile
+        </p>
+        <div className='flex flex-wrap gap-4 py-6'>
+          {/* <div className='aspect-square w-0 min-w-full sm:min-w-[27rem] flex-grow grid grid-cols-2 h-fit gap-8 rounded-lg'>
+            <div className='bg-slate-100 rounded-full flex justify-center items-center'>
+              <Image
+                src='/Group_1289.png'
+                width={200}
+                height={200}
+                alt='Mascot'
+                className='min-w-full w-0 h-auto'
+              />
+            </div>
+            <div className='bg-slate-100 rounded-full flex justify-center items-center'>
+              <Image
+                src='/Group_1289.png'
+                width={200}
+                height={200}
+                alt='Mascot'
+                className='min-w-full w-0 h-auto'
+              />
+            </div>
+            <div className='bg-slate-100 rounded-full flex justify-center items-center'>
+              <Image
+                src='/Group_1289.png'
+                width={200}
+                height={200}
+                alt='Mascot'
+                className='min-w-full w-0 h-auto'
+              />
+            </div>
+            <div className='bg-slate-100 rounded-full flex justify-center items-center'>
+              <Image
+                src='/Group_1289.png'
+                width={200}
+                height={200}
+                alt='Mascot'
+                className='min-w-full w-0 h-auto'
+              />
+            </div>
+          </div> */}
+          <section className='flex-grow w-0 min-w-[10rem] flex-shrink-0 bg-[#49784F] text-white font-bold p-4 rounded-lg'>
+            <LableValue lable='Team Name'>{teamInfo.data.teamName}</LableValue>
+            <LableValue lable='Team Leader'>
+              {teamInfo.data.chairmanName}
+            </LableValue>
+            <LableValue lable='Topic Name'>
+              {teamInfo.data.topicName}
+            </LableValue>
+            <LableValue lable='Institution'>
+              {teamInfo.data.institution}
+            </LableValue>
+            <LableValue lable='Team members :'>
+              <ul className='list-disc'>
+                {teamInfo.data.members.map((member, index) => (
+                  <li key={index}>{member.name}</li>
+                ))}
+              </ul>
+            </LableValue>
+          </section>
+        </div>
+      </section>
+    </div>
+  );
 };
+export default TPCTeamInformation;

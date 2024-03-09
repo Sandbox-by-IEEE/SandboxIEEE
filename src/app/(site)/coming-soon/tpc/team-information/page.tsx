@@ -14,19 +14,14 @@ const TPCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'environtmeng',
-      chairmanName: 'Naufal Fabianito Assariy',
-      chairmanEmail: '',
-      members: [
-        { name: 'Naufal Fabianito Assariy' },
-        { name: 'Andhika Fathurrohman' },
-        { name: 'Rafif Ariq Rabbani' },
-      ],
+      teamName: 'ampun abang',
+      chairmanName: 'waduh',
+      chairmanEmail: 'waduh',
+      members: [{ name: 'Budi Jantan' }],
       teamStatus: 'ga',
-      topicName:
-        'GREENTAVI: PERANCANGAN KONSEP BIOPACKAGING SERUM TAVI BERBASIS BIOPLASTIK PEF/TiO2 NANOWIRES DAN KARTON TERLAPISI NANOFIBRIL CELLULOSE (NFC) BERBAHAN LIMBAH SEKAM PADI DAN BAGASSE',
+      topicName: 'dribble',
       abstract: { status: '' },
-      institution: 'Universitas Gadjah Mada dan Universitas Sepuluh Nopember',
+      institution: 'bagas',
       fullPaper: {},
     },
     message: '',
@@ -53,9 +48,9 @@ const TPCTeamInformation = () => {
                 style={{
                   ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
                 }}
-                className='bg-gradient-brown ml-0 m-auto text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
+                className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                {teamInfo.data.teamName}
+                Team Name
               </h1>
               {/* <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
                 Insert Topic Name
@@ -74,53 +69,11 @@ const TPCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-            <div className='judul bg-gradient-to-br from-green-200 to-green-500 bg-clip-text text-transparent max-w-full md:max-w-[50%] font-bold leading-loose text-justify font-'>
-              {teamInfo.data.topicName}
-            </div>
-            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
-              Tavi merupakan salah satu produk kosmetik yang terkenal di
-              Indonesia. Namun, bahan yang digunakan sebagai kemasan kosmetik
-              saat ini masih menggunakan PET yang sulit untuk didaur ulang.
-              Penggunaan PEF/TiO2 Nanowires sebagai kemasan dapat digunakan
-              sebagai pengganti PET karena memiliki kelebihan yaitu dapat didaur
-              ulang 100%. PEF juga memiliki ketahanan tekanan, termal,
-              antibakteri, dan UV yang tinggi. Selain itu, digunakan karton
-              pembungkus kemasan yang terbuat dari campuran bagasse dan sekam
-              padi yang terlapisi Nanofibril Cellulose dengan keunggulan ramah
-              lingkungan karena cepat terdegradasi dan bahan NFC yang digunakan
-              berasal dari bahan organik. Adapun tujuan dari penulisan ini
-              adalah untuk menentukan komposisi nanokomposit PEF/TiO2 Nanowires
-              pada bioplastik, komposisi Nanofibril Cellulose (NFC), Sekam Padi,
-              dan Bagasse pada karton dengan parameter optimum, serta merancang
-              desain biopackaging serum Tavi Berbasis Bioplastik PEF/TiO2
-              Nanowires dan Karton Terlapisi Nanofibril Cellulose (NFC) beserta
-              analisis perbandingan packaging GREENTAVI dengan brand Tavi secara
-              spesifikasi dan analisis ekonomi. Metode penulisan yang digunakan
-              oleh penulis adalah studi literatur dari penggabungan
-              penelitian-penelitian terdahulu. Penelitian oleh Zhao(2023)
-              menunjukkan bahwa penggunaan PEF/TiO2 Nanowires meningkatkan
-              ketahanan termal plastik hingga 415,41°C, impact strength 60
-              kJ/m², Tav-uvc (%) Tav-uvb (%) Tav-uva (%) Tav-b (%)
-              berturut-turut sebesar 0.04; 0.05; 1.52; dan 13.31%, serta
-              antibacterial rate sebesar 98,01%. Selain itu, penggunaan 20% w/w
-              bagasse + 80% sekam padi sebagai bahan pembuatan karton oleh
-              Pratima (2015) memiliki densitas 82,9 kg/m³, burst strength 1,88
-              kPa m²/g, dan edgewise compressive resistance of 2.75 kN/m.
-              Penelitian oleh Adriano (2022) menunjukkan bahwa coating Ca2O4Si
-              10 % pada karton terbukti dapat meningkatkan kapasitas absorpsi
-              air sebesar 63% dan ketahanan tekanan hingga 43 MPa. Perhitungan
-              untuk melihat material yang lebih baik pada kemasan botol dan
-              karton menggunakan concept scoring. Besar dimensi dari diameter
-              kemasan botol menggunakan pengukuran diameter genggaman maksimal
-              pada persentil 5 (P5) wanita untuk membuat produk tersebut dapat
-              digunakan oleh sebagian besar populasi wanita yang ada.
-              Selanjutnya, desain kemasan botol dibuat melengkung untuk
-              memudahkan pengguna dalam memegang barang tersebut.. Berdasarkan
-              analisis, didapatkan bahwa penggunaan Biopackaging Serum Tavi
-              Berbasis Bioplastik PEF/TiO2 Nanowires dan Karton Terlapisi
-              Nanofibril Cellulose (NFC) Berbahan Limbah Sekam Padi dan Bagasse
-              berpotensi tinggi dan dapat diterapkan secara efektif sebagai
-              pengganti packaging Tavi saat ini. Dari segi
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose'>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
+              tincidunt justo, ac viverra leo. Integer a dignissim magna.
+              Quisque lacinia augue ut tortor iaculis mollis. Quisque rhoncus
+              imperdiet est vel faucibus.
             </p>
           </div>
         </section>
@@ -129,9 +82,9 @@ const TPCTeamInformation = () => {
       {/* Poster */}
       <section className='w-full max-w-[800px] max-h-fit mx-auto p-4'>
         <Image
-          src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709937311/The%20Sandbox%20by%20IEEE%20ITBSB/jfjbxscegigsgliagqhx.jpg'
-          width={1000}
-          height={1000}
+          src='/Group_1289.png'
+          width={200}
+          height={200}
           alt='Mascot'
           className='min-w-full w-full h-auto object-contain bg-slate-100'
         />
