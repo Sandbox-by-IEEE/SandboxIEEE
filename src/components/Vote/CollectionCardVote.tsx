@@ -72,6 +72,7 @@ const CollectionVoteCards = ({
 
   // Handle onVote onClick Modal Button
   const handleVote = (id: string, teamsName: string) => {
+    setIsOpenModal(false);
     setVoteSelected(true);
     setVoteStatus(id);
     if (voteSelectedId) {
