@@ -14,19 +14,19 @@ const TPCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'environtmeng',
-      chairmanName: 'Naufal Fabianito Assariy',
+      teamName: 'BIO-WANA',
+      chairmanName: 'Zahrah Faridathul Athifah',
       chairmanEmail: '',
       members: [
-        { name: 'Naufal Fabianito Assariy' },
-        { name: 'Andhika Fathurrohman' },
-        { name: 'Rafif Ariq Rabbani' },
+        { name: 'Zahrah Faridathul Athifah' },
+        { name: 'Sang Ara Musthika' },
+        { name: "Haliza Qintar Ma'aya" },
       ],
       teamStatus: 'ga',
       topicName:
-        'GREENTAVI: PERANCANGAN KONSEP BIOPACKAGING SERUM TAVI BERBASIS BIOPLASTIK PEF/TiO2 NANOWIRES DAN KARTON TERLAPISI NANOFIBRIL CELLULOSE (NFC) BERBAHAN LIMBAH SEKAM PADI DAN BAGASSE',
+        'PERANCANGAN PERSEMAIAN BALANGERAN (Shorea Balangeran): INFRASTRUKTUR BERKELANJUTAN DALAM MENDUKUNG UPAYA RESTORASI LAHAN GAMBUT DI IBU KOTA NUSANTARA',
       abstract: { status: '' },
-      institution: 'Universitas Gadjah Mada dan Universitas Sepuluh Nopember',
+      institution: 'Institut Teknologi Bandung',
       fullPaper: {},
     },
     message: '',
@@ -55,7 +55,7 @@ const TPCTeamInformation = () => {
                 }}
                 className='bg-gradient-brown ml-0 m-auto text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                {teamInfo.data.teamName}
+                BIO-WANA
               </h1>
               {/* <h2 className='font-bold text-3xl lg:text-[40px] max-w-full md:max-w-[50%]'>
                 Insert Topic Name
@@ -78,49 +78,23 @@ const TPCTeamInformation = () => {
               {teamInfo.data.topicName}
             </div>
             <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
-              Tavi merupakan salah satu produk kosmetik yang terkenal di
-              Indonesia. Namun, bahan yang digunakan sebagai kemasan kosmetik
-              saat ini masih menggunakan PET yang sulit untuk didaur ulang.
-              Penggunaan PEF/TiO2 Nanowires sebagai kemasan dapat digunakan
-              sebagai pengganti PET karena memiliki kelebihan yaitu dapat didaur
-              ulang 100%. PEF juga memiliki ketahanan tekanan, termal,
-              antibakteri, dan UV yang tinggi. Selain itu, digunakan karton
-              pembungkus kemasan yang terbuat dari campuran bagasse dan sekam
-              padi yang terlapisi Nanofibril Cellulose dengan keunggulan ramah
-              lingkungan karena cepat terdegradasi dan bahan NFC yang digunakan
-              berasal dari bahan organik. Adapun tujuan dari penulisan ini
-              adalah untuk menentukan komposisi nanokomposit PEF/TiO2 Nanowires
-              pada bioplastik, komposisi Nanofibril Cellulose (NFC), Sekam Padi,
-              dan Bagasse pada karton dengan parameter optimum, serta merancang
-              desain biopackaging serum Tavi Berbasis Bioplastik PEF/TiO2
-              Nanowires dan Karton Terlapisi Nanofibril Cellulose (NFC) beserta
-              analisis perbandingan packaging GREENTAVI dengan brand Tavi secara
-              spesifikasi dan analisis ekonomi. Metode penulisan yang digunakan
-              oleh penulis adalah studi literatur dari penggabungan
-              penelitian-penelitian terdahulu. Penelitian oleh Zhao(2023)
-              menunjukkan bahwa penggunaan PEF/TiO2 Nanowires meningkatkan
-              ketahanan termal plastik hingga 415,41°C, impact strength 60
-              kJ/m², Tav-uvc (%) Tav-uvb (%) Tav-uva (%) Tav-b (%)
-              berturut-turut sebesar 0.04; 0.05; 1.52; dan 13.31%, serta
-              antibacterial rate sebesar 98,01%. Selain itu, penggunaan 20% w/w
-              bagasse + 80% sekam padi sebagai bahan pembuatan karton oleh
-              Pratima (2015) memiliki densitas 82,9 kg/m³, burst strength 1,88
-              kPa m²/g, dan edgewise compressive resistance of 2.75 kN/m.
-              Penelitian oleh Adriano (2022) menunjukkan bahwa coating Ca2O4Si
-              10 % pada karton terbukti dapat meningkatkan kapasitas absorpsi
-              air sebesar 63% dan ketahanan tekanan hingga 43 MPa. Perhitungan
-              untuk melihat material yang lebih baik pada kemasan botol dan
-              karton menggunakan concept scoring. Besar dimensi dari diameter
-              kemasan botol menggunakan pengukuran diameter genggaman maksimal
-              pada persentil 5 (P5) wanita untuk membuat produk tersebut dapat
-              digunakan oleh sebagian besar populasi wanita yang ada.
-              Selanjutnya, desain kemasan botol dibuat melengkung untuk
-              memudahkan pengguna dalam memegang barang tersebut.. Berdasarkan
-              analisis, didapatkan bahwa penggunaan Biopackaging Serum Tavi
-              Berbasis Bioplastik PEF/TiO2 Nanowires dan Karton Terlapisi
-              Nanofibril Cellulose (NFC) Berbahan Limbah Sekam Padi dan Bagasse
-              berpotensi tinggi dan dapat diterapkan secara efektif sebagai
-              pengganti packaging Tavi saat ini. Dari segi
+              Persemaian Balangeran (Shorea Balangeran) adalah infrastruktur
+              berkelanjutan yang berfokus sebagai penyuplai bibit berkualitas
+              Shorea Balangeran yang akan ditanam pada lahan gambut dengan
+              potensi kerusakan tinggi terutama di Kalimantan Timur sebagai
+              upaya merestorasi lahan gambut di Ibu Kota Nusantara. Persemaian
+              ini mampu memproduksi 3000 bibit setiap tahunnya untuk merestorasi
+              lahan gambut seluas 2,7 Ha setiap tahunnya. Pengaruh perlakuan
+              Perendaman dengan tinggi polybag setinggi 17 cm yang memberikan
+              pengaruh pertambahan tinggi sekitar 2 cm. Pengaruh perlakuan
+              penyimpanan selama 6 hari di dalam kardus pada shade house dan
+              tanpa perlakuan pemeliharaan dalam sungkup yang memberikan
+              pengaruh pertambahan tinggi sebesar 3,25 cm. Melalui pemulihan
+              29.7 hektar lahan gambut dalam waktu 10 tahun diproyeksikan mampu
+              menghasilkan keuntungan ekonomi dengan NPV sebesar
+              Rp8.868.180.533,24 dengan rasio B/C sebesar 10.35. Perancangan
+              persemaian ini akan memberikan potensi restorasi yang baik untuk
+              lahan gambut dengan proyeksi keuntungan ekonomi berkelanjutan
             </p>
           </div>
         </section>
@@ -129,7 +103,7 @@ const TPCTeamInformation = () => {
       {/* Poster */}
       <section className='w-full max-w-[800px] max-h-fit mx-auto p-4'>
         <Image
-          src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709937311/The%20Sandbox%20by%20IEEE%20ITBSB/jfjbxscegigsgliagqhx.jpg'
+          src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709921097/The%20Sandbox%20by%20IEEE%20ITBSB/yzuyntba185tip76xbnh.png'
           width={1000}
           height={1000}
           alt='Mascot'

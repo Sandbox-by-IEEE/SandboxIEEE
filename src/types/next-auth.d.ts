@@ -5,18 +5,43 @@ declare module 'next-auth' {
     id: string;
     username?: string;
     vote?: {
-      status: boolean;
-      karya?: {
-        id: string;
-        team: {
+      PTC?: {
+        status: boolean;
+        karya?: {
           id: string;
-          teamName: string;
-          chairmanName: string;
+          team: {
+            id: string;
+            teamName: string;
+            chairmanName: string;
+            ticketCompetition: {
+              competitionType: string;
+            };
+          };
+
+          countVote: int;
+          linkFullPaper: string;
+          linkVideo: string;
+          linkVideo2: string;
         };
-        countVote: int;
-        linkFullPaper: string;
-        linkVideo: string;
-        linkVideo2: string;
+      };
+      TPC?: {
+        status: boolean;
+        karya?: {
+          id: string;
+          team: {
+            id: string;
+            teamName: string;
+            chairmanName: string;
+            ticketCompetition: {
+              competitionType: string;
+            };
+          };
+
+          countVote: int;
+          linkFullPaper: string;
+          linkVideo: string;
+          linkVideo2: string;
+        };
       };
     };
     ticket?: {
@@ -56,18 +81,43 @@ declare module 'next-auth' {
       id: string;
       username?: string;
       vote?: {
-        status: boolean;
-        karya?: {
-          id: string;
-          team: {
+        PTC?: {
+          status: boolean;
+          karya?: {
             id: string;
-            teamName: string;
-            chairmanName: string;
+            team: {
+              id: string;
+              teamName: string;
+              chairmanName: string;
+              ticketCompetition: {
+                competitionType: string;
+              };
+            };
+
+            countVote: int;
+            linkFullPaper: string;
+            linkVideo: string;
+            linkVideo2: string;
           };
-          countVote: int;
-          linkFullPaper: string;
-          linkVideo: string;
-          linkVideo2: string;
+        };
+        TPC?: {
+          status: boolean;
+          karya?: {
+            id: string;
+            team: {
+              id: string;
+              teamName: string;
+              chairmanName: string;
+              ticketCompetition: {
+                competitionType: string;
+              };
+            };
+
+            countVote: int;
+            linkFullPaper: string;
+            linkVideo: string;
+            linkVideo2: string;
+          };
         };
       };
       ticket?: {

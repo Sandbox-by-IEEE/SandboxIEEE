@@ -28,7 +28,7 @@ export default function DynamicQr({ params }) {
         break;
 
       case 'TPC-Team1':
-        router.push('/events/tpc/finalist-overview/BIO-WANNA');
+        router.push('/events/tpc/finalist-overview/BIO-WANA');
         break;
       case 'TPC-Team2':
         router.push('/events/tpc/finalist-overview/Doa-(W)ibu');
