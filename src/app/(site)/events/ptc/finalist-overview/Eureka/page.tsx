@@ -14,14 +14,20 @@ const PTCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'ampun abang',
-      chairmanName: 'waduh',
+      teamName: 'Eureka',
+      chairmanName: 'Amalia Putri',
       chairmanEmail: 'waduh',
-      members: [{ name: 'Budi Jantan' }],
+      members: [
+        { name: 'Amalia Putri' },
+        { name: 'Firsa Athaya Raissa Alifah' },
+        { name: 'Zaki Yudhistira Candra' },
+        { name: 'Irfan Nurhakim Hilmi' },
+        { name: 'John Sinalsal P. Saragih' },
+      ],
       teamStatus: 'ga',
-      topicName: 'dribble',
+      topicName: 'Green Keys',
       abstract: { status: '' },
-      institution: 'bagas',
+      institution: 'Institut Teknologi Bandung',
       fullPaper: {},
     },
     message: '',
@@ -50,10 +56,10 @@ const PTCTeamInformation = () => {
                 }}
                 className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                Team Name
+                {teamInfo.data.teamName}
               </h1>
               <h2 className='font-bold text-lg lg:text-[30px] max-w-full md:max-w-[50%]'>
-                Insert Topic Name
+                {teamInfo.data.topicName}
               </h2>
             </div>
           </div>
@@ -69,47 +75,48 @@ const PTCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-            <p className='max-w-full md:max-w-[50%] font-bold leading-loose'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
-              tincidunt justo, ac viverra leo. Integer a dignissim magna.
-              Quisque lacinia augue ut tortor iaculis mollis. Quisque rhoncus
-              imperdiet est vel faucibus.
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
+              Green Keys adalah produk keyboard ramah lingkungan yang berfungsi
+              sebagai solusi terhadap peningkatan jumlah limbah elektronik di
+              seluruh dunia khususnya di bidang IT dan Telekomunikasi. Inovasi
+              utama pada produk kami terletak pada penggantian casing keyboard
+              dengan filamen PLA.
             </p>
             <div className='grid grid-cols-2 h-fit py-4 lg:pt-16 gap-8'>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709941121/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/Eureka/iz1nqxj8qszjeebutlpq.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709940742/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/Eureka/myavv4zslnbbro857qoi.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709940695/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/Eureka/lqgjjo7zsxm3plqrqhko.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709940681/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/Eureka/nqhpedwkygwbsmklvjx3.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
             </div>
@@ -127,8 +134,15 @@ const PTCTeamInformation = () => {
         >
           Prototype Video
         </h3>
-        <div className='w-full max-w-[80%] h-auto aspect-[5/3] bg-slate-100'>
-          replace with video
+        <div className='w-full max-w-[80%] h-auto aspect-[5/3]'>
+          <iframe
+            className='video w-full h-full'
+            width='847'
+            height='476'
+            src='https://www.youtube.com/embed/khqieu7Ytck'
+            title='Green Keys Prototype - Eureka Team'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          ></iframe>
         </div>
       </section>
 

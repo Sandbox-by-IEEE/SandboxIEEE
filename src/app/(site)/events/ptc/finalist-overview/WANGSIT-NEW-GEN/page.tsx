@@ -14,14 +14,18 @@ const PTCTeamInformation = () => {
   const [teamInfo, setTeamInfo] = useState({
     data: {
       id: '',
-      teamName: 'ampun abang',
-      chairmanName: 'waduh',
+      teamName: 'WANGSIT NEW GEN',
+      chairmanName: 'Nabila Rohmawati',
       chairmanEmail: 'waduh',
-      members: [{ name: 'Budi Jantan' }],
+      members: [
+        { name: 'Nabila Rohmawati' },
+        { name: 'Jihan Prihatini' },
+        { name: 'Muhammad Fadhilah Akbar' },
+      ],
       teamStatus: 'ga',
-      topicName: 'dribble',
+      topicName: 'Ufobi',
       abstract: { status: '' },
-      institution: 'bagas',
+      institution: 'Institut Teknologi Bandung',
       fullPaper: {},
     },
     message: '',
@@ -50,10 +54,10 @@ const PTCTeamInformation = () => {
                 }}
                 className='bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-bold text-left max-w-full md:max-w-[50%]'
               >
-                Team Name
+                {teamInfo.data.teamName}
               </h1>
               <h2 className='font-bold text-lg lg:text-[30px] max-w-full md:max-w-[50%]'>
-                Insert Topic Name
+                {teamInfo.data.topicName}
               </h2>
             </div>
           </div>
@@ -69,47 +73,48 @@ const PTCTeamInformation = () => {
                 className='min-w-full w-0 h-auto'
               />
             </div>
-            <p className='max-w-full md:max-w-[50%] font-bold leading-loose'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a
-              tincidunt justo, ac viverra leo. Integer a dignissim magna.
-              Quisque lacinia augue ut tortor iaculis mollis. Quisque rhoncus
-              imperdiet est vel faucibus.
+            <p className='max-w-full md:max-w-[50%] font-bold leading-loose text-justify'>
+              We don&#39;t have to sacrifice a strong economy for a healthy
+              environment. Target menjadi project dalam karbon offset guna
+              mengurangi emisi CO₂ dan mendukung pembangunan berkelanjutan
+              dengan teknologi ramah lingkungan, serta peningkatan perekonomian
+              dan kesehatan.
             </p>
             <div className='grid grid-cols-2 h-fit py-4 lg:pt-16 gap-8'>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709943365/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/WANGSIT%20NEW%20GEN/nldw0lykbavkceuuvrmi.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709943364/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/WANGSIT%20NEW%20GEN/wejat44hew1h1v9tfbe4.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709943363/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/WANGSIT%20NEW%20GEN/cmpkemsznibwhcwgm5x1.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
-              <div className='bg-slate-100'>
+              <div className='flex'>
                 <Image
-                  src='/Group_1289.png'
-                  width={200}
-                  height={200}
+                  src='https://res.cloudinary.com/dggk9y0yt/image/upload/v1709943364/The%20Sandbox%20by%20IEEE%20ITBSB/PTCModels/WANGSIT%20NEW%20GEN/k7uczwif4rulrcjyyhuz.jpg'
+                  width={600}
+                  height={600}
                   alt='Mascot'
-                  className='min-w-full w-0 h-auto'
+                  className='min-w-full w-0 h-fit m-auto'
                 />
               </div>
             </div>
@@ -127,8 +132,15 @@ const PTCTeamInformation = () => {
         >
           Prototype Video
         </h3>
-        <div className='w-full max-w-[80%] h-auto aspect-[5/3] bg-slate-100'>
-          replace with video
+        <div className='w-full max-w-[80%] h-auto aspect-[5/3]'>
+          <iframe
+            className='video w-full h-full'
+            width='847'
+            height='476'
+            src='https://www.youtube.com/embed/x5ujsR9MUC8'
+            title='WANGSIT NEW GEN - Ufobi'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          ></iframe>
         </div>
       </section>
 
