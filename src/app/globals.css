@@ -5,10 +5,9 @@
 /* color for timeline line */
 :root {
   --color-start: rgba(204, 204, 204, 0.27); /* CCCC 27% */
-  --color-middle: rgba(255, 255, 255, 1);   /* FFFFFF 100% */
-  --color-end: rgba(153, 153, 153, 0.27);   /* 999999 27% */
+  --color-middle: rgba(255, 255, 255, 1); /* FFFFFF 100% */
+  --color-end: rgba(153, 153, 153, 0.27); /* 999999 27% */
 }
-
 
 /* tailwind can't handler border-image for gradient border */
 .gradient-border-bg {
