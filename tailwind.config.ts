@@ -44,6 +44,7 @@ const config: Config = {
         'cream-secondary-light': '#FFE1B9',
         'cream-secondary-normal': '#D8B88B',
         'brown-secondary': '#AB814E',
+        customGreen: 'rgba(24, 99, 90, 0.69)',
       },
       keyframes: {
         marquee: {
