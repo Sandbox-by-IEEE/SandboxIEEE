@@ -1,94 +1,3 @@
-// 'use client';
-
-// import Image from 'next/image';
-// import { useState } from 'react';
-
-// import { UploadDropzone } from '@/app/utils/uploadthings';
-// import Button from '@/components/Button';
-// import FileInputIconEmpty from '@/components/icons/FileInputIconEmpty';
-
-// export default function SingleFileInput() {
-//   const [fileUrl, setFileUrl] = useState<string | null>(null);
-//   const [uploadStatus, setuploadStatus] = useState<string | null>(
-//     'not started',
-//   );
-//   return (
-//     <>
-//       {fileUrl === null &&
-//         (uploadStatus === 'not started' || uploadStatus === 'completed') && (
-//           <>
-//             <UploadDropzone
-//               endpoint='imageUploader'
-//               appearance={{
-//                 container:
-//                   'w-full px-4 h-[350px] py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[4px] border-[#dbb88b] text-[#e6e6e6] space-y-4',
-//               }}
-//               content={{
-//                 uploadIcon: (
-//                   <FileInputIconEmpty className='w-[170px] lg:w-[214px]' />
-//                 ),
-//                 label: (
-//                   <p className='text-[15px] lg:text-base font-poppins font-bold cursor-pointer'>
-//                     Drag or <span className='text-blue-500'>upload</span> your
-//                     file here
-//                   </p>
-//                 ),
-//                 button: (
-//                   <button className='bg-blue-500 text-white py-2 px-4 rounded-lg'>
-//                     Upload
-//                   </button>
-//                 ),
-//               }}
-//               onBeforeUploadBegin={(files) => {
-//                 setuploadStatus('uploading');
-//                 return files;
-//               }}
-//               onClientUploadComplete={(res) => {
-//                 setTimeout(() => {
-//                   setuploadStatus('completed');
-//                 }, 5000);
-//                 setFileUrl(res[0].url);
-//               }}
-//               onUploadError={() => {
-//                 setFileUrl(null);
-//               }}
-//             />
-//           </>
-//         )}
-//       {fileUrl && uploadStatus === 'completed' && (
-//         <div className='h-full w-full flex flex-col gap-4 justify-center items-center'>
-//           <Image
-//             src={fileUrl}
-//             alt='uploaded file'
-//             width={200}
-//             height={200}
-//           ></Image>
-//           <Button
-//             color='red'
-//             onClick={() => {
-//               setuploadStatus('not started');
-//               setFileUrl(null);
-//             }}
-//           >
-//             Cancel
-//           </Button>
-//         </div>
-//       )}
-//       {uploadStatus === 'uploading' && (
-//         <div
-//           className={
-//             'w-full h-[350px] mt-[8px] px-4 py-8 lg:py-12 flex flex-col justify-center items-center rounded-lg border-dashed border-[4px] border-[#dbb88b] text-[#e6e6e6] space-y-4'
-//           }
-//         >
-//           <div
-//             className='w-[100px] aspect-square rounded-full animate-spin
-//                     border-8 border-solid border-[#dbb88b] border-t-transparent'
-//           ></div>
-//         </div>
-//       )}
-//     </>
-//   );
-// }
 'use client';
 import Link from 'next/link';
 import React, {
@@ -108,7 +17,7 @@ import FileInputIconSuccess from '@/components/icons/FileInputIconSuccess';
 import LinkIcon from '@/components/icons/LinkIcon';
 import SaveIcon from '@/components/icons/SaveIcon';
 
-const SingleFileInput = ({
+const OldSingleFileInput = ({
   setFile,
   allowedFileTypes = [],
   setUrl,
@@ -135,33 +44,29 @@ const SingleFileInput = ({
   };
 
   const uploadFile = async (fileUploaded: File) => {
-    // Check file size on the client side as well
-    if (fileUploaded.size > 10 * 1024 * 1024) {
-      throw new Error('File size exceeds the maximum allowed (10MB).');
-    }
-
-    // Prepare form data with the file
-    const fd = new FormData();
-    fd.append('file', fileUploaded);
-
+    // eslint-disable-next-line no-useless-catch
     try {
-      // Send the file to the server's API route
-      const response = await fetch('/api/uploads', {
-        method: 'POST',
-        body: fd,
-      });
-
-      // Handle the response
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'File upload failed');
+      if (fileUploaded.size > 10 * 1024 * 1024) {
+        throw 'File size exceeds the maximum allowed (10MB).';
       }
 
-      const result = await response.json();
-      console.log('File uploaded successfully:', result.message);
-      return result;
+      const fd = new FormData();
+      fd.append(`file`, fileUploaded);
+      fd.append('upload_preset', 'ddriwluc');
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/auto/upload`,
+        {
+          method: 'POST',
+          body: fd,
+        },
+      );
+      if (!response.ok) throw await response.json();
+
+      const responseJSON = await response.json();
+
+      return responseJSON;
     } catch (error) {
-      console.error('Error uploading file:', error);
       throw error;
     }
   };
@@ -475,4 +380,4 @@ const SingleFileInput = ({
   );
 };
 
-export default SingleFileInput;
+export default OldSingleFileInput;
