@@ -2,7 +2,6 @@ import { type Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
 
-
 export default function ComingSoonPage() {
   return (
     <main
