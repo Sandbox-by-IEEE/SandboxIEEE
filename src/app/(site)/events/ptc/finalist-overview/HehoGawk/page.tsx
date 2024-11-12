@@ -15,7 +15,7 @@ const PTCTeamInformation = () => {
     data: {
       id: '',
       teamName: 'HehoGawk',
-      chairmanName: 'Muhammad Athariq Yurisqi Riswandi',
+      chairmanName: 'Muhammad Hasbi Ash Shiddieqy',
       chairmanEmail: 'waduh',
       members: [
         { name: 'Muhammad Hasbi Ash Shiddieqy' },

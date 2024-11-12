@@ -26,11 +26,11 @@ export default function ExhibitionRegist() {
   // Price
   const SpecialPrice = {
     SingleInt: 30000,
-    SingleStr: 'Rp 30.000,00',
+    SingleStr: 'Rp 20.000,00',
     Collective3Int: 75000,
-    Collective3Str: 'Rp 75.000,00',
+    Collective3Str: 'Rp 54.000,00',
     Collective5Int: 100000,
-    Collective5Str: 'Rp 100.000,00',
+    Collective5Str: 'Rp 105.000,00',
   };
   const NormalPrice = {
     SingleInt: 40000,
@@ -66,8 +66,8 @@ export default function ExhibitionRegist() {
     const StartEarly = new Date('2024-01-16T17:00:00Z');
     const StartNormal = new Date('2024-02-24T10:00:00Z');
     const StartSpecial = new Date('2024-03-02T17:00:00Z');
-    const EndSpecial = new Date('2024-03-03T17:00:00Z');
-    const EndRegistration = new Date('2024-03-08T17:00:00Z');
+    const EndSpecial = new Date('2024-03-09T08:00:00Z');
+    const EndRegistration = new Date('2024-03-09T08:00:00Z');
 
     if (
       serverTime &&
@@ -675,7 +675,7 @@ export default function ExhibitionRegist() {
                         <GradientBox className='px-2 sm:px-8 sm:py-1 w-full text-center h-full flex flex-col items-center justify-evenly'>
                           <p className='border-b-2 py-2 w-full'>5 Person</p>
                           <p className='py-1 sm:py-2 font-bold'>
-                            Rp 100.000,00
+                            Rp 105.000,00
                           </p>
                         </GradientBox>
                       </label>
