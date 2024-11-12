@@ -17,7 +17,7 @@ export default function Home() {
             Fixing there and there
           </h2>
         </div>
-        {/* Shadow */}
+        {/*Shadow*/}
         <div
           className="absolute md:w-[50%] md:h-[50%] md:rounded-[50%] w-[15%] h-[15%] opacity-50"
           style={{
