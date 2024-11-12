@@ -8,7 +8,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'trans-green'
     | 'trans-orange'
     | 'white'
-    | 'light-gold';
+    | 'light-gold'
+    | 'red';
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
@@ -52,6 +53,10 @@ const Button: React.FC<ButtonProps> = ({
     },
     'light-gold': {
       main: 'text-dark-green uppercase font-inter text-[15px] text-black tracking-wide lg:text-base shadow-gray-800 shadow-m bg-[#FFE1B9]',
+      arrow: '#FFFFFF',
+    },
+    red: {
+      main: 'bg-red-500 text-white hover:shadow-[0px_0px_20px_5px_#FF0000] disabled:bg-[#D7D2D0]',
       arrow: '#FFFFFF',
     },
   };
