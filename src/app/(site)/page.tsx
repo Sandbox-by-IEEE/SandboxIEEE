@@ -1,4 +1,3 @@
-
 import BackgroundCarousel from '@/components/background-carousel';
 import ClientHome from '@/components/client-home';
 import CustomLink from '@/components/Link';
