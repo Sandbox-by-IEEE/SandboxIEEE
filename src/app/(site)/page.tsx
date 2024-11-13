@@ -1,6 +1,7 @@
 import BackgroundCarousel from '@/components/background-carousel';
 import ClientHome from '@/components/client-home';
 import CustomLink from '@/components/Link';
+import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type HomepageProps } from '@/types/homepage';
