@@ -145,6 +145,8 @@ const Modal = ({
             } hover:brightness-[80%] rounded-xl disabled:cursor-not-allowed disabled:brightness-[70%] transition-all duration-300 px-5 max-md:py-3.5 py-2.5 text-white `}
             onClick={() => {
               onClickButtonTwo();
+              closeModal();
+              document.body.classList.remove('no-scroll');
             }}
             disabled={disabledButtonTwo}
           >
