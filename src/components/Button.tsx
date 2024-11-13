@@ -8,10 +8,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'trans-green'
     | 'trans-orange'
     | 'white'
-    | 'light-gold';
+    | 'light-gold'
+    | 'transparent';
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
+  isNav?: boolean;
   className?: string;
 }
 
@@ -22,6 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   isIcon,
   isDisabled,
   isFullWidth,
+  isNav,
   className,
   ...props
 }) => {
@@ -54,6 +57,10 @@ const Button: React.FC<ButtonProps> = ({
       main: 'text-dark-green uppercase font-inter text-[15px] text-black tracking-wide lg:text-base shadow-gray-800 shadow-m bg-[#FFE1B9]',
       arrow: '#FFFFFF',
     },
+    transparent: {
+      main: 'text-white hover:text-black font-inter text-[15px] tracking-wide lg:text-base shadow-gray-800 border-2 border-white rounded-full hover:bg-white',
+      arrow: '#FFFFFF',
+    },
   };
 
   //green, 100%
@@ -63,8 +70,14 @@ const Button: React.FC<ButtonProps> = ({
       disabled={isDisabled}
       aria-label={(children && children.toString()) || 'button'}
       className={`${
-        isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[180px]'
-      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-3 px-4 rounded-md ${
+        isFullWidth
+          ? 'w-full h-full'
+          : isNav
+          ? 'w-[130px]'
+          : 'w-[130px] lg:w-[180px]'
+      } ${
+        isNav ? 'rounded-full' : 'rounded-md'
+      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-3 px-4 ${
         colorEffect[color].main
       } ${className}`}
       {...props}
