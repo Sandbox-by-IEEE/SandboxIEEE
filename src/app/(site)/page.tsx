@@ -1,6 +1,7 @@
 import BackgroundCarousel from '@/components/background-carousel';
 import ClientHome from '@/components/client-home';
 import CustomLink from '@/components/Link';
+import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type HomepageProps } from '@/types/homepage';
@@ -142,6 +143,17 @@ export default async function Home({
       {/* Our Events */}
 
       {/* Timeline */}
+      <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16]'>
+        <div
+          className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl mx-8 sm:mx-10 md:mx-28 lg:mx-36 2xl:mx-52'
+          data-aos='flip-up'
+        >
+          <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+            <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
+          </div>
+        </div>
+        <Timeline items={allTimelineSandboxes} />
+      </section>
 
       {/* FAQ + Sponsor and media partner */}
 
