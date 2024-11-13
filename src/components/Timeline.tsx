@@ -1,70 +1,123 @@
 'use client';
-import 'react-vertical-timeline-component/style.min.css';
 
-import React from 'react';
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from 'react-vertical-timeline-component';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useRef, useState } from 'react';
 
-import GradientBox from '@/components/GradientBox';
+import TimelineCard from './TimelineCard';
 
-type TimelineItem = {
+interface TimelineItem {
   date: Date;
   text: string;
-};
+}
 
-const Timeline = ({ items }: { items: TimelineItem[] }) => {
+interface Props {
+  items: TimelineItem[];
+}
+
+const Timeline: React.FC<Props> = ({ items }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState<'next' | 'prev'>('next');
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const formatDate = (date: Date) => {
     const day = date.getDate().toString().padStart(2, '0');
     const month = date.toLocaleString('en-US', { month: 'long' });
     const year = date.getFullYear();
-
     return `${day} ${month} ${year}`;
   };
 
+  const handleNext = () => {
+    setDirection('next');
+    setActiveIndex((prev) => (prev + 1) % items.length);
+  };
+
+  const handlePrev = () => {
+    setDirection('prev');
+    setActiveIndex((prev) => (prev - 1 + items.length) % items.length);
+  };
+
+  const handleDragEnd = (direction: 'next' | 'prev') => {
+    setDirection(direction);
+    if (direction === 'next') handleNext();
+    else handlePrev();
+  };
+
+  const displayItems = [items[items.length - 1], ...items, items[0]];
+
   return (
-    <VerticalTimeline lineColor=''>
-      {items.map((el, i) => (
-        <VerticalTimelineElement
-          key={i}
-          className='vertical-timeline-element--work'
-          contentStyle={{
-            background: 'inherit',
-            color: '#ffffff',
+    <div className='w-full mx-auto py-8'>
+      <div className='relative'>
+        {/* Cards Container */}
+        <motion.div
+          ref={containerRef}
+          className='w-full flex timeline-container'
+          style={{
+            transform: `translateX(${-activeIndex * (100 / 3)}%)`,
+            transition: 'transform 0.5s ease',
           }}
-          contentArrowStyle={{ borderRight: '7px solid transparent' }}
-          iconStyle={{
-            background: '#AB814E',
-            border: '0px 0px',
-            marginTop: '7.5%',
-          }}
-          dateClassName='mt-[20px]'
         >
-          <GradientBox
-            className='max-w-[300px] max-h-fit min-h-[90px] sm:min-h-[170px] text-left flex flex-col justify-center items-start gap-6'
-            aos={i % 2 === 0 ? 'fade-right' : 'fade-left'}
-          >
-            <div className='flex flex-col w-fit mx-auto pl-2 sm:pr-8'>
-              <h4
-                className='text-left font-bold text-lg sm:text-2xl text-[#FFE1B9]'
-                data-aos='zoom-in-down'
-                data-aos-duration='1000'
-              >
-                {formatDate(new Date(el.date))}
-              </h4>
-              <span
-                data-aos='zoom-in-up'
-                data-aos-duration='1000'
-                className='text-sm sm:text-xl'
-              >
-                {el.text}
-              </span>
-            </div>
-          </GradientBox>
-        </VerticalTimelineElement>
-      ))}
-    </VerticalTimeline>
+          {displayItems.map((item, index) => (
+            <TimelineCard
+              key={index}
+              text={item.text}
+              isActive={index - 1 === activeIndex}
+              index={index}
+              activeIndex={activeIndex}
+              onDragEnd={handleDragEnd}
+            />
+          ))}
+        </motion.div>
+
+        {/* Timeline Progress */}
+        <div className='relative mt-8'>
+          <AnimatePresence mode='wait'>
+            <motion.div
+              key={activeIndex}
+              initial={{
+                opacity: 0,
+                x: direction === 'next' ? 100 : -100,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              exit={{
+                opacity: 0,
+                x: direction === 'next' ? -100 : 100,
+              }}
+              transition={{ duration: 0.4 }}
+              className='text-center mt-4'
+            >
+              <h3 className='text-xl font-bold text-white'>
+                {formatDate(new Date(items[activeIndex].date))}
+              </h3>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Navigation Progress Line */}
+        <div className='relative mt-4'>
+          <AnimatePresence mode='wait'>
+            <motion.div
+              key={activeIndex}
+              initial={{ width: 0, left: direction === 'next' ? '100%' : 0 }}
+              animate={{ width: '100%', left: 0 }}
+              exit={{ width: 0, left: direction === 'next' ? 0 : '100%' }}
+              transition={{ duration: 0.4 }}
+              className='absolute w-full h-[1.5px] rounded-full'
+              style={{
+                backgroundImage:
+                  'linear-gradient(to right, var(--color-start), var(--color-middle), var(--color-end))',
+              }}
+            />
+          </AnimatePresence>
+
+          {/* Lingkaran */}
+          {/* <div
+            className="absolute -translate-y-1/2 w-6 h-6 bg-white rounded-full shadow-lg left-[49%]"/> */}
+        </div>
+      </div>
+    </div>
   );
 };
 
