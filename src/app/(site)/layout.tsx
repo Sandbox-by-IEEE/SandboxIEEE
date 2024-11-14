@@ -1,6 +1,7 @@
 import { type Metadata } from 'next';
 
 import Footer from '@/components/footer';
+import Marquee from '@/components/Marque';
 import NavBar from '@/components/Navbar';
 import { performRequest } from '@/lib/datocms';
 import { type MarquePropsData } from '@/types/marque-type';
@@ -24,6 +25,14 @@ const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='flex flex-col min-h-screen overflow-x-clip custom-scrollbar'>
       <NavBar />
+      {ourSponsorsPage.ourSponsorLogo &&
+        ourSponsorsPage.ourSponsorLogo.length > 0 && (
+          <Marquee
+            hideSeconds={10}
+            showSeconds={15}
+            data={ourSponsorsPage.ourSponsorLogo}
+          />
+        )}
 
       {children}
       <Footer />
