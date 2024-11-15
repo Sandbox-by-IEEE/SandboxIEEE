@@ -111,6 +111,8 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(dataTicketForSheet),
     });
 
+    if (!response.ok) throw new Error('Failed to create ticket');
+
     const resBody = await response.json();
 
     if (resBody.status > 299 || resBody.status < 200) {

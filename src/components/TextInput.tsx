@@ -33,7 +33,7 @@ const TextInput = ({
   name?: string;
   disabled?: boolean;
   text: string;
-  color: 'trans-white' | 'white';
+  color: 'trans-white' | 'white' | 'trans';
   fullwidth?: boolean;
   onChange?: (e) => void | null;
   setText?: React.Dispatch<SetStateAction<string>>;
@@ -46,12 +46,17 @@ const TextInput = ({
     'trans-white': {
       icon: 'fill-white',
       main: 'bg-transparent border-[2px] text-white',
-      disabled: 'bg-transparent disabled:bg-transparent text-black',
+      disabled: 'bg-transparent disabled:bg-transparent text-white',
     },
     white: {
       icon: 'fill-white',
-      main: 'bg-white text-black placeholder:text-neutral-600 shadow-custom-input outline-none text-white',
-      disabled: 'bg-transparent disabled:bg-white text-black',
+      main: 'bg-white text-black placeholder:text-neutral-600 shadow-custom-input outline-none',
+      disabled: 'bg-transparent text-black',
+    },
+    trans: {
+      icon: 'fill-white',
+      main: 'bg-[#A6A6A633] text-white placeholder:text-neutral-600 shadow-custom-input outline-none',
+      disabled: 'bg-transparent text-white',
     },
   };
   const [visible, setVisible] = useState(false);
