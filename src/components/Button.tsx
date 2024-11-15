@@ -9,7 +9,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'trans-orange'
     | 'white'
     | 'light-gold'
-    | 'red';
+    | 'red'
+    | 'trans-white'
+    | 'dark-grey'
+    | 'trans-black'
+    | 'trans-red'
+    | 'trans-gold'
+    | 'white-2';
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
@@ -32,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
       arrow: '#FFFFFF',
     },
     black: {
-      main: 'bg-[#1C1A17] text-[#0D432F] text-white hover:shadow-[0px_0px_3px_3px_#FFFFFF] hover:bg-[#494845] disabled:bg-[#D7D2D0]',
+      main: 'bg-[#1C1A17] hover:shadow-md text-[#0D432F] text-white hover:shadow-[0px_0px_3px_3px_#FFFFFF] hover:bg-[#494845] disabled:bg-[#D7D2D0]',
       arrow: '#FFFFFF',
     },
     gold: {
@@ -40,11 +46,11 @@ const Button: React.FC<ButtonProps> = ({
       arrow: '#FFFFFF',
     },
     white: {
-      main: 'bg-white hover:shadow-[0px_0px_20px_5px_#315B4C] text-white disabled:bg-[#D7D2D0]',
+      main: 'bg-white hover:shadow-[0px_0px_20px_5px_#315B4C] hover:shadow-md text-black disabled:bg-[#D7D2D0]',
       arrow: '#FFFFFF',
     },
     'trans-green': {
-      main: 'border border-[3px] border-[#0D432F] bg-transparent text-[#0D432F] hover:bg-[#494845] disabled:bg-[#D7D2D0]',
+      main: 'border borde r-[3px] border-[#0D432F] bg-transparent text-[#0D432F] hover:bg-[#494845] disabled:bg-[#D7D2D0]',
       arrow: '#0D432F',
     },
     'trans-orange': {
@@ -57,6 +63,26 @@ const Button: React.FC<ButtonProps> = ({
     },
     red: {
       main: 'bg-red-500 text-white hover:shadow-[0px_0px_20px_5px_#FF0000] disabled:bg-[#D7D2D0]',
+      arrow: '#FFFFFF',
+    },
+    'trans-white': {
+      main: 'border border-[3px] border-[#FFFFFF] bg-white text-black disabled:bg-[#D7D2D0]',
+      arrow: '#A6A6A633',
+    },
+    'dark-grey': {
+      main: 'border border-[3px] border-[#FFFFFF] bg-[#A6A6A633] text-white hover:bg-[#FFFFFF] hover:text-black disabled:bg-[#D7D2D0]',
+      arrow: '#FFFFFF',
+    },
+    'trans-black': {
+      main: 'border border-[3px] border-[#FFFFFF] bg-transparent text-white hover:shadow-[0px_0px_20px_0px_#FFFFFF] disabled:bg-[#D7D2D0]',
+      arrow: '#FFFFFF',
+    },
+    'white-2': {
+      main: 'border border-[3px] border-[#FFFFFF] bg-white text-black hover:shadow-[0px_0px_20px_0px_#FFFFFF] disabled:bg-[#D7D2D0]',
+      arrow: '#FFFFFF',
+    },
+    'trans-red': {
+      main: 'border border-[3px] border-[#E73838] bg-transparent text-[#E73838] hover:shadow-[0px_0px_20px_0px_#E73838] disabled:bg-[#D7D2D0]',
       arrow: '#FFFFFF',
     },
   };

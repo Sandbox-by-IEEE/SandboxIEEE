@@ -459,10 +459,19 @@ export default function PTCRegist() {
   }, []);
 
   return (
-    <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
-      <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='PTC Registration' />
-        <Title text='Complete your details below' />
+    <main
+      style={{
+        backgroundImage: 'url(/RegistrationPageBg.svg)',
+      }}
+      className='bg-cover px-4 sm:px-10 md:px-15 lg:px-20 text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip w-full'
+    >
+      <div className='h-fit w-full max-w-[1200px] py-10 pt-16 lg:pt-24 font-poppins'>
+        <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+          PTC Registration
+        </h1>
+        <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+          Complete your details below
+        </h1>
         <FormDetails
           inputData={inputData}
           setInputData={setInputData}
@@ -481,11 +490,11 @@ export default function PTCRegist() {
   );
 }
 
-const Title = ({ text }) => (
-  <div className='relative text-3xl lg:text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
-    <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full'>
-      {text}
-    </div>
-    <h2 className='z-10'>{text}</h2>
-  </div>
-);
+// const Title = ({ text }) => (
+//   <div className='relative text-3xl lg:text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal lg:mt-4 mt-2'>
+//     <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full'>
+//       {text}
+//     </div>
+//     <h2 className='z-10'>{text}</h2>
+//   </div>
+// );
