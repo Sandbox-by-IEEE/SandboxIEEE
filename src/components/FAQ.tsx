@@ -10,6 +10,7 @@ import { StructuredText } from 'react-datocms/structured-text';
 
 import ArrowDropdownIcon from '@/components/icons/ArrowDropdownIcon';
 
+
 export const FAQ = ({
   question,
   answer,
