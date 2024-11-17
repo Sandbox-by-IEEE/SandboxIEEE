@@ -53,10 +53,16 @@ function Countdown () {
         <SandboxByIEEEITBIcon className ="mb-16 mx-auto relative justify-center content-center item-center"/>
 
         <div className="mb-auto relative justify-center content-center item-center">
-          <div className="font-poppins text-3xl flex justify-center font-semibold space-x-4 px-5 pb-4 gap-x-2 text-white glow-text">
+          <div className="font-poppins text-3xl flex justify-center font-semibold space-x-4 px-5 pb-4 gap-x-2 text-white"
+          style={{
+            textShadow:'0 0 20px rgba(171, 129, 78, 0.5)'
+          }}>
             <h2>Until registration closes</h2>
           </div>
-          <div className="font-poppins flex glow-text justify-center font-bold space-x-8 px-5 py-1.5 text-white">
+          <div className="font-poppins flex justify-center font-bold space-x-8 px-5 py-1.5 text-white"
+          style={{
+            textShadow:'0 0 20px rgba(171, 129, 78, 0.5)'
+          }}>
             <div className="flex flex-col items-center">
               <h1 className="text-8xl">{time.weeks}</h1>
               <h2 className="text-2xl font-semibold mt-2">Weeks</h2>
@@ -78,10 +84,13 @@ function Countdown () {
             </div>
           </div>
 </div>
-        <div className="mb-auto pt-16 flex flex-row font-poppins text-2xl font-semibold justify-center space-x-12">
+        <div className="mb-auto pt-16 flex flex-row font-poppins text-2xl font-semibold justify-center space-x-12"
+        style={{
+          textShadow:'0 0 20px rgba(171, 129, 78, 0.5)'
+        }}>
         <Link href="https://www.apple.com">
         <button onClick={() => setIsAClicked(!isAClicked)}
-        className={`font-poppins lg:h-[57px] lg:w-[228px] rounded-full border border-white glow-text 
+        className={`font-poppins lg:h-[57px] lg:w-[228px] rounded-full border border-white 
         ${isAClicked ? "bg-transparent text-white" : "bg-white text-[#040B15] hover:bg-transparent hover:text-white animation-all duration-200 delay-200"}
         `}
       >         
@@ -91,7 +100,7 @@ function Countdown () {
 
         <Link href = "https://www.nike.com">
         <button onClick={() => setIsBClicked(!isBClicked)}
-        className={`font-poppins lg:h-[57px] lg:w-[228px] rounded-full border border-white glow-text 
+        className={`font-poppins lg:h-[57px] lg:w-[228px] rounded-full border border-white  
           ${isBClicked ? "bg-[#040B15] text-white" : "bg-transparent text-white hover:bg-white hover:text-[#040B15] animation-all duration-200 delay-200"}
         `}>            
         Guidebook
