@@ -47,19 +47,28 @@ const AboutUs = () => {
                 data-aos-duration="1100"
             >
                 <div className="flex flex-col items-center space-y-1 opacity-60 hover:opacity-100 animation-all duration-500 delay-300">
-                    <div className="text-5xl py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text glow-text-white">
+                    <div className="text-5xl py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text"
+                    style = {{
+                        textShadow: '0 0 20px rgba(255, 255, 255, 0.2)'
+                    }}>
                         +49,000
                     </div>
                     <p className="text-white max-w-[12rem]">Lorem ipsum dolor sit amet consectetur.</p>
                 </div>
                 <div className="flex flex-col items-center space-y-1">
-                    <div className="text-6xl py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text glow-text-white">
+                    <div className="text-6xl py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text"
+                    style = {{
+                        textShadow: '0 0 20px rgba(255, 255, 255, 0.2)'
+                    }}>
                         +49,000
                     </div>
                     <p className="text-xl text-white max-w-[16rem]">Lorem ipsum dolor sit amet consectetur.</p>
                 </div>
                 <div className="flex flex-col items-center space-y-1 opacity-60 hover:opacity-100 animation-all duration-500 delay-300">
-                    <div className="text-5xl py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text glow-text-white">
+                    <div className="text-5xl py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text"
+                    style = {{
+                        textShadow: '0 0 20px rgba(255, 255, 255, 0.2)'
+                    }}>
                         +49,000
                     </div>
                     <p className="text-white max-w-[12rem]">Lorem ipsum dolor sit amet consectetur.</p>
