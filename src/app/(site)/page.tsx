@@ -1,6 +1,7 @@
 import BackgroundCarousel from '@/components/background-carousel';
 import ClientHome from '@/components/client-home';
 import CustomLink from '@/components/Link';
+import OurEvents from '@/components/OurEvents';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
@@ -141,6 +142,9 @@ export default async function Home({
       {/* About Sandbox */}
 
       {/* Our Events */}
+      <section className='w-full flex flex-col gap-6 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#040B15]'>
+        <OurEvents />
+      </section>
 
       {/* Timeline */}
       <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16]'>
