@@ -12,6 +12,7 @@ import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type HomepageProps } from '@/types/homepage';
+import AboutUs from '@/components/AboutUs';
 
 const CMS_QUERY = `{
   homepage {
@@ -171,44 +172,9 @@ export default async function Home({
       </section>
 
       {/* About Sandbox */}
-      <section
-        id={homepage.textButtonSeeMore}
-        className='h-auto px-8 sm:px-10 md:px-20 lg:px-40  py-8 lg:py-10 xl:py-14 2xl:py-20 bg-gradient-to-b from-[#0b2712] to-[#123b1a] flex justify-center items-center'
-      >
-        <GradientBox
-          className='min-h-[660px] w-[1206px] max-w-full flex flex-col items-center justify-center gap-8 p-8'
-          aos='fade-in'
-          duration={400}
-        >
-          <TitleSection>{homepage.explanationTitle}</TitleSection>
-          <div className='flex flex-col md:flex-row gap-10 lg:gap-20 justify-center items-center overflow-hidden'>
-            <Image
-              data-aos='fade-down-right'
-              src={homepage.sandboxLogo.url}
-              width={homepage.sandboxLogo.width}
-              height={homepage.sandboxLogo.width}
-              alt={homepage.sandboxLogo.title || 'Sandbox Logo'}
-              className='w-[100px] lg:w-[200px] object-contain'
-            />
-            <Image
-              data-aos='fade-down-left'
-              src={homepage.ieeeLogo.url}
-              width={homepage.ieeeLogo.width}
-              height={homepage.ieeeLogo.width}
-              alt={homepage.ieeeLogo.title || "IEEE ITB's Logo"}
-              className='w-[150px] lg:w-[300px] object-contain'
-            />
-          </div>
-          <h4 className='text-[#FFE1B9] sm:px-20' data-aos='zoom-in-up'>
-            <StructuredText data={homepage.explanationDescription} />
-          </h4>
-          <div data-aos='zoom-in'>
-            <CustomLink color='gold' url='#events'>
-              {homepage.buttonTextPastEvents}
-            </CustomLink>
-          </div>
-        </GradientBox>
-      </section>
+      <div className="font-poppins bg-black w-full">
+        <AboutUs />
+      </div>
 
       {/* Our Events */}
       <section
@@ -222,9 +188,8 @@ export default async function Home({
         {allOurEventsHomepages.map((event, index) => (
           <article
             key={index}
-            className={`flex flex-col sm:flex-row w-full bg-[#071D10] shadow-md shadow-[#00000040] max-w-[1200px] mx-auto text-[#FFE1B9] ${
-              index % 2 === 0 ? 'sm:flex-row-reverse' : ''
-            } rounded-lg overflow-hidden`}
+            className={`flex flex-col sm:flex-row w-full bg-[#071D10] shadow-md shadow-[#00000040] max-w-[1200px] mx-auto text-[#FFE1B9] ${index % 2 === 0 ? 'sm:flex-row-reverse' : ''
+              } rounded-lg overflow-hidden`}
             data-aos={index % 2 === 0 ? 'fade-left' : 'fade-right'}
           >
             <div className='w-full sm:w-[30%] sm:h-auto h-48 sm:aspect-[9/8] bg-slate-200 flex-shrink-0'>
@@ -284,7 +249,7 @@ export default async function Home({
                         type={
                           event.eventName.toLowerCase().replace(/\s+/g, '-') ==
                             'technovate-paper-competition' ||
-                          event.eventName.toLowerCase().replace(/\s+/g, '-') ==
+                            event.eventName.toLowerCase().replace(/\s+/g, '-') ==
                             'tpc'
                             ? 'TPC'
                             : 'PTC'

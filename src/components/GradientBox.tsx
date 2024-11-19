@@ -6,7 +6,7 @@ interface GradientBoxProps {
   aos?: string;
   duration?: number;
   style?: HTMLAttributes<HTMLDivElement>['style'];
-  type?: string; 
+  type?: string;
 }
 
 const GradientBox = ({
@@ -19,21 +19,20 @@ const GradientBox = ({
 }: GradientBoxProps) => {
   return (
     <div
-      className={`relative mx-auto mt-auto flex flex-col items-center justify-center text-white ${className}`}
+      className={`relative mx-auto mt-auto flex flex-col justify-center text-white ${type === 'blue' ? 'rounded-[50px]' : 'rounded-[64px] lg:rounded-[128px]'} ${className}`}
       data-aos={aos || (type === 'blue' ? 'fade-up' : 'flip-down')}
       data-aos-duration={duration || 1500}
       style={{
         position: 'relative',
         padding: '16px',
         zIndex: 1,
-        borderRadius: type === 'blue' ? '64px' : '128px',
-        background: type === 'blue' 
-          ? 'linear-gradient(135deg, rgba(19, 77, 73, 0.46) 20%, rgba(12, 48, 65, 0.46) 29%, rgba(7, 29, 60, 0.46) 74%)' 
+        background: type === 'blue'
+          ? 'linear-gradient(135.76deg, rgba(19, 77, 73, 0.46) 28.8%, rgba(12, 48, 65, 0.46) 38.61%, rgba(7, 29, 60, 0.46) 84.37%)'
           : '#040B15',
         ...style,
       }}
     >
-      <div
+      <div className={` ${type === 'blue' ? 'rounded-[50px] p-[1px] lg:p-[4px]' : 'rounded-[64px] lg:rounded-[128px] p-[2px] lg:p-[5px]'}`}
         style={{
           content: '""',
           position: 'absolute',
@@ -41,8 +40,6 @@ const GradientBox = ({
           left: 0,
           right: 0,
           bottom: 0,
-          borderRadius: type === 'blue' ? '64px' : '128px',
-          padding: '4px',
           background: type === 'blue'
             ? 'linear-gradient(135deg, rgba(19, 77, 73, 1) 10%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 90%)'
             : 'linear-gradient(45deg, transparent, #D6D1D1, #AB814E)',
@@ -50,7 +47,7 @@ const GradientBox = ({
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude',
           pointerEvents: 'none',
-          zIndex: -1, // Ensure it's behind the content
+          zIndex: -1,
         }}
       />
       <div style={{ position: 'relative', zIndex: 1 }}>
