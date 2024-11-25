@@ -6,7 +6,7 @@ interface GradientBoxProps {
   aos?: string;
   duration?: number;
   style?: HTMLAttributes<HTMLDivElement>['style'];
-  type?: string; 
+  type?: string;
 }
 
 const GradientBox = ({
@@ -27,9 +27,10 @@ const GradientBox = ({
         padding: '16px',
         zIndex: 1,
         borderRadius: type === 'blue' ? '64px' : '128px',
-        background: type === 'blue' 
-          ? 'linear-gradient(135deg, rgba(19, 77, 73, 0.46) 20%, rgba(12, 48, 65, 0.46) 29%, rgba(7, 29, 60, 0.46) 74%)' 
-          : '#040B15',
+        background:
+          type === 'blue'
+            ? 'linear-gradient(135deg, rgba(19, 77, 73, 0.46) 20%, rgba(12, 48, 65, 0.46) 29%, rgba(7, 29, 60, 0.46) 74%)'
+            : '#040B15',
         ...style,
       }}
     >
@@ -43,19 +44,19 @@ const GradientBox = ({
           bottom: 0,
           borderRadius: type === 'blue' ? '64px' : '128px',
           padding: '4px',
-          background: type === 'blue'
-            ? 'linear-gradient(135deg, rgba(19, 77, 73, 1) 10%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 90%)'
-            : 'linear-gradient(45deg, transparent, #D6D1D1, #AB814E)',
-          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          background:
+            type === 'blue'
+              ? 'linear-gradient(135deg, rgba(19, 77, 73, 1) 10%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 90%)'
+              : 'linear-gradient(45deg, transparent, #D6D1D1, #AB814E)',
+          WebkitMask:
+            'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude',
           pointerEvents: 'none',
           zIndex: -1, // Ensure it's behind the content
         }}
       />
-      <div style={{ position: 'relative', zIndex: 1 }}>
-        {children}
-      </div>
+      <div style={{ position: 'relative', zIndex: 1 }}>{children}</div>
     </div>
   );
 };
