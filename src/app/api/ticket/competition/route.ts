@@ -101,7 +101,11 @@ export async function POST(req: NextRequest) {
       members: members,
     };
 
-    const sheetAPI = process.env.API_SHEET_TICKET_URL || '';
+    // const sheetAPI = process.env.API_SHEET_TICKET_URL || '';
+    const sheetAPI =
+      'https://script.google.com/macros/s/AKfycbxJKolB4DFHVynX4wYa4xaVr7ENzmyqjov6bgV-buZg6sj8w-2XG4O1PGd-57XbNJsj/exec';
+
+    console.log(JSON.stringify(dataTicketForSheet));
 
     const response = await fetch(`${sheetAPI}?type=${ticket.competitionType}`, {
       method: 'POST',
@@ -143,6 +147,26 @@ export async function POST(req: NextRequest) {
 
       await transporter.sendMail(mailOptions);
     }
+
+    //JANGAN LUPA DIHAPUS
+    //JANGAN LUPA DIHAPUS
+    //JANGAN LUPA DIHAPUS
+    //JANGAN LUPA DIHAPUS
+    //JANGAN LUPA DIHAPUS
+    if (ticketIdTemp) {
+      //JANGAN LUPA DIHAPUS
+      await prisma.ticketCompetition.delete({
+        //JANGAN LUPA DIHAPUS
+        where: {
+          //JANGAN LUPA DIHAPUS
+          id: ticketIdTemp, //JANGAN LUPA DIHAPUS
+        }, //JANGAN LUPA DIHAPUS
+      }); //JANGAN LUPA DIHAPUS
+    } //JANGAN LUPA DIHAPUS
+    //JANGAN LUPA DIHAPUS
+    //JANGAN LUPA DIHAPUS
+    //JANGAN LUPA DIHAPUS
+    //NGA DIHAPUS NNTI DATABASE NGA KEUPDATE
 
     // eslint-disable-next-line no-console
     console.log('POST_TICKET: email was sent');
