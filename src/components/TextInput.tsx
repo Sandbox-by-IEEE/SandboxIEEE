@@ -33,7 +33,7 @@ const TextInput = ({
   name?: string;
   disabled?: boolean;
   text: string;
-  color: 'trans-white' | 'white' | 'trans';
+  color: 'trans-white' | 'white' | 'trans' | 'red' | 'green';
   fullwidth?: boolean;
   onChange?: (e) => void | null;
   setText?: React.Dispatch<SetStateAction<string>>;
@@ -55,7 +55,17 @@ const TextInput = ({
     },
     trans: {
       icon: 'fill-white',
-      main: 'bg-[#A6A6A633] text-white placeholder:text-neutral-600 shadow-custom-input outline-none',
+      main: 'bg-[#A6A6A633] border-transparent border text-white placeholder:text-neutral-600 shadow-custom-input outline-none',
+      disabled: 'bg-transparent text-white',
+    },
+    red: {
+      icon: 'fill-white',
+      main: 'bg-[#A6A6A633] border border-[#FF0000] text-white shadow-custom-input outline-none',
+      disabled: 'bg-transparent text-white',
+    },
+    green: {
+      icon: 'fill-white',
+      main: 'bg-[#A6A6A633] border border-[#00FFA1] text-white shadow-custom-input outline-none',
       disabled: 'bg-transparent text-white',
     },
   };

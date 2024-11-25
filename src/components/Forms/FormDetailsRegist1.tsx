@@ -50,6 +50,17 @@ const FormDetails = ({
 
   //...
   const [isPaymentPage, setIsPaymentPage] = useState<boolean>(false);
+  const [refferalCode, setRefferalCode] = useState<string>('');
+  const [validRefferalCode, setValidRefferalCode] = useState<boolean>(false);
+  const handleRefferalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const code = e.target.value;
+    setRefferalCode(code);
+    if (code.length === 2) {
+      setValidRefferalCode(true);
+    } else {
+      setValidRefferalCode(false);
+    }
+  };
 
   const unWarn = (isMember: boolean, memberIndex: number, prop: PropType) => {
     setIsWarnedInputData((isWarnedInputData) => {
@@ -242,27 +253,52 @@ const FormDetails = ({
                   >
                     Fee
                   </p>
-                  <div className='relative z-1 flex items-center justify-between p-10'>
-                    <div className='relative flex flex-col z-1'>
+                  <div className='relative z-1 flex items-center justify-between p-10 w-full'>
+                    <div className='relative flex flex-col z-1 w-full'>
                       <p className='font-poppins text-[25px] font-bold'>
-                        IDR 100K
+                        Total price for {inputData.memberCount} members ={' '}
                       </p>
-                      <p className='font-poppins text-[15px]'>per member</p>
-                    </div>
-                    <div className='relative flex flex-col z-1'>
-                      <p className='font-poppins text-[25px] font-bold'>
-                        IDR 100K
-                      </p>
-                      <p className='font-poppins text-[15px]'>per member</p>
-                    </div>
-                    <div className='relative flex flex-col z-1'>
-                      <p className='font-poppins text-[25px] font-bold'>
-                        IDR 100K
-                      </p>
-                      <p className='font-poppins text-[15px]'>per member</p>
+                      <div>
+                        <p className='relative font-poppins text-[25px] font-bold'>
+                          Rp. {inputData.memberCount * 100}.000
+                          <div className='absolute'></div>
+                        </p>
+
+                        <p className='hidden font-poppins text-[25px] font-bold'>
+                          Rp. {(inputData.memberCount * 100000 * 0.9) / 1000}
+                          .000
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <label className='font-poppins relative z-1 font-thin text-sm pb-1'>
+              Enter a refferal code
+            </label>
+            <div className='relative z-1 w-full'>
+              <TextInput
+                placeholder={''}
+                type='text'
+                name='refferalCode'
+                text={`${refferalCode}`}
+                color={
+                  refferalCode === ''
+                    ? 'trans'
+                    : validRefferalCode
+                    ? 'green'
+                    : 'red'
+                }
+                onChange={handleRefferalCodeChange}
+                fullwidth
+              />
+              <div className='absolute bottom-0 left-0 translate-y-[100%]'>
+                {!validRefferalCode && refferalCode !== '' && (
+                  <label className='font-poppins font-thin text-sm text-[#FF0000]'>
+                    Code is invalid!
+                  </label>
+                )}
               </div>
             </div>
             <div className='relative flex flex-col md:flex-row justify-between items-center py-10 gap-10'>
