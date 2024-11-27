@@ -18,7 +18,6 @@ import Star9 from '@/components/icons/Star9';
 import Star10 from '@/components/icons/star10';
 import Star11 from '@/components/icons/star11';
 import Starburst from '@/components/icons/starburst';
-import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
@@ -369,24 +368,6 @@ const PTC = async () => {
       {/* END REGISTRATION */}
 
       {/* COUNTDOWN */}
-      <Countdown
-        sectionTitle={ptcPage.countdownSectionTitle}
-        targetDate={new Date(ptcPage.targetDate)}
-        type='PTC'
-      >
-        <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-          <div data-aos='zoom-in'>
-            <ButtonRegistration isDisabled type='PTC' color='gold'>
-              Abstract Submission Closed
-            </ButtonRegistration>
-          </div>
-          <div data-aos='zoom-in'>
-            <CustomLink color='trans-orange' url='#timeline'>
-              {ptcPage.buttonTextSeeMore}
-            </CustomLink>
-          </div>
-        </div>
-      </Countdown>
 
       {/* END COUNTDOWN */}
       <div

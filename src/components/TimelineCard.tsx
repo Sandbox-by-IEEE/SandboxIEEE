@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { FC } from 'react';
 
+import GradientBox from '@/components/GradientBox';
+
 interface TimelineCardProps {
   text: string;
   isActive: boolean;
@@ -37,11 +39,13 @@ const TimelineCard: FC<TimelineCardProps> = ({
       }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
     >
-      <div
-        className={`bg-[#040B15] p-6 rounded-[50px] min-h-[180px] md:min-h-[200px] lg:min-h-[225px] xl:min-h-[250px] flex flex-col justify-center items-center shadow-lg`}
-      >
-        <span className='text-xl text-center text-white'>{text}</span>
-      </div>
+      <GradientBox type='timeline'>
+        <div
+          className={`bg-[#040B15] p-6 rounded-[50px] min-h-[180px] md:min-h-[200px] lg:min-h-[225px] xl:min-h-[250px] flex flex-col justify-center items-center`}
+        >
+          <span className='text-xl text-center text-white'>{text}</span>
+        </div>
+      </GradientBox>
     </motion.div>
   );
 };

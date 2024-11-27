@@ -221,27 +221,6 @@ const ExhibitionPage = async () => {
       )}
 
       {/* CountDown */}
-      {exhibition.countdownTitle && exhibition.targetDate && (
-        <Countdown
-          sectionTitle={exhibition.countdownTitle}
-          targetDate={new Date(WIBtargetDate)}
-          type='exhibition'
-        >
-          <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-            <div data-aos='zoom-in'>
-              <CustomLink color='gold' url='/events/exhibition/registration'>
-                {exhibition.buttonTextRegister}
-              </CustomLink>
-              {/* <Button color='gold'>{exhibition.buttonTextRegister}</Button> */}
-            </div>
-            <div data-aos='zoom-in'>
-              <CustomLink color='trans-orange' url='#seemore'>
-                {exhibition.buttonTextSeeMore}
-              </CustomLink>
-            </div>
-          </div>
-        </Countdown>
-      )}
 
       {/* Voting Regulations */}
       {exhibition.guideTitle && (
