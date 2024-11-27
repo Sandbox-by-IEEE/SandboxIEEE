@@ -46,6 +46,17 @@ export const FAQ = ({
           }`}
         />
       </div>
+
+      {/* Garis Pembatas */}
+      <div
+        className={`transition-all duration-300 ${
+          isOpen ? 'opacity-100 my-4' : 'opacity-0 h-0'
+        }`}
+      >
+        <hr className='border-t border-gray-400/50' />
+      </div>
+
+      {/* Answer */}
       <span
         className={`${
           isOpen

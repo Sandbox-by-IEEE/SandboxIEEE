@@ -1,565 +1,140 @@
 'use client';
-import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import CollonIcon from '@/components/icons/CollonIcon';
-import TitleSection from '@/components/TitleSection';
+import GradientBox from './GradientBox';
+import SandboxByIEEEITBIcon from './icons/SandboxByIEEEITBIcon';
 
-function Countdown({ targetDate }: { targetDate: Date }) {
-  const [countdown, setCountdown] = useState(
-    Math.floor(targetDate.getTime() / 1000) - Math.floor(Date.now() / 1000) <= 0
-      ? 0
-      : Math.floor(targetDate.getTime() / 1000) - Math.floor(Date.now() / 1000),
-  );
+function Countdown() {
+  const [isAClicked, setIsAClicked] = useState(false);
+  const [isBClicked, setIsBClicked] = useState(false);
+  const [time, setTime] = useState({
+    weeks: 0,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
-  // Update Countdown
   useEffect(() => {
+    const target = new Date('12/24/2024 23:59:59').getTime();
+
     const interval = setInterval(() => {
-      if (
-        Math.floor(targetDate.getTime() / 1000) -
-          Math.floor(Date.now() / 1000) >=
-        0
-      ) {
-        setCountdown(
-          Math.floor(targetDate.getTime() / 1000) -
-            Math.floor(Date.now() / 1000),
-        );
-      } else {
-        clearInterval(interval);
-      }
+      const now = new Date().getTime();
+      const difference = target - now;
+
+      const weeks = Math.floor(difference / (1000 * 60 * 60 * 24 * 7));
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      const pad = (num) => (num < 10 ? `0${num}` : num);
+
+      setTime({
+        weeks: pad(weeks),
+        days: pad(days),
+        hours: pad(hours),
+        minutes: pad(minutes),
+        seconds: pad(seconds),
+      });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, []);
 
   return (
-    <>
-      <div className='flex flex-col gap-y-6 md:flex-row'>
-        <div className='flex flex-row items-center'>
-          {/* First Box */}
-          <div
-            className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'
-            data-aos='flip-down'
-            data-aos-duration='1000'
-          >
-            {/* Mobile, Days */}
-            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
-              {/* Puluhan */}
-              <div
-                key={`${Math.floor(
-                  Math.floor(countdown / (24 * 3600)) / 10,
-                )}_puluhan`}
-                className={`${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 0 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) === 0 &&
-                  Math.floor((countdown % (24 * 3600)) / 3600) === 0 &&
-                  Math.floor(countdown / (24 * 3600)) % 10 === 0 &&
-                  'animate-countdown-out'
-                } ${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 59 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) === 59 &&
-                  Math.floor((countdown % (24 * 3600)) / 3600) === 23 &&
-                  Math.floor(countdown / (24 * 3600)) % 10 === 9 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(Math.floor(countdown / (24 * 3600)) / 10)}
-              </div>
-              {/* Satuan */}
-              <div
-                key={`${Math.floor(countdown / (24 * 3600)) % 10}_satuan`}
-                className={`${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 0 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) === 0 &&
-                  Math.floor((countdown % (24 * 3600)) / 3600) === 0 &&
-                  'animate-countdown-out'
-                } ${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 59 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) === 59 &&
-                  Math.floor((countdown % (24 * 3600)) / 3600) === 23 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(countdown / (24 * 3600)) % 10}
-              </div>
-            </div>
-            <div className='font-poppins font-bold text-[21px] drop-shadow-[0px_5px_10px_#B89D69] bg-clip-text text-transparent bg-gradient-brown md:hidden'>
-              Days
-            </div>
+    <GradientBox
+      type='default'
+      className='relative lg:h-[697px] lg:w-[1191px] w-[336px] h-[316px] rounded-[64px] lg:rounded-[128px] overflow-hidden'
+    >
+      <div className='absolute inset-0 flex -z-10'>
+        <div className='w-lg h-lg lg:w-[48rem] items-center lg:h-[48rem] mt-auto mx-auto bg-gradient-radial from-[#255763] to-[#0B305F] opacity-20 blur-3xl rounded-full'></div>
+      </div>
 
-            {/* Desktop, Weeks */}
-            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:flex'>
-              {/* Puluhan */}
-              <div
-                key={`${Math.floor(
-                  Math.floor(countdown / (7 * 24 * 3600)) / 10,
-                )}_puluhan`}
-                className={`${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    0 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 0 &&
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) === 0 &&
-                  Math.floor((countdown % (7 * 24 * 3600)) / (24 * 3600)) ===
-                    0 &&
-                  Math.floor(countdown / (7 * 24 * 3600)) % 10 === 0 &&
-                  'animate-countdown-out'
-                } ${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    59 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 59 &&
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) === 23 &&
-                  Math.floor((countdown % (7 * 24 * 3600)) / (24 * 3600)) ===
-                    6 &&
-                  Math.floor(countdown / (7 * 24 * 3600)) % 10 === 9 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(Math.floor(countdown / (7 * 24 * 3600)) / 10)}
-              </div>
-              {/* Satuan */}
-              <div
-                key={`${Math.floor(countdown / (7 * 24 * 3600)) % 10}_satuan`}
-                className={`${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    0 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 0 &&
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) === 0 &&
-                  Math.floor((countdown % (7 * 24 * 3600)) / (24 * 3600)) ===
-                    0 &&
-                  'animate-countdown-out'
-                } ${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    59 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 59 &&
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) === 23 &&
-                  Math.floor((countdown % (7 * 24 * 3600)) / (24 * 3600)) ===
-                    6 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(countdown / (7 * 24 * 3600)) % 10}
-              </div>
-            </div>
-            <div className='hidden font-poppins font-bold text-[21px] bg-gradient-brown bg-clip-text text-transparent md:block'>
-              Weeks
-            </div>
-          </div>
+      <SandboxByIEEEITBIcon className='lg:w-[165px] lg:h-[176px] w-[60px] h-[64px] lg:mb-16 mx-auto relative justify-center content-center item-center' />
 
-          <div
-            className='mx-1.5 lg:mx-2 flex items-center'
-            data-aos='fade-zoom-in'
-            data-aos-duration='1200'
-          >
-            <CollonIcon size={28} className='fill-black' />
-          </div>
-
-          {/* Second Box */}
-          <div
-            className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'
-            data-aos='flip-down'
-            data-aos-duration='1500'
-          >
-            {/* Mobile, Hours */}
-            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
-              {/* Puluhan */}
-              <div
-                key={`${Math.floor(
-                  Math.floor((countdown % (24 * 3600)) / 3600) / 10,
-                )}_puluhan`}
-                className={`${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 0 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) === 0 &&
-                  Math.floor((countdown % (24 * 3600)) / 3600) % 10 === 0 &&
-                  'animate-countdown-out'
-                } ${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 59 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) === 59 &&
-                  (Math.floor((countdown % (24 * 3600)) / 3600) % 10 === 9 ||
-                    Math.floor((countdown % (24 * 3600)) / 3600) === 23) &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(Math.floor((countdown % (24 * 3600)) / 3600) / 10)}
-              </div>
-              {/* Satuan */}
-              <div
-                key={`${
-                  Math.floor((countdown % (24 * 3600)) / 3600) % 10
-                }_satuan`}
-                className={`${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 0 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) === 0 &&
-                  'animate-countdown-out'
-                } ${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 59 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) === 59 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor((countdown % (24 * 3600)) / 3600) % 10}
-              </div>
-            </div>
-            <div className='font-poppins font-bold text-[21px] drop-shadow-[0px_5px_10px_#B89D69] bg-clip-text text-transparent bg-gradient-brown md:hidden'>
-              Hours
-            </div>
-
-            {/* Desktop, Days */}
-            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69]  text-[50px] lg:text-[68px] leading-none text-white md:flex'>
-              {/* Puluhan */}
-              <div
-                key={`${Math.floor(
-                  Math.floor((countdown % (7 * 24 * 3600)) / (24 * 3600)) / 10,
-                )}_puluhan`}
-              >
-                {Math.floor(
-                  Math.floor((countdown % (7 * 24 * 3600)) / (24 * 3600)) / 10,
-                )}
-              </div>
-              {/* Satuan */}
-              <div
-                key={`${
-                  Math.floor((countdown % (7 * 24 * 3600)) / (24 * 3600)) % 10
-                }_satuan`}
-                className={`${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    0 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 0 &&
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) === 0 &&
-                  'animate-countdown-out'
-                } ${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    59 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 59 &&
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) === 23 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor((countdown % (7 * 24 * 3600)) / (24 * 3600)) % 10}
-              </div>
-            </div>
-            <div className='hidden font-poppins font-bold text-[21px] drop-shadow-[0px_5px_10px_#B89D69] bg-clip-text text-transparent bg-gradient-brown md:block'>
-              Days
-            </div>
-          </div>
-        </div>
-
+      <div className='mb-auto relative justify-center content-center item-center'>
         <div
-          className='hidden md:mx-1.5 lg:mx-2 md:flex md:items-center'
-          data-aos='fade-zoom-in'
-          data-aos-duration='1200'
+          className='font-poppins lg:text-3xl text-[12px] flex justify-center font-semibold pb-6 pt-4 lg:pb-4 gap-x-2 text-white'
+          style={{ textShadow: '0 0 20px rgba(171, 129, 78, 0.5)' }}
         >
-          <CollonIcon size={28} className='fill-black' />
+          <h2>Until registration closes</h2>
         </div>
-
-        {/* Third Box */}
         <div
-          className='flex flex-row items-center'
-          data-aos='flip-down'
-          data-aos-duration='2000'
+          className='font-poppins flex justify-center font-bold lg:space-x-8 space-x-3 lg:px-6 lg:py-1.5 text-white'
+          style={{ textShadow: '0 0 20px rgba(171, 129, 78, 0.5)' }}
         >
-          <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
-            {/* Mobile, Minutes */}
-            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
-              {/* Puluhan */}
-              <div
-                key={`${Math.floor(
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) / 10,
-                )}_puluhan`}
-                className={`${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 0 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) % 10 ==
-                    0 &&
-                  'animate-countdown-out'
-                } ${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 59 &&
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) % 10 ==
-                    9 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) / 10,
-                )}
-              </div>
-              {/* Satuan */}
-              <div
-                key={`${
-                  Math.floor(((countdown % (24 * 3600)) % 3600) / 60) % 10
-                }_satuan`}
-                className={`${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 0 &&
-                  'animate-countdown-out'
-                } ${
-                  ((countdown % (24 * 3600)) % 3600) % 60 === 59 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(((countdown % (24 * 3600)) % 3600) / 60) % 10}
-              </div>
-            </div>
-            <div className='font-poppins font-bold text-[21px] drop-shadow-[0px_5px_10px_#B89D69] bg-clip-text text-transparent bg-gradient-brown md:hidden'>
-              Minutes
-            </div>
-
-            {/* Desktop, Hours */}
-            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:flex'>
-              {/* Puluhan */}
-              <div
-                key={`${Math.floor(
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) / 10,
-                )}_puluhan`}
-                className={`${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    0 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 0 &&
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) %
-                    10 ===
-                    0 &&
-                  'animate-countdown-out'
-                } ${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    59 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 59 &&
-                  (Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) %
-                    10 ===
-                    9 ||
-                    Math.floor(
-                      ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                    ) == 23) &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) / 10,
-                )}
-              </div>
-              {/* Satuan */}
-              <div
-                key={`${
-                  Math.floor(
-                    ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                  ) % 10
-                }_satuan`}
-                className={`${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    0 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 0 &&
-                  'animate-countdown-out'
-                } ${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    59 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) === 59 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(
-                  ((countdown % (7 * 24 * 3600)) % (24 * 3600)) / 3600,
-                ) % 10}
-              </div>
-            </div>
-            <div className='hidden font-poppins font-bold text-[21px] drop-shadow-[0px_5px_10px_#B89D69] bg-clip-text text-transparent bg-gradient-brown md:block'>
-              Hours
-            </div>
+          <div className='flex flex-col items-center'>
+            <h1 className='lg:text-8xl text-3xl'>{time.weeks}</h1>
+            <h2 className='lg:text-2xl  text-xs font-semibold mt-2'>Weeks</h2>
           </div>
-
-          <div
-            className='mx-1.5 lg:mx-2 flex items-center'
-            data-aos='fade-zoom-in'
-            data-aos-duration='1200'
-          >
-            <CollonIcon size={28} className='fill-black' />
+          <span className='lg:text-5xl text-xs self-center mb-6 lg:mb-8'>
+            :
+          </span>
+          <div className='flex flex-col items-center'>
+            <h1 className='lg:text-8xl text-3xl'>{time.days}</h1>
+            <h2 className='lg:text-2xl text-xs font-semibold mt-2'>Days</h2>
           </div>
-
-          {/* 4th Box */}
-          <div className='flex w-[110px] lg:w-[137px] aspect-square flex-col items-center justify-center bg-black pt-[14px]'>
-            {/* Mobile, Seconds */}
-            <div className='flex flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:hidden'>
-              {/* Puluhan */}
-              <div
-                key={`${Math.floor(
-                  (((countdown % (24 * 3600)) % 3600) % 60) / 10,
-                )}_puluhan`}
-                className={`${
-                  (((countdown % (24 * 3600)) % 3600) % 60) % 10 === 9 &&
-                  'animate-countdown-in'
-                } ${
-                  (((countdown % (24 * 3600)) % 3600) % 60) % 10 == 0 &&
-                  'animate-countdown-out'
-                }`}
-              >
-                {Math.floor((((countdown % (24 * 3600)) % 3600) % 60) / 10)}
-              </div>
-              {/* Satuan */}
-              <div
-                key={`${(((countdown % (24 * 3600)) % 3600) % 60) % 10}_satuan`}
-                className={`animate-countdown-sec`}
-              >
-                {(((countdown % (24 * 3600)) % 3600) % 60) % 10}
-              </div>
-            </div>
-            <div className='z-20 bg-black font-poppins font-bold text-[21px] drop-shadow-[0px_5px_10px_#B89D69] bg-clip-text text-transparent bg-gradient-brown md:hidden'>
-              Seconds
-            </div>
-
-            {/* Desktop, Minutes */}
-            <div className='hidden flex-row gap-x-[6px] font-museo-muderno font-bold drop-shadow-[0px_0px_23px_#B89D69] text-[50px] lg:text-[68px] leading-none text-white md:flex'>
-              {/* Puluhan */}
-              <div
-                key={`${Math.floor(
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) / 10,
-                )}_puluhan`}
-                className={`${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    0 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) %
-                    10 ===
-                    0 &&
-                  'animate-countdown-out'
-                } ${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    59 &&
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) %
-                    10 ===
-                    9 &&
-                  'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) / 10,
-                )}
-              </div>
-              {/* Satuan */}
-              <div
-                key={`${
-                  Math.floor(
-                    (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                  ) % 10
-                }_satuan`}
-                className={`${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    0 && 'animate-countdown-out'
-                } ${
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) %
-                    60 ===
-                    59 && 'animate-countdown-in'
-                }`}
-              >
-                {Math.floor(
-                  (((countdown % (7 * 24 * 3600)) % (24 * 3600)) % 3600) / 60,
-                ) % 10}
-              </div>
-            </div>
-            <div className='z-20 hidden bg-black font-poppins font-bold text-[21px] drop-shadow-[0px_5px_10px_#B89D69] bg-clip-text text-transparent bg-gradient-brown md:block'>
-              Minutes
-            </div>
+          <span className='lg:text-5xl text-xs self-center mb-6 lg:mb-8'>
+            :
+          </span>
+          <div className='flex flex-col items-center'>
+            <h1 className='lg:text-8xl text-3xl'>{time.hours}</h1>
+            <h2 className='lg:text-2xl text-xs font-semibold mt-2'>Hours</h2>
+          </div>
+          <span className='lg:text-5xl text-xs self-center mb-6 lg:mb-8'>
+            :
+          </span>
+          <div className='flex flex-col items-center'>
+            <h1 className='lg:text-8xl text-3xl'>{time.minutes}</h1>
+            <h2 className='lg:text-2xl text-xs font-semibold mt-2'>Minutes</h2>
           </div>
         </div>
       </div>
-    </>
+      <div className='lg:mb-auto mb-4 pt-6 lg:pt-5 lg:pt-16 flex flex-row font-poppins lg:text-2xl text-xs font-semibold justify-center lg:space-x-12 space-x-5'>
+        <Link href='https://www.apple.com'>
+          <button
+            onMouseDown={() => {
+              setIsBClicked(true);
+              setTimeout(() => setIsBClicked(false), 0);
+            }}
+            className={`font-poppins lg:h-[57px] lg:text-2xl text-xs lg:w-[228px] h-[34px] w-[99px] rounded-full border border-white 
+        ${
+          isAClicked
+            ? 'bg-transparent text-white'
+            : 'bg-transparent text-white hover:bg-white hover:text-[#040B15] animation-all duration-200'
+        }
+        `}
+            style={{ textShadow: '0 0 20px rgba(171, 129, 78, 0.5)' }}
+          >
+            Daftar
+          </button>
+        </Link>
+
+        <Link href='https://www.nike.com'>
+          <button
+            onMouseDown={() => {
+              setIsBClicked(true);
+              setTimeout(() => setIsBClicked(false), 0);
+            }}
+            className={`font-poppins lg:h-[57px] lg:w-[228px] h-[34px] w-[99px] lg:text-2xl text-xs rounded-full border border-white
+          ${
+            isBClicked
+              ? 'bg-transparent text-white'
+              : 'bg-transparent text-white hover:bg-white hover:text-[#040B15] animation-all duration-200'
+          }
+        `}
+            style={{ textShadow: '0 0 20px rgba(171, 129, 78, 0.5)' }}
+          >
+            Guidebook
+          </button>
+        </Link>
+      </div>
+    </GradientBox>
   );
 }
 
-const CountDownDisplay = ({
-  sectionTitle,
-  targetDate,
-  type,
-  children,
-}: {
-  sectionTitle: string;
-  targetDate: Date;
-  type: string;
-  children: React.ReactNode;
-}) => {
-  const { data: sessionData } = useSession();
-  const ticket =
-    (type !== 'exhibition' && sessionData?.user.ticket?.[type]) || null;
-  if (
-    type !== 'exhibition' &&
-    (ticket === null ||
-      ticket.buy == false ||
-      !sessionData?.user ||
-      ticket?.verified !== 'verified')
-  )
-    return <></>;
-  else {
-    return (
-      <section className='w-full flex flex-col gap-2 bg-gradient-section px-8 sm:px-10 md:px-20 lg:px-40 py-8 lg:py-10 xl:py-14 2xl:py-20'>
-        <div
-          data-aos='flip-up'
-          className='rounded-xl bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5'
-        >
-          <div className='bg-gradient-green flex flex-col items-center justify-center rounded-xl py-10 px-8 lg:px-16 gap-10'>
-            {/* Title */}
-            <TitleSection>{sectionTitle}</TitleSection>
-            {/* Countdown */}
-            <Countdown targetDate={targetDate} />
-            {/* Button */}
-            {children}
-          </div>
-        </div>
-      </section>
-    );
-  }
-};
-export default CountDownDisplay;
+export default Countdown;
