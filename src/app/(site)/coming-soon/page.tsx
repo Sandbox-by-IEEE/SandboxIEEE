@@ -2,76 +2,66 @@ import { type Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
 
-import CustomLink from '@/components/Link';
-
-export default function CommingSoonPage() {
+export default function ComingSoonPage() {
   return (
-    <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
-      <Image
-        src='/coming-soon-assets/Bintang_jatuh.svg'
-        className='absolute -right-20 lg:right-2 w-[50%] sm:w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
-        alt='Meteoroit'
-        width={744}
-        height={642}
-      />
-      <Image
-        src='/coming-soon-assets/Ring.svg'
-        className='absolute right-0 -top-14 w-[25%] sm:w-[10%] -translate-x-10 object-contain transition-all duration-300'
-        alt='Ring'
-        width={199}
-        height={199}
-      />
-      {/*Background*/}
-      <Image
-        src={'/coming-soon-assets/Background_Sandbox_Logo.png'}
-        alt='Sandbox Logo'
-        className='absolute animate-pulse top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[408px] sm:w-[550px] md:w-[70%] 2xl:w-[50%] aspect-video object-contain transition-all duration-300'
-        sizes='(max-width: 640px) 408px, (max-width: 768px) 550px, (max-width: 1024px) 70%, 50%'
-        priority
-        width={1315}
-        height={887}
-      />
+    <main
+      className='relative flex h-screen w-full flex-col items-center justify-center px-10'
+      style={{
+        backgroundImage: `url('/coming-soon-assets/background.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        overflow: 'hidden',
+      }}
+    >
+      <div className='flex flex-col lg:flex-row items-center justify-center space-x-4 relative'>
+        {/* Left Image */}
+        <div
+          className='absolute left-[-40px] top-[10%] transform -translate-y-1/2 z-0
+          sm:left-[-30px] sm:top-[10%]
+          md:left-[-70px] md:top-[30%]
+          lg:left-[-80px] lg:top-[65%]'
+        >
+          <Image
+            src={'/coming-soon-assets/IMG_6798.png'}
+            alt='Bucket Image'
+            width={182}
+            height={280}
+            className='w-[116.48px] h-[179.2px] md:w-[145.6px] md:h-[224px] lg:w-[182px] lg:h-[280px] object-contain transition-all duration-300'
+            priority
+          />
+        </div>
 
-      {/*Content*/}
-      <div className='relative bg-scroll justify-items-center w-fit h-fit flex flex-col items-center'>
-        <Image
-          src={'/coming-soon-assets/Happy.png'}
-          alt='Bucket Image'
-          className='z-[20] object-contain animate-bounce w-[124px] h-[251px] sm:w-[150px] lg:w-[182px] lg:h-[280px] transition-all duration-300'
-          width={165}
-          height={220}
-        />
-        <div className='flex flex-col items-center gap-2 lg:gap-4'>
-          <h1 className='font-poppins animate-walk italic lg:text-4xl text-3xl tracking-wide text-center font-extrabold text-white transition-all duration-300'>
-            Coming Soon!
-          </h1>
-          <h2 className='font-poppins text-lg italic lg:text-2xl text-center text-white transition-all duration-300'>
-            Stay tuned! Something exciting is on the way.
-          </h2>
-          <div className='mt-2 lg:mt-4'>
-            <CustomLink
-              url='https://www.instagram.com/thesandbox.itb/'
-              color='gold'
-            >
-              Our Instagram
-            </CustomLink>
+        {/* Center */}
+        <div className='relative flex flex-col items-center gap-2 lg:gap-4 z-10 px-4 w-full -mt-6'>
+          {/* Text */}
+          <div className='text-white text-center relative'>
+            <h1 className='font-poppins text-5xl lg:text-6xl tracking-wide font-bold'>
+              Coming Soon
+            </h1>
+            <h2 className='font-poppins text-sm lg:text-xl mt-5 font-semibold'>
+              Getting things ready.
+            </h2>
           </div>
         </div>
+
+        {/* Right Image */}
+        <div
+          className='absolute right-[-40px] top-1/3 transform -translate-y-1/3 z-20
+          sm:right-[-40px]
+          md:right-[-100px] md:top-[35%]
+          lg:right-[-70px] lg:top-1/2'
+        >
+          <Image
+            src='/coming-soon-assets/IMG_6800.png'
+            alt='Bucket Image'
+            width={262.08}
+            height={403.2}
+            className='w-[130px] h-[200px] md:w-[209.664px] md:h-[322.56px] lg:w-[262.08px] lg:h-[403.2px] object-contain transition-all duration-300'
+            priority
+          />
+        </div>
       </div>
-      <Image
-        src='/coming-soon-assets/Bintang_jatuh.svg'
-        className='absolute rotate-[165deg] bottom-0 left-0 object-contain w-[20%] sm:-translate-x-10 -translate-x-20 -translate-y-10 transition-all duration-300'
-        alt='Meteorit'
-        width={744}
-        height={642}
-      />
-      <Image
-        src='/coming-soon-assets/Vector_155.svg'
-        className='absolute bottom-0 left-1 object-contain w-[25%] sm:w-[13%] sm:translate-x-10  translate-x-15 -translate-y-5 transition-all duration-300'
-        alt='GLowing Comet'
-        width={236}
-        height={206}
-      />
     </main>
   );
 }
