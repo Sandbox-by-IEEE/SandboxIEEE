@@ -172,28 +172,6 @@ const ExhibitionPage = async () => {
       </section>
 
       {/* CountDown */}
-      {grandSeminar.countdownTitle && grandSeminar.targetDate && (
-        <Countdown
-          sectionTitle={grandSeminar.countdownTitle}
-          // targetDate={new Date(grandSeminar.targetDate)}
-          targetDate={new Date(WIBtargetDate)}
-          type='exhibition'
-        >
-          <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-            <div data-aos='zoom-in'>
-              {/* <Button onClick={()=> {RegisterHandle()}} color='gold'>{grandSeminar.buttonTextRegister}</Button> */}
-              <CustomLink color='gold' url='/events/exhibition/registration'>
-                {grandSeminar.buttonTextRegister}
-              </CustomLink>
-            </div>
-            <div data-aos='zoom-in'>
-              <CustomLink color='trans-orange' url='#seemore'>
-                {grandSeminar.buttonTextSeeMoreCountdown}
-              </CustomLink>
-            </div>
-          </div>
-        </Countdown>
-      )}
 
       {grandSeminar.detailSpeakerSectionTitle && (
         <div className='w-full flex flex-col justify-center py-[80px] lg:py-[120px] items-center h-fit bg-gradient-to-b from-[rgba(7,29,16,0.45)] to-[#0F3015]'>
