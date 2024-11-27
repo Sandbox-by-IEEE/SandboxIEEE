@@ -163,6 +163,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         </div>
       </div>
       {/* Dropdown open */}
+      {/* <div className={`${open ? 'h-8' : 'h-0'}`}></div> */}
       <div
         className={`${
           open
