@@ -1,5 +1,4 @@
 import { type Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
@@ -23,9 +22,9 @@ import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type TPCProps } from '@/types/tpc-type';
 
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
+// const Countdown = dynamic(() => import('@/components/Countdown'), {
+//   ssr: false,
+// });
 
 const TPC = async () => {
   // Fetch data from CMS
@@ -365,8 +364,6 @@ const TPC = async () => {
       {/* END REGISTRATION */}
 
       {/* COUNTDOWN */}
-
-      {/* Countdown */}
       <div
         data-aos='fade-in'
         className='absolute hidden opacity-80 left-0 top-[3145px] lg:block'

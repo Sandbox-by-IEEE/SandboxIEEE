@@ -1,5 +1,4 @@
 import { type Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
@@ -10,9 +9,9 @@ import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { GrandSeminarPageProps } from '@/types/grand-seminar';
 
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
+// const Countdown = dynamic(() => import('@/components/Countdown'), {
+//   ssr: false,
+// });
 
 // import CommingSoonPage from '@/app/(site)/coming-soon/page';
 
