@@ -1,3 +1,4 @@
+import AboutUs from '@/components/AboutUs';
 import ClientHome from '@/components/client-home';
 import Countdown from '@/components/Countdown';
 import Timeline from '@/components/Timeline';
@@ -112,7 +113,9 @@ export default async function Home({
       {/* Trailer Section */}
 
       {/* About Sandbox */}
-
+      <div className='my-[240px]'>
+        <AboutUs />
+      </div>
       {/* Our Events */}
 
       {/* Timeline */}
