@@ -1,6 +1,8 @@
-import BackgroundCarousel from '@/components/background-carousel';
+import AboutUs from '@/components/AboutUs';
 import ClientHome from '@/components/client-home';
-import CustomLink from '@/components/Link';
+import Countdown from '@/components/Countdown';
+import { FAQ } from '@/components/FAQ';
+import OurEvents from '@/components/OurEvents';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
@@ -86,77 +88,74 @@ const CMS_QUERY = `{
     question
   }
 } `;
+
 export default async function Home({
   // eslint-disable-next-line unused-imports/no-unused-vars
   searchParams: { token },
 }: {
   searchParams: { token: string };
 }) {
-  const {
-    homepage,
-    allTimelineSandboxes,
-    allOurEventsHomepages,
-    allFaqHomePages,
-  }: HomepageProps = await performRequest({
-    query: CMS_QUERY,
-    revalidate: 0,
-  });
+  const { homepage, allTimelineSandboxes, allFaqHomePages }: HomepageProps =
+    await performRequest({
+      query: CMS_QUERY,
+      revalidate: 0,
+    });
 
   return (
-    <main className='flex min-h-screen w-full flex-col font-museo-muderno bg-[#040B15]'>
+    <main className='flex min-h-screen w-full flex-col font-museo-muderno bg-[#040B15] justify-center items-center'>
       <ClientHome />
-      <section className='relative w-full h-fit bg-green-dark-green'>
-        <BackgroundCarousel images={homepage.background} />
-        {/* Text Content on background */}
-        <div
-          className='absolute top-1/2 p-24 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-fit h-fit flex flex-col gap-8 items-center justify-center'
-          style={{
-            background:
-              'radial-gradient(50% 50% at 50% 50%, rgba(8, 30, 17, 0.90) 18.33%, rgba(0, 0, 0, 0.00) 99.48%)',
-          }}
-        >
-          <h2
-            style={{
-              ['textShadow' as any]:
-                '0px 0px 97.32px #BD9B65, 0px 0px 1.9464px #BD9B65',
-            }}
-            data-aos='flip-up'
-            className='text-4xl text-center lg:text-5xl 2xl:text-[56px] font-bold font-museo-muderno p-1 bg-gradient-brown text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text'
-          >
-            {homepage.titleHomepage}
-          </h2>
-          {homepage.tagline && <TitleSection>{homepage.tagline}</TitleSection>}
-          <div className='animate-blink duration-500 transition-all'>
-            <CustomLink color='green' url={'#' + homepage.textButtonSeeMore}>
-              {homepage.textButtonSeeMore}
-            </CustomLink>
-          </div>
-        </div>
-      </section>
-
       {/* Countdown Section */}
+      <div className='w-[80%] mt-[120px] mb-[60px] lg:my-[180px]'>
+        <Countdown />
+      </div>
 
       {/* Trailer Section */}
 
       {/* About Sandbox */}
-
-      {/* Our Events */}
+      <div className='w-[80%] mb-[60px] lg:mb-[180px]'>
+        <AboutUs />
+      </div>
 
       {/* Timeline */}
-      <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#092a16]'>
-        <div
-          className='bg-gradient-brown border-2 border-solid border-[#AB814E] bg-transparent shadow-[0_0_0.9732px_#705229,0_0_1.9464px_#705229,0_0_6.8124px_#705229,0_0_13.6248px_#705229,0_0_23.3568px_#705229,0_0_40.8744px_#705229] p-1.5 rounded-2xl mx-8 sm:mx-10 md:mx-28 lg:mx-36 2xl:mx-52'
-          data-aos='flip-up'
-        >
-          <div className='bg-gradient-green items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-            <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
-          </div>
+      <section className='w-full flex flex-col mb-[120px] md:mb-[180px]'>
+        <div className='w-full flex items-center justify-center'>
+          <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
         </div>
         <Timeline items={allTimelineSandboxes} />
       </section>
 
-      {/* FAQ + Sponsor and media partner */}
+      {/* Our Events */}
+      <section className='w-[80%] mb-[60px] lg:mb-[180px] flex flex-col gap-6 lg:gap-20 bg-[#040B15]'>
+        <OurEvents />
+      </section>
 
+      {/* FAQ + Sponsor and media partner */}
+      {/* FAQ Section */}
+      <section className='w-[80%] flex flex-col gap-12 lg:gap-20 mb-[80px] md:mb-[120px] bg-[#040B15]'>
+        {/* Title for FAQ Section */}
+        <div className='p-1.5 rounded-2xl' data-aos='flip-up'>
+          <div className=' items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+            <h2 className='text-center text-4xl lg:text-5xl font-bold text-white'>
+              {homepage.faqSectionTitle}
+            </h2>
+            <p className='text-center text-xl lg:text-xl font-normal text-white mt-4'>
+              Lorem ipsum dolor sit amet consectetur.
+            </p>
+          </div>
+
+          {/* FAQ Content */}
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+            {allFaqHomePages.map((faq) => (
+              <FAQ
+                key={faq.id}
+                question={faq.question}
+                answer={faq.answer}
+                aos='fade-up'
+              />
+            ))}
+          </div>
+        </div>
+      </section>
       {/* Sponsor */}
     </main>
   );
