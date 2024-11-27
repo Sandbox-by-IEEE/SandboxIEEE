@@ -87,6 +87,7 @@ const CMS_QUERY = `{
     question
   }
 } `;
+
 export default async function Home({
   // eslint-disable-next-line unused-imports/no-unused-vars
   searchParams: { token },
@@ -182,7 +183,6 @@ export default async function Home({
           ))}
         </div>
       </section>
-
       {/* Sponsor */}
     </main>
   );
