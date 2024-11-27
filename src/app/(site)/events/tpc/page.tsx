@@ -364,7 +364,6 @@ const TPC = async () => {
       {/* END REGISTRATION */}
 
       {/* COUNTDOWN */}
-
       <div
         data-aos='fade-in'
         className='absolute hidden opacity-80 left-0 top-[3145px] lg:block'

@@ -22,7 +22,11 @@ const GradientBox = ({
   return (
     <div
       className={`relative mx-auto mt-auto flex flex-col justify-center text-white ${
-        type === 'blue' ? 'rounded-[50px]' : 'rounded-[64px] lg:rounded-[128px]'
+        type === 'blue'
+          ? 'rounded-[50px]'
+          : type === 'timeline'
+          ? 'rounded-[48px]'
+          : 'rounded-[64px] lg:rounded-[128px]'
       } ${className}`}
       data-aos={aos || (type === 'blue' ? 'fade-up' : 'flip-down')}
       data-aos-duration={duration || 1500}
@@ -41,6 +45,8 @@ const GradientBox = ({
         className={` ${
           type === 'blue'
             ? 'rounded-[50px] p-[1px] lg:p-[4px]'
+            : type === 'timeline'
+            ? 'rounded-[48px] p-[1px] lg:p-[5px]'
             : 'rounded-[64px] lg:rounded-[128px] p-[2px] lg:p-[5px]'
         }`}
         style={{

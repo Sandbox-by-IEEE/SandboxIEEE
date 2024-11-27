@@ -1,6 +1,8 @@
 import AboutUs from '@/components/AboutUs';
 import ClientHome from '@/components/client-home';
-import OurEvents from '@/components/OurEvents';
+import Countdown from '@/components/Countdown';
+import Timeline from '@/components/Timeline';
+import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type HomepageProps } from '@/types/homepage';
 
@@ -103,20 +105,28 @@ export default async function Home({
   return (
     <main className='flex min-h-screen w-full flex-col font-museo-muderno bg-[#040B15] justify-center items-center'>
       <ClientHome />
-
       {/* Countdown Section */}
+      <div className='mt-[244px]'>
+        <Countdown />
+      </div>
 
       {/* Trailer Section */}
 
       {/* About Sandbox */}
-
+      <div className='my-[240px]'>
+        <AboutUs />
+      </div>
       {/* Our Events */}
       <section className='w-[80%] flex flex-col gap-6 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#040B15]'>
         <OurEvents />
       </section>
 
-      <section className=''>
-        <AboutUs />
+      {/* Timeline */}
+      <section className='w-full flex flex-col py-8 lg:py-10 xl:py-14 2xl:py-20'>
+        <div className='w-full flex items-center justify-center'>
+          <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
+        </div>
+        <Timeline items={allTimelineSandboxes} />
       </section>
 
       {/* FAQ + Sponsor and media partner */}

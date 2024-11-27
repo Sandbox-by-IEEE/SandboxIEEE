@@ -109,7 +109,7 @@ function CountdownHCI() {
           </div>
         </div>
       </div>
-      <div className='lg:mb-auto mb-4 pt-6 lg:pt-16 flex flex-row font-poppins lg:text-2xl text-xs font-semibold justify-center lg:space-x-12 space-x-5'>
+      <div className='lg:mb-auto mb-4 pt-6 lg:pt-5 lg:pt-16 flex flex-row font-poppins lg:text-2xl text-xs font-semibold justify-center lg:space-x-12 space-x-5'>
         <Link href='https://www.apple.com'>
           <button
             onMouseDown={() => {
