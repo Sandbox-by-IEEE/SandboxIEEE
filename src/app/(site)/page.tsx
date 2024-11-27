@@ -1,6 +1,7 @@
 import AboutUs from '@/components/AboutUs';
 import ClientHome from '@/components/client-home';
 import Countdown from '@/components/Countdown';
+import OurEvents from '@/components/OurEvents';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
