@@ -57,7 +57,7 @@ const EventCard: React.FC<EventCardProps> = ({ title, description, index }) => {
       </div>
       <div
         className='bg-gradient-to-r from-[#28575cef] to-[#0d2d32da] backdrop-filter backdrop-blur-md rounded-[40px] shadow-lg p-8 flex flex-col relative justify-between mb-8 w-full min-h-[320px]'
-        // data-aos='fade-up'
+        data-aos='fade-up'
       >
         <div className='flex flex-col'>
           <h3 className='text-[20px] sm:text-[26px] lg:text-[32px] font-poppins font-semibold text-white mb-4'>
@@ -121,7 +121,7 @@ const OurEvents: React.FC = () => {
   ];
 
   return (
-    <div className='bg-[#040B15] py-12 font-poppins relative flex flex-col items-center justify-center'>
+    <div className='bg-[#040B15] pt-12 font-poppins relative flex flex-col items-center justify-center'>
       <div className='absolute -top-[80px] z-10 lg:hidden'>
         <Image
           src='/eventbucket.svg'

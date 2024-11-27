@@ -12,15 +12,12 @@ const AboutUs = () => {
         <h1>What is Sandbox?</h1>
       </div>
 
-      <GradientBox
-        type='blue'
-        className='h-[227px] w-[336px] lg:h-[363px] lg:w-[1191px]'
-      >
+      <GradientBox type='blue' className='w-full'>
         <div className='flex flex-col items-start text-white content-center text-center items-center'>
           {/* Title */}
           <div>
             <h1
-              className='font-poppins text-[20px] lg:text-3xl  font-bold leading-tight'
+              className='font-poppins text-[20px] sm:text-[24px] lg:text-3xl mt-6 lg:mt-12 font-bold leading-tight'
               data-aos='fade-up'
               data-aos-duration='1500'
             >
@@ -31,7 +28,7 @@ const AboutUs = () => {
           {/* Paragraph */}
           <div>
             <p
-              className='font-poppins text-[12px] lg:text-lg leading-relaxed tracking-wide max-w-[17rem] lg:max-w-2xl mt-4 lg:mt-8 lg:mb-12'
+              className='font-poppins text-[12px] sm:text-lg lg:text-2xl leading-relaxed tracking-wide max-w-[17rem] sm:max-w-[480px] lg:max-w-2xl mt-4 mb-8 lg:mt-8 lg:mb-16'
               data-aos='fade-up'
               data-aos-duration='1500'
             >

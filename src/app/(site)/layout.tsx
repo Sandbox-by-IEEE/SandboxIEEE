@@ -22,7 +22,7 @@ const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
     revalidate: 0,
   });
   return (
-    <div className='flex flex-col min-h-screen overflow-x-clip custom-scrollbar'>
+    <div className='bg-flex flex-col min-h-screen overflow-x-clip custom-scrollbar'>
       <NavBar />
 
       {children}
