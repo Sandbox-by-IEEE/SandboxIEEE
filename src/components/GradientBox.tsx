@@ -7,6 +7,7 @@ interface GradientBoxProps {
   duration?: number;
   style?: HTMLAttributes<HTMLDivElement>['style'];
   type?: string;
+  inverted?: boolean;
 }
 
 const GradientBox = ({
@@ -16,6 +17,7 @@ const GradientBox = ({
   aos,
   duration,
   style,
+  inverted = false,
 }: GradientBoxProps) => {
   return (
     <div
@@ -56,7 +58,9 @@ const GradientBox = ({
           bottom: 0,
           background:
             type === 'blue'
-              ? 'linear-gradient(135deg, rgba(19, 77, 73, 1) 10%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 90%)'
+              ? inverted
+                ? 'linear-gradient(135deg, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.25) 50%, rgba(19, 77, 73, 1) 90%)'
+                : 'linear-gradient(135deg, rgba(19, 77, 73, 1) 10%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 90%)'
               : 'linear-gradient(45deg, transparent, #D6D1D1, #AB814E)',
           WebkitMask:
             'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',

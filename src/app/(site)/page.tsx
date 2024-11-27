@@ -103,7 +103,7 @@ export default async function Home({
   });
 
   return (
-    <main className='flex min-h-screen w-full flex-col font-museo-muderno bg-[#040B15]'>
+    <main className='flex min-h-screen w-full flex-col font-museo-muderno bg-[#040B15] justify-center items-center'>
       <ClientHome />
       {/* Countdown Section */}
       <div className='mt-[244px]'>
@@ -117,6 +117,9 @@ export default async function Home({
         <AboutUs />
       </div>
       {/* Our Events */}
+      <section className='w-[80%] flex flex-col gap-6 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#040B15]'>
+        <OurEvents />
+      </section>
 
       {/* Timeline */}
       <section className='w-full flex flex-col py-8 lg:py-10 xl:py-14 2xl:py-20'>

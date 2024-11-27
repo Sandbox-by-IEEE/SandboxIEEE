@@ -1,5 +1,4 @@
 import { type Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
@@ -23,9 +22,9 @@ import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type PTCProps } from '@/types/ptc-type';
 
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
+// const Countdown = dynamic(() => import('@/components/Countdown'), {
+//   ssr: false,
+// });
 
 const PTC = async () => {
   // Fetch data from CMS

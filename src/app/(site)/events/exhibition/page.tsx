@@ -1,12 +1,11 @@
 import { type Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { StructuredText } from 'react-datocms/structured-text';
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
 
+// const Countdown = dynamic(() => import('@/components/Countdown'), {
+//   ssr: false,
+// });
 // import CommingSoonPage from '@/app/(site)/coming-soon/page';
 import { FAQ } from '@/components/FAQ';
 import LazyLoadMap from '@/components/lazy-load-map';
