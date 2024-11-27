@@ -1,6 +1,7 @@
 import AboutUs from '@/components/AboutUs';
 import ClientHome from '@/components/client-home';
 import Countdown from '@/components/Countdown';
+import { FAQ } from '@/components/FAQ';
 import OurEvents from '@/components/OurEvents';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
@@ -104,7 +105,7 @@ export default async function Home({
     <main className='flex min-h-screen w-full flex-col font-museo-muderno bg-[#040B15] justify-center items-center'>
       <ClientHome />
       {/* Countdown Section */}
-      <div className='mt-[244px]'>
+      <div className='mt-[180px]'>
         <Countdown />
       </div>
 
@@ -114,18 +115,20 @@ export default async function Home({
       <div className='my-[240px]'>
         <AboutUs />
       </div>
+
+      {/* Timeline */}
+      <section className='w-full flex flex-col py-8 lg:py-10 xl:py-14 2xl:py-20'>
+        <div className='w-full flex items-center justify-center'>
+          <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
+        </div>
+        <Timeline items={allTimelineSandboxes} />
+      </section>
+
       {/* Our Events */}
       <section className='w-[80%] flex flex-col gap-6 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#040B15]'>
         <OurEvents />
       </section>
 
-      {/* Timeline */}
-      <section className='w-full flex flex-col py-8 lg:py-10 xl:py-14 2xl:py-20'>
-          <div className='w-full flex items-center justify-center'>
-              <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
-          </div>
-      </section>
-      
       {/* FAQ + Sponsor and media partner */}
       {/* FAQ Section */}
       <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#040B15]'>
@@ -143,16 +146,17 @@ export default async function Home({
             </p>
           </div>
 
-        {/* FAQ Content */}
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52'>
-          {allFaqHomePages.map((faq) => (
-            <FAQ
-              key={faq.id}
-              question={faq.question}
-              answer={faq.answer}
-              aos='fade-up'
-            />
-          ))}
+          {/* FAQ Content */}
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52'>
+            {allFaqHomePages.map((faq) => (
+              <FAQ
+                key={faq.id}
+                question={faq.question}
+                answer={faq.answer}
+                aos='fade-up'
+              />
+            ))}
+          </div>
         </div>
       </section>
       {/* Sponsor */}
