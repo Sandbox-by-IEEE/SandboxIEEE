@@ -105,19 +105,19 @@ export default async function Home({
     <main className='flex min-h-screen w-full flex-col font-museo-muderno bg-[#040B15] justify-center items-center'>
       <ClientHome />
       {/* Countdown Section */}
-      <div className='mt-[180px]'>
+      <div className='w-[80%] mt-[120px] mb-[60px] lg:my-[180px]'>
         <Countdown />
       </div>
 
       {/* Trailer Section */}
 
       {/* About Sandbox */}
-      <div className='my-[240px]'>
+      <div className='w-[80%] mb-[60px] lg:mb-[180px]'>
         <AboutUs />
       </div>
 
       {/* Timeline */}
-      <section className='w-full flex flex-col py-8 lg:py-10 xl:py-14 2xl:py-20'>
+      <section className='w-full flex flex-col mb-[120px] md:mb-[180px]'>
         <div className='w-full flex items-center justify-center'>
           <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
         </div>
@@ -125,18 +125,15 @@ export default async function Home({
       </section>
 
       {/* Our Events */}
-      <section className='w-[80%] flex flex-col gap-6 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#040B15]'>
+      <section className='w-[80%] mb-[60px] lg:mb-[180px] flex flex-col gap-6 lg:gap-20 bg-[#040B15]'>
         <OurEvents />
       </section>
 
       {/* FAQ + Sponsor and media partner */}
       {/* FAQ Section */}
-      <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#040B15]'>
+      <section className='w-[80%] flex flex-col gap-12 lg:gap-20 mb-[80px] md:mb-[120px] bg-[#040B15]'>
         {/* Title for FAQ Section */}
-        <div
-          className='p-1.5 rounded-2xl mx-8 sm:mx-10 md:mx-28 lg:mx-36 2xl:mx-52'
-          data-aos='flip-up'
-        >
+        <div className='p-1.5 rounded-2xl' data-aos='flip-up'>
           <div className=' items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             <h2 className='text-center text-4xl lg:text-5xl font-bold text-white'>
               {homepage.faqSectionTitle}
@@ -147,7 +144,7 @@ export default async function Home({
           </div>
 
           {/* FAQ Content */}
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52'>
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
             {allFaqHomePages.map((faq) => (
               <FAQ
                 key={faq.id}
