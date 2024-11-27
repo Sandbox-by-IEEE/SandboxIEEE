@@ -31,18 +31,18 @@ export const FAQ = ({
       onClick={() => setIsOpen(!isOpen)}
       data-aos={aos || 'flip-down'}
     >
-      <hr className='border-t-1 border-white mb-4' />
+      <hr className='border-t-2 border-white mb-4' />
       <div className='flex w-full justify-between items-center'>
         <h4
           data-aos='zoom-in'
-          className='font-poppins bg-gradient-to-tr from-[#3d787e] via-[#72bfdb] to-[#a2ede9] text-left text-transparent bg-clip-text text-sm:text-base lg:text-base font-semibold'
+          className='font-poppins text-white text-left text-transparent bg-clip-text text-sm:text-base lg:text-base font-semibold max-w-[235px] sm:max-w-full'
         >
           {question}
         </h4>
         <ArrowDropdownIcon
-          size={20}
+          size={10}
           className={`fill-white transition-all duration-300 w-[20px] aspect-square ${
-            isOpen ? 'rotate-0' : 'rotate-180'
+            isOpen ? 'rotate-180' : 'rotate-0'
           }`}
         />
       </div>
@@ -51,7 +51,7 @@ export const FAQ = ({
           isOpen
             ? 'opacity-100 mt-6 h-full pointer-events-none'
             : 'opacity-0 m-0 h-0 pointer-events-none'
-        } transition-all duration-300 text-cream-secondary-light text-sm sm:text-base lg:text-base font-poppins text-left`}
+        } transition-all duration-300 text-white text-sm sm:text-base lg:text-base font-poppins text-left`}
       >
         <StructuredText data={answer} />
       </span>
