@@ -12,6 +12,8 @@ import TextInput from '@/components/TextInput';
 const FormDetails = ({
   inputData,
   setInputData,
+  validRefferalCode,
+  setValidRefferalCode,
   handleChange,
   handleSubmitFormIdentity,
   fillMemberIndex,
@@ -24,6 +26,8 @@ const FormDetails = ({
 }: {
   inputData: InputData;
   setInputData: React.Dispatch<React.SetStateAction<InputData>>;
+  validRefferalCode: boolean;
+  setValidRefferalCode: React.Dispatch<React.SetStateAction<boolean>>;
   handleChange: (e: any) => void;
   handleSubmitFormIdentity: (e: React.FormEvent<HTMLFormElement>) => void;
   fillMemberIndex: number;
@@ -46,20 +50,45 @@ const FormDetails = ({
     | 'twibbonProof'
     | 'twibbonProofName'
     | 'studentProof'
-    | 'studentProofName';
+    | 'studentProofName'
+    | 'refferalCode';
 
   //...
+
   const [isPaymentPage, setIsPaymentPage] = useState<boolean>(false);
-  const [refferalCode, setRefferalCode] = useState<string>('');
-  const [validRefferalCode, setValidRefferalCode] = useState<boolean>(false);
-  const handleRefferalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRefferalCodeChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const code = e.target.value;
-    setRefferalCode(code);
-    if (code.length === 2) {
-      setValidRefferalCode(true);
+    setInputData((prevData) => ({
+      ...prevData,
+      refferalCode: code,
+    }));
+
+    if (code.length > 0) {
+      try {
+        const response = await fetch(`/api/refferal-code?code=${code}`);
+        const data = await response.json();
+
+        if (response.ok && data.status === 200) {
+          setValidRefferalCode(true);
+        } else {
+          setValidRefferalCode(false);
+        }
+      } catch (error) {
+        setValidRefferalCode(false);
+      }
     } else {
       setValidRefferalCode(false);
     }
+
+    localStorage.setItem(
+      inputDataHistoryKey,
+      JSON.stringify({
+        ...inputData,
+        refferalCode: code,
+      }),
+    );
   };
 
   const unWarn = (isMember: boolean, memberIndex: number, prop: PropType) => {
@@ -254,20 +283,45 @@ const FormDetails = ({
                     Fee
                   </p>
                   <div className='relative z-1 flex items-center justify-between p-10 w-full'>
-                    <div className='relative flex flex-col z-1 w-full'>
+                    <div className='relative flex flex-col z-1 w-full gap-2'>
                       <p className='font-poppins text-[25px] font-bold'>
-                        Total price for {inputData.memberCount} members ={' '}
+                        Total price for {inputData.memberCount}{' '}
+                        {inputData.memberCount === 1
+                          ? 'participant'
+                          : 'participants'}{' '}
+                        ={' '}
                       </p>
-                      <div>
-                        <p className='relative font-poppins text-[25px] font-bold'>
-                          Rp. {inputData.memberCount * 100}.000
-                          <div className='absolute'></div>
-                        </p>
+                      <div className='flex items-center w-full justify-center flex-col'>
+                        {/* Original Price */}
+                        <div className='relative w-fit left-0'>
+                          <p
+                            className={`font-poppins text-[25px] font-bold w-fit transition-opacity duration-500 ${
+                              validRefferalCode ? ' text-red-500' : ''
+                            }`}
+                          >
+                            Rp. {inputData.memberCount * 100}.000
+                          </p>
+                          <div
+                            className={`absolute w-0 h-[4px] bg-gradient-to-br ${
+                              validRefferalCode
+                                ? 'from-red-500 to-red-500 w-[90%]'
+                                : 'from-transparent to-transparent'
+                            } transition-all duration-500`}
+                            style={{
+                              top: '50%',
+                              left: '50%',
+                              transform: 'translate(-50%, -50%) rotate(-15deg)',
+                            }}
+                          />
+                        </div>
 
-                        <p className='hidden font-poppins text-[25px] font-bold'>
-                          Rp. {(inputData.memberCount * 100000 * 0.9) / 1000}
-                          .000
-                        </p>
+                        {/* Discounted Price */}
+                        {validRefferalCode && (
+                          <p className='font-poppins text-[25px] font-bold text-white'>
+                            Rp. {(inputData.memberCount * 100000 * 0.9) / 1000}
+                            .000
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -275,26 +329,30 @@ const FormDetails = ({
               </div>
             </div>
             <label className='font-poppins relative z-1 font-thin text-sm pb-1'>
-              Enter a refferal code
+              Refferal code
             </label>
             <div className='relative z-1 w-full'>
               <TextInput
                 placeholder={''}
                 type='text'
                 name='refferalCode'
-                text={`${refferalCode}`}
+                text={`${inputData.refferalCode}`}
                 color={
-                  refferalCode === ''
+                  inputData.refferalCode === ''
                     ? 'trans'
                     : validRefferalCode
                     ? 'green'
                     : 'red'
                 }
-                onChange={handleRefferalCodeChange}
+                onChange={(e) => {
+                  handleRefferalCodeChange(e);
+                }}
+                onFocus={() => unWarn(false, -1, 'refferalCode')}
+                isWarned={!!isWarnedInputData.refferalCode}
                 fullwidth
               />
               <div className='absolute bottom-0 left-0 translate-y-[100%]'>
-                {!validRefferalCode && refferalCode !== '' && (
+                {!validRefferalCode && inputData.refferalCode !== '' && (
                   <label className='font-poppins font-thin text-sm text-[#FF0000]'>
                     Code is invalid!
                   </label>
@@ -368,7 +426,6 @@ const FormDetails = ({
                       inputDataHistoryKey,
                       JSON.stringify(newInputData),
                     );
-
                     return newInputData;
                   });
                 }}
@@ -500,10 +557,13 @@ const FormDetails = ({
                 color='trans-black'
                 isFullWidth
                 onClick={() => {
-                  isPaymentPage
-                    ? setFillMemberIndex(fillMemberIndex)
-                    : setFillMemberIndex(fillMemberIndex - 1),
-                    setIsPaymentPage(false);
+                  if (isPaymentPage) {
+                    setFillMemberIndex(fillMemberIndex);
+                  } else {
+                    setFillMemberIndex(fillMemberIndex - 1);
+                  }
+                  setIsPaymentPage(false);
+                  window.scrollTo({ top: 100, behavior: 'smooth' }); // Scrolls to the top smoothly
                 }}
               >
                 <span className='relative z-1 w-fit min-w-fit max-w-fit whitespace-nowrap font-poppins'>
@@ -521,6 +581,7 @@ const FormDetails = ({
                 color='white-2'
                 isFullWidth
                 onClick={() => {
+                  window.scrollTo({ top: 100, behavior: 'smooth' }); // Scrolls to the top smoothly
                   setFillMemberIndex(fillMemberIndex + 1);
                 }}
                 disabled={isDisabledNext}
