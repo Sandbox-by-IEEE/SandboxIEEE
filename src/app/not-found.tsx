@@ -1,75 +1,56 @@
-import { type Metadata } from 'next';
+'use client';
+
+import { Metadata } from 'next';
 import Image from 'next/image';
 
-import CustomLink from '@/components/Link';
+import Footer from '@/components/footer';
+import NavBar from '@/components/Navbar';
 
 export default function Home() {
   return (
-    <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
-      <Image
-        src='/404assets/Bintang_jatuh.svg'
-        className='absolute -right-20 lg:right-2 w-[50%] sm:w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
-        alt='Meteoroit'
-        width={744}
-        height={642}
-      />
-      <Image
-        src='/404assets/Ring.svg'
-        className='absolute right-0 -top-14 w-[25%] sm:w-[10%] aspect-square object-contain -translate-x-10 opacity-70 transition-all duration-300'
-        alt='Ring'
-        width={199}
-        height={199}
-      />
-      {/*Background*/}
-      <Image
-        src={'/404assets/404.png'}
-        alt='Sandbox Logo'
-        className='absolute top-1/3 inset-0 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse origin-center w-[308px] sm:w-[550px] md:w-[70%] 2xl:w-[50%] aspect-video object-contain transition-all duration-300'
-        sizes='(max-width: 640px) 408px, (max-width: 768px) 550px, (max-width: 1024px) 70%, 50%'
-        priority
-        width={1315}
-        height={887}
-      />
-
-      {/*Content*/}
-      <div className='relative bg-scroll justify-items-center w-fit h-fit flex flex-col items-center'>
-        <Image
-          src={'/404assets/sand.png'}
-          alt='Bucket Image'
-          className='z-50 object-contain animate-shake w-[124px] h-[251px] sm:w-[150px] lg:w-[182px] lg:h-[280px] transition-all duration-300'
-          width={165}
-          height={220}
-        />
-        <div className='flex flex-col items-center gap-3 lg:gap-6'>
-          <h1 className='font-poppins italic animate-ghost-left lg:text-5xl text-4xl tracking-wide text-center font-extrabold text-white transition-all duration-300'>
-            Oops!
+    <div className='flex flex-col min-h-screen'>
+      <NavBar />
+      <main className="className='relative w-full z-5 flex flex-col min-h-screen justify-center items-center py-28 pt-14 lg:py-28 lg:pt-20 gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44 relative bg-[#040B15] font-poppins flex-grow text-white">
+        <div className='text-center'>
+          <h1 className='font-bold md:text-[96px] leading-normal text-[48px]'>
+            404
           </h1>
-          <h2 className='font-poppins italic text-lg lg:text-2xl text-center text-white transition-all duration-300'>
-            Looks like you&apos;ve taken a wrong turn. Let&apos;s get you back
-            on track
+          <h2 className='md:font-bold md:text-[32px] leading-[48px] text-[16px] font-normal'>
+            Fixing there and there
           </h2>
-          <div className='mt-2 lg:mt-4'>
-            <CustomLink url='/' color='gold'>
-              Home Page
-            </CustomLink>
-          </div>
         </div>
-      </div>
-      <Image
-        src='/404assets/Bintang_jatuh.svg'
-        className='absolute rotate-[165deg] bottom-0 left-0 object-contain w-[20%] sm:-translate-x-10 -translate-x-20 -translate-y-10 transition-all duration-300'
-        alt='Meteorit'
-        width={744}
-        height={642}
-      />
-      <Image
-        src='/404assets/Vector_155.svg'
-        className='absolute bottom-0 left-1 object-contain w-[25%] sm:w-[13%] sm:translate-x-10  translate-x-15 -translate-y-5 transition-all duration-300'
-        alt='Comet'
-        width={236}
-        height={206}
-      />
-    </main>
+        {/* Shadow */}
+        <div
+          className='absolute md:w-[50%] md:h-[50%] md:rounded-[50%] w-[15%] h-[15%] opacity-50'
+          style={{
+            background:
+              'radial-gradient(50% 50% at 50% 50%, rgba(159, 42, 57, 0.45) 0%, rgba(11, 53, 15, 0) 100%)',
+            mixBlendMode: 'screen',
+            transform: 'rotate(135deg)',
+          }}
+        />
+        {/* Images */}
+        <Image
+          src='/404assets/left-image-error.png'
+          alt='Left Decorative Image'
+          className='absolute md:top-[10%] md:left-[15.5%] md:w-[35%] w-[60%] top-[12%] left-[-5%]'
+          width={0}
+          height={0}
+          sizes='100vw'
+          priority
+        />
+        <Image
+          src='/404assets/right-image-error.png'
+          alt='Right Decorative Image'
+          className='absolute md:top-[10%] md:right-[8%] md:w-[39%] w-[58%] top-[25%] right-[-10%]'
+          width={0}
+          height={0}
+          sizes='100vw'
+          priority
+        />
+      </main>
+      <Footer />
+    </div>
   );
 }
 

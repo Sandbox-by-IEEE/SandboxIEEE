@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ArrowDropdownIcon from './icons/ArrowDropdownIcon';
 
 interface DropdownProps {
-  color?: 'green' | 'trans-green' | 'light' | 'cream';
+  color?: 'green' | 'trans-green' | 'light' | 'cream' | 'transparent';
   options: string[];
   placeholder?: string;
   selectedOption: string;
@@ -12,15 +12,18 @@ interface DropdownProps {
   type?: 'routes';
   fullWidth?: boolean;
   isActive?: boolean;
+  navbar?: boolean;
 }
 
 // Function to set routes options navbar
 function RoutesOptions({
   options,
   colorClass,
+  navbar,
 }: {
   options: string[];
   colorClass: string;
+  navbar: boolean;
 }) {
   return (
     <>
@@ -30,7 +33,9 @@ function RoutesOptions({
           key={option}
         >
           <div
-            className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3 w-full px-5 ${colorClass}`}
+            className={`cursor-pointer break-all text-center ${
+              navbar ? 'my-0' : 'my-[10px]'
+            }text-sm font-poppins transition-all duration-300 capitalize py-3 w-full px-5 ${colorClass}`}
           >
             {option}
           </div>
@@ -49,6 +54,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   type,
   fullWidth = false,
   isActive,
+  navbar = false,
 }) => {
   const colorEffect = {
     green: {
@@ -76,6 +82,12 @@ const Dropdown: React.FC<DropdownProps> = ({
       'child-container':
         'bg-cream-secondary-light text-black font-poppins font-[500] z-10',
       child: 'hover:bg-white',
+    },
+    transparent: {
+      parent: 'text-white',
+      icon: 'fill-white',
+      'child-container': 'text-white font-poppins font-[500] z-10',
+      child: 'hover:bg-white hover:bg-opacity-20',
     },
   };
 
@@ -113,12 +125,18 @@ const Dropdown: React.FC<DropdownProps> = ({
     (open
       ? colorEffect[color].parent + ' text-black'
       : isActive
-      ? 'text-cream-secondary-normal'
+      ? navbar
+        ? 'text-white'
+        : 'text-white bg-white bg-opacity-20 border-[1px] border-white rounded-full'
       : 'text-white');
 
   return (
     <div
-      className='cursor-pointer'
+      className={`cursor-pointer rounded-full ${
+        navbar
+          ? 'text-white'
+          : 'hover:bg-white hover:border-white hover:bg-opacity-20 hover:border-[1px]'
+      } `}
       ref={dropDownRef}
       onMouseEnter={() => type === 'routes' && setOpen(true)}
       onMouseLeave={() => type === 'routes' && setOpen(false)}
@@ -126,12 +144,16 @@ const Dropdown: React.FC<DropdownProps> = ({
     >
       {/* Main div unaffected by open state and placeholder */}
       <div
-        className={`block ${fullWidth ? 'w-full' : 'w-[256px]'} p-[1.5px] ${
-          open ? 'rounded-t-md' : 'rounded-md'
+        className={`block ${
+          fullWidth ? 'w-full' : 'w-[256px]'
+        } flex items-center justify-center ${
+          open ? 'rounded-full' : 'rounded-full'
         } ${type === 'routes' ? NavbarStylesSmall : colorEffect[color].parent}`}
       >
         <div
-          className={`flex justify-between items-center w-full py-2 lg:px-5 ${
+          className={`flex ${
+            navbar ? 'gap-2' : 'gap-4'
+          } items-center w-fit py-2 lg:px-5 ${
             type === 'routes' ? 'lg:px-[15px]' : 'py-3'
           } bg-transparent  px-4`}
         >
@@ -143,11 +165,13 @@ const Dropdown: React.FC<DropdownProps> = ({
             {selectedOption || placeholder}
           </p>
           <ArrowDropdownIcon
-            size={10}
+            size={navbar ? 6 : 10}
             className={`w-4 h-4 ${
               open
                 ? type === 'routes'
-                  ? 'rotate-180 fill-green-primary'
+                  ? color == 'transparent'
+                    ? 'rotate-180 fill-white'
+                    : 'rotate-180 fill-green-primary'
                   : `rotate-180 ${colorEffect[color].icon}`
                 : `rotate-0  ${colorEffect[color].icon}`
             } transition-all duration-300`}
@@ -155,14 +179,17 @@ const Dropdown: React.FC<DropdownProps> = ({
         </div>
       </div>
       {/* Dropdown open */}
+      {/* <div className={`${open ? 'h-8' : 'h-0'}`}></div> */}
       <div
         className={`${
           open
-            ? 'opacity-100 translate-y-0'
+            ? navbar
+              ? 'opacity-100 translate-y-2 bg-[#0a2133bf] w-full'
+              : 'opacity-100 translate-y-0 mt-2 bg-customGreen rounded-xl border-[1px] border-white'
             : '-translate-y-[60px] pointer-events-none opacity-0'
         } transition-all duration-300 max-h-[200px] overflow-y-auto ${
           open && type == 'routes' ? 'lg:top-[44px]' : 'absolute lg:top-[70px]'
-        } custom-scrollbar mb-2 left-0 w-full rounded-b-md ${
+        } custom-scrollbar left-0 w-full ${
           colorEffect[color]['child-container']
         } ${type === 'routes' ? 'lg:absolute lg: y-0' : ''}`}
       >
@@ -171,12 +198,13 @@ const Dropdown: React.FC<DropdownProps> = ({
           <RoutesOptions
             options={options}
             colorClass={colorEffect[color].child}
+            navbar={navbar}
           />
         ) : (
           <>
             <div
               onClick={() => handleOptionClick('All')}
-              className={`cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3 px-5 ${colorEffect[color].child}`}
+              className={`justify-center items-center cursor-pointer break-all text-sm font-poppins transition-all duration-300 capitalize py-3 px-5 ${colorEffect[color].child}`}
             >
               All
             </div>
