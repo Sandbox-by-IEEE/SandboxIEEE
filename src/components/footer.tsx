@@ -5,8 +5,6 @@ import Instagram from '@/components/icons/instagram';
 import Linkedin from '@/components/icons/linkedin';
 
 import Copyright from './icons/copyright';
-import Copyrightsm from './icons/copyrightsm';
-import Logosm from './icons/logosm';
 
 const LinkColumn = ({ header }) => (
   <div className='flex flex-col justify-center w-full'>
@@ -59,11 +57,22 @@ const Footer = () => (
   <footer className='w-full relative z-[99] h-fit max-lg:py-10 lg:h-[360px] flex text-white'>
     <div className='w-full h-full mr-10 ml-10 mx-auto sm:mr-[100px] sm:ml-[100px] flex flex-col items-center justify-center z-10'>
       {/* Main text and links */}
-      <div className='justify-between xl:justify-around w-full flex-col lg:flex lg:flex-row pb-6'>
-        <div className='mb-10 block lg:hidden'>
-          <Logosm size={25} />
+      <div className='justify-around w-full flex flex-row pb-6'>
+        <div className='w-[120px] md:hidden gap-4 items-center text-center justify-center flex'>
+          <SocialIcon
+            label={'Instagram'}
+            LinkComponent={Instagram}
+            href='https://www.instagram.com/thesandbox.itb/'
+            size={25}
+          />
+          <SocialIcon
+            label={'LinkedIn'}
+            LinkComponent={Linkedin}
+            href='https://www.instagram.com/thesandbox.itb/'
+            size={25}
+          />
         </div>
-        <div className='flex'>
+        <div className='md:flex hidden'>
           {linksData.map((pair, index) => (
             <div className='flex gap-4 lg:gap-12' key={index}>
               {pair.map((columnData, columnIndex) => (
@@ -73,21 +82,24 @@ const Footer = () => (
           ))}
         </div>
       </div>
+      <div className='w-[120px] flex md:hidden items-center mb-6'>
+        <p className='mb-2 w-full text-center'>#NetZeroHero</p>
+      </div>
       <div className='bg-gradient-to-r from-[#18635A] to-[#082349] w-full h-[4px]'></div>
       {/* Social Media */}
       <div className='w-full flex flex-row items-center mt-4'>
-        <div className='w-[120px]'>
+        <div className='w-[120px] hidden md:flex'>
           <p className='mb-2'>#NetZeroHero</p>
         </div>
         <div className='flex justify-center w-full'>
-          <div className='hidden sm:block'>
+          <div className=''>
             <Copyright size={25} />
           </div>
-          <div className='block sm:hidden'>
+          {/* <div className='block sm:hidden'>
             <Copyrightsm size={25} />
-          </div>
+          </div> */}
         </div>
-        <div className='w-[120px] flex gap-2 lg:gap-4 mt-4 items-end text-right justify-end'>
+        <div className='w-[120px] md:flex gap-2 lg:gap-4 items-end text-right justify-end hidden'>
           <SocialIcon
             label={'Instagram'}
             LinkComponent={Instagram}

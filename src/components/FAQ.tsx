@@ -10,6 +10,11 @@ import { StructuredText } from 'react-datocms/structured-text';
 
 import ArrowDropdownIcon from '@/components/icons/ArrowDropdownIcon';
 
+interface FAQItem {
+  id: string;
+  question: string;
+  answer: Document | Node | STType<Record, Record> | null | undefined;
+}
 export const FAQ = ({
   question,
   answer,
@@ -22,37 +27,25 @@ export const FAQ = ({
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div
-      className='bg-gradient-to-r from-[#28575c] to-[#0d2d32] p-2 lg:p-6 w-full flex flex-col cursor-pointer'
+      className='p-5 lg:p-6 w-full flex flex-col cursor-pointer'
       onClick={() => setIsOpen(!isOpen)}
       data-aos={aos || 'flip-down'}
     >
-      {/* Container Question */}
+      <hr className='border-t-2 border-white mb-4' />
       <div className='flex w-full justify-between items-center'>
-        {/* Question */}
         <h4
           data-aos='zoom-in'
-          className='font-poppins bg-gradient-to-tr from-[#af8954] via-[#cfb57c] to-[#ede1a2] text-left text-white bg-clip-text text-sm sm:text-base lg:text-base font-semibold'
+          className='font-poppins text-white text-left text-transparent bg-clip-text text-sm:text-base lg:text-base font-semibold max-w-[235px] sm:max-w-full'
         >
           {question}
         </h4>
-        {/* Arrow */}
         <ArrowDropdownIcon
-          size={25}
-          className={`fill-white transition-all duration-300 w-5 mr-2 aspect-square ${
-            isOpen ? 'rotate-0' : 'rotate-180'
+          size={10}
+          className={`fill-white transition-all duration-300 w-[20px] aspect-square ${
+            isOpen ? 'rotate-180' : 'rotate-0'
           }`}
         />
       </div>
-
-      {/* Garis Pembatas */}
-      <div
-        className={`transition-all duration-300 ${
-          isOpen ? 'opacity-100 my-4' : 'opacity-0 h-0'
-        }`}
-      >
-        <hr className='border-t border-gray-400/50' />
-      </div>
-
       {/* Answer */}
       <span
         className={`${
