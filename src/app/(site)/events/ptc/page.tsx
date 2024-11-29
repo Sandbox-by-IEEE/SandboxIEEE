@@ -44,10 +44,7 @@ export default async function PTC({
     });
 
   return (
-    <div
-      className='flex flex-col w-full m-auto justify-center items-center'
-      style={{ backgroundImage: `url(/PTC/bg.png)` }}
-    >
+    <div className='flex flex-col w-full m-auto justify-center items-center'>
       <div className='mt-10 lg:mt-40 font-poppins text-[24px] lg:text-[80px] flex justify-center font-bold text-white'>
         <h1>ProtoTech Contest</h1>
       </div>
@@ -68,10 +65,11 @@ export default async function PTC({
       <div className='font-poppins text-[24px] lg:text-[48px] flex justify-center font-bold text-white mt-20'>
         <h1>Timeline</h1>
       </div>
-
-      <Timeline items={allTimelineSandboxes} />
+      <section>
+        <Timeline items={allTimelineSandboxes} />
+      </section>
       {/* FAQ Section */}
-      <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20 bg-[#040B15]'>
+      <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20'>
         {/* Title for FAQ Section */}
         <div
           className='p-1.5 rounded-2xl mx-8 sm:mx-10 md:mx-28 lg:mx-36 2xl:mx-52'
