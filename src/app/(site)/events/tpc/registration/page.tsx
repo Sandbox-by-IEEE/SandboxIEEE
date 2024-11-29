@@ -36,6 +36,7 @@ export default function TPCRegist() {
     ],
     paymentMethod: '',
     paymentProofUrl: [],
+    refferalCode: '',
   });
   const [isWarnedInputData, setIsWarnedInputData] = useState<IsWarnedInputData>(
     {
@@ -56,8 +57,10 @@ export default function TPCRegist() {
       ],
       paymentMethod: false,
       paymentProofUrl: [],
+      refferalCode: false,
     },
   );
+  const [validRefferalCode, setValidRefferalCode] = useState<boolean>(false);
   const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
   const [isDisabledNext, setIsDisabledNext] = useState<boolean>(false);
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
@@ -249,6 +252,30 @@ export default function TPCRegist() {
       return;
     }
 
+    if (inputData.refferalCode !== '' && !validRefferalCode) {
+      callToast({
+        status: 'error',
+        description: 'Invalid referral code. Please enter a valid code.',
+      });
+      return;
+    }
+
+    if (
+      (inputData.paymentProofUrl?.length ?? 0) === 0 ||
+      (inputData.paymentProofUrl ?? []).every(
+        (file) =>
+          (Object.keys(file).length === 0 && file.constructor === Object) ||
+          !file.fileName ||
+          !file.fileUrl,
+      )
+    ) {
+      callToast({
+        status: 'error',
+        description: 'Please upload your payment proof',
+      });
+      return;
+    }
+
     const loadingToastId = callLoading(
       'Processing your TPC form registration...',
     ); // Tampilkan toast loading
@@ -270,6 +297,8 @@ export default function TPCRegist() {
             twibbonProof: member.twibbonProof,
           };
         }),
+        refferalCode: inputData.refferalCode,
+        paymentProofUrl: inputData.paymentProofUrl,
       };
 
       const response = await fetch('/api/ticket/competition', {
@@ -359,6 +388,25 @@ export default function TPCRegist() {
   }, [filesForm2]);
 
   useEffect(() => {
+    const validateRefferalCode = async (code: string) => {
+      if (code.length > 0) {
+        try {
+          const response = await fetch(`/api/refferal-code?code=${code}`);
+          const data = await response.json();
+
+          if (response.ok && data.status === 200) {
+            setValidRefferalCode(true);
+          } else {
+            setValidRefferalCode(false);
+          }
+        } catch (error) {
+          setValidRefferalCode(false);
+        }
+      } else {
+        setValidRefferalCode(false);
+      }
+    };
+
     const memoryInputData = localStorage.getItem(inputDataHistoryKey);
     if (memoryInputData) {
       try {
@@ -371,7 +419,8 @@ export default function TPCRegist() {
           'members' in historyInputData &&
           Array.isArray(historyInputData.members) &&
           'paymentMethod' in historyInputData &&
-          Array.isArray(historyInputData.paymentProofUrl)
+          Array.isArray(historyInputData.paymentProofUrl) &&
+          'refferalCode' in historyInputData
         ) {
           if (historyInputData.paymentProofUrl)
             setFilesForm2(historyInputData.paymentProofUrl);
@@ -401,6 +450,7 @@ export default function TPCRegist() {
             members,
             paymentMethod,
             paymentProofUrl,
+            refferalCode,
           } = historyInputData;
 
           setInputData({
@@ -409,7 +459,11 @@ export default function TPCRegist() {
             members,
             paymentMethod,
             paymentProofUrl,
+            refferalCode,
           });
+
+          // Validate the referral code
+          validateRefferalCode(refferalCode);
 
           const newIsWarnedInputData = { ...isWarnedInputData };
           while (
@@ -444,6 +498,7 @@ export default function TPCRegist() {
               members,
               paymentMethod,
               paymentProofUrl,
+              refferalCode,
             }),
           );
         } else {
@@ -457,13 +512,24 @@ export default function TPCRegist() {
   }, []);
 
   return (
-    <main className='bg-gradient-to-t px-4 sm:px-10 md:px-20 lg:px-40 from-[#051F12] to-[#061906] text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip'>
-      <div className='h-fit w-full max-w-[1000px] space-y-2 lg:space-y-4 py-10 px-4 pt-16 lg:pt-24 font-poppins'>
-        <Title text='TPC Registration' />
-        <Title text='Complete your details Below' />
+    <main
+      style={{
+        backgroundImage: 'url(/RegistrationPageBg.svg)',
+      }}
+      className='bg-cover px-4 sm:px-10 md:px-15 lg:px-20 text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip w-full'
+    >
+      <div className='h-fit w-full max-w-[1200px] py-10 pt-16 lg:pt-24 font-poppins'>
+        <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+          TPC Registration
+        </h1>
+        <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+          Complete your details below
+        </h1>
         <FormDetails
           inputData={inputData}
           setInputData={setInputData}
+          validRefferalCode={validRefferalCode}
+          setValidRefferalCode={setValidRefferalCode}
           handleChange={handleChange}
           fillMemberIndex={fillMemberIndex}
           setFillMemberIndex={setFillMemberIndex}
@@ -479,11 +545,11 @@ export default function TPCRegist() {
   );
 }
 
-const Title = ({ text }) => (
-  <div className='relative text-3xl lg:text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
-    <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full'>
-      {text}
-    </div>
-    <h2 className='z-10'>{text}</h2>
-  </div>
-);
+// const Title = ({ text }) => (
+//   <div className='relative text-3xl lg:text-5xl font-extrabold text-[#9a7037] font-museo-muderno text-center leading-normal'>
+//     <div className='absolute top-0 bg-gradient-to-tr from-[#AB814E] via-[#b28856] to-[#FFFBB9] text-transparent bg-clip-text w-full'>
+//       {text}
+//     </div>
+//     <h2 className='z-10'>{text}</h2>
+//   </div>
+// );

@@ -43,30 +43,64 @@ const SingleFileInput = ({
     }
   };
 
+  //Upload with cloudinary
+  // const uploadFile = async (fileUploaded: File) => {
+  //   // eslint-disable-next-line no-useless-catch
+  //   try {
+  //     if (fileUploaded.size > 10 * 1024 * 1024) {
+  //       throw 'File size exceeds the maximum allowed (10MB).';
+  //     }
+
+  //     const fd = new FormData();
+  //     fd.append(`file`, fileUploaded);
+  //     fd.append('upload_preset', 'ddriwluc');
+
+  //     const response = await fetch(
+  //       `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/auto/upload`,
+  //       {
+  //         method: 'POST',
+  //         body: fd,
+  //       },
+  //     );
+  //     if (!response.ok) throw await response.json();
+
+  //     const responseJSON = await response.json();
+
+  //     return responseJSON;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
+
+  //Upload with uploadthing
   const uploadFile = async (fileUploaded: File) => {
-    // eslint-disable-next-line no-useless-catch
+    // Check file size on the client side as well
+    if (fileUploaded.size > 4 * 1024 * 1024) {
+      throw new Error('File size exceeds the maximum allowed (4MB).');
+    }
+
+    // Prepare form data with the file
+    const fd = new FormData();
+    fd.append('file', fileUploaded);
+
     try {
-      if (fileUploaded.size > 10 * 1024 * 1024) {
-        throw 'File size exceeds the maximum allowed (10MB).';
+      // Send the file to the server's API route
+      const response = await fetch('/api/uploads', {
+        method: 'POST',
+        body: fd,
+      });
+
+      // Handle the response
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'File upload failed');
       }
 
-      const fd = new FormData();
-      fd.append(`file`, fileUploaded);
-      fd.append('upload_preset', 'ddriwluc');
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/auto/upload`,
-        {
-          method: 'POST',
-          body: fd,
-        },
-      );
-      if (!response.ok) throw await response.json();
-
-      const responseJSON = await response.json();
-
-      return responseJSON;
+      const result = await response.json();
+      console.log('File uploaded successfully:', result.message);
+      return result;
     } catch (error) {
+      console.error('Error uploading file:', error);
       throw error;
     }
   };
@@ -225,7 +259,7 @@ const SingleFileInput = ({
           <p className='text-[#00FFA1]'>
             {inputUrl ? 'Link' : 'File'} successfully uploaded!
           </p>
-          <div className={`flex gap-2 items-center`}>
+          <div className={`w-full flex gap-2 items-center`}>
             {inputUrl ? <LinkIcon /> : <FileIcon />}
             {inputUrl ? (
               <Link
@@ -237,14 +271,16 @@ const SingleFileInput = ({
                 {inputUrl}
               </Link>
             ) : (
-              <a href={file?.fileUrl} className='flex flex-col'>
-                <p>{file?.fileName}</p>
+              <a href={file?.fileUrl} className='flex-grow overflow-hidden'>
+                <p className='text-ellipsis overflow-hidden whitespace-nowrap w-full'>
+                  {file?.fileName}
+                </p>
               </a>
             )}
           </div>
           <div className='w-full flex justify-center pt-6 gap-3'>
             <Button
-              color='green'
+              color='trans-red'
               onClick={() => setFile(undefined)}
               type='button'
             >
