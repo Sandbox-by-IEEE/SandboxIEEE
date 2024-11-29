@@ -56,11 +56,6 @@ const GradientBox = ({
           left: 0,
           right: 0,
           bottom: 0,
-          borderRadius: type === 'blue' ? '64px' : '128px',
-          padding: '4px',
-          background:
-            type === 'blue'
-              ? 'linear-gradient(135deg, rgba(19, 77, 73, 1) 10%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 90%)'
           background:
             type === 'blue'
               ? inverted
