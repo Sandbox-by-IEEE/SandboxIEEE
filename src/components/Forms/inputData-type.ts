@@ -21,6 +21,7 @@ export type InputData = {
   members: MemberInfo[];
   paymentMethod?: string;
   paymentProofUrl?: FileInputType[];
+  refferalCode: string;
 };
 
 export type IsWarnedMemberInfo = {
@@ -41,4 +42,5 @@ export type IsWarnedInputData = {
   members: IsWarnedMemberInfo[];
   paymentMethod?: boolean;
   paymentProofUrl?: IsWarnedFileInputType[];
+  refferalCode?: boolean;
 };
