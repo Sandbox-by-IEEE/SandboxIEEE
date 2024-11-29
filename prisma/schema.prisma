@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,24 +10,24 @@ datasource db {
 model User {
   id                 String              @id @default(cuid())
   name               String?
-  username           String?             @unique
   email              String?             @unique
   emailVerified      DateTime?
-  credential         Boolean?            @default(false)
-  active             Boolean             @default(false)
   image              String?
   password           String?
   karyaId            String?
+  active             Boolean             @default(false)
+  credential         Boolean?            @default(false)
+  username           String?             @unique
+  accounts           Account[]
+  activateToken      ActivateToken[]
+  regisExhiData      RegisExhiData?
+  resetToken         ResetToken[]
+  sessions           Session[]
   ticketsCompetition TicketCompetition[]
   ticketsExhibition  TicketExhibition?
-  accounts           Account[]
-  sessions           Session[]
-  karya              Karya?              @relation(fields: [karyaId], references: [id], onDelete: Cascade, name: "OldKaryaRelation")
-  votesKarya           Karya[]             @relation(name: "NewKaryaRelation")
-  activateToken      ActivateToken[]
-  resetToken         ResetToken[]
-  regisExhiData      RegisExhiData?
   transaction        TransactionDetail[]
+  karya              Karya?              @relation("OldKaryaRelation", fields: [karyaId], references: [id], onDelete: Cascade)
+  votesKarya         Karya[]             @relation("NewKaryaRelation")
 }
 
 model ActivateToken {
@@ -38,11 +35,9 @@ model ActivateToken {
   userId      String
   token       String    @unique
   activatedAt DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ResetToken {
@@ -50,11 +45,9 @@ model ResetToken {
   userId      String
   token       String    @unique
   activatedAt DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -63,15 +56,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
+  refresh_token     String?
+  access_token      String?
   expires_at        BigInt?
   token_type        String?
   scope             String?
-  id_token          String? @db.String
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -98,32 +90,28 @@ model RegisExhiData {
   collectiveType   String     @default("1")
   registrationType String
   verified         Boolean    @default(false)
-  statusData       String     @default("waiting")
   paymentMethod    String
   paymentProof     String
+  statusData       String     @default("waiting")
+  user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   tickets          TicketGS[]
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TicketGS {
-  id      String  @id @default(uuid())
-  active  Boolean @default(false)
-  name    String
-  email   String
-  phone   String
-  idLine  String
-  regisId String?
-
-  regisData RegisExhiData? @relation(fields: [regisId], references: [id], onDelete: Cascade)
-
-  transactionDetail   TransactionDetail? @relation(fields: [transactionDetailId], references: [id])
+  id                  String             @id @default(uuid())
+  active              Boolean            @default(false)
+  name                String
+  email               String
+  phone               String
+  idLine              String
+  regisId             String?
   transactionDetailId String?
+  regisData           RegisExhiData?     @relation(fields: [regisId], references: [id], onDelete: Cascade)
+  transactionDetail   TransactionDetail? @relation(fields: [transactionDetailId], references: [id])
 }
 
 model TicketExhibition {
   id            String  @id @default(uuid())
-  ticketType    String
   verified      Boolean @default(false)
   active        Boolean @default(false)
   userId        String  @unique
@@ -138,32 +126,30 @@ model TicketExhibition {
   phoneNumber   String
   ages          String
   amountPrice   String
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ticketType    String
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TicketCompetition {
   id              String @id @default(uuid())
   userId          String
-  verified        String @default("pending")
   competitionType String
+  verified        String @default("pending")
   team            Team?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Team {
-  id            String                   @id @default(uuid())
-  ticketId      String                   @unique
-  teamName      String                   @unique
-  chairmanName  String
-  chairmanEmail String
-  members       ParticipantCompetition[]
-  karya         Karya?
-  abstract      Abstract?
-  regist3Data   Regist3Data?
-
-  ticketCompetition TicketCompetition @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  id                String                   @id @default(uuid())
+  ticketId          String                   @unique
+  teamName          String                   @unique
+  chairmanName      String
+  chairmanEmail     String
+  abstract          Abstract?
+  karya             Karya?
+  members           ParticipantCompetition[]
+  regist3Data       Regist3Data?
+  ticketCompetition TicketCompetition        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
 }
 
 model Abstract {
@@ -173,8 +159,7 @@ model Abstract {
   letterPlagiarism String
   abstract         String
   status           String @default("waiting")
-
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team             Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model ParticipantCompetition {
@@ -187,8 +172,7 @@ model ParticipantCompetition {
   age          String
   twibbonProof String
   studentProof String
-
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team         Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model Regist3Data {
@@ -199,21 +183,19 @@ model Regist3Data {
   billName      String
   paymentProof  String
   paymentMethod String
-
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team          Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model Karya {
   id            String  @id @default(uuid())
+  countVote     BigInt  @default(0)
   teamId        String  @unique
   linkFullPaper String?
   linkVideo     String?
   linkVideo2    String?
-  countVote     BigInt  @default(0)
-  usersVote     User[]  @relation(name: "OldKaryaRelation")
-  usersVoteNew  User[]  @relation(name: "NewKaryaRelation")
-
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team          Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  usersVote     User[]  @relation("OldKaryaRelation")
+  usersVoteNew  User[]  @relation("NewKaryaRelation")
 }
 
 model TransactionDetail {
@@ -228,8 +210,16 @@ model TransactionDetail {
   snapToken        String
   snapRedirectURL  String
   userId           String
-  User             User       @relation(fields: [userId], references: [id])
-  ticketGS         TicketGS[]
   metadata         Json?
   deletedData      Json?
+  ticketGS         TicketGS[]
+  User             User       @relation(fields: [userId], references: [id])
+}
+
+model RefferalCode {
+  id           String   @id @default(uuid())
+  refferalCode String   @unique
+  isUsed       Boolean  @default(false)
+  teamId       String?  @unique
+  teamName     String?
 }
