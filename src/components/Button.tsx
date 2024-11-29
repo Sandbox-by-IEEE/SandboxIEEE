@@ -15,7 +15,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'trans-black'
     | 'trans-red'
     | 'trans-gold'
-    | 'white-2';
+    | 'white-2'
     | 'transparent';
   isIcon?: boolean;
   isDisabled?: boolean;
@@ -86,9 +86,9 @@ const Button: React.FC<ButtonProps> = ({
     },
     'trans-red': {
       main: 'border border-[3px] border-[#E73838] bg-transparent text-[#E73838] hover:shadow-[0px_0px_20px_0px_#E73838] disabled:bg-[#D7D2D0]',
+    },
     transparent: {
       main: 'text-white hover:text-black font-inter text-[15px] tracking-wide lg:text-base shadow-gray-800 border-2 border-white rounded-full hover:bg-white',
-
       arrow: '#FFFFFF',
     },
   };
