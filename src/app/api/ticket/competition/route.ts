@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
@@ -10,16 +10,26 @@ import { transporter } from '@/lib/mailTransporter';
 
 export async function POST(req: NextRequest) {
   let ticketIdTemp = '';
+  let refferalCodeTemp = '';
+  let teamIdTemp = '';
   try {
-    const { competitionType, teamName, chairmanName, chairmanEmail, members } =
-      await req.json();
+    const {
+      competitionType,
+      teamName,
+      chairmanName,
+      chairmanEmail,
+      members,
+      refferalCode,
+      paymentProofUrl,
+    } = await req.json();
 
     if (
       !competitionType ||
       !teamName ||
       !chairmanName ||
       !chairmanEmail ||
-      !members
+      !members ||
+      !paymentProofUrl
     ) {
       return NextResponse.json(
         { message: 'Missing some data!!' },
@@ -93,15 +103,50 @@ export async function POST(req: NextRequest) {
     });
 
     ticketIdTemp = ticket.id;
+    refferalCodeTemp = refferalCode;
+    if (ticket.team) {
+      teamIdTemp = ticket.team.id;
+    }
+
+    if (refferalCode) {
+      try {
+        if (ticket.team) {
+          const payload = {
+            code: refferalCode,
+            teamId: ticket.team.id,
+            teamName: ticket.team.teamName,
+          };
+          const baseUrl =
+            process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+          const updateResponse = await fetch(`${baseUrl}/api/refferal-code`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!updateResponse.ok) {
+            throw new Error('Failed to update referral code');
+          }
+        } else {
+          throw new Error('Team information is missing');
+        }
+      } catch (error) {
+        throw new Error('Failed to update referral code');
+      }
+    }
 
     const dataTicketForSheet = {
       ticketId: ticket.id,
       teamName: ticket.team?.teamName,
       chairmanName: ticket.team?.chairmanName,
       members: members,
+      paymentProof: paymentProofUrl.fileUrl,
     };
 
-    const sheetAPI = process.env.API_SHEET_TICKET_URL || '';
+    const sheetAPI = process.env.API_SHEET_TICKET_URL_2024 || '';
 
     const response = await fetch(`${sheetAPI}?type=${ticket.competitionType}`, {
       method: 'POST',
@@ -110,6 +155,8 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify(dataTicketForSheet),
     });
+
+    if (!response.ok) throw new Error('Failed to create ticket');
 
     const resBody = await response.json();
 
@@ -153,28 +200,57 @@ export async function POST(req: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    if (error instanceof Error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
-          // eslint-disable-next-line no-console
-          console.log('ERROR_POST_TICKET', error);
-          return NextResponse.json(
-            { message: 'The team name is already in use' },
-            { status: 500 },
-          );
+    if (error instanceof PrismaClientKnownRequestError) {
+      if ((error as PrismaClientKnownRequestError).code === 'P2002') {
+        // eslint-disable-next-line no-console
+        console.log('ERROR_POST_TICKET', error);
+        return NextResponse.json(
+          { message: 'The team name is already in use' },
+          { status: 500 },
+        );
+      }
+    }
+    if (ticketIdTemp) {
+      await prisma.ticketCompetition.delete({
+        where: {
+          id: ticketIdTemp,
+        },
+      });
+      if (refferalCodeTemp) {
+        try {
+          if (teamIdTemp) {
+            const payload = {
+              code: refferalCodeTemp,
+              teamId: teamIdTemp,
+              teamName: '',
+            };
+            const baseUrl =
+              process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+            const updateResponse = await fetch(`${baseUrl}/api/refferal-code`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(payload),
+            });
+
+            if (!updateResponse.ok) {
+              throw new Error('Failed to update referral code');
+            }
+          } else {
+            throw new Error('Team information is missing');
+          }
+        } catch (error) {
+          throw new Error('Failed to update referral code');
         }
       }
-      if (ticketIdTemp) {
-        await prisma.ticketCompetition.delete({
-          where: {
-            id: ticketIdTemp,
-          },
-        });
-      }
-
-      // eslint-disable-next-line no-console
-      console.log('ERROR_POST_TICKET', error);
-      return NextResponse.json({ message: error.message }, { status: 500 });
     }
+
+    // eslint-disable-next-line no-console
+    console.log('ERROR_POST_TICKET', error);
+    return NextResponse.json(
+      { message: (error as Error).message },
+      { status: 500 },
+    );
   }
 }
