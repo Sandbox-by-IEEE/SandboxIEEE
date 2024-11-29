@@ -1,5 +1,4 @@
 import { type Metadata } from 'next';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React from 'react';
 import { StructuredText } from 'react-datocms/structured-text';
@@ -18,15 +17,14 @@ import Star9 from '@/components/icons/Star9';
 import Star10 from '@/components/icons/star10';
 import Star11 from '@/components/icons/star11';
 import Starburst from '@/components/icons/starburst';
-import CustomLink from '@/components/Link';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type TPCProps } from '@/types/tpc-type';
 
-const Countdown = dynamic(() => import('@/components/Countdown'), {
-  ssr: false,
-});
+// const Countdown = dynamic(() => import('@/components/Countdown'), {
+//   ssr: false,
+// });
 
 const TPC = async () => {
   // Fetch data from CMS
@@ -366,26 +364,6 @@ const TPC = async () => {
       {/* END REGISTRATION */}
 
       {/* COUNTDOWN */}
-
-      {/* Countdown */}
-      <Countdown
-        sectionTitle={tpcPage.countdownSectionTitle}
-        targetDate={new Date(tpcPage.targetDate)}
-        type='PTC'
-      >
-        <div className='flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10'>
-          <div data-aos='zoom-in'>
-            <ButtonRegistration isDisabled type='TPC' color='gold'>
-              Abstract Submission Closed
-            </ButtonRegistration>
-          </div>
-          <div data-aos='zoom-in'>
-            <CustomLink color='trans-orange' url='#timeline'>
-              {tpcPage.buttonTextSeeMore}
-            </CustomLink>
-          </div>
-        </div>
-      </Countdown>
       <div
         data-aos='fade-in'
         className='absolute hidden opacity-80 left-0 top-[3145px] lg:block'

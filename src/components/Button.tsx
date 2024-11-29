@@ -16,9 +16,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'trans-red'
     | 'trans-gold'
     | 'white-2';
+    | 'transparent';
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
+  isNav?: boolean;
   className?: string;
 }
 
@@ -29,6 +31,7 @@ const Button: React.FC<ButtonProps> = ({
   isIcon,
   isDisabled,
   isFullWidth,
+  isNav,
   className,
   ...props
 }) => {
@@ -83,6 +86,9 @@ const Button: React.FC<ButtonProps> = ({
     },
     'trans-red': {
       main: 'border border-[3px] border-[#E73838] bg-transparent text-[#E73838] hover:shadow-[0px_0px_20px_0px_#E73838] disabled:bg-[#D7D2D0]',
+    transparent: {
+      main: 'text-white hover:text-black font-inter text-[15px] tracking-wide lg:text-base shadow-gray-800 border-2 border-white rounded-full hover:bg-white',
+
       arrow: '#FFFFFF',
     },
   };
@@ -94,13 +100,19 @@ const Button: React.FC<ButtonProps> = ({
       disabled={isDisabled}
       aria-label={(children && children.toString()) || 'button'}
       className={`${
-        isFullWidth ? 'w-full h-full' : 'w-[130px] lg:w-[180px]'
-      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center py-3 px-4 rounded-md ${
+        isFullWidth
+          ? 'w-full h-full'
+          : isNav
+          ? 'w-[100px] xl:w-[130px]'
+          : 'w-[130px] lg:w-[180px]'
+      } ${
+        isNav ? 'rounded-full' : 'rounded-md'
+      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center px-2 py-2 xl:py-3 xl:px-4 ${
         colorEffect[color].main
       } ${className}`}
       {...props}
     >
-      <p className='flex gap-3 w-full text-center items-center justify-center font-poppins font-bold'>
+      <p className='flex gap-3 w-fit xl:w-full text-sm xl:text-base text-center items-center justify-center font-poppins font-bold'>
         {children}
         {isIcon && <RightArrow arrowColor={`${colorEffect[color].arrow}`} />}
       </p>

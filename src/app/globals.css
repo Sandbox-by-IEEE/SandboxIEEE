@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* color for timeline line */
+:root {
+  --color-start: rgba(204, 204, 204, 0.27); /* CCCC 27% */
+  --color-middle: rgba(255, 255, 255, 1); /* FFFFFF 100% */
+  --color-end: rgba(153, 153, 153, 0.27); /* 999999 27% */
+}
+
 /* tailwind can't handler border-image for gradient border */
 .gradient-border-bg {
   border-image: linear-gradient(45deg, #ab814e, #ffe1b9) 1;
@@ -73,7 +80,7 @@ details summary::-webkit-details-marker {
 }
 
 /* vertical-timeline-component */
-.vertical-timeline::before {
+/* .vertical-timeline::before {
   background: linear-gradient(45deg, #ab814e, #fffbb9) !important;
   width: 10px !important;
   transform: translateX(-2.5px) !important;
@@ -93,4 +100,4 @@ details summary::-webkit-details-marker {
 
 .no-scroll {
   overflow: hidden;
-}
+} */
