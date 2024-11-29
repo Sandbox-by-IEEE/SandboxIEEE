@@ -1,3 +1,4 @@
+import { type Metadata } from 'next';
 import Image from 'next/image';
 import React from 'react';
 
@@ -22,6 +23,7 @@ const CMS_QUERY = `{
     id
     answer {
       value
+
     }
     question
   }
