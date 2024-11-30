@@ -9,7 +9,7 @@ export default function AuthLayout({
 }) {
   return (
     <div
-      className='flex flex-col justify-between min-h-full'
+      className='flex flex-col justify-between min-h-screen'
       style={{
         backgroundImage: `url(/registrationbg.svg)`,
         backgroundRepeat: 'no-repeat',

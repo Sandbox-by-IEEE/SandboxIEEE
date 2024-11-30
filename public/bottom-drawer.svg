@@ -12,14 +12,14 @@
 </g>
 </g>
 <defs>
-<filter id="filter0_b_737_2606" x="-12.0892" y="-10.7474" width="395.283" height="338.495" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<filter id="filter0_b_737_2606" x="-12.0892" y="-10.7474" width="395.283" height="338.495" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
 <feGaussianBlur in="BackgroundImageFix" stdDeviation="10.7344"/>
 <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_737_2606"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_737_2606" result="shape"/>
 </filter>
-<filter id="filter1_b_737_2606" x="214.57" y="24.1324" width="178.121" height="237.211" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<filter id="filter1_b_737_2606" x="214.57" y="24.1324" width="178.121" height="237.211" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
 <feGaussianBlur in="BackgroundImageFix" stdDeviation="1.64986"/>
 <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_737_2606"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_737_2606" result="shape"/>

@@ -8,7 +8,11 @@ import React, { useEffect } from 'react';
 
 import GradientBox from '@/components/GradientBox';
 
-const Regulations: React.FC = () => {
+interface RegulationsProps {
+  children: React.ReactNode;
+}
+
+const Regulations: React.FC<RegulationsProps> = ({ children }) => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -22,7 +26,7 @@ const Regulations: React.FC = () => {
       className=' w-[336px] h-[900px] lg:h-[500px] lg:w-[1191px] rounded-[50px] backdrop-blur-md'
     >
       <div
-        className='font-poppins relative max-w-7xl mx-auto px-6 py-12 rounded-3xl shadow-xl'
+        className='font-poppins relative max-w-7xl mx-auto px-6 py-12 rounded-3xl'
         data-aos='fade-up'
       >
         <div className='absolute w-[300px] lg:w-[400px] -top-28 -right-20 z-0 transform rotate-12'>
@@ -52,24 +56,7 @@ const Regulations: React.FC = () => {
             boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.4)',
           }}
         >
-          <ul className='text-white space-y-4 list-none'>
-            <li>
-              1. Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent
-              nunc sed nunc arcu sagittis.
-            </li>
-            <li>
-              2. Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent
-              nunc sed nunc arcu sagittis.
-            </li>
-            <li>
-              3. Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent
-              nunc sed nunc arcu sagittis.
-            </li>
-            <li>
-              4. Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent
-              nunc sed nunc arcu sagittis.
-            </li>
-          </ul>
+          {children}
         </div>
       </div>
     </GradientBox>

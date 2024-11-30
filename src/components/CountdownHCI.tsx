@@ -18,7 +18,7 @@ function CountdownHCI() {
   });
 
   useEffect(() => {
-    const target = new Date('11/24/2024 23:59:59').getTime(); //tanggal belum bener
+    const target = new Date('12/24/2024 23:59:59').getTime(); //tanggal belum bener
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
