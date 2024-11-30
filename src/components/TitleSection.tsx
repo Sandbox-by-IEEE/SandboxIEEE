@@ -1,11 +1,28 @@
-const TitleSection = ({ children }: { children: string | JSX.Element }) => {
+import React from 'react';
+
+interface TitleSectionProps {
+  children: string | JSX.Element;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const TitleSection: React.FC<TitleSectionProps> = ({
+  children,
+  size = 'md',
+}) => {
+  const textSize =
+    size === 'sm'
+      ? 'text-lg md:text-2xl'
+      : size === 'md'
+      ? 'text-3xl'
+      : 'text-4xl';
+
   return (
     <h3
       style={{
         ['textShadow' as any]: '0px 0px 2px #FFFFFF',
       }}
       data-aos='zoom-in'
-      className='bg-gradient-brown text-center text-white drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-poppins p-1 font-bold'
+      className={`bg-gradient-brown text-center text-white drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text ${textSize} font-poppins p-1 font-bold`}
     >
       {children}
     </h3>
