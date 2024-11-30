@@ -46,7 +46,6 @@ export const FAQ = ({
           }`}
         />
       </div>
-
       {/* Answer */}
       <span
         className={`${
