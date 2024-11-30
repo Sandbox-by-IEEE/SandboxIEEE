@@ -104,20 +104,20 @@ const OurEvents: React.FC = () => {
 
   const events = [
     {
-      title: 'PTC',
+      title: 'PTC (ProtoTech Contest)',
       description:
-        'Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent nunc sed nunc arcu sagittis. Senectus in quisque consectetur molestie ut phasellus pharetra urna. Tempor accumsan at nunc mi posuere. Mauris montes elementum et semper amet fermentum in tincidunt. ',
+        'The ProtoTech Contest is a prestigious national prototyping competition for undergraduate teams across Indonesia, offering a comprehensive journey from concept to showcase. This event is structured in three key stages, beginning with abstract submission and followed by an insightful seminar or workshop, submissions of full papers and pitch videos, and personalized coaching sessions with expert mentors.',
     },
     {
-      title: 'HCI (Health Care Ideathon)',
+      title: 'H4H (Hack for Health)',
       description:
-        'Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent nunc sed nunc arcu sagittis. Senectus in quisque consectetur molestie ut phasellus pharetra urna. Tempor accumsan at nunc mi posuere. Mauris montes elementum et semper amet fermentum in tincidunt.',
+        'Hack4Health is a national hackathon organized by IEEE ITB SB that focuses on driving technological innovations in the healthcare sector. The competition seeks to inspire, nurture, and accelerate the creation of technology-based solutions that make a tangible, positive impact on healthcare services. Hack4Health is divided into three main phases: the early stages, mid stages, and final stages.',
     },
-    {
-      title: 'Mentors',
-      description:
-        'Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent nunc sed nunc arcu sagittis. Senectus in quisque consectetur molestie ut phasellus pharetra urna. Tempor accumsan at nunc mi posuere. Mauris montes elementum et semper amet fermentum in tincidunt.',
-    },
+    // {
+    //   title: 'Mentors',
+    //   description:
+    //     'Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent nunc sed nunc arcu sagittis. Senectus in quisque consectetur molestie ut phasellus pharetra urna. Tempor accumsan at nunc mi posuere. Mauris montes elementum et semper amet fermentum in tincidunt.',
+    // },
   ];
 
   return (
