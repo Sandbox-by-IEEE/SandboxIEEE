@@ -7,10 +7,12 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
 
+import GradientBox from '@/components/GradientBox';
 import Eye from '@/components/icons/Register/eye';
 import Eyeslash from '@/components/icons/Register/eyeslash';
 import Google from '@/components/icons/Register/googlePutih';
 import Logo from '@/components/icons/Register/sandbox';
+import TitleSection from '@/components/TitleSection';
 import { callLoading, callToast } from '@/components/Toast';
 
 // Schema for form validation
@@ -100,120 +102,126 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-b from-[#02070A] via-[#041014] to-[#061820] text-white'>
-      <div className='flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-b'>
-        <div className='w-full max-w-md bg-[#02070A] rounded-3xl p-8'>
-          {/* Logo */}
-          <div className='flex justify-center mb-4'>
-            <Logo size={25} />
+    <div className='flex justify-center items-center h-autotext-white mt-12'>
+      <div className='flex flex-col items-center justify-center w-fit'>
+        <GradientBox type='register'>
+          <div className='w-[80vw] px-[8%] md:w-[50vw] md:px-[20%] py-8'>
+            {/* Logo */}
+            <div className='flex justify-center mb-4'>
+              <Logo size={25} />
+            </div>
+
+            {/* Welcome Text */}
+            <TitleSection size='sm'>Let&apos;s Patch You Up</TitleSection>
+
+            <form onSubmit={handleOnSubmit} className='mt-2'>
+              {/* Email Input */}
+              <div>
+                <label className='block text-sm font-medium my-2'>Email</label>
+                <input
+                  type='email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className='w-full px-4 py-2 bg-[#ffffff0b] h-[53px] border-none rounded-[16px] focus:outline-none focus:border-[#DBB88B]'
+                  placeholder='Enter your email'
+                />
+              </div>
+
+              {/* Username Input */}
+              <div>
+                <label className='block text-sm font-medium my-2'>
+                  Username
+                </label>
+                <input
+                  type='text'
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className='w-full px-4 py-2 bg-[#ffffff0b] h-[53px] border-none rounded-[16px] focus:outline-none focus:border-[#DBB88B]'
+                  placeholder='Choose a username'
+                />
+              </div>
+
+              {/* Password Input */}
+              <div>
+                <label className='block text-sm font-medium my-2'>
+                  Password
+                </label>
+                <div className='relative'>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className='w-full px-4 py-2 bg-[#ffffff0b] h-[53px] border-none rounded-[16px] focus:outline-none focus:border-[#DBB88B]'
+                    placeholder='Create a password'
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setShowPassword(!showPassword)}
+                    className='absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400'
+                  >
+                    {showPassword ? <Eye /> : <Eyeslash />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Password Input */}
+              <div>
+                <label className='block text-sm font-medium my-2'>
+                  Confirm Password
+                </label>
+                <div className='relative'>
+                  <input
+                    type={showPassword2 ? 'text' : 'password'}
+                    value={password2}
+                    onChange={(e) => setPassword2(e.target.value)}
+                    className='w-full px-4 py-2 bg-[#ffffff0b] h-[53px] border-none rounded-[16px] focus:outline-none focus:border-[#DBB88B]'
+                    placeholder='Confirm your password'
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setShowPassword2(!showPassword2)}
+                    className='absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400'
+                  >
+                    {showPassword2 ? <Eye /> : <Eyeslash />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Sign Up Button */}
+              <div className='mt-4'>
+                <button
+                  type='submit'
+                  className='w-full py-2 bg-transparent border border-[#DBB88B] text-white rounded-full hover:bg-[#DBB88B] transition-colors text-sm font-medium'
+                >
+                  Sign Up
+                </button>
+
+                {/* Or Divider */}
+                <div className='text-center my-2'>
+                  <span className='text-white font-medium'>Or</span>
+                </div>
+
+                {/* Google Sign Up */}
+                <button
+                  type='button'
+                  onClick={handleGoogle}
+                  className='w-full py-2 bg-transparent border border-[#DBB88B] rounded-full hover:bg-[#DBB88B] transition-colors flex items-center justify-center gap-2 text-sm font-medium'
+                >
+                  <Google size={25} />
+                  <span className='text-sm'>Sign up with Google</span>
+                </button>
+              </div>
+            </form>
+
+            {/* Login Link */}
+            <p className='mt-6 text-center text-[#6A6A6A] font-medium'>
+              Already have an account?{' '}
+              <Link href='/login' className='text-white hover:underline'>
+                Sign In
+              </Link>
+            </p>
           </div>
-
-          {/* Welcome Text */}
-          <h1 className='text-xl font-bold text-center mb-3'>
-            Lets Patch You Up!
-          </h1>
-
-          <form onSubmit={handleOnSubmit} className='space-y-6'>
-            {/* Email Input */}
-            <div>
-              <label className='block text-sm font-medium mb-2'>Email</label>
-              <input
-                type='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className='w-full px-4 py-2 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-[#DBB88B]'
-                placeholder='Enter your email'
-              />
-            </div>
-
-            {/* Username Input */}
-            <div>
-              <label className='block text-sm font-medium mb-2'>Username</label>
-              <input
-                type='text'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className='w-full px-4 py-2 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-[#DBB88B]'
-                placeholder='Choose a username'
-              />
-            </div>
-
-            {/* Password Input */}
-            <div>
-              <label className='block text-sm font-medium mb-2'>Password</label>
-              <div className='relative'>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className='w-full px-4 py-2 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-[#DBB88B]'
-                  placeholder='Create a password'
-                />
-                <button
-                  type='button'
-                  onClick={() => setShowPassword(!showPassword)}
-                  className='absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400'
-                >
-                  {showPassword ? <Eye /> : <Eyeslash />}
-                </button>
-              </div>
-            </div>
-
-            {/* Confirm Password Input */}
-            <div>
-              <label className='block text-sm font-medium mb-2'>
-                Confirm Password
-              </label>
-              <div className='relative'>
-                <input
-                  type={showPassword2 ? 'text' : 'password'}
-                  value={password2}
-                  onChange={(e) => setPassword2(e.target.value)}
-                  className='w-full px-4 py-2 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-[#DBB88B]'
-                  placeholder='Confirm your password'
-                />
-                <button
-                  type='button'
-                  onClick={() => setShowPassword2(!showPassword2)}
-                  className='absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400'
-                >
-                  {showPassword2 ? <Eye /> : <Eyeslash />}
-                </button>
-              </div>
-            </div>
-
-            {/* Sign Up Button */}
-            <button
-              type='submit'
-              className='w-full py-2 bg-transparent border border-[#DBB88B] text-white rounded-full hover:bg-[#DBB88B] transition-colors text-sm mb-1 font-medium'
-            >
-              Sign Up
-            </button>
-
-            {/* Or Divider */}
-            <div className='text-center py-0.5'>
-              <span className='text-white font-medium'>Or</span>
-            </div>
-
-            {/* Google Sign Up */}
-            <button
-              type='button'
-              onClick={handleGoogle}
-              className='w-full py-2 bg-transparent border border-[#DBB88B] rounded-full hover:bg-[#DBB88B] transition-colors flex items-center justify-center gap-2 text-sm font-medium'
-            >
-              <Google size={25} />
-              <span className='text-sm'>Sign up with Google</span>
-            </button>
-          </form>
-
-          {/* Login Link */}
-          <p className='mt-6 text-center text-[#6A6A6A] font-medium'>
-            Already have an account?{' '}
-            <Link href='/login' className='text-white hover:underline'>
-              Sign In
-            </Link>
-          </p>
-        </div>
+        </GradientBox>
       </div>
     </div>
   );

@@ -8,9 +8,9 @@ import NavBar from '@/components/Navbar';
 
 export default function Home() {
   return (
-    <div className='flex flex-col min-h-screen'>
+    <div className='flex flex-col min-h-screen bg-[#040B15]'>
       <NavBar />
-      <main className="className='relative w-full z-5 flex flex-col min-h-screen justify-center items-center py-28 pt-14 lg:py-28 lg:pt-20 gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44 relative bg-[#040B15] font-poppins flex-grow text-white">
+      <main className="className='relative w-full z-5 flex flex-col min-h-screen justify-center items-center py-28 pt-14 lg:py-28 lg:pt-20 gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44 relative font-poppins flex-grow text-white">
         <div className='text-center'>
           <h1 className='font-bold md:text-[96px] leading-normal text-[48px]'>
             404
