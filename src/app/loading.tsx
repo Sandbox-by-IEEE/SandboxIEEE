@@ -19,7 +19,9 @@ const Loading = () => {
 
           {/* Text */}
 
-          <TitleSection size='md'>Loading...</TitleSection>
+          <TitleSection size='md' animation={false}>
+            Loading...
+          </TitleSection>
         </div>
       </div>
     </main>

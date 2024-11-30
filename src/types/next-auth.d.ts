@@ -24,7 +24,7 @@ declare module 'next-auth' {
           linkVideo2: string;
         };
       };
-      TPC?: {
+      H4H?: {
         status: boolean;
         karya?: {
           id: string;
@@ -57,7 +57,7 @@ declare module 'next-auth' {
           active: boolean;
         };
       };
-      TPC: {
+      H4H: {
         isLeader: boolean;
         teamId: string;
         buy: boolean;
@@ -100,7 +100,7 @@ declare module 'next-auth' {
             linkVideo2: string;
           };
         };
-        TPC?: {
+        H4H?: {
           status: boolean;
           karya?: {
             id: string;
@@ -133,7 +133,7 @@ declare module 'next-auth' {
             active: boolean;
           };
         };
-        TPC: {
+        H4H: {
           isLeader: boolean;
           teamId: string;
           buy: boolean;

@@ -1,7 +1,14 @@
 'use client';
+
 import GradientBox from './GradientBox';
 
-const AboutUs = () => {
+const AboutUs = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => {
   return (
     <div className='mb-auto relative justify-center content-center'>
       <div
@@ -9,11 +16,11 @@ const AboutUs = () => {
         data-aos='fade-up'
         data-aos-duration='1300'
       >
-        <h1>What is Sandbox?</h1>
+        <h1>{title}</h1>
       </div>
 
       <GradientBox type='blue' className='w-full'>
-        <div className='flex flex-col items-start text-white content-center text-center items-center'>
+        <div className='flex flex-col text-white content-center text-center items-center'>
           {/* Title */}
           <div>
             <h1
@@ -32,16 +39,7 @@ const AboutUs = () => {
               data-aos='fade-up'
               data-aos-duration='1500'
             >
-              The IEEE ITB Student Branch proudly presents The Sandbox 2.0, an
-              annual event series dedicated to empowering youth in the fields of
-              technological and business advancements. Building on the success
-              of Sandbox 1.0, held in 2024 with the grand theme of “Green
-              Technology,” Sandbox 2.0 takes a forward leap with the theme
-              “Healthcare Technology.” This year’s event is structured to offer
-              diverse, enriching experiences through a series of activities,
-              including the Sandbox Webinar Series, two major competitions
-              (ProtoTech Competition and Hack4Health), an Exhibition, and a
-              combined Seminar & Social Night.
+              {children}
             </p>
           </div>
         </div>

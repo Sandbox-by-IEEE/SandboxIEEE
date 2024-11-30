@@ -8,6 +8,8 @@ interface GradientBoxProps {
   style?: HTMLAttributes<HTMLDivElement>['style'];
   type?: string;
   inverted?: boolean;
+  animation?: boolean;
+  page?: string;
 }
 
 const GradientBox = ({
@@ -18,6 +20,8 @@ const GradientBox = ({
   duration,
   style,
   inverted = false,
+  animation = true,
+  page = 'home',
 }: GradientBoxProps) => {
   return (
     <div
@@ -28,11 +32,15 @@ const GradientBox = ({
           ? 'rounded-[48px]'
           : 'rounded-[64px] lg:rounded-[128px]'
       } ${className}`}
-      data-aos={aos || (type === 'blue' ? 'fade-up' : 'flip-down')}
+      data-aos={
+        animation
+          ? aos || (type === 'blue' ? 'fade-up' : 'flip-down')
+          : undefined
+      }
       data-aos-duration={duration || 1500}
       style={{
         position: 'relative',
-        padding: '16px',
+        padding: page === 'home' ? '16px' : '0px',
         zIndex: 1,
         background:
           type === 'blue'
@@ -42,7 +50,7 @@ const GradientBox = ({
       }}
     >
       <div
-        className={` ${
+        className={`${
           type === 'blue'
             ? 'rounded-[50px] p-[1px] lg:p-[4px]'
             : type === 'timeline'
@@ -70,7 +78,23 @@ const GradientBox = ({
           zIndex: -1,
         }}
       />
-      <div style={{ position: 'relative', zIndex: 1 }}>{children}</div>
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          backgroundImage:
+            page === 'ptc'
+              ? 'url(/countdownptc.svg)'
+              : page === 'h4h'
+              ? 'url(/countdownh4h.svg)'
+              : undefined,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 };

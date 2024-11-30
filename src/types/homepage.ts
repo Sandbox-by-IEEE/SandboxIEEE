@@ -39,7 +39,7 @@ interface Homepage {
   linkButtonOne: string;
 }
 
-interface OurEventsHomepage {
+export interface OurEventsHomepage {
   id: string;
   image: Image;
   highlightEvent?: string;

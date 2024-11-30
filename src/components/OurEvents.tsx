@@ -4,18 +4,21 @@ import 'aos/dist/aos.css'; // Pastikan AOS CSS di-import
 
 import AOS from 'aos'; // Import AOS
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect } from 'react';
+import { StructuredText } from 'react-datocms/structured-text';
 
 import GradientBox from '@/components/GradientBox';
 import TitleSection from '@/components/TitleSection';
+import { OurEventsHomepage } from '@/types/homepage'; // Import the interface
 
 interface EventCardProps {
-  title: string;
-  description: string;
+  event: OurEventsHomepage;
   index: number;
+  children?: React.ReactNode;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ title, description, index }) => {
+const EventCard: React.FC<EventCardProps> = ({ event, index, children }) => {
   const bucketImages = ['/bucket1.svg', '/bucket2.svg', '/bucket3.svg'];
   const bucketImage = bucketImages[index % bucketImages.length];
 
@@ -61,15 +64,19 @@ const EventCard: React.FC<EventCardProps> = ({ title, description, index }) => {
       >
         <div className='flex flex-col'>
           <h3 className='text-[20px] sm:text-[26px] lg:text-[32px] font-poppins font-semibold text-white mb-4'>
-            {title}
+            {event.eventName}
           </h3>
           <p className='text-white text-sm sm:text-[18px] lg:text-[20px] font-poppins'>
-            {description}
+            {children}
           </p>
         </div>
-        <button className='w-fit mt-4 px-6 lg:px-12 py-2 hover:bg-[#1f2937] hover:border-[#1f2937] border-white border-2 text-white font-poppins font-medium rounded-full transition duration-300'>
-          See More
-        </button>
+        <Link
+          href={`/events/${event.eventName.toLowerCase().replace(/\s+/g, '-')}`}
+        >
+          <button className='w-fit mt-4 px-6 lg:px-12 py-2 hover:bg-[#1f2937] hover:border-[#1f2937] border-white border-2 text-white font-poppins font-medium rounded-full transition duration-300'>
+            See More
+          </button>
+        </Link>
         <div className='absolute top-0 -right-0 h-full flex items-end justify-end text-end -z-10'>
           {/* SVG or icon decoration can go here */}
           <Image
@@ -94,31 +101,17 @@ const EventCard: React.FC<EventCardProps> = ({ title, description, index }) => {
   );
 };
 
-const OurEvents: React.FC = () => {
+interface OurEventsProps {
+  events: OurEventsHomepage[];
+}
+
+const OurEvents: React.FC<OurEventsProps> = ({ events }) => {
   useEffect(() => {
     AOS.init({
       duration: 1000, // Animasi 1 detik
       once: true, // Animasi hanya berjalan satu kali
     });
   }, []);
-
-  const events = [
-    {
-      title: 'PTC (ProtoTech Contest)',
-      description:
-        'The ProtoTech Contest is a prestigious national prototyping competition for undergraduate teams across Indonesia, offering a comprehensive journey from concept to showcase. This event is structured in three key stages, beginning with abstract submission and followed by an insightful seminar or workshop, submissions of full papers and pitch videos, and personalized coaching sessions with expert mentors.',
-    },
-    {
-      title: 'H4H (Hack for Health)',
-      description:
-        'Hack4Health is a national hackathon organized by IEEE ITB SB that focuses on driving technological innovations in the healthcare sector. The competition seeks to inspire, nurture, and accelerate the creation of technology-based solutions that make a tangible, positive impact on healthcare services. Hack4Health is divided into three main phases: the early stages, mid stages, and final stages.',
-    },
-    // {
-    //   title: 'Mentors',
-    //   description:
-    //     'Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent nunc sed nunc arcu sagittis. Senectus in quisque consectetur molestie ut phasellus pharetra urna. Tempor accumsan at nunc mi posuere. Mauris montes elementum et semper amet fermentum in tincidunt.',
-    // },
-  ];
 
   return (
     <div className='pt-12 font-poppins relative flex flex-col items-center justify-center'>
@@ -142,12 +135,9 @@ const OurEvents: React.FC = () => {
           {/* Flex column untuk layout */}
           <div className='flex flex-col gap-6'>
             {events.map((event, index) => (
-              <EventCard
-                key={index}
-                index={index}
-                title={event.title}
-                description={event.description}
-              />
+              <EventCard key={event.id} index={index} event={event}>
+                <StructuredText data={event.explanationEvent} />
+              </EventCard>
             ))}
           </div>
         </div>
