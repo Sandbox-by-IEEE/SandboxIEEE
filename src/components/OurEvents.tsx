@@ -121,7 +121,7 @@ const OurEvents: React.FC = () => {
   ];
 
   return (
-    <div className='bg-[#040B15] pt-12 font-poppins relative flex flex-col items-center justify-center'>
+    <div className='pt-12 font-poppins relative flex flex-col items-center justify-center'>
       <div className='absolute -top-[80px] z-10 lg:hidden'>
         <Image
           src='/eventbucket.svg'

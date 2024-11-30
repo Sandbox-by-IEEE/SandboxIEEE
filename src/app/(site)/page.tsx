@@ -102,7 +102,7 @@ export default async function Home({
     });
 
   return (
-    <main className='flex min-h-screen w-full flex-col font-museo-muderno bg-[#040B15] justify-center items-center'>
+    <main className='flex min-h-screen w-full flex-col font-poppins justify-center items-center'>
       <ClientHome />
       {/* Countdown Section */}
       <div className='w-[80%] mt-[120px] mb-[60px] lg:my-[180px]'>
@@ -125,13 +125,13 @@ export default async function Home({
       </section>
 
       {/* Our Events */}
-      <section className='w-[80%] mb-[60px] lg:mb-[180px] flex flex-col gap-6 lg:gap-20 bg-[#040B15]'>
+      <section className='w-[80%] mb-[60px] lg:mb-[180px] flex flex-col gap-6 lg:gap-20'>
         <OurEvents />
       </section>
 
       {/* FAQ + Sponsor and media partner */}
       {/* FAQ Section */}
-      <section className='w-[80%] flex flex-col gap-12 lg:gap-20 mb-[80px] md:mb-[120px] bg-[#040B15]'>
+      <section className='w-[80%] flex flex-col gap-12 lg:gap-20 mb-[80px] md:mb-[120px]'>
         {/* Title for FAQ Section */}
         <div className='p-1.5 rounded-2xl' data-aos='flip-up'>
           <div className=' items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>

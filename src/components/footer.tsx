@@ -54,7 +54,7 @@ const SocialIcon = ({ LinkComponent, href, size, label }) => (
 );
 
 const Footer = () => (
-  <footer className='w-full relative z-[99] h-fit max-lg:py-10 lg:h-[360px] flex bg-[#040B15] text-white'>
+  <footer className='w-full relative z-[99] h-fit max-lg:py-10 lg:h-[360px] flex text-white'>
     <div className='w-full h-full mr-10 ml-10 mx-auto sm:mr-[100px] sm:ml-[100px] flex flex-col items-center justify-center z-10'>
       {/* Main text and links */}
       <div className='justify-around w-full flex flex-row pb-6'>
