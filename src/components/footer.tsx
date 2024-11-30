@@ -6,6 +6,10 @@ import Linkedin from '@/components/icons/linkedin';
 
 import Copyright from './icons/copyright';
 
+interface FooterProps {
+  regist?: boolean;
+}
+
 const LinkColumn = ({ header }) => (
   <div className='flex flex-col justify-center w-full'>
     {header.map((link, index) => (
@@ -53,8 +57,8 @@ const SocialIcon = ({ LinkComponent, href, size, label }) => (
   </div>
 );
 
-const Footer = () => (
-  <footer className='w-full relative z-[99] h-fit max-lg:py-10 lg:h-[360px] flex text-white'>
+const Footer: React.FC<FooterProps> = ({ regist = false }) => (
+  <footer className={`w-full relative z-[99] h-fit py-10 flex text-white`}>
     <div className='w-full h-full mr-10 ml-10 mx-auto sm:mr-[100px] sm:ml-[100px] flex flex-col items-center justify-center z-10'>
       {/* Main text and links */}
       <div className='justify-around w-full flex flex-row pb-6'>
@@ -72,15 +76,17 @@ const Footer = () => (
             size={25}
           />
         </div>
-        <div className='md:flex hidden'>
-          {linksData.map((pair, index) => (
-            <div className='flex gap-4 lg:gap-12' key={index}>
-              {pair.map((columnData, columnIndex) => (
-                <LinkColumn key={columnIndex} header={columnData.header} />
-              ))}
-            </div>
-          ))}
-        </div>
+        {!regist && (
+          <div className='md:flex hidden'>
+            {linksData.map((pair, index) => (
+              <div className='flex gap-4 lg:gap-12' key={index}>
+                {pair.map((columnData, columnIndex) => (
+                  <LinkColumn key={columnIndex} header={columnData.header} />
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className='w-[120px] flex md:hidden items-center mb-6'>
         <p className='mb-2 w-full text-center'>#NetZeroHero</p>

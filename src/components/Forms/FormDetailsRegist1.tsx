@@ -178,7 +178,7 @@ const FormDetails = ({
           className='bg-center bg-cover w-full h-full z-0 lg:rounded-[100px] rounded-[50px]'
         />
       </div>
-      <div className='relative z-1 px-[100px]'>
+      <div className='relative z-1 px-[10vw]'>
         <h3 className='py-10 text-center font-poppins text-[50px] font-bold'>
           {isPaymentPage ? 'Payment' : 'Identity'}
         </h3>
@@ -549,7 +549,7 @@ const FormDetails = ({
           </>
         )}
 
-        <div className='relative z-1 w-full flex justify-center py-6 gap-2'>
+        <div className='relative z-1 w-full flex justify-center py-10 gap-2 px-[10vw]'>
           {(fillMemberIndex + 1 > 1 || isPaymentPage) && (
             <div className='relative z-1 w-fit max-w-fit'>
               <Button
