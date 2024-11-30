@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
       teamName: ticket.team?.teamName,
       chairmanName: ticket.team?.chairmanName,
       members: members,
-      paymentProof: paymentProofUrl.fileUrl,
+      paymentProof: paymentProofUrl[0].fileUrl,
     };
 
     const sheetAPI = process.env.API_SHEET_TICKET_URL_2024 || '';
