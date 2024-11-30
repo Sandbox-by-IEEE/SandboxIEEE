@@ -4,8 +4,8 @@
 <rect x="33" y="247" width="224" height="414" rx="47" transform="rotate(-90 33 247)" stroke="url(#paint1_linear_777_3352)" stroke-width="6" shape-rendering="crispEdges"/>
 </g>
 <defs>
-<filter id="filter0_bd_777_3352" x="-15.5437" y="-25.5437" width="511.087" height="321.087" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<filter id="filter0_bd_777_3352" x="-15.5437" y="-25.5437" width="511.087" height="321.087" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
 <feGaussianBlur in="BackgroundImageFix" stdDeviation="22.7719"/>
 <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_777_3352"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>

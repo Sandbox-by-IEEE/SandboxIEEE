@@ -1,6 +1,5 @@
 'use client';
 
-
 function Judges() {
   return (
     <div className='p-8 lg:p-16'>

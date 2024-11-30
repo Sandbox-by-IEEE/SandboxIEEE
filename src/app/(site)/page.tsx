@@ -1,3 +1,5 @@
+import { StructuredText } from 'react-datocms/structured-text';
+
 import AboutUs from '@/components/AboutUs';
 import ClientHome from '@/components/client-home';
 import Countdown from '@/components/Countdown';
@@ -95,25 +97,31 @@ export default async function Home({
 }: {
   searchParams: { token: string };
 }) {
-  const { homepage, allTimelineSandboxes, allFaqHomePages }: HomepageProps =
-    await performRequest({
-      query: CMS_QUERY,
-      revalidate: 0,
-    });
+  const {
+    homepage,
+    allOurEventsHomepages,
+    allTimelineSandboxes,
+    allFaqHomePages,
+  }: HomepageProps = await performRequest({
+    query: CMS_QUERY,
+    revalidate: 0,
+  });
 
   return (
     <main className='flex min-h-screen w-full flex-col font-poppins justify-center items-center'>
       <ClientHome />
       {/* Countdown Section */}
       <div className='w-[80%] mt-[120px] mb-[60px] lg:my-[180px]'>
-        <Countdown />
+        <Countdown link1='/' />
       </div>
 
       {/* Trailer Section */}
 
       {/* About Sandbox */}
       <div className='w-[80%] mb-[60px] lg:mb-[180px]'>
-        <AboutUs />
+        <AboutUs title={homepage.explanationTitle}>
+          <StructuredText data={homepage.explanationDescription} />
+        </AboutUs>
       </div>
 
       {/* Timeline */}
@@ -126,7 +134,7 @@ export default async function Home({
 
       {/* Our Events */}
       <section className='w-[80%] mb-[60px] lg:mb-[180px] flex flex-col gap-6 lg:gap-20'>
-        <OurEvents />
+        <OurEvents events={allOurEventsHomepages} />
       </section>
 
       {/* FAQ + Sponsor and media partner */}

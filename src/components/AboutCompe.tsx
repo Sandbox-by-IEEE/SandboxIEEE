@@ -3,7 +3,13 @@ import Image from 'next/image';
 
 import GradientBox from './GradientBox';
 
-const AboutCompe = () => {
+interface AboutCompeProps {
+  title: string;
+  subtitle: string;
+  description?: string;
+}
+
+const AboutCompe = ({ title, subtitle, description }: AboutCompeProps) => {
   return (
     <div className='mb-auto relative justify-center content-center item-center p-8 lg:p-16'>
       <div
@@ -24,7 +30,7 @@ const AboutCompe = () => {
         data-aos='fade-up'
         data-aos-duration='1300'
       >
-        <h1>What is HCI?</h1>
+        <h1>{title}</h1>
       </div>
 
       <GradientBox
@@ -39,21 +45,18 @@ const AboutCompe = () => {
               data-aos='fade-up'
               data-aos-duration='1500'
             >
-              Lorem ipsum dolor sit amet
+              {subtitle}
             </h1>
           </div>
 
           {/* Paragraph */}
-          <div>
+          <div className='w-[90%]'>
             <p
-              className='font-poppins text-xs lg:text-lg leading-relaxed tracking-wide max-w-md lg:max-w-2xl mt-4 lg:mt-8'
+              className='font-poppins text-xs lg:text-lg leading-relaxed tracking-wide mt-4 lg:mt-8'
               data-aos='fade-up'
               data-aos-duration='1500'
             >
-              Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent nunc
-              sed nunc arcu sagittis. Senectus in quisque consectetur molestie
-              ut phasellus pharetra urna. Tempor accumsan at nunc mi posuere.
-              Mauris montes elementum et semper amet fermentum in tincidunt.
+              {description}
             </p>
           </div>
         </div>

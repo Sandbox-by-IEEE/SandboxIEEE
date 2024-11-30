@@ -105,7 +105,7 @@ export default function LoginPage({
   return (
     <div className='flex justify-center items-center h-auto text-white mt-12'>
       <div className='flex flex-col items-center justify-center w-fit'>
-        <GradientBox type='login'>
+        <GradientBox type='login' animation={true}>
           <div className='w-[80vw] px-[8%] md:w-[50vw] md:px-[20%] py-8'>
             {/* Logo */}
             <div className='flex justify-center mb-4'>

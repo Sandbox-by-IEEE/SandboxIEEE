@@ -61,8 +61,8 @@ export async function PATCH(
       return NextResponse.json({ message: 'user id invalid' }, { status: 404 });
     }
 
-    if (existingKarya.team.ticketCompetition.competitionType === 'TPC') {
-      if (session.user.vote?.TPC?.status) {
+    if (existingKarya.team.ticketCompetition.competitionType === 'H4H') {
+      if (session.user.vote?.H4H?.status) {
         return NextResponse.json(
           { message: 'User cannot voted 2 times or more!!' },
           { status: 400 },
