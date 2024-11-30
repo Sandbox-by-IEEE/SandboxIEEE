@@ -28,14 +28,20 @@ const AboutUs = () => {
           {/* Paragraph */}
           <div>
             <p
-              className='font-poppins text-[12px] sm:text-lg lg:text-2xl leading-relaxed tracking-wide max-w-[17rem] sm:max-w-[480px] lg:max-w-2xl mt-4 mb-8 lg:mt-8 lg:mb-16'
+              className='font-poppins text-[12px] sm:text-lg lg:text-2xl leading-relaxed tracking-wide w-full px-[5vw] text-justify mt-4 mb-8 lg:mt-8 lg:mb-16'
               data-aos='fade-up'
               data-aos-duration='1500'
             >
-              Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent nunc
-              sed nunc arcu sagittis. Senectus in quisque consectetur molestie
-              ut phasellus pharetra urna. Tempor accumsan at nunc mi posuere.
-              Mauris montes elementum et semper amet fermentum in tincidunt.
+              The IEEE ITB Student Branch proudly presents The Sandbox 2.0, an
+              annual event series dedicated to empowering youth in the fields of
+              technological and business advancements. Building on the success
+              of Sandbox 1.0, held in 2024 with the grand theme of “Green
+              Technology,” Sandbox 2.0 takes a forward leap with the theme
+              “Healthcare Technology.” This year’s event is structured to offer
+              diverse, enriching experiences through a series of activities,
+              including the Sandbox Webinar Series, two major competitions
+              (ProtoTech Competition and Hack4Health), an Exhibition, and a
+              combined Seminar & Social Night.
             </p>
           </div>
         </div>
