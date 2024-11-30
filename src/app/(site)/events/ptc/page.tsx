@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import AboutCompe from '@/components/AboutCompe';
-import CountdownHCI from '@/components/CountdownHCI';
+import Countdown from '@/components/Countdown';
 import { FAQ } from '@/components/FAQ';
 import Judges from '@/components/Judges';
 import Prize from '@/components/Prize';
@@ -50,7 +50,7 @@ export default async function PTC({
         <h1>ProtoTech Contest</h1>
       </div>
       <div className='mt-5 lg:mt-20'>
-        <CountdownHCI />
+        <Countdown />
       </div>
       <div className='mt-5 lg:mt-20'>
         <Prize />

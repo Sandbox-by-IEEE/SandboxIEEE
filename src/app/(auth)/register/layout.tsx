@@ -1,11 +1,26 @@
 import { type Metadata } from 'next';
 
+import Footer from '@/components/footer';
+
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <div
+      className='flex flex-col justify-between min-h-full'
+      style={{
+        backgroundImage: `url(/registrationbg.svg)`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <div>{children}</div>
+      <Footer regist={true} />
+    </div>
+  );
 }
 
 export const metadata: Metadata = {

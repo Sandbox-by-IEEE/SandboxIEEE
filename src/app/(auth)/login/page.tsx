@@ -10,11 +10,13 @@ import * as z from 'zod';
 
 import FormResetPassword from '@/app/(auth)/login/form-password-reset';
 import FormResendEmail from '@/app/(auth)/login/form-resend-email';
+import GradientBox from '@/components/GradientBox';
 import Eye from '@/components/icons/Register/eye';
 import Eyeslash from '@/components/icons/Register/eyeslash';
 import Google from '@/components/icons/Register/googlePutih';
 import Logo from '@/components/icons/Register/sandbox';
 import { ModalContext } from '@/components/Modal/ModalContext';
+import TitleSection from '@/components/TitleSection';
 import { callLoading, callToast } from '@/components/Toast';
 
 // Schema for form validation
@@ -101,96 +103,102 @@ export default function LoginPage({
     });
   }
   return (
-    <div className='min-h-screen bg-gradient-to-b from-[#02070A] via-[#041014] to-[#061820] text-white'>
-      <div className='flex flex-col items-center justify-center min-h-screen p-4 bg-gradient-to-b'>
-        <div className='w-full max-w-md bg-[#02070A] rounded-3xl p-8'>
-          {/* Logo */}
-          <div className='flex justify-center mb-4'>
-            <Logo size={25} />
-          </div>
-
-          {/* Welcome Text */}
-          <h1 className='text-xl font-bold text-center mb-3'>
-            Welcome To Sandbox
-          </h1>
-
-          <form onSubmit={handleOnSubmit} className='space-y-6'>
-            {/* Email Input */}
-            <div>
-              <label className='block text-sm font-medium mb-2'>Username</label>
-              <input
-                type='text'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className='w-full px-4 py-2 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-[#DBB88B]'
-                placeholder='Enter your username'
-              />
+    <div className='flex justify-center items-center h-auto text-white mt-12'>
+      <div className='flex flex-col items-center justify-center w-fit'>
+        <GradientBox type='login'>
+          <div className='w-[80vw] px-[8%] md:w-[50vw] md:px-[20%] py-8'>
+            {/* Logo */}
+            <div className='flex justify-center mb-4'>
+              <Logo size={25} />
             </div>
 
-            {/* Password Input */}
-            <div>
-              <label className='block text-sm font-medium mb-2'>Password</label>
-              <div className='relative'>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className='w-full px-4 py-2 bg-transparent border border-gray-600 rounded-lg focus:outline-none focus:border-[#DBB88B]'
-                  placeholder='Enter your password'
-                />
+            {/* Welcome Text */}
+            <TitleSection size='sm'>Welcome to Sandbox</TitleSection>
+
+            <form onSubmit={handleOnSubmit} className='mt-2'>
+              {/* Email Input */}
+              <div className='flex flex-col gap-4'>
+                <div>
+                  <label className='block text-sm font-medium mb-2'>
+                    Username
+                  </label>
+                  <input
+                    type='text'
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className='w-full px-4 py-2 bg-[#ffffff0b] h-[53px] border-none rounded-[16px] focus:outline-none focus:border-[#DBB88B]'
+                    placeholder='Enter your username'
+                  />
+                </div>
+
+                {/* Password Input */}
+                <div>
+                  <label className='block text-sm font-medium mb-2'>
+                    Password
+                  </label>
+                  <div className='relative'>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className='w-full px-4 py-2 bg-[#ffffff0b] h-[53px] border-none rounded-[16px] focus:outline-none focus:border-[#DBB88B]'
+                      placeholder='Enter your password'
+                    />
+                    <button
+                      type='button'
+                      onClick={() => setShowPassword(!showPassword)}
+                      className='absolute inset-y-0 right-0 pr-3 flex items-center text-white'
+                    >
+                      {showPassword ? <Eye /> : <Eyeslash />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Forgot Password */}
+              <div className='flex justify-center my-4'>
                 <button
                   type='button'
-                  onClick={() => setShowPassword(!showPassword)}
-                  className='absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400'
+                  onClick={() => setOpenModal(true)}
+                  className='text-[#6A6A6A] hover:text-[#DBB88B] text-sm font-medium'
                 >
-                  {showPassword ? <Eye /> : <Eyeslash />}
+                  Forgot Password?
                 </button>
               </div>
-            </div>
 
-            {/* Forgot Password */}
-            <div className='flex justify-center'>
+              {/* Sign In Button */}
+              <button
+                type='submit'
+                className='w-full py-2 bg-transparent border border-[#DBB88B] text-white rounded-full hover:bg-[#DBB88B] transition-colors text-sm font-medium'
+              >
+                Sign In
+              </button>
+
+              {/* Or Divider */}
+              <div className='text-center my-2'>
+                <span className='text-white font-medium'>Or</span>
+              </div>
+
+              {/* Google Sign In */}
               <button
                 type='button'
-                onClick={() => setOpenModal(true)}
-                className='text-[#6A6A6A] hover:text-[#DBB88B] text-sm font-medium'
+                onClick={handleGoogle}
+                className='w-full py-2 bg-transparent border border-[#DBB88B] rounded-full hover:bg-[#DBB88B] transition-colors flex items-center justify-center gap-2 text-sm font-medium'
               >
-                Forgot Password?
+                <Google size={25} />
+                <span className='text-sm'>Sign in with Google</span>
               </button>
-            </div>
+            </form>
 
-            {/* Sign In Button */}
-            <button
-              type='submit'
-              className='w-full py-2 bg-transparent border border-[#DBB88B] text-white rounded-full hover:bg-[#DBB88B] transition-colors text-sm mb-1 font-medium'
-            >
-              Sign In
-            </button>
-
-            {/* Or Divider */}
-            <div className='text-center py-0.5'>
-              <span className='text-white font-medium'>Or</span>
-            </div>
-
-            {/* Google Sign In */}
-            <button
-              type='button'
-              onClick={handleGoogle}
-              className='w-full py-2 bg-transparent border border-[#DBB88B] rounded-full hover:bg-[#DBB88B] transition-colors flex items-center justify-center gap-2 text-sm font-medium'
-            >
-              <Google size={25} />
-              <span className='text-sm'>Sign in with Google</span>
-            </button>
-          </form>
-
-          {/* Register Link */}
-          <p className='mt-6 text-center text-[#6A6A6A] font-medium'>
-            Don&apos;t have an account?{' '}
-            <Link href='/register' className='text-white hover:underline'>
-              Register
-            </Link>
-          </p>
-        </div>
+            {/* Register Link */}
+            <p className='mt-4 text-center text-[#6A6A6A] font-medium'>
+              Don&apos;t have an account?{' '}
+              <Link href='/register' className='text-white hover:underline'>
+                Register
+              </Link>
+            </p>
+          </div>
+        </GradientBox>
       </div>
 
       {/* Password Reset Forms */}

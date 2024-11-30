@@ -3,6 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 
+import GradientBox from '@/components/GradientBox';
 import Eye from '@/components/icons/Register/eye';
 import Eyeslash from '@/components/icons/Register/eyeslash';
 import { ModalContext } from '@/components/Modal/ModalContext';
@@ -64,93 +65,95 @@ const FormResetPassword = () => {
 
   return (
     <div className='fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50'>
-      <div className='w-full max-w-md relative bg-gradient-to-b from-slate-900 to-slate-800 rounded-3xl shadow-xl'>
-        <div className='p-6'>
-          <div className='flex flex-col items-center mb-8'>
-            {/* Purple Character Icon */}
-            <div className='w-24 h-24 mb-1'>
-              <Image
-                src='/assets/sandbox-smile.png'
-                alt='Purple Character'
-                className='w-full h-full'
-                width={100} // Add the width and height props
-                height={100}
-                priority // Add the priority prop to ensure it's loaded immediately
-              />
+      <div className='w-[80%] md:w-[40%] relative rounded-3xl shadow-xl'>
+        <GradientBox>
+          <div className='w-full px-[4vw] py-12'>
+            <div className='relative flex flex-col items-center mb-8'>
+              {/* Purple Character Icon */}
+              <div className='absolute w-[300px] h-[200px] -top-[180px]'>
+                <Image
+                  src='/assets/sandbox-smile.png'
+                  alt='Purple Character'
+                  className=''
+                  layout='fill'
+                  objectFit='contain'
+                  priority // Add the priority prop to ensure it's loaded immediately
+                />
+              </div>
+
+              <h2 className='text-2xl font-bold text-white mb-1'>
+                Reset Password
+              </h2>
+              <p className='text-slate-400 text-sm'>And don’t forget it</p>
             </div>
 
-            <h2 className='text-2xl font-bold text-white mb-1'>
-              Reset Password
-            </h2>
-            <p className='text-slate-400 text-sm'>And don’t forget it</p>
-          </div>
-
-          <div className='space-y-3'>
-            <div className='space-y-2'>
-              <div className='relative'>
-                <label className='block text-sm font-medium text-white'>
+            <div className='space-y-3'>
+              <div className='space-y-2'>
+                <label className='block text-sm font-medium text-white mb-2'>
                   New Password
                 </label>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={pass2}
-                  onChange={(e) => setPass2(e.target.value)}
-                  className='w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500'
-                  placeholder='Enter your new password'
-                />
-                <button
-                  type='button'
-                  onClick={() => setShowPassword(!showPassword)}
-                  className='absolute right-3 top-[34px] transform text-gray-400 hover:text-gray-300 transition-colors'
-                >
-                  {showPassword ? <Eye /> : <Eyeslash />}
-                </button>
-              </div>
-              {showWarning && pass2.length < 8 && (
-                <p className='text-red-500 text-sm'>
-                  Password must be at least 8 characters long
-                </p>
-              )}
-              <div className='relative'>
-                <label className='block text-sm font-medium text-white'>
+                <div className='relative'>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={pass2}
+                    onChange={(e) => setPass2(e.target.value)}
+                    className='w-full px-4 py-2 bg-[#ffffff0b] h-[53px] border-none rounded-[16px] focus:outline-none focus:border-[#DBB88B]'
+                    placeholder='Enter your new password'
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setShowPassword(!showPassword)}
+                    className='absolute right-3 inset-y-0 transform text-gray-400 hover:text-gray-300 transition-colors'
+                  >
+                    {showPassword ? <Eye /> : <Eyeslash />}
+                  </button>
+                </div>
+                {showWarning && pass2.length < 8 && (
+                  <p className='text-red-500 text-sm'>
+                    Password must be at least 8 characters long
+                  </p>
+                )}
+                <label className='block text-sm font-medium text-white mb-2'>
                   Confirm New Password
                 </label>
-                <input
-                  type={showPassword1 ? 'text' : 'password'}
-                  value={pass1}
-                  onChange={(e) => setPass1(e.target.value)}
-                  className='w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 pr-12'
-                  placeholder='Confirm your new password'
-                />
+                <div className='relative'>
+                  <input
+                    type={showPassword1 ? 'text' : 'password'}
+                    value={pass1}
+                    onChange={(e) => setPass1(e.target.value)}
+                    className='w-full px-4 py-2 bg-[#ffffff0b] h-[53px] border-none rounded-[16px] focus:outline-none focus:border-[#DBB88B]'
+                    placeholder='Confirm your new password'
+                  />
+                  <button
+                    type='button'
+                    onClick={() => setShowPassword1(!showPassword1)}
+                    className='absolute right-3 inset-y-0 transform text-gray-400 hover:text-gray-300 transition-colors'
+                  >
+                    {showPassword1 ? <Eye /> : <Eyeslash />}
+                  </button>
+                </div>
+                {showWarning && pass1.length < 8 && (
+                  <p className='text-red-500 text-sm'>
+                    Password must be at least 8 characters long
+                  </p>
+                )}
+                {showWarning && pass1 !== pass2 && (
+                  <p className='text-red-500 text-sm'>Passwords do not match</p> // Add this line
+                )}
+              </div>
+
+              <div className='flex gap-3'>
                 <button
-                  type='button'
-                  onClick={() => setShowPassword1(!showPassword1)}
-                  className='absolute right-3 top-[34px] transform text-gray-400 hover:text-gray-300 transition-colors'
+                  onClick={handleSubmit}
+                  disabled={!pass2}
+                  className='w-full py-3 bg-transparent border border-[#DBB88B] rounded-full hover:bg-[#DBB88B] transition-colors flex items-center justify-center gap-2 text-sm font-medium'
                 >
-                  {showPassword1 ? <Eye /> : <Eyeslash />}
+                  Reset Password
                 </button>
               </div>
-              {showWarning && pass1.length < 8 && (
-                <p className='text-red-500 text-sm'>
-                  Password must be at least 8 characters long
-                </p>
-              )}
-              {showWarning && pass1 !== pass2 && (
-                <p className='text-red-500 text-sm'>Passwords do not match</p> // Add this line
-              )}
-            </div>
-
-            <div className='flex gap-3'>
-              <button
-                onClick={handleSubmit}
-                disabled={!pass2}
-                className='flex-1 py-3 px-4 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg font-medium hover:from-purple-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200'
-              >
-                Reset Password
-              </button>
             </div>
           </div>
-        </div>
+        </GradientBox>
       </div>
     </div>
   );

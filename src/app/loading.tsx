@@ -1,20 +1,26 @@
+import TitleSection from '@/components/TitleSection';
+
 const Loading = () => {
   return (
-    <main className='flex flex-auto items-center justify-center w-full h-screen bg-gradient-green'>
-      <div className='flex flex-col items-center gap-8 lg:gap-14 2xl:gap-20'>
-        {/* Spinning stuff */}
-        <div className='h-12 w-12 animate-spin rounded-full border-4 border-t-4 border-cream-secondary-normal border-t-cream-secondary-normal xl:h-20 xl:w-20' />
+    <main className='flex flex-auto items-center justify-center w-full h-screen bg-[#040B15]'>
+      <div className='flex flex-col items-center'>
+        <div className='relative'>
+          <div className='absolute -top-[35%] -left-[35%] w-[35vw] h-[35vw] bg-gradient-radial from-[#255763] to-[#0B305F] opacity-20 blur-[120px] rounded-full'></div>
+          {/* Logo */}
+          <div
+            className='w-[50vw] h-[50vw] md:w-[20vw] md:h-[20vw] z-10'
+            style={{
+              backgroundImage: `url(/loading.svg)`,
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          ></div>
 
-        {/* Text */}
+          {/* Text */}
 
-        <h1
-          style={{
-            ['textShadow' as any]: '0px 0px 17.32px #BD9B65',
-          }}
-          className='bg-gradient-brown text-center text-transparent drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text text-3xl lg:text-[40px] font-museo-muderno p-1 font-bold'
-        >
-          Loading...
-        </h1>
+          <TitleSection size='md'>Loading...</TitleSection>
+        </div>
       </div>
     </main>
   );
