@@ -1,7 +1,14 @@
 'use client';
+
 import GradientBox from './GradientBox';
 
-const AboutUs = () => {
+const AboutUs = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => {
   return (
     <div className='mb-auto relative justify-center content-center'>
       <div
@@ -9,11 +16,11 @@ const AboutUs = () => {
         data-aos='fade-up'
         data-aos-duration='1300'
       >
-        <h1>What is Sandbox?</h1>
+        <h1>{title}</h1>
       </div>
 
       <GradientBox type='blue' className='w-full'>
-        <div className='flex flex-col items-start text-white content-center text-center items-center'>
+        <div className='flex flex-col text-white content-center text-center items-center'>
           {/* Title */}
           <div>
             <h1
@@ -28,14 +35,11 @@ const AboutUs = () => {
           {/* Paragraph */}
           <div>
             <p
-              className='font-poppins text-[12px] sm:text-lg lg:text-2xl leading-relaxed tracking-wide max-w-[17rem] sm:max-w-[480px] lg:max-w-2xl mt-4 mb-8 lg:mt-8 lg:mb-16'
+              className='font-poppins text-[12px] sm:text-lg lg:text-2xl leading-relaxed tracking-wide w-full px-[5vw] text-justify mt-4 mb-8 lg:mt-8 lg:mb-16'
               data-aos='fade-up'
               data-aos-duration='1500'
             >
-              Lorem ipsum dolor sit amet consectetur. Sed aliquam praesent nunc
-              sed nunc arcu sagittis. Senectus in quisque consectetur molestie
-              ut phasellus pharetra urna. Tempor accumsan at nunc mi posuere.
-              Mauris montes elementum et semper amet fermentum in tincidunt.
+              {children}
             </p>
           </div>
         </div>

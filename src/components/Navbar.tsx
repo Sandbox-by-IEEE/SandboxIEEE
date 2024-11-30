@@ -52,7 +52,7 @@ function EventDropdown({ isActive }: { isActive?: boolean }) {
     <div className='w-auto relative'>
       <Dropdown
         color='transparent'
-        options={['PTC', 'HCI']}
+        options={['PTC', 'H4H']}
         placeholder='Events'
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
@@ -70,7 +70,7 @@ function SmallEventDropdown({ isActive }: { isActive?: boolean }) {
     <div className='w-full relative py-3'>
       <Dropdown
         color='transparent'
-        options={['PTC', 'HCI']}
+        options={['PTC', 'H4H']}
         placeholder='Events'
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
@@ -92,11 +92,11 @@ const MENU: PairDrawerButton[] = [
     text: 'Events',
     route: '/events',
   },
-  { text: 'Sponsorships', route: '/sponsorships' },
-  {
-    text: 'Contact Us',
-    route: '/contact-us',
-  },
+  // { text: 'Sponsorships', route: '/sponsorships' },
+  // {
+  //   text: 'Contact Us',
+  //   route: '/contact-us',
+  // },
 ];
 
 function MenuComponentSmall({

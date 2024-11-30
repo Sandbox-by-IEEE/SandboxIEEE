@@ -11,6 +11,9 @@ interface PtcPage {
   timelineSectionTitle: string;
   targetDate: string;
   regisFeesSectionTitle: string;
+  subtitle: string;
+  description: string;
+  guidebook: string;
   regisFeesDescription:
     | Document
     | Node

@@ -1,7 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-
 function Judges() {
   return (
     <div className='p-8 lg:p-16'>
@@ -27,15 +25,15 @@ function Judges() {
                 'linear-gradient(151.86deg, #FFFFFF 8.75%, rgba(19, 77, 73, 0) 75.19%)',
             }}
           >
-            <div className='w-full h-full rounded-full bg-black'>
-              <Image
-                src='/1.png'
-                alt='judges1'
-                width={84}
-                height={81}
-                className='lg:w-[273px] lg:w-[281px]'
-              />
-            </div>
+            <div
+              className='w-full h-full rounded-full bg-black'
+              style={{
+                backgroundImage: 'url(/judge.jpg)',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            ></div>
           </div>
           <div className='pt-2 lg:pt-8 text-[12px] lg:text-[24px] max-w-[4rem] lg:max-w-none font-poppins font-semibold text-white'>
             <h1>Alvin Christopher</h1>
@@ -51,15 +49,15 @@ function Judges() {
                 'linear-gradient(151.86deg, #FFFFFF 8.75%, rgba(19, 77, 73, 0) 75.19%)',
             }}
           >
-            <div className='w-full h-full rounded-full bg-black'>
-              <Image
-                src='/1.png'
-                alt='judges2'
-                width={84}
-                height={81}
-                className='lg:w-[273px] lg:w-[281px]'
-              />
-            </div>
+            <div
+              className='w-full h-full rounded-full bg-black'
+              style={{
+                backgroundImage: 'url(/judge.jpg)',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            ></div>
           </div>
           <div className='pt-2 lg:pt-8 text-[12px] lg:text-[24px] max-w-[4rem] lg:max-w-none font-poppins font-semibold text-white'>
             <h1>Bagas Noor</h1>
@@ -75,15 +73,15 @@ function Judges() {
                 'linear-gradient(151.86deg, #FFFFFF 8.75%, rgba(19, 77, 73, 0) 75.19%)',
             }}
           >
-            <div className='w-full h-full rounded-full bg-black'>
-              <Image
-                src='/1.png'
-                alt='judges3'
-                width={84}
-                height={81}
-                className='lg:w-[273px] lg:w-[281px]'
-              />
-            </div>
+            <div
+              className='w-full h-full rounded-full bg-black'
+              style={{
+                backgroundImage: 'url(/judge.jpg)',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            ></div>
           </div>
           <div className='pt-2 lg:pt-8 text-[12px] lg:text-[24px] max-w-[4rem] lg:max-w-none font-poppins font-semibold text-white'>
             <h1>Izhar Alif</h1>

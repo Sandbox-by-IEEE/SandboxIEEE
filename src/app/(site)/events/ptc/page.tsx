@@ -1,44 +1,73 @@
 import Image from 'next/image';
 import React from 'react';
+import { StructuredText } from 'react-datocms/structured-text';
 
 import AboutCompe from '@/components/AboutCompe';
 import Countdown from '@/components/Countdown';
 import { FAQ } from '@/components/FAQ';
-import Judges from '@/components/Judges';
 import Prize from '@/components/Prize';
 import Regulations from '@/components/Regulations';
 import Timeline from '@/components/Timeline';
 import { performRequest } from '@/lib/datocms';
-import { TimelineItem } from '@/types/exhibition-type';
-import { FaqExhibition } from '@/types/exhibition-type';
+import { type PTCProps } from '@/types/ptc-type';
 
-const CMS_QUERY = `{
-  allTimelineSandboxes(orderBy: date_ASC) {
+const PTC = async () => {
+  const CMS_QUERY = `{
+  ptcPage {
+    titleTpcPages
+    tpcSectionTitles
+    targetDate
+    timelineSectionTitle
+    regisFeesSectionTitle
+    subtitle
+    description
+    guidebook
+    regisFeesDescription {
+      value
+    }
+    imageMascot {
+      title
+      width
+      url
+      height
+    }
+    hadiahDescription {
+      value
+    }
+    hadiahSectionTitle
+    explanationDescription {
+      value
+    }
+    countdownSectionTitle
+    buttonTextSeeMore
+    buttonTextRegister
+    backgroundImages {
+      width
+      url
+      title
+      height
+    }
+    guideDescription {
+      value
+    }
+    guideSectionTitle
+    faqSectionTitle
+  }
+  allFaqsPtcs {
+    id
+    question
+    answer {
+      value
+    }
+  }
+  allTimelinesPtcs(orderBy: date_ASC) {
     id
     text
     date
   }
-  allFaqHomePages(orderBy: question_ASC) {
-    id
-    answer {
-      value
+}`;
 
-    }
-    question
-  }
-} `;
-
-export default async function PTC({
-  searchParams: { token },
-}: {
-  searchParams: { token: string };
-}): Promise<React.JSX.Element> {
-  const { allTimelineSandboxes }: { allTimelineSandboxes: TimelineItem[] } =
-    await performRequest({
-      query: CMS_QUERY,
-      revalidate: 0,
-    });
-  const { allFaqHomePages }: { allFaqHomePages: FaqExhibition[] } =
+  const { ptcPage, allFaqsPtcs, allTimelinesPtcs }: PTCProps =
     await performRequest({
       query: CMS_QUERY,
       revalidate: 0,
@@ -49,25 +78,36 @@ export default async function PTC({
       <div className='mt-10 lg:mt-40 font-poppins text-[24px] lg:text-[80px] flex justify-center font-bold text-white'>
         <h1>ProtoTech Contest</h1>
       </div>
-      <div className='mt-5 lg:mt-20'>
-        <Countdown />
+      <div className='w-[80vw] mt-5 lg:mt-20'>
+        <Countdown
+          page='ptc'
+          link1='events/ptc/registration'
+          targetDate={new Date(ptcPage.targetDate)}
+          link2={ptcPage.guidebook}
+        />
       </div>
       <div className='mt-5 lg:mt-20'>
         <Prize />
       </div>
 
-      <Judges />
+      {/* <Judges /> */}
       <div className='mt-5 lg:mt-20'>
-        <AboutCompe />
+        <AboutCompe
+          title={ptcPage.titleTpcPages}
+          subtitle={ptcPage.tpcSectionTitles}
+          description={ptcPage.description}
+        />
       </div>
       <div className='mt-20 lg:mt-30'>
-        <Regulations />
+        <Regulations>
+          <StructuredText data={ptcPage.guideDescription} />
+        </Regulations>
       </div>
       <div className='font-poppins text-[24px] lg:text-[48px] flex justify-center font-bold text-white mt-20'>
         <h1>Timeline</h1>
       </div>
       <section>
-        <Timeline items={allTimelineSandboxes} />
+        <Timeline items={allTimelinesPtcs} />
       </section>
       {/* FAQ Section */}
       <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20'>
@@ -113,7 +153,7 @@ export default async function PTC({
         </div>
         {/* FAQ Content */}
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 px-8 sm:px-10 md:px-28 lg:px-36 2xl:px-52'>
-          {allFaqHomePages.map((faq) => (
+          {allFaqsPtcs.map((faq) => (
             <FAQ
               key={faq.id}
               question={faq.question}
@@ -125,8 +165,9 @@ export default async function PTC({
       </section>
     </div>
   );
-}
+};
 
+export default PTC;
 // import { type Metadata } from 'next';
 // import dynamic from 'next/dynamic';
 // import Image from 'next/image';
