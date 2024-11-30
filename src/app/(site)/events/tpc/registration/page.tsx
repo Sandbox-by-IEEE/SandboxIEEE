@@ -512,12 +512,7 @@ export default function TPCRegist() {
   }, []);
 
   return (
-    <main
-      style={{
-        backgroundImage: 'url(/RegistrationPageBg.svg)',
-      }}
-      className='bg-cover px-4 sm:px-10 md:px-15 lg:px-20 text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip w-full'
-    >
+    <main className='px-4 sm:px-10 md:px-15 lg:px-20 text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip w-full'>
       <div className='h-fit w-full max-w-[1200px] py-10 pt-16 lg:pt-24 font-poppins'>
         <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
           TPC Registration
