@@ -44,3 +44,11 @@ export type IsWarnedInputData = {
   paymentProofUrl?: IsWarnedFileInputType[];
   refferalCode?: boolean;
 };
+
+export type SubmissionInputData = {
+  submissionUrl: FileInputType[];
+};
+
+export type IsWarnedSubmissionInputData = {
+  submissionUrl?: IsWarnedFileInputType[];
+};
