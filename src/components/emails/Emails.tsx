@@ -3,7 +3,6 @@ import {
   Container,
   Head,
   Heading,
-  Hr,
   Html,
   Img,
   Link,
@@ -41,7 +40,7 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
           <Container className='relative rounded w-[485px] overflow-hidden bg-background bg-cover bg-center bg-no-repeat'>
             <Section className='w-full'>
               <Img
-                src={`https://res.cloudinary.com/dssrh53qx/image/upload/v1697283874/header_wrtaop.png`}
+                src={`https://res.cloudinary.com/dbdrtwtzl/image/upload/v1732981083/Component_8_letiv8.png`}
                 alt='Vercel'
                 className='w-full'
               />
@@ -80,22 +79,19 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
                   Best Regards, <br /> SANDBOX Team
                 </Text>
               </Row>
-              <Row className='w-full px-10'>
-                <Hr className=' border border-solid border-[#705229] my-0 mt-4 w-full' />
-                <Text className='m-0 mb-1 p-0 text-xs font-semibold text-[#705229] w-full py-2'>
-                  Contact{' '}
-                  <Link href='https://sandbox.ieeeitb.com/contact-us'>
-                    Our Website
-                  </Link>
-                </Text>
-              </Row>
             </Section>
             <Section className='w-[485px]'>
-              <Img
-                src={`https://res.cloudinary.com/dssrh53qx/image/upload/v1697283840/footer_qslzrm.png`}
-                alt='Vercel'
-                className=' w-full'
-              />
+              <a
+                href='https://sandbox.ieeeitb.com/contact-us'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <Img
+                  src={`https://res.cloudinary.com/dbdrtwtzl/image/upload/v1732985919/Component_9_rwirho.png`}
+                  alt='Vercel'
+                  className='w-full'
+                />
+              </a>
             </Section>
           </Container>
         </Body>
