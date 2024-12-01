@@ -28,7 +28,7 @@ function AccountDropdown() {
       </Button>
       {isOpen && (
         <div className='absolute right-0 mt-3 w-48 bg-customGreen border-2 text-white border-white rounded-md shadow-lg'>
-          <Link href='/dashboard'>
+          <Link href='events/dashboard'>
             <p className='block rounded-t-md px-4 py-2 hover:bg-white hover:bg-opacity-20'>
               Dashboard
             </p>
