@@ -20,7 +20,7 @@ export default function PTCRegist() {
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
-    memberCount: 1,
+    memberCount: 3,
     members: [
       {
         name: '',
@@ -107,11 +107,11 @@ export default function PTCRegist() {
     if (name === 'memberCount') {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
-        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
+        if (newInputData.memberCount <= 2 || newInputData.memberCount > 5) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
-            description: 'Member count must be 1 to 5',
+            description: 'Member count must be 3 to 5',
           });
         }
       }

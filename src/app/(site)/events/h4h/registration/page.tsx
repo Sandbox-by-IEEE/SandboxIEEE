@@ -20,7 +20,7 @@ export default function H4HRegist() {
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
-    memberCount: 1,
+    memberCount: 2,
     members: [
       {
         name: '',
@@ -112,7 +112,7 @@ export default function H4HRegist() {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
-            description: 'Member count must be 1 to 3',
+            description: 'Member count must be 2 to 5',
           });
         }
       }

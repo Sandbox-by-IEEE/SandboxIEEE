@@ -278,28 +278,21 @@ const FormDetails = ({
                       textShadow:
                         '0px 0px 20px #ffffff9e, 0px 0px 20px #ffffff9e',
                     }}
-                    className='text-[55px] relative z-1 font-poppins font-bold pt-10'
+                    className='text-[40px] lg:text-[55px] relative z-1 font-poppins font-bold pt-10'
                   >
                     Fee
                   </p>
-                  <div className='relative z-1 flex items-center justify-between p-10 w-full'>
+                  <div className='relative z-1 flex items-center justify-between px-10 pb-10 w-full'>
                     <div className='relative flex flex-col z-1 w-full gap-2'>
-                      <p className='font-poppins text-[25px] font-bold'>
-                        Total price for {inputData.memberCount}{' '}
-                        {inputData.memberCount === 1
-                          ? 'participant'
-                          : 'participants'}{' '}
-                        ={' '}
-                      </p>
                       <div className='flex items-center w-full justify-center flex-col'>
                         {/* Original Price */}
                         <div className='relative w-fit left-0'>
                           <p
-                            className={`font-poppins text-[25px] font-bold w-fit transition-opacity duration-500 ${
+                            className={`font-poppins text-[25px] lg:text-[40px] font-bold w-fit transition-opacity duration-500 ${
                               validRefferalCode ? ' text-red-500' : ''
                             }`}
                           >
-                            Rp. {inputData.memberCount * 100}.000
+                            Rp. {285}.000
                           </p>
                           <div
                             className={`absolute w-0 h-[4px] bg-gradient-to-br ${
@@ -317,9 +310,9 @@ const FormDetails = ({
 
                         {/* Discounted Price */}
                         {validRefferalCode && (
-                          <p className='font-poppins text-[25px] font-bold text-white'>
-                            Rp. {(inputData.memberCount * 100000 * 0.9) / 1000}
-                            .000
+                          <p className='font-poppins text-[25px] lg:text-[40px] font-bold text-white'>
+                            Rp. {(285000 * 0.9) / 1000}
+                            00
                           </p>
                         )}
                       </div>
@@ -366,9 +359,9 @@ const FormDetails = ({
                     background:
                       'linear-gradient(to top right, #00000000 0%, #D6D1D1ac 69%, #AB814E 100%)',
                   }}
-                  className='absolute w-full scale-x-[1.015] scale-y-[1.03] left-0 right-0 h-full m-0 rounded-[20px] z-0'
+                  className='absolute w-full left-0 right-0 h-full m-0 rounded-[20px] z-0'
                 />
-                <div className='relative z-1 flex items-center p-10 bg-[#040b15] rounded-[20px]'>
+                <div className='relative z-1 flex items-center p-10 bg-[#040b15] rounded-[18px] m-[2px]'>
                   <div className='w-full text-center relative flex flex-col z-1'>
                     <p className='font-poppins text-[25px] font-bold'>BCA</p>
                     <p className='font-poppins text-[15px]'>1234567890</p>
@@ -381,9 +374,9 @@ const FormDetails = ({
                     background:
                       'linear-gradient(to top right, #00000000 0%, #D6D1D1ac 69%, #AB814E 100%)',
                   }}
-                  className='absolute w-full scale-x-[1.015] scale-y-[1.03] left-0 right-0 h-full m-0 rounded-[20px] z-0'
+                  className='absolute w-full left-0 right-0 h-full m-0 rounded-[20px] z-0'
                 />
-                <div className='relative z-1 flex items-center p-10 bg-[#040b15] rounded-[20px]'>
+                <div className='relative z-1 flex items-center p-10 bg-[#040b15] rounded-[18px] m-[2px]'>
                   <div className='w-full text-center relative flex flex-col z-1'>
                     <p className='font-poppins text-[25px] font-bold'>GoPay</p>
                     <p className='font-poppins text-[15px]'>1234567890</p>
