@@ -142,7 +142,7 @@ const PTC = async () => {
               className='lg:w-[200px] lg:h-[200px]'
             />
           </div>
-          <div className=' items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
+          <div className='items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
             <h2 className='text-center text-4xl lg:text-5xl font-bold text-white'>
               Any Questions?
             </h2>

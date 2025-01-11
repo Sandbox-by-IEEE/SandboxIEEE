@@ -65,14 +65,40 @@ const DASHBOARD = () => {
 
   return (
     <main className='px-4 sm:px-10 md:px-15 lg:px-20 text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip w-full'>
-      <div className='h-fit w-full max-w-[1200px] py-10 pt-16 lg:pt-24 font-poppins'>
+      <div className='h-fit w-full max-w-[1200px] py-10 pt-18 lg:pt-28 font-poppins'>
         {competitionType !== '' ? (
           <>
-            <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
-              {competitionType} Dashboard
-            </h1>
+            <div
+              className='bg-[url("/dashboard/profile.png")] rounded-[24px] text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-4 mt-2 px-12 py-6'
+              style={{
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+              Team Profile
+            </div>
+            <div className='relative bg-[#040B15] w-full mt-24'>
+              <div className='flex items-center justify-center bg-blue-300 mx-20 mt-20'>
+                Hi! Team {teamData?.teamName}
+              </div>
+              <div className='grid grid-cols-2'>
+                <div className=''>
+                  <h2>Chariman Name</h2>
+                  <h1>{teamData?.chairmanName}</h1>
+                </div>
+                <div className=''>Hi! Team {teamData?.teamName}</div>
+              </div>
+              <div className='flex w-full items-center justify-center'></div>
+            </div>
             <h2 className='text-lg lg:text-2xl font-semibold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
-              {teamData?.teamName}
+              {teamData?.members
+                .filter((member: any) => member.name !== teamData?.chairmanName)
+                .map((member: any) => (
+                  <div key={member.id}>
+                    {member.name} - {member.email}
+                  </div>
+                ))}
             </h2>
             {/* <FormDetails
               inputData={inputData}
