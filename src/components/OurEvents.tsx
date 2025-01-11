@@ -59,7 +59,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, index, children }) => {
         />
       </div>
       <div
-        className='bg-gradient-to-r from-[#28575cef] to-[#0d2d32da] backdrop-filter backdrop-blur-md rounded-[40px] shadow-lg p-8 flex flex-col relative justify-between mb-8 w-full min-h-[320px]'
+        className='bg-gradient-to-r from-[#28575cef] to-[#0d2d32da] backdrop-filter backdrop-blur-md rounded-[40px] shadow-lg p-8 flex flex-col relative justify-between w-full min-h-[320px]'
         data-aos='fade-up'
       >
         <div className='flex flex-col'>
@@ -133,7 +133,7 @@ const OurEvents: React.FC<OurEventsProps> = ({ events }) => {
         </div>
         <div className='w-full mx-auto p-[20px] lg:p-12'>
           {/* Flex column untuk layout */}
-          <div className='flex flex-col gap-6'>
+          <div className='flex flex-col gap-12'>
             {events.map((event, index) => (
               <EventCard key={event.id} index={index} event={event}>
                 <StructuredText data={event.explanationEvent} />
