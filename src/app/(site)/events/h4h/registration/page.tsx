@@ -15,25 +15,25 @@ import { callLoading, callToast } from '@/components/Toast';
 
 export default function H4HRegist() {
   const inputDataHistoryKey = 'h4h-regist-history';
+  const createMember = () => ({
+    name: '',
+    email: '',
+    institution: '',
+    phoneNumber: '',
+    age: 0,
+    studentProof: '',
+    studentProofName: '',
+  });
+  const members = Array(2)
+    .fill(null)
+    .map(() => createMember());
 
   const router = useRouter();
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
-    memberCount: 1,
-    members: [
-      {
-        name: '',
-        email: '',
-        institution: '',
-        phoneNumber: '',
-        age: 0,
-        twibbonProof: '',
-        twibbonProofName: '',
-        studentProof: '',
-        studentProofName: '',
-      },
-    ],
+    memberCount: 2,
+    members,
     paymentMethod: '',
     paymentProofUrl: [],
     refferalCode: '',
@@ -49,8 +49,6 @@ export default function H4HRegist() {
           institution: false,
           phoneNumber: false,
           age: false,
-          twibbonProof: false,
-          twibbonProofName: false,
           studentProof: false,
           studentProofName: false,
         },
@@ -92,8 +90,6 @@ export default function H4HRegist() {
           institution: '',
           phoneNumber: '',
           age: 0,
-          twibbonProof: '',
-          twibbonProofName: '',
           studentProof: '',
           studentProofName: '',
         };
@@ -108,19 +104,19 @@ export default function H4HRegist() {
     if (name === 'memberCount') {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
-        if (newInputData.memberCount <= 0 || newInputData.memberCount > 3) {
+        if (newInputData.memberCount <= 1 || newInputData.memberCount > 5) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
-            description: 'Member count must be 1 to 3',
+            description: 'Member count must be 2 to 5',
           });
         }
       }
 
       if (
         !newInputData.memberCount ||
-        newInputData.memberCount <= 0 ||
-        newInputData.memberCount > 3
+        newInputData.memberCount <= 1 ||
+        newInputData.memberCount > 5
       ) {
         setIsDisabledNext(true);
       } else {
@@ -139,8 +135,6 @@ export default function H4HRegist() {
               institution: '',
               phoneNumber: '',
               age: 0,
-              twibbonProof: '',
-              twibbonProofName: '',
               studentProof: '',
               studentProofName: '',
             });
@@ -155,8 +149,6 @@ export default function H4HRegist() {
             institution: false,
             phoneNumber: false,
             age: false,
-            twibbonProof: false,
-            twibbonProofName: false,
             studentProof: false,
             studentProofName: false,
           });
@@ -220,8 +212,6 @@ export default function H4HRegist() {
           | 'institution'
           | 'phoneNumber'
           | 'age'
-          | 'twibbonProof'
-          | 'twibbonProofName'
           | 'studentProof'
           | 'studentProofName',
       ) => {
@@ -237,7 +227,7 @@ export default function H4HRegist() {
       checkAndWarn(el.phoneNumber[0] != "'", 'phoneNumber');
       checkAndWarn(el.age <= 0, 'age');
       checkAndWarn(!el.institution, 'institution');
-      checkAndWarn(!el.twibbonProof, 'twibbonProof');
+      // checkAndWarn(!el.twibbonProof, 'twibbonProof');
       checkAndWarn(!el.studentProof, 'studentProof');
       if (warnedHere) {
         callToast({
@@ -294,7 +284,7 @@ export default function H4HRegist() {
             institution: member.institution,
             age: member.age.toString(),
             studentProof: member.studentProof,
-            twibbonProof: member.twibbonProof,
+            // twibbonProof: member.twibbonProof,
           };
         }),
         refferalCode: inputData.refferalCode,
@@ -345,8 +335,10 @@ export default function H4HRegist() {
       router.push('/login');
     } else {
       if (
-        session.user.ticket?.H4H.buy &&
-        session.user.ticket.H4H.verified === 'pending'
+        (session.user.ticket?.H4H.buy &&
+          session.user.ticket.H4H.verified === 'pending') ||
+        (session.user.ticket?.PTC.buy &&
+          session.user.ticket.PTC.verified === 'pending')
       ) {
         callToast({
           status: 'error',
@@ -426,7 +418,7 @@ export default function H4HRegist() {
             setFilesForm2(historyInputData.paymentProofUrl);
 
           if (!historyInputData.memberCount) {
-            historyInputData.memberCount = 1;
+            historyInputData.memberCount = 2;
           }
           if (!historyInputData.members.length) {
             historyInputData.members = [
@@ -436,8 +428,6 @@ export default function H4HRegist() {
                 institution: '',
                 phoneNumber: '',
                 age: 0,
-                twibbonProof: '',
-                twibbonProofName: '',
                 studentProof: '',
                 studentProofName: '',
               },
@@ -463,7 +453,9 @@ export default function H4HRegist() {
           });
 
           // Validate the referral code
-          validateRefferalCode(refferalCode);
+          if (refferalCode) {
+            validateRefferalCode(refferalCode);
+          }
 
           const newIsWarnedInputData = { ...isWarnedInputData };
           while (
@@ -475,8 +467,6 @@ export default function H4HRegist() {
               institution: false,
               phoneNumber: false,
               age: false,
-              twibbonProof: false,
-              twibbonProofName: false,
               studentProof: false,
               studentProofName: false,
             });
@@ -521,6 +511,7 @@ export default function H4HRegist() {
           Complete your details below
         </h1>
         <FormDetails
+          competitionType='H4H'
           inputData={inputData}
           setInputData={setInputData}
           validRefferalCode={validRefferalCode}
