@@ -224,15 +224,16 @@ model RefferalCode {
   teamName     String?
 }
 
-model PTCSubmissions {
-  id      String @id @default(uuid())
-  teamId  String @unique
-  fileUrl String
-}
 
 model H4HSubmissions {
-  id         String @id @default(uuid())
+  id         String @id
   teamId     String @unique
   githubUrl  String
   youtubeUrl String
+}
+
+model PTCSubmissions {
+  id      String @id
+  teamId  String @unique
+  fileUrl String
 }

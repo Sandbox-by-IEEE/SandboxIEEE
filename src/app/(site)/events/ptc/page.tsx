@@ -81,8 +81,8 @@ const PTC = async () => {
       <div className='w-[80vw] mt-5 lg:mt-20'>
         <Countdown
           page='ptc'
-          link1='/events/ptc/registration'
           targetDate={new Date(ptcPage.targetDate)}
+          link1='/events/ptc/registration'
           link2={ptcPage.guidebook}
         />
       </div>
