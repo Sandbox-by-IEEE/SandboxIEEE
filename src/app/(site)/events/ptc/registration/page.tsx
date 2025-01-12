@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-import { type FileInputType } from '@/components/FileInput/fileInput-type';
 import FormDetails from '@/components/Forms/FormDetailsRegist1';
 import {
   type InputData,
@@ -15,28 +14,25 @@ import { callLoading, callToast } from '@/components/Toast';
 
 export default function PTCRegist() {
   const inputDataHistoryKey = 'ptc-regist-history';
+  const createMember = () => ({
+    name: '',
+    email: '',
+    institution: '',
+    phoneNumber: '',
+    age: 0,
+    studentProof: '',
+    studentProofName: '',
+  });
+  const members = Array(3)
+    .fill(null)
+    .map(() => createMember());
 
   const router = useRouter();
   const { data: session, status } = useSession();
   const [inputData, setInputData] = useState<InputData>({
     teamName: '',
     memberCount: 3,
-    members: [
-      {
-        name: '',
-        email: '',
-        institution: '',
-        phoneNumber: '',
-        age: 0,
-        twibbonProof: '',
-        twibbonProofName: '',
-        studentProof: '',
-        studentProofName: '',
-      },
-    ],
-    paymentMethod: '',
-    paymentProofUrl: [],
-    refferalCode: '',
+    members,
   });
   const [isWarnedInputData, setIsWarnedInputData] = useState<IsWarnedInputData>(
     {
@@ -49,19 +45,13 @@ export default function PTCRegist() {
           institution: false,
           phoneNumber: false,
           age: false,
-          twibbonProof: false,
-          twibbonProofName: false,
           studentProof: false,
           studentProofName: false,
         },
       ],
-      paymentMethod: false,
-      paymentProofUrl: [],
-      refferalCode: false,
     },
   );
   const [validRefferalCode, setValidRefferalCode] = useState<boolean>(false);
-  const [filesForm2, setFilesForm2] = useState<FileInputType[] | undefined>();
   const [isDisabledNext, setIsDisabledNext] = useState<boolean>(false);
   const [fillMemberIndex, setFillMemberIndex] = useState<number>(0);
   const handleChange = (e) => {
@@ -91,8 +81,6 @@ export default function PTCRegist() {
           institution: '',
           phoneNumber: '',
           age: 0,
-          twibbonProof: '',
-          twibbonProofName: '',
           studentProof: '',
           studentProofName: '',
         };
@@ -107,7 +95,17 @@ export default function PTCRegist() {
     if (name === 'memberCount') {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
-        if (newInputData.memberCount <= 2 || newInputData.memberCount > 5) {
+        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
+          //ganti balik ke 3
+          //ganti balik ke 3
+          //ganti balik ke 3
+          //ganti balik ke 3
+          //ganti balik ke 3
+          //ganti balik ke 3
+          //ganti balik ke 3
+          //ganti balik ke 3
+          //ganti balik ke 3
+          //ganti balik ke 3
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
@@ -118,7 +116,16 @@ export default function PTCRegist() {
 
       if (
         !newInputData.memberCount ||
-        newInputData.memberCount <= 0 ||
+        newInputData.memberCount <= 0 || //ganti balik ke 3
+        //ganti balik ke 3
+        //ganti balik ke 3
+        //ganti balik ke 3
+        //ganti balik ke 3
+        //ganti balik ke 3
+        //ganti balik ke 3
+        //ganti balik ke 3
+        //ganti balik ke 3
+        //ganti balik ke 3
         newInputData.memberCount > 5
       ) {
         setIsDisabledNext(true);
@@ -138,8 +145,6 @@ export default function PTCRegist() {
               institution: '',
               phoneNumber: '',
               age: 0,
-              twibbonProof: '',
-              twibbonProofName: '',
               studentProof: '',
               studentProofName: '',
             });
@@ -154,8 +159,6 @@ export default function PTCRegist() {
             institution: false,
             phoneNumber: false,
             age: false,
-            twibbonProof: false,
-            twibbonProofName: false,
             studentProof: false,
             studentProofName: false,
           });
@@ -185,8 +188,6 @@ export default function PTCRegist() {
       | 'institution'
       | 'phoneNumber'
       | 'age'
-      | 'twibbonProof'
-      | 'twibbonProofName'
       | 'studentProof'
       | 'studentProofName',
   ) => {
@@ -219,8 +220,6 @@ export default function PTCRegist() {
           | 'institution'
           | 'phoneNumber'
           | 'age'
-          | 'twibbonProof'
-          | 'twibbonProofName'
           | 'studentProof'
           | 'studentProofName',
       ) => {
@@ -236,7 +235,7 @@ export default function PTCRegist() {
       checkAndWarn(el.phoneNumber[0] != "'", 'phoneNumber');
       checkAndWarn(el.age <= 0, 'age');
       checkAndWarn(!el.institution, 'institution');
-      checkAndWarn(!el.twibbonProof, 'twibbonProof');
+      // checkAndWarn(!el.twibbonProof, 'twibbonProof');
       checkAndWarn(!el.studentProof, 'studentProof');
       if (warnedHere) {
         callToast({
@@ -248,30 +247,6 @@ export default function PTCRegist() {
       }
     });
     if (isToastTriggered) {
-      return;
-    }
-
-    if (inputData.refferalCode !== '' && !validRefferalCode) {
-      callToast({
-        status: 'error',
-        description: 'Invalid referral code. Please enter a valid code.',
-      });
-      return;
-    }
-
-    if (
-      (inputData.paymentProofUrl?.length ?? 0) === 0 ||
-      (inputData.paymentProofUrl ?? []).every(
-        (file) =>
-          (Object.keys(file).length === 0 && file.constructor === Object) ||
-          !file.fileName ||
-          !file.fileUrl,
-      )
-    ) {
-      callToast({
-        status: 'error',
-        description: 'Please upload your payment proof',
-      });
       return;
     }
 
@@ -294,11 +269,8 @@ export default function PTCRegist() {
             institution: member.institution,
             age: member.age.toString(),
             studentProof: member.studentProof,
-            twibbonProof: member.twibbonProof,
           };
         }),
-        refferalCode: inputData.refferalCode,
-        paymentProofUrl: inputData.paymentProofUrl,
       };
 
       const response = await fetch('/api/ticket/competition', {
@@ -347,8 +319,10 @@ export default function PTCRegist() {
       router.push('/login');
     } else {
       if (
-        session.user.ticket?.PTC.buy &&
-        session.user.ticket.PTC.verified === 'pending'
+        (session.user.ticket?.H4H.buy &&
+          session.user.ticket.H4H.verified === 'pending') ||
+        (session.user.ticket?.PTC.buy &&
+          session.user.ticket.PTC.verified === 'pending')
       ) {
         callToast({
           status: 'error',
@@ -379,36 +353,6 @@ export default function PTCRegist() {
   }, [status, router, session?.user]);
 
   useEffect(() => {
-    if (filesForm2?.length) {
-      const newInputData = { ...inputData };
-      newInputData.paymentProofUrl = filesForm2;
-
-      setInputData(newInputData);
-      localStorage.setItem(inputDataHistoryKey, JSON.stringify(newInputData));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filesForm2]);
-
-  useEffect(() => {
-    const validateRefferalCode = async (code: string) => {
-      if (code.length > 0) {
-        try {
-          const response = await fetch(`/api/refferal-code?code=${code}`);
-          const data = await response.json();
-
-          if (response.ok && data.status === 200) {
-            setValidRefferalCode(true);
-          } else {
-            setValidRefferalCode(false);
-          }
-        } catch (error) {
-          setValidRefferalCode(false);
-        }
-      } else {
-        setValidRefferalCode(false);
-      }
-    };
-
     const memoryInputData = localStorage.getItem(inputDataHistoryKey);
     if (memoryInputData) {
       try {
@@ -419,16 +363,10 @@ export default function PTCRegist() {
           'teamName' in historyInputData &&
           'memberCount' in historyInputData &&
           'members' in historyInputData &&
-          Array.isArray(historyInputData.members) &&
-          'paymentMethod' in historyInputData &&
-          Array.isArray(historyInputData.paymentProofUrl) &&
-          'refferalCode' in historyInputData
+          Array.isArray(historyInputData.members)
         ) {
-          if (historyInputData.paymentProofUrl)
-            setFilesForm2(historyInputData.paymentProofUrl);
-
           if (!historyInputData.memberCount) {
-            historyInputData.memberCount = 1;
+            historyInputData.memberCount = 3;
           }
           if (!historyInputData.members.length) {
             historyInputData.members = [
@@ -438,34 +376,19 @@ export default function PTCRegist() {
                 institution: '',
                 phoneNumber: '',
                 age: 0,
-                twibbonProof: '',
-                twibbonProofName: '',
                 studentProof: '',
                 studentProofName: '',
               },
             ];
           }
 
-          const {
-            teamName,
-            memberCount,
-            members,
-            paymentMethod,
-            paymentProofUrl,
-            refferalCode,
-          } = historyInputData;
+          const { teamName, memberCount, members } = historyInputData;
 
           setInputData({
             teamName,
             memberCount,
             members,
-            paymentMethod,
-            paymentProofUrl,
-            refferalCode,
           });
-
-          // Validate the referral code
-          validateRefferalCode(refferalCode);
 
           const newIsWarnedInputData = { ...isWarnedInputData };
           while (
@@ -477,8 +400,6 @@ export default function PTCRegist() {
               institution: false,
               phoneNumber: false,
               age: false,
-              twibbonProof: false,
-              twibbonProofName: false,
               studentProof: false,
               studentProofName: false,
             });
@@ -498,9 +419,6 @@ export default function PTCRegist() {
               teamName,
               memberCount,
               members,
-              paymentMethod,
-              paymentProofUrl,
-              refferalCode,
             }),
           );
         } else {
@@ -515,7 +433,7 @@ export default function PTCRegist() {
 
   return (
     <main className='px-4 sm:px-10 md:px-15 lg:px-20 text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip w-full'>
-      <div className='h-fit w-full max-w-[  1200px] py-10 pt-16 lg:pt-24 font-poppins'>
+      <div className='h-fit w-full max-w-[1200px] py-10 pt-16 lg:pt-24 font-poppins'>
         <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
           PTC Registration
         </h1>
@@ -523,6 +441,7 @@ export default function PTCRegist() {
           Complete your details below
         </h1>
         <FormDetails
+          competitionType='PTC'
           inputData={inputData}
           setInputData={setInputData}
           validRefferalCode={validRefferalCode}
