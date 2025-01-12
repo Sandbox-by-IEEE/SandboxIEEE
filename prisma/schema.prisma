@@ -163,7 +163,7 @@ model Abstract {
 }
 
 model ParticipantCompetition {
-  id           String @id @default(uuid())
+  id           String  @id @default(uuid())
   teamId       String
   name         String
   email        String
@@ -172,7 +172,7 @@ model ParticipantCompetition {
   age          String
   twibbonProof String?
   studentProof String
-  team         Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team         Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model Regist3Data {
@@ -223,6 +223,7 @@ model RefferalCode {
   teamId       String? @unique
   teamName     String?
 }
+
 
 model H4HSubmissions {
   id         String @id

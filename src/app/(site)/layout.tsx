@@ -1,4 +1,5 @@
 import { type Metadata } from 'next';
+import { headers } from 'next/headers';
 
 import Footer from '@/components/footer';
 import NavBar from '@/components/Navbar';
@@ -21,18 +22,25 @@ const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
     query: CMS_QUERY,
     revalidate: 0,
   });
+
+  const headersList = headers();
+  const pathname = headersList.get('x-nextjs-page') || '';
+
+  const backgroundImage = pathname.startsWith('/dashboard')
+    ? '/dashboardbg.svg'
+    : '/homebg.svg';
+
   return (
     <div
-      className='flex flex-col min-h-screen overflow-x-clip custom-scrollbar'
+      className='flex flex-col min-h-screen justify-between overflow-x-clip custom-scrollbar'
       style={{
-        backgroundImage: `url(/homebg.svg)`,
+        backgroundImage: `url(${backgroundImage})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
       <NavBar />
-
       {children}
       <Footer />
     </div>
