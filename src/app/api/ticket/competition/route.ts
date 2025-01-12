@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       !chairmanName ||
       !chairmanEmail ||
       !members ||
-      !paymentProofUrl
+      (competitionType && competitionType == 'H4H' && !paymentProofUrl)
     ) {
       return NextResponse.json(
         { message: 'Missing some data!!' },
@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
       teamName: ticket.team?.teamName,
       chairmanName: ticket.team?.chairmanName,
       members: members,
-      paymentProof: paymentProofUrl[0].fileUrl,
+      paymentProof: competitionType == 'H4H' && paymentProofUrl[0].fileUrl,
     };
 
     const sheetAPI = process.env.API_SHEET_TICKET_URL_2024 || '';
