@@ -23,7 +23,7 @@ const Regulations: React.FC<RegulationsProps> = ({ children }) => {
   return (
     <GradientBox
       type='blue'
-      className=' w-[336px] h-[900px] lg:h-[500px] lg:w-[1191px] rounded-[50px] backdrop-blur-md'
+      className='w-[80vw] rounded-[50px] backdrop-blur-md'
     >
       <div
         className='font-poppins relative max-w-7xl mx-auto px-6 py-12 rounded-3xl'
@@ -51,7 +51,7 @@ const Regulations: React.FC<RegulationsProps> = ({ children }) => {
 
         {/* Regulation Box */}
         <div
-          className='relative bg-gradient-to-b from-[#35737ad4] to-[#18555fd7] p-8 rounded-xl shadow-lg z-10 backdrop-blur-md bg-opacity-95'
+          className='relative bg-gradient-to-b from-[#35737ad4] to-[#18555fd7] p-8 rounded-xl shadow-lg z-10 backdrop-blur-md bg-opacity-95 leading-loose'
           style={{
             boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.4)',
           }}

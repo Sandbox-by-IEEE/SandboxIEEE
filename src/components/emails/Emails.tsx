@@ -30,7 +30,7 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
             extend: {
               backgroundImage: {
                 background:
-                  "url('https://res.cloudinary.com/dssrh53qx/image/upload/v1697286411/bg-emails_vslt35.png')",
+                  "url('https://res.cloudinary.com/dbdrtwtzl/image/upload/v1736620973/Frame_27_eb4vrv.png')",
               },
             },
           },

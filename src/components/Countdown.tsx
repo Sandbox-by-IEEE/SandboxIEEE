@@ -120,10 +120,10 @@ function Countdown({
                 Minutes
               </h2>
             </div>
-            <span className='lg:text-5xl md:text-3xl text-xs self-center mb-6 lg:mb-8'>
+            <span className='hidden md:block lg:text-5xl md:text-3xl text-xs self-center mb-6 lg:mb-8'>
               :
             </span>
-            <div className='flex flex-col items-center'>
+            <div className='hidden md:block flex flex-col items-center'>
               <h1 className='lg:text-8xl md:text-6xl text-3xl'>
                 {time.seconds}
               </h1>

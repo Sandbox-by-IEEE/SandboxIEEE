@@ -35,7 +35,7 @@ const AboutCompe = ({ title, subtitle, description }: AboutCompeProps) => {
 
       <GradientBox
         type='blue'
-        className=' w-[336px] h-[227px] lg:h-[363px] lg:w-[1191px] rounded-[50px] backdrop-blur-md'
+        className='w-[80vw] rounded-[50px] backdrop-blur-md'
       >
         <div className='flex flex-col text-white content-center text-center items-center'>
           {/* Title */}
