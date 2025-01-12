@@ -1,0 +1,248 @@
+'use client';
+
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+
+import Loading from '@/app/loading';
+import { callToast } from '@/components/Toast';
+
+const DASHBOARD = () => {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const [teamData, setTeamData] = useState<any>(null); // Adjust the type based on your API response structure
+  const [competitionType, setCompetitionType] = useState('');
+
+  const fetchTeamData = async (teamId: string) => {
+    try {
+      const response = await fetch(`/api/team/${teamId}`); // Use the correct dynamic route
+      if (!response.ok) {
+        throw new Error('Failed to fetch team data');
+      }
+      const { data } = await response.json();
+      setTeamData(data);
+      console.log('Fetched team data:', data);
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: 'Failed to fetch team data',
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (status === 'loading') return;
+
+    if (!session?.user) {
+      callToast({
+        status: 'error',
+        description: 'Unauthorized, please login first',
+      });
+      router.push('/login');
+    } else {
+      const ticket = session.user.ticket;
+      if (!ticket?.H4H.buy && !ticket?.PTC.buy) {
+        callToast({
+          status: 'error',
+          description: 'You are not registered. Please do a registration',
+        });
+        router.push('/');
+      } else if (ticket?.PTC.buy && ticket.PTC.verified === 'verified') {
+        setCompetitionType('PTC');
+        fetchTeamData(ticket.PTC.teamId);
+      } else if (ticket?.H4H.buy && ticket.H4H.verified === 'verified') {
+        setCompetitionType('H4H');
+        fetchTeamData(ticket.H4H.teamId);
+      } else if (ticket?.PTC.buy && ticket.PTC.verified === 'pending') {
+        setCompetitionType('PTC');
+      } else if (ticket?.H4H.buy && ticket.H4H.verified === 'pending') {
+        setCompetitionType('H4H');
+      } else if (ticket?.PTC.buy && ticket.PTC.verified === 'rejected') {
+        callToast({
+          status: 'error',
+          description:
+            'You have purchased this ticket, Your ticket was rejected',
+        });
+        router.push('/');
+      } else if (ticket?.H4H.buy && ticket.H4H.verified === 'rejected') {
+        callToast({
+          status: 'error',
+          description:
+            'You have purchased this ticket, Your ticket was rejected',
+        });
+        router.push('/');
+      }
+    }
+  }, [status, router, session?.user]);
+
+  const chairman = teamData?.members.find(
+    (member: any) => member.name === teamData?.chairmanName,
+  );
+
+  const cleanedPhoneNumber = chairman?.phoneNumber.replace(/^'/, '');
+
+  if (status === 'loading') {
+    return <Loading />;
+  }
+
+  return (
+    <main className='px-4 sm:px-10 md:px-15 lg:px-20 text-white flex h-fit flex-col items-center justify-between overflow-x-clip w-full'>
+      <div className='h-fit md:w-full w-[90%] md:max-w-[1200px] py-10 pt-18 lg:pt-28 font-poppins'>
+        {session &&
+        session.user &&
+        session.user.ticket &&
+        session.user.ticket[competitionType]?.verified === 'verified' ? (
+          <>
+            <div
+              className='bg-[url("/dashboard/profile.png")] rounded-[3vw] text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-4 mt-2 px-[4vw] py-[2vw]'
+              style={{
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+              Team Profile - {competitionType}
+            </div>
+            {/* bg-[#040B15] */}
+            <div className='relative rounded-t-[6vw] bg-[#040B15] w-full px-[6vw] pt-[3vw] pb-20 mt-16'>
+              <div className='absolute overflow-hidden rounded-t-[6vw] inset-0 flex items-center justify-center'>
+                <div className='w-full items-center h-full mt-auto mx-auto bg-gradient-radial from-[#255763] to-[#0B305F] opacity-20 blur-3xl rounded-full'></div>
+              </div>
+              <div className='relative'>
+                <div className='absolute w-full left-1/2 transform -translate-x-1/2 -top-[100px] md:-top-[170px] flex items-center justify-center'>
+                  {/* SVG or icon decoration can go here */}
+                  <Image
+                    src='/dashboard/decoration.svg'
+                    alt='decoration1'
+                    width={0}
+                    height={0}
+                    style={{
+                      height: '250px',
+                      width: 'auto',
+                      objectFit: 'fill',
+                    }}
+                    className='fixed-size rounded-r-[40px] hidden md:block'
+                  />
+                  <Image
+                    src='/dashboard/decoration.svg'
+                    alt='decoration1'
+                    width={0}
+                    height={0}
+                    style={{
+                      height: '150px',
+                      width: 'auto',
+                      objectFit: 'fill',
+                    }}
+                    className='fixed-size rounded-r-[40px] block md:hidden '
+                  />
+                </div>
+                <div className='relative z-10 mx-4 py-[1.5vw] text-[3vw] font-bold flex items-center justify-center bg-gradient-to-r from-[#28575ca2] to-[#0d2d32a8] backdrop-filter md:backdrop-blur-md rounded-[40px] shadow-lg mb-8'>
+                  <h1>Hi! Team {teamData?.teamName}</h1>
+                </div>
+              </div>
+              <div className='flex flex-col gap-4'>
+                <div className='flex flex-col md:flex-row md:gap-2 gap-[6px]'>
+                  <div className='flex flex-col w-full md:gap-0 gap-[6px]'>
+                    <h2 className='text-[4vw]  md:text-[1.5vw] font-semibold'>
+                      Chariman Name
+                    </h2>
+                    <h1 className='text-[3vw] font-normal md:text-[2vw] md:font-bold'>
+                      {teamData?.chairmanName}
+                    </h1>
+                    <h2 className='text-[4vw]  md:text-[1.5vw] font-semibold'>
+                      Chariman Email
+                    </h2>
+                    <h1 className='text-[3vw] font-normal md:text-[2vw] md:font-bold'>
+                      {teamData?.chairmanEmail}
+                    </h1>
+                  </div>
+                  <div className='flex flex-col w-full md:gap-0 gap-[6px]'>
+                    <h2 className='text-[4vw] md:text-[1.5vw] font-semibold'>
+                      Phone Number
+                    </h2>
+                    <h1 className='text-[3vw] font-normal md:text-[2vw] md:font-bold'>
+                      {cleanedPhoneNumber}
+                    </h1>
+                    <h2 className='text-[4vw] md:text-[1.5vw] font-semibold'>
+                      Institution
+                    </h2>
+                    <h1 className='text-[3vw] font-normal md:text-[2vw] md:font-bold'>
+                      {chairman?.institution}
+                    </h1>
+                  </div>
+                </div>
+                <div className='flex w-full items-center justify-center'>
+                  <div className='font-semibold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+                    <h2 className='text-[5vw] md:text-[1.5vw] font-semibold'>
+                      Team Members
+                    </h2>
+                    {teamData?.members && teamData.members.length > 0 ? (
+                      teamData.members
+                        .filter(
+                          (member: any) =>
+                            member.name !== teamData?.chairmanName,
+                        )
+                        .map((member: any) => (
+                          <div key={member.id}>
+                            <h1 className='md:text-[2vw] text-[3vw] font-normal md:font-bold'>
+                              {member.name}
+                            </h1>
+                          </div>
+                        ))
+                    ) : (
+                      <p className='md:text-[2vw] text-[3vw] font-normal md:font-bold'>
+                        -
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className='bg-[url("/dashboard/profile-bot.png")] text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal px-[6vw] py-[3vw] rounded-b-[6vw]'
+              style={{
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
+              {teamData?.teamStatus}
+            </div>
+
+            {/* <FormDetails
+              inputData={inputData}
+              setInputData={setInputData}
+              validRefferalCode={validRefferalCode}
+              setValidRefferalCode={setValidRefferalCode}
+              handleChange={handleChange}
+              fillMemberIndex={fillMemberIndex}
+              setFillMemberIndex={setFillMemberIndex}
+              handleSubmitFormIdentity={handleSubmitFormIdentity}
+              isWarnedInputData={isWarnedInputData}
+              setIsWarnedInputData={setIsWarnedInputData}
+              isDisabledNext={isDisabledNext}
+              inputDataHistoryKey={inputDataHistoryKey}
+              submissionText='Submit'
+            /> */}
+            {competitionType === 'PTC' ? (
+              <div>
+                <h2>PTC Competition Details</h2>
+              </div>
+            ) : (
+              <div>
+                <h2>Other Competition Details</h2>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+            You are not yet verified
+          </div>
+        )}
+      </div>
+    </main>
+  );
+};
+
+export default DASHBOARD;

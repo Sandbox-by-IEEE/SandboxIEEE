@@ -17,6 +17,7 @@ export async function PATCH(
   { params: { ticketId } }: { params: Params },
 ) {
   let isUpdated = false;
+  const { status } = await req.json();
   try {
     if (!ticketId) {
       return NextResponse.json(
@@ -39,9 +40,9 @@ export async function PATCH(
     }
 
     // if (v === 'true') {
-    if (existingTicket.verified === 'verified') {
+    if (existingTicket.verified === status) {
       return NextResponse.json(
-        { message: 'Ticket has been verified' },
+        { message: `Ticket has been ${status}` },
         { status: 400 },
       );
     }
@@ -51,7 +52,7 @@ export async function PATCH(
         id: ticketId,
       },
       data: {
-        verified: 'verified',
+        verified: status,
       },
       include: {
         team: {
@@ -66,7 +67,25 @@ export async function PATCH(
 
     isUpdated = true;
 
-    const headingVerified = ` Your Team Cleared the ${updatedTicket.competitionType} Verification Stage!`;
+    let heading = '';
+    let content = '';
+
+    if (status === 'verified') {
+      heading = `Your Team Cleared the ${updatedTicket.competitionType} Verification Stage!`;
+      content = `
+        We are pleased to inform ${updatedTicket.team?.teamName} that your documents have been successfully verified, and your team has been selected to advance to the next stage of the competition. Congratulations on reaching this stage!
+        We are excited to see what your team will achieve in the upcoming stages. Make sure to prepare well and give your best performance.
+        If you have any questions or need further information regarding the next stages of the competition, please do not hesitate to reach out to us. We are here to assist you and ensure your successful participation in the event.
+        Once again, congratulations and best of luck in the next stages of the competition!
+      `;
+    } else if (status === 'rejected') {
+      heading = `Your Ticket for ${updatedTicket.competitionType} Has Been Rejected`;
+      content = `
+        We regret to inform ${updatedTicket.team?.teamName} that your documents for the ${updatedTicket.competitionType} competition did not meet the requirements.
+        Please review the competition guidelines and ensure all necessary criteria are met before resubmitting. If you have any questions or require assistance, feel free to contact us.
+        We appreciate your interest and effort in participating in this competition, and we encourage you to try again in the future. Best wishes for your next endeavors!
+      `;
+    }
 
     const mailOptions = {
       from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
@@ -74,13 +93,8 @@ export async function PATCH(
       subject: `[SANDBOX] Announcement of Verification Results of Your ${updatedTicket.competitionType} Ticket`,
       html: render(
         Email({
-          heading: headingVerified,
-          content: `
-            We are pleased to inform ${updatedTicket.team?.teamName} that your documents have been successfully verified, and your team has been selected to advance to the next stage of the competition. Congratulations on reaching this stage!
-            We are excited to see what your team will achieve in the upcoming stages. Make sure to prepare well and give your best performance.
-            If you have any questions or need further information regarding the next stages of the competition, please do not hesitate to reach out to us. We are here to assist you and ensure your successful participation in the event.
-            Once again, congratulations and best of luck in the next stages of the competition!
-           `,
+          heading,
+          content,
           name: updatedTicket.team?.teamName || '',
         }),
         { pretty: true },

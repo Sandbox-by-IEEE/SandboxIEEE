@@ -7,6 +7,7 @@ import { Session } from 'next-auth/core/types';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
+import AccountDropdown from '@/components/AccountDropdown';
 import Button from '@/components/Button';
 import Dropdown from '@/components/Dropdown';
 import HamburgerIcon from '@/components/icons/HamburgerIcon';
@@ -197,13 +198,17 @@ function NavBarLarge({ session }: { session: Session | null }) {
             </button>
 
             <MenuComponentLarge session={session} pathname={pathname} />
-            <Button
-              color='transparent'
-              onClick={session ? () => signOut() : () => signIn()}
-              isNav={true}
-            >
-              {session && session.user ? 'Log Out' : 'Log In'}
-            </Button>
+            {session && session.user ? (
+              <AccountDropdown />
+            ) : (
+              <Button
+                color='transparent'
+                onClick={session ? () => signOut() : () => signIn()}
+                isNav={true}
+              >
+                Log In
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -231,14 +236,17 @@ function NavBarSmall({ session }: { session: Session | null }) {
             <div className='flex flex-row items-center justify-between w-5/6'>
               <SandboxLogo />
               <div className='flex items-center justify-center'>
-                <Button
-                  className='w-6'
-                  color='transparent'
-                  onClick={session ? () => signOut() : () => signIn()}
-                  isNav={true}
-                >
-                  {session && session.user ? 'Log Out' : 'Log In'}
-                </Button>
+                {session && session.user ? (
+                  <AccountDropdown />
+                ) : (
+                  <Button
+                    color='transparent'
+                    onClick={session ? () => signOut() : () => signIn()}
+                    isNav={true}
+                  >
+                    Log In
+                  </Button>
+                )}
                 <button
                   className='h-14 aspect-square flex flex-row justify-end items-center'
                   aria-label='Menu Button'

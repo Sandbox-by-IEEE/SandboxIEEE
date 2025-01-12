@@ -112,7 +112,7 @@ export default async function Home({
       <ClientHome />
       {/* Countdown Section */}
       <div className='w-[80%] mt-[120px] mb-[60px] lg:my-[180px]'>
-        <Countdown link1='/' />
+        <Countdown link1='/' targetDate={new Date(homepage.targetDate)} />
       </div>
 
       {/* Trailer Section */}
