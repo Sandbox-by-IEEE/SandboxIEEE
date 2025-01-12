@@ -95,17 +95,7 @@ export default function PTCRegist() {
     if (name === 'memberCount') {
       setFillMemberIndex(0);
       if (newInputData.memberCount) {
-        if (newInputData.memberCount <= 0 || newInputData.memberCount > 5) {
-          //ganti balik ke 3
-          //ganti balik ke 3
-          //ganti balik ke 3
-          //ganti balik ke 3
-          //ganti balik ke 3
-          //ganti balik ke 3
-          //ganti balik ke 3
-          //ganti balik ke 3
-          //ganti balik ke 3
-          //ganti balik ke 3
+        if (newInputData.memberCount <= 2 || newInputData.memberCount > 5) {
           newInputData.memberCount = inputData.memberCount;
           callToast({
             status: 'error',
@@ -116,16 +106,7 @@ export default function PTCRegist() {
 
       if (
         !newInputData.memberCount ||
-        newInputData.memberCount <= 0 || //ganti balik ke 3
-        //ganti balik ke 3
-        //ganti balik ke 3
-        //ganti balik ke 3
-        //ganti balik ke 3
-        //ganti balik ke 3
-        //ganti balik ke 3
-        //ganti balik ke 3
-        //ganti balik ke 3
-        //ganti balik ke 3
+        newInputData.memberCount <= 2 ||
         newInputData.memberCount > 5
       ) {
         setIsDisabledNext(true);
