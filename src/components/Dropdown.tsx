@@ -179,7 +179,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         </div>
       </div>
       {/* Dropdown open */}
-      {/* <div className={`${open ? 'h-8' : 'h-0'}`}></div> */}
+      <div className={`${open ? 'absolute w-full h-[9px]' : 'h-0'}`}></div>
       <div
         className={`${
           open
@@ -188,7 +188,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               : 'opacity-100 translate-y-0 mt-2 bg-customGreen rounded-xl border-[1px] border-white'
             : '-translate-y-[60px] pointer-events-none opacity-0'
         } transition-all duration-300 max-h-[200px] overflow-y-auto ${
-          open && type == 'routes' ? 'lg:top-[44px]' : 'absolute lg:top-[70px]'
+          open && type == 'routes' ? 'lg:top-[44zpx]' : 'absolute lg:top-[70px]'
         } custom-scrollbar left-0 w-full ${
           colorEffect[color]['child-container']
         } ${type === 'routes' ? 'lg:absolute lg: y-0' : ''}`}

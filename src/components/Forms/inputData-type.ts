@@ -9,8 +9,8 @@ export type MemberInfo = {
   institution: string;
   phoneNumber: string;
   age: number;
-  twibbonProof: string;
-  twibbonProofName: string;
+  // twibbonProof: string;
+  // twibbonProofName: string;
   studentProof: string;
   studentProofName: string;
 };
@@ -21,7 +21,7 @@ export type InputData = {
   members: MemberInfo[];
   paymentMethod?: string;
   paymentProofUrl?: FileInputType[];
-  refferalCode: string;
+  refferalCode?: string;
 };
 
 export type IsWarnedMemberInfo = {
@@ -30,8 +30,8 @@ export type IsWarnedMemberInfo = {
   institution: boolean;
   phoneNumber: boolean;
   age: boolean;
-  twibbonProof: boolean;
-  twibbonProofName: boolean;
+  // twibbonProof: boolean;
+  // twibbonProofName: boolean;
   studentProof: boolean;
   studentProofName: boolean;
 };
@@ -43,4 +43,12 @@ export type IsWarnedInputData = {
   paymentMethod?: boolean;
   paymentProofUrl?: IsWarnedFileInputType[];
   refferalCode?: boolean;
+};
+
+export type SubmissionInputData = {
+  submissionUrl: FileInputType[];
+};
+
+export type IsWarnedSubmissionInputData = {
+  submissionUrl?: IsWarnedFileInputType[];
 };

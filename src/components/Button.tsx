@@ -16,7 +16,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | 'trans-red'
     | 'trans-gold'
     | 'white-2'
-    | 'transparent';
+    | 'transparent'
+    | 'transparent2';
+  isAccount?: boolean;
   isIcon?: boolean;
   isDisabled?: boolean;
   isFullWidth?: boolean;
@@ -28,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   color,
   children,
   onClick,
+  isAccount,
   isIcon,
   isDisabled,
   isFullWidth,
@@ -91,6 +94,10 @@ const Button: React.FC<ButtonProps> = ({
       main: 'text-white hover:text-black font-inter text-[15px] tracking-wide lg:text-base shadow-gray-800 border-2 border-white rounded-full hover:bg-white',
       arrow: '#FFFFFF',
     },
+    transparent2: {
+      main: 'text-white font-inter text-[15px] tracking-wide lg:text-base shadow-gray-800 border-2 border-white rounded-full',
+      arrow: '#FFFFFF',
+    },
   };
 
   //green, 100%
@@ -104,15 +111,21 @@ const Button: React.FC<ButtonProps> = ({
           ? 'w-full h-full'
           : isNav
           ? 'w-[100px] xl:w-[130px]'
+          : isAccount
+          ? 'w-fit'
           : 'w-[130px] lg:w-[180px]'
       } ${
-        isNav ? 'rounded-full' : 'rounded-md'
-      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center px-2 py-2 xl:py-3 xl:px-4 ${
-        colorEffect[color].main
-      } ${className}`}
+        isNav ? 'rounded-full' : isAccount ? 'rounded-full' : 'rounded-md'
+      } text-sm lg:text-base disabled:cursor-not-allowed disabled:text-white h-fit disabled:shadow-sm transition-all duration-300 flex justify-center items-center ${
+        isAccount ? 'px-2 py-[6px]' : 'px-2 py-2 xl:py-3 xl:px-4'
+      } ${colorEffect[color].main} ${className}`}
       {...props}
     >
-      <p className='flex gap-3 w-fit xl:w-full text-sm xl:text-base text-center items-center justify-center font-poppins font-bold'>
+      <p
+        className={`flex ${
+          isAccount ? 'gap-1' : 'gap-3'
+        } w-fit xl:w-full text-sm xl:text-base text-center items-center justify-center font-poppins font-bold`}
+      >
         {children}
         {isIcon && <RightArrow arrowColor={`${colorEffect[color].arrow}`} />}
       </p>
