@@ -10,6 +10,7 @@ import {
 import TextInput from '@/components/TextInput';
 
 const FormDetails = ({
+  competitionType,
   inputData,
   setInputData,
   validRefferalCode,
@@ -24,6 +25,7 @@ const FormDetails = ({
   submissionText,
   isDisabledNext,
 }: {
+  competitionType: 'H4H' | 'PTC';
   inputData: InputData;
   setInputData: React.Dispatch<React.SetStateAction<InputData>>;
   validRefferalCode: boolean;
@@ -47,14 +49,16 @@ const FormDetails = ({
     | 'institution'
     | 'phoneNumber'
     | 'age'
-    | 'twibbonProof'
-    | 'twibbonProofName'
+    // | 'twibbonProof'
+    // | 'twibbonProofName'
     | 'studentProof'
     | 'studentProofName'
     | 'refferalCode';
 
   //...
-
+  const currentDate = new Date();
+  const comparisonDate = new Date('2025-01-13');
+  const price = currentDate < comparisonDate ? 275 : 285;
   const [isPaymentPage, setIsPaymentPage] = useState<boolean>(false);
   const handleRefferalCodeChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -149,12 +153,12 @@ const FormDetails = ({
   const fileInputs: Array<{ type: PropType; message: string }> = [
     {
       type: 'studentProof',
-      message: 'Student Card Proof',
+      message: 'Student Proof',
     },
-    {
-      type: 'twibbonProof',
-      message: 'Twibbon Proof',
-    },
+    // {
+    //   type: 'twibbonProof',
+    //   message: 'Twibbon Proof',
+    // },
   ];
 
   return (
@@ -292,7 +296,7 @@ const FormDetails = ({
                               validRefferalCode ? ' text-red-500' : ''
                             }`}
                           >
-                            Rp. {285}.000
+                            Rp. {price}.000
                           </p>
                           <div
                             className={`absolute w-0 h-[4px] bg-gradient-to-br ${
@@ -311,7 +315,7 @@ const FormDetails = ({
                         {/* Discounted Price */}
                         {validRefferalCode && (
                           <p className='font-poppins text-[25px] lg:text-[40px] font-bold text-white'>
-                            Rp. {(285000 * 0.9) / 1000}
+                            Rp. {price * 0.9}
                             00
                           </p>
                         )}
@@ -384,10 +388,9 @@ const FormDetails = ({
                 </div>
               </div>
             </div>
-            <div className='relative z-1 w-full pb-10 lg:pb-20 px-0 md:px-20'>
+            <div className='relative z-1 w-full pb-10 lg:pb-20'>
               <p className='relative z-1 text-base font-poppins py-4 text-center'>
-                Only single file upload. Please merge your files first before
-                uploading
+                Only single file upload.
               </p>
               <SingleFileInput
                 message={'Payment Proof'}
@@ -481,11 +484,11 @@ const FormDetails = ({
                   Only single file upload. Please merge your files first before
                   uploading
                 </p>
-                <div className='relative z-1 flex flex-col md:flex-row w-full justify-between gap-2'>
+                <div className='relative z-1 flex flex-col md:flex-row w-full justify-center gap-2'>
                   {fileInputs.map((fileInput, index) => (
                     <div
                       key={index}
-                      className='relative z-1 w-full md:w-[49%]'
+                      className='relative z-1 w-full'
                       onClick={() => {
                         unWarn(true, fillMemberIndex, fileInput.type);
                       }}
@@ -585,7 +588,8 @@ const FormDetails = ({
               </Button>
             </div>
           ) : (
-            !isPaymentPage && (
+            !isPaymentPage &&
+            (competitionType == 'H4H' ? (
               <>
                 <Button
                   color='white-2'
@@ -598,7 +602,11 @@ const FormDetails = ({
                   Payment
                 </Button>
               </>
-            )
+            ) : (
+              <Button color='white-2' type='submit' disabled={isDisabledNext}>
+                {submissionText}
+              </Button>
+            ))
           )}
           {isPaymentPage && (
             <Button color='white-2' type='submit' disabled={isDisabledNext}>

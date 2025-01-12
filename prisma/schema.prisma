@@ -170,7 +170,7 @@ model ParticipantCompetition {
   institution  String
   phoneNumber  String
   age          String
-  twibbonProof String
+  twibbonProof String?
   studentProof String
   team         Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
@@ -217,9 +217,22 @@ model TransactionDetail {
 }
 
 model RefferalCode {
-  id           String   @id @default(uuid())
-  refferalCode String   @unique
-  isUsed       Boolean  @default(false)
-  teamId       String?  @unique
+  id           String  @id @default(uuid())
+  refferalCode String  @unique
+  isUsed       Boolean @default(false)
+  teamId       String? @unique
   teamName     String?
+}
+
+model H4HSubmissions {
+  id         String @id
+  teamId     String @unique
+  githubUrl  String
+  youtubeUrl String
+}
+
+model PTCSubmissions {
+  id      String @id
+  teamId  String @unique
+  fileUrl String
 }
