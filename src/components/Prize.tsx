@@ -3,7 +3,13 @@ import React, { useState } from 'react';
 
 import GradientBox from './GradientBox';
 
-function Prize() {
+interface PrizeProps {
+  prize1: string;
+  prize2: string;
+  prize3: string;
+}
+
+const Prize: React.FC<PrizeProps> = ({ prize1, prize2, prize3 }) => {
   const [isHoveredLeft, setIsHoveredLeft] = useState(false);
   const [isHoveredRight, setIsHoveredRight] = useState(false);
 
@@ -11,7 +17,7 @@ function Prize() {
     <div className='p-16'>
       <GradientBox
         type='default'
-        className='flex w-[138px] h-[48px] lg:w-[574px] lg:h-[126px] rounded-[124px] items-center justify-center relative'
+        className='cursor-pointer flex w-[138px] h-[48px] lg:w-[574px] lg:h-[126px] rounded-[124px] items-center justify-center relative'
       >
         <div
           className='font-poppins text-[12px] lg:text-[64px] flex justify-center font-bold text-white'
@@ -19,7 +25,7 @@ function Prize() {
           data-aos-duration='1300'
           style={{ textShadow: '0 0 20px rgba(255, 255, 255, 0.5)' }}
         >
-          <h1>Rp5.000.000</h1>
+          <h1>{prize1}</h1>
         </div>
       </GradientBox>
       <GradientBox
@@ -36,14 +42,13 @@ function Prize() {
         </div>
       </GradientBox>
 
-      <div className='flex items-center justify-center space-x-10 lg:space-x-48'>
+      <div className='cursor-pointer flex items-center justify-center space-x-10 lg:space-x-48'>
         <div
           className={`relative transition-all duration-500 ${
             isHoveredLeft
               ? 'blur-none'
               : 'filter lg:blur-[3px] opacity-60 lg:opacity-100'
           } md:filter-none`}
-          // style={{ filter: isHoveredLeft ? "none" : "blur(3px)" }}
           onMouseEnter={() => setIsHoveredLeft(true)}
           onMouseLeave={() => setIsHoveredLeft(false)}
         >
@@ -57,7 +62,7 @@ function Prize() {
               data-aos-duration='1300'
               style={{ textShadow: '0 0 20px rgba(255, 255, 255, 0.5)' }}
             >
-              <h1>Rp1.500.000</h1>
+              <h1>{prize2}</h1>
             </div>
           </GradientBox>
           <GradientBox
@@ -76,12 +81,11 @@ function Prize() {
         </div>
 
         <div
-          className={`relative transition-all duration-500 ${
+          className={`cursor-pointer relative transition-all duration-500 ${
             isHoveredRight
               ? 'blur-none'
               : 'filter lg:blur-[3px] opacity-60 lg:opacity-100'
           } md:filter-none`}
-          // style={{ filter: isHoveredRight ? "none" : "blur(3px)" }}
           onMouseEnter={() => setIsHoveredRight(true)}
           onMouseLeave={() => setIsHoveredRight(false)}
         >
@@ -95,7 +99,7 @@ function Prize() {
               data-aos-duration='1300'
               style={{ textShadow: '0 0 20px rgba(255, 255, 255, 0.2)' }}
             >
-              <h1>Rp1.000.000</h1>
+              <h1>{prize3}</h1>
             </div>
           </GradientBox>
           <GradientBox
@@ -115,6 +119,6 @@ function Prize() {
       </div>
     </div>
   );
-}
+};
 
 export default Prize;

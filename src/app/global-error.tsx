@@ -19,14 +19,14 @@ export default function GlobalError({
       <body>
         <main className='relative flex h-screen overflow-hidden w-full bg-[#0F3015] flex-col items-center justify-center px-10'>
           <Image
-            src='/404assets/Bintang_jatuh.svg'
+            src='/error/bucket1.png'
             className='absolute -right-20 lg:right-2 w-[50%] sm:w-[20%] -translate-y-20 translate-x-1 object-contain transition-all duration-300'
             alt='Meteoroit'
             width={744}
             height={642}
           />
           <Image
-            src='/404assets/Ring.svg'
+            src='/error/bucket2.png'
             className='absolute right-0 -top-14 w-[25%] sm:w-[10%] aspect-square object-contain -translate-x-10 opacity-70 transition-all duration-300'
             alt='Ring'
             width={199}

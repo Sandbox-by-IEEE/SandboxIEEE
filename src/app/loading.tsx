@@ -10,7 +10,7 @@ const Loading = () => {
           <div
             className='w-[50vw] h-[50vw] md:w-[20vw] md:h-[20vw] z-10'
             style={{
-              backgroundImage: `url(/loading.svg)`,
+              backgroundImage: `url(/loading.png)`,
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               backgroundPosition: 'center',

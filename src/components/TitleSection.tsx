@@ -20,9 +20,7 @@ const TitleSection: React.FC<TitleSectionProps> = ({
 
   return (
     <h3
-      style={{
-        ['textShadow' as any]: '0px 0px 2px #FFFFFF',
-      }}
+      style={{ textShadow: '0 0 20px rgba(255, 255, 255, 0.5)' }}
       data-aos={animation ? 'zoom-in' : undefined}
       className={`bg-gradient-brown text-center text-white drop-shadow-[2px_3px_10px_10px_#bbcc9e] bg-clip-text ${textSize} font-poppins p-1 font-bold`}
     >

@@ -28,11 +28,13 @@ export const FAQ = ({
   return (
     <div
       className='p-5 lg:p-6 w-full flex flex-col cursor-pointer'
-      onClick={() => setIsOpen(!isOpen)}
       data-aos={aos || 'flip-down'}
     >
       <hr className='border-t-2 border-white mb-4' />
-      <div className='flex w-full justify-between items-center'>
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className='flex w-full justify-between items-center'
+      >
         <h4
           data-aos='zoom-in'
           className='font-poppins text-white text-left text-transparent bg-clip-text text-sm:text-base lg:text-base font-semibold max-w-[235px] sm:max-w-full'

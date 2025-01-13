@@ -79,6 +79,9 @@ details summary::-webkit-details-marker {
   display: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 /* vertical-timeline-component */
 /* .vertical-timeline::before {
   background: linear-gradient(45deg, #ab814e, #fffbb9) !important;
