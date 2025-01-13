@@ -8,6 +8,7 @@ import { FAQ } from '@/components/FAQ';
 import Prize from '@/components/Prize';
 import Regulations from '@/components/Regulations';
 import Timeline from '@/components/Timeline';
+import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
 import { type PTCProps } from '@/types/ptc-type';
 
@@ -64,6 +65,7 @@ const PTC = async () => {
     id
     text
     date
+    endDate
   }
 }`;
 
@@ -86,8 +88,28 @@ const PTC = async () => {
           link2={ptcPage.guidebook}
         />
       </div>
-      <div className='mt-5 lg:mt-20'>
-        <Prize />
+      <div
+        data-aos='fade-up'
+        data-aos-duration='1300'
+        className='mt-5 lg:mt-20 text-white font-bold flex flex-col items-center justify-center'
+      >
+        <h1
+          className='font-poppins text-[12px] lg:text-[64px] flex justify-center font-bold text-white'
+          style={{ textShadow: '0 0 20px rgba(255, 255, 255, 0.5)' }}
+        >
+          Total Prize
+        </h1>
+        <h2
+          className='font-poppins text-[10px] lg:text-[48px] flex justify-center font-bold text-white'
+          style={{ textShadow: '0 0 20px rgba(255, 255, 255, 0.5)' }}
+        >
+          IDR 25.000.000++ / $1655
+        </h2>
+        <Prize
+          prize1='IDR 7.000.000'
+          prize2='IDR 5.000.000'
+          prize3='IDR 3.000.000'
+        />
       </div>
 
       {/* <Judges /> */}
@@ -103,10 +125,10 @@ const PTC = async () => {
           <StructuredText data={ptcPage.guideDescription} />
         </Regulations>
       </div>
-      <div className='font-poppins text-[24px] lg:text-[48px] flex justify-center font-bold text-white mt-20'>
-        <h1>Timeline</h1>
-      </div>
-      <section>
+      <section className='w-[105vw] flex mt-12 md:mt-24 flex-col mb-[120px] md:mb-[180px]'>
+        <div className='w-full flex items-center justify-center mb-12'>
+          <TitleSection size='lg'>Timeline</TitleSection>
+        </div>
         <Timeline items={allTimelinesPtcs} />
       </section>
       {/* FAQ Section */}
@@ -117,16 +139,16 @@ const PTC = async () => {
           data-aos='flip-up'
         >
           <div
-            className='absolute inset-0 left-[-32px] lg:left-[150px] items-center'
+            className='relative flex md:block md:absolute inset-0 left-[-32px] lg:left-[150px] items-center justify-center w-full'
             data-aos='fade-up'
             data-aos-duration='1500'
           >
             <Image
-              src='faq1.svg'
+              src='/faq1.png'
               alt='faq'
-              width={158}
-              height={158}
-              className='lg:w-[200px] lg:h-[200px]'
+              width={200}
+              height={200}
+              className='lg:w-[200px] lg:h-[200px] object-contain'
             />
           </div>
           <div
@@ -135,19 +157,18 @@ const PTC = async () => {
             data-aos-duration='1500'
           >
             <Image
-              src='faq2.svg'
+              src='/faq2.png'
               alt='faq'
-              width={158}
-              height={158}
-              className='lg:w-[200px] lg:h-[200px]'
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='lg:w-[200px] lg:h-[200px] object-contain md:block hidden'
             />
           </div>
           <div className='items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-            <h2 className='text-center text-4xl lg:text-5xl font-bold text-white'>
-              Any Questions?
-            </h2>
+            <TitleSection size='lg'>Any Questions?</TitleSection>
             <p className='text-center text-xl lg:text-xl font-normal text-white mt-4'>
-              Lorem ipsum dolor sit amet consectetur.
+              Check the FAQs
             </p>
           </div>
         </div>

@@ -16,7 +16,7 @@ function Countdown({
   targetDate = new Date('2024-12-31'),
   page = 'home',
   link1,
-  link2 = '/',
+  link2,
 }: CountdownProps) {
   const [isAClicked, setIsAClicked] = useState(false);
   const [isBClicked, setIsBClicked] = useState(false);
@@ -123,7 +123,7 @@ function Countdown({
             <span className='hidden md:block lg:text-5xl md:text-3xl text-xs self-center mb-6 lg:mb-8'>
               :
             </span>
-            <div className='hidden md:block flex flex-col items-center'>
+            <div className='hidden md:flex flex-col items-center'>
               <h1 className='lg:text-8xl md:text-6xl text-3xl'>
                 {time.seconds}
               </h1>
@@ -133,44 +133,47 @@ function Countdown({
             </div>
           </div>
         </div>
-        <div className='lg:mb-auto mb-4 pt-6 lg:pt-5 lg:pt-16 flex flex-row font-poppins lg:text-2xl text-xs font-semibold justify-center lg:space-x-12 space-x-5'>
-          <Link href={link1}>
-            <button
-              onMouseDown={() => {
-                setIsAClicked(true);
-                setTimeout(() => setIsAClicked(false), 0);
-              }}
-              className={`font-poppins lg:h-[57px] lg:text-2xl text-xs lg:w-[228px] md:h-[45px] md:w-[144px] h-[34px] w-[99px] rounded-full border border-white 
+        <div className='lg:mb-auto mb-4 pt-6 lg:pt-5 flex flex-row font-poppins lg:text-2xl text-xs font-semibold justify-center lg:space-x-12 space-x-5'>
+          {link1 && (
+            <Link href={link1}>
+              <button
+                onMouseDown={() => {
+                  setIsAClicked(true);
+                  setTimeout(() => setIsAClicked(false), 0);
+                }}
+                className={`font-poppins lg:h-[57px] lg:text-2xl text-xs lg:w-[228px] md:h-[45px] md:w-[144px] h-[34px] w-[99px] rounded-full border border-white 
         ${
           isAClicked
             ? 'bg-transparent text-white'
             : 'bg-transparent text-white hover:bg-white hover:text-[#040B15] animation-all duration-200'
         }
         `}
-              style={{ textShadow: '0 0 20px rgba(171, 129, 78, 0.5)' }}
-            >
-              Daftar
-            </button>
-          </Link>
-
-          <Link href={link2}>
-            <button
-              onMouseDown={() => {
-                setIsBClicked(true);
-                setTimeout(() => setIsBClicked(false), 0);
-              }}
-              className={`font-poppins lg:h-[57px] lg:w-[228px] md:h-[45px] md:w-[144px] h-[34px] w-[99px] lg:text-2xl text-xs rounded-full border border-white
+                style={{ textShadow: '0 0 20px rgba(171, 129, 78, 0.5)' }}
+              >
+                Daftar
+              </button>
+            </Link>
+          )}
+          {link2 && (
+            <Link href={link2}>
+              <button
+                onMouseDown={() => {
+                  setIsBClicked(true);
+                  setTimeout(() => setIsBClicked(false), 0);
+                }}
+                className={`font-poppins lg:h-[57px] lg:w-[228px] md:h-[45px] md:w-[144px] h-[34px] w-[99px] lg:text-2xl text-xs rounded-full border border-white
           ${
             isBClicked
               ? 'bg-transparent text-white'
               : 'bg-transparent text-white hover:bg-white hover:text-[#040B15] animation-all duration-200'
           }
         `}
-              style={{ textShadow: '0 0 20px rgba(171, 129, 78, 0.5)' }}
-            >
-              Guidebook
-            </button>
-          </Link>
+                style={{ textShadow: '0 0 20px rgba(171, 129, 78, 0.5)' }}
+              >
+                Guidebook
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </GradientBox>

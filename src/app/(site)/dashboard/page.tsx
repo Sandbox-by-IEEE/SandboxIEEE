@@ -177,7 +177,7 @@ const DASHBOARD = () => {
                     <h2 className='text-[5vw] md:text-[1.5vw] font-semibold'>
                       Team Members
                     </h2>
-                    {teamData?.members && teamData.members.length > 0 ? (
+                    {teamData?.members && teamData.members.length - 1 > 0 ? (
                       teamData.members
                         .filter(
                           (member: any) =>
@@ -226,18 +226,32 @@ const DASHBOARD = () => {
               submissionText='Submit'
             /> */}
             {competitionType === 'PTC' ? (
-              <div>
-                <h2>PTC Competition Details</h2>
+              <div
+                className='bg-[url("/dashboard/profile.png")] rounded-[3vw] text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6 px-[4vw] py-[2vw]'
+                style={{
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                {competitionType} Submmission
               </div>
             ) : (
-              <div>
-                <h2>Other Competition Details</h2>
+              <div
+                className='bg-[url("/dashboard/profile.png")] rounded-[3vw] text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6 px-[4vw] py-[2vw]'
+                style={{
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                {competitionType} Submmission
               </div>
             )}
           </>
         ) : (
           <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
-            You are not yet verified
+            Verification is on progress
           </div>
         )}
       </div>

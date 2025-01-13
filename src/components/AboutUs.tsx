@@ -50,43 +50,43 @@ const AboutUs = ({
         data-aos='zoom-in'
         data-aos-duration='1100'
       >
-        <div className='flex flex-col items-center  opacity-100 lg:opacity-60 hover:opacity-100 animation-all duration-500 delay-300'>
+        <div className='cursor-pointer flex flex-col items-center  opacity-100 lg:opacity-60 hover:opacity-100 animation-all duration-500 delay-300'>
           <div
             className='text-[24px] lg:text-[48px] py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text'
             style={{
               textShadow: '0 0 20px rgba(255, 255, 255, 0.2)',
             }}
           >
-            +49,000
+            4.9/5
           </div>
-          <p className='text-[12px] lg:text-[24px] text-white max-w-[16rem]'>
-            Lorem ipsum dolor sit amet consectetur.
+          <p className='text-[12px] lg:text-[24px] font-semibold text-white max-w-[16rem]'>
+            Star from Sandbox 1.0 Feedback
           </p>
         </div>
-        <div className='flex flex-col items-center '>
+        <div className='cursor-pointer flex flex-col items-center '>
           <div
             className='text-[24px] lg:text-[64px] py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text'
             style={{
               textShadow: '0 0 20px rgba(255, 255, 255, 0.2)',
             }}
           >
-            +49,000
+            IDR 50.000.000++
           </div>
-          <p className='text-[12px] lg:text-[24px] text-white max-w-[16rem]'>
-            Lorem ipsum dolor sit amet consectetur.
+          <p className='text-[12px] lg:text-[24px] font-semibold text-white max-w-[16rem]'>
+            Prize pool
           </p>
         </div>
-        <div className='flex flex-col items-center opacity-100 lg:opacity-60 hover:opacity-100 animation-all duration-500 delay-300'>
+        <div className='cursor-pointer flex flex-col items-center opacity-100 lg:opacity-60 hover:opacity-100 animation-all duration-500 delay-300'>
           <div
             className='text-[24px] lg:text-[48px] py-1 font-bold bg-gradient-to-r from-[#8C69F9] to-[#533E93] text-transparent bg-clip-text'
             style={{
               textShadow: '0 0 20px rgba(255, 255, 255, 0.2)',
             }}
           >
-            +49,000
+            200++
           </div>
-          <p className='text-[12px] lg:text-[24px] text-white max-w-[16rem]'>
-            Lorem ipsum dolor sit amet consectetur.
+          <p className='text-[12px] lg:text-[24px] font-semibold text-white max-w-[16rem]'>
+            Teams involved in sandbox 1.0
           </p>
         </div>
       </div>

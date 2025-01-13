@@ -84,9 +84,9 @@ const GradientBox = ({
           zIndex: 1,
           backgroundImage:
             page === 'ptc'
-              ? 'url(/countdownptc.svg)'
+              ? 'url(/countdown/ptc.png)'
               : page === 'h4h'
-              ? 'url(/countdownh4h.svg)'
+              ? 'url(/countdown/h4h.png)'
               : undefined,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
