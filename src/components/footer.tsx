@@ -29,19 +29,19 @@ const LinkColumn = ({ header }) => (
 const linksData = [
   [
     {
-      header: [{ href: '/', text: 'Events' }],
+      header: [{ href: '/#events', text: 'Events' }],
     },
     {
-      header: [{ href: '/', text: 'About' }],
+      header: [{ href: '/#about', text: 'About' }],
     },
-    {
+    /* {
       header: [{ href: '/', text: 'Sponsoship' }],
+    }, */
+    {
+      header: [{ href: '/events/H4H', text: 'HCI' }],
     },
     {
-      header: [{ href: '/', text: 'HCI' }],
-    },
-    {
-      header: [{ href: '/', text: 'PTC' }],
+      header: [{ href: '/events/ptc', text: 'PTC' }],
     },
   ],
 ];

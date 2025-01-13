@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { StructuredText } from 'react-datocms/structured-text';
 
 import AboutUs from '@/components/AboutUs';
@@ -65,6 +66,7 @@ const CMS_QUERY = `{
     id
     text
     date
+    endDate
   }
   allOurEventsHomepages {
     id
@@ -112,13 +114,13 @@ export default async function Home({
       <ClientHome />
       {/* Countdown Section */}
       <div className='w-[80%] mt-[120px] mb-[60px] lg:my-[180px]'>
-        <Countdown link1='/' targetDate={new Date(homepage.targetDate)} />
+        <Countdown link1='#events' targetDate={new Date(homepage.targetDate)} />
       </div>
 
       {/* Trailer Section */}
 
       {/* About Sandbox */}
-      <div className='w-[80%] mb-[60px] lg:mb-[180px]'>
+      <div id='about' className='w-[80%] mb-[60px] lg:mb-[180px]'>
         <AboutUs title={homepage.explanationTitle}>
           <StructuredText data={homepage.explanationDescription} />
         </AboutUs>
@@ -133,7 +135,10 @@ export default async function Home({
       </section>
 
       {/* Our Events */}
-      <section className='w-[80%] mb-[60px] lg:mb-[180px] flex flex-col gap-6 lg:gap-20'>
+      <section
+        id='events'
+        className='w-[80%] mb-[60px] lg:mb-[180px] flex flex-col gap-6 lg:gap-20'
+      >
         <OurEvents events={allOurEventsHomepages} />
       </section>
 
@@ -142,12 +147,37 @@ export default async function Home({
       <section className='w-[80%] flex flex-col gap-12 lg:gap-20 mb-[80px] md:mb-[120px]'>
         {/* Title for FAQ Section */}
         <div className='p-1.5 rounded-2xl' data-aos='flip-up'>
+          <div
+            className='relative flex md:block md:absolute inset-0 left-[-32px] lg:left-[150px] items-center justify-center w-full'
+            data-aos='fade-up'
+            data-aos-duration='1500'
+          >
+            <Image
+              src='/faq1.png'
+              alt='faq'
+              width={200}
+              height={200}
+              className='lg:w-[200px] lg:h-[200px] object-contain'
+            />
+          </div>
+          <div
+            className='absolute right-[-32px] lg:right-[150px] items-center'
+            data-aos='fade-up'
+            data-aos-duration='1500'
+          >
+            <Image
+              src='/faq2.png'
+              alt='faq'
+              width={0}
+              height={0}
+              sizes='100vw'
+              className='lg:w-[200px] lg:h-[200px] object-contain md:block hidden'
+            />
+          </div>
           <div className=' items-center justify-center p-4 lg:py-8 sm:px-10 md:px-12 lg:px-16 rounded-xl'>
-            <h2 className='text-center text-4xl lg:text-5xl font-bold text-white'>
-              {homepage.faqSectionTitle}
-            </h2>
+            <TitleSection size='lg'>{homepage.faqSectionTitle}</TitleSection>
             <p className='text-center text-xl lg:text-xl font-normal text-white mt-4'>
-              Lorem ipsum dolor sit amet consectetur.
+              Check the FAQs
             </p>
           </div>
 
