@@ -22,13 +22,17 @@ const EventCard: React.FC<EventCardProps> = ({ event, index, children }) => {
   const bucketImages = ['/bucket1.svg', '/bucket2.svg', '/bucket3.svg'];
   const bucketImage = bucketImages[index % bucketImages.length];
 
-  const decorationImages = ['/event1.svg', '/event2.svg', '/event3.svg'];
+  const decorationImages = [
+    '/home/event1.png',
+    '/home/event2.png',
+    '/home/event3.png',
+  ];
   const decorationImage = decorationImages[index % decorationImages.length];
 
   const mobileDecorationImages = [
-    '/eventmobile1.svg',
-    '/eventmobile2.svg',
-    '/eventmobile3.svg',
+    '/home/eventmobile1.png',
+    '/home/eventmobile2.png',
+    '/home/eventmobile3.png',
   ];
   const mobileDecorationImage =
     mobileDecorationImages[index % mobileDecorationImages.length];
@@ -73,7 +77,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, index, children }) => {
         <Link
           href={`/events/${event.eventName.toLowerCase().replace(/\s+/g, '-')}`}
         >
-          <button className='w-fit mt-4 px-6 lg:px-12 py-2 hover:bg-[#1f2937] hover:border-[#1f2937] border-white border-2 text-white font-poppins font-medium rounded-full transition duration-300'>
+          <button className='w-fit mt-4 px-6 lg:px-12 py-2 hover:bg-[#1f2937] hover:border-[#1f2937] border-white border-2 text-white font-poppins font-medium rounded-full transition'>
             See More
           </button>
         </Link>
@@ -84,6 +88,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, index, children }) => {
             alt='decoration1'
             width={0}
             height={0}
+            sizes='100vw'
             style={{ height: '100%', width: 'auto', objectFit: 'cover' }}
             className='fixed-size rounded-r-[40px] right-0 hidden lg:block'
           />
@@ -92,6 +97,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, index, children }) => {
             alt='decoration1'
             width={0}
             height={0}
+            sizes='100vw'
             style={{ height: '100%', width: 'auto', objectFit: 'cover' }}
             className='fixed-size rounded-r-[40px] right-0 block lg:hidden'
           />
@@ -133,7 +139,7 @@ const OurEvents: React.FC<OurEventsProps> = ({ events }) => {
         </div>
         <div className='w-full mx-auto p-[20px] lg:p-12'>
           {/* Flex column untuk layout */}
-          <div className='flex flex-col gap-12'>
+          <div className='flex flex-col gap-12 text-justify'>
             {events.map((event, index) => (
               <EventCard key={event.id} index={index} event={event}>
                 <StructuredText data={event.explanationEvent} />

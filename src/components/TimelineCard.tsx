@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
 import GradientBox from '@/components/GradientBox';
 
@@ -9,6 +9,7 @@ interface TimelineCardProps {
   index: number;
   activeIndex: number;
   onDragEnd: (direction: 'next' | 'prev') => void;
+  onScrollEnd: (direction: 'next' | 'prev') => void;
 }
 
 const TimelineCard: FC<TimelineCardProps> = ({
@@ -17,19 +18,46 @@ const TimelineCard: FC<TimelineCardProps> = ({
   index,
   activeIndex,
   onDragEnd,
+  onScrollEnd,
 }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = (event: WheelEvent) => {
+      event.preventDefault(); // Prevent the default scroll behavior
+      event.stopPropagation(); // Prevent the main page from scrolling
+      if (event.deltaY < 0) {
+        onScrollEnd('prev');
+      } else if (event.deltaY > 0) {
+        onScrollEnd('next');
+      }
+    };
+
+    const cardElement = cardRef.current;
+    if (cardElement) {
+      cardElement.addEventListener('wheel', handleScroll);
+    }
+
+    return () => {
+      if (cardElement) {
+        cardElement.removeEventListener('wheel', handleScroll);
+      }
+    };
+  }, [onScrollEnd]);
+
   const cardWidthPercentage = 100 / 3;
   const xOffset =
     (index - activeIndex) * cardWidthPercentage - cardWidthPercentage;
 
   return (
     <motion.div
+      ref={cardRef}
       className='flex-shrink-0 w-1/3'
       initial={false}
       animate={{
         x: `${xOffset}%`,
         opacity: isActive ? 1 : 0.5,
-        scale: isActive ? 1 : 0.9,
+        scale: isActive ? 1.2 : 0.9, // Adjusted scale for the middle card
       }}
       drag='x'
       dragConstraints={{ left: 0, right: 0 }}

@@ -26,18 +26,18 @@ const AboutCompe = ({ title, subtitle, description }: AboutCompeProps) => {
         />
       </div>
       <div
-        className='font-poppins text-[24px] p-4 lg:p-0 lg:text-[48px] flex justify-center font-bold  lg:py-8 text-white'
+        className='z-20 font-poppins text-[24px] p-4 lg:p-0 lg:text-[48px] flex justify-center font-bold  lg:py-8 text-white'
         data-aos='fade-up'
         data-aos-duration='1300'
       >
-        <h1>{title}</h1>
+        <h1 className='z-20'>{title}</h1>
       </div>
 
       <GradientBox
         type='blue'
         className='w-[80vw] rounded-[50px] backdrop-blur-md'
       >
-        <div className='flex flex-col text-white content-center text-center items-center'>
+        <div className='py-6 flex flex-col text-white content-center text-center items-center'>
           {/* Title */}
           <div>
             <h1
@@ -50,7 +50,7 @@ const AboutCompe = ({ title, subtitle, description }: AboutCompeProps) => {
           </div>
 
           {/* Paragraph */}
-          <div className='w-[90%]'>
+          <div className='w-[90%] text-justify'>
             <p
               className='font-poppins text-xs lg:text-lg leading-relaxed tracking-wide mt-4 lg:mt-8'
               data-aos='fade-up'

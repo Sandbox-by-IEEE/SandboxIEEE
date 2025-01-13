@@ -7,6 +7,7 @@ import TimelineCard from './TimelineCard';
 
 interface TimelineItem {
   date: Date;
+  endDate?: Date;
   text: string;
 }
 
@@ -42,10 +43,16 @@ const Timeline: React.FC<Props> = ({ items }) => {
     else handlePrev();
   };
 
+  const handleScrollEnd = (direction: 'next' | 'prev') => {
+    setDirection(direction);
+    if (direction === 'next') handleNext();
+    else handlePrev();
+  };
+
   const displayItems = [items[items.length - 1], ...items, items[0]];
 
   return (
-    <div className='w-full mx-auto py-8'>
+    <div className='cursor-pointer w-full mx-auto py-8'>
       <div className='relative'>
         {/* Cards Container */}
         <motion.div
@@ -64,12 +71,37 @@ const Timeline: React.FC<Props> = ({ items }) => {
               index={index}
               activeIndex={activeIndex}
               onDragEnd={handleDragEnd}
+              onScrollEnd={handleScrollEnd}
             />
           ))}
         </motion.div>
 
+        {/* Navigation Progress Line */}
+        <div
+          ata-aos='fade-up'
+          data-aos-duration='1300'
+          className='relative mt-12 md:mt-24'
+        >
+          <div
+            className='absolute w-full h-[1.5px] rounded-full'
+            style={{
+              backgroundImage:
+                'linear-gradient(to right, var(--color-start), var(--color-middle), var(--color-end))',
+            }}
+          />
+
+          {/* Lingkaran */}
+          {/* <motion.div
+            className="absolute top-1/2 transform -translate-y-1/2 w-6 h-6 bg-white rounded-full shadow-lg"
+            animate={{
+              left: `${(activeIndex + 1) * (100 / displayItems.length)}%`,
+            }}
+            transition={{ duration: 0.5 }}
+          /> */}
+        </div>
+
         {/* Timeline Progress */}
-        <div className='relative mt-8'>
+        <div className='relative'>
           <AnimatePresence mode='wait'>
             <motion.div
               key={activeIndex}
@@ -86,35 +118,19 @@ const Timeline: React.FC<Props> = ({ items }) => {
                 x: direction === 'next' ? -100 : 100,
               }}
               transition={{ duration: 0.4 }}
-              className='text-center mt-4'
+              className='text-center relative'
             >
-              <h3 className='text-xl font-bold text-white'>
-                {formatDate(new Date(items[activeIndex].date))}
+              <div className='absolute transform right-1/2 translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-white rounded-full shadow-lg'>
+                {' '}
+              </div>
+              <h3 className='pt-6 text-xl font-bold text-white'>
+                {formatDate(new Date(items[activeIndex].date))}{' '}
+                {items[activeIndex].endDate
+                  ? ` - ${formatDate(new Date(items[activeIndex].endDate!))}`
+                  : ''}
               </h3>
             </motion.div>
           </AnimatePresence>
-        </div>
-
-        {/* Navigation Progress Line */}
-        <div className='relative mt-4'>
-          <AnimatePresence mode='wait'>
-            <motion.div
-              key={activeIndex}
-              initial={{ width: 0, left: direction === 'next' ? '100%' : 0 }}
-              animate={{ width: '100%', left: 0 }}
-              exit={{ width: 0, left: direction === 'next' ? 0 : '100%' }}
-              transition={{ duration: 0.4 }}
-              className='absolute w-full h-[1.5px] rounded-full'
-              style={{
-                backgroundImage:
-                  'linear-gradient(to right, var(--color-start), var(--color-middle), var(--color-end))',
-              }}
-            />
-          </AnimatePresence>
-
-          {/* Lingkaran */}
-          {/* <div
-            className="absolute -translate-y-1/2 w-6 h-6 bg-white rounded-full shadow-lg left-[49%]"/> */}
         </div>
       </div>
     </div>
