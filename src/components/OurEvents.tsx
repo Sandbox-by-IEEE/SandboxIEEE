@@ -23,16 +23,16 @@ const EventCard: React.FC<EventCardProps> = ({ event, index, children }) => {
   const bucketImage = bucketImages[index % bucketImages.length];
 
   const decorationImages = [
-    '/home/event1.png',
-    '/home/event2.png',
-    '/home/event3.png',
+    '/home/event1.svg',
+    '/home/event2.svg',
+    '/home/event3.svg',
   ];
   const decorationImage = decorationImages[index % decorationImages.length];
 
   const mobileDecorationImages = [
-    '/home/eventmobile1.png',
-    '/home/eventmobile2.png',
-    '/home/eventmobile3.png',
+    '/home/eventmobile1.svg',
+    '/home/eventmobile2.svg',
+    '/home/eventmobile3.svg',
   ];
   const mobileDecorationImage =
     mobileDecorationImages[index % mobileDecorationImages.length];

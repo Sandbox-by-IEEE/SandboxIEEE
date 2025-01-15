@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 import Button from '@/components/Button';
@@ -482,7 +483,15 @@ const FormDetails = ({
               <div className='relative z-1 w-full pb-10 lg:pb-20'>
                 <p className='relative z-1 text-base font-poppins py-4 text-center'>
                   Only single file upload. Please merge your files first before
-                  uploading
+                  uploading. For more info, click{' '}
+                  <Link
+                    className='underline hover:text-blue-400'
+                    target='_blank'
+                    href='https://drive.google.com/drive/folders/11IhSE5hUcWfW-kTxt-S9G-35qrPlbo2B'
+                  >
+                    here
+                  </Link>
+                  .
                 </p>
                 <div className='relative z-1 flex flex-col md:flex-row w-full justify-center gap-2'>
                   {fileInputs.map((fileInput, index) => (
