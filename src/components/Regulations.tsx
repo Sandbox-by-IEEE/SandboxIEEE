@@ -26,7 +26,7 @@ const Regulations: React.FC<RegulationsProps> = ({ children }) => {
       className='w-[80vw] rounded-[50px] backdrop-blur-md'
     >
       <div
-        className='font-poppins relative max-w-7xl mx-auto px-6 py-12 rounded-3xl'
+        className='font-poppins relative max-w-7xl mx-auto px-6 py-6 rounded-3xl'
         data-aos='fade-up'
       >
         <div className='absolute w-[300px] lg:w-[400px] -top-28 -right-20 z-0 transform rotate-12'>
