@@ -17,7 +17,7 @@ export default function AuthLayout({
         backgroundPosition: 'center',
       }}
     >
-      <div>{children}</div>
+      {children}
       <Footer regist={true} />
     </div>
   );

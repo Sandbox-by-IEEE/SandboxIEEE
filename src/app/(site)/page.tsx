@@ -128,7 +128,7 @@ export default async function Home({
 
       {/* Timeline */}
       <section className='w-full flex flex-col mb-[120px] md:mb-[180px]'>
-        <div className='w-full flex items-center justify-center'>
+        <div className='mb-12 w-full flex items-center justify-center'>
           <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
         </div>
         <Timeline items={allTimelineSandboxes} />
@@ -146,14 +146,17 @@ export default async function Home({
       {/* FAQ Section */}
       <section className='w-[80%] flex flex-col gap-12 lg:gap-20 mb-[80px] md:mb-[120px]'>
         {/* Title for FAQ Section */}
-        <div className='p-1.5 rounded-2xl' data-aos='flip-up'>
+        <div
+          className='flex items-center flex-col p-1.5 rounded-2xl'
+          data-aos='flip-up'
+        >
           <div
-            className='relative flex md:block md:absolute inset-0 left-[-32px] lg:left-[150px] items-center justify-center w-full'
+            className='flex lg:block lg:absolute inset-0 left-[-32px] lg:left-[150px] items-center justify-center w-full'
             data-aos='fade-up'
             data-aos-duration='1500'
           >
             <Image
-              src='/faq1.png'
+              src='/faq1.svg'
               alt='faq'
               width={200}
               height={200}
@@ -166,7 +169,7 @@ export default async function Home({
             data-aos-duration='1500'
           >
             <Image
-              src='/faq2.png'
+              src='/faq2.svg'
               alt='faq'
               width={0}
               height={0}
