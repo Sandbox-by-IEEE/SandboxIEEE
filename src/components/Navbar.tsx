@@ -30,7 +30,7 @@ function SandboxLogo() {
       <div className='aspect-square h-12 absolute flex flex-row justify-center align-center'>
         <Image
           priority
-          src='/sandbox-gold.svg'
+          src='/sandboxlogo.svg'
           alt='sandbox'
           width={50}
           height={50}
