@@ -14,7 +14,7 @@ import GradientBox from '@/components/GradientBox';
 import Eye from '@/components/icons/Register/eye';
 import Eyeslash from '@/components/icons/Register/eyeslash';
 import Google from '@/components/icons/Register/googlePutih';
-import Logo from '@/components/icons/Register/sandbox';
+import SandboxByIEEEITBIcon from '@/components/icons/SandboxByIEEEITBIcon';
 import { ModalContext } from '@/components/Modal/ModalContext';
 import TitleSection from '@/components/TitleSection';
 import { callLoading, callToast } from '@/components/Toast';
@@ -109,7 +109,7 @@ export default function LoginPage({
           <div className='w-[80vw] px-[8%] md:w-[50vw] md:px-[20%] py-8'>
             {/* Logo */}
             <div className='flex justify-center mb-4'>
-              <Logo size={25} />
+              <SandboxByIEEEITBIcon />
             </div>
 
             {/* Welcome Text */}
