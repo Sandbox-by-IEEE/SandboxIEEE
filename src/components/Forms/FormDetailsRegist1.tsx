@@ -58,8 +58,8 @@ const FormDetails = ({
 
   //...
   const currentDate = new Date();
-  const comparisonDate = new Date('2025-01-13');
-  const price = currentDate < comparisonDate ? 275 : 285;
+  const comparisonDate = new Date('2025-01-20');
+  const price = currentDate < comparisonDate ? 220 : 245;
   const [isPaymentPage, setIsPaymentPage] = useState<boolean>(false);
   const handleRefferalCodeChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -358,7 +358,7 @@ const FormDetails = ({
               </div>
             </div>
             <div className='relative flex flex-col md:flex-row justify-between items-center py-10 gap-10'>
-              <div className='w-full relative z-1'>
+              <div className='w-full h-full relative z-1'>
                 <div
                   style={{
                     background:
@@ -368,12 +368,15 @@ const FormDetails = ({
                 />
                 <div className='relative z-1 flex items-center p-10 bg-[#040b15] rounded-[18px] m-[2px]'>
                   <div className='w-full text-center relative flex flex-col z-1'>
-                    <p className='font-poppins text-[25px] font-bold'>BCA</p>
-                    <p className='font-poppins text-[15px]'>1234567890</p>
+                    <p className='font-poppins text-[25px] font-bold'>Jago</p>
+                    <p className='font-poppins text-[15px]'>109463921352</p>
+                    <p className='font-poppins text-[15px]'>
+                      Camelia Rizky Khaerunnisa Purnomo
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className='w-full relative z-1'>
+              <div className='w-full h-full relative z-1'>
                 <div
                   style={{
                     background:
@@ -384,12 +387,18 @@ const FormDetails = ({
                 <div className='relative z-1 flex items-center p-10 bg-[#040b15] rounded-[18px] m-[2px]'>
                   <div className='w-full text-center relative flex flex-col z-1'>
                     <p className='font-poppins text-[25px] font-bold'>GoPay</p>
-                    <p className='font-poppins text-[15px]'>1234567890</p>
+                    <p className='font-poppins text-[15px]'>085697371339</p>
+                    <p className='font-poppins text-[15px]'>
+                      Alya Tabitha Maharani
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <div className='relative z-1 w-full pb-10 lg:pb-20'>
+              <p className='relative z-1 text-2xl lg:text-3xl py-4 text-center'>
+                Payment proof
+              </p>
               <p className='relative z-1 text-base font-poppins py-4 text-center'>
                 Only single file upload.
               </p>
