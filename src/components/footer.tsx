@@ -88,14 +88,14 @@ const Footer: React.FC<FooterProps> = ({ regist = false }) => (
           </div>
         )}
       </div>
-      <div className='w-[120px] flex md:hidden items-center mb-6'>
-        <p className='mb-2 w-full text-center'>#NetZeroHero</p>
+      <div className='w-full flex justify-center md:hidden items-center mb-6'>
+        <p className='mb-2 w-full text-center'>#ThroughHealth4Good</p>
       </div>
       <div className='bg-gradient-to-r from-[#18635A] to-[#082349] w-full h-[4px]'></div>
       {/* Social Media */}
       <div className='w-full flex flex-row items-center mt-4'>
         <div className='w-[120px] hidden md:flex'>
-          <p className='mb-2'>#NetZeroHero</p>
+          <p className='mb-2'>#ThroughHealth4Good</p>
         </div>
         <div className='flex justify-center w-full'>
           <div className=''>
