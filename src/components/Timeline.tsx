@@ -80,7 +80,7 @@ const Timeline: React.FC<Props> = ({ items }) => {
         <div
           ata-aos='fade-up'
           data-aos-duration='1300'
-          className='relative mt-12 md:mt-24'
+          className='relative mt-24 md:mt-32'
         >
           <div
             className='absolute w-full h-[1.5px] rounded-full'

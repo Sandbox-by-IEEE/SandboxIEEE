@@ -83,7 +83,7 @@ const H4H = async () => {
 
   return (
     <div className='flex flex-col w-full m-auto justify-center items-center'>
-      <div className='mt-10 lg:mt-40 font-poppins text-[24px] lg:text-[80px] flex justify-center font-bold text-white'>
+      <div className='mt-24 lg:mt-40 font-poppins text-[24px] lg:text-[80px] flex justify-center font-bold text-white'>
         <h1>{h4hPage.titleH4hPages}</h1>
       </div>
       <div className='w-[80vw] mt-5 lg:mt-20'>
@@ -132,7 +132,7 @@ const H4H = async () => {
         </Regulations>
       </div>
       <section className='w-[105vw] flex flex-col mb-[120px] md:mb-[180px]'>
-        <div className='mb-12 font-poppins text-[24px] lg:text-[48px] flex justify-center font-bold text-white mt-20'>
+        <div className='mb-16 md:mb-24 font-poppins text-[24px] lg:text-[48px] flex justify-center font-bold text-white mt-20'>
           <TitleSection size='lg'>Timeline</TitleSection>
         </div>
         <Timeline items={allTimelineH4hs} />
@@ -141,16 +141,16 @@ const H4H = async () => {
       <section className='w-full flex flex-col gap-12 lg:gap-20 py-8 lg:py-10 xl:py-14 2xl:py-20'>
         {/* Title for FAQ Section */}
         <div
-          className='p-1.5 rounded-2xl mx-8 sm:mx-10 md:mx-28 lg:mx-36 2xl:mx-52'
+          className='flex items-center flex-col p-1.5 rounded-2xl mx-8 sm:mx-10 md:mx-28 lg:mx-36 2xl:mx-52'
           data-aos='flip-up'
         >
           <div
-            className='relative flex md:block md:absolute inset-0 left-[-32px] lg:left-[150px] items-center justify-center w-full'
+            className='flex lg:block lg:absolute inset-0 left-[-32px] lg:left-[150px] items-center justify-center w-full'
             data-aos='fade-up'
             data-aos-duration='1500'
           >
             <Image
-              src='/faq1.png'
+              src='/faq1.svg'
               alt='faq'
               width={200}
               height={200}
@@ -163,7 +163,7 @@ const H4H = async () => {
             data-aos-duration='1500'
           >
             <Image
-              src='/faq2.png'
+              src='/faq2.svg'
               alt='faq'
               width={0}
               height={0}
