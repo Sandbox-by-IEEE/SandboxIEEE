@@ -14,7 +14,7 @@ const Prize: React.FC<PrizeProps> = ({ prize1, prize2, prize3 }) => {
   const [isHoveredRight, setIsHoveredRight] = useState(false);
 
   return (
-    <div className='p-16'>
+    <div className='mt-6'>
       <GradientBox
         type='default'
         className='cursor-pointer flex w-[138px] h-[48px] lg:w-[574px] lg:h-[126px] rounded-[124px] items-center justify-center relative'

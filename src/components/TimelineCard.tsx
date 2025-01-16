@@ -57,7 +57,7 @@ const TimelineCard: FC<TimelineCardProps> = ({
       animate={{
         x: `${xOffset}%`,
         opacity: isActive ? 1 : 0.5,
-        scale: isActive ? 1.2 : 0.9, // Adjusted scale for the middle card
+        scale: isActive ? 1.5 : 0.8, // Adjusted scale for the middle card
       }}
       drag='x'
       dragConstraints={{ left: 0, right: 0 }}
@@ -69,9 +69,11 @@ const TimelineCard: FC<TimelineCardProps> = ({
     >
       <GradientBox type='timeline'>
         <div
-          className={`bg-[#040B15] p-6 rounded-[50px] min-h-[180px] md:min-h-[200px] lg:min-h-[225px] xl:min-h-[250px] flex flex-col justify-center items-center`}
+          className={`bg-[#040B15] p-2 rounded-[50px] min-h-[140px] md:min-h-[200px] lg:min-h-[225px] xl:min-h-[250px] flex flex-col justify-center items-center`}
         >
-          <span className='text-xl text-center text-white'>{text}</span>
+          <span className='text-sm md:text-xl text-center text-white'>
+            {text}
+          </span>
         </div>
       </GradientBox>
     </motion.div>
