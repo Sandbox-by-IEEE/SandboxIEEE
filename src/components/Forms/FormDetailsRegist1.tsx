@@ -58,7 +58,7 @@ const FormDetails = ({
 
   //...
   const currentDate = new Date();
-  const comparisonDate = new Date('2025-01-20');
+  const comparisonDate = new Date('2025-01-24');
   const price = currentDate < comparisonDate ? 220 : 245;
   const [isPaymentPage, setIsPaymentPage] = useState<boolean>(false);
   const handleRefferalCodeChange = async (
