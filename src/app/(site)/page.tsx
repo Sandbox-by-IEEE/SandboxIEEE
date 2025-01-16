@@ -127,8 +127,8 @@ export default async function Home({
       </div>
 
       {/* Timeline */}
-      <section className='w-full flex flex-col mb-[120px] md:mb-[180px]'>
-        <div className='mb-12 w-full flex items-center justify-center'>
+      <section className='w-[105vw] flex flex-col mb-[120px] md:mb-[180px]'>
+        <div className='mb-16 md:mb-24 w-full flex items-center justify-center'>
           <TitleSection>{homepage.timelineSectionTitle}</TitleSection>
         </div>
         <Timeline items={allTimelineSandboxes} />

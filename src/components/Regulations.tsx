@@ -26,7 +26,7 @@ const Regulations: React.FC<RegulationsProps> = ({ children }) => {
       className='w-[80vw] rounded-[50px] backdrop-blur-md'
     >
       <div
-        className='font-poppins relative max-w-7xl mx-auto px-6 py-6 rounded-3xl'
+        className='font-poppins relative max-w-7xl mx-auto p-4 md:p-6 rounded-3xl'
         data-aos='fade-up'
       >
         <div className='absolute w-[300px] lg:w-[400px] -top-28 -right-20 z-0 transform rotate-12'>
@@ -51,7 +51,7 @@ const Regulations: React.FC<RegulationsProps> = ({ children }) => {
 
         {/* Regulation Box */}
         <div
-          className='relative bg-gradient-to-b from-[#35737ad4] to-[#18555fd7] p-8 rounded-xl shadow-lg z-10 backdrop-blur-md bg-opacity-95 leading-loose'
+          className='relative bg-gradient-to-b from-[#35737ad4] to-[#18555fd7] p-8 rounded-[20px] shadow-lg z-10 backdrop-blur-md bg-opacity-95 text-sm md:text-base md:leading-loose'
           style={{
             boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.4)',
           }}
