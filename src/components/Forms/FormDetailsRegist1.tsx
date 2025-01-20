@@ -524,6 +524,7 @@ const FormDetails = ({
                         {fileInput.message} {fillMemberIndex + 1}
                       </p>
                       <SingleFileInput
+                        allowedFileTypes={['.pdf']}
                         key={fileInput.type + fillMemberIndex}
                         message={fileInput.message}
                         file={{
