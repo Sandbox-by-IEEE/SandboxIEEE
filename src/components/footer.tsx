@@ -38,7 +38,7 @@ const linksData = [
       header: [{ href: '/', text: 'Sponsoship' }],
     }, */
     {
-      header: [{ href: '/events/H4H', text: 'HCI' }],
+      header: [{ href: '/events/H4H', text: 'H4H' }],
     },
     {
       header: [{ href: '/events/ptc', text: 'PTC' }],
