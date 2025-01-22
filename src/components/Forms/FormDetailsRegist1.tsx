@@ -491,8 +491,13 @@ const FormDetails = ({
 
               <div className='relative z-1 w-full pb-10 lg:pb-20'>
                 <p className='relative z-1 text-base font-poppins py-4 text-center'>
-                  Only single file upload. Please merge your files first before
-                  uploading. For more info, click{' '}
+                  Please upload a <a className='font-bold'>PDF</a> that consists
+                  of your <br />
+                  <a className='font-bold'>
+                    KTM (Kartu Tanda Mahasiswa), Story proof, and Twibbon proof
+                  </a>
+                  .<br />
+                  For more info, click{' '}
                   <Link
                     className='underline hover:text-blue-400'
                     target='_blank'
