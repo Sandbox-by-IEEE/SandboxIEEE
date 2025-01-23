@@ -59,7 +59,8 @@ const FormDetails = ({
   //...
   const currentDate = new Date();
   const comparisonDate = new Date('2025-01-24');
-  const price = currentDate < comparisonDate ? 220 : 245;
+  const price = currentDate < comparisonDate ? 275 : 285;
+  const discountedPrice = 200;
   const [isPaymentPage, setIsPaymentPage] = useState<boolean>(false);
   const handleRefferalCodeChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -316,8 +317,7 @@ const FormDetails = ({
                         {/* Discounted Price */}
                         {validRefferalCode && (
                           <p className='font-poppins text-[25px] lg:text-[40px] font-bold text-white'>
-                            Rp. {price * 0.9}
-                            00
+                            Rp. {discountedPrice}000
                           </p>
                         )}
                       </div>
