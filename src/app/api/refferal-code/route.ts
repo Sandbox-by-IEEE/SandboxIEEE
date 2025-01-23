@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     const unusedCode = await prisma.refferalCode.findFirst({
       where: {
         refferalCode: code,
-        isUsed: false,
+        // isUsed: false,
       },
     });
 
