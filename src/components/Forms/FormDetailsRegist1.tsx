@@ -494,7 +494,8 @@ const FormDetails = ({
                   Please upload a <a className='font-bold'>PDF</a> that consists
                   of your <br />
                   <a className='font-bold'>
-                    KTM (Kartu Tanda Mahasiswa), Story proof, and Twibbon proof
+                    KTM (Kartu Tanda Mahasiswa), Story proof, follow The Sandbox
+                    proof, and Twibbon proof (4 images)
                   </a>
                   .<br />
                   For more info, click{' '}
