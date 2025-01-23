@@ -155,7 +155,7 @@ const FormDetails = ({
   const fileInputs: Array<{ type: PropType; message: string }> = [
     {
       type: 'studentProof',
-      message: 'Student Proof',
+      message: 'All Proof',
     },
     // {
     //   type: 'twibbonProof',
