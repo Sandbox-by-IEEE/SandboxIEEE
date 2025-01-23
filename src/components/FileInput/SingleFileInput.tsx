@@ -43,35 +43,6 @@ const SingleFileInput = ({
     }
   };
 
-  //Upload with cloudinary
-  // const uploadFile = async (fileUploaded: File) => {
-  //   // eslint-disable-next-line no-useless-catch
-  //   try {
-  //     if (fileUploaded.size > 10 * 1024 * 1024) {
-  //       throw 'File size exceeds the maximum allowed (10MB).';
-  //     }
-
-  //     const fd = new FormData();
-  //     fd.append(`file`, fileUploaded);
-  //     fd.append('upload_preset', 'ddriwluc');
-
-  //     const response = await fetch(
-  //       `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/auto/upload`,
-  //       {
-  //         method: 'POST',
-  //         body: fd,
-  //       },
-  //     );
-  //     if (!response.ok) throw await response.json();
-
-  //     const responseJSON = await response.json();
-
-  //     return responseJSON;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
   //Upload with uploadthing
   const uploadFile = async (fileUploaded: File) => {
     // Check file size on the client side as well
@@ -92,12 +63,17 @@ const SingleFileInput = ({
 
       // Handle the response
       if (!response.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const errorData = await response.json();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         throw new Error(errorData.message || 'File upload failed');
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const result = await response.json();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       console.log('File uploaded successfully:', result.message);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return result;
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -115,16 +91,22 @@ const SingleFileInput = ({
         setTimeout(() => setIsError(false), 3000);
       } else if (filesToUpload) {
         const fileUploaded = filesToUpload[0];
-        const responseJSON = await uploadFile(fileUploaded);
-        const newFile: FileInputType = {
-          fileName: fileUploaded.name,
-          fileUrl: responseJSON?.secure_url,
-        };
+        if (fileUploaded) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const responseJSON = await uploadFile(fileUploaded);
+          const newFile: FileInputType = {
+            fileName: fileUploaded?.name ?? '',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            fileUrl: responseJSON?.secure_url,
+          };
 
-        setFile(newFile);
+          setFile(newFile);
+        }
       }
     } catch (error) {
-      setErrorMsg(error as string);
+      const errorMessage =
+        error instanceof Error ? error.message : JSON.stringify(error);
+      setErrorMsg(errorMessage);
       setIsError(true);
       setTimeout(() => setIsError(false), 3000);
     } finally {
@@ -157,26 +139,32 @@ const SingleFileInput = ({
         if (
           !(
             allowedFileExtensions.length === 0 ||
-            allowedFileExtensions.includes(fileExtension as string)
+            allowedFileExtensions.includes(fileExtension)
           )
         ) {
-          throw `Wrong file type, allowed file types are ${allowedFileExtensions.join(
-            ', ',
-          )}`;
+          throw new Error(
+            `Wrong file type, allowed file types are ${allowedFileExtensions.join(
+              ', ',
+            )}`,
+          );
         }
 
-        const responseJSON = await uploadFile(fileUploaded);
-        const newFile = {
-          fileName: fileUploaded.name,
-          fileUrl: responseJSON?.secure_url,
-        };
+        if (fileUploaded) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const responseJSON = await uploadFile(fileUploaded);
+          const newFile = {
+            fileName: fileUploaded?.name,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            fileUrl: responseJSON?.secure_url,
+          };
 
-        setFile(newFile);
+          setFile(newFile);
+        }
       } else {
-        throw 'No files dropped';
+        throw new Error('No files dropped');
       }
     } catch (error) {
-      setErrorMsg(error as string);
+      setErrorMsg(JSON.stringify(error));
       setIsError(true);
       setTimeout(() => setIsError(false), 3000);
     } finally {

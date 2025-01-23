@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { type FileInputType } from '@/components/FileInput/fileInput-type';
@@ -24,9 +24,13 @@ export default function H4HRegist() {
     studentProof: '',
     studentProofName: '',
   });
-  const members = Array(2)
-    .fill(null)
-    .map(() => createMember());
+  const members = useMemo(
+    () =>
+      Array(2)
+        .fill(null)
+        .map(() => createMember()),
+    [],
+  );
 
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -504,7 +508,7 @@ export default function H4HRegist() {
   return (
     <main className='px-4 sm:px-10 md:px-15 lg:px-20 text-white flex min-h-screen flex-col items-center justify-between overflow-x-clip w-full'>
       <div className='h-fit w-full max-w-[1200px] py-10 pt-16 lg:pt-24 font-poppins'>
-        <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+        <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal mt-12 lg:mt-6'>
           H4H Registration
         </h1>
         <h1 className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
