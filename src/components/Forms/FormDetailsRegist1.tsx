@@ -327,7 +327,7 @@ const FormDetails = ({
               </div>
             </div>
             <label className='font-poppins relative z-1 font-thin text-sm pb-1'>
-              Refferal code
+              Referral code
             </label>
             <div className='relative z-1 w-full'>
               <TextInput
