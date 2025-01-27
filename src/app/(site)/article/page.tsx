@@ -5,7 +5,7 @@ export default async function ArticlesPage() {
   const { allArticles } = await getAllArticles();
 
   return (
-    <div>
+    <div className='w-full min-h-screen mt-[100px]'>
       <PaginatedArticles allArticles={allArticles} />
     </div>
   );
