@@ -45,7 +45,7 @@ const DASHBOARD = () => {
       if (!ticket?.H4H.buy && !ticket?.PTC.buy) {
         callToast({
           status: 'error',
-          description: 'You are not registered. Please do a registration',
+          description: 'You are not registered, Please register first',
         });
         router.push('/');
       } else if (ticket?.PTC.buy && ticket.PTC.verified === 'verified') {
