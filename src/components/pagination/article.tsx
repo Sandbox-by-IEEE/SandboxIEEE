@@ -23,14 +23,9 @@ export default function PaginatedArticles({
 
   const renderPagination = () => {
     const paginationItems: JSX.Element[] = [];
-    const maxVisible = 2;
 
-    for (let i = 1; i <= totalPages; i++) {
-      if (
-        i === 1 ||
-        i === totalPages ||
-        (i >= currentPage - maxVisible && i <= currentPage + maxVisible)
-      ) {
+    if (totalPages <= 4) {
+      for (let i = 1; i <= totalPages; i++) {
         paginationItems.push(
           <Link
             key={i}
@@ -42,17 +37,61 @@ export default function PaginatedArticles({
             {i}
           </Link>,
         );
-      } else if (
-        (i === currentPage - maxVisible - 1 ||
-          i === currentPage + maxVisible + 1) &&
-        totalPages > maxVisible * 2
-      ) {
+      }
+    } else {
+      paginationItems.push(
+        <Link
+          key={1}
+          href={`?page=1`}
+          className={`px-3 py-1 mx-1 rounded ${
+            currentPage === 1 ? ' bg-gray-900 text-white' : 'bg-inherit'
+          }`}
+        >
+          1
+        </Link>,
+      );
+
+      if (currentPage > 2) {
         paginationItems.push(
-          <span key={`ellipsis-${i}`} className='px-3 py-1 mx-1 text-gray-400'>
+          <span key='ellipsis-1' className='px-3 py-1 mx-1 text-gray-400'>
             ...
           </span>,
         );
       }
+
+      if (currentPage > 1 && currentPage < totalPages) {
+        paginationItems.push(
+          <Link
+            key={currentPage}
+            href={`?page=${currentPage}`}
+            className={`px-3 py-1 mx-1 rounded bg-gray-900 text-white`}
+          >
+            {currentPage}
+          </Link>,
+        );
+      }
+
+      if (currentPage < totalPages - 1) {
+        paginationItems.push(
+          <span key='ellipsis-2' className='px-3 py-1 mx-1 text-gray-400'>
+            ...
+          </span>,
+        );
+      }
+
+      paginationItems.push(
+        <Link
+          key={totalPages}
+          href={`?page=${totalPages}`}
+          className={`px-3 py-1 mx-1 rounded ${
+            currentPage === totalPages
+              ? ' bg-gray-900 text-white'
+              : 'bg-inherit'
+          }`}
+        >
+          {totalPages}
+        </Link>,
+      );
     }
 
     return paginationItems;
@@ -63,31 +102,31 @@ export default function PaginatedArticles({
       <h1 className='text-4xl font-bold text-white'>Blog</h1>
       <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
         {paginatedArticles.map((article) => (
-          <div key={article.id} className='p-4 rounded-lg'>
-            {article.image?.url && (
-              <Image
-                src={article.image.url}
-                alt={article.title}
-                width={500}
-                height={200}
-                className='object-cover rounded-t-lg'
-              />
-            )}
-            <div className='flex items-center mt-3 gap-2'>
-              <p className='text-white text-sm'>By {article.author},</p>
-              <p className='text-white text-sm'>{article.date}</p>
-            </div>
-            <Link href={`/article/${article.id}`}>
+          <Link key={article.id} href={`/article/${article.id}`}>
+            <div className='p-4 rounded-lg cursor-pointer hover:bg-gray-800 duration-200'>
+              {article.image?.url && (
+                <Image
+                  src={article.image.url}
+                  alt={article.title}
+                  width={500}
+                  height={200}
+                  className='object-cover rounded-t-lg'
+                />
+              )}
+              <div className='flex items-center mt-3 gap-2'>
+                <p className='text-white text-sm'>By {article.author},</p>
+                <p className='text-white text-sm'>{article.date}</p>
+              </div>
               <h2 className='text-2xl font-semibold mt-2 text-white'>
                 {article.title}
               </h2>
-            </Link>
-            <p className='mt-2 text-white text-xs'>
-              {article.body.length > 100
-                ? `${article.body.slice(0, 100)}...`
-                : article.body}
-            </p>
-          </div>
+              <p className='mt-2 text-white text-xs'>
+                {article.body.length > 100
+                  ? `${article.body.slice(0, 100)}...`
+                  : article.body}
+              </p>
+            </div>
+          </Link>
         ))}
       </div>
 
