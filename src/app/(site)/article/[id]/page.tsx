@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -23,41 +24,40 @@ export default async function ArticleDetailPage({
   }
 
   return (
-    <div className='container mx-auto px-4 max-w-2xl'>
-      <div className='flex justify-start mt-4 ml-4'>
-        <Link href='/article'>
-          <div className='bg-black p-2 rounded'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-5 w-5 text-white'
-              viewBox='0 0 20 20'
-              fill='currentColor'
-            >
-              <path
-                fillRule='evenodd'
-                d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
-                clipRule='evenodd'
-              />
-            </svg>
+    <div className='text-white min-h-screen'>
+      <div className='relative h-[250px] flex items-center justify-center'>
+        <div
+          className='absolute inset-0 bg-cover bg-center opacity-50'
+          style={{
+            backgroundImage: `url(${article.image.url})`,
+          }}
+        ></div>
+        <div className='absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black'></div>
+        <div className='relative flex flex-row justify-center items-center gap-5 w-[90%] max-w-4xl'>
+          <Link href='/article'>
+            <Image
+              src='/previous_arrow.svg'
+              alt='Previous Arrow'
+              width={30}
+              height={30}
+            />
+          </Link>
+          <div className='flex flex-col'>
+            <div className='flex items-center gap-1'>
+              <p>By {article.author},</p>
+              <p>{article.date}</p>
+            </div>
+            <h1 className='text-4xl font-bold'>{article.title}</h1>
           </div>
-        </Link>
+        </div>
       </div>
-      <h1 className='text-4xl font-bold my-8'>{article.title}</h1>
-      <div className='flex items-center mb-6'>
-        <p className='text-gray-600'>By {article.author}</p>
-        <span className='mx-2'>•</span>
-        <p className='text-gray-500'>{article.date}</p>
+
+      <div className='container mx-auto px-4 py-8 max-w-4xl'>
+        <div className='prose prose-invert lg:prose-xl max-w-none leading-relaxed'>
+          {article.body}
+        </div>
       </div>
-      {article.image && (
-        <img
-          src={article.image.url}
-          alt={article.title}
-          className='w-full h-96 object-cover rounded-lg mb-6'
-        />
-      )}
-      <div className='prose'>{article.body}</div>
     </div>
   );
 }
-
 export const revalidate = 60;
