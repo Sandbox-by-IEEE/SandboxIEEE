@@ -1,28 +1,40 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import Loading from '@/app/loading';
-import { callToast } from '@/components/Toast';
+import Button from '@/components/Button';
+import SingleFileInput from '@/components/FileInput/SingleFileInput';
+import TextInput from '@/components/TextInput';
+import { callLoading, callToast } from '@/components/Toast';
 
 const DASHBOARD = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [teamData, setTeamData] = useState<any>(null); // Adjust the type based on your API response structure
+  const [teamData, setTeamData] = useState<any>(null);
   const [competitionType, setCompetitionType] = useState('');
+  const [file, setFile] = useState<{ fileName: string; fileUrl: string }>({
+    fileName: '',
+    fileUrl: '',
+  });
+  const [githubUrl, setGithubUrl] = useState('');
+  const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const fetchTeamData = async (teamId: string) => {
     try {
-      const response = await fetch(`/api/team/${teamId}`); // Use the correct dynamic route
+      const response = await fetch(`/api/team/${teamId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch team data');
       }
       const { data } = await response.json();
       setTeamData(data);
-      console.log('Fetched team data:', data);
     } catch (error) {
       callToast({
         status: 'error',
@@ -45,15 +57,17 @@ const DASHBOARD = () => {
       if (!ticket?.H4H.buy && !ticket?.PTC.buy) {
         callToast({
           status: 'error',
-          description: 'You are not registered. Please do a registration',
+          description: 'You are not registered. Please register first',
         });
         router.push('/');
       } else if (ticket?.PTC.buy && ticket.PTC.verified === 'verified') {
         setCompetitionType('PTC');
         fetchTeamData(ticket.PTC.teamId);
+        checkSubmissionStatus();
       } else if (ticket?.H4H.buy && ticket.H4H.verified === 'verified') {
         setCompetitionType('H4H');
         fetchTeamData(ticket.H4H.teamId);
+        checkSubmissionStatus();
       } else if (ticket?.PTC.buy && ticket.PTC.verified === 'pending') {
         setCompetitionType('PTC');
       } else if (ticket?.H4H.buy && ticket.H4H.verified === 'pending') {
@@ -75,6 +89,126 @@ const DASHBOARD = () => {
       }
     }
   }, [status, router, session?.user]);
+
+  const checkSubmissionStatus = async () => {
+    try {
+      const response = await fetch('/api/ticket/competition/submission1', {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to check submission status');
+      }
+
+      const data = await response.json();
+      if (data.submitted) {
+        setFile({
+          fileName: data.fileUrl.split('/').pop(),
+          fileUrl: data.fileUrl,
+        });
+        setGithubUrl(data.githubUrl);
+        setYoutubeUrl(data.youtubeUrl);
+        setIsEditing(true);
+        setHasSubmitted(true);
+      } else {
+        setHasSubmitted(false);
+      }
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: 'Failed to check submission status',
+      });
+    }
+  };
+
+  const handleFileSubmit = async () => {
+    if (!file.fileUrl && !githubUrl && !youtubeUrl) {
+      callToast({
+        status: 'error',
+        description: 'Please upload a file or provide URLs first',
+      });
+      return;
+    }
+
+    const loadingToastId = callLoading('Submitting your file...');
+
+    try {
+      const response = await fetch('/api/ticket/competition/submission1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileUrl: file.fileUrl,
+          githubUrl,
+          youtubeUrl,
+          competitionType,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit data');
+      }
+
+      callToast({
+        status: 'success',
+        description: 'Data submitted successfully',
+      });
+      setIsEditing(true);
+      setHasSubmitted(true);
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: 'Failed to submit data',
+      });
+    } finally {
+      toast.dismiss(loadingToastId);
+    }
+  };
+
+  const handleFileUpdate = async () => {
+    if (!file.fileUrl && !githubUrl && !youtubeUrl) {
+      callToast({
+        status: 'error',
+        description: 'Please upload a file or provide URLs first',
+      });
+      return;
+    }
+
+    const loadingToastId = callLoading('Updating your file...');
+
+    try {
+      const response = await fetch('/api/ticket/competition/submission1', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileUrl: file.fileUrl,
+          githubUrl,
+          youtubeUrl,
+          competitionType,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update data');
+      }
+
+      callToast({
+        status: 'success',
+        description: 'Data updated successfully',
+      });
+      setIsEditing(true);
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: 'Failed to update data',
+      });
+    } finally {
+      toast.dismiss(loadingToastId);
+    }
+  };
 
   const chairman = teamData?.members.find(
     (member: any) => member.name === teamData?.chairmanName,
@@ -104,14 +238,12 @@ const DASHBOARD = () => {
             >
               Team Profile - {competitionType}
             </div>
-            {/* bg-[#040B15] */}
             <div className='relative rounded-t-[6vw] bg-[#040B15] w-full px-[6vw] pt-[3vw] pb-20 mt-16'>
               <div className='absolute overflow-hidden rounded-t-[6vw] inset-0 flex items-center justify-center'>
                 <div className='w-full items-center h-full mt-auto mx-auto bg-gradient-radial from-[#255763] to-[#0B305F] opacity-20 blur-3xl rounded-full'></div>
               </div>
               <div className='relative'>
                 <div className='absolute w-full left-1/2 transform -translate-x-1/2 -top-[100px] md:-top-[170px] flex items-center justify-center'>
-                  {/* SVG or icon decoration can go here */}
                   <Image
                     src='/dashboard/decoration.svg'
                     alt='decoration1'
@@ -145,13 +277,13 @@ const DASHBOARD = () => {
                 <div className='flex flex-col md:flex-row md:gap-2 gap-[6px]'>
                   <div className='flex flex-col w-full md:gap-0 gap-[6px]'>
                     <h2 className='text-[4vw]  md:text-[1.5vw] font-semibold'>
-                      Chariman Name
+                      Chairman Name
                     </h2>
                     <h1 className='text-[3vw] font-normal md:text-[2vw] md:font-bold'>
                       {teamData?.chairmanName}
                     </h1>
                     <h2 className='text-[4vw]  md:text-[1.5vw] font-semibold'>
-                      Chariman Email
+                      Chairman Email
                     </h2>
                     <h1 className='text-[3vw] font-normal md:text-[2vw] md:font-bold'>
                       {teamData?.chairmanEmail}
@@ -210,22 +342,7 @@ const DASHBOARD = () => {
               {teamData?.teamStatus}
             </div>
 
-            {/* <FormDetails
-              inputData={inputData}
-              setInputData={setInputData}
-              validRefferalCode={validRefferalCode}
-              setValidRefferalCode={setValidRefferalCode}
-              handleChange={handleChange}
-              fillMemberIndex={fillMemberIndex}
-              setFillMemberIndex={setFillMemberIndex}
-              handleSubmitFormIdentity={handleSubmitFormIdentity}
-              isWarnedInputData={isWarnedInputData}
-              setIsWarnedInputData={setIsWarnedInputData}
-              isDisabledNext={isDisabledNext}
-              inputDataHistoryKey={inputDataHistoryKey}
-              submissionText='Submit'
-            /> */}
-            {competitionType === 'PTC' ? (
+            <div>
               <div
                 className='bg-[url("/dashboard/profile.png")] rounded-[3vw] text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6 px-[4vw] py-[2vw]'
                 style={{
@@ -234,20 +351,158 @@ const DASHBOARD = () => {
                   backgroundRepeat: 'no-repeat',
                 }}
               >
-                {competitionType} Submmission
+                {competitionType} Submission
               </div>
-            ) : (
-              <div
-                className='bg-[url("/dashboard/profile.png")] rounded-[3vw] text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6 px-[4vw] py-[2vw]'
-                style={{
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                }}
-              >
-                {competitionType} Submmission
+              <div className='mt-10 flex flex-col items-center justify-between'>
+                {competitionType === 'PTC' ? (
+                  <div>
+                    <h2 className='flex items-center w-full justify-center mb-4 text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6'>
+                      Abstract Submission
+                    </h2>
+                    {isEditing ? (
+                      <div className='flex flex-col w-full items-center justify-center'>
+                        <p className='font-bold md:text-xl text-lg'>
+                          Abstract Link:
+                        </p>
+                        <Link
+                          target='_blank'
+                          href={file.fileUrl}
+                          className='text-lg hover:underline hover:text-blue-400'
+                        >
+                          {file.fileUrl}
+                        </Link>
+                        <Button
+                          onClick={() => setIsEditing(false)}
+                          type='button'
+                          color='white-2'
+                          className='mt-6'
+                        >
+                          Edit File
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className='flex flex-col w-full items-center justify-center'>
+                        <SingleFileInput
+                          message='Upload your file'
+                          allowedFileTypes={['.pdf']}
+                          file={file}
+                          setFile={(newFile) =>
+                            setFile({
+                              fileName: newFile?.fileName as string,
+                              fileUrl: newFile?.fileUrl as string,
+                            })
+                          }
+                        />
+                        <div className='flex flex-row gap-4'>
+                          {hasSubmitted && (
+                            <Button
+                              onClick={() => setIsEditing(true)}
+                              type='button'
+                              color='trans-red'
+                              className='mt-6'
+                            >
+                              cancel
+                            </Button>
+                          )}
+                          <Button
+                            onClick={
+                              hasSubmitted ? handleFileUpdate : handleFileSubmit
+                            }
+                            type='button'
+                            color='white-2'
+                            className='mt-6'
+                          >
+                            {hasSubmitted ? 'Update File' : 'Submit File'}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    {isEditing ? (
+                      <>
+                        <p className='text-lg'>
+                          GitHub URL:{' '}
+                          <Link
+                            target='_blank'
+                            href={githubUrl}
+                            className='text-lg hover:underline hover:text-blue-400'
+                          >
+                            {githubUrl}
+                          </Link>
+                        </p>
+                        <p className='text-lg'>
+                          YouTube URL:{' '}
+                          <Link
+                            target='_blank'
+                            href={youtubeUrl}
+                            className='text-lg hover:underline hover:text-blue-400'
+                          >
+                            {youtubeUrl}
+                          </Link>
+                        </p>
+                        <Button
+                          onClick={() => setIsEditing(false)}
+                          type='button'
+                          color='white-2'
+                          className='mt-6'
+                        >
+                          Edit Links
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <div className='flex gap-2 flex-col w-full items-center justify-center'>
+                          <p className='text-lg md:text-xl'>Github URL:</p>
+                          <TextInput
+                            placeholder='GitHub URL'
+                            type='text'
+                            name='githubUrl'
+                            text={githubUrl}
+                            color='trans'
+                            onChange={(e) => setGithubUrl(e.target.value)}
+                            fullwidth
+                          />
+                          <p className='text-lg md:text-xl'>Youtube URL:</p>
+                          <TextInput
+                            placeholder='YouTube URL'
+                            type='text'
+                            name='youtubeUrl'
+                            text={youtubeUrl}
+                            color='trans'
+                            onChange={(e) => setYoutubeUrl(e.target.value)}
+                            fullwidth
+                          />
+                        </div>
+                        <div className='flex flex-row gap-4'>
+                          {hasSubmitted && (
+                            <Button
+                              onClick={() => setIsEditing(true)}
+                              type='button'
+                              color='trans-red'
+                              className='mt-6'
+                            >
+                              cancel
+                            </Button>
+                          )}
+                          <Button
+                            onClick={
+                              hasSubmitted ? handleFileUpdate : handleFileSubmit
+                            }
+                            type='button'
+                            color='white-2'
+                            className='mt-6'
+                          >
+                            {hasSubmitted ? 'Update File' : 'Submit File'}
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </>
         ) : (
           <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>

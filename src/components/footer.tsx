@@ -19,7 +19,9 @@ const LinkColumn = ({ header }) => (
           aria-label={link.text}
           className='hover:underline text-xs md:text-sm lg:text-base mb-1 w-fit'
         >
-          <p className='text-base font-semibold mb-1 w-fit'>{link.text}</p>
+          <p className='text-base text-center font-semibold mb-1 w-fit'>
+            {link.text}
+          </p>
         </Link>
       </div>
     ))}
@@ -33,6 +35,9 @@ const linksData = [
     },
     {
       header: [{ href: '/#about', text: 'About' }],
+    },
+    {
+      header: [{ href: '/contact-us', text: 'Contact Us' }],
     },
     /* {
       header: [{ href: '/', text: 'Sponsoship' }],
