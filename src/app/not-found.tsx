@@ -31,7 +31,7 @@ export default function Home() {
         />
         {/* Images */}
         <Image
-          src='/404assets/left-image-error.png'
+          src='/404assets/left.png'
           alt='Left Decorative Image'
           className='absolute md:top-[10%] md:left-[15.5%] md:w-[35%] w-[60%] top-[12%] left-[-5%]'
           width={0}
@@ -40,7 +40,7 @@ export default function Home() {
           priority
         />
         <Image
-          src='/404assets/right-image-error.png'
+          src='/404assets/right.png'
           alt='Right Decorative Image'
           className='absolute md:top-[10%] md:right-[8%] md:w-[39%] w-[58%] top-[25%] right-[-10%]'
           width={0}
