@@ -50,15 +50,15 @@ export async function GET(
     };
 
     if (!existingTeam.ticketCompetition.verified) {
-      result.teamStatus = 'Stage 1';
+      result.teamStatus = 'Stage 0';
     } else {
       if (existingTeam.abstract?.status !== 'qualified') {
-        result.teamStatus = 'Stage 2';
+        result.teamStatus = 'Stage 1';
       } else if (existingTeam.abstract.status === 'qualified') {
         if (existingTeam.regist3Data?.statusPayment !== 'verified') {
-          result.teamStatus = 'Stage 3 (payment not approved)';
+          result.teamStatus = 'Stage 2 (payment not approved)';
         } else if (existingTeam.regist3Data?.statusPayment === 'verified') {
-          result.teamStatus = 'Stage 3 (payment approved)';
+          result.teamStatus = 'Stage 2 (payment approved)';
         }
       }
     }
