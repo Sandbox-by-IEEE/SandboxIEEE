@@ -45,8 +45,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { fileUrl, githubUrl, youtubeUrl, competitionType } =
-      await req.json();
+    const {
+      fileUrl,
+      declarationFileUrl,
+      githubUrl,
+      youtubeUrl,
+      competitionType,
+    } = await req.json();
 
     if (!competitionType) {
       return NextResponse.json(
@@ -109,6 +114,7 @@ export async function POST(req: NextRequest) {
       teamName: team.teamName,
       chairmanName: team.chairmanName,
       fileUrl,
+      declarationFileUrl,
       githubUrl,
       youtubeUrl,
     };
