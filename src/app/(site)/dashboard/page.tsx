@@ -22,6 +22,13 @@ const DASHBOARD = () => {
     fileName: '',
     fileUrl: '',
   });
+  const [declarationFile, setDeclarationFile] = useState<{
+    fileName: string;
+    fileUrl: string;
+  }>({
+    fileName: '',
+    fileUrl: '',
+  });
   const [githubUrl, setGithubUrl] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -140,6 +147,7 @@ const DASHBOARD = () => {
         },
         body: JSON.stringify({
           fileUrl: file.fileUrl,
+          declarationFileUrl: declarationFile.fileUrl,
           githubUrl,
           youtubeUrl,
           competitionType,
@@ -371,28 +379,49 @@ const DASHBOARD = () => {
                         >
                           {file.fileUrl}
                         </Link>
-                        <Button
+                        {/* <Button
                           onClick={() => setIsEditing(false)}
                           type='button'
                           color='white-2'
                           className='mt-6'
                         >
                           Edit File
-                        </Button>
+                        </Button> */}
                       </div>
                     ) : (
                       <div className='flex flex-col w-full items-center justify-center'>
-                        <SingleFileInput
-                          message='Upload your file'
-                          allowedFileTypes={['.pdf']}
-                          file={file}
-                          setFile={(newFile) =>
-                            setFile({
-                              fileName: newFile?.fileName as string,
-                              fileUrl: newFile?.fileUrl as string,
-                            })
-                          }
-                        />
+                        <div className='flex flex-row gap-4'>
+                          <div className='flex flex-col gap-2 items-center justify-center'>
+                            <h2 className='font-bold'>Abstract</h2>
+                            <SingleFileInput
+                              message='Upload your file'
+                              allowedFileTypes={['.pdf']}
+                              file={file}
+                              setFile={(newFile) =>
+                                setFile({
+                                  fileName: newFile?.fileName as string,
+                                  fileUrl: newFile?.fileUrl as string,
+                                })
+                              }
+                            />
+                          </div>
+                          <div className='flex flex-col gap-2 items-center justify-center'>
+                            <h2 className='font-bold'>
+                              declaration of authenticity
+                            </h2>
+                            <SingleFileInput
+                              message='Upload your file'
+                              allowedFileTypes={['.pdf']}
+                              file={declarationFile}
+                              setFile={(newFile) =>
+                                setDeclarationFile({
+                                  fileName: newFile?.fileName as string,
+                                  fileUrl: newFile?.fileUrl as string,
+                                })
+                              }
+                            />
+                          </div>
+                        </div>
                         <div className='flex flex-row gap-4'>
                           {hasSubmitted && (
                             <Button
