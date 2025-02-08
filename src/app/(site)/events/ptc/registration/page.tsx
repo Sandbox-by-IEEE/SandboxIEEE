@@ -289,6 +289,15 @@ export default function PTCRegist() {
   };
 
   useEffect(() => {
+    const currentDate = new Date();
+    const comparisonDate = new Date('2025-02-09');
+    if (currentDate > comparisonDate) {
+      callToast({
+        status: 'error',
+        description: 'Registration is closed',
+      });
+      router.push('/events/ptc  ');
+    }
     if (status === 'loading') {
       return;
     }
