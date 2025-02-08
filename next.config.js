@@ -14,12 +14,7 @@ const nextConfig = {
         port: '',
         pathname: '/**/*',
       },
-      {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        port: '',
-        pathname: '/**/*',
-      },
+
       {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
@@ -35,9 +30,6 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
-  env: {
-    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-  },
 };
 
 module.exports = nextConfig;

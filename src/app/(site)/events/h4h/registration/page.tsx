@@ -330,6 +330,15 @@ export default function H4HRegist() {
   };
 
   useEffect(() => {
+    const currentDate = new Date();
+    const comparisonDate = new Date('2025-02-09');
+    if (currentDate > comparisonDate) {
+      callToast({
+        status: 'error',
+        description: 'Registration is closed',
+      });
+      router.push('/events/h4h');
+    }
     if (status === 'loading') return;
     if (!session?.user) {
       callToast({
