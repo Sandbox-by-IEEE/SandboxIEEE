@@ -290,7 +290,7 @@ export default function PTCRegist() {
 
   useEffect(() => {
     const currentDate = new Date();
-    const comparisonDate = new Date('2025-02-09');
+    const comparisonDate = new Date('2025-02-10');
     if (currentDate > comparisonDate) {
       callToast({
         status: 'error',
