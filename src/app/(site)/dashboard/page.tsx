@@ -33,6 +33,9 @@ const DASHBOARD = () => {
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
+
+   
 
   const fetchTeamData = async (teamId: string) => {
     try {
@@ -49,6 +52,15 @@ const DASHBOARD = () => {
       });
     }
   };
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const deadlineDate = new Date('2025-02-13');
+
+    if (currentDate >= deadlineDate) {
+      setIsDeadlinePassed(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -362,6 +374,12 @@ const DASHBOARD = () => {
                 {competitionType} Submission
               </div>
               <div className='mt-10 flex flex-col items-center justify-between'>
+              {isDeadlinePassed ? (
+                  <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+                    The deadline has been reached
+                  </div>
+                ) : (
+                  <>
                 {competitionType === 'PTC' ? (
                   <div>
                     <h2 className='flex items-center w-full justify-center mb-4 text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6'>
@@ -529,6 +547,9 @@ const DASHBOARD = () => {
                       </>
                     )}
                   </div>
+                )}z
+                
+                </>
                 )}
               </div>
             </div>
