@@ -41,27 +41,13 @@ export async function GET(
       chairmanName: existingTeam.chairmanName,
       chairmanEmail: existingTeam.chairmanEmail,
       members: existingTeam.members,
-      teamStatus: '',
+      teamStage: existingTeam.ticketCompetition.stage,
       abstract: existingTeam.abstract,
       karya: {
         ...existingTeam.karya,
         countVote: parseInt(existingTeam.karya?.countVote.toString() || '0'),
       },
     };
-
-    if (!existingTeam.ticketCompetition.verified) {
-      result.teamStatus = 'Stage 0';
-    } else {
-      if (existingTeam.abstract?.status !== 'qualified') {
-        result.teamStatus = 'Stage 1';
-      } else if (existingTeam.abstract.status === 'qualified') {
-        if (existingTeam.regist3Data?.statusPayment !== 'verified') {
-          result.teamStatus = 'Stage 2 (payment not approved)';
-        } else if (existingTeam.regist3Data?.statusPayment === 'verified') {
-          result.teamStatus = 'Stage 2 (payment approved)';
-        }
-      }
-    }
 
     return NextResponse.json(
       { data: result, message: 'get data successfull' },

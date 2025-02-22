@@ -137,6 +137,7 @@ model TicketCompetition {
   verified        String @default("pending")
   team            Team?
   user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stage           Int    @default(1)
 }
 
 model Team {
@@ -236,4 +237,5 @@ model PTCSubmissions {
   id      String @id
   teamId  String @unique
   fileUrl String
+  paymentProofUrl String @default("")
 }
