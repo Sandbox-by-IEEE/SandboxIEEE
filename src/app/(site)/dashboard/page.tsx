@@ -35,8 +35,6 @@ const DASHBOARD = () => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
 
-   
-
   const fetchTeamData = async (teamId: string) => {
     try {
       const response = await fetch(`/api/team/${teamId}`);
@@ -45,6 +43,7 @@ const DASHBOARD = () => {
       }
       const { data } = await response.json();
       setTeamData(data);
+      console.log(data);
     } catch (error) {
       callToast({
         status: 'error',
@@ -359,7 +358,7 @@ const DASHBOARD = () => {
                 backgroundRepeat: 'no-repeat',
               }}
             >
-              {teamData?.teamStatus}
+              {'Stage'} {teamData?.teamStage}
             </div>
 
             <div>
@@ -374,30 +373,30 @@ const DASHBOARD = () => {
                 {competitionType} Submission
               </div>
               <div className='mt-10 flex flex-col items-center justify-between'>
-              {isDeadlinePassed ? (
+                {isDeadlinePassed ? (
                   <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
                     The deadline has been reached
                   </div>
                 ) : (
                   <>
-                {competitionType === 'PTC' ? (
-                  <div>
-                    <h2 className='flex items-center w-full justify-center mb-4 text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6'>
-                      Abstract Submission
-                    </h2>
-                    {isEditing ? (
-                      <div className='flex flex-col w-full items-center justify-center'>
-                        <p className='font-bold md:text-xl text-lg'>
-                          Abstract Link:
-                        </p>
-                        <Link
-                          target='_blank'
-                          href={file.fileUrl}
-                          className='text-lg hover:underline hover:text-blue-400'
-                        >
-                          {file.fileUrl}
-                        </Link>
-                        {/* <Button
+                    {competitionType === 'PTC' ? (
+                      <div>
+                        <h2 className='flex items-center w-full justify-center mb-4 text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6'>
+                          Abstract Submission
+                        </h2>
+                        {isEditing ? (
+                          <div className='flex flex-col w-full items-center justify-center'>
+                            <p className='font-bold md:text-xl text-lg'>
+                              Abstract Link:
+                            </p>
+                            <Link
+                              target='_blank'
+                              href={file.fileUrl}
+                              className='text-lg hover:underline hover:text-blue-400'
+                            >
+                              {file.fileUrl}
+                            </Link>
+                            {/* <Button
                           onClick={() => setIsEditing(false)}
                           type='button'
                           color='white-2'
@@ -405,151 +404,155 @@ const DASHBOARD = () => {
                         >
                           Edit File
                         </Button> */}
+                          </div>
+                        ) : (
+                          <div className='flex flex-col w-full items-center justify-center'>
+                            <div className='flex flex-row gap-4'>
+                              <div className='flex flex-col gap-2 items-center justify-center'>
+                                <h2 className='font-bold'>Abstract</h2>
+                                <SingleFileInput
+                                  message='Upload your file'
+                                  allowedFileTypes={['.pdf']}
+                                  file={file}
+                                  setFile={(newFile) =>
+                                    setFile({
+                                      fileName: newFile?.fileName as string,
+                                      fileUrl: newFile?.fileUrl as string,
+                                    })
+                                  }
+                                />
+                              </div>
+                              <div className='flex flex-col gap-2 items-center justify-center'>
+                                <h2 className='font-bold'>
+                                  declaration of authenticity
+                                </h2>
+                                <SingleFileInput
+                                  message='Upload your file'
+                                  allowedFileTypes={['.pdf']}
+                                  file={declarationFile}
+                                  setFile={(newFile) =>
+                                    setDeclarationFile({
+                                      fileName: newFile?.fileName as string,
+                                      fileUrl: newFile?.fileUrl as string,
+                                    })
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div className='flex flex-row gap-4'>
+                              {hasSubmitted && (
+                                <Button
+                                  onClick={() => setIsEditing(true)}
+                                  type='button'
+                                  color='trans-red'
+                                  className='mt-6'
+                                >
+                                  cancel
+                                </Button>
+                              )}
+                              <Button
+                                onClick={
+                                  hasSubmitted
+                                    ? handleFileUpdate
+                                    : handleFileSubmit
+                                }
+                                type='button'
+                                color='white-2'
+                                className='mt-6'
+                              >
+                                {hasSubmitted ? 'Update File' : 'Submit File'}
+                              </Button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ) : (
-                      <div className='flex flex-col w-full items-center justify-center'>
-                        <div className='flex flex-row gap-4'>
-                          <div className='flex flex-col gap-2 items-center justify-center'>
-                            <h2 className='font-bold'>Abstract</h2>
-                            <SingleFileInput
-                              message='Upload your file'
-                              allowedFileTypes={['.pdf']}
-                              file={file}
-                              setFile={(newFile) =>
-                                setFile({
-                                  fileName: newFile?.fileName as string,
-                                  fileUrl: newFile?.fileUrl as string,
-                                })
-                              }
-                            />
-                          </div>
-                          <div className='flex flex-col gap-2 items-center justify-center'>
-                            <h2 className='font-bold'>
-                              declaration of authenticity
-                            </h2>
-                            <SingleFileInput
-                              message='Upload your file'
-                              allowedFileTypes={['.pdf']}
-                              file={declarationFile}
-                              setFile={(newFile) =>
-                                setDeclarationFile({
-                                  fileName: newFile?.fileName as string,
-                                  fileUrl: newFile?.fileUrl as string,
-                                })
-                              }
-                            />
-                          </div>
-                        </div>
-                        <div className='flex flex-row gap-4'>
-                          {hasSubmitted && (
+                      <div>
+                        {isEditing ? (
+                          <>
+                            <p className='text-lg'>
+                              GitHub URL:{' '}
+                              <Link
+                                target='_blank'
+                                href={githubUrl}
+                                className='text-lg hover:underline hover:text-blue-400'
+                              >
+                                {githubUrl}
+                              </Link>
+                            </p>
+                            <p className='text-lg'>
+                              YouTube URL:{' '}
+                              <Link
+                                target='_blank'
+                                href={youtubeUrl}
+                                className='text-lg hover:underline hover:text-blue-400'
+                              >
+                                {youtubeUrl}
+                              </Link>
+                            </p>
                             <Button
-                              onClick={() => setIsEditing(true)}
+                              onClick={() => setIsEditing(false)}
                               type='button'
-                              color='trans-red'
+                              color='white-2'
                               className='mt-6'
                             >
-                              cancel
+                              Edit Links
                             </Button>
-                          )}
-                          <Button
-                            onClick={
-                              hasSubmitted ? handleFileUpdate : handleFileSubmit
-                            }
-                            type='button'
-                            color='white-2'
-                            className='mt-6'
-                          >
-                            {hasSubmitted ? 'Update File' : 'Submit File'}
-                          </Button>
-                        </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className='flex gap-2 flex-col w-full items-center justify-center'>
+                              <p className='text-lg md:text-xl'>Github URL:</p>
+                              <TextInput
+                                placeholder='GitHub URL'
+                                type='text'
+                                name='githubUrl'
+                                text={githubUrl}
+                                color='trans'
+                                onChange={(e) => setGithubUrl(e.target.value)}
+                                fullwidth
+                              />
+                              <p className='text-lg md:text-xl'>Youtube URL:</p>
+                              <TextInput
+                                placeholder='YouTube URL'
+                                type='text'
+                                name='youtubeUrl'
+                                text={youtubeUrl}
+                                color='trans'
+                                onChange={(e) => setYoutubeUrl(e.target.value)}
+                                fullwidth
+                              />
+                            </div>
+                            <div className='flex flex-row gap-4'>
+                              {hasSubmitted && (
+                                <Button
+                                  onClick={() => setIsEditing(true)}
+                                  type='button'
+                                  color='trans-red'
+                                  className='mt-6'
+                                >
+                                  cancel
+                                </Button>
+                              )}
+                              <Button
+                                onClick={
+                                  hasSubmitted
+                                    ? handleFileUpdate
+                                    : handleFileSubmit
+                                }
+                                type='button'
+                                color='white-2'
+                                className='mt-6'
+                              >
+                                {hasSubmitted ? 'Update File' : 'Submit File'}
+                              </Button>
+                            </div>
+                          </>
+                        )}
                       </div>
                     )}
-                  </div>
-                ) : (
-                  <div>
-                    {isEditing ? (
-                      <>
-                        <p className='text-lg'>
-                          GitHub URL:{' '}
-                          <Link
-                            target='_blank'
-                            href={githubUrl}
-                            className='text-lg hover:underline hover:text-blue-400'
-                          >
-                            {githubUrl}
-                          </Link>
-                        </p>
-                        <p className='text-lg'>
-                          YouTube URL:{' '}
-                          <Link
-                            target='_blank'
-                            href={youtubeUrl}
-                            className='text-lg hover:underline hover:text-blue-400'
-                          >
-                            {youtubeUrl}
-                          </Link>
-                        </p>
-                        <Button
-                          onClick={() => setIsEditing(false)}
-                          type='button'
-                          color='white-2'
-                          className='mt-6'
-                        >
-                          Edit Links
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <div className='flex gap-2 flex-col w-full items-center justify-center'>
-                          <p className='text-lg md:text-xl'>Github URL:</p>
-                          <TextInput
-                            placeholder='GitHub URL'
-                            type='text'
-                            name='githubUrl'
-                            text={githubUrl}
-                            color='trans'
-                            onChange={(e) => setGithubUrl(e.target.value)}
-                            fullwidth
-                          />
-                          <p className='text-lg md:text-xl'>Youtube URL:</p>
-                          <TextInput
-                            placeholder='YouTube URL'
-                            type='text'
-                            name='youtubeUrl'
-                            text={youtubeUrl}
-                            color='trans'
-                            onChange={(e) => setYoutubeUrl(e.target.value)}
-                            fullwidth
-                          />
-                        </div>
-                        <div className='flex flex-row gap-4'>
-                          {hasSubmitted && (
-                            <Button
-                              onClick={() => setIsEditing(true)}
-                              type='button'
-                              color='trans-red'
-                              className='mt-6'
-                            >
-                              cancel
-                            </Button>
-                          )}
-                          <Button
-                            onClick={
-                              hasSubmitted ? handleFileUpdate : handleFileSubmit
-                            }
-                            type='button'
-                            color='white-2'
-                            className='mt-6'
-                          >
-                            {hasSubmitted ? 'Update File' : 'Submit File'}
-                          </Button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )}z
-                
-                </>
+                    z
+                  </>
                 )}
               </div>
             </div>
