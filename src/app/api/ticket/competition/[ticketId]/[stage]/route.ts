@@ -63,22 +63,23 @@ export async function PATCH(
     if (status === 'verified') {
       heading = `Your Team Cleared Stage ${stage}!`;
       content = `
-        Congratulations on advancing to the Semifinal Stage of the ProtoTech Contest 2025! Your team's hard work on the abstract has truly paid off, and we commend your efforts. You can view your score here: <a href="https://bit.ly/PTC25AbstractScore">https://bit.ly/PTC25AbstractScore<a/>.
+        Congratulations on advancing to the Semifinal Stage of the ProtoTech Contest 2025! Your team's hard work on the abstract has truly paid off, and we commend your efforts. You can view your score here: <a>https://bit.ly/PTC25AbstractScore<a/>.
         As you prepare for this exciting stage, please keep in mind the following key tasks:
         1. Submit a full paper.
         2. Create a compelling pitching video.
         To help you transition smoothly into the Semifinal Stage, we will be holding a Technical Meeting. This will be a great opportunity to discuss important guidelines and address any questions you may have. We strongly encourage your attendance. Here are the details for the meeting:
         - Date: 23 February 2025 (tomorrow!)
         - Time: 10:00 WIB (GMT +7)
-        - Meeting link: https://meet.google.com/wzf-koaa-nzf
-        - Meeting link: <a href="https://meet.google.com/wzf-koaa-nzf">https://meet.google.com/wzf-koaa-nzf<a/>
+        - Meeting link: <a>https://meet.google.com/wzf-koaa-nzf<a/>
+        - Meeting link:
+        https://meet.google.com/wzf-koaa-nzf
         Once again, congratulations on this achievement! We are eager to see how your prototype develops and flourishes in the coming stage...
       `;
     } else if (status === 'rejected') {
       heading = `Your Team Didn't Clear Stage ${stage}`;
       content = `
         We want to extend our heartfelt appreciation for your hard work and dedication in the ProtoTech Contest 2025!
-        After careful evaluation, we regret to inform you that your team has not advanced to the semifinal round. <a href="https://bit.ly/PTC25AbstractScore">https://bit.ly/PTC25AbstractScore<a/>
+        After careful evaluation, we regret to inform you that your team has not advanced to the semifinal round. <a>https://bit.ly/PTC25AbstractScore<a/>
         We understand this may not be the outcome you hoped for, but we want to emphasize that your efforts and innovative ideas are truly commendable. Every project is an opportunity for growth, and we encourage you to continue exploring and refining your work. Each experience brings you closer to future success!
         Thank you once again for being a valuable part of ProtoTech Contest 2025. We look forward to seeing you in future competitions, where you can showcase even more of your groundbreaking ideas. Keep pushing forward and make your vision a reality!
         Best regards,  
