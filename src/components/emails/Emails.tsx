@@ -5,6 +5,7 @@ import {
   Heading,
   Html,
   Img,
+  Link,
   Row,
   Section,
   Tailwind,
@@ -55,32 +56,18 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
                 <Text className='text-[#705229] gap-2 flex flex-col text-sm font-semibold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
                   {content.split('\n').map((line, index) => {
                     const urlPattern = new RegExp('(https?://[^\\s]+)', 'g');
-                    const linkPattern = /<a>(.*?)<\/a>/g;
-                    const parts = line.split(linkPattern);
-                
                     return (
                       <React.Fragment key={index}>
-                        {parts.map((part, i) => {
-                          if (urlPattern.test(part)) {
-                            return (
-                              <a key={i} href={part}>
-                                {part}
-                              </a>
-                            );
-                          } else if (linkPattern.test(line)) {
-                            return (
-                              <a key={i} href={part}>
-                                {part}
-                              </a>
-                            );
-                          } else {
-                            return <p key={i}>{part}</p>;
-                          }
-                        })}
+                        {urlPattern.test(line) ? (
+                          <Link href={line}>{line}</Link>
+                        ) : (
+                          <p>{line}</p>
+                        )}
                       </React.Fragment>
                     );
                   })}
                 </Text>
+
                 {qrUrl ? (
                   <Img
                     src={qrUrl}
