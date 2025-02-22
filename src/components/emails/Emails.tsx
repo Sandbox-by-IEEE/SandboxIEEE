@@ -5,7 +5,6 @@ import {
   Heading,
   Html,
   Img,
-  Link,
   Row,
   Section,
   Tailwind,
@@ -64,15 +63,15 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
                         {parts.map((part, i) => {
                           if (urlPattern.test(part)) {
                             return (
-                              <Link key={i} href={part}>
+                              <a key={i} href={part}>
                                 {part}
-                              </Link>
+                              </a>
                             );
                           } else if (linkPattern.test(line)) {
                             return (
-                              <Link key={i} href={part}>
+                              <a key={i} href={part}>
                                 {part}
-                              </Link>
+                              </a>
                             );
                           } else {
                             return <p key={i}>{part}</p>;
