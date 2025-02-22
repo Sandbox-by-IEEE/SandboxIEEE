@@ -70,6 +70,7 @@ export async function PATCH(
         To help you transition smoothly into the Semifinal Stage, we will be holding a Technical Meeting. This will be a great opportunity to discuss important guidelines and address any questions you may have. We strongly encourage your attendance. Here are the details for the meeting:
         - Date: 23 February 2025 (tomorrow!)
         - Time: 10:00 WIB (GMT +7)
+        - Meeting link: https://meet.google.com/wzf-koaa-nzf
         - Meeting link: <a href="https://meet.google.com/wzf-koaa-nzf">https://meet.google.com/wzf-koaa-nzf<a/>
         Once again, congratulations on this achievement! We are eager to see how your prototype develops and flourishes in the coming stage...
       `;
