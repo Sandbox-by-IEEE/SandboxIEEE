@@ -29,9 +29,18 @@ const DASHBOARD = () => {
     fileName: '',
     fileUrl: '',
   });
+  const [paymentProofFile, setPaymentProofFile] = useState<{
+    fileName: string;
+    fileUrl: string;
+  }>({
+    fileName: '',
+    fileUrl: '',
+  });
   const [githubUrl, setGithubUrl] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingPayment, setIsEditingPayment] = useState(false);
+  const [hasSubmittedPayment, setHasSubmittedPayment] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
 
@@ -43,7 +52,7 @@ const DASHBOARD = () => {
       }
       const { data } = await response.json();
       setTeamData(data);
-      console.log(data);
+      console.log("team data", data);
     } catch (error) {
       callToast({
         status: 'error',
@@ -81,11 +90,12 @@ const DASHBOARD = () => {
       } else if (ticket?.PTC.buy && ticket.PTC.verified === 'verified') {
         setCompetitionType('PTC');
         fetchTeamData(ticket.PTC.teamId);
-        checkSubmissionStatus();
+        checkSubmission1Status();
+        checkSubmission12Status();
       } else if (ticket?.H4H.buy && ticket.H4H.verified === 'verified') {
         setCompetitionType('H4H');
         fetchTeamData(ticket.H4H.teamId);
-        checkSubmissionStatus();
+        checkSubmission1Status();
       } else if (ticket?.PTC.buy && ticket.PTC.verified === 'pending') {
         setCompetitionType('PTC');
       } else if (ticket?.H4H.buy && ticket.H4H.verified === 'pending') {
@@ -108,7 +118,7 @@ const DASHBOARD = () => {
     }
   }, [status, router, session?.user]);
 
-  const checkSubmissionStatus = async () => {
+  const checkSubmission1Status = async () => {
     try {
       const response = await fetch('/api/ticket/competition/submission1', {
         method: 'GET',
@@ -139,7 +149,7 @@ const DASHBOARD = () => {
     }
   };
 
-  const handleFileSubmit = async () => {
+  const handleFileSubmit1 = async () => {
     if (!file.fileUrl && !githubUrl && !youtubeUrl) {
       callToast({
         status: 'error',
@@ -185,7 +195,7 @@ const DASHBOARD = () => {
     }
   };
 
-  const handleFileUpdate = async () => {
+  const handleFileUpdate1 = async () => {
     if (!file.fileUrl && !githubUrl && !youtubeUrl) {
       callToast({
         status: 'error',
@@ -223,6 +233,79 @@ const DASHBOARD = () => {
       callToast({
         status: 'error',
         description: 'Failed to update data',
+      });
+    } finally {
+      toast.dismiss(loadingToastId);
+    }
+  };
+
+  // PTC PAYMENT
+  const checkSubmission12Status = async () => {
+    try {
+      const response = await fetch('/api/ticket/competition/ptcpayment', {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to check payment1 submission status');
+      }
+
+      const data = await response.json();
+      if (data.submitted) {
+        setPaymentProofFile({
+          fileName: data.paymentProofUrl.split('/').pop(),
+          fileUrl: data.paymentProofUrl,
+        });
+        setIsEditingPayment(true);
+        setHasSubmittedPayment(true);
+      } else {
+        setHasSubmittedPayment(false);
+      }
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: 'Failed to check payment2 submission status',
+      });
+    }
+  };
+
+  const handleFileSubmit12 = async () => {
+    if (!paymentProofFile.fileUrl) {
+      callToast({
+        status: 'error',
+        description: 'Please upload a file or provide URLs first',
+      });
+      return;
+    }
+
+    const loadingToastId = callLoading('Updating your file...');
+
+    try {
+      const response = await fetch('/api/ticket/competition/ptcpayment', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentProofUrl: paymentProofFile.fileUrl,
+          competitionType,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to senddata');
+      }
+
+      callToast({
+        status: 'success',
+        description: 'Data sent successfully',
+      });
+      setIsEditingPayment(true);
+      setHasSubmittedPayment(true);
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: 'Failed to send data',
       });
     } finally {
       toast.dismiss(loadingToastId);
@@ -360,7 +443,7 @@ const DASHBOARD = () => {
             >
               {'Stage'} {teamData?.teamStage}
             </div>
-
+            {/* LOWER SECTION */}
             <div>
               <div
                 className='bg-[url("/dashboard/profile.png")] rounded-[3vw] text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6 px-[4vw] py-[2vw]'
@@ -369,9 +452,10 @@ const DASHBOARD = () => {
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
                 }}
-              >
+                >
                 {competitionType} Submission
               </div>
+                { teamData?.teamStage === 1 ? (
               <div className='mt-10 flex flex-col items-center justify-between'>
                 {isDeadlinePassed ? (
                   <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
@@ -453,8 +537,8 @@ const DASHBOARD = () => {
                               <Button
                                 onClick={
                                   hasSubmitted
-                                    ? handleFileUpdate
-                                    : handleFileSubmit
+                                    ? handleFileUpdate1
+                                    : handleFileSubmit1
                                 }
                                 type='button'
                                 color='white-2'
@@ -537,8 +621,8 @@ const DASHBOARD = () => {
                               <Button
                                 onClick={
                                   hasSubmitted
-                                    ? handleFileUpdate
-                                    : handleFileSubmit
+                                    ? handleFileUpdate1
+                                    : handleFileSubmit1
                                 }
                                 type='button'
                                 color='white-2'
@@ -551,10 +635,66 @@ const DASHBOARD = () => {
                         )}
                       </div>
                     )}
-                    z
                   </>
                 )}
               </div>
+          ) : ( 
+            //STAGE 2
+            <div>
+              <>
+              {competitionType === 'PTC' && (
+                      <div>
+                        <h2 className='flex items-center w-full justify-center mb-4 text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6'>
+                          Payment proof Submission
+                        </h2>
+                        {isEditingPayment ? (
+                          <div className='flex flex-col w-full items-center justify-center'>
+                            <p className='font-bold md:text-xl text-lg'>
+                              Payment Proof Link:
+                            </p>
+                            <Link
+                              target='_blank'
+                              href={paymentProofFile.fileUrl}
+                              className='text-lg hover:underline hover:text-blue-400'
+                            >
+                              {paymentProofFile.fileUrl}
+                            </Link>
+                          </div>
+                        ) : (
+                          <div className='flex flex-col w-full items-center justify-center'>
+                            <div className='flex flex-row gap-4'>
+                              <div className='flex flex-col gap-2 items-center justify-center'>
+                                <h2 className='font-bold'>Payment proof</h2>
+                                <SingleFileInput
+                                  message='Upload your file'
+                                  allowedFileTypes={['.pdf', '.jpg', '.jpeg', '.png']}
+                                  file={paymentProofFile}
+                                  setFile={(newFile) =>
+                                    setPaymentProofFile({
+                                      fileName: newFile?.fileName as string,
+                                      fileUrl: newFile?.fileUrl as string,
+                                    })
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div className='flex flex-row gap-4'>
+                              <Button
+                                onClick={handleFileSubmit12}
+                                type='button'
+                                color='white-2'
+                                className='mt-6'
+                              >
+                                {'Submit File'}
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+              </>
+            </div>
+            )}
             </div>
           </>
         ) : (
