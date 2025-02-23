@@ -135,9 +135,9 @@ model TicketCompetition {
   userId          String
   competitionType String
   verified        String @default("pending")
+  stage           Float  @default(1.0)
   team            Team?
   user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stage           Float    @default(1)
 }
 
 model Team {
@@ -225,7 +225,6 @@ model RefferalCode {
   teamName     String?
 }
 
-
 model H4HSubmissions {
   id         String @id
   teamId     String @unique
@@ -234,8 +233,8 @@ model H4HSubmissions {
 }
 
 model PTCSubmissions {
-  id      String @id
-  teamId  String @unique
-  fileUrl String
+  id              String @id
+  teamId          String @unique
+  fileUrl         String
   paymentProofUrl String @default("")
 }

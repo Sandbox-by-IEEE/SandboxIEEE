@@ -664,7 +664,11 @@ const DASHBOARD = () => {
                           <div className='flex flex-col w-full items-center justify-center'>
                             <div className='flex flex-row gap-4'>
                               <div className='flex flex-col gap-2 items-center justify-center'>
-                                <h2 className='font-bold'>Payment proof</h2>
+                                <h2 className='font-bold'>Total: Rp 285.000,00
+                                  </h2>
+                                  <p className='flex items-center text-center'>EIFELLYN CHEVARA<br/>
+Bank Mandiri<br/>
+1710013587376</p>
                                 <SingleFileInput
                                   message='Upload your file'
                                   allowedFileTypes={['.pdf', '.jpg', '.jpeg', '.png']}
