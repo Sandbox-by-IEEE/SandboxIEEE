@@ -137,7 +137,7 @@ model TicketCompetition {
   verified        String @default("pending")
   team            Team?
   user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stage           Int    @default(1)
+  stage           Float    @default(1)
 }
 
 model Team {
