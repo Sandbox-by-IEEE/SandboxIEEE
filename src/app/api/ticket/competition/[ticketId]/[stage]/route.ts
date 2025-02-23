@@ -119,7 +119,7 @@ export async function PATCH(
             id: ticketId,
           },
           data: {
-            stage: stage,
+            stage: Number(stage),
           },
         });
       }
