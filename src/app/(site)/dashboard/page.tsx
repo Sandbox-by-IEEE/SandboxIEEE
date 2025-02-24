@@ -667,48 +667,49 @@ const DASHBOARD = () => {
                             </Link>
                           </div>
                         ) : (
-                          <div className='flex flex-col w-full items-center justify-center'>
-                            <div className='flex flex-row gap-4'>
-                              <div className='flex flex-col gap-2 items-center justify-center'>
-                                <h2 className='font-bold'>
-                                  Total: Rp 285.000,00
-                                </h2>
-                                <p className='flex items-center text-center'>
-                                  EIFELLYN CHEVARA
-                                  <br />
-                                  Bank Mandiri
-                                  <br />
-                                  1710013587376
-                                </p>
-                                <SingleFileInput
-                                  message='Upload your file'
-                                  allowedFileTypes={[
-                                    '.pdf',
-                                    '.jpg',
-                                    '.jpeg',
-                                    '.png',
-                                  ]}
-                                  file={paymentProofFile}
-                                  setFile={(newFile) =>
-                                    setPaymentProofFile({
-                                      fileName: newFile?.fileName as string,
-                                      fileUrl: newFile?.fileUrl as string,
-                                    })
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div className='flex flex-row gap-4'>
-                              <Button
-                                onClick={handleFileSubmit12}
-                                type='button'
-                                color='white-2'
-                                className='mt-6'
-                              >
-                                {'Submit File'}
-                              </Button>
-                            </div>
-                          </div>
+                          <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>The payment submission is already closed</div>
+                          // <div className='flex flex-col w-full items-center justify-center'>
+                          //   <div className='flex flex-row gap-4'>
+                          //     <div className='flex flex-col gap-2 items-center justify-center'>
+                          //       <h2 className='font-bold'>
+                          //         Total: Rp 285.000,00
+                          //       </h2>
+                          //       <p className='flex items-center text-center'>
+                          //         EIFELLYN CHEVARA
+                          //         <br />
+                          //         Bank Mandiri
+                          //         <br />
+                          //         1710013587376
+                          //       </p>
+                          //       <SingleFileInput
+                          //         message='Upload your file'
+                          //         allowedFileTypes={[
+                          //           '.pdf',
+                          //           '.jpg',
+                          //           '.jpeg',
+                          //           '.png',
+                          //         ]}
+                          //         file={paymentProofFile}
+                          //         setFile={(newFile) =>
+                          //           setPaymentProofFile({
+                          //             fileName: newFile?.fileName as string,
+                          //             fileUrl: newFile?.fileUrl as string,
+                          //           })
+                          //         }
+                          //       />
+                          //     </div>
+                          //   </div>
+                          //   <div className='flex flex-row gap-4'>
+                          //     <Button
+                          //       onClick={handleFileSubmit12}
+                          //       type='button'
+                          //       color='white-2'
+                          //       className='mt-6'
+                          //     >
+                          //       {'Submit File'}
+                          //     </Button>
+                          //   </div>
+                          // </div>
                         )}
                       </div>
                     )}
