@@ -52,7 +52,7 @@ const DASHBOARD = () => {
       }
       const { data } = await response.json();
       setTeamData(data);
-      console.log("team data", data);
+      console.log('team data', data);
     } catch (error) {
       callToast({
         status: 'error',
@@ -452,35 +452,35 @@ const DASHBOARD = () => {
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
                 }}
-                >
+              >
                 {competitionType} Submission
               </div>
-                { teamData?.teamStage === 1 ? (
-              <div className='mt-10 flex flex-col items-center justify-between'>
-                {isDeadlinePassed ? (
-                  <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
-                    The deadline has been reached
-                  </div>
-                ) : (
-                  <>
-                    {competitionType === 'PTC' ? (
-                      <div>
-                        <h2 className='flex items-center w-full justify-center mb-4 text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6'>
-                          Abstract Submission
-                        </h2>
-                        {isEditing ? (
-                          <div className='flex flex-col w-full items-center justify-center'>
-                            <p className='font-bold md:text-xl text-lg'>
-                              Abstract Link:
-                            </p>
-                            <Link
-                              target='_blank'
-                              href={file.fileUrl}
-                              className='text-lg hover:underline hover:text-blue-400'
-                            >
-                              {file.fileUrl}
-                            </Link>
-                            {/* <Button
+              {teamData?.teamStage === 1 ? (
+                <div className='mt-10 flex flex-col items-center justify-between'>
+                  {isDeadlinePassed ? (
+                    <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>
+                      The deadline has been reached
+                    </div>
+                  ) : (
+                    <>
+                      {competitionType === 'PTC' ? (
+                        <div>
+                          <h2 className='flex items-center w-full justify-center mb-4 text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6'>
+                            Abstract Submission
+                          </h2>
+                          {isEditing ? (
+                            <div className='flex flex-col w-full items-center justify-center'>
+                              <p className='font-bold md:text-xl text-lg'>
+                                Abstract Link:
+                              </p>
+                              <Link
+                                target='_blank'
+                                href={file.fileUrl}
+                                className='text-lg hover:underline hover:text-blue-400'
+                              >
+                                {file.fileUrl}
+                              </Link>
+                              {/* <Button
                           onClick={() => setIsEditing(false)}
                           type='button'
                           color='white-2'
@@ -488,161 +488,167 @@ const DASHBOARD = () => {
                         >
                           Edit File
                         </Button> */}
-                          </div>
-                        ) : (
-                          <div className='flex flex-col w-full items-center justify-center'>
-                            <div className='flex flex-row gap-4'>
-                              <div className='flex flex-col gap-2 items-center justify-center'>
-                                <h2 className='font-bold'>Abstract</h2>
-                                <SingleFileInput
-                                  message='Upload your file'
-                                  allowedFileTypes={['.pdf']}
-                                  file={file}
-                                  setFile={(newFile) =>
-                                    setFile({
-                                      fileName: newFile?.fileName as string,
-                                      fileUrl: newFile?.fileUrl as string,
-                                    })
-                                  }
-                                />
-                              </div>
-                              <div className='flex flex-col gap-2 items-center justify-center'>
-                                <h2 className='font-bold'>
-                                  declaration of authenticity
-                                </h2>
-                                <SingleFileInput
-                                  message='Upload your file'
-                                  allowedFileTypes={['.pdf']}
-                                  file={declarationFile}
-                                  setFile={(newFile) =>
-                                    setDeclarationFile({
-                                      fileName: newFile?.fileName as string,
-                                      fileUrl: newFile?.fileUrl as string,
-                                    })
-                                  }
-                                />
-                              </div>
                             </div>
-                            <div className='flex flex-row gap-4'>
-                              {hasSubmitted && (
+                          ) : (
+                            <div className='flex flex-col w-full items-center justify-center'>
+                              <div className='flex flex-row gap-4'>
+                                <div className='flex flex-col gap-2 items-center justify-center'>
+                                  <h2 className='font-bold'>Abstract</h2>
+                                  <SingleFileInput
+                                    message='Upload your file'
+                                    allowedFileTypes={['.pdf']}
+                                    file={file}
+                                    setFile={(newFile) =>
+                                      setFile({
+                                        fileName: newFile?.fileName as string,
+                                        fileUrl: newFile?.fileUrl as string,
+                                      })
+                                    }
+                                  />
+                                </div>
+                                <div className='flex flex-col gap-2 items-center justify-center'>
+                                  <h2 className='font-bold'>
+                                    declaration of authenticity
+                                  </h2>
+                                  <SingleFileInput
+                                    message='Upload your file'
+                                    allowedFileTypes={['.pdf']}
+                                    file={declarationFile}
+                                    setFile={(newFile) =>
+                                      setDeclarationFile({
+                                        fileName: newFile?.fileName as string,
+                                        fileUrl: newFile?.fileUrl as string,
+                                      })
+                                    }
+                                  />
+                                </div>
+                              </div>
+                              <div className='flex flex-row gap-4'>
+                                {hasSubmitted && (
+                                  <Button
+                                    onClick={() => setIsEditing(true)}
+                                    type='button'
+                                    color='trans-red'
+                                    className='mt-6'
+                                  >
+                                    cancel
+                                  </Button>
+                                )}
                                 <Button
-                                  onClick={() => setIsEditing(true)}
+                                  onClick={
+                                    hasSubmitted
+                                      ? handleFileUpdate1
+                                      : handleFileSubmit1
+                                  }
                                   type='button'
-                                  color='trans-red'
+                                  color='white-2'
                                   className='mt-6'
                                 >
-                                  cancel
+                                  {hasSubmitted ? 'Update File' : 'Submit File'}
                                 </Button>
-                              )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          {isEditing ? (
+                            <>
+                              <p className='text-lg'>
+                                GitHub URL:{' '}
+                                <Link
+                                  target='_blank'
+                                  href={githubUrl}
+                                  className='text-lg hover:underline hover:text-blue-400'
+                                >
+                                  {githubUrl}
+                                </Link>
+                              </p>
+                              <p className='text-lg'>
+                                YouTube URL:{' '}
+                                <Link
+                                  target='_blank'
+                                  href={youtubeUrl}
+                                  className='text-lg hover:underline hover:text-blue-400'
+                                >
+                                  {youtubeUrl}
+                                </Link>
+                              </p>
                               <Button
-                                onClick={
-                                  hasSubmitted
-                                    ? handleFileUpdate1
-                                    : handleFileSubmit1
-                                }
+                                onClick={() => setIsEditing(false)}
                                 type='button'
                                 color='white-2'
                                 className='mt-6'
                               >
-                                {hasSubmitted ? 'Update File' : 'Submit File'}
+                                Edit Links
                               </Button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div>
-                        {isEditing ? (
-                          <>
-                            <p className='text-lg'>
-                              GitHub URL:{' '}
-                              <Link
-                                target='_blank'
-                                href={githubUrl}
-                                className='text-lg hover:underline hover:text-blue-400'
-                              >
-                                {githubUrl}
-                              </Link>
-                            </p>
-                            <p className='text-lg'>
-                              YouTube URL:{' '}
-                              <Link
-                                target='_blank'
-                                href={youtubeUrl}
-                                className='text-lg hover:underline hover:text-blue-400'
-                              >
-                                {youtubeUrl}
-                              </Link>
-                            </p>
-                            <Button
-                              onClick={() => setIsEditing(false)}
-                              type='button'
-                              color='white-2'
-                              className='mt-6'
-                            >
-                              Edit Links
-                            </Button>
-                          </>
-                        ) : (
-                          <>
-                            <div className='flex gap-2 flex-col w-full items-center justify-center'>
-                              <p className='text-lg md:text-xl'>Github URL:</p>
-                              <TextInput
-                                placeholder='GitHub URL'
-                                type='text'
-                                name='githubUrl'
-                                text={githubUrl}
-                                color='trans'
-                                onChange={(e) => setGithubUrl(e.target.value)}
-                                fullwidth
-                              />
-                              <p className='text-lg md:text-xl'>Youtube URL:</p>
-                              <TextInput
-                                placeholder='YouTube URL'
-                                type='text'
-                                name='youtubeUrl'
-                                text={youtubeUrl}
-                                color='trans'
-                                onChange={(e) => setYoutubeUrl(e.target.value)}
-                                fullwidth
-                              />
-                            </div>
-                            <div className='flex flex-row gap-4'>
-                              {hasSubmitted && (
+                            </>
+                          ) : (
+                            <>
+                              <div className='flex gap-2 flex-col w-full items-center justify-center'>
+                                <p className='text-lg md:text-xl'>
+                                  Github URL:
+                                </p>
+                                <TextInput
+                                  placeholder='GitHub URL'
+                                  type='text'
+                                  name='githubUrl'
+                                  text={githubUrl}
+                                  color='trans'
+                                  onChange={(e) => setGithubUrl(e.target.value)}
+                                  fullwidth
+                                />
+                                <p className='text-lg md:text-xl'>
+                                  Youtube URL:
+                                </p>
+                                <TextInput
+                                  placeholder='YouTube URL'
+                                  type='text'
+                                  name='youtubeUrl'
+                                  text={youtubeUrl}
+                                  color='trans'
+                                  onChange={(e) =>
+                                    setYoutubeUrl(e.target.value)
+                                  }
+                                  fullwidth
+                                />
+                              </div>
+                              <div className='flex flex-row gap-4'>
+                                {hasSubmitted && (
+                                  <Button
+                                    onClick={() => setIsEditing(true)}
+                                    type='button'
+                                    color='trans-red'
+                                    className='mt-6'
+                                  >
+                                    cancel
+                                  </Button>
+                                )}
                                 <Button
-                                  onClick={() => setIsEditing(true)}
+                                  onClick={
+                                    hasSubmitted
+                                      ? handleFileUpdate1
+                                      : handleFileSubmit1
+                                  }
                                   type='button'
-                                  color='trans-red'
+                                  color='white-2'
                                   className='mt-6'
                                 >
-                                  cancel
+                                  {hasSubmitted ? 'Update File' : 'Submit File'}
                                 </Button>
-                              )}
-                              <Button
-                                onClick={
-                                  hasSubmitted
-                                    ? handleFileUpdate1
-                                    : handleFileSubmit1
-                                }
-                                type='button'
-                                color='white-2'
-                                className='mt-6'
-                              >
-                                {hasSubmitted ? 'Update File' : 'Submit File'}
-                              </Button>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-          ) : ( 
-            //STAGE 2
-            <div>
-              <>
-              {competitionType === 'PTC' && (
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              ) : (
+                //STAGE 2
+                <div>
+                  <>
+                    {competitionType === 'PTC' && (
                       <div>
                         <h2 className='flex items-center w-full justify-center mb-4 text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins leading-normal lg:mt-12 mt-6'>
                           Payment proof Submission
@@ -664,14 +670,24 @@ const DASHBOARD = () => {
                           <div className='flex flex-col w-full items-center justify-center'>
                             <div className='flex flex-row gap-4'>
                               <div className='flex flex-col gap-2 items-center justify-center'>
-                                <h2 className='font-bold'>Total: Rp 285.000,00
-                                  </h2>
-                                  <p className='flex items-center text-center'>EIFELLYN CHEVARA<br/>
-Bank Mandiri<br/>
-1710013587376</p>
+                                <h2 className='font-bold'>
+                                  Total: Rp 285.000,00
+                                </h2>
+                                <p className='flex items-center text-center'>
+                                  EIFELLYN CHEVARA
+                                  <br />
+                                  Bank Mandiri
+                                  <br />
+                                  1710013587376
+                                </p>
                                 <SingleFileInput
                                   message='Upload your file'
-                                  allowedFileTypes={['.pdf', '.jpg', '.jpeg', '.png']}
+                                  allowedFileTypes={[
+                                    '.pdf',
+                                    '.jpg',
+                                    '.jpeg',
+                                    '.png',
+                                  ]}
                                   file={paymentProofFile}
                                   setFile={(newFile) =>
                                     setPaymentProofFile({
@@ -696,9 +712,9 @@ Bank Mandiri<br/>
                         )}
                       </div>
                     )}
-              </>
-            </div>
-            )}
+                  </>
+                </div>
+              )}
             </div>
           </>
         ) : (
