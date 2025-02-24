@@ -63,7 +63,7 @@ export async function PATCH(
     if (status === 'verified') {
       heading = `Your Team Cleared Stage ${stage}!`;
       content = `
-        Congratulations on completing your re-registration! We are happy to confirm that we have successfully received and verified your payment, finalizing your registration process.        https://bit.ly/PTC25AbstractScore
+        Congratulations on completing your re-registration! We are happy to confirm that we have successfully received and verified your payment, finalizing your registration process.
         To facilitate communication, we invite you to join the WA Group for Semifinalists, as it is essential for all members to be part of this group.
         https://chat.whatsapp.com/LWTYHmJ7lvG6QBmKggGEwT
         If you need any assistance or have questions, please feel free to reach out to us.
