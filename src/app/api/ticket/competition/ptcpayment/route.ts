@@ -18,7 +18,10 @@ export async function GET(req: NextRequest) {
       where: { id: session.user.id },
     });
 
-    if (ptcSubmission?.paymentProofUrl === null || ptcSubmission?.paymentProofUrl === '') {
+    if (
+      ptcSubmission?.paymentProofUrl === null ||
+      ptcSubmission?.paymentProofUrl === ''
+    ) {
       return NextResponse.json({ submitted: false }, { status: 200 });
     }
 
@@ -39,8 +42,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { paymentProofUrl, competitionType } =
-      await req.json();
+    const { paymentProofUrl, competitionType } = await req.json();
 
     if (!competitionType) {
       return NextResponse.json(
@@ -50,11 +52,11 @@ export async function PUT(req: NextRequest) {
     }
 
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    
+
     let teamId;
     if (competitionType === 'PTC') {
       teamId = session.user.ticket?.PTC.teamId;
@@ -86,29 +88,26 @@ export async function PUT(req: NextRequest) {
           paymentProofUrl,
         },
       });
-    } 
+    }
 
     const dataForSheet = {
       submissionId: submission.id,
       ticketId: team.ticketId,
       teamName: team.teamName,
       chairmanName: team.chairmanName,
-      paymentProofUrl
+      paymentProofUrl,
     };
 
     // Logging data for debugging purposes
     // console.log('Sending data to sheet:', dataForSheet);
 
-    const response = await fetch(
-      `${sheetAPI}?type=PTC_STAGE1-2&method=PUT`,
-      {
-        method: 'POST', // Change this to POST since Apps Script only handles POST
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataForSheet),
+    const response = await fetch(`${sheetAPI}?type=PTC_STAGE1-2&method=PUT`, {
+      method: 'POST', // Change this to POST since Apps Script only handles POST
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(dataForSheet),
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
