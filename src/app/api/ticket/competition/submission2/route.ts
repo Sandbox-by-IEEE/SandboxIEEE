@@ -19,8 +19,10 @@ export async function GET(req: NextRequest) {
     });
 
     if (
-      ptcSubmission?.paymentProofUrl === null ||
-      ptcSubmission?.paymentProofUrl === ''
+      ptcSubmission?.paperUrl === null ||
+      ptcSubmission?.paperUrl === '' ||
+      ptcSubmission?.pitchingVideoUrl === null ||
+      ptcSubmission?.pitchingVideoUrl === ''
     ) {
       return NextResponse.json({ submitted: false }, { status: 200 });
     }
@@ -28,7 +30,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         submitted: true,
-        paymentProofUrl: ptcSubmission?.paymentProofUrl || '',
+        paperUrl: ptcSubmission?.paperUrl || '',
+        pitchingVideoUrl: ptcSubmission?.pitchingVideoUrl || '',
       },
       { status: 200 },
     );
@@ -42,7 +45,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { paymentProofUrl, competitionType } = await req.json();
+    const { paperUrl, pitchingVideoUrl, competitionType } = await req.json();
 
     if (!competitionType) {
       return NextResponse.json(
@@ -85,7 +88,8 @@ export async function PUT(req: NextRequest) {
       submission = await prisma.pTCSubmissions.update({
         where: { id: session.user.id },
         data: {
-          paymentProofUrl,
+          paperUrl,
+          pitchingVideoUrl,
         },
       });
     }
@@ -95,14 +99,12 @@ export async function PUT(req: NextRequest) {
       ticketId: team.ticketId,
       teamName: team.teamName,
       chairmanName: team.chairmanName,
-      paymentProofUrl,
+      paperUrl,
+      pitchingVideoUrl,
     };
 
-    // Logging data for debugging purposes
-    // console.log('Sending data to sheet:', dataForSheet);
-
-    const response = await fetch(`${sheetAPI}?type=PTC_STAGE1-2&method=PUT`, {
-      method: 'POST', // Change this to POST since Apps Script only handles POST
+    const response = await fetch(`${sheetAPI}?type=PTC_STAGE2&method=PUT`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -111,7 +113,7 @@ export async function PUT(req: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      // console.log('Failed to send data to sheet:', errorText);
+      console.log('Failed to send data to sheet:', errorText);
       throw new Error('Failed to send data to sheet');
     }
 

@@ -233,8 +233,10 @@ model H4HSubmissions {
 }
 
 model PTCSubmissions {
-  id              String @id
-  teamId          String @unique
-  fileUrl         String
-  paymentProofUrl String @default("")
+  id               String @id
+  teamId           String @unique
+  fileUrl          String
+  paymentProofUrl  String @default("")
+  paperUrl         String @default("")
+  pitchingVideoUrl String @default("")
 }
