@@ -36,13 +36,24 @@ const DASHBOARD = () => {
     fileName: '',
     fileUrl: '',
   });
+  const [paperFile, setPaperFile] = useState<{
+    fileName: string;
+    fileUrl: string;
+  }>({
+    fileName: '',
+    fileUrl: '',
+  });
+  const [pitchingVideoUrl, setPitchingVideoUrl] = useState('');
   const [githubUrl, setGithubUrl] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingPayment, setIsEditingPayment] = useState(false);
   const [hasSubmittedPayment, setHasSubmittedPayment] = useState(false);
+  const [isEditingStage2, setIsEditingStage2] = useState(false);
+  const [hasSubmittedStage2, setHasSubmittedStage2] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
+  const [isPaymentDeadlinePassed, setIsPaymentDeadlinePassed] = useState(false);
 
   const fetchTeamData = async (teamId: string) => {
     try {
@@ -52,7 +63,7 @@ const DASHBOARD = () => {
       }
       const { data } = await response.json();
       setTeamData(data);
-      console.log('team data', data);
+      // console.log('team data', data);
     } catch (error) {
       callToast({
         status: 'error',
@@ -67,6 +78,15 @@ const DASHBOARD = () => {
 
     if (currentDate >= deadlineDate) {
       setIsDeadlinePassed(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const deadlineDate = new Date('2025-02-24');
+
+    if (currentDate >= deadlineDate) {
+      setIsPaymentDeadlinePassed(true);
     }
   }, []);
 
@@ -90,12 +110,13 @@ const DASHBOARD = () => {
       } else if (ticket?.PTC.buy && ticket.PTC.verified === 'verified') {
         setCompetitionType('PTC');
         fetchTeamData(ticket.PTC.teamId);
-        checkSubmission1Status();
-        checkSubmission12Status();
+        // checkSubmission1Status();
+        // checkSubmission12Status();
+        checkSubmission2Status();
       } else if (ticket?.H4H.buy && ticket.H4H.verified === 'verified') {
         setCompetitionType('H4H');
         fetchTeamData(ticket.H4H.teamId);
-        checkSubmission1Status();
+        // checkSubmission1Status();
       } else if (ticket?.PTC.buy && ticket.PTC.verified === 'pending') {
         setCompetitionType('PTC');
       } else if (ticket?.H4H.buy && ticket.H4H.verified === 'pending') {
@@ -125,7 +146,7 @@ const DASHBOARD = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to check submission status');
+        throw new Error('Failed to check stage 1 submission status');
       }
 
       const data = await response.json();
@@ -144,7 +165,7 @@ const DASHBOARD = () => {
     } catch (error) {
       callToast({
         status: 'error',
-        description: 'Failed to check submission status',
+        description: 'Failed to check stage 1 submission status',
       });
     }
   };
@@ -239,6 +260,82 @@ const DASHBOARD = () => {
     }
   };
 
+  // PTC STAGE 2
+
+  const checkSubmission2Status = async () => {
+    try {
+      const response = await fetch('/api/ticket/competition/submission2', {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to check stage 2 submission status');
+      }
+
+      const data = await response.json();
+      if (data.submitted) {
+        setPaperFile({
+          fileName: data.paperUrl.split('/').pop(),
+          fileUrl: data.paperUrl,
+        });
+        setPitchingVideoUrl(data.pitchingVideoUrl);
+        setIsEditingStage2(true);
+        setHasSubmittedStage2(true);
+      } else {
+        setHasSubmittedStage2(false);
+      }
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: `Failed to check stage 2 submission status: ${(error as Error).message}`,
+      });
+    }
+  };
+
+  const handleFileSubmit2 = async () => {
+    if (!paperFile.fileUrl || !pitchingVideoUrl) {
+      callToast({
+        status: 'error',
+        description: 'Please upload a file or provide URLs first',
+      });
+      return;
+    }
+
+    const loadingToastId = callLoading('Submitting your file...');
+
+    try {
+      const response = await fetch('/api/ticket/competition/submission2', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paperUrl: paperFile.fileUrl,
+          pitchingVideoUrl,
+          competitionType,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit data');
+      }
+
+      callToast({
+        status: 'success',
+        description: 'Data submitted successfully',
+      });
+      setIsEditingStage2(true);
+      setHasSubmittedStage2(true);
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: 'Failed to submit data',
+      });
+    } finally {
+      toast.dismiss(loadingToastId);
+    }
+  };
+
   // PTC PAYMENT
   const checkSubmission12Status = async () => {
     try {
@@ -247,7 +344,7 @@ const DASHBOARD = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to check payment1 submission status');
+        throw new Error('Failed to check payment submission status');
       }
 
       const data = await response.json();
@@ -264,7 +361,7 @@ const DASHBOARD = () => {
     } catch (error) {
       callToast({
         status: 'error',
-        description: 'Failed to check payment2 submission status',
+        description: 'Failed to check payment submission status',
       });
     }
   };
@@ -644,8 +741,8 @@ const DASHBOARD = () => {
                     </>
                   )}
                 </div>
-              ) : (
-                //STAGE 2
+              ) : teamData?.teamStage == 1.5 ? (
+                //STAGE 1.5
                 <div>
                   <>
                     {competitionType === 'PTC' && (
@@ -667,53 +764,127 @@ const DASHBOARD = () => {
                             </Link>
                           </div>
                         ) : (
-                          <div className='text-3xl lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal lg:mt-4 mt-2'>The payment submission is already closed</div>
-                          // <div className='flex flex-col w-full items-center justify-center'>
-                          //   <div className='flex flex-row gap-4'>
-                          //     <div className='flex flex-col gap-2 items-center justify-center'>
-                          //       <h2 className='font-bold'>
-                          //         Total: Rp 285.000,00
-                          //       </h2>
-                          //       <p className='flex items-center text-center'>
-                          //         EIFELLYN CHEVARA
-                          //         <br />
-                          //         Bank Mandiri
-                          //         <br />
-                          //         1710013587376
-                          //       </p>
-                          //       <SingleFileInput
-                          //         message='Upload your file'
-                          //         allowedFileTypes={[
-                          //           '.pdf',
-                          //           '.jpg',
-                          //           '.jpeg',
-                          //           '.png',
-                          //         ]}
-                          //         file={paymentProofFile}
-                          //         setFile={(newFile) =>
-                          //           setPaymentProofFile({
-                          //             fileName: newFile?.fileName as string,
-                          //             fileUrl: newFile?.fileUrl as string,
-                          //           })
-                          //         }
-                          //       />
-                          //     </div>
-                          //   </div>
-                          //   <div className='flex flex-row gap-4'>
-                          //     <Button
-                          //       onClick={handleFileSubmit12}
-                          //       type='button'
-                          //       color='white-2'
-                          //       className='mt-6'
-                          //     >
-                          //       {'Submit File'}
-                          //     </Button>
-                          //   </div>
-                          // </div>
+                          <div className='flex flex-col w-full items-center justify-center'>
+                            <div className='flex flex-row gap-4'>
+                              <div className='flex flex-col gap-2 items-center justify-center'>
+                                <h2 className='font-bold'>
+                                  Total: Rp 285.000,00
+                                </h2>
+                                <p className='flex items-center text-center'>
+                                  EIFELLYN CHEVARA
+                                  <br />
+                                  Bank Mandiri
+                                  <br />
+                                  1710013587376
+                                </p>
+                                <SingleFileInput
+                                  message='Upload your file'
+                                  allowedFileTypes={[
+                                    '.pdf',
+                                    '.jpg',
+                                    '.jpeg',
+                                    '.png',
+                                  ]}
+                                  file={paymentProofFile}
+                                  setFile={(newFile) =>
+                                    setPaymentProofFile({
+                                      fileName: newFile?.fileName as string,
+                                      fileUrl: newFile?.fileUrl as string,
+                                    })
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div className='flex flex-row gap-4'>
+                              <Button
+                                onClick={handleFileSubmit12}
+                                type='button'
+                                color='white-2'
+                                className='mt-6'
+                              >
+                                {'Submit File'}
+                              </Button>
+                            </div>
+                          </div>
                         )}
                       </div>
                     )}
                   </>
+                </div>
+              ) : (
+                //STAGE 2
+                <div>
+                  {isEditingStage2 ? (
+                    <div className='mt-12 flex flex-col w-full items-center justify-center'>
+                      <p className='font-bold md:text-xl text-lg'>
+                        Pitching video URL:
+                      </p>
+                        <Link
+                          target='_blank'
+                          href={pitchingVideoUrl}
+                          className='text-lg hover:underline hover:text-blue-400'
+                        >
+                          {pitchingVideoUrl}
+                        </Link>
+                      
+                      <p className='font-bold md:text-xl text-lg'>
+                        Paper File URL:
+                      </p>
+                      <Link
+                        target='_blank'
+                        href={paperFile.fileUrl}
+                        className='text-lg hover:underline hover:text-blue-400'
+                      >
+                        {paperFile.fileUrl}
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className='flex flex-col w-full items-center justify-center'>
+                      <div className='flex flex-row gap-4'>
+                        <div className='flex flex-col gap-2 items-center justify-center'>
+                          <div className='flex items-center flex-col gap-4'>
+                            <div className='mt-6'>
+                              <p className='text-lg md:text-xl'>
+                                Pitching Video URL:
+                              </p>
+                              <TextInput
+                                placeholder='Idea Pitching Video URL'
+                                type='text'
+                                name='pitchingVideoUrl'
+                                text={pitchingVideoUrl}
+                                color='trans'
+                                onChange={(e) =>
+                                  setPitchingVideoUrl(e.target.value)
+                                }
+                                fullwidth
+                              />
+                            </div>
+                            <SingleFileInput
+                              message='Upload your file'
+                              allowedFileTypes={['.pdf']}
+                              file={paperFile}
+                              setFile={(newFile) =>
+                                setPaperFile({
+                                  fileName: newFile?.fileName as string,
+                                  fileUrl: newFile?.fileUrl as string,
+                                })
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className='flex flex-row gap-4'>
+                        <Button
+                          onClick={handleFileSubmit2}
+                          type='button'
+                          color='white-2'
+                          className='mt-6'
+                        >
+                          {'Submit File'}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
