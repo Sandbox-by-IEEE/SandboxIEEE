@@ -6,9 +6,11 @@ import ClientHome from '@/components/client-home';
 import Countdown from '@/components/Countdown';
 import { FAQ } from '@/components/FAQ';
 import OurEvents from '@/components/OurEvents';
+import PaginatedArticles from '@/components/pagination/article';
 import Timeline from '@/components/Timeline';
 import TitleSection from '@/components/TitleSection';
 import { performRequest } from '@/lib/datocms';
+import { getAllArticles } from '@/lib/datocms-queries';
 import { type HomepageProps } from '@/types/homepage';
 
 const CMS_QUERY = `{
@@ -109,6 +111,7 @@ export default async function Home({
     revalidate: 0,
   });
 
+  const { allArticles } = await getAllArticles();
   return (
     <main className='flex min-h-screen w-full flex-col font-poppins justify-center items-center'>
       <ClientHome />
@@ -133,6 +136,10 @@ export default async function Home({
         </div>
         <Timeline items={allTimelineSandboxes} />
       </section>
+
+      <div className='w-[80%] mb-[120px] lg:mb-[180px]'>
+        <PaginatedArticles allArticles={allArticles} />
+      </div>
 
       {/* Our Events */}
       <section
