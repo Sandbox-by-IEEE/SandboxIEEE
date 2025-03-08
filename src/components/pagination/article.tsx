@@ -1,25 +1,51 @@
 'use client';
 
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
 export default function PaginatedArticles({
   allArticles,
 }: {
   allArticles: any[];
 }) {
-  const searchParams = useSearchParams();
-  const pageParam = searchParams?.get('page'); // Mendapatkan nilai 'page' dari query parameter
-  const currentPage = parseInt(pageParam || '1', 10); // Default ke halaman 1 jika tidak ada parameter
+  const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 3;
   const totalPages = Math.ceil(allArticles.length / pageSize);
 
-  // Ambil artikel berdasarkan halaman
+  // Get articles for current page
   const paginatedArticles = allArticles.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize,
   );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  // Helper function to extract plain text from structured text
+  const extractPlainText = (structuredText: any) => {
+    try {
+      if (!structuredText || !structuredText.value || !structuredText.value.document) {
+        return '';
+      }
+      
+      // Extract text from all text blocks
+      const textBlocks = structuredText.value.document.children
+        .filter((node: any) => node.type === 'paragraph')
+        .map((node: any) => {
+          return node.children
+            .filter((child: any) => child.type === 'span')
+            .map((span: any) => span.value)
+            .join(' ');
+        });
+        
+      return textBlocks.join(' ');
+    } catch (error) {
+      console.error('Error extracting plain text:', error);
+      return '';
+    }
+  };
 
   const renderPagination = () => {
     const paginationItems: JSX.Element[] = [];
@@ -27,28 +53,28 @@ export default function PaginatedArticles({
     if (totalPages <= 4) {
       for (let i = 1; i <= totalPages; i++) {
         paginationItems.push(
-          <Link
+          <button
             key={i}
-            href={`?page=${i}`}
+            onClick={() => handlePageChange(i)}
             className={`px-3 py-1 mx-1 rounded ${
-              currentPage === i ? ' bg-gray-900 text-white' : 'bg-inherit'
+              currentPage === i ? 'bg-gray-900 text-white' : 'bg-inherit'
             }`}
           >
             {i}
-          </Link>,
+          </button>,
         );
       }
     } else {
       paginationItems.push(
-        <Link
+        <button
           key={1}
-          href={`?page=1`}
+          onClick={() => handlePageChange(1)}
           className={`px-3 py-1 mx-1 rounded ${
-            currentPage === 1 ? ' bg-gray-900 text-white' : 'bg-inherit'
+            currentPage === 1 ? 'bg-gray-900 text-white' : 'bg-inherit'
           }`}
         >
           1
-        </Link>,
+        </button>,
       );
 
       if (currentPage > 2) {
@@ -61,13 +87,13 @@ export default function PaginatedArticles({
 
       if (currentPage > 1 && currentPage < totalPages) {
         paginationItems.push(
-          <Link
+          <button
             key={currentPage}
-            href={`?page=${currentPage}`}
+            onClick={() => handlePageChange(currentPage)}
             className={`px-3 py-1 mx-1 rounded bg-gray-900 text-white`}
           >
             {currentPage}
-          </Link>,
+          </button>,
         );
       }
 
@@ -80,17 +106,15 @@ export default function PaginatedArticles({
       }
 
       paginationItems.push(
-        <Link
+        <button
           key={totalPages}
-          href={`?page=${totalPages}`}
+          onClick={() => handlePageChange(totalPages)}
           className={`px-3 py-1 mx-1 rounded ${
-            currentPage === totalPages
-              ? ' bg-gray-900 text-white'
-              : 'bg-inherit'
+            currentPage === totalPages ? 'bg-gray-900 text-white' : 'bg-inherit'
           }`}
         >
           {totalPages}
-        </Link>,
+        </button>,
       );
     }
 
@@ -99,42 +123,46 @@ export default function PaginatedArticles({
 
   return (
     <div className='container mx-auto px-4'>
-      <h1 className='text-4xl font-bold text-white'>Blog</h1>
+      <h1 className='text-4xl text-center mb-12 font-bold text-white'>Newsletter</h1>
       <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
-        {paginatedArticles.map((article) => (
-          <Link key={article.id} href={`/article/${article.id}`}>
-            <div className='p-4 rounded-lg cursor-pointer hover:bg-gray-800 duration-200'>
-              {article.image?.url && (
-                <Image
-                  src={article.image.url}
-                  alt={article.title}
-                  width={500}
-                  height={200}
-                  className='object-cover rounded-t-lg'
-                />
-              )}
-              <div className='flex items-center mt-3 gap-2'>
-                <p className='text-white text-sm'>By {article.author},</p>
-                <p className='text-white text-sm'>{article.date}</p>
+        {paginatedArticles.map((article) => {
+          const plainText = extractPlainText(article.body);
+          
+          return (
+            <Link key={article.id} href={`/article/${article.id}`}>
+              <div className='p-4 rounded-lg cursor-pointer hover:bg-gray-800 duration-200'>
+                {article.image?.url && (
+                  <Image
+                    src={article.image.url}
+                    alt={article.title}
+                    width={500}
+                    height={200}
+                    className='object-cover rounded-t-lg'
+                  />
+                )}
+                <div className='flex items-center mt-3 gap-2'>
+                  <p className='text-white text-sm'>By {article.author},</p>
+                  <p className='text-white text-sm'>{article.date}</p>
+                </div>
+                <h2 className='text-2xl font-semibold mt-2 text-white'>
+                  {article.title}
+                </h2>
+                <p className='mt-2 text-white text-xs'>
+                  {plainText.length > 100
+                    ? `${plainText.slice(0, 100)}...`
+                    : plainText}
+                </p>
               </div>
-              <h2 className='text-2xl font-semibold mt-2 text-white'>
-                {article.title}
-              </h2>
-              <p className='mt-2 text-white text-xs'>
-                {article.body.length > 100
-                  ? `${article.body.slice(0, 100)}...`
-                  : article.body}
-              </p>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
 
       <div className='flex items-center justify-between mt-8 text-white gap-2'>
         <button
           onClick={() => {
             if (currentPage > 1) {
-              window.location.href = `?page=${currentPage - 1}`;
+              handlePageChange(currentPage - 1);
             }
           }}
           disabled={currentPage === 1}
@@ -154,7 +182,7 @@ export default function PaginatedArticles({
         <button
           onClick={() => {
             if (currentPage < totalPages) {
-              window.location.href = `?page=${currentPage + 1}`;
+              handlePageChange(currentPage + 1);
             }
           }}
           disabled={currentPage === totalPages}

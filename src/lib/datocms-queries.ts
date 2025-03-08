@@ -12,7 +12,11 @@ export async function getAllArticles() {
         image {
           url
         }
-        body
+        body {
+          value
+          links
+          blocks
+        } 
       }
     }
   `;
@@ -31,7 +35,11 @@ export async function getArticleById(id: string) {
         image {
           url
         }
-        body
+        body {
+          value
+          links
+          blocks
+        }
       }
     }
   `;

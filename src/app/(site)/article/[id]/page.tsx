@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { StructuredText } from 'react-datocms';
 
 import { getArticleById, getArticleSlugs } from '@/lib/datocms-queries';
 
@@ -35,7 +36,7 @@ export default async function ArticleDetailPage({
         <div className='absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black'></div>
         <div className='relative flex flex-row justify-center items-center gap-5 w-[90%] max-w-4xl'>
           <Link
-            href='/article'
+            href='/'
             className='fixed top-[100px] lg:top-[110px] left-[20px]'
           >
             <Image
@@ -57,7 +58,10 @@ export default async function ArticleDetailPage({
 
       <div className='container mx-auto px-4 py-8 max-w-4xl'>
         <div className='prose prose-invert lg:prose-xl max-w-none leading-relaxed text-justify'>
-          {article.body}
+          {/* Render structured text properly */}
+          <StructuredText 
+            data={article.body}
+          />
         </div>
       </div>
     </div>
