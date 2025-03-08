@@ -54,6 +54,7 @@ const DASHBOARD = () => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
   const [isPaymentDeadlinePassed, setIsPaymentDeadlinePassed] = useState(false);
+  const [isStage2DeadlinePassed, setIsStage2DeadlinePassed] = useState(false);
 
   const fetchTeamData = async (teamId: string) => {
     try {
@@ -78,6 +79,15 @@ const DASHBOARD = () => {
 
     if (currentDate >= deadlineDate) {
       setIsDeadlinePassed(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const deadlineDate = new Date('2025-03-6');
+
+    if (currentDate >= deadlineDate) {
+      setIsStage2DeadlinePassed(true);
     }
   }, []);
 
@@ -814,7 +824,12 @@ const DASHBOARD = () => {
               ) : (
                 //STAGE 2
                 <div>
-                  {isEditingStage2 ? (
+                  { isStage2DeadlinePassed ? (
+                    <div className='text-3xl mt-24 lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal'>
+                      The deadline has been reached
+                    </div>
+                  ) : (
+                  isEditingStage2 ? (
                     <div className='mt-12 flex flex-col w-full items-center justify-center'>
                       <p className='font-bold md:text-xl text-lg'>
                         Pitching video URL:
@@ -884,7 +899,8 @@ const DASHBOARD = () => {
                         </Button>
                       </div>
                     </div>
-                  )}
+                  )
+                )}
                 </div>
               )}
             </div>
