@@ -43,6 +43,13 @@ const DASHBOARD = () => {
     fileName: '',
     fileUrl: '',
   });
+  const [pptFile, setPptFile] = useState<{
+    fileName: string;
+    fileUrl: string;
+  }>({
+    fileName: '',
+    fileUrl: '',
+  });
   const [pitchingVideoUrl, setPitchingVideoUrl] = useState('');
   const [githubUrl, setGithubUrl] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
@@ -50,11 +57,14 @@ const DASHBOARD = () => {
   const [isEditingPayment, setIsEditingPayment] = useState(false);
   const [hasSubmittedPayment, setHasSubmittedPayment] = useState(false);
   const [isEditingStage2, setIsEditingStage2] = useState(false);
+  const [isEditingStage3, setIsEditingStage3] = useState(false);
   const [hasSubmittedStage2, setHasSubmittedStage2] = useState(false);
+  const [hasSubmittedStage3, setHasSubmittedStage3] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
   const [isPaymentDeadlinePassed, setIsPaymentDeadlinePassed] = useState(false);
   const [isStage2DeadlinePassed, setIsStage2DeadlinePassed] = useState(false);
+  const [isStage3DeadlinePassed, setIsStage3DeadlinePassed] = useState(false);
 
   const fetchTeamData = async (teamId: string) => {
     try {
@@ -82,6 +92,15 @@ const DASHBOARD = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const currentDate = new Date();
+    const deadlineDate = new Date('2025-04-08');
+
+    if (currentDate >= deadlineDate) {
+      setIsStage3DeadlinePassed(true);
+    }
+  }, []);
+  
   useEffect(() => {
     const currentDate = new Date();
     const deadlineDate = new Date('2025-03-6');
@@ -122,7 +141,8 @@ const DASHBOARD = () => {
         fetchTeamData(ticket.PTC.teamId);
         // checkSubmission1Status();
         // checkSubmission12Status();
-        checkSubmission2Status();
+        // checkSubmission2Status();
+        checkSubmission3Status();
       } else if (ticket?.H4H.buy && ticket.H4H.verified === 'verified') {
         setCompetitionType('H4H');
         fetchTeamData(ticket.H4H.teamId);
@@ -297,7 +317,9 @@ const DASHBOARD = () => {
     } catch (error) {
       callToast({
         status: 'error',
-        description: `Failed to check stage 2 submission status: ${(error as Error).message}`,
+        description: `Failed to check stage 2 submission status: ${
+          (error as Error).message
+        }`,
       });
     }
   };
@@ -336,6 +358,80 @@ const DASHBOARD = () => {
       });
       setIsEditingStage2(true);
       setHasSubmittedStage2(true);
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: 'Failed to submit data',
+      });
+    } finally {
+      toast.dismiss(loadingToastId);
+    }
+  };
+
+  const checkSubmission3Status = async () => {
+    try {
+      const response = await fetch('/api/ticket/competition/submission3', {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to check stage 2 submission status');
+      }
+
+      const data = await response.json();
+      if (data.submitted) {
+        setPptFile({
+          fileName: data.pptFileUrl.split('/').pop(),
+          fileUrl: data.pptFileUrl,
+        });
+        setIsEditingStage3(true);
+        setHasSubmittedStage3(true);
+      } else {
+        setHasSubmittedStage3(false);
+      }
+    } catch (error) {
+      callToast({
+        status: 'error',
+        description: `Failed to check stage 2 submission status: ${
+          (error as Error).message
+        }`,
+      });
+    }
+  };
+
+  const handleFileSubmit3 = async () => {
+    if (!pptFile.fileUrl) {
+      callToast({
+        status: 'error',
+        description: 'Please upload a file or provide URLs first',
+      });
+      return;
+    }
+
+    const loadingToastId = callLoading('Submitting your file...');
+
+    try {
+      const response = await fetch('/api/ticket/competition/submission3', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pptFileUrl: pptFile.fileUrl,
+          competitionType,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit data');
+      }
+
+      callToast({
+        status: 'success',
+        description: 'Data submitted successfully',
+      });
+      setIsEditingStage3(true);
+      setHasSubmittedStage3(true);
     } catch (error) {
       callToast({
         status: 'error',
@@ -821,27 +917,26 @@ const DASHBOARD = () => {
                     )}
                   </>
                 </div>
-              ) : (
+              ) : teamData?.teamStage == 2 ? (
                 //STAGE 2
                 <div>
-                  { isStage2DeadlinePassed ? (
+                  {isStage2DeadlinePassed ? (
                     <div className='text-3xl mt-24 lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal'>
                       The deadline has been reached
                     </div>
-                  ) : (
-                  isEditingStage2 ? (
+                  ) : isEditingStage2 ? (
                     <div className='mt-12 flex flex-col w-full items-center justify-center'>
                       <p className='font-bold md:text-xl text-lg'>
                         Pitching video URL:
                       </p>
-                        <Link
-                          target='_blank'
-                          href={pitchingVideoUrl}
-                          className='text-lg hover:underline hover:text-blue-400'
-                        >
-                          {pitchingVideoUrl}
-                        </Link>
-                      
+                      <Link
+                        target='_blank'
+                        href={pitchingVideoUrl}
+                        className='text-lg hover:underline hover:text-blue-400'
+                      >
+                        {pitchingVideoUrl}
+                      </Link>
+
                       <p className='font-bold md:text-xl text-lg'>
                         Paper File URL:
                       </p>
@@ -899,8 +994,59 @@ const DASHBOARD = () => {
                         </Button>
                       </div>
                     </div>
-                  )
-                )}
+                  )}
+                </div>
+              ) : (
+                <div className='mt-12'>
+                  {isStage3DeadlinePassed ? (
+                    <div className='text-3xl mt-24 lg:text-5xl font-bold text-[#ffffff] font-poppins text-center leading-normal'>
+                      The deadline has been reached
+                    </div>
+                  ) : isEditingStage3 ? (
+                    <div className='mt-12 flex flex-col w-full items-center justify-center'>
+                      <p className='font-bold md:text-xl text-lg'>
+                        Pitching video URL:
+                      </p>
+                      <Link
+                        target='_blank'
+                        href={pptFile.fileUrl}
+                        className='text-lg hover:underline hover:text-blue-400'
+                      >
+                        {pptFile.fileUrl}
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className='flex flex-col w-full items-center justify-center'>
+                      <h1 className='font-bold md:text-xl text-lg'>PPT File</h1>
+                      <div className='flex flex-row gap-4 mt-2'>
+                        <div className='flex flex-col gap-2 items-center justify-center'>
+                          <div className='flex items-center flex-col gap-4'>
+                            <SingleFileInput
+                              message='Upload your PPT file'
+                              allowedFileTypes={['.pdf']}
+                              file={pptFile}
+                              setFile={(newFile) =>
+                                setPptFile({
+                                  fileName: newFile?.fileName as string,
+                                  fileUrl: newFile?.fileUrl as string,
+                                })
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className='flex flex-row gap-4'>
+                        <Button
+                          onClick={handleFileSubmit3}
+                          type='button'
+                          color='white-2'
+                          className='mt-6'
+                        >
+                          {'Submit File'}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
