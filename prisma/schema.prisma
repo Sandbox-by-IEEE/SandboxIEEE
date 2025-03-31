@@ -239,4 +239,5 @@ model PTCSubmissions {
   paymentProofUrl  String @default("")
   paperUrl         String @default("")
   pitchingVideoUrl String @default("")
+  pptFileUrl       String @default("")
 }
