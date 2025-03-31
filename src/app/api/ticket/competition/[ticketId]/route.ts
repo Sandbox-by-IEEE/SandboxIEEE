@@ -36,14 +36,6 @@ export async function PATCH(
       );
     }
 
-    // if (v === 'true') {
-    if (existingTicket.verified === status) {
-      return NextResponse.json(
-        { message: `Ticket has been ${status}` },
-        { status: 400 },
-      );
-    }
-
     await prisma.ticketCompetition.update({
       where: {
         id: ticketId,
