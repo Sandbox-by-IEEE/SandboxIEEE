@@ -1,10 +1,7 @@
-import { render } from '@react-email/render';
 import { NextRequest, NextResponse } from 'next/server';
 
-import Email from '@/components/emails/Emails';
 // import { render } from '@react-email/render';
 import { prisma } from '@/lib/db';
-import { transporter } from '@/lib/mailTransporter';
 // import Email from '@/components/emails/Emails';
 // import { transporter } from '@/lib/mailTransporter';
 
@@ -47,12 +44,12 @@ export async function PATCH(
       );
     }
 
-    const updatedTicket = await prisma.ticketCompetition.update({
+    await prisma.ticketCompetition.update({
       where: {
         id: ticketId,
       },
       data: {
-        verified: status,
+        stage: Number(existingTicket.stage) + 1,
       },
       include: {
         team: {
@@ -66,46 +63,6 @@ export async function PATCH(
     });
 
     isUpdated = true;
-
-    let heading = '';
-    let content = '';
-
-    if (status === 'verified') {
-      heading = `Your Team Cleared the ${updatedTicket.competitionType} Verification Stage!`;
-      content = `
-        We are pleased to inform ${updatedTicket.team?.teamName} that your documents have been successfully verified, and your team has been selected to advance to the next stage of the competition. Congratulations on reaching this stage!
-        We are excited to see what your team will achieve in the upcoming stages. Make sure to prepare well and give your best performance.
-        If you have any questions or need further information regarding the next stages of the competition, please do not hesitate to reach out to us. We are here to assist you and ensure your successful participation in the event.
-        Once again, congratulations and best of luck in the next stages of the competition!
-      `;
-    } else if (status === 'rejected') {
-      heading = `Your Ticket for ${updatedTicket.competitionType} Has Been Rejected`;
-      content = `
-        We regret to inform ${updatedTicket.team?.teamName} that your documents for the ${updatedTicket.competitionType} competition did not meet the requirements.
-        Please review the competition guidelines and ensure all necessary criteria are met before resubmitting. If you have any questions or require assistance, feel free to contact us.
-        We appreciate your interest and effort in participating in this competition, and we encourage you to try again in the future. Best wishes for your next endeavors!
-      `;
-    }
-
-    const mailOptions = {
-      from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
-      to: updatedTicket.team?.chairmanEmail || '',
-      subject: `[SANDBOX] Announcement of Verification Results of Your ${updatedTicket.competitionType} Ticket`,
-      html: render(
-        Email({
-          heading,
-          content,
-          name: updatedTicket.team?.teamName || '',
-        }),
-        { pretty: true },
-      ),
-    };
-    await transporter.sendMail(mailOptions);
-
-    return NextResponse.json(
-      { ticket: updatedTicket, message: 'Ticket data updated successful' },
-      { status: 200 },
-    );
   } catch (error) {
     if (error instanceof Error) {
       if (isUpdated) {
