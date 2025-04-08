@@ -94,7 +94,7 @@ const DASHBOARD = () => {
 
   useEffect(() => {
     const currentDate = new Date();
-    const deadlineDate = new Date('2025-04-08');
+    const deadlineDate = new Date('2025-04-09T18:00:00+07:00');
 
     if (currentDate >= deadlineDate) {
       setIsStage3DeadlinePassed(true);
