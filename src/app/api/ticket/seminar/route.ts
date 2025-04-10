@@ -28,7 +28,7 @@ export async function PATCH(
 
     if (existingEntry) {
       return NextResponse.json(
-        { message: 'Email already registered' },
+        { message: 'Email already registered', id: existingEntry.id },
         { status: 409 },
       );
     }
@@ -44,7 +44,6 @@ export async function PATCH(
         name,
         email,
         ticketId,
-        validated: status === 'verified'
       }
     });
 
@@ -58,22 +57,40 @@ export async function PATCH(
     const encodedData = encodeURIComponent(JSON.stringify(qrData));
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodedData}&size=200x200&color=705229`;
     
-    // Prepare email content
-    const heading = `Terimakasih telah membeli ticket seminar The Sandbox 2.0 by IEEE ITB Student Branch`;
+    // Prepare email content with new format
+    const heading = `🎫 Your Ticket for Grand Seminar & Exhibition – The Sandbox 2.0 by IEEE ITB`;
     const content = `
-Selamat datang di The Sandbox 2.0!
+Thank you for registering!
 
-Berikut adalah kode tiket yang telah dibuat dan dapat digunakan untuk konfirmasi tiketmu di hari seminar:
-Ticket ID: ${ticketId}
+We're excited to welcome you to the Grand Seminar and Exhibition – The Sandbox 2.0, proudly presented by IEEE ITB 2024/2025. Get ready for a day filled with innovation, inspiration, and incredible experiences!
 
-Silakan simpan QR code ini dan tunjukkan pada saat registrasi di hari acara.
+🔹 Event Details
+Date: Saturday, April 12th, 2025
+Open Gate: 08.00 WIB
+Location: Auditorium IPTEKS, East Campus Centre ITB
+
+Attached below is your QR Code ticket. Please present it at the entrance for a smooth check-in process.
+
+[QR_CODE]
+
+🛑 Important:
+- Make sure to arrive early to secure the best seats, and don't be late.
+- Don't forget to bring a valid ID and your QR Code.
+- Your Ticket ID: ${ticketId}
+
+We can't wait to see you there and explore The Sandbox 2.0 together!
+
+More information:
+📱Nata-08176750507
+ID Line: nandandas
+📧Email: 18323007@std.stei.itb.ac.id
     `;
 
     // Send email with QR code
     const mailOptions = {
       from: '"The Sandbox by IEEE" <sandboxieeewebsite@gmail.com>',
       to: email,
-      subject: `Ticket Confirmation - The Sandbox 2.0 Seminar`,
+      subject: `🎫 Your Ticket for Grand Seminar & Exhibition – The Sandbox 2.0 by IEEE ITB`,
       html: render(
         Email({
           heading,
@@ -87,38 +104,13 @@ Silakan simpan QR code ini dan tunjukkan pada saat registrasi di hari acara.
     
     await transporter.sendMail(mailOptions);
 
-    // Update Google Sheet via Apps Script Web App
-    try {
-      const appScriptUrl = process.env.API_SHEET_SEMINAR_2024;
-      if (!appScriptUrl) {
-        console.log('MISSING_APP_SCRIPT_URL: No Google Script URL provided');
-      } else {
-        const sheetType = 'GRAND_SEMINAR'; // Assuming this is the sheet name
-        const scriptUrl = `${appScriptUrl}?method=PUT&type=${sheetType}`;
-        
-        const sheetResponse = await fetch(scriptUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id,
-            ticketId,
-            name,
-            email
-          }),
-        });
-        
-        const sheetResult = await sheetResponse.json();
-        console.log('SHEET_UPDATE_RESULT:', sheetResult);
-      }
-    } catch (sheetError) {
-      console.log('ERROR_UPDATING_SHEET:', sheetError);
-      // Continue with the flow even if sheet update fails
-    }
-
     return NextResponse.json(
-      { ticket: newEntry, message: 'Ticket created and email sent successfully' },
+      { 
+        ticket: newEntry, 
+        id: id,
+        ticketId: ticketId,
+        message: 'Ticket created and email sent successfully' 
+      },
       { status: 200 },
     );
   } catch (error) {
