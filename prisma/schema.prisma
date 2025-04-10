@@ -241,3 +241,11 @@ model PTCSubmissions {
   pitchingVideoUrl String @default("")
   pptFileUrl       String @default("")
 }
+
+model GrandSeminar {
+  id               String @id
+  name             String
+  email            String
+  ticketId         String @unique
+  validated        Boolean @default(false)
+}
