@@ -21,6 +21,12 @@ interface EmailProps {
 }
 
 export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
+  // Split content into parts by a designated marker like "[QR_CODE]"
+  // This allows you to control exactly where the QR code appears in the content
+  const contentParts = content.split('[QR_CODE]');
+  const beforeQR = contentParts[0] || '';
+  const afterQR = contentParts[1] || '';
+
   return (
     <Html>
       <Head></Head>
@@ -53,11 +59,13 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
                 <Heading className='text-[#AB814E] text-xl w-full font-bold'>
                   {heading}
                 </Heading>
+
+                {/* Text content before QR code */}
                 <Text className='text-[#705229] gap-2 flex flex-col text-sm font-semibold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
-                  {content.split('\n').map((line, index) => {
+                  {beforeQR.split('\n').map((line, index) => {
                     const urlPattern = new RegExp('(https?://[^\\s]+)', 'g');
                     return (
-                      <React.Fragment key={index}>
+                      <React.Fragment key={`before-${index}`}>
                         {urlPattern.test(line) ? (
                           <Link href={line}>{line}</Link>
                         ) : (
@@ -68,14 +76,34 @@ export const Email = ({ qrUrl, name, heading, content }: EmailProps) => {
                   })}
                 </Text>
 
+                {/* QR code in the middle */}
                 {qrUrl ? (
                   <Img
                     src={qrUrl}
                     alt='QR'
-                    className='w-[180px] h-[180px] aspect-square mx-auto'
+                    className='w-[180px] h-[180px] aspect-square mx-auto my-4'
                   />
                 ) : null}
-                <Text className='text-[#705229] text-sm font-semibold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
+
+                {/* Text content after QR code */}
+                {afterQR && (
+                  <Text className='text-[#705229] gap-2 flex flex-col text-sm font-semibold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full'>
+                    {afterQR.split('\n').map((line, index) => {
+                      const urlPattern = new RegExp('(https?://[^\\s]+)', 'g');
+                      return (
+                        <React.Fragment key={`after-${index}`}>
+                          {urlPattern.test(line) ? (
+                            <Link href={line}>{line}</Link>
+                          ) : (
+                            <p>{line}</p>
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
+                  </Text>
+                )}
+
+                <Text className='text-[#705229] text-sm font-semibold drop-shadow-[0px_4px_4px _rgba(0,0,0,0.25)] w-full mt-4'>
                   Best Regards, <br /> SANDBOX Team
                 </Text>
               </Row>
