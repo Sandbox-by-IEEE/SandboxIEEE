@@ -12,12 +12,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
   serverExternalPackages: ['bcrypt'],
-  // Temporarily disable optimizations to debug build hang
-  swcMinify: false,
   experimental: {
     optimizePackageImports: [],
   },
