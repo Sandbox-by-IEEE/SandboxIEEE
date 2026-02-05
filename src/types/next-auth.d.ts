@@ -1,155 +1,44 @@
-import { DefaultSession } from 'next-auth';
+// Extended NextAuth types for Sandbox v3.0
+
+import { AdminRole } from '@prisma/client';
+import 'next-auth';
+import 'next-auth/jwt';
 
 declare module 'next-auth' {
-  interface User {
-    id: string;
-    username?: string;
-    vote?: {
-      PTC?: {
-        status: boolean;
-        karya?: {
-          id: string;
-          team: {
-            id: string;
-            teamName: string;
-            chairmanName: string;
-            ticketCompetition: {
-              competitionType: string;
-            };
-          };
-
-          countVote: int;
-          linkFullPaper: string;
-          linkVideo: string;
-          linkVideo2: string;
-        };
-      };
-      H4H?: {
-        status: boolean;
-        karya?: {
-          id: string;
-          team: {
-            id: string;
-            teamName: string;
-            chairmanName: string;
-            ticketCompetition: {
-              competitionType: string;
-            };
-          };
-
-          countVote: int;
-          linkFullPaper: string;
-          linkVideo: string;
-          linkVideo2: string;
-        };
-      };
+  interface Session {
+    user: {
+      id: string;
+      username: string;
+      email: string;
+      name: string;
+      image: string | null;
+      registration?: any;
     };
-    ticket?: {
-      exhibition: {
-        normal: {
-          buy: boolean;
-          verified: boolean;
-          active: boolean;
-        };
-        midtrans: {
-          buy: boolean;
-          verified: string;
-          active: boolean;
-        };
-      };
-      H4H: {
-        isLeader: boolean;
-        teamId: string;
-        buy: boolean;
-        verified: string;
-        regist2Status: string;
-        regist3PaymentStatus: string;
-      };
-      PTC: {
-        isLeader: boolean;
-        teamId: string;
-        buy: boolean;
-        verified: string;
-        regist2Status: string;
-        regist3PaymentStatus: string;
-      };
+    admin?: {
+      id: string;
+      username: string;
+      email: string;
+      role: AdminRole;
+      isActive: boolean;
     };
   }
 
-  interface Session {
-    user: DefaultSession['user'] & {
-      id: string;
-      username?: string;
-      vote?: {
-        PTC?: {
-          status: boolean;
-          karya?: {
-            id: string;
-            team: {
-              id: string;
-              teamName: string;
-              chairmanName: string;
-              ticketCompetition: {
-                competitionType: string;
-              };
-            };
+  interface User {
+    id: string;
+    username?: string;
+    email: string;
+    name?: string;
+    image?: string | null;
+    type?: 'user' | 'admin';
+    role?: AdminRole;
+  }
+}
 
-            countVote: int;
-            linkFullPaper: string;
-            linkVideo: string;
-            linkVideo2: string;
-          };
-        };
-        H4H?: {
-          status: boolean;
-          karya?: {
-            id: string;
-            team: {
-              id: string;
-              teamName: string;
-              chairmanName: string;
-              ticketCompetition: {
-                competitionType: string;
-              };
-            };
-
-            countVote: int;
-            linkFullPaper: string;
-            linkVideo: string;
-            linkVideo2: string;
-          };
-        };
-      };
-      ticket?: {
-        exhibition: {
-          normal: {
-            buy: boolean;
-            verified: boolean;
-            active: boolean;
-          };
-          midtrans: {
-            buy: boolean;
-            verified: string;
-            active: boolean;
-          };
-        };
-        H4H: {
-          isLeader: boolean;
-          teamId: string;
-          buy: boolean;
-          verified: string;
-          regist2Status: string;
-          regist3PaymentStatus: string;
-        };
-        PTC: {
-          isLeader: boolean;
-          teamId: string;
-          buy: boolean;
-          verified: string;
-          regist2Status: string;
-          regist3PaymentStatus: string;
-        };
-      };
-    };
+declare module 'next-auth/jwt' {
+  interface JWT {
+    id: string;
+    type: 'user' | 'admin';
+    username?: string;
+    role?: AdminRole;
   }
 }

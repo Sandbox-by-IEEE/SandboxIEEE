@@ -2,9 +2,7 @@
 
 import { Metadata } from 'next';
 import Image from 'next/image';
-
-import Button from '@/components/Button';
-import CustomLink from '@/components/Link';
+import Link from 'next/link';
 
 export default function GlobalError({
   // eslint-disable-next-line unused-imports/no-unused-vars
@@ -60,15 +58,18 @@ export default function GlobalError({
                 Something went wrong. Let&apos;s get you back
               </h2>
               <div className='font-poppins items-center justify-center text-white text-base mt-2 lg:mt-4 flex flex-col gap-4'>
-                <Button color='gold' onClick={() => reset()}>
+                <button
+                  onClick={() => reset()}
+                  className="bg-gradient-to-r from-[#DBB88B] to-[#AB814E] hover:from-[#AB814E] hover:to-[#8B6F3E] text-white px-8 py-3 rounded-full font-gemunu text-lg font-semibold transition-all"
+                >
                   Try Again
-                </Button>
+                </button>
                 <p className='flex flex-col items-center justify-center gap-2'>
                   If errors still occurs, contact us on
                   <span>
-                    <CustomLink color='gold' url='/contact-us'>
+                    <Link href='/contact-us' className="text-[#DBB88B] hover:text-[#AB814E] underline">
                       Contact-us
-                    </CustomLink>
+                    </Link>
                   </span>
                 </p>
               </div>
@@ -113,7 +114,6 @@ export const metadata: Metadata = {
     'TPC',
     'PTC',
   ],
-  colorScheme: 'normal',
   metadataBase: new URL('https://sandbox.ieeeitb.com/'),
   openGraph: {
     title: 'Sandbox IEEE ITB',

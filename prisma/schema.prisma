@@ -1,3 +1,20 @@
+// ============================================================================
+// THE SANDBOX 3.0 - DATABASE SCHEMA
+// ============================================================================
+// Competition Management System for IEEE ITB Student Branch
+// 
+// Architecture: Monolithic Next.js with Prisma ORM
+// Database: CockroachDB (PostgreSQL-compatible)
+// Auth: NextAuth.js v4 with JWT sessions
+//
+// Schema Organization:
+// 1. Authentication Models (5) - NextAuth.js standard + custom tokens
+// 2. Competition System Models (9) - Core competition management
+// 3. Administration Models (1) - Role-based admin access
+//
+// Last Updated: January 31, 2026
+// ============================================================================
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,54 +24,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ============================================================================
+// CATEGORY 1: AUTHENTICATION MODELS (NextAuth.js + Custom Tokens)
+// ============================================================================
+
+/// User - Participant accounts with email verification
+/// Business Rule: One user can only register for ONE competition
 model User {
-  id                 String              @id @default(cuid())
-  name               String?
-  email              String?             @unique
-  emailVerified      DateTime?
-  image              String?
-  password           String?
-  karyaId            String?
-  active             Boolean             @default(false)
-  credential         Boolean?            @default(false)
-  username           String?             @unique
-  accounts           Account[]
-  activateToken      ActivateToken[]
-  regisExhiData      RegisExhiData?
-  resetToken         ResetToken[]
-  sessions           Session[]
-  ticketsCompetition TicketCompetition[]
-  ticketsExhibition  TicketExhibition?
-  transaction        TransactionDetail[]
-  karya              Karya?              @relation("OldKaryaRelation", fields: [karyaId], references: [id], onDelete: Cascade)
-  votesKarya         Karya[]             @relation("NewKaryaRelation")
+  id            String    @id @default(cuid())
+  username      String    @unique // For login
+  name          String    // Required: Full name for identification
+  email         String    @unique // Required & unique
+  emailVerified DateTime? // Verified via ActivateToken
+  password      String? // Hashed with bcrypt (null for OAuth users)
+  image         String? // Profile picture (OAuth or upload)
+  active        Boolean   @default(false) // Activated after email verification
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // NextAuth.js Relations
+  accounts      Account[]
+  sessions      Session[]
+
+  // Custom Token Relations
+  activateTokens ActivateToken[]
+  resetTokens    ResetToken[]
+
+  // Competition Relation (ONE-TO-ONE)
+  registration CompetitionRegistration? // One user = one competition only
+
+  @@index([email])
+  @@index([username])
+  @@map("users")
 }
 
-model ActivateToken {
-  id          String    @id @default(uuid())
-  userId      String
-  token       String    @unique
-  activatedAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model ResetToken {
-  id          String    @id @default(uuid())
-  userId      String
-  token       String    @unique
-  activatedAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
+/// Account - OAuth provider accounts (Google, GitHub, etc.)
+/// Standard NextAuth.js model - DO NOT MODIFY
 model Account {
   id                String  @id @default(cuid())
   userId            String
-  type              String
-  provider          String
+  type              String // "oauth" | "email" | "credentials"
+  provider          String // "google" | "github" | "credentials"
   providerAccountId String
   refresh_token     String?
   access_token      String?
@@ -63,189 +73,346 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
 }
 
+/// Session - User login sessions
+/// Standard NextAuth.js model - DO NOT MODIFY
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
 }
 
+/// VerificationToken - NextAuth.js verification tokens
+/// Standard NextAuth.js model - DO NOT MODIFY
 model VerificationToken {
-  identifier String
+  identifier String // Email or phone
   token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verification_tokens")
 }
 
-model RegisExhiData {
-  id               String     @id @default(uuid())
-  userId           String     @unique
-  collectiveType   String     @default("1")
-  registrationType String
-  verified         Boolean    @default(false)
-  paymentMethod    String
-  paymentProof     String
-  statusData       String     @default("waiting")
-  user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tickets          TicketGS[]
+/// ActivateToken - Email verification tokens (custom)
+/// Business Rule: Token expires after 24 hours
+model ActivateToken {
+  id          String    @id @default(uuid())
+  userId      String
+  token       String    @unique // UUID token sent via email
+  activatedAt DateTime? // Timestamp when user clicked verification link
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("activate_tokens")
 }
 
-model TicketGS {
-  id                  String             @id @default(uuid())
-  active              Boolean            @default(false)
-  name                String
-  email               String
-  phone               String
-  idLine              String
-  regisId             String?
-  transactionDetailId String?
-  regisData           RegisExhiData?     @relation(fields: [regisId], references: [id], onDelete: Cascade)
-  transactionDetail   TransactionDetail? @relation(fields: [transactionDetailId], references: [id])
+/// ResetToken - Password reset tokens (custom)
+/// Business Rule: Token expires after 1 hour
+model ResetToken {
+  id        String    @id @default(uuid())
+  userId    String
+  token     String    @unique // UUID token sent via email
+  usedAt    DateTime? // Timestamp when user reset password
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@map("reset_tokens")
 }
 
-model TicketExhibition {
-  id            String  @id @default(uuid())
-  verified      Boolean @default(false)
-  active        Boolean @default(false)
-  userId        String  @unique
-  nameCustomer  String
-  paymentMethod String
-  proof         String
-  names         String
-  email         String
-  phone         String
-  address       String
-  institution   String
-  phoneNumber   String
-  ages          String
-  amountPrice   String
-  ticketType    String
-  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+// ============================================================================
+// CATEGORY 2: COMPETITION SYSTEM MODELS
+// ============================================================================
+
+/// Competition - Master configuration for competition types
+/// Contains deadlines, fees, and team size rules
+model Competition {
+  id                   String   @id @default(uuid())
+  code                 String   @unique // "PTC" | "TPC" | "BCC"
+  name                 String // Full name: "ProtoTech Contest"
+  description          String? // Competition description
+  registrationDeadline DateTime // Team registration deadline
+  preliminaryDeadline  DateTime // Abstract/proposal submission deadline
+  semifinalDeadline    DateTime // Semifinal work submission deadline
+  finalDeadline        DateTime? // Final submission deadline (BCC only)
+  registrationFee      Int // Amount in IDR (e.g., 150000)
+  minTeamSize          Int // Minimum team members (e.g., 3 for PTC)
+  maxTeamSize          Int // Maximum team members (e.g., 5 for PTC)
+  isActive             Boolean  @default(true) // Enable/disable competition
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  registrations CompetitionRegistration[]
+
+  @@index([code])
+  @@map("competitions")
 }
 
-model TicketCompetition {
-  id              String @id @default(uuid())
-  userId          String
-  competitionType String
-  verified        String @default("pending")
-  stage           Float  @default(1.0)
-  team            Team?
-  user            User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+/// CompetitionRegistration - User participation record
+/// Business Rule: UNIQUE userId enforces one-user-one-competition constraint
+/// This is the CENTRAL model that connects User to all submission phases
+model CompetitionRegistration {
+  id             String                 @id @default(uuid())
+  userId         String                 @unique // ONE user = ONE competition (CRITICAL CONSTRAINT)
+  competitionId  String
+  verificationStatus VerificationStatus @default(pending) // Admin approval status
+  currentPhase       CompetitionPhase   @default(registration) // Current phase in competition flow
+  
+  // Qualification Flags (used for phase unlocking)
+  isPreliminaryQualified Boolean @default(false) // Unlocks payment after admin qualifies abstract
+  isSemifinalQualified   Boolean @default(false) // Unlocks final phase (BCC only)
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user        User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  competition Competition               @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  team        Team?                     // One-to-one with Team
+  preliminary PreliminarySubmission?
+  payment     Payment?
+  semifinal   SemifinalSubmission?
+  final       FinalSubmission?
+
+  @@index([userId])
+  @@index([competitionId])
+  @@index([verificationStatus])
+  @@index([currentPhase])
+  @@map("competition_registrations")
 }
 
+/// Team - Team information
+/// Business Rule: Team name must be globally unique
+/// Business Rule: Team leader's email must match User's email
 model Team {
-  id                String                   @id @default(uuid())
-  ticketId          String                   @unique
-  teamName          String                   @unique
-  chairmanName      String
-  chairmanEmail     String
-  abstract          Abstract?
-  karya             Karya?
-  members           ParticipantCompetition[]
-  regist3Data       Regist3Data?
-  ticketCompetition TicketCompetition        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  id             String   @id @default(uuid())
+  registrationId String   @unique // One-to-one with CompetitionRegistration
+  teamName       String   @unique // GLOBAL uniqueness across all competitions
+  institution    String // University/school name
+  leaderUserId   String   @unique // Must match the User who created registration
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  registration CompetitionRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  members      TeamMember[]
+
+  @@index([teamName])
+  @@index([registrationId])
+  @@map("teams")
 }
 
-model Abstract {
-  id               String @id @default(uuid())
-  teamId           String @unique
-  teamName         String
-  letterPlagiarism String
-  abstract         String
-  status           String @default("waiting")
-  team             Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+/// TeamMember - Individual team member details
+/// Business Rule: Email must be globally unique (prevents duplicate registrations)
+/// Business Rule: One email = one team across all competitions
+model TeamMember {
+  id                      String   @id @default(uuid())
+  teamId                  String
+  fullName                String // Member's full name
+  email                   String   @unique // GLOBAL uniqueness (CRITICAL CONSTRAINT)
+  phoneNumber             String
+  studentIdCard           String? // KTM photo URL (optional)
+  proofOfRegistrationLink String? // Google Drive link for twibbon/poster proofs
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([teamId])
+  @@map("team_members")
 }
 
-model ParticipantCompetition {
-  id           String  @id @default(uuid())
-  teamId       String
-  name         String
-  email        String
-  institution  String
-  phoneNumber  String
-  age          String
-  twibbonProof String?
-  studentProof String
-  team         Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+/// PreliminarySubmission - Abstract/proposal submission (Phase 2)
+/// Submitted after admin approves team registration
+model PreliminarySubmission {
+  id             String            @id @default(uuid())
+  registrationId String            @unique // One submission per registration
+  fileUrl        String // UploadThing CDN URL (PDF, max 10MB)
+  fileName       String
+  fileSize       Int // In bytes
+  status         SubmissionStatus  @default(pending) // pending | qualified | rejected
+  submittedAt    DateTime          @default(now())
+  reviewedAt     DateTime? // When admin reviewed
+  reviewNotes    String? // Admin feedback
+  reviewedBy     String? // Admin username who reviewed
+
+  registration CompetitionRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@index([registrationId])
+  @@index([status])
+  @@map("preliminary_submissions")
 }
 
-model Regist3Data {
-  id            String @id @default(uuid())
-  teamId        String @unique
-  teamName      String
-  statusPayment String @default("waiting")
-  billName      String
-  paymentProof  String
-  paymentMethod String
-  team          Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+/// Payment - Payment proof submission (Phase 3)
+/// Business Rule: Only appears if isPreliminaryQualified = true
+/// Business Rule: Rejection = permanent elimination (no resubmission)
+model Payment {
+  id                 String        @id @default(uuid())
+  registrationId     String        @unique // One payment per registration
+  amount             Int // Amount paid in IDR
+  paymentProofUrl    String // UploadThing CDN URL (image, max 5MB)
+  paymentMethod      String // "Bank Transfer" | "E-Wallet"
+  billName           String // Name on payment proof
+  status             PaymentStatus @default(pending) // pending | verified | rejected
+  submittedAt        DateTime      @default(now())
+  verifiedAt         DateTime? // When finance admin verified
+  verificationNotes  String? // Rejection reason or notes
+  verifiedBy         String? // Admin username who verified
+
+  registration CompetitionRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@index([registrationId])
+  @@index([status])
+  @@map("payments")
 }
 
-model Karya {
-  id            String  @id @default(uuid())
-  countVote     BigInt  @default(0)
-  teamId        String  @unique
-  linkFullPaper String?
-  linkVideo     String?
-  linkVideo2    String?
-  team          Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  usersVote     User[]  @relation("OldKaryaRelation")
-  usersVoteNew  User[]  @relation("NewKaryaRelation")
+/// SemifinalSubmission - Competition-specific semifinal work (Phase 4)
+/// Only accessible after Payment.status = 'verified'
+/// Different fields per competition type (PTC, TPC, BCC)
+model SemifinalSubmission {
+  id              String          @id @default(uuid())
+  registrationId  String          @unique // One submission per registration
+  competitionType CompetitionType // Determines which fields are required
+
+  // PTC Fields (ProtoTech Contest)
+  proposalUrl        String? // Full paper PDF URL
+  prototypeVideoUrl  String? // YouTube link to prototype demo
+
+  // TPC Fields (Technovate Paper Competition)
+  paperUrl           String? // Full research paper PDF URL
+  presentationUrl    String? // Presentation slides PDF/PPT URL
+
+  // BCC Fields (Business Case Competition)
+  businessPlanUrl    String? // Business case proposal PDF URL
+  pitchDeckUrl       String? // Initial pitch deck URL (optional for semifinal)
+
+  submittedAt DateTime @default(now())
+  reviewNotes String? // Evaluation notes from judges
+
+  registration CompetitionRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@index([registrationId])
+  @@index([competitionType])
+  @@map("semifinal_submissions")
 }
 
-model TransactionDetail {
-  id               String     @id @default(uuid())
-  total            BigInt
-  status           String     @default("no-status")
-  statusData       String     @default("waiting")
-  customerName     String
-  customerEmail    String
-  registrationType String
-  paymentType      String?
-  snapToken        String
-  snapRedirectURL  String
-  userId           String
-  metadata         Json?
-  deletedData      Json?
-  ticketGS         TicketGS[]
-  User             User       @relation(fields: [userId], references: [id])
+/// FinalSubmission - Final pitch deck submission (Phase 5 - BCC ONLY)
+/// Only for BCC finalists (isSemifinalQualified = true)
+/// PTC and TPC do live pitching only (no file submission)
+model FinalSubmission {
+  id             String   @id @default(uuid())
+  registrationId String   @unique // One final submission per registration
+  pitchDeckUrl   String // UploadThing CDN URL (PDF/PPT, max 20MB)
+  fileName       String
+  fileSize       Int // In bytes
+  submittedAt    DateTime @default(now())
+
+  registration CompetitionRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@index([registrationId])
+  @@map("final_submissions")
 }
 
-model RefferalCode {
-  id           String  @id @default(uuid())
-  refferalCode String  @unique
-  isUsed       Boolean @default(false)
-  teamId       String? @unique
-  teamName     String?
+// ============================================================================
+// CATEGORY 3: ADMINISTRATION MODELS
+// ============================================================================
+
+/// Admin - Admin accounts with role-based access control
+/// Separate from User model for security isolation
+/// Roles: super_admin (full access) | moderator (review only) | finance (payment only)
+model Admin {
+  id           String    @id @default(uuid())
+  username     String    @unique // For admin login
+  email        String    @unique
+  password     String // Hashed with bcrypt
+  adminRole    AdminRole @default(moderator) // Role determines permissions
+  isActive     Boolean   @default(true) // Can be deactivated by super_admin
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lastLoginAt  DateTime?
+
+  @@index([username])
+  @@index([email])
+  @@map("admins")
 }
 
-model H4HSubmissions {
-  id         String @id
-  teamId     String @unique
-  githubUrl  String
-  youtubeUrl String
+// ============================================================================
+// ENUMS - Type Definitions
+// ============================================================================
+
+/// VerificationStatus - Team registration approval status
+enum VerificationStatus {
+  pending  // Waiting for admin review
+  approved // Admin approved, team can proceed
+  rejected // Admin rejected, team cannot continue
+
+  @@map("verification_status")
 }
 
-model PTCSubmissions {
-  id               String @id
-  teamId           String @unique
-  fileUrl          String
-  paymentProofUrl  String @default("")
-  paperUrl         String @default("")
-  pitchingVideoUrl String @default("")
-  pptFileUrl       String @default("")
+/// CompetitionPhase - Current phase in competition flow
+enum CompetitionPhase {
+  registration // Team just registered
+  preliminary  // Submitting abstract/proposal
+  payment      // Submitting payment proof
+  semifinal    // Submitting semifinal work
+  final        // Finalist (BCC only)
+
+  @@map("competition_phase")
 }
 
-model GrandSeminar {
-  id               String @id
-  name             String
-  email            String
-  ticketId         String @unique
-  validated        Boolean @default(false)
+/// SubmissionStatus - Preliminary submission review status
+enum SubmissionStatus {
+  pending   // Waiting for admin review
+  qualified // Admin qualified, team proceeds to payment
+  rejected  // Admin rejected, team eliminated
+
+  @@map("submission_status")
+}
+
+/// PaymentStatus - Payment verification status
+enum PaymentStatus {
+  pending  // Waiting for finance verification
+  verified // Payment verified, team proceeds to semifinal
+  rejected // Payment rejected, team ELIMINATED (no second chance)
+
+  @@map("payment_status")
+}
+
+/// CompetitionType - Competition type identifier
+enum CompetitionType {
+  PTC // ProtoTech Contest (3-5 members, hardware/IoT)
+  TPC // Technovate Paper Competition (1-3 members, research)
+  BCC // Business Case Competition (3 members, business solutions)
+
+  @@map("competition_type")
+}
+
+/// AdminRole - Admin access level
+enum AdminRole {
+  super_admin // Full system access, manage admins, all features
+  moderator   // Registration & submission review only
+  finance     // Payment verification only
+
+  @@map("admin_role")
 }

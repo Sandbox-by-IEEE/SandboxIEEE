@@ -1,109 +1,126 @@
 'use client';
 
-import { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 
-import Footer from '@/components/footer';
-import NavBar from '@/components/Navbar';
+import Navbar from '@/components/site/Navbar';
 
-export default function Home() {
+export default function NotFoundPage() {
   return (
-    <div className='flex flex-col min-h-screen bg-[#040B15]'>
-      <NavBar />
-      <main className="className='relative w-full z-5 flex flex-col min-h-screen justify-center items-center py-28 pt-14 lg:py-28 lg:pt-20 gap-10 lg:gap-16 px-8 sm:px-14 md:px-24 lg:px-44 relative font-poppins flex-grow text-white">
-        <div className='text-center'>
-          <h1 className='font-bold md:text-[96px] leading-normal text-[48px]'>
-            404
-          </h1>
-          <h2 className='md:font-bold md:text-[32px] leading-[48px] text-[16px] font-normal'>
-            Fixing there and there
-          </h2>
+    <div className='flex flex-col min-h-screen bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102]'>
+      <Navbar />
+      <main className="relative flex-grow flex items-center justify-center overflow-hidden px-4 py-20 max-w-[1440px] mx-auto w-full">
+        {/* Background Blobs */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/hero/hero-circle-1.svg"
+            alt=""
+            width={800}
+            height={800}
+            className="absolute top-1/2 -translate-y-1/2 -left-1/4 md:-left-1/3 lg:-left-1/4 opacity-50"
+            priority
+          />
+          <Image
+            src="/hero/hero-circle-2.svg"
+            alt=""
+            width={800}
+            height={800}
+            className="absolute top-1/2 -translate-y-1/2 -right-1/4 md:-right-1/3 lg:-right-1/4 opacity-50"
+            priority
+          />
         </div>
-        {/* Shadow */}
-        <div
-          className='absolute md:w-[50%] md:h-[50%] md:rounded-[50%] w-[15%] h-[15%] opacity-50'
-          style={{
-            background:
-              'radial-gradient(50% 50% at 50% 50%, rgba(159, 42, 57, 0.45) 0%, rgba(11, 53, 15, 0) 100%)',
-            mixBlendMode: 'screen',
-            transform: 'rotate(135deg)',
-          }}
-        />
-        {/* Images */}
-        <Image
-          src='/404assets/left.png'
-          alt='Left Decorative Image'
-          className='absolute md:top-[10%] md:left-[15.5%] md:w-[35%] w-[60%] top-[12%] left-[-5%]'
-          width={0}
-          height={0}
-          sizes='100vw'
-          priority
-        />
-        <Image
-          src='/404assets/right.png'
-          alt='Right Decorative Image'
-          className='absolute md:top-[10%] md:right-[8%] md:w-[39%] w-[58%] top-[25%] right-[-10%]'
-          width={0}
-          height={0}
-          sizes='100vw'
-          priority
-        />
+
+        {/* Content */}
+        <div className="relative z-10 text-center max-w-6xl mx-auto">
+          <div className="relative inline-block">
+            {/* Mascot Left - Behind text */}
+            <Image
+              src="/mascots/mascot-2.svg"
+              alt="Mascot"
+              width={300}
+              height={300}
+              className="absolute -left-24 sm:-left-32 md:-left-48 lg:-left-64 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle z-0"
+              style={{ transform: 'translateY(-50%) rotate(-12deg)' }}
+              priority
+            />
+
+            {/* Main Text */}
+            <div className="relative z-10 mb-6 md:mb-8">
+              <h1
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-gemunu tracking-wider mb-4"
+                style={{
+                  background: 'linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  filter: 'drop-shadow(0 0 20px rgba(255, 205, 141, 0.5))',
+                }}
+              >
+                404 Not Found
+              </h1>
+              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 font-gemunu">
+                Fixing there and there...
+              </p>
+            </div>
+
+            {/* Mascot Right - In front of text */}
+            <Image
+              src="/mascots/mascot-6.svg"
+              alt="Mascot"
+              width={300}
+              height={300}
+              className="absolute -right-24 sm:-right-32 md:-right-48 lg:-right-64 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle-reverse z-20"
+              style={{ transform: 'translateY(-50%) rotate(15deg)' }}
+              priority
+            />
+          </div>
+
+          {/* Home Button */}
+          <div className="mt-12 md:mt-16">
+            <Link
+              href="/"
+              className="inline-block h-[35px] px-8 rounded-full font-gemunu text-base md:text-lg font-semibold transition-all hover:scale-105"
+              style={{
+                background: 'linear-gradient(90deg, #FFCD8D 0%, #280003 100%)',
+                boxShadow: '0 8px 24px rgba(255, 205, 141, 0.4), 0 4px 12px rgba(40, 0, 3, 0.3)',
+                lineHeight: '35px',
+                color: 'white',
+              }}
+            >
+              Home
+            </Link>
+          </div>
+        </div>
+
+        {/* Floating Animation CSS */}
+        <style jsx>{`
+          @keyframes floatGentle {
+            0%, 100% {
+              transform: translateY(-50%) rotate(-12deg) translateY(0px);
+            }
+            50% {
+              transform: translateY(-50%) rotate(-12deg) translateY(-20px);
+            }
+          }
+
+          @keyframes floatGentleReverse {
+            0%, 100% {
+              transform: translateY(-50%) rotate(15deg) translateY(0px);
+            }
+            50% {
+              transform: translateY(-50%) rotate(15deg) translateY(-20px);
+            }
+          }
+
+          :global(.animate-float-gentle) {
+            animation: floatGentle 4s ease-in-out infinite;
+          }
+
+          :global(.animate-float-gentle-reverse) {
+            animation: floatGentleReverse 4s ease-in-out infinite;
+          }
+        `}</style>
       </main>
-      <Footer />
     </div>
   );
 }
-
-export const metadata: Metadata = {
-  title: '404 | Sandbox IEEE ITB',
-  description:
-    "We couldn't find the page you're looking for. The page might have been removed or the URL may be incorrect. While we're fixing things, why not explore more of what we have to offer? You can head back to our homepage or check out our other exciting events and opportunities.",
-  generator: 'Next.js',
-  category: 'Events',
-  applicationName: 'Sandbox IEEE ITB',
-  referrer: 'origin-when-cross-origin',
-  keywords: [
-    'Sandbox',
-    'Sandbox IEEE ITB',
-    'Sandbox ITB',
-    'Sandbox IEEE',
-    'IEEE ITB',
-    'ITB',
-    'Lomba',
-    'TPC',
-    'PTC',
-  ],
-  colorScheme: 'normal',
-  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
-  openGraph: {
-    title: 'Sandbox IEEE ITB',
-    description:
-      "We couldn't find the page you're looking for. The page might have been removed or the URL may be incorrect. While we're fixing things, why not explore more of what we have to offer? You can head back to our homepage or check out our other exciting events and opportunities.",
-    url: 'https://sandbox.ieeeitb.com/',
-    siteName: 'Sandbox IEEE ITB',
-    images: [
-      {
-        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
-        width: 1200,
-        height: 630,
-        alt: 'Sandbox IEEE ITB Logo',
-      },
-    ],
-    locale: 'id_ID',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Sandbox IEEE ITB',
-    description:
-      "We couldn't find the page you're looking for. The page might have been removed or the URL may be incorrect. While we're fixing things, why not explore more of what we have to offer? You can head back to our homepage or check out our other exciting events and opportunities.",
-    images: [
-      {
-        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
-        width: 1200,
-        height: 630,
-        alt: 'Sandbox IEEE ITB Logo',
-      },
-    ],
-  },
-};

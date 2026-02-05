@@ -12,3 +12,14 @@ export const transporter = nodemailer.createTransport({
 });
 
 export const resend = new Resend('re_3CpvF9aQ_56AyBzdidBppxGcAPDFhHkj9');
+
+export const sendMail = async (options: {
+  to: string;
+  subject: string;
+  html: string;
+}) => {
+  return transporter.sendMail({
+    from: process.env.SMTP_FROM || 'sandbox@ieee-itb.org',
+    ...options,
+  });
+};

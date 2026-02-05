@@ -1,31 +1,12 @@
-import TitleSection from '@/components/TitleSection';
-
-const Loading = () => {
+export default function Loading() {
   return (
-    <main className='flex flex-auto items-center justify-center w-full h-screen bg-[#040B15]'>
-      <div className='flex flex-col items-center'>
-        <div className='relative'>
-          <div className='absolute -top-[35%] -left-[35%] w-[35vw] h-[35vw] bg-gradient-radial from-[#255763] to-[#0B305F] opacity-20 blur-[120px] rounded-full'></div>
-          {/* Logo */}
-          <div
-            className='w-[50vw] h-[50vw] md:w-[20vw] md:h-[20vw] z-10'
-            style={{
-              backgroundImage: `url(/loading.png)`,
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          ></div>
-
-          {/* Text */}
-
-          <TitleSection size='md' animation={false}>
-            Loading...
-          </TitleSection>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-[#190204] to-[#080203]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative w-16 h-16 animate-spin">
+          <div className="absolute inset-0 border-4 border-[#E8B4A8] border-t-transparent rounded-full"></div>
         </div>
+        <p className="text-[#E8B4A8] font-gemunu text-xl">Loading...</p>
       </div>
-    </main>
+    </div>
   );
-};
-
-export default Loading;
+}

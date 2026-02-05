@@ -1,12 +1,10 @@
 import './globals.css';
 import 'aos/dist/aos.css';
 
-import { type Metadata } from 'next';
-import { Inter, MuseoModerno, Poppins } from 'next/font/google';
+import { type Metadata, type Viewport } from 'next';
+import { Inter, MuseoModerno, Poppins, Gemunu_Libre } from 'next/font/google';
 import Script from 'next/script';
 
-import { ModalContextProvider } from '@/components/Modal/ModalContext';
-import Toast from '@/components/Toast';
 import AOSClient from '@/provider/aos';
 import AuthProvider from '@/provider/AuthProvider';
 
@@ -30,6 +28,13 @@ const museoModerno = MuseoModerno({
   variable: '--font-museo-moderno',
 });
 
+const gemunuLibre = Gemunu_Libre({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-gemunu-libre',
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -38,13 +43,12 @@ export default function RootLayout({
   return (
     <html
       lang='en'
-      className={`${inter.variable} ${poppins.variable} ${museoModerno.variable}`}
+      className={`${inter.variable} ${poppins.variable} ${museoModerno.variable} ${gemunuLibre.variable}`}
     >
       <AuthProvider>
         <body suppressHydrationWarning={true}>
           <AOSClient />
-          <Toast />
-          <ModalContextProvider>{children}</ModalContextProvider>
+          {children}
         </body>
       </AuthProvider>
       <Script
@@ -79,6 +83,10 @@ export default function RootLayout({
   );
 }
 
+export const viewport: Viewport = {
+  colorScheme: 'normal',
+};
+
 export const metadata: Metadata = {
   title: 'Sandbox IEEE ITB',
   description:
@@ -97,7 +105,6 @@ export const metadata: Metadata = {
     'TPC',
     'PTC',
   ],
-  colorScheme: 'normal',
   alternates: {
     canonical: '/',
     languages: {
