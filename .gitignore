@@ -25,7 +25,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env*.local
+.env.development
+.env.production
+.env.test
 
 # vercel
 .vercel
@@ -33,3 +37,33 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE & Editor
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# API Keys & Secrets (extra safety)
+*secret*.json
+*credentials*.json
+service-account*.json
