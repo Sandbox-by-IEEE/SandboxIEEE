@@ -1,18 +1,18 @@
 'use client';
 
 import { AdminRole } from '@prisma/client';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import {
-  LayoutDashboard,
-  Users,
-  FileText,
   CreditCard,
-  Trophy,
-  UserPlus,
+  FileText,
+  LayoutDashboard,
   Settings,
   Shield,
+  Trophy,
+  UserPlus,
+  Users,
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface AdminSidebarProps {
   admin: {

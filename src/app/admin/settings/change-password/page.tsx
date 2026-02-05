@@ -1,4 +1,5 @@
 import { auth } from '@/lib/auth';
+
 import ChangePasswordForm from './ChangePasswordForm';
 
 export default async function ChangePasswordPage() {

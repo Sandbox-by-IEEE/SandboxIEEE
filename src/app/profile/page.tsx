@@ -1,8 +1,9 @@
-import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { Mail, User, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { User, Mail, Users } from 'lucide-react';
+import { redirect } from 'next/navigation';
+
+import { auth } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 

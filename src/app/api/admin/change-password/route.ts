@@ -1,7 +1,8 @@
-import { auth } from '@/lib/auth';
+import { compare,hash } from 'bcrypt';
 import { NextRequest, NextResponse } from 'next/server';
-import { hash, compare } from 'bcrypt';
 import { z } from 'zod';
+
+import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 
 /**

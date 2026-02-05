@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { CheckCircle2, Loader2, Mail,XCircle } from 'lucide-react';
 import Link from 'next/link';
-import { CheckCircle2, XCircle, Loader2, Mail } from 'lucide-react';
-import Navbar from '@/components/site/Navbar';
+import { useRouter,useSearchParams } from 'next/navigation';
+import { Suspense,useEffect, useState } from 'react';
+
 import Footer from '@/components/site/Footer';
+import Navbar from '@/components/site/Navbar';
 
 /**
  * ============================================================================

@@ -1,6 +1,7 @@
-import { auth } from '@/lib/auth';
+import { Bell,Lock, User } from 'lucide-react';
 import Link from 'next/link';
-import { Lock, User, Bell } from 'lucide-react';
+
+import { auth } from '@/lib/auth';
 
 export default async function AdminSettingsPage() {
   const session = await auth();

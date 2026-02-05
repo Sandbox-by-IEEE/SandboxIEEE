@@ -1,5 +1,7 @@
-import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+
+import { auth } from '@/lib/auth';
+
 import CreateAdminForm from './CreateAdminForm';
 
 export default async function CreateAdminPage() {

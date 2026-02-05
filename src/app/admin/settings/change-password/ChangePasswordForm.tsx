@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { AlertCircle, CheckCircle, Lock } from 'lucide-react';
+import { useState } from 'react';
 
 interface ChangePasswordFormProps {
   adminId: string;

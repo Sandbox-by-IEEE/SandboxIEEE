@@ -1,9 +1,9 @@
 'use client';
 
 import { AdminRole } from '@prisma/client';
-import { signOut } from 'next-auth/react';
 import { Bell, LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 interface AdminHeaderProps {
   admin: {

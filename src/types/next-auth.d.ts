@@ -1,8 +1,9 @@
 // Extended NextAuth types for Sandbox v3.0
 
-import { AdminRole } from '@prisma/client';
 import 'next-auth';
 import 'next-auth/jwt';
+
+import { AdminRole } from '@prisma/client';
 
 declare module 'next-auth' {
   interface Session {

@@ -1,7 +1,9 @@
-import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import AdminSidebar from './components/AdminSidebar';
+
+import { auth } from '@/lib/auth';
+
 import AdminHeader from './components/AdminHeader';
+import AdminSidebar from './components/AdminSidebar';
 
 export default async function AdminLayout({
   children,

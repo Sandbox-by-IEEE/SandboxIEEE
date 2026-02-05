@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
-import Link from 'next/link';
+import { ChevronDown, LogOut,User } from 'lucide-react';
 import Image from 'next/image';
-import { ChevronDown, User, LogOut } from 'lucide-react';
+import Link from 'next/link';
+import { signOut,useSession } from 'next-auth/react';
+import { useEffect,useState } from 'react';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);

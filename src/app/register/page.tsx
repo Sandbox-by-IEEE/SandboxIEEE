@@ -1,19 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import {
+  AlertCircle,
+  CheckCircle2,
   Eye,
   EyeOff,
-  CheckCircle2,
-  AlertCircle,
   Loader2,
   Mail,
 } from 'lucide-react';
-import Navbar from '@/components/site/Navbar';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 import Footer from '@/components/site/Footer';
+import Navbar from '@/components/site/Navbar';
 
 /**
  * ============================================================================

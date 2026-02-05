@@ -1,15 +1,15 @@
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/db';
 import {
-  Users,
-  FileText,
-  CreditCard,
-  Trophy,
+  AlertTriangle,
   CheckCircle,
   Clock,
-  XCircle,
-  AlertTriangle,
+  CreditCard,
+  FileText,
+  Trophy,
+  Users,
 } from 'lucide-react';
+
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/db';
 
 export default async function AdminDashboardPage() {
   const session = await auth();

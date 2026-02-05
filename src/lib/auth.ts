@@ -1,10 +1,11 @@
-import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import Google from 'next-auth/providers/google';
-import Credentials from 'next-auth/providers/credentials';
-import { prisma } from '@/lib/db';
-import { authConfig } from '@/auth.config';
 import bcrypt from 'bcrypt';
+import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
+
+import { authConfig } from '@/auth.config';
+import { prisma } from '@/lib/db';
 
 /**
  * ============================================================================
@@ -170,7 +171,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return baseUrl;
     },
 
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user, account, profile }) {
       // For Google OAuth users, ensure they have a username
       if (account?.provider === 'google' && user?.email) {
         // Check if user already exists
@@ -206,7 +207,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
 
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user?.id) {
         token.id = user.id;
         token.type = (user as any).type || 'user';

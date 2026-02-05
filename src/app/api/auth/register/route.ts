@@ -1,9 +1,10 @@
-import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt';
+import crypto from 'crypto';
+import { NextResponse } from 'next/server';
 import { z } from 'zod';
+
 import { prisma } from '@/lib/db';
 import { sendMail } from '@/lib/mailTransporter';
-import crypto from 'crypto';
 
 /**
  * ============================================================================

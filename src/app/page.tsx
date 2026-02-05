@@ -1,12 +1,13 @@
-import { prisma } from '@/lib/db';
-import Navbar from '@/components/site/Navbar';
 import Footer from '@/components/site/Footer';
-import HeroSection from './_components/HeroSection';
+import Navbar from '@/components/site/Navbar';
+import { prisma } from '@/lib/db';
+
 import AboutSection from './_components/AboutSection';
-import StatsSection from './_components/StatsSection';
-import TimelineSection from './_components/TimelineSection';
 import CompetitionsSection from './_components/CompetitionsSection';
 import FAQSection from './_components/FAQSection';
+import HeroSection from './_components/HeroSection';
+import StatsSection from './_components/StatsSection';
+import TimelineSection from './_components/TimelineSection';
 
 export const dynamic = 'force-dynamic';
 
