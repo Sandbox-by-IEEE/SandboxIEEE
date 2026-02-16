@@ -244,10 +244,10 @@ function RegistrationContent() {
                       <div key={step} className="flex items-center">
                         <div className="flex flex-col items-center">
                           <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${step === currentStep
-                              ? 'bg-gradient-to-br from-[#FFCD8D] to-[#E8A05D] text-[#2d0e0e] scale-110 shadow-lg shadow-orange-500/30'
-                              : step < currentStep
-                                ? 'bg-[#6B2D2D] text-white border-2 border-[#FFCD8D]/50'
-                                : 'bg-[#3d1a1a]/60 text-gray-500 border-2 border-gray-600/30'
+                            ? 'bg-gradient-to-br from-[#FFCD8D] to-[#E8A05D] text-[#2d0e0e] scale-110 shadow-lg shadow-orange-500/30'
+                            : step < currentStep
+                              ? 'bg-[#6B2D2D] text-white border-2 border-[#FFCD8D]/50'
+                              : 'bg-[#3d1a1a]/60 text-gray-500 border-2 border-gray-600/30'
                             }`}>
                             {step}
                           </div>
@@ -326,7 +326,7 @@ function RegistrationContent() {
                     <div className="bg-gradient-to-br from-[#6B2D2D]/40 to-[#4a1f1f]/30 backdrop-blur-md rounded-2xl p-6 border border-white/10">
                       <h3 className="text-2xl font-bold text-[#FFCD8D] mb-4">#1 Team Leader</h3>
                       <p className="text-sm text-gray-400 mb-6">
-                        As the team leader, you'll be the main point of contact. Please provide complete information.
+                        As the team leader, you&apos;ll be the main point of contact. Please provide complete information.
                       </p>
 
                       <div className="space-y-4">

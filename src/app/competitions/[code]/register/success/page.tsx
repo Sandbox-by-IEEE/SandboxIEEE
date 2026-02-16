@@ -85,7 +85,7 @@ function SuccessContent() {
                       <span className="text-white text-xs font-bold">4</span>
                     </div>
                     <p>
-                      You'll receive a confirmation email once your registration is approved
+                      You&apos;ll receive a confirmation email once your registration is approved
                     </p>
                   </div>
                 </div>
@@ -94,7 +94,7 @@ function SuccessContent() {
               {/* Important Notice */}
               <div className="bg-[#8B3A3A]/20 border border-[#8B3A3A]/50 rounded-xl p-4 mb-8">
                 <p className="text-[#FFCD8D] text-sm text-center">
-                  ⚠️ <strong>Important:</strong> Please check your spam/junk folder if you don't see the email in your inbox within a few minutes.
+                  ⚠️ <strong>Important:</strong> Please check your spam/junk folder if you don&apos;t see the email in your inbox within a few minutes.
                 </p>
               </div>
 
