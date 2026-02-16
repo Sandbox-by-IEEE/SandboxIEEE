@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 
 import Footer from '@/components/site/Footer';
@@ -14,11 +14,12 @@ import Navbar from '@/components/site/Navbar';
  * ============================================================================
  * 
  * 3-Step Registration Flow:
- * 1. Team Identity - Team name, institution, competition selection
+ * 1. Team Identity - Team name, institution (competition auto-selected from URL)
  * 2. Team Members - Leader + member details
  * 3. Review & Confirm - Summary before submission
  * 
- * Route: /competitions/register?competition=PTC
+ * Route: /competitions/[code]/register
+ * Example: /competitions/ptc/register
  * ============================================================================
  */
 
@@ -36,7 +37,7 @@ interface FormData {
   competitionCode: Competition;
   teamName: string;
   institution: string;
-  
+
   // Step 2: Team Members
   leaderName: string;
   leaderPhone: string;
@@ -54,15 +55,15 @@ const COMPETITION_DETAILS = {
 
 function RegistrationContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const competitionParam = searchParams.get('competition') as Competition;
+  const params = useParams();
+  const competitionCode = (params.code as string).toUpperCase() as Competition;
 
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const [formData, setFormData] = useState<FormData>({
-    competitionCode: competitionParam || 'BCC',
+    competitionCode: competitionCode,
     teamName: '',
     institution: '',
     leaderName: '',
@@ -184,7 +185,7 @@ function RegistrationContent() {
       }
 
       // Success - redirect to success page or show confirmation
-      router.push(`/competitions/register/success?email=${encodeURIComponent(formData.leaderEmail)}`);
+      router.push(`/competitions/${competitionCode.toLowerCase()}/register/success?email=${encodeURIComponent(formData.leaderEmail)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit registration');
     } finally {
@@ -215,7 +216,7 @@ function RegistrationContent() {
   const updateMember = (index: number, field: keyof TeamMember, value: string) => {
     setFormData(prev => ({
       ...prev,
-      members: prev.members.map((m, i) => 
+      members: prev.members.map((m, i) =>
         i === index ? { ...m, [field]: value } : m
       ),
     }));
@@ -262,13 +263,12 @@ function RegistrationContent() {
                 {[1, 2, 3].map((step) => (
                   <div key={step} className="flex items-center">
                     <div className={`flex flex-col items-center ${step < 3 ? 'mr-4' : ''}`}>
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
-                        step === currentStep
-                          ? 'bg-gradient-to-r from-[#FFCD8D] to-[#FFFFFF] text-[#190204]'
-                          : step < currentStep
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${step === currentStep
+                        ? 'bg-gradient-to-r from-[#FFCD8D] to-[#FFFFFF] text-[#190204]'
+                        : step < currentStep
                           ? 'bg-[#8B3A3A] text-white'
                           : 'bg-[#2d0609] text-[#9b7a6f] border-2 border-[#8B3A3A]/30'
-                      }`}>
+                        }`}>
                         {step}
                       </div>
                       <span className="text-xs text-[#E8B4A8] mt-2 hidden md:block">
@@ -297,23 +297,15 @@ function RegistrationContent() {
               {/* Step 1: Team Identity */}
               {currentStep === 1 && (
                 <div className="space-y-6">
-                  <div>
-                    <label className="block text-[#E8B4A8] mb-2 font-medium">
-                      Competition <span className="text-[#FFCD8D]">*</span>
-                    </label>
-                    <select
-                      value={formData.competitionCode}
-                      onChange={(e) => setFormData(prev => ({ ...prev, competitionCode: e.target.value as Competition }))}
-                      className="w-full bg-[#3d0709]/80 border border-[#8B3A3A]/40 rounded-xl px-4 py-3 text-white placeholder-[#9b7a6f] focus:outline-none focus:border-[#FFCD8D]/50 transition-colors"
-                    >
-                      <option value="BCC">Business Case Competition (BCC)</option>
-                      <option value="TPC">Technovate Paper Competition (TPC)</option>
-                      <option value="PTC">ProtoTech Contest (PTC)</option>
-                    </select>
-                    <p className="text-xs text-[#9b7a6f] mt-1">
-                      {COMPETITION_DETAILS[formData.competitionCode].min === COMPETITION_DETAILS[formData.competitionCode].max
-                        ? `Requires exactly ${COMPETITION_DETAILS[formData.competitionCode].min} members`
-                        : `Requires ${COMPETITION_DETAILS[formData.competitionCode].min}-${COMPETITION_DETAILS[formData.competitionCode].max} members`
+                  {/* Competition Info (Read-only) */}
+                  <div className="bg-[#2d0609]/60 rounded-2xl p-6 border border-[#8B3A3A]/30">
+                    <h3 className="text-lg font-bold text-[#FFCD8D] mb-2">
+                      {COMPETITION_DETAILS[competitionCode].name} ({competitionCode})
+                    </h3>
+                    <p className="text-xs text-[#9b7a6f]">
+                      {COMPETITION_DETAILS[competitionCode].min === COMPETITION_DETAILS[competitionCode].max
+                        ? `Requires exactly ${COMPETITION_DETAILS[competitionCode].min} members`
+                        : `Requires ${COMPETITION_DETAILS[competitionCode].min}-${COMPETITION_DETAILS[competitionCode].max} members`
                       }
                     </p>
                   </div>
