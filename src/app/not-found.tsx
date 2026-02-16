@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import Navbar from '@/components/site/Navbar';
+import Footer from '@/components/site/Footer';
 
 export default function NotFoundPage() {
   return (
@@ -11,7 +12,7 @@ export default function NotFoundPage() {
       <Navbar />
       <main className="relative flex-grow flex items-center justify-center overflow-hidden px-4 py-20 max-w-[1440px] mx-auto w-full">
         {/* Background Blobs */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <Image
             src="/hero/hero-circle-1.svg"
             alt=""
@@ -28,7 +29,7 @@ export default function NotFoundPage() {
             className="absolute top-1/2 -translate-y-1/2 -right-1/4 md:-right-1/3 lg:-right-1/4 opacity-50"
             priority
           />
-        </div>
+        </div> */}
 
         {/* Content */}
         <div className="relative z-10 text-center max-w-6xl mx-auto">
@@ -59,7 +60,7 @@ export default function NotFoundPage() {
                 404 Not Found
               </h1>
               <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 font-gemunu">
-                Fixing there and there...
+                Fixing there and there....
               </p>
             </div>
 
@@ -121,6 +122,7 @@ export default function NotFoundPage() {
           }
         `}</style>
       </main>
+      <Footer />
     </div>
   );
 }

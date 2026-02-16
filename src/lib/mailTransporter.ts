@@ -11,7 +11,7 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-export const resend = new Resend('re_3CpvF9aQ_56AyBzdidBppxGcAPDFhHkj9');
+export const resend = new Resend(process.env.RESEND_API_KEY || '');
 
 export const sendMail = async (options: {
   to: string;
@@ -19,7 +19,8 @@ export const sendMail = async (options: {
   html: string;
 }) => {
   return transporter.sendMail({
-    from: process.env.SMTP_FROM || 'sandbox@ieee-itb.org',
+    from: `"The Sandbox - IEEE ITB" <${process.env.SMTP_USER}>`,
+    replyTo: process.env.SMTP_USER,
     ...options,
   });
 };
