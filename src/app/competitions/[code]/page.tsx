@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { ChevronRight, Trophy, Calendar, FileText, CheckCircle2 } from 'lucide-react';
+import { ChevronRight, ChevronDown, Trophy, Calendar, FileText, CheckCircle2 } from 'lucide-react';
 
 import Footer from '@/components/site/Footer';
 import Navbar from '@/components/site/Navbar';
@@ -277,46 +277,59 @@ export default function CompetitionDetailPage() {
         {/* FAQs */}
         <section className="py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-12">
-              Frequently Asked Questions
-            </h2>
+            {/* Title with QnA Icons */}
+            <div className="flex items-center justify-center gap-4 md:gap-8 mb-12 md:mb-16">
+              <Image
+                src="/qna.svg"
+                alt="QnA"
+                width={80}
+                height={80}
+                className="hidden md:block w-12 h-12 md:w-20 md:h-20"
+              />
+              <h2
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center"
+                style={{
+                  background: 'linear-gradient(90deg, #7B1919 0%, #FFFFFF 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Any Questions?
+              </h2>
+              <Image
+                src="/qna-2.svg"
+                alt="QnA"
+                width={80}
+                height={80}
+                className="hidden md:block w-12 h-12 md:w-20 md:h-20"
+              />
+            </div>
 
-            <div className="space-y-4">
+            <p className="text-center text-white/70 text-sm sm:text-base md:text-lg mb-8 md:mb-12">
+              Here are some frequently asked questions about {content.name}
+            </p>
+
+            {/* 2-Column FAQ Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
               {content.faqs.map((faq, index) => (
                 <details
                   key={index}
-                  className="backdrop-blur-xl bg-white/[0.08] rounded-2xl border border-white/10 p-6 group hover:bg-white/[0.12] transition-all duration-300"
+                  className="bg-gradient-to-br from-[#2a0507]/50 to-[#1a0304]/50 rounded-2xl md:rounded-[24px] border border-white/10 overflow-hidden group"
                 >
-                  <summary className="text-xl font-bold text-white cursor-pointer list-none flex items-center justify-between">
-                    <span>{faq.question}</span>
-                    <ChevronRight className="text-[#FFCD8D] group-open:rotate-90 transition-transform" size={24} />
+                  <summary className="w-full px-4 md:px-6 py-3 md:py-4 flex items-center justify-between text-left cursor-pointer list-none hover:bg-white/5 transition-colors">
+                    <span className="text-white font-semibold text-sm sm:text-base">
+                      {faq.question}
+                    </span>
+                    <ChevronDown
+                      className="h-5 w-5 text-white/70 transition-transform group-open:rotate-180"
+                    />
                   </summary>
-                  <p className="mt-4 text-gray-300 leading-relaxed">
+                  <div className="px-4 md:px-6 pb-3 md:pb-4 text-white/70 text-xs sm:text-sm leading-relaxed">
                     {faq.answer}
-                  </p>
+                  </div>
                 </details>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Final CTA */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 to-[#3d1a1a]/30 rounded-3xl border border-white/10 p-12">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Ready to Compete?
-              </h2>
-              <p className="text-xl text-gray-300 mb-8">
-                Join hundreds of talented students and showcase your skills
-              </p>
-              <Link
-                href={`/competitions/${code.toLowerCase()}/register`}
-                className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#FFCD8D] via-[#E8A05D] to-[#FFCD8D] rounded-full text-[#0B0102] font-bold text-xl hover:scale-105 transition-transform duration-300 shadow-xl shadow-orange-500/30"
-              >
-                Register Your Team
-                <ChevronRight size={24} />
-              </Link>
             </div>
           </div>
         </section>

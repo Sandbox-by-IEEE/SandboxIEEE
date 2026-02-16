@@ -332,10 +332,14 @@ export async function POST(request: NextRequest) {
           leaderName,
           registration.activateToken.token
         );
+        console.log(`✅ Activation email sent successfully to ${leaderEmail}`);
       } catch (emailError) {
-        // TODO: Log to monitoring service
+        console.error('❌ Failed to send activation email:', emailError);
         // Email delivery is non-critical, user can request resend
+        // But log the error so we know it happened
       }
+    } else {
+      console.log(`ℹ️  No activation email sent (existing user): ${leaderEmail}`);
     }
 
     // 10. Return success response
