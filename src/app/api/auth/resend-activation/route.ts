@@ -79,14 +79,14 @@ export async function POST(request: NextRequest) {
     // Send activation email
     await sendActivationEmail(user.email, user.name, activateToken.token);
 
-    console.log(`✅ Resent activation email to ${user.email}`);
+    // TODO: Log resend to monitoring service
 
     return NextResponse.json({
       success: true,
       message: 'Activation email has been resent. Please check your inbox.',
     });
   } catch (error) {
-    console.error('❌ Resend activation error:', error);
+    // TODO: Log error to monitoring service
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(

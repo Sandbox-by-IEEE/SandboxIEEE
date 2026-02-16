@@ -96,7 +96,7 @@ export async function GET(request: Request) {
       where: { token },
     });
 
-    console.log('✅ User activated:', activationRecord.user.email);
+    // TODO: Log successful activation to monitoring service
 
     // ============================================================================
     // 6. Send Success Response
@@ -113,7 +113,7 @@ export async function GET(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('❌ Account activation error:', error);
+    // TODO: Log error to monitoring service with stack trace
 
     return NextResponse.json(
       {

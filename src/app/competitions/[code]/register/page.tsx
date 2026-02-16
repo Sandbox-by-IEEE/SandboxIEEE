@@ -3,7 +3,7 @@
 import { ChevronRight, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 
 import Footer from '@/components/site/Footer';
 import Navbar from '@/components/site/Navbar';
@@ -128,9 +128,14 @@ function RegistrationContent() {
     setError('');
   };
 
-  const handleSubmit = async () => {
-    if (!validateStep(2)) return;
+  // Debounce submission to prevent double-clicks
+  const isSubmitting = useRef(false);
 
+  const handleSubmit = useCallback(async () => {
+    if (!validateStep(2)) return;
+    if (isSubmitting.current) return; // Prevent double submission
+
+    isSubmitting.current = true;
     setIsLoading(true);
     setError('');
 
@@ -143,33 +148,46 @@ function RegistrationContent() {
         leaderEmail: formData.leaderEmail,
         leaderPhone: formData.leaderPhone,
         leaderPassword: formData.leaderPassword,
-        members: formData.members.map(m => ({
-          fullName: m.fullName,
-          email: m.email || `${m.fullName.replace(/\s+/g, '').toLowerCase()}@placeholder.com`,
-          phoneNumber: m.phoneNumber || '000000000000',
-          proofOfRegistrationLink: m.proofOfRegistrationLink,
-        })),
+        members: formData.members
+          .filter(m => m.fullName.trim() !== '')
+          .map(m => ({
+            fullName: m.fullName,
+            email: m.email || `${m.fullName.replace(/\s+/g, '').toLowerCase()}@placeholder.com`,
+            phoneNumber: m.phoneNumber || '000000000000',
+            proofOfRegistrationLink: m.proofOfRegistrationLink,
+          })),
       };
 
       const response = await fetch('/api/competitions/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(30000), // 30s timeout
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
+        // Handle rate limiting
+        if (response.status === 429) {
+          throw new Error(data.error?.message || 'Too many requests. Please try again later.');
+        }
+        throw new Error(data.error?.message || data.error || 'Registration failed');
       }
 
+      // Optimistic navigation - assume success
       router.push(`/competitions/${competitionCode.toLowerCase()}/register/success?email=${encodeURIComponent(formData.leaderEmail)}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to submit registration');
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Request timeout. Please check your connection and try again.');
+      } else {
+        setError(err instanceof Error ? err.message : 'Failed to submit registration');
+      }
     } finally {
       setIsLoading(false);
+      isSubmitting.current = false;
     }
-  };
+  }, [formData, competitionCode, router, validateStep]);
 
   const addMember = () => {
     const maxMembers = COMPETITION_DETAILS[formData.competitionCode].max;

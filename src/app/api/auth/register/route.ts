@@ -219,9 +219,9 @@ export async function POST(request: Request) {
         `,
       });
 
-      console.log('✅ Activation email sent to:', email);
+      // TODO: Log email sent to monitoring service
     } catch (emailError) {
-      console.error('❌ Failed to send activation email:', emailError);
+      // TODO: Log email failure to monitoring service
       // Don't fail registration if email fails - user can request new token
     }
 
@@ -240,7 +240,7 @@ export async function POST(request: Request) {
     // ============================================================================
     // Error Handling
     // ============================================================================
-    console.error('❌ User registration error:', error);
+    // TODO: Log registration error to monitoring service
 
     // Zod validation errors
     if (error instanceof z.ZodError) {
