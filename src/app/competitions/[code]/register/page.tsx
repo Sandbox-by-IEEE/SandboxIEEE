@@ -326,7 +326,7 @@ function RegistrationContent() {
                     <div className="bg-gradient-to-br from-[#6B2D2D]/40 to-[#4a1f1f]/30 backdrop-blur-md rounded-2xl p-6 border border-white/10">
                       <h3 className="text-2xl font-bold text-[#FFCD8D] mb-4">#1 Team Leader</h3>
                       <p className="text-sm text-gray-400 mb-6">
-                        As the team leader, you'll be the main point of contact. Please provide complete information.
+                        As the team leader, you&apos;ll be the main point of contact. Please provide complete information.
                       </p>
 
                       <div className="space-y-4">

@@ -201,7 +201,7 @@ export default function CompetitionDetailPage() {
             <div className="text-center mb-12">
               <Calendar className="inline-block text-[#FFCD8D] mb-4" size={48} />
               <h2 className="text-4xl md:text-5xl font-bold text-white">
-                {content.name}'s Timeline
+                {content.name}&apos;s Timeline
               </h2>
             </div>
 

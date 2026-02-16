@@ -125,19 +125,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4. Check if leader already registered for THIS competition
+    // 4. Check if leader already registered (ONE user = ONE competition ONLY)
     const existingUser = await prisma.user.findUnique({
       where: { email: leaderEmail },
-      include: {
-        teamMember: {
-          include: {
-            team: {
-              include: {
-                registration: {
-                  where: {
-                    competitionId: competition.id,
-                  },
-                },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        active: true,
+        registration: {
+          select: {
+            id: true,
+            competitionId: true,
+            competition: {
+              select: {
+                name: true,
+                code: true,
               },
             },
           },
@@ -145,21 +149,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    if (existingUser) {
-      // Check if user already registered for THIS specific competition
-      const alreadyRegistered = existingUser.teamMember.some(
-        (member) => member.team.registration.length > 0
+    if (existingUser?.registration) {
+      // User already registered for a competition (ONE-TO-ONE constraint)
+      return NextResponse.json(
+        {
+          error: `You are already registered for ${existingUser.registration.competition.name}. Each user can only register for one competition.`,
+          existingCompetition: existingUser.registration.competition.code,
+        },
+        { status: 409 }
       );
-
-      if (alreadyRegistered) {
-        return NextResponse.json(
-          { error: `You are already registered for ${competition.name}. Check your dashboard.` },
-          { status: 409 }
-        );
-      }
-
-      // User exists but hasn't registered for this competition yet - this is OK
-      // We'll use the existing user account
     }
 
     // 5. Check for duplicate emails (all members including leader)
@@ -206,12 +204,12 @@ export async function POST(request: NextRequest) {
     // 7. Create User + CompetitionRegistration + Team + TeamMembers (Transaction)
     const registration = await prisma.$transaction(async (tx) => {
       // Create or use existing user account for team leader
-      let user = existingUser;
+      let user: typeof existingUser | null = existingUser;
       let activateToken = null;
 
       if (!existingUser) {
         // Create new user account
-        user = await tx.user.create({
+        const newUser = await tx.user.create({
           data: {
             username: leaderEmail.split('@')[0] + '_' + Date.now(),
             name: leaderName,
@@ -224,16 +222,27 @@ export async function POST(request: NextRequest) {
         // Create activation token for email verification (only for new users)
         activateToken = await tx.activateToken.create({
           data: {
-            userId: user.id,
+            userId: newUser.id,
             token: crypto.randomUUID(),
           },
         });
+
+        // Update user reference
+        user = { ...newUser, registration: null };
       } else {
         // For existing users, verify password matches
+        if (!existingUser.password) {
+          throw new Error('This account was created with OAuth (Google/GitHub). Please use social login or reset your password.');
+        }
         const passwordMatch = await bcrypt.compare(leaderPassword, existingUser.password);
         if (!passwordMatch) {
           throw new Error('Invalid password. Please use your existing account password or reset it.');
         }
+      }
+
+      // Ensure user exists before creating registration
+      if (!user) {
+        throw new Error('Failed to create or retrieve user account');
       }
 
       // Create competition registration with team and members

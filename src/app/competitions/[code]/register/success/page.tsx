@@ -54,7 +54,7 @@ function SuccessContent() {
 
               {/* Email Confirmation Info */}
               <div className="bg-[#2d0609]/60 rounded-2xl p-6 border border-[#8B3A3A]/30 mb-8">
-                <h3 className="text-[#FFCD8D] font-semibold mb-3 text-center">What's Next?</h3>
+                <h3 className="text-[#FFCD8D] font-semibold mb-3 text-center">What&apos;s Next?</h3>
                 <div className="space-y-3 text-[#E8B4A8] text-sm">
                   <div className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -85,7 +85,7 @@ function SuccessContent() {
                       <span className="text-white text-xs font-bold">4</span>
                     </div>
                     <p>
-                      You'll receive a confirmation email once your registration is approved
+                      You&apos;ll receive a confirmation email once your registration is approved
                     </p>
                   </div>
                 </div>
@@ -94,7 +94,7 @@ function SuccessContent() {
               {/* Important Notice */}
               <div className="bg-[#8B3A3A]/20 border border-[#8B3A3A]/50 rounded-xl p-4 mb-8">
                 <p className="text-[#FFCD8D] text-sm text-center">
-                  ⚠️ <strong>Important:</strong> Please check your spam/junk folder if you don't see the email in your inbox within a few minutes.
+                  ⚠️ <strong>Important:</strong> Please check your spam/junk folder if you don&apos;t see the email in your inbox within a few minutes.
                 </p>
               </div>
 
