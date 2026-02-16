@@ -1,9 +1,9 @@
 'use client';
 
-import { CheckCircle2, Loader2, Mail,XCircle } from 'lucide-react';
+import { CheckCircle2, Loader2, Mail, XCircle } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter,useSearchParams } from 'next/navigation';
-import { Suspense,useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
 import Footer from '@/components/site/Footer';
 import Navbar from '@/components/site/Navbar';
@@ -68,18 +68,18 @@ function ActivateContent() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-b from-[#190204] to-[#080203] flex items-center justify-center p-4 pt-24">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
+      <div className="min-h-screen bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102] flex items-center justify-center p-4 pt-24">
+        <div className="max-w-md w-full bg-[#1a0405] rounded-2xl shadow-2xl p-8 border-2 border-[#FFCD8D]/20">
           {/* Loading State */}
           {status === 'loading' && (
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-6 animate-pulse">
-                <Loader2 className="text-blue-600 animate-spin" size={40} />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#8B3A3A]/20 to-[#5A2424]/20 rounded-full mb-6 animate-pulse border-2 border-[#FFCD8D]/30">
+                <Loader2 className="text-[#FFCD8D] animate-spin" size={40} />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-[#FFCD8D] to-white bg-clip-text text-transparent mb-2">
                 Activating Your Account
               </h2>
-              <p className="text-gray-600">
+              <p className="text-[#E8B4A8]">
                 Please wait while we verify your email...
               </p>
             </div>
@@ -88,32 +88,32 @@ function ActivateContent() {
           {/* Success State */}
           {status === 'success' && (
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
-                <CheckCircle2 className="text-green-600" size={40} />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#8B5A3A]/30 to-[#5A3824]/30 rounded-full mb-6 border-2 border-[#FFCD8D]/40">
+                <CheckCircle2 className="text-[#FFCD8D]" size={40} />
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-[#FFCD8D] to-white bg-clip-text text-transparent mb-2">
                 Account Activated!
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-[#E8B4A8] mb-6">
                 {message}
               </p>
 
               {username && (
-                <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
-                  <p className="text-sm text-green-900">
+                <div className="bg-gradient-to-r from-[#8B5A3A]/20 to-[#5A3824]/20 border border-[#FFCD8D]/30 rounded-xl p-4 mb-6">
+                  <p className="text-sm text-[#FFCD8D]">
                     Welcome, <strong>{username}</strong>! 🎉
                   </p>
                 </div>
               )}
 
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+              <div className="bg-gradient-to-r from-[#8B3A3A]/20 to-[#5A2424]/20 border border-[#8B3A3A]/40 rounded-xl p-4 mb-6">
                 <div className="flex">
-                  <Mail className="h-5 w-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5" />
+                  <Mail className="h-5 w-5 text-[#FFCD8D] mr-3 flex-shrink-0 mt-0.5" />
                   <div className="text-left">
-                    <p className="text-sm text-blue-900 font-medium mb-1">
+                    <p className="text-sm text-[#FFCD8D] font-medium mb-1">
                       Redirecting to Login...
                     </p>
-                    <p className="text-xs text-blue-700">
+                    <p className="text-xs text-[#E8B4A8]">
                       You will be redirected to the login page in a few seconds.
                     </p>
                   </div>
@@ -122,7 +122,7 @@ function ActivateContent() {
 
               <Link
                 href="/login"
-                className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-4 rounded-xl text-center hover:from-blue-700 hover:to-purple-700 transition-colors"
+                className="block w-full bg-gradient-to-r from-[#8B3A3A] to-[#5A2424] text-white font-semibold py-3 px-4 rounded-xl text-center hover:from-[#9B4A4A] hover:to-[#6A3434] transition-all border border-[#FFCD8D]/30 shadow-lg shadow-[#8B3A3A]/20"
               >
                 Go to Login Now
               </Link>
@@ -132,21 +132,21 @@ function ActivateContent() {
           {/* Error State */}
           {status === 'error' && (
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-red-100 rounded-full mb-6">
-                <XCircle className="text-red-600" size={40} />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#8B3A3A]/30 to-[#5A2424]/30 rounded-full mb-6 border-2 border-[#8B3A3A]/50">
+                <XCircle className="text-[#8B3A3A]" size={40} />
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-[#FFCD8D] to-white bg-clip-text text-transparent mb-2">
                 Activation Failed
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-[#E8B4A8] mb-6">
                 {message}
               </p>
 
-              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
-                <p className="text-sm text-yellow-900 font-medium mb-2">
+              <div className="bg-gradient-to-r from-[#8B3A3A]/20 to-[#5A2424]/20 border border-[#8B3A3A]/40 rounded-xl p-4 mb-6">
+                <p className="text-sm text-[#FFCD8D] font-medium mb-2">
                   Common Issues:
                 </p>
-                <ul className="text-xs text-yellow-700 text-left space-y-1">
+                <ul className="text-xs text-[#E8B4A8] text-left space-y-1">
                   <li>• Token has expired (valid for 24 hours)</li>
                   <li>• Token has already been used</li>
                   <li>• Account is already activated</li>
@@ -157,21 +157,21 @@ function ActivateContent() {
               <div className="space-y-3">
                 <Link
                   href="/register"
-                  className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-4 rounded-xl text-center hover:from-blue-700 hover:to-purple-700 transition-colors"
+                  className="block w-full bg-gradient-to-r from-[#8B3A3A] to-[#5A2424] text-white font-semibold py-3 px-4 rounded-xl text-center hover:from-[#9B4A4A] hover:to-[#6A3434] transition-all border border-[#FFCD8D]/30 shadow-lg shadow-[#8B3A3A]/20"
                 >
                   Register Again
                 </Link>
 
                 <Link
                   href="/login"
-                  className="block w-full bg-gray-100 text-gray-700 font-medium py-3 px-4 rounded-xl text-center hover:bg-gray-200 transition-colors"
+                  className="block w-full bg-gradient-to-r from-[#2d0609]/80 to-[#190204]/80 text-[#E8B4A8] font-medium py-3 px-4 rounded-xl text-center hover:from-[#3d0709] hover:to-[#290304] transition-all border border-[#FFCD8D]/20"
                 >
                   Try Login Instead
                 </Link>
 
                 <Link
                   href="/"
-                  className="block text-center text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                  className="block text-center text-sm text-[#E8B4A8] hover:text-[#FFCD8D] transition-colors"
                 >
                   Back to Home
                 </Link>
@@ -188,8 +188,8 @@ function ActivateContent() {
 export default function ActivatePage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-b from-[#190204] to-[#080203] flex items-center justify-center">
-        <Loader2 className="text-blue-600 animate-spin" size={40} />
+      <div className="min-h-screen bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102] flex items-center justify-center">
+        <Loader2 className="text-[#FFCD8D] animate-spin" size={40} />
       </div>
     }>
       <ActivateContent />
