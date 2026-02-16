@@ -125,16 +125,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4. Check for duplicate emails (leader)
+    // 4. Check if leader already registered for THIS competition
     const existingUser = await prisma.user.findUnique({
       where: { email: leaderEmail },
+      include: {
+        teamMember: {
+          include: {
+            team: {
+              include: {
+                registration: {
+                  where: {
+                    competitionId: competition.id,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { error: 'Email already registered. Please use another email or login.' },
-        { status: 409 }
+      // Check if user already registered for THIS specific competition
+      const alreadyRegistered = existingUser.teamMember.some(
+        (member) => member.team.registration.length > 0
       );
+
+      if (alreadyRegistered) {
+        return NextResponse.json(
+          { error: `You are already registered for ${competition.name}. Check your dashboard.` },
+          { status: 409 }
+        );
+      }
+
+      // User exists but hasn't registered for this competition yet - this is OK
+      // We'll use the existing user account
     }
 
     // 5. Check for duplicate emails (all members including leader)
@@ -175,29 +200,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 6. Hash password
+    // 6. Hash password (only if creating new user)
     const hashedPassword = await bcrypt.hash(leaderPassword, 10);
 
     // 7. Create User + CompetitionRegistration + Team + TeamMembers (Transaction)
     const registration = await prisma.$transaction(async (tx) => {
-      // Create user account for team leader
-      const user = await tx.user.create({
-        data: {
-          username: leaderEmail.split('@')[0] + '_' + Date.now(),
-          name: leaderName,
-          email: leaderEmail,
-          password: hashedPassword,
-          active: false, // Need email verification
-        },
-      });
+      // Create or use existing user account for team leader
+      let user = existingUser;
+      let activateToken = null;
 
-      // Create activation token for email verification
-      const activateToken = await tx.activateToken.create({
-        data: {
-          userId: user.id,
-          token: crypto.randomUUID(),
-        },
-      });
+      if (!existingUser) {
+        // Create new user account
+        user = await tx.user.create({
+          data: {
+            username: leaderEmail.split('@')[0] + '_' + Date.now(),
+            name: leaderName,
+            email: leaderEmail,
+            password: hashedPassword,
+            active: false, // Need email verification
+          },
+        });
+
+        // Create activation token for email verification (only for new users)
+        activateToken = await tx.activateToken.create({
+          data: {
+            userId: user.id,
+            token: crypto.randomUUID(),
+          },
+        });
+      } else {
+        // For existing users, verify password matches
+        const passwordMatch = await bcrypt.compare(leaderPassword, existingUser.password);
+        if (!passwordMatch) {
+          throw new Error('Invalid password. Please use your existing account password or reset it.');
+        }
+      }
 
       // Create competition registration with team and members
       const reg = await tx.competitionRegistration.create({
@@ -266,16 +303,18 @@ export async function POST(request: NextRequest) {
       // Don't fail registration if sheets sync fails
     }
 
-    // 9. Send email verification
-    try {
-      await sendActivationEmail(
-        leaderEmail,
-        leaderName,
-        registration.activateToken.token
-      );
-    } catch (emailError) {
-      console.error('⚠️ Failed to send activation email (non-critical):', emailError);
-      // Don't fail registration if email fails - user can request new token
+    // 9. Send email verification (only for new users)
+    if (registration.activateToken) {
+      try {
+        await sendActivationEmail(
+          leaderEmail,
+          leaderName,
+          registration.activateToken.token
+        );
+      } catch (emailError) {
+        console.error('⚠️ Failed to send activation email (non-critical):', emailError);
+        // Don't fail registration if email fails - user can request new token
+      }
     }
 
     console.log(
