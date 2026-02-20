@@ -2,9 +2,9 @@
  * ============================================================================
  * TEST SCRIPT: EMAIL VERIFICATION SERVICE
  * ============================================================================
- * 
+ *
  * Run with: npx tsx scripts/test-email-service.ts
- * 
+ *
  * Tests:
  * 1. Register new user
  * 2. Check activation token created
@@ -74,7 +74,7 @@ async function testEmailService() {
   try {
     // We'll use a direct DB query simulation via API
     const response = await fetch(
-      `${BASE_URL}/api/competitions/register?email=${testEmail}`
+      `${BASE_URL}/api/competitions/register?email=${testEmail}`,
     );
     const data = await response.json();
 
@@ -110,7 +110,9 @@ async function testEmailService() {
       console.log(`   Message: ${data.message}`);
     } else {
       console.log(`⚠️  Resend blocked: ${data.error}`);
-      console.log('   (This is expected if less than 5 minutes since last send)');
+      console.log(
+        '   (This is expected if less than 5 minutes since last send)',
+      );
     }
   } catch (error) {
     console.log('❌ Error:', error);

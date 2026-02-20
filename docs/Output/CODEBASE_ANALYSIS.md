@@ -13,6 +13,7 @@
 **Sandbox IEEE** is a **multi-event competition website** developed by IEEE ITB (Institut Teknologi Bandung). The platform manages team-based technical competitions with a structured workflow from registration through multiple submission stages.
 
 **Main Features:**
+
 - User authentication (credentials + Google OAuth)
 - Multi-competition registration (PTC, H4H, Exhibition, Grand Seminar)
 - Team-based participation with team creation
@@ -29,55 +30,66 @@
 ### 2. Full Tech Stack
 
 #### **Programming Languages**
+
 - **TypeScript** (5.2.2) - Primary language
 - **JavaScript** - Supporting scripts
 - **SQL** - Database queries via Prisma
 
 #### **Framework & Core Libraries**
+
 - **Next.js** (13.5.6) - React framework with App Router
 - **React** (18.2.0) - UI library
 - **Prisma** (6.2.1) - ORM and database toolkit
 - **NextAuth.js** (4.24.5) - Authentication
 
 #### **Database**
+
 - **CockroachDB** (PostgreSQL-compatible) - Cloud database
 - Hosted on: CockroachDB Cloud (GCP Asia Southeast 1)
 
 #### **File Storage**
+
 - **UploadThing** (7.3.0) - File upload service with CDN
 - Max file size: 10MB per upload
 
 #### **Authentication Methods**
+
 - Credentials (username/password with bcrypt hashing)
 - Google OAuth 2.0
 - Email verification with activation tokens
 - Password reset tokens
 
 #### **Payment Gateway**
+
 - **Midtrans Client** (1.3.1) - Indonesian payment gateway
 - Mode: Sandbox/Testing
 - Integration: Snap API (popup payment)
 
 #### **Email Service**
+
 - **Nodemailer** (6.9.5) - Email delivery
 - **React Email** (1.9.0) - Email template components
 - **Resend** (3.0.0) - Alternative email service
 
 #### **Content Management**
+
 - **DatoCMS** - Headless CMS for dynamic content
 - Used for: homepage content, mentors, events, sponsors
 
 #### **Styling & UI**
+
 - **Tailwind CSS** (3.3.3) - Utility-first CSS
 - **Framer Motion** (11.11.11) - Animations
 - **AOS** (3.0.0-beta.6) - Scroll animations
 - **Swiper** (11.0.7) - Carousel/slider
 
 #### **Form Handling & Validation**
+
 - **Zod** (3.22.4) - Schema validation
 - **React Hot Toast** (2.4.1) - Toast notifications
 
 #### **Development Tools**
+
 - **ESLint** + **TypeScript ESLint** - Code linting
 - **Prettier** (3.0.3) - Code formatting
 - **Husky** (8.0.3) - Git hooks
@@ -173,14 +185,14 @@ SandboxIEEE/
 
 **Important Files:**
 
-| File | Purpose | Why It Matters |
-|------|---------|----------------|
-| `prisma/schema.prisma` | Defines all database models and relationships | Central data structure for entire application |
-| `src/lib/authOptions.ts` | NextAuth configuration with session callbacks | Manages authentication flow and user session data |
-| `src/lib/db.ts` | Prisma client singleton | Database connection used by all API routes |
-| `src/app/api/ticket/competition/route.ts` | Team registration endpoint | Creates teams and tickets for competitions |
-| `src/app/(site)/dashboard/page.tsx` | Main user dashboard | Central hub for all user interactions post-registration |
-| `.env` | Environment variables | Contains all API keys and database credentials |
+| File                                      | Purpose                                       | Why It Matters                                          |
+| ----------------------------------------- | --------------------------------------------- | ------------------------------------------------------- |
+| `prisma/schema.prisma`                    | Defines all database models and relationships | Central data structure for entire application           |
+| `src/lib/authOptions.ts`                  | NextAuth configuration with session callbacks | Manages authentication flow and user session data       |
+| `src/lib/db.ts`                           | Prisma client singleton                       | Database connection used by all API routes              |
+| `src/app/api/ticket/competition/route.ts` | Team registration endpoint                    | Creates teams and tickets for competitions              |
+| `src/app/(site)/dashboard/page.tsx`       | Main user dashboard                           | Central hub for all user interactions post-registration |
+| `.env`                                    | Environment variables                         | Contains all API keys and database credentials          |
 
 ---
 
@@ -189,6 +201,7 @@ SandboxIEEE/
 #### **4.1 Authentication & Authorization**
 
 **Files Involved:**
+
 - `src/app/(auth)/register/page.tsx` - Registration UI
 - `src/app/(auth)/login/page.tsx` - Login UI
 - `src/app/api/auth/register/route.ts` - Registration endpoint
@@ -198,6 +211,7 @@ SandboxIEEE/
 **Flow:**
 
 **Registration:**
+
 1. User submits form with username, email, password
 2. `POST /api/auth/register` validates input (Zod schema)
 3. Password is hashed using bcrypt (10 salt rounds)
@@ -209,6 +223,7 @@ SandboxIEEE/
 9. User can now login
 
 **Login (Credentials):**
+
 1. User submits username + password
 2. NextAuth CredentialsProvider calls `authorize()` function (`src/lib/authOptions.ts:25`)
 3. User lookup by username in database
@@ -222,6 +237,7 @@ SandboxIEEE/
 8. User redirected to dashboard
 
 **Login (Google OAuth):**
+
 1. User clicks "Login with Google"
 2. NextAuth GoogleProvider handles OAuth flow
 3. On success, checks if user exists by email
@@ -230,18 +246,18 @@ SandboxIEEE/
 6. Auto-activated (`active: true`, `credential: false`)
 
 **Authorization Mechanism:**
+
 - Session stored as JWT (strategy: 'jwt' in authOptions)
 - Protected routes check `useSession()` hook
 - API routes use `getServerSession(authOptions)`
 - Dashboard checks for valid ticket before rendering
 
 **Key Code Reference:**
+
 ```typescript
 // src/lib/authOptions.ts:73-78
 if (!existingUser.active) {
-  throw new Error(
-    'User is not active, please activated your account first',
-  );
+  throw new Error('User is not active, please activated your account first');
 }
 ```
 
@@ -250,6 +266,7 @@ if (!existingUser.active) {
 #### **4.2 Team Creation (Competition Registration)**
 
 **Files Involved:**
+
 - `src/app/(site)/events/ptc/registration/page.tsx` - PTC registration form
 - `src/app/(site)/events/h4h/registration/page.tsx` - H4H registration form
 - `src/app/api/ticket/competition/route.ts` - Team creation endpoint
@@ -275,6 +292,7 @@ if (!existingUser.active) {
    - All required fields filled
    - Files uploaded successfully
 5. Client sends `POST /api/ticket/competition` with payload:
+
 ```typescript
 {
   competitionType: 'PTC' | 'H4H',
@@ -288,6 +306,7 @@ if (!existingUser.active) {
   paymentProofUrl?: Array  // H4H only
 }
 ```
+
 6. Server validates session and checks for duplicate tickets
 7. **Transaction:** Creates in single atomic operation:
    - `TicketCompetition` record (verified: 'pending', stage: 1.0)
@@ -302,6 +321,7 @@ if (!existingUser.active) {
 12. Client redirects to event page with success toast
 
 **Key Business Logic:**
+
 ```typescript
 // src/app/api/ticket/competition/route.ts:47-72
 // Prevents duplicate ticket purchase
@@ -329,6 +349,7 @@ if (existingUser?.ticketsCompetition.length != 0) {
 The competition progresses through **3 registration stages**:
 
 ##### **Stage 1: Team Registration**
+
 - Handled by ticket creation (described above)
 - Status: `verified: 'pending'`
 - Admin manually verifies via database
@@ -338,17 +359,20 @@ The competition progresses through **3 registration stages**:
 ##### **Stage 2: Abstract Submission**
 
 **Files:**
+
 - `src/app/(site)/dashboard/page.tsx` (lines 200-300) - Abstract upload UI
 - `src/app/api/regist2/route.ts` - Abstract submission endpoint
 - `prisma/schema.prisma` - Abstract model
 
 **Flow:**
+
 1. User accesses dashboard after Stage 1 verification
 2. Checks deadline: `deadlineDate = new Date('2025-02-13')` (dashboard page.tsx:88)
 3. Fills abstract submission form:
    - Letter of plagiarism (PDF upload)
    - Abstract document (PDF upload)
 4. Client sends `POST /api/regist2`:
+
 ```typescript
 {
   teamName: string,
@@ -357,6 +381,7 @@ The competition progresses through **3 registration stages**:
   type: 'PTC' | 'H4H'
 }
 ```
+
 5. Server validates:
    - Team exists
    - Stage 1 is verified (`ticketCompetition.verified === 'verified'`)
@@ -368,6 +393,7 @@ The competition progresses through **3 registration stages**:
 10. Unlocks Stage 3 (Payment)
 
 **Key Code:**
+
 ```typescript
 // src/app/api/regist2/route.ts:56-61
 if (existingTeam.ticketCompetition.verified !== 'verified') {
@@ -381,11 +407,13 @@ if (existingTeam.ticketCompetition.verified !== 'verified') {
 ##### **Stage 3: Payment & Final Work Submission**
 
 **Files:**
+
 - `src/app/(site)/dashboard/page.tsx` (lines 300-500) - Final submission UI
 - `src/app/api/regist3/route.ts` - Final submission endpoint
 - `prisma/schema.prisma` - Regist3Data, Karya models
 
 **Flow:**
+
 1. Unlocked only if `Abstract.status === 'qualified'`
 2. Payment deadline check: `deadlineDate = new Date('2025-02-24')` (dashboard page.tsx:115)
 3. User uploads:
@@ -397,6 +425,7 @@ if (existingTeam.ticketCompetition.verified !== 'verified') {
      - Video presentation link
      - PPT file
 4. Client sends `POST /api/regist3`:
+
 ```typescript
 {
   teamName: string,
@@ -411,6 +440,7 @@ if (existingTeam.ticketCompetition.verified !== 'verified') {
   type: 'PTC' | 'H4H'
 }
 ```
+
 5. Server validates:
    - Abstract is qualified
    - Within deadline
@@ -424,6 +454,7 @@ if (existingTeam.ticketCompetition.verified !== 'verified') {
 11. Competition complete
 
 **Additional Stage 2 & 3 Submissions (PTC Only):**
+
 - Dashboard shows different submission forms based on `ticketCompetition.stage`
 - Stage 2 deadline: `new Date('2025-03-6')` (dashboard page.tsx:106)
 - Stage 3 deadline: `new Date('2025-04-09T18:00:00+07:00')` (dashboard page.tsx:97)
@@ -436,6 +467,7 @@ if (existingTeam.ticketCompetition.verified !== 'verified') {
 #### **4.4 Personal Document Upload Handling**
 
 **Files:**
+
 - `src/app/api/uploads/route.ts` - File upload endpoint
 - `src/lib/uploadthing.ts` - UploadThing configuration
 - `src/components/FileInput/SingleFileInput.tsx` - Upload UI component
@@ -446,30 +478,38 @@ if (existingTeam.ticketCompetition.verified !== 'verified') {
 2. `SingleFileInput` component handles file selection
 3. Validates file size: Max 10MB (`uploads/route.ts:6`)
 4. Client sends `POST /api/uploads` with FormData:
+
 ```typescript
-formData.append('file', selectedFile)
+formData.append('file', selectedFile);
 ```
+
 5. Server extracts file from FormData
 6. Uploads to UploadThing service:
+
 ```typescript
 const response = await utapi.uploadFiles([fileUploaded]);
 ```
+
 7. Returns secure CDN URL:
+
 ```typescript
 {
   message: 'File uploaded successfully',
   secure_url: 'https://utfs.io/f/xxx...'
 }
 ```
+
 8. Client stores URL in form state
 9. URL submitted with form data to respective endpoints
 
 **File Types Accepted:**
+
 - PDFs: Abstracts, letters, papers
 - Images: Payment proofs, student IDs
 - Documents: PPT files
 
 **Storage:**
+
 - All files stored on UploadThing CDN
 - URLs stored in database (not actual files)
 - Permanent storage (not automatically deleted)
@@ -481,6 +521,7 @@ const response = await utapi.uploadFiles([fileUploaded]);
 **Payment is NOT required for PTC registration.** Payment only appears in two contexts:
 
 **1. H4H Competition Registration (Immediate Payment):**
+
 - During registration (Stage 1), user uploads payment proof
 - Stored in registration data
 - No separate payment verification model
@@ -489,15 +530,18 @@ const response = await utapi.uploadFiles([fileUploaded]);
 **2. Exhibition & Grand Seminar Tickets (Midtrans Integration):**
 
 **Files:**
+
 - `src/app/(site)/events/exhibition/registration-midtrans/page.tsx`
 - `src/app/api/ticket/exhibition/midtrans-tokenizer/route.ts`
 - `src/lib/midtrans.ts`
 
 **Flow:**
+
 1. User fills ticket form (name, email, quantity, type)
 2. Selects payment method
 3. Client requests `POST /api/ticket/exhibition/midtrans-tokenizer`
 4. Server creates Midtrans transaction:
+
 ```typescript
 const transaction = await snap.createTransaction({
   transaction_details: {
@@ -508,18 +552,22 @@ const transaction = await snap.createTransaction({
   item_details: [ ... ]
 });
 ```
+
 5. Receives `snapToken` and `redirect_url`
 6. Client loads Midtrans Snap.js script
 7. Opens Midtrans payment popup:
+
 ```typescript
 window.snap.pay(snapToken);
 ```
+
 8. User completes payment via Midtrans
 9. Midtrans sends webhook to `/api/ticket/exhibition/callback`
 10. Server updates `TransactionDetail.status` based on payment status
 11. Sends ticket confirmation email
 
 **Qualification Logic (Abstract Review):**
+
 - No automated scoring
 - Admin manually reviews abstracts
 - Sets `Abstract.status = 'qualified'` in database
@@ -532,39 +580,40 @@ window.snap.pay(snapToken);
 
 #### **Where Business Logic Lives:**
 
-| Type | Location | Example |
-|------|----------|---------|
-| **Database queries** | `src/app/api/*/route.ts` files | `await prisma.team.findUnique({ where: { teamName } })` |
-| **Validation logic** | API route files + Zod schemas | `regist2/route.ts:18-24` - Missing data checks |
-| **Authentication logic** | `src/lib/authOptions.ts` | Credential verification, session callbacks |
-| **Business rules** | API route files | `regist2/route.ts:56-61` - Stage verification checks |
-| **Email templates** | `src/components/emails/` | React components rendered to HTML |
-| **File upload logic** | `src/app/api/uploads/route.ts` | Size validation, UploadThing integration |
-| **Payment logic** | `src/lib/midtrans.ts` + Exhibition API routes | Midtrans transaction creation |
+| Type                     | Location                                      | Example                                                 |
+| ------------------------ | --------------------------------------------- | ------------------------------------------------------- |
+| **Database queries**     | `src/app/api/*/route.ts` files                | `await prisma.team.findUnique({ where: { teamName } })` |
+| **Validation logic**     | API route files + Zod schemas                 | `regist2/route.ts:18-24` - Missing data checks          |
+| **Authentication logic** | `src/lib/authOptions.ts`                      | Credential verification, session callbacks              |
+| **Business rules**       | API route files                               | `regist2/route.ts:56-61` - Stage verification checks    |
+| **Email templates**      | `src/components/emails/`                      | React components rendered to HTML                       |
+| **File upload logic**    | `src/app/api/uploads/route.ts`                | Size validation, UploadThing integration                |
+| **Payment logic**        | `src/lib/midtrans.ts` + Exhibition API routes | Midtrans transaction creation                           |
 
 #### **API Routes/Controllers:**
 
 All API routes use Next.js 13 App Router convention: `/src/app/api/[endpoint]/route.ts`
 
-| Endpoint | HTTP Method | Purpose |
-|----------|-------------|---------|
-| `/api/auth/[...nextauth]` | GET, POST | NextAuth handlers (login, logout, session) |
-| `/api/auth/register` | POST | User registration |
-| `/api/auth/activate` | GET | Email verification |
-| `/api/ticket/competition` | POST | Create team & ticket |
-| `/api/team/[teamId]` | GET | Fetch team details |
-| `/api/regist2` | POST | Submit abstract (Stage 2) |
-| `/api/regist3` | POST | Submit payment & final work (Stage 3) |
-| `/api/uploads` | POST | File upload to UploadThing |
-| `/api/refferal-code` | GET, PUT | Check/redeem referral codes |
-| `/api/voting` | POST | Vote on competition entries |
-| `/api/user` | GET, PATCH | User profile management |
+| Endpoint                  | HTTP Method | Purpose                                    |
+| ------------------------- | ----------- | ------------------------------------------ |
+| `/api/auth/[...nextauth]` | GET, POST   | NextAuth handlers (login, logout, session) |
+| `/api/auth/register`      | POST        | User registration                          |
+| `/api/auth/activate`      | GET         | Email verification                         |
+| `/api/ticket/competition` | POST        | Create team & ticket                       |
+| `/api/team/[teamId]`      | GET         | Fetch team details                         |
+| `/api/regist2`            | POST        | Submit abstract (Stage 2)                  |
+| `/api/regist3`            | POST        | Submit payment & final work (Stage 3)      |
+| `/api/uploads`            | POST        | File upload to UploadThing                 |
+| `/api/refferal-code`      | GET, PUT    | Check/redeem referral codes                |
+| `/api/voting`             | POST        | Vote on competition entries                |
+| `/api/user`               | GET, PATCH  | User profile management                    |
 
 #### **Database Models/Schemas:**
 
 Defined in `prisma/schema.prisma`. Key models:
 
 **Authentication:**
+
 - `User` - User accounts (id, username, email, password, active)
 - `Account` - OAuth provider accounts
 - `Session` - User sessions
@@ -572,6 +621,7 @@ Defined in `prisma/schema.prisma`. Key models:
 - `ResetToken` - Password reset tokens
 
 **Competition System:**
+
 - `TicketCompetition` - Competition registration tickets
 - `Team` - Competition teams
 - `ParticipantCompetition` - Team members
@@ -582,17 +632,20 @@ Defined in `prisma/schema.prisma`. Key models:
 - `H4HSubmissions` - H4H-specific submissions
 
 **Events:**
+
 - `TicketExhibition` - Exhibition tickets
 - `TicketGS` - Grand Seminar tickets
 - `RegisExhiData` - Exhibition registration data
 - `TransactionDetail` - Payment transactions (Midtrans)
 
 **Other:**
+
 - `RefferalCode` - Referral codes for discounts
 - `GrandSeminar` - Grand Seminar attendees
 - `VerificationToken` - NextAuth verification
 
 **Key Relationships:**
+
 ```
 User 1:N TicketCompetition
 TicketCompetition 1:1 Team
@@ -610,6 +663,7 @@ User N:M Karya (voting relationship)
 #### **Patterns Used:**
 
 1. **API Route Pattern:**
+
 ```typescript
 export async function POST(req: NextRequest) {
   try {
@@ -631,6 +685,7 @@ export async function POST(req: NextRequest) {
    - Session contains: ticket status, team IDs, competition type
 
 3. **Deadline Check Pattern:**
+
 ```typescript
 useEffect(() => {
   const currentDate = new Date();
@@ -658,6 +713,7 @@ useEffect(() => {
    - Cleared on successful submission
 
 7. **Team Name Sanitization:**
+
 ```typescript
 // Handles special characters like apostrophes
 const sanitizedTeamName = teamName.replace(/['`']/g, '');
@@ -802,4 +858,3 @@ Stage 3: '2025-04-09T18:00:00+07:00'
    - Manual testing required
 
 ---
-

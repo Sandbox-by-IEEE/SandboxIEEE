@@ -2,16 +2,16 @@
  * ============================================================================
  * TEST SCRIPT: COMPLETE ACTIVATION FLOW
  * ============================================================================
- * 
+ *
  * Purpose: Test end-to-end activation flow
- * 
+ *
  * Flow:
  * 1. Register new user
  * 2. Get activation token from database
  * 3. Call activation API endpoint
  * 4. Verify user is activated
  * 5. Test login
- * 
+ *
  * Run with: npx tsx scripts/test-activation-flow.ts
  * ============================================================================
  */
@@ -50,11 +50,14 @@ async function testActivationFlow() {
       members: [], // TPC minimum 1 member (just leader)
     };
 
-    const registerResponse = await fetch(`${BASE_URL}/api/competitions/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(registrationData),
-    });
+    const registerResponse = await fetch(
+      `${BASE_URL}/api/competitions/register`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(registrationData),
+      },
+    );
 
     const registerData = await registerResponse.json();
 
@@ -68,7 +71,7 @@ async function testActivationFlow() {
     console.log(`   Email: ${testEmail}`);
 
     // Wait for database write
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // ============================================================================
     // Step 2: Get Activation Token from Database
@@ -110,7 +113,7 @@ async function testActivationFlow() {
     console.log('-'.repeat(60));
 
     const activateResponse = await fetch(
-      `${BASE_URL}/api/auth/activate?token=${activationToken}`
+      `${BASE_URL}/api/auth/activate?token=${activationToken}`,
     );
 
     const activateData = await activateResponse.json();
@@ -125,7 +128,7 @@ async function testActivationFlow() {
     console.log(`   Username: ${activateData.user?.username}`);
 
     // Wait for database update
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // ============================================================================
     // Step 4: Verify User is Activated
@@ -147,7 +150,9 @@ async function testActivationFlow() {
 
     console.log('✅ User verification complete!');
     console.log(`   Active: ${verifyUser.active ? '✅ YES' : '❌ NO'}`);
-    console.log(`   Email Verified: ${verifyUser.emailVerified ? '✅ YES' : '❌ NO'}`);
+    console.log(
+      `   Email Verified: ${verifyUser.emailVerified ? '✅ YES' : '❌ NO'}`,
+    );
     console.log(`   Remaining Tokens: ${verifyUser.activateTokens.length}`);
 
     if (!verifyUser.active) {
@@ -166,7 +171,7 @@ async function testActivationFlow() {
     console.log('-'.repeat(60));
 
     const reuseResponse = await fetch(
-      `${BASE_URL}/api/auth/activate?token=${activationToken}`
+      `${BASE_URL}/api/auth/activate?token=${activationToken}`,
     );
 
     const reuseData = await reuseResponse.json();
@@ -188,7 +193,10 @@ async function testActivationFlow() {
     console.log('\n📋 Step 6: Verify Password Hash');
     console.log('-'.repeat(60));
 
-    const passwordMatch = await bcrypt.compare(testPassword, verifyUser.password!);
+    const passwordMatch = await bcrypt.compare(
+      testPassword,
+      verifyUser.password!,
+    );
 
     if (passwordMatch) {
       console.log('✅ Password hash verified correctly!');
@@ -209,13 +217,14 @@ async function testActivationFlow() {
     console.log('✅ User Verification: PASSED');
     console.log('✅ Token Reuse Protection: PASSED');
     console.log('✅ Password Hash: PASSED');
-    console.log('\n🎉 All tests passed! Activation flow is working correctly!\n');
+    console.log(
+      '\n🎉 All tests passed! Activation flow is working correctly!\n',
+    );
 
     console.log('🔗 Manual Test:');
     console.log(`   1. Open: ${BASE_URL}/activate?token=${activationToken}`);
     console.log(`   2. Login with: ${testEmail} / ${testPassword}`);
     console.log('');
-
   } catch (error) {
     console.error('\n❌ Test failed with error:', error);
     throw error;

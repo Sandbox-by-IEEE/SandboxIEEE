@@ -45,21 +45,21 @@ export default async function PreliminarySubmissionsPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className='flex items-center justify-between'>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className='text-3xl font-bold text-gray-900'>
             Preliminary Submissions
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className='text-gray-500 mt-1'>
             Review and approve team submissions for preliminary phase
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <p className="text-sm text-gray-500">Total Submissions</p>
-            <p className="text-2xl font-bold text-gray-900">
+        <div className='flex items-center gap-3'>
+          <div className='text-right'>
+            <p className='text-sm text-gray-500'>Total Submissions</p>
+            <p className='text-2xl font-bold text-gray-900'>
               {submissions.length}
             </p>
           </div>
@@ -67,63 +67,63 @@ export default async function PreliminarySubmissionsPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
+      <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
+        <div className='bg-white rounded-lg border border-gray-200 p-4'>
+          <div className='flex items-center justify-between'>
             <div>
-              <p className="text-sm text-gray-500">Pending</p>
-              <p className="text-2xl font-bold text-yellow-600">
+              <p className='text-sm text-gray-500'>Pending</p>
+              <p className='text-2xl font-bold text-yellow-600'>
                 {submissions.filter((s) => s.status === 'pending').length}
               </p>
             </div>
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">⏳</span>
+            <div className='w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center'>
+              <span className='text-2xl'>⏳</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
+        <div className='bg-white rounded-lg border border-gray-200 p-4'>
+          <div className='flex items-center justify-between'>
             <div>
-              <p className="text-sm text-gray-500">Approved</p>
-              <p className="text-2xl font-bold text-green-600">
+              <p className='text-sm text-gray-500'>Approved</p>
+              <p className='text-2xl font-bold text-green-600'>
                 {submissions.filter((s) => s.status === 'qualified').length}
               </p>
             </div>
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">✅</span>
+            <div className='w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center'>
+              <span className='text-2xl'>✅</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
+        <div className='bg-white rounded-lg border border-gray-200 p-4'>
+          <div className='flex items-center justify-between'>
             <div>
-              <p className="text-sm text-gray-500">Rejected</p>
-              <p className="text-2xl font-bold text-red-600">
+              <p className='text-sm text-gray-500'>Rejected</p>
+              <p className='text-2xl font-bold text-red-600'>
                 {submissions.filter((s) => s.status === 'rejected').length}
               </p>
             </div>
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">❌</span>
+            <div className='w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center'>
+              <span className='text-2xl'>❌</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
+        <div className='bg-white rounded-lg border border-gray-200 p-4'>
+          <div className='flex items-center justify-between'>
             <div>
-              <p className="text-sm text-gray-500">Needs Review</p>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className='text-sm text-gray-500'>Needs Review</p>
+              <p className='text-2xl font-bold text-blue-600'>
                 {
                   submissions.filter(
-                    (s) => s.status === 'pending' && !s.reviewedAt
+                    (s) => s.status === 'pending' && !s.reviewedAt,
                   ).length
                 }
               </p>
             </div>
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">🔍</span>
+            <div className='w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center'>
+              <span className='text-2xl'>🔍</span>
             </div>
           </div>
         </div>

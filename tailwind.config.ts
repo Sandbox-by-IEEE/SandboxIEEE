@@ -17,7 +17,7 @@ const config: Config = {
         poppins: ['var(--font-poppins)'],
         inter: ['var(--font-inter)'],
         'museo-muderno': ['var(--font-museo-moderno)'],
-        'gemunu': ['var(--font-gemunu-libre)'],
+        gemunu: ['var(--font-gemunu-libre)'],
       },
       backgroundImage: {
         'green-gradient':

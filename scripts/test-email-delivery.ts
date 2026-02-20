@@ -56,7 +56,9 @@ async function testEmailDelivery() {
     } else {
       console.log('❌ Registration failed:', data.error);
       if (data.error?.includes('already')) {
-        console.log('\n💡 Tip: Email already registered. Try resend activation:');
+        console.log(
+          '\n💡 Tip: Email already registered. Try resend activation:',
+        );
         console.log(`   POST ${BASE_URL}/api/auth/resend-activation`);
         console.log(`   { "email": "${testEmail}" }`);
       }

@@ -30,7 +30,10 @@ async function checkUserTokens() {
     console.log('  Token:', token.token);
     console.log('  Created:', token.createdAt.toISOString());
     console.log('  Age:', ageMinutes, 'minutes ago');
-    console.log('  Activated:', token.activatedAt ? token.activatedAt.toISOString() : 'Not yet');
+    console.log(
+      '  Activated:',
+      token.activatedAt ? token.activatedAt.toISOString() : 'Not yet',
+    );
   });
 
   if (user.activateTokens.length > 0 && !user.active) {

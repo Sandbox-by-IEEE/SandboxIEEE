@@ -17,12 +17,7 @@ export const FILE_SIZE_LIMITS = {
   payment: {
     maxSizeMB: 5,
     maxSizeBytes: 5 * 1024 * 1024, // 5MB
-    acceptedTypes: [
-      'image/jpeg',
-      'image/jpg',
-      'image/png',
-      'application/pdf',
-    ],
+    acceptedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'],
     acceptedExtensions: ['.jpg', '.jpeg', '.png', '.pdf'],
     description: 'JPG, PNG, or PDF files up to 5MB',
   },
@@ -59,7 +54,7 @@ export const FILE_SIZE_LIMITS = {
  */
 export function validateFile(
   file: File,
-  phase: keyof typeof FILE_SIZE_LIMITS
+  phase: keyof typeof FILE_SIZE_LIMITS,
 ): { valid: boolean; error?: string } {
   const config = FILE_SIZE_LIMITS[phase];
 
@@ -85,7 +80,7 @@ export function validateFile(
  */
 export function validateFileServer(
   file: { name: string; size: number; type: string },
-  phase: keyof typeof FILE_SIZE_LIMITS
+  phase: keyof typeof FILE_SIZE_LIMITS,
 ): { valid: boolean; error?: string } {
   const config = FILE_SIZE_LIMITS[phase];
 

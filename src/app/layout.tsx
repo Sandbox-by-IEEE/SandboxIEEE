@@ -2,7 +2,7 @@ import './globals.css';
 import 'aos/dist/aos.css';
 
 import { type Metadata, type Viewport } from 'next';
-import { Gemunu_Libre,Inter, MuseoModerno, Poppins } from 'next/font/google';
+import { Gemunu_Libre, Inter, MuseoModerno, Poppins } from 'next/font/google';
 import Script from 'next/script';
 
 import AOSClient from '@/provider/aos';

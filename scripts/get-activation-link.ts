@@ -37,7 +37,9 @@ async function getLatestToken() {
     console.log(`\n🔗 Activation Link:`);
     console.log(`   http://localhost:3000/activate?token=${token}`);
     console.log(`\n💡 Or test via API:`);
-    console.log(`   curl "http://localhost:3000/api/auth/activate?token=${token}"`);
+    console.log(
+      `   curl "http://localhost:3000/api/auth/activate?token=${token}"`,
+    );
   } else {
     console.log('\n⚠️  No activation tokens found');
   }

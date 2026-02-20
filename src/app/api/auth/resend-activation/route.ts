@@ -2,9 +2,9 @@
  * ============================================================================
  * RESEND ACTIVATION EMAIL API ENDPOINT
  * ============================================================================
- * 
+ *
  * POST /api/auth/resend-activation
- * 
+ *
  * Purpose: Resend activation email to user
  * ============================================================================
  */
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     if (user.active) {
       return NextResponse.json(
         { error: 'Account is already activated. You can login now.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -58,12 +58,14 @@ export async function POST(request: NextRequest) {
       const minInterval = 5 * 60 * 1000; // 5 minutes
 
       if (timeSinceLastToken < minInterval) {
-        const remainingTime = Math.ceil((minInterval - timeSinceLastToken) / 1000 / 60);
+        const remainingTime = Math.ceil(
+          (minInterval - timeSinceLastToken) / 1000 / 60,
+        );
         return NextResponse.json(
           {
             error: `Please wait ${remainingTime} minute(s) before requesting another activation email`,
           },
-          { status: 429 }
+          { status: 429 },
         );
       }
     }
@@ -91,13 +93,13 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: 'Invalid email format' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -6,19 +6,19 @@ erDiagram
     User ||--o{ Session : "has_sessions"
     User ||--o{ ActivateToken : "has_activation"
     User ||--o{ ResetToken : "has_reset"
-    
+
     CompetitionRegistration ||--|| Team : "creates"
     CompetitionRegistration ||--|| Competition : "for"
     CompetitionRegistration ||--o| PreliminarySubmission : "submits"
     CompetitionRegistration ||--o| Payment : "pays"
     CompetitionRegistration ||--o| SemifinalSubmission : "submits"
     CompetitionRegistration ||--o| FinalSubmission : "submits"
-    
+
     Team ||--o{ TeamMember : "has_members"
-    
+
     Payment }o--|| Admin : "verified_by"
     PreliminarySubmission }o--|| Admin : "reviewed_by"
-    
+
     User {
         string id PK
         string username UK
@@ -32,7 +32,7 @@ erDiagram
         timestamp createdAt
         timestamp updatedAt
     }
-    
+
     Account {
         string id PK
         string userId FK
@@ -46,14 +46,14 @@ erDiagram
         string scope
         string id_token
     }
-    
+
     Session {
         string id PK
         string sessionToken UK
         string userId FK
         timestamp expires
     }
-    
+
     ActivateToken {
         string id PK
         string userId FK
@@ -62,7 +62,7 @@ erDiagram
         timestamp createdAt
         timestamp expiresAt
     }
-    
+
     ResetToken {
         string id PK
         string userId FK
@@ -71,7 +71,7 @@ erDiagram
         timestamp createdAt
         timestamp expiresAt
     }
-    
+
     Competition {
         string id PK
         string code UK
@@ -88,7 +88,7 @@ erDiagram
         timestamp createdAt
         timestamp updatedAt
     }
-    
+
     CompetitionRegistration {
         string id PK
         string userId FK,UK
@@ -101,7 +101,7 @@ erDiagram
         timestamp approvedAt
         timestamp updatedAt
     }
-    
+
     Team {
         string id PK
         string registrationId FK,UK
@@ -111,7 +111,7 @@ erDiagram
         int memberCount
         timestamp createdAt
     }
-    
+
     TeamMember {
         string id PK
         string teamId FK
@@ -123,7 +123,7 @@ erDiagram
         int displayOrder
         timestamp createdAt
     }
-    
+
     PreliminarySubmission {
         string id PK
         string registrationId FK,UK
@@ -136,7 +136,7 @@ erDiagram
         string reviewedByAdminId FK
         text adminNotes
     }
-    
+
     Payment {
         string id PK
         string registrationId FK,UK
@@ -150,7 +150,7 @@ erDiagram
         string verifiedByAdminId FK
         text adminNotes
     }
-    
+
     SemifinalSubmission {
         string id PK
         string registrationId FK,UK
@@ -162,7 +162,7 @@ erDiagram
         timestamp submittedAt
         text adminNotes
     }
-    
+
     FinalSubmission {
         string id PK
         string registrationId FK,UK
@@ -172,7 +172,7 @@ erDiagram
         timestamp submittedAt
         text adminNotes
     }
-    
+
     Admin {
         string id PK
         string username UK

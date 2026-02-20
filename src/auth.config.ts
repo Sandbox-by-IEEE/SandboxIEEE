@@ -4,10 +4,10 @@ import type { NextAuthConfig } from 'next-auth';
  * ============================================================================
  * NEXTAUTH V5 - EDGE-SAFE CONFIGURATION
  * ============================================================================
- * 
+ *
  * This config is used by middleware (edge runtime).
  * Cannot import bcrypt or Prisma here - those only work in Node.js runtime.
- * 
+ *
  * Keep only callbacks and configuration needed for route protection.
  * ============================================================================
  */

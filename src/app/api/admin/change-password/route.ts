@@ -1,4 +1,4 @@
-import { compare,hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -7,7 +7,7 @@ import { prisma } from '@/lib/db';
 
 /**
  * POST /api/admin/change-password
- * 
+ *
  * Change password for authenticated admin
  * Requires: Current password + new password
  */
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     if (!session?.admin) {
       return NextResponse.json(
         { success: false, message: 'Unauthorized. Admin login required.' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
           message: 'Validation failed',
           errors: validation.error.errors.map((err) => err.message),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
           success: false,
           message: 'New password must be different from current password',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -70,20 +70,20 @@ export async function POST(req: NextRequest) {
     if (!admin) {
       return NextResponse.json(
         { success: false, message: 'Admin account not found' },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     // Verify current password
     const isCurrentPasswordCorrect = await compare(
       currentPassword,
-      admin.password
+      admin.password,
     );
 
     if (!isCurrentPasswordCorrect) {
       return NextResponse.json(
         { success: false, message: 'Current password is incorrect' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -110,7 +110,7 @@ export async function POST(req: NextRequest) {
         success: false,
         message: 'Internal server error. Please try again later.',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

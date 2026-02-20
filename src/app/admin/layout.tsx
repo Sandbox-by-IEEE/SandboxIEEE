@@ -18,19 +18,17 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className='flex h-screen bg-gray-50'>
       {/* Sidebar */}
       <AdminSidebar admin={session.admin} />
 
       {/* Main Content Area */}
-      <div className="flex flex-col flex-1 overflow-hidden">
+      <div className='flex flex-col flex-1 overflow-hidden'>
         {/* Header */}
         <AdminHeader admin={session.admin} />
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-6">
-          {children}
-        </main>
+        <main className='flex-1 overflow-y-auto p-6'>{children}</main>
       </div>
     </div>
   );

@@ -2,9 +2,9 @@
  * ============================================================================
  * TEST SCRIPT: GOOGLE SHEETS INTEGRATION
  * ============================================================================
- * 
+ *
  * Purpose: Test connection dan functionality Google Sheets API
- * 
+ *
  * Run with: npx tsx scripts/test-google-sheets.ts
  * ============================================================================
  */
@@ -25,7 +25,9 @@ async function testGoogleSheetsConnection() {
     'GOOGLE_SHEET_ID_BCC',
   ];
 
-  const missingVars = requiredEnvVars.filter((varName) => !process.env[varName]);
+  const missingVars = requiredEnvVars.filter(
+    (varName) => !process.env[varName],
+  );
 
   if (missingVars.length > 0) {
     console.error('❌ Missing environment variables:');
@@ -72,21 +74,31 @@ async function testGoogleSheetsConnection() {
         });
 
         const headers = response.data.values?.[0] || [];
-        console.log(`   ✅ ${comp.code}: Connected (${headers.length} columns found)`);
+        console.log(
+          `   ✅ ${comp.code}: Connected (${headers.length} columns found)`,
+        );
 
         if (headers.length > 0) {
-          console.log(`      Headers: ${headers.slice(0, 5).join(', ')}${headers.length > 5 ? '...' : ''}`);
+          console.log(
+            `      Headers: ${headers.slice(0, 5).join(', ')}${headers.length > 5 ? '...' : ''}`,
+          );
         } else {
-          console.log(`      ⚠️  No headers found. Please add header row first!`);
+          console.log(
+            `      ⚠️  No headers found. Please add header row first!`,
+          );
         }
       } catch (error: any) {
         console.error(`   ❌ ${comp.code}: Failed to read sheet`);
         console.error(`      Error: ${error.message}`);
 
         if (error.message.includes('not found')) {
-          console.error(`      💡 Check if Sheet ID is correct: ${comp.sheetId}`);
+          console.error(
+            `      💡 Check if Sheet ID is correct: ${comp.sheetId}`,
+          );
         } else if (error.message.includes('permission')) {
-          console.error(`      💡 Share sheet with: ${process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL}`);
+          console.error(
+            `      💡 Share sheet with: ${process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL}`,
+          );
         }
       }
     }
@@ -139,7 +151,6 @@ async function testGoogleSheetsConnection() {
     console.log('   1. Check your Google Sheets to see the test data');
     console.log('   2. Delete the test row if everything looks good');
     console.log('   3. Ready to implement registration API endpoint\n');
-
   } catch (error: any) {
     console.error('❌ Authentication failed');
     console.error(`   Error: ${error.message}\n`);

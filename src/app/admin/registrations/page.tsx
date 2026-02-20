@@ -10,16 +10,16 @@ import RegistrationsTable from './RegistrationsTable';
  * ============================================================================
  * ADMIN REGISTRATIONS PAGE
  * ============================================================================
- * 
+ *
  * Purpose: Review and approve/reject team registrations
  * Access: super_admin, moderator only
- * 
+ *
  * Features:
  * - View all registrations with filtering (pending, approved, rejected, all)
  * - Approve button with email notification
  * - Reject button with email notification
  * - View team details (members, institution, etc.)
- * 
+ *
  * ============================================================================
  */
 
@@ -44,7 +44,8 @@ export default async function AdminRegistrationsPage({
   const status = params.status || 'all';
 
   // Build filter based on status
-  const filter: { verificationStatus?: 'pending' | 'approved' | 'rejected' } = {};
+  const filter: { verificationStatus?: 'pending' | 'approved' | 'rejected' } =
+    {};
   if (status === 'pending') {
     filter.verificationStatus = 'pending';
   } else if (status === 'approved') {
@@ -103,55 +104,55 @@ export default async function AdminRegistrationsPage({
     stats;
 
   return (
-    <div className="space-y-6">
+    <div className='space-y-6'>
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className='text-3xl font-bold text-gray-900'>
           Competition Registrations
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className='text-gray-600 mt-2'>
           Review and approve team registrations for all competitions
         </p>
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <div className="flex items-center gap-3 mb-2">
-            <UsersIcon className="text-blue-600" size={24} />
-            <h3 className="font-semibold text-gray-900">Total</h3>
+      <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
+        <div className='bg-white rounded-xl p-6 border border-gray-200'>
+          <div className='flex items-center gap-3 mb-2'>
+            <UsersIcon className='text-blue-600' size={24} />
+            <h3 className='font-semibold text-gray-900'>Total</h3>
           </div>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className='text-3xl font-bold text-gray-900'>
             {totalRegistrations}
           </p>
-          <p className="text-sm text-gray-600 mt-1">All registrations</p>
+          <p className='text-sm text-gray-600 mt-1'>All registrations</p>
         </div>
 
-        <div className="bg-yellow-50 rounded-xl p-6 border border-yellow-200">
-          <div className="flex items-center gap-3 mb-2">
-            <Clock className="text-yellow-600" size={24} />
-            <h3 className="font-semibold text-yellow-900">Pending</h3>
+        <div className='bg-yellow-50 rounded-xl p-6 border border-yellow-200'>
+          <div className='flex items-center gap-3 mb-2'>
+            <Clock className='text-yellow-600' size={24} />
+            <h3 className='font-semibold text-yellow-900'>Pending</h3>
           </div>
-          <p className="text-3xl font-bold text-yellow-900">{pendingCount}</p>
-          <p className="text-sm text-yellow-700 mt-1">Awaiting review</p>
+          <p className='text-3xl font-bold text-yellow-900'>{pendingCount}</p>
+          <p className='text-sm text-yellow-700 mt-1'>Awaiting review</p>
         </div>
 
-        <div className="bg-green-50 rounded-xl p-6 border border-green-200">
-          <div className="flex items-center gap-3 mb-2">
-            <CheckCircle className="text-green-600" size={24} />
-            <h3 className="font-semibold text-green-900">Approved</h3>
+        <div className='bg-green-50 rounded-xl p-6 border border-green-200'>
+          <div className='flex items-center gap-3 mb-2'>
+            <CheckCircle className='text-green-600' size={24} />
+            <h3 className='font-semibold text-green-900'>Approved</h3>
           </div>
-          <p className="text-3xl font-bold text-green-900">{approvedCount}</p>
-          <p className="text-sm text-green-700 mt-1">Verified teams</p>
+          <p className='text-3xl font-bold text-green-900'>{approvedCount}</p>
+          <p className='text-sm text-green-700 mt-1'>Verified teams</p>
         </div>
 
-        <div className="bg-red-50 rounded-xl p-6 border border-red-200">
-          <div className="flex items-center gap-3 mb-2">
-            <XCircle className="text-red-600" size={24} />
-            <h3 className="font-semibold text-red-900">Rejected</h3>
+        <div className='bg-red-50 rounded-xl p-6 border border-red-200'>
+          <div className='flex items-center gap-3 mb-2'>
+            <XCircle className='text-red-600' size={24} />
+            <h3 className='font-semibold text-red-900'>Rejected</h3>
           </div>
-          <p className="text-3xl font-bold text-red-900">{rejectedCount}</p>
-          <p className="text-sm text-red-700 mt-1">Declined registrations</p>
+          <p className='text-3xl font-bold text-red-900'>{rejectedCount}</p>
+          <p className='text-sm text-red-700 mt-1'>Declined registrations</p>
         </div>
       </div>
 

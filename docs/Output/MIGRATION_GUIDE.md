@@ -24,6 +24,7 @@ pg_dump $DATABASE_URL > backup_sandbox_v2_$(date +%Y%m%d).sql
 ```
 
 **What will be LOST:**
+
 - ❌ All user accounts (participants will need to re-register)
 - ❌ All team registrations
 - ❌ All submissions (abstracts, payments, etc.)
@@ -31,6 +32,7 @@ pg_dump $DATABASE_URL > backup_sandbox_v2_$(date +%Y%m%d).sql
 - ❌ Voting data (Karya system)
 
 **What will be PRESERVED:**
+
 - ✅ CockroachDB cluster (not deleted)
 - ✅ Environment variables
 - ✅ UploadThing files (CDN remains accessible)
@@ -61,6 +63,7 @@ npx prisma generate
 ```
 
 **Expected output:**
+
 ```
 ✔ Generated Prisma Client (5.x.x) to ./node_modules/@prisma/client
 ```
@@ -75,6 +78,7 @@ npm run db:push
 ```
 
 **What this does:**
+
 1. Drops all existing tables in database
 2. Creates new v3.0 tables based on `prisma/schema.prisma`
 3. Runs `prisma/seed.ts` to insert:
@@ -82,6 +86,7 @@ npm run db:push
    - 1 Super Admin account
 
 **Expected output:**
+
 ```
 🌱 Starting database seed...
 
@@ -108,6 +113,7 @@ npm run studio
 ```
 
 **Verify in Prisma Studio (http://localhost:5555):**
+
 - ✅ 3 records in `competitions` table
 - ✅ 1 record in `admins` table
 - ✅ All 15 tables exist:
@@ -122,6 +128,7 @@ npm run studio
 ### Step 5: Test Super Admin Login
 
 **Initial Super Admin Credentials:**
+
 ```
 Username: superadmin
 Email: admin@sandbox.ieee-itb.org
@@ -129,6 +136,7 @@ Password: SuperAdmin2026!
 ```
 
 **Test login:**
+
 1. Start dev server: `npm run dev`
 2. Navigate to admin panel (create this page later)
 3. Login with above credentials
@@ -141,6 +149,7 @@ Password: SuperAdmin2026!
 **Action required:** After schema deployment, update session callbacks to use new structure.
 
 **Reference for later update:**
+
 ```typescript
 // OLD v2.0 structure
 session.user.ticketsCompetition = [...]
@@ -208,6 +217,7 @@ npx tsx src/scripts/migrate-v2-to-v3.ts
 ### Issue: "Database connection failed"
 
 **Solution:**
+
 ```bash
 # Verify DATABASE_URL format
 echo $DATABASE_URL
@@ -219,6 +229,7 @@ npx prisma db execute --stdin <<< "SELECT 1"
 ### Issue: "Seed script fails"
 
 **Solution:**
+
 ```bash
 # Check seed script output
 npm run db:seed
@@ -230,6 +241,7 @@ npm install tsx --save-dev
 ### Issue: "Table already exists"
 
 **Solution:**
+
 ```bash
 # Force reset database
 npx prisma migrate reset --force
@@ -241,6 +253,7 @@ npm run db:push
 ### Issue: "Cannot find module @prisma/client"
 
 **Solution:**
+
 ```bash
 # Regenerate Prisma Client
 npx prisma generate
@@ -257,6 +270,7 @@ npm install
 ### Super Admin Account
 
 **⚠️ CRITICAL:**
+
 1. **Change default password immediately** after first login
 2. Use strong password (min 12 characters, mix of upper/lower/numbers/symbols)
 3. Store password securely (use password manager)
@@ -281,24 +295,28 @@ npm install
 ## 📈 Next Steps
 
 ### Phase 1: Core System (Current)
+
 ✅ Schema migration completed
 ✅ Admin account created
 ⬜ Admin dashboard UI
 ⬜ Admin registration form (for Super Admin to create staff accounts)
 
 ### Phase 2: User System
+
 ⬜ User registration API
 ⬜ Email verification
 ⬜ Team registration form
 ⬜ Dashboard for participants
 
 ### Phase 3: Submission System
+
 ⬜ Preliminary submission
 ⬜ Payment verification
 ⬜ Semifinal submission
 ⬜ Final submission (BCC)
 
 ### Phase 4: Admin Workflows
+
 ⬜ Registration approval interface
 ⬜ Submission review interface
 ⬜ Payment verification interface
@@ -315,6 +333,7 @@ npm install
 - **Auth:** NextAuth.js 4.24.5
 
 **Questions?** Contact development team or refer to:
+
 - Prisma docs: https://www.prisma.io/docs
 - NextAuth docs: https://next-auth.js.org/
 - CockroachDB docs: https://www.cockroachlabs.com/docs/

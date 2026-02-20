@@ -19,7 +19,10 @@ async function testSMTP() {
   console.log('Host:', process.env.SMTP_HOST);
   console.log('Port:', process.env.SMTP_PORT);
   console.log('User:', process.env.SMTP_USER);
-  console.log('Pass:', process.env.SMTP_PASS ? '***' + process.env.SMTP_PASS.slice(-4) : 'NOT SET');
+  console.log(
+    'Pass:',
+    process.env.SMTP_PASS ? '***' + process.env.SMTP_PASS.slice(-4) : 'NOT SET',
+  );
 
   try {
     // Test connection

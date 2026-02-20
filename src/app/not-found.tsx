@@ -10,7 +10,7 @@ export default function NotFoundPage() {
   return (
     <div className='flex flex-col min-h-screen bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102]'>
       <Navbar />
-      <main className="relative flex-grow flex items-center justify-center overflow-hidden px-4 py-20 max-w-[1440px] mx-auto w-full">
+      <main className='relative flex-grow flex items-center justify-center overflow-hidden px-4 py-20 max-w-[1440px] mx-auto w-full'>
         {/* Background Blobs */}
         {/* <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <Image
@@ -32,25 +32,26 @@ export default function NotFoundPage() {
         </div> */}
 
         {/* Content */}
-        <div className="relative z-10 text-center max-w-6xl mx-auto">
-          <div className="relative inline-block">
+        <div className='relative z-10 text-center max-w-6xl mx-auto'>
+          <div className='relative inline-block'>
             {/* Mascot Left - Behind text */}
             <Image
-              src="/mascots/mascot-2.svg"
-              alt="Mascot"
+              src='/mascots/mascot-2.svg'
+              alt='Mascot'
               width={300}
               height={300}
-              className="absolute -left-24 sm:-left-32 md:-left-48 lg:-left-64 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle z-0"
+              className='absolute -left-24 sm:-left-32 md:-left-48 lg:-left-64 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle z-0'
               style={{ transform: 'translateY(-50%) rotate(-12deg)' }}
               priority
             />
 
             {/* Main Text */}
-            <div className="relative z-10 mb-6 md:mb-8">
+            <div className='relative z-10 mb-6 md:mb-8'>
               <h1
-                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-gemunu tracking-wider mb-4"
+                className='text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-gemunu tracking-wider mb-4'
                 style={{
-                  background: 'linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%)',
+                  background:
+                    'linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -59,31 +60,32 @@ export default function NotFoundPage() {
               >
                 404 Not Found
               </h1>
-              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 font-gemunu">
+              <p className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 font-gemunu'>
                 Fixing there and there....
               </p>
             </div>
 
             {/* Mascot Right - In front of text */}
             <Image
-              src="/mascots/mascot-6.svg"
-              alt="Mascot"
+              src='/mascots/mascot-6.svg'
+              alt='Mascot'
               width={300}
               height={300}
-              className="absolute -right-24 sm:-right-32 md:-right-48 lg:-right-64 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle-reverse z-20"
+              className='absolute -right-24 sm:-right-32 md:-right-48 lg:-right-64 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle-reverse z-20'
               style={{ transform: 'translateY(-50%) rotate(15deg)' }}
               priority
             />
           </div>
 
           {/* Home Button */}
-          <div className="mt-12 md:mt-16">
+          <div className='mt-12 md:mt-16'>
             <Link
-              href="/"
-              className="inline-block h-[35px] px-8 rounded-full font-gemunu text-base md:text-lg font-semibold transition-all hover:scale-105"
+              href='/'
+              className='inline-block h-[35px] px-8 rounded-full font-gemunu text-base md:text-lg font-semibold transition-all hover:scale-105'
               style={{
                 background: 'linear-gradient(90deg, #FFCD8D 0%, #280003 100%)',
-                boxShadow: '0 8px 24px rgba(255, 205, 141, 0.4), 0 4px 12px rgba(40, 0, 3, 0.3)',
+                boxShadow:
+                  '0 8px 24px rgba(255, 205, 141, 0.4), 0 4px 12px rgba(40, 0, 3, 0.3)',
                 lineHeight: '35px',
                 color: 'white',
               }}
@@ -96,7 +98,8 @@ export default function NotFoundPage() {
         {/* Floating Animation CSS */}
         <style jsx>{`
           @keyframes floatGentle {
-            0%, 100% {
+            0%,
+            100% {
               transform: translateY(-50%) rotate(-12deg) translateY(0px);
             }
             50% {
@@ -105,7 +108,8 @@ export default function NotFoundPage() {
           }
 
           @keyframes floatGentleReverse {
-            0%, 100% {
+            0%,
+            100% {
               transform: translateY(-50%) rotate(15deg) translateY(0px);
             }
             50% {

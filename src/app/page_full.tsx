@@ -26,7 +26,7 @@ export default async function HomePage() {
   }, competitions[0]?.registrationDeadline || new Date());
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#190204] to-[#080203]">
+    <div className='min-h-screen bg-gradient-to-b from-[#190204] to-[#080203]'>
       <Navbar />
 
       <main>

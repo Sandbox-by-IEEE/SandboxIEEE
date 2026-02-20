@@ -18,8 +18,18 @@ async function testNewEmailDesign() {
 
     await Promise.all([
       sendActivationEmail(testEmail, 'Test User', 'test-token-12345'),
-      sendRegistrationApprovedEmail(testEmail, 'Test User', 'Team Innovators', 'Business Case Competition (BCC)'),
-      sendRegistrationRejectedEmail(testEmail, 'Test User', 'Team Test', 'Incomplete team information'),
+      sendRegistrationApprovedEmail(
+        testEmail,
+        'Test User',
+        'Team Innovators',
+        'Business Case Competition (BCC)',
+      ),
+      sendRegistrationRejectedEmail(
+        testEmail,
+        'Test User',
+        'Team Test',
+        'Incomplete team information',
+      ),
       sendPasswordResetEmail(testEmail, 'Test User', 'reset-token-67890'),
     ]);
 
@@ -27,7 +37,6 @@ async function testNewEmailDesign() {
     console.log('\n🎉 All email templates sent successfully!');
     console.log(`\n📧 Check inbox at: ${testEmail}`);
     console.log('📬 Also check Spam/Junk folder if not in inbox\n');
-
   } catch (error) {
     console.error('\n❌ Error testing emails:', error);
     throw error;

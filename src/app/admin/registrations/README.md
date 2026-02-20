@@ -7,18 +7,21 @@ Admin interface for reviewing and managing competition registrations. Provides a
 ## 🎯 Features
 
 ### 1. Statistics Dashboard
+
 - **Total Registrations**: All registrations across all competitions
 - **Pending**: Registrations awaiting admin review
 - **Approved**: Verified and approved teams
 - **Rejected**: Declined registrations
 
 ### 2. Filter Tabs
+
 - **All**: View all registrations
 - **Pending**: Focus on registrations needing review
 - **Approved**: See approved teams
 - **Rejected**: View declined registrations
 
 ### 3. Registration Details
+
 - Team name and competition
 - Team leader information (name, email)
 - Institution/University
@@ -26,7 +29,9 @@ Admin interface for reviewing and managing competition registrations. Provides a
 - Verification status badge
 
 ### 4. Expandable Team Details
+
 Click the eye icon (👁️) to view:
+
 - All team members with contact information
 - Member emails and phone numbers
 - Proof of registration links (Google Drive)
@@ -37,6 +42,7 @@ Click the eye icon (👁️) to view:
 ### 5. Action Buttons
 
 #### ✅ Approve Button
+
 - Click the green "Approve" button
 - Confirmation dialog appears
 - On approval:
@@ -47,6 +53,7 @@ Click the eye icon (👁️) to view:
   - Automatically refreshes page
 
 #### ❌ Reject Button
+
 - Click the red "Reject" button
 - Enter rejection reason in prompt
 - On rejection:
@@ -163,6 +170,7 @@ Response:
 ## 📧 Email Notifications
 
 ### Approval Email
+
 - **Function:** `sendRegistrationApprovedEmail()`
 - **Subject:** "🎉 Your Registration Has Been Approved!"
 - **Content:**
@@ -172,6 +180,7 @@ Response:
   - Dashboard button link
 
 ### Rejection Email
+
 - **Function:** `sendRegistrationRejectedEmail()`
 - **Subject:** "Registration Update"
 - **Content:**
@@ -182,6 +191,7 @@ Response:
 ## 🎨 UI Components
 
 ### Technology Stack
+
 - **Framework:** Next.js 15 (App Router)
 - **Styling:** Tailwind CSS
 - **Icons:** Lucide React
@@ -189,6 +199,7 @@ Response:
 - **Date Formatting:** date-fns
 
 ### Design Features
+
 - Responsive grid layout
 - Hover effects and transitions
 - Color-coded status badges
@@ -200,15 +211,18 @@ Response:
 ## 🔐 Security
 
 ### Authentication
+
 - Requires valid admin session (NextAuth)
 - Session verified on every API call
 
 ### Authorization
+
 - Only `super_admin` and `moderator` roles can access
 - Finance admins are redirected to dashboard
 - Unauthorized users redirected to login
 
 ### Data Protection
+
 - Registration IDs validated
 - Prevent duplicate approvals/rejections
 - Cannot reject already approved registrations
@@ -217,12 +231,14 @@ Response:
 ## ⚠️ Error Handling
 
 ### Client-Side
+
 - Invalid actions show toast error messages
 - Empty rejection reason prevented
 - Network errors caught and displayed
 - Loading states prevent double-clicks
 
 ### Server-Side
+
 - Authentication checks return 401
 - Authorization checks return 403
 - Invalid IDs return 404
@@ -258,7 +274,7 @@ model CompetitionRegistration {
   currentPhase       CompetitionPhase   @default(registration)
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
-  
+
   user        User        @relation(...)
   competition Competition @relation(...)
   team        Team?
@@ -282,6 +298,7 @@ enum CompetitionPhase {
 ## 🚀 Future Enhancements
 
 ### Planned Features
+
 - [ ] Bulk approve/reject multiple registrations
 - [ ] Export registrations to CSV/Excel
 - [ ] Search and filter by team name, email, competition
@@ -294,6 +311,7 @@ enum CompetitionPhase {
 - [ ] Undo action within time window
 
 ### Potential Improvements
+
 - [ ] Add notes field for internal admin comments
 - [ ] Attach files/documents to registrations
 - [ ] Real-time updates using WebSockets
@@ -322,6 +340,7 @@ When modifying this feature:
 ## 📞 Support
 
 For issues or questions:
+
 - Check server logs: `npm run dev` output
 - Verify database: `npx prisma studio`
 - Test emails: Check SMTP configuration in `.env`

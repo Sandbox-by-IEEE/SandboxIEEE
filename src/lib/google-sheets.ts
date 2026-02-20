@@ -2,15 +2,15 @@
  * ============================================================================
  * GOOGLE SHEETS API INTEGRATION
  * ============================================================================
- * 
+ *
  * Purpose: Sync registration data to Google Sheets for backup/redundancy
- * 
+ *
  * Features:
  * - Real-time append to competition sheets
  * - Service Account authentication
  * - Error handling with logging
  * - Support for PTC, TPC, BCC competitions
- * 
+ *
  * Setup Required:
  * 1. Create Google Service Account
  * 2. Enable Google Sheets API
@@ -73,16 +73,22 @@ export async function appendToGoogleSheets(data: {
     const sheetId = getSheetIdByCompetition(data.competitionCode);
 
     if (!sheetId) {
-      throw new Error(`Sheet ID not found for competition: ${data.competitionCode}`);
+      throw new Error(
+        `Sheet ID not found for competition: ${data.competitionCode}`,
+      );
     }
 
     const sheets = getGoogleSheetsClient();
 
     // Format members (max 4 members excluding leader)
-    const memberColumns = Array(4).fill('').map((_, i) => {
-      const member = data.members[i];
-      return member ? `${member.fullName} | ${member.email} | ${member.phoneNumber}` : '';
-    });
+    const memberColumns = Array(4)
+      .fill('')
+      .map((_, i) => {
+        const member = data.members[i];
+        return member
+          ? `${member.fullName} | ${member.email} | ${member.phoneNumber}`
+          : '';
+      });
 
     // Prepare row data matching the sheet structure (17 columns)
     const rowData = [
@@ -115,7 +121,7 @@ export async function appendToGoogleSheets(data: {
     });
 
     console.log(
-      `✅ Successfully synced ${data.competitionCode} registration to Google Sheets`
+      `✅ Successfully synced ${data.competitionCode} registration to Google Sheets`,
     );
     return { success: true };
   } catch (error) {
@@ -149,7 +155,7 @@ export async function readFromGoogleSheets(competitionCode: string) {
     const rows = response.data.values || [];
 
     console.log(
-      `📊 Read ${rows.length} entries from ${competitionCode} Google Sheet`
+      `📊 Read ${rows.length} entries from ${competitionCode} Google Sheet`,
     );
 
     return rows;
@@ -164,7 +170,7 @@ export async function readFromGoogleSheets(competitionCode: string) {
  */
 export async function batchAppendToGoogleSheets(
   competitionCode: string,
-  dataArray: Array<any>
+  dataArray: Array<any>,
 ) {
   try {
     const sheetId = getSheetIdByCompetition(competitionCode);
@@ -203,7 +209,7 @@ export async function batchAppendToGoogleSheets(
     });
 
     console.log(
-      `✅ Batch synced ${dataArray.length} registrations to Google Sheets`
+      `✅ Batch synced ${dataArray.length} registrations to Google Sheets`,
     );
     return { success: true, count: dataArray.length };
   } catch (error) {
@@ -245,7 +251,9 @@ export async function logSubmissionToSheets(data: SubmissionLogData) {
     const sheetId = getSheetIdByCompetition(data.competitionCode);
 
     if (!sheetId) {
-      console.error(`❌ No sheet ID found for competition: ${data.competitionCode}`);
+      console.error(
+        `❌ No sheet ID found for competition: ${data.competitionCode}`,
+      );
       return { success: false, error: 'Sheet ID not configured' };
     }
 
@@ -262,16 +270,16 @@ export async function logSubmissionToSheets(data: SubmissionLogData) {
 
     // Row data for Submissions sheet
     const row = [
-      formattedDate,                    // A: Timestamp
-      data.teamName,                    // B: Team Name
-      data.leaderEmail,                 // C: Leader Email
+      formattedDate, // A: Timestamp
+      data.teamName, // B: Team Name
+      data.leaderEmail, // C: Leader Email
       data.competitionCode.toUpperCase(), // D: Competition
       data.submissionPhase.toUpperCase(), // E: Phase
-      data.fileUrl || '',               // F: File URL
-      data.fileName || '',              // G: File Name
-      data.status.toUpperCase(),        // H: Status
-      data.reviewedBy || '',            // I: Reviewed By
-      data.reviewNotes || '',           // J: Review Notes
+      data.fileUrl || '', // F: File URL
+      data.fileName || '', // G: File Name
+      data.status.toUpperCase(), // H: Status
+      data.reviewedBy || '', // I: Reviewed By
+      data.reviewNotes || '', // J: Review Notes
     ];
 
     // Append to "Submissions" sheet (create if doesn't exist)
@@ -284,7 +292,9 @@ export async function logSubmissionToSheets(data: SubmissionLogData) {
       },
     });
 
-    console.log(`✅ Logged ${data.submissionPhase} submission for ${data.teamName} to Google Sheets`);
+    console.log(
+      `✅ Logged ${data.submissionPhase} submission for ${data.teamName} to Google Sheets`,
+    );
     return { success: true };
   } catch (error) {
     console.error('❌ Failed to log submission to Google Sheets:', error);

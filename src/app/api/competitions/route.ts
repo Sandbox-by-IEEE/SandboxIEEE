@@ -2,9 +2,9 @@
  * ============================================================================
  * LIST COMPETITIONS API ENDPOINT
  * ============================================================================
- * 
+ *
  * GET /api/competitions
- * 
+ *
  * Purpose: Get all competitions with basic info
  * ============================================================================
  */
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
     console.error('❌ List competitions error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -2,9 +2,9 @@
  * ============================================================================
  * TEST SCRIPT: REGISTRATION API ENDPOINTS
  * ============================================================================
- * 
+ *
  * Run with: npx tsx scripts/test-registration-api.ts
- * 
+ *
  * Tests:
  * 1. GET /api/competitions - List all competitions
  * 2. GET /api/competitions/[code] - Get competition details
@@ -31,7 +31,9 @@ async function testRegistrationAPI() {
       console.log('✅ Success!');
       console.log(`   Found ${data.competitions.length} competitions:`);
       data.competitions.forEach((comp: any) => {
-        console.log(`   - ${comp.code}: ${comp.name} (${comp.teamSize.min}-${comp.teamSize.max} members)`);
+        console.log(
+          `   - ${comp.code}: ${comp.name} (${comp.teamSize.min}-${comp.teamSize.max} members)`,
+        );
       });
     } else {
       console.log('❌ Failed:', data.error);
@@ -70,7 +72,7 @@ async function testRegistrationAPI() {
   console.log(`📋 Test 3: GET /api/competitions/register?email=${testEmail}`);
   try {
     const response = await fetch(
-      `${BASE_URL}/api/competitions/register?email=${testEmail}`
+      `${BASE_URL}/api/competitions/register?email=${testEmail}`,
     );
     const data = await response.json();
 
@@ -147,10 +149,12 @@ async function testRegistrationAPI() {
   console.log('\n---\n');
 
   // Test 5: Verify registration was saved
-  console.log(`📋 Test 5: Verify registration - GET /api/competitions/register?email=${testEmail}`);
+  console.log(
+    `📋 Test 5: Verify registration - GET /api/competitions/register?email=${testEmail}`,
+  );
   try {
     const response = await fetch(
-      `${BASE_URL}/api/competitions/register?email=${testEmail}`
+      `${BASE_URL}/api/competitions/register?email=${testEmail}`,
     );
     const data = await response.json();
 
@@ -159,7 +163,9 @@ async function testRegistrationAPI() {
       console.log(`   Registered: ${data.registered}`);
       if (data.registered) {
         console.log(`   Team: ${data.registration.teamName}`);
-        console.log(`   Competition: ${data.registration.competition} (${data.registration.competitionCode})`);
+        console.log(
+          `   Competition: ${data.registration.competition} (${data.registration.competitionCode})`,
+        );
         console.log(`   Members: ${data.registration.memberCount}`);
         console.log(`   Status: ${data.registration.status}`);
         console.log(`   Active: ${data.registration.isActive}`);

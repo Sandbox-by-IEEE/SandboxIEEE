@@ -34,67 +34,69 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
   }, [deadline]);
 
   const scrollToCompetitions = () => {
-    document.getElementById('competitions')?.scrollIntoView({ behavior: 'smooth' });
+    document
+      .getElementById('competitions')
+      ?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102]">
+    <section className='relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102]'>
       {/* Background Blobs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className='absolute inset-0 pointer-events-none overflow-hidden'>
         <Image
-          src="/hero/hero-circle-1.svg"
-          alt=""
+          src='/hero/hero-circle-1.svg'
+          alt=''
           width={800}
           height={800}
-          className="absolute top-1/2 -translate-y-1/2 left-0 -translate-x-1/2 opacity-70 animate-float-slow"
+          className='absolute top-1/2 -translate-y-1/2 left-0 -translate-x-1/2 opacity-70 animate-float-slow'
           priority
         />
         <Image
-          src="/hero/hero-circle-2.svg"
-          alt=""
+          src='/hero/hero-circle-2.svg'
+          alt=''
           width={800}
           height={800}
-          className="absolute top-1/2 -translate-y-1/2 right-0 translate-x-1/2 opacity-70 animate-float-slow-reverse"
+          className='absolute top-1/2 -translate-y-1/2 right-0 translate-x-1/2 opacity-70 animate-float-slow-reverse'
           priority
         />
       </div>
 
       {/* Glass Card */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+      <div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32'>
         <div
-          className="relative backdrop-blur-[99px] bg-white/[0.08] rounded-[99px] border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-8 md:p-12 lg:p-16"
+          className='relative backdrop-blur-[99px] bg-white/[0.08] rounded-[99px] border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-8 md:p-12 lg:p-16'
           style={{
             boxShadow: '0 8px 32px 0 rgba(77, 77, 77, 0.37)',
             WebkitBackdropFilter: 'blur(10px)',
           }}
         >
           {/* Logo */}
-          <div className="flex justify-center mb-8 md:mb-12">
+          <div className='flex justify-center mb-8 md:mb-12'>
             <Image
-              src="/logo/logo-white.svg"
-              alt="Sandbox Logo"
+              src='/logo/logo-white.svg'
+              alt='Sandbox Logo'
               width={80}
               height={80}
-              className="w-16 h-16 md:w-20 md:h-20"
+              className='w-16 h-16 md:w-20 md:h-20'
               priority
             />
           </div>
 
           {/* Title with Mascots */}
-          <div className="relative flex items-center justify-center mb-12 md:mb-16">
+          <div className='relative flex items-center justify-center mb-12 md:mb-16'>
             {/* Mascot 1 - Left */}
             <Image
-              src="/mascots/mascot-1.svg"
-              alt="Mascot"
+              src='/mascots/mascot-1.svg'
+              alt='Mascot'
               width={200}
               height={200}
-              className="absolute left-0 md:left-8 lg:left-16 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-gentle z-10"
+              className='absolute left-0 md:left-8 lg:left-16 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-gentle z-10'
               priority
             />
 
             {/* Competition Text */}
             <h1
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-gemunu tracking-wider relative z-20 px-4"
+              className='text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-gemunu tracking-wider relative z-20 px-4'
               style={{
                 background: 'linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%)',
                 WebkitBackgroundClip: 'text',
@@ -108,43 +110,53 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
 
             {/* Mascot 2 - Right */}
             <Image
-              src="/mascots/mascot-2.svg"
-              alt="Mascot"
+              src='/mascots/mascot-2.svg'
+              alt='Mascot'
               width={200}
               height={200}
-              className="absolute right-0 md:right-8 lg:right-16 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-gentle z-10"
+              className='absolute right-0 md:right-8 lg:right-16 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-gentle z-10'
               priority
             />
           </div>
 
           {/* Countdown */}
-          <div className="flex items-center justify-center gap-2 sm:gap-4 md:gap-6 mb-8 md:mb-12">
-            <div className="text-center">
-              <div className="text-white/70 text-xs sm:text-sm md:text-base font-gemunu mb-2">Days</div>
-              <div className="bg-black/30 rounded-2xl sm:rounded-3xl px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 border border-white/10">
-                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white font-gemunu">
+          <div className='flex items-center justify-center gap-2 sm:gap-4 md:gap-6 mb-8 md:mb-12'>
+            <div className='text-center'>
+              <div className='text-white/70 text-xs sm:text-sm md:text-base font-gemunu mb-2'>
+                Days
+              </div>
+              <div className='bg-black/30 rounded-2xl sm:rounded-3xl px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 border border-white/10'>
+                <div className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white font-gemunu'>
                   {String(timeLeft.days).padStart(2, '0')}
                 </div>
               </div>
             </div>
 
-            <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white/50 font-gemunu">:</div>
+            <div className='text-3xl sm:text-4xl md:text-5xl font-bold text-white/50 font-gemunu'>
+              :
+            </div>
 
-            <div className="text-center">
-              <div className="text-white/70 text-xs sm:text-sm md:text-base font-gemunu mb-2">Hours</div>
-              <div className="bg-black/30 rounded-2xl sm:rounded-3xl px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 border border-white/10">
-                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white font-gemunu">
+            <div className='text-center'>
+              <div className='text-white/70 text-xs sm:text-sm md:text-base font-gemunu mb-2'>
+                Hours
+              </div>
+              <div className='bg-black/30 rounded-2xl sm:rounded-3xl px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 border border-white/10'>
+                <div className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white font-gemunu'>
                   {String(timeLeft.hours).padStart(2, '0')}
                 </div>
               </div>
             </div>
 
-            <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white/50 font-gemunu">:</div>
+            <div className='text-3xl sm:text-4xl md:text-5xl font-bold text-white/50 font-gemunu'>
+              :
+            </div>
 
-            <div className="text-center">
-              <div className="text-white/70 text-xs sm:text-sm md:text-base font-gemunu mb-2">Minutes</div>
-              <div className="bg-black/30 rounded-2xl sm:rounded-3xl px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 border border-white/10">
-                <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white font-gemunu">
+            <div className='text-center'>
+              <div className='text-white/70 text-xs sm:text-sm md:text-base font-gemunu mb-2'>
+                Minutes
+              </div>
+              <div className='bg-black/30 rounded-2xl sm:rounded-3xl px-4 sm:px-6 md:px-8 py-3 sm:py-4 md:py-6 border border-white/10'>
+                <div className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white font-gemunu'>
                   {String(timeLeft.minutes).padStart(2, '0')}
                 </div>
               </div>
@@ -152,16 +164,17 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
           </div>
 
           {/* Explore Now Button */}
-          <div className="flex justify-center">
+          <div className='flex justify-center'>
             <button
               onClick={scrollToCompetitions}
-              className="group relative h-[35px] px-8 rounded-full font-gemunu text-base md:text-lg font-semibold transition-all hover:scale-105 overflow-hidden"
+              className='group relative h-[35px] px-8 rounded-full font-gemunu text-base md:text-lg font-semibold transition-all hover:scale-105 overflow-hidden'
               style={{
                 background: 'linear-gradient(90deg, #FFCD8D 0%, #280003 100%)',
-                boxShadow: '0 8px 24px rgba(255, 205, 141, 0.4), 0 4px 12px rgba(40, 0, 3, 0.3)',
+                boxShadow:
+                  '0 8px 24px rgba(255, 205, 141, 0.4), 0 4px 12px rgba(40, 0, 3, 0.3)',
               }}
             >
-              <span className="relative z-10 text-white">Explore Now</span>
+              <span className='relative z-10 text-white'>Explore Now</span>
             </button>
           </div>
         </div>
@@ -192,7 +205,8 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
         }
 
         @keyframes float {
-          0%, 100% {
+          0%,
+          100% {
             transform: translateY(0px) translateX(0px);
           }
           25% {
@@ -207,7 +221,8 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
         }
 
         @keyframes floatSlow {
-          0%, 100% {
+          0%,
+          100% {
             transform: translate(0, 0) scale(1);
           }
           33% {
@@ -219,7 +234,8 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
         }
 
         @keyframes floatSlowReverse {
-          0%, 100% {
+          0%,
+          100% {
             transform: translate(0, 0) scale(1);
           }
           33% {
@@ -231,11 +247,15 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
         }
 
         :global(.animate-slide-in-left) {
-          animation: slideInLeft 1.5s ease-out forwards, float 6s ease-in-out infinite 1.5s;
+          animation:
+            slideInLeft 1.5s ease-out forwards,
+            float 6s ease-in-out infinite 1.5s;
         }
 
         :global(.animate-slide-in-right) {
-          animation: slideInRight 1.5s ease-out forwards, float 6s ease-in-out infinite 1.5s;
+          animation:
+            slideInRight 1.5s ease-out forwards,
+            float 6s ease-in-out infinite 1.5s;
         }
 
         :global(.animate-float-slow) {

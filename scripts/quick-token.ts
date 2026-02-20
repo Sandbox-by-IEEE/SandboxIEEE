@@ -4,10 +4,10 @@ async function main() {
   const user = await prisma.user.findFirst({
     where: {
       active: false,
-      activateTokens: { some: {} }
+      activateTokens: { some: {} },
     },
     include: { activateTokens: { take: 1, orderBy: { createdAt: 'desc' } } },
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: 'desc' },
   });
 
   console.log('Email:', user?.email);
@@ -16,7 +16,9 @@ async function main() {
 
   if (user?.activateTokens[0]?.token) {
     console.log('\n🔗 Activation Link:');
-    console.log('http://localhost:3000/activate?token=' + user.activateTokens[0].token);
+    console.log(
+      'http://localhost:3000/activate?token=' + user.activateTokens[0].token,
+    );
   }
 
   await prisma.$disconnect();

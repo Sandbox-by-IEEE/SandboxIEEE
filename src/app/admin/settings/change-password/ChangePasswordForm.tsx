@@ -7,7 +7,9 @@ interface ChangePasswordFormProps {
   adminId: string;
 }
 
-export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps) {
+export default function ChangePasswordForm({
+  adminId,
+}: ChangePasswordFormProps) {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -43,9 +45,7 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
     const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
 
     if (!hasUppercase || !hasLowercase || !hasNumber) {
-      setError(
-        'Password must contain uppercase, lowercase, and numbers'
-      );
+      setError('Password must contain uppercase, lowercase, and numbers');
       return;
     }
 
@@ -84,7 +84,8 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
 
   const getPasswordStrength = (password: string) => {
     if (password.length === 0) return { label: '', color: '' };
-    if (password.length < 8) return { label: 'Too short', color: 'text-red-600' };
+    if (password.length < 8)
+      return { label: 'Too short', color: 'text-red-600' };
 
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
@@ -92,7 +93,7 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
     const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
     const strength = [hasUppercase, hasLowercase, hasNumber, hasSpecial].filter(
-      Boolean
+      Boolean,
     ).length;
 
     if (strength <= 2) return { label: 'Weak', color: 'text-orange-600' };
@@ -103,56 +104,59 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
   const passwordStrength = getPasswordStrength(newPassword);
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-8">
+    <div className='bg-white rounded-xl border border-gray-200 p-8'>
       {/* Error Alert */}
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-          <AlertCircle className="text-red-600 flex-shrink-0 mt-0.5" size={20} />
+        <div className='mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3'>
+          <AlertCircle
+            className='text-red-600 flex-shrink-0 mt-0.5'
+            size={20}
+          />
           <div>
-            <p className="text-sm font-medium text-red-800">Error</p>
-            <p className="text-sm text-red-700 mt-1">{error}</p>
+            <p className='text-sm font-medium text-red-800'>Error</p>
+            <p className='text-sm text-red-700 mt-1'>{error}</p>
           </div>
         </div>
       )}
 
       {/* Success Alert */}
       {success && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
+        <div className='mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3'>
           <CheckCircle
-            className="text-green-600 flex-shrink-0 mt-0.5"
+            className='text-green-600 flex-shrink-0 mt-0.5'
             size={20}
           />
           <div>
-            <p className="text-sm font-medium text-green-800">Success</p>
-            <p className="text-sm text-green-700 mt-1">{success}</p>
+            <p className='text-sm font-medium text-green-800'>Success</p>
+            <p className='text-sm text-green-700 mt-1'>{success}</p>
           </div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className='space-y-6'>
         {/* Current Password */}
         <div>
           <label
-            htmlFor="currentPassword"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            htmlFor='currentPassword'
+            className='block text-sm font-medium text-gray-700 mb-2'
           >
             Current Password
           </label>
-          <div className="relative">
+          <div className='relative'>
             <Lock
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'
               size={20}
             />
             <input
-              type="password"
-              id="currentPassword"
+              type='password'
+              id='currentPassword'
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-              placeholder="Enter your current password"
+              className='w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none'
+              placeholder='Enter your current password'
               required
               disabled={isLoading}
-              autoComplete="current-password"
+              autoComplete='current-password'
             />
           </div>
         </div>
@@ -160,26 +164,26 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
         {/* New Password */}
         <div>
           <label
-            htmlFor="newPassword"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            htmlFor='newPassword'
+            className='block text-sm font-medium text-gray-700 mb-2'
           >
             New Password
           </label>
-          <div className="relative">
+          <div className='relative'>
             <Lock
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'
               size={20}
             />
             <input
-              type="password"
-              id="newPassword"
+              type='password'
+              id='newPassword'
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-              placeholder="Enter your new password"
+              className='w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none'
+              placeholder='Enter your new password'
               required
               disabled={isLoading}
-              autoComplete="new-password"
+              autoComplete='new-password'
             />
           </div>
           {newPassword && (
@@ -192,40 +196,40 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
         {/* Confirm Password */}
         <div>
           <label
-            htmlFor="confirmPassword"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            htmlFor='confirmPassword'
+            className='block text-sm font-medium text-gray-700 mb-2'
           >
             Confirm New Password
           </label>
-          <div className="relative">
+          <div className='relative'>
             <Lock
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'
               size={20}
             />
             <input
-              type="password"
-              id="confirmPassword"
+              type='password'
+              id='confirmPassword'
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
-              placeholder="Re-enter your new password"
+              className='w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none'
+              placeholder='Re-enter your new password'
               required
               disabled={isLoading}
-              autoComplete="new-password"
+              autoComplete='new-password'
             />
           </div>
           {confirmPassword && newPassword !== confirmPassword && (
-            <p className="text-sm text-red-600 mt-2">Passwords do not match</p>
+            <p className='text-sm text-red-600 mt-2'>Passwords do not match</p>
           )}
         </div>
 
         {/* Password Requirements */}
-        <div className="bg-gray-50 rounded-lg p-4">
-          <p className="text-sm font-medium text-gray-700 mb-2">
+        <div className='bg-gray-50 rounded-lg p-4'>
+          <p className='text-sm font-medium text-gray-700 mb-2'>
             Password requirements:
           </p>
-          <ul className="text-sm text-gray-600 space-y-1">
-            <li className="flex items-center gap-2">
+          <ul className='text-sm text-gray-600 space-y-1'>
+            <li className='flex items-center gap-2'>
               <span
                 className={
                   newPassword.length >= 8 ? 'text-green-600' : 'text-gray-400'
@@ -235,7 +239,7 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
               </span>
               At least 8 characters
             </li>
-            <li className="flex items-center gap-2">
+            <li className='flex items-center gap-2'>
               <span
                 className={
                   /[A-Z]/.test(newPassword) ? 'text-green-600' : 'text-gray-400'
@@ -245,7 +249,7 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
               </span>
               Contains uppercase letter
             </li>
-            <li className="flex items-center gap-2">
+            <li className='flex items-center gap-2'>
               <span
                 className={
                   /[a-z]/.test(newPassword) ? 'text-green-600' : 'text-gray-400'
@@ -255,7 +259,7 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
               </span>
               Contains lowercase letter
             </li>
-            <li className="flex items-center gap-2">
+            <li className='flex items-center gap-2'>
               <span
                 className={
                   /\d/.test(newPassword) ? 'text-green-600' : 'text-gray-400'
@@ -265,7 +269,7 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
               </span>
               Contains number
             </li>
-            <li className="flex items-center gap-2">
+            <li className='flex items-center gap-2'>
               <span
                 className={
                   /[!@#$%^&*(),.?":{}|<>]/.test(newPassword)
@@ -282,9 +286,9 @@ export default function ChangePasswordForm({ adminId }: ChangePasswordFormProps)
 
         {/* Submit Button */}
         <button
-          type="submit"
+          type='submit'
           disabled={isLoading}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 focus:ring-4 focus:ring-blue-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className='w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 focus:ring-4 focus:ring-blue-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
         >
           {isLoading ? 'Changing Password...' : 'Change Password'}
         </button>

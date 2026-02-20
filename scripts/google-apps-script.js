@@ -2,7 +2,7 @@
  * ============================================================================
  * GOOGLE APPS SCRIPT: SEND FORM SUBMISSIONS TO SANDBOX
  * ============================================================================
- * 
+ *
  * Setup Instructions:
  * 1. Open your Google Form
  * 2. Click ⋮ (three dots) → Script editor
@@ -15,7 +15,7 @@
  *    - Event source: From form
  *    - Event type: On form submit
  *    - Save
- * 
+ *
  * Form Structure Required:
  * - Competition Code (PTC/TPC/BCC)
  * - Team Name
@@ -44,7 +44,7 @@ function onFormSubmit(e) {
 
     // Map form responses to field names
     const responses = {};
-    itemResponses.forEach(itemResponse => {
+    itemResponses.forEach((itemResponse) => {
       const question = itemResponse.getItem().getTitle();
       const answer = itemResponse.getResponse();
       responses[question] = answer;
@@ -53,26 +53,30 @@ function onFormSubmit(e) {
     // Extract data based on your form questions
     // ⚠️ ADJUST THESE KEYS TO MATCH YOUR GOOGLE FORM QUESTIONS
     const payload = {
-      competitionCode: responses['Competition Code'] || responses['Kode Kompetisi'], // PTC/TPC/BCC
+      competitionCode:
+        responses['Competition Code'] || responses['Kode Kompetisi'], // PTC/TPC/BCC
       teamName: responses['Team Name'] || responses['Nama Tim'],
       institution: responses['Institution'] || responses['Institusi'],
       leaderName: responses['Leader Name'] || responses['Nama Ketua'],
       leaderEmail: responses['Leader Email'] || responses['Email Ketua'],
       leaderPhone: responses['Leader Phone'] || responses['Nomor HP Ketua'],
-      members: []
+      members: [],
     };
 
     // Extract team members (up to 4 members, excluding leader)
     for (let i = 1; i <= 4; i++) {
-      const memberName = responses[`Member ${i} Name`] || responses[`Nama Anggota ${i}`];
-      const memberEmail = responses[`Member ${i} Email`] || responses[`Email Anggota ${i}`];
-      const memberPhone = responses[`Member ${i} Phone`] || responses[`Nomor HP Anggota ${i}`];
+      const memberName =
+        responses[`Member ${i} Name`] || responses[`Nama Anggota ${i}`];
+      const memberEmail =
+        responses[`Member ${i} Email`] || responses[`Email Anggota ${i}`];
+      const memberPhone =
+        responses[`Member ${i} Phone`] || responses[`Nomor HP Anggota ${i}`];
 
       if (memberName) {
         payload.members.push({
           name: memberName,
           email: memberEmail || '',
-          phone: memberPhone || ''
+          phone: memberPhone || '',
         });
       }
     }
@@ -82,10 +86,10 @@ function onFormSubmit(e) {
       method: 'post',
       contentType: 'application/json',
       headers: {
-        'Authorization': `Bearer ${WEBHOOK_SECRET}`
+        Authorization: `Bearer ${WEBHOOK_SECRET}`,
       },
       payload: JSON.stringify(payload),
-      muteHttpExceptions: true
+      muteHttpExceptions: true,
     };
 
     const response = UrlFetchApp.fetch(WEBHOOK_URL, options);
@@ -99,7 +103,6 @@ function onFormSubmit(e) {
     } else {
       console.error('❌ Webhook failed:', responseCode, responseBody);
     }
-
   } catch (error) {
     console.error('❌ Error in onFormSubmit:', error.toString());
 
@@ -123,24 +126,24 @@ function testWebhook() {
       {
         name: 'Member 1',
         email: 'member1gform@example.com',
-        phone: '081234567891'
+        phone: '081234567891',
       },
       {
         name: 'Member 2',
         email: 'member2gform@example.com',
-        phone: '081234567892'
-      }
-    ]
+        phone: '081234567892',
+      },
+    ],
   };
 
   const options = {
     method: 'post',
     contentType: 'application/json',
     headers: {
-      'Authorization': `Bearer ${WEBHOOK_SECRET}`
+      Authorization: `Bearer ${WEBHOOK_SECRET}`,
     },
     payload: JSON.stringify(testPayload),
-    muteHttpExceptions: true
+    muteHttpExceptions: true,
   };
 
   const response = UrlFetchApp.fetch(WEBHOOK_URL, options);
