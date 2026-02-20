@@ -38,7 +38,7 @@ export default function ProgressTracker({
   const currentIndex = getCurrentPhaseIndex();
 
   return (
-    <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-[2.5rem] p-8 md:p-12 border border-white/10 shadow-2xl mb-8'>
+    <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-white/10 shadow-2xl mb-8'>
       {/* Progress Header - Same style as registration */}
       <div className='bg-gradient-to-br from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-3xl p-8 border border-white/10'>
         <h2 className='text-3xl font-bold text-center mb-8 bg-gradient-to-r from-[#FFE4B5] via-[#FFCD8D] to-[#FFE4B5] bg-clip-text text-transparent'>
@@ -63,7 +63,7 @@ export default function ProgressTracker({
                   >
                     {step}
                   </div>
-                  <span className='text-xs text-gray-400 mt-2 hidden lg:block max-w-[100px] text-center leading-tight'>
+                  <span className='text-xs text-gray-400 mt-2 hidden sm:block max-w-[80px] sm:max-w-[100px] text-center leading-tight'>
                     {phase.label}
                   </span>
                 </div>

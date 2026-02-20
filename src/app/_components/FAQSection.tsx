@@ -49,7 +49,7 @@ export default function FAQSection() {
             alt='QnA'
             width={128}
             height={128}
-            className='hidden md:block w-32 h-32 md:w-32 md:h-32'
+            className='hidden lg:block w-24 h-24 lg:w-32 lg:h-32 shrink-0'
           />
           <h2
             className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center font-gemunu'
@@ -67,7 +67,7 @@ export default function FAQSection() {
             alt='QnA'
             width={192}
             height={192}
-            className='hidden md:block w-48 h-48 md:w-48 md:h-48 -ml-16'
+            className='hidden lg:block w-36 h-36 lg:w-48 lg:h-48 -ml-12 lg:-ml-16 shrink-0'
           />
         </div>
 

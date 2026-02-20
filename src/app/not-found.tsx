@@ -40,7 +40,7 @@ export default function NotFoundPage() {
               alt='Mascot'
               width={300}
               height={300}
-              className='absolute -left-24 sm:-left-32 md:-left-48 lg:-left-64 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle z-0'
+              className='absolute -left-16 sm:-left-24 md:-left-48 lg:-left-64 top-1/2 -translate-y-1/2 w-20 h-20 sm:w-32 sm:h-32 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle z-0'
               style={{ transform: 'translateY(-50%) rotate(-12deg)' }}
               priority
             />
@@ -48,7 +48,7 @@ export default function NotFoundPage() {
             {/* Main Text */}
             <div className='relative z-10 mb-6 md:mb-8'>
               <h1
-                className='text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold font-gemunu tracking-wider mb-4'
+                className='text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-gemunu tracking-wider mb-4'
                 style={{
                   background:
                     'linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%)',
@@ -71,7 +71,7 @@ export default function NotFoundPage() {
               alt='Mascot'
               width={300}
               height={300}
-              className='absolute -right-24 sm:-right-32 md:-right-48 lg:-right-64 top-1/2 -translate-y-1/2 w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle-reverse z-20'
+              className='absolute -right-16 sm:-right-24 md:-right-48 lg:-right-64 top-1/2 -translate-y-1/2 w-20 h-20 sm:w-32 sm:h-32 md:w-56 md:h-56 lg:w-72 lg:h-72 animate-float-gentle-reverse z-20'
               style={{ transform: 'translateY(-50%) rotate(15deg)' }}
               priority
             />

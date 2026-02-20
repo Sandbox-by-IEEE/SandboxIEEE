@@ -416,6 +416,18 @@ export async function sendRegistrationApprovedEmail(
           Go to Dashboard
         </a>
       </div>
+
+      <!-- WhatsApp Community -->
+      <div style="margin-top: 30px; background: linear-gradient(135deg, rgba(37, 211, 102, 0.15) 0%, rgba(37, 211, 102, 0.05) 100%); border: 1px solid rgba(37, 211, 102, 0.3); border-left: 4px solid #25D366; border-radius: 8px; padding: 18px;">
+        <p style="margin: 0 0 12px 0; color: #E8B4A8; font-size: 15px; line-height: 1.6;">
+          Join our <strong style="color: #25D366;">WhatsApp community</strong> to stay updated and connect with other participants!
+        </p>
+        <div style="text-align: center;">
+          <a href="https://chat.whatsapp.com/F1cMqNILYo54if7rVpUOS8" style="display: inline-block; background: #25D366; color: #FFFFFF; text-decoration: none; padding: 14px 32px; border-radius: 12px; font-weight: bold; font-size: 15px; letter-spacing: 0.3px;" target="_blank">
+            💬 Join WhatsApp Community
+          </a>
+        </div>
+      </div>
     </div>
 
     <div class="footer">

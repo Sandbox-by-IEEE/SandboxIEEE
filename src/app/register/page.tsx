@@ -126,17 +126,17 @@ export default function RegisterPage() {
             {/* Success Container */}
             <div className='relative'>
               {/* Mascot Character */}
-              <div className='absolute -left-4 -top-12 md:-left-16 md:-top-16 z-10'>
+              <div className='absolute -left-2 -top-10 sm:-left-4 sm:-top-12 md:-left-16 md:-top-16 z-10 hidden sm:block'>
                 <Image
                   src='/mascots/mascot-3.svg'
                   alt='Mascot'
                   width={180}
                   height={180}
-                  className='w-32 h-32 md:w-44 md:h-44'
+                  className='w-28 h-28 sm:w-32 sm:h-32 md:w-44 md:h-44'
                 />
               </div>
 
-              <div className='bg-gradient-to-br from-[#2d0609]/80 to-[#190204]/80 rounded-3xl p-8 md:p-12 border-2 border-[#8B3A3A]/30'>
+              <div className='bg-gradient-to-br from-[#2d0609]/80 to-[#190204]/80 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 border-2 border-[#8B3A3A]/30'>
                 {/* Success Icon */}
                 <div className='flex justify-center mb-6'>
                   <div className='w-24 h-24 rounded-full bg-gradient-to-br from-[#FFCD8D] to-[#DBB88B] flex items-center justify-center shadow-lg shadow-[#FFCD8D]/20'>
@@ -146,7 +146,7 @@ export default function RegisterPage() {
 
                 {/* Success Message */}
                 <h1
-                  className='text-4xl font-bold text-center mb-4'
+                  className='text-2xl sm:text-4xl font-bold text-center mb-4'
                   style={{
                     background:
                       'linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%)',
@@ -275,7 +275,7 @@ export default function RegisterPage() {
         {/* Glass Card Container */}
         <div className='relative z-10 w-full max-w-2xl'>
           <div
-            className='relative backdrop-blur-[40px] bg-white/[0.08] rounded-3xl border border-white/20 shadow-[0_8px_32px_0_rgba(77,77,77,0.37)] p-8 md:p-12'
+            className='relative backdrop-blur-[40px] bg-white/[0.08] rounded-2xl sm:rounded-3xl border border-white/20 shadow-[0_8px_32px_0_rgba(77,77,77,0.37)] p-6 sm:p-8 md:p-12'
             style={{
               boxShadow: '0 8px 32px 0 rgba(77, 77, 77, 0.37)',
               WebkitBackdropFilter: 'blur(40px)',

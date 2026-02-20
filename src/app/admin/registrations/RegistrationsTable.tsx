@@ -214,7 +214,7 @@ export default function RegistrationsTable({
       <div className='bg-white rounded-xl border border-gray-200 overflow-hidden'>
         {/* Filter Tabs */}
         <div className='border-b border-gray-200 bg-gray-50'>
-          <div className='flex gap-1 p-2'>
+          <div className='flex gap-1 p-2 overflow-x-auto'>
             {[
               { label: 'All', value: 'all' },
               { label: 'Pending', value: 'pending' },

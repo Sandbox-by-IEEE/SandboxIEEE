@@ -87,7 +87,7 @@ export default async function ProfilePage() {
             }}
           >
             {/* Profile Header */}
-            <div className='flex flex-col md:flex-row items-center gap-8 mb-8 pb-8 border-b border-white/10'>
+            <div className='flex flex-col md:flex-row items-center gap-6 sm:gap-8 mb-8 pb-8 border-b border-white/10'>
               {/* Profile Image */}
               <div className='relative'>
                 {user.image ? (

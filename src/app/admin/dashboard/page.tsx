@@ -103,8 +103,8 @@ export default async function AdminDashboardPage() {
   return (
     <div className='space-y-6'>
       {/* Welcome Section */}
-      <div className='bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white'>
-        <h1 className='text-3xl font-bold mb-2'>
+      <div className='bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl sm:rounded-2xl p-5 sm:p-8 text-white'>
+        <h1 className='text-xl sm:text-3xl font-bold mb-2 break-words'>
           Welcome back, {session?.admin?.username}! 👋
         </h1>
         <p className='text-blue-100'>
@@ -113,7 +113,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Main Statistics Grid */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+      <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6'>
         {stats.map((stat, index) => (
           <div
             key={index}

@@ -64,7 +64,7 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
       {/* Glass Card */}
       <div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32'>
         <div
-          className='relative backdrop-blur-[99px] bg-white/[0.08] rounded-[99px] border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-8 md:p-12 lg:p-16'
+          className='relative backdrop-blur-[99px] bg-white/[0.08] rounded-3xl md:rounded-[99px] border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-6 sm:p-8 md:p-12 lg:p-16'
           style={{
             boxShadow: '0 8px 32px 0 rgba(77, 77, 77, 0.37)',
             WebkitBackdropFilter: 'blur(10px)',
@@ -90,13 +90,13 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
               alt='Mascot'
               width={200}
               height={200}
-              className='absolute left-0 md:left-8 lg:left-16 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-gentle z-10'
+              className='absolute left-0 md:left-8 lg:left-16 w-16 h-16 sm:w-24 sm:h-24 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-gentle z-10'
               priority
             />
 
             {/* Competition Text */}
             <h1
-              className='text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-gemunu tracking-wider relative z-20 px-4'
+              className='text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold font-gemunu tracking-wider relative z-20 px-4'
               style={{
                 background: 'linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%)',
                 WebkitBackgroundClip: 'text',
@@ -114,7 +114,7 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
               alt='Mascot'
               width={200}
               height={200}
-              className='absolute right-0 md:right-8 lg:right-16 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-gentle z-10'
+              className='absolute right-0 md:right-8 lg:right-16 w-16 h-16 sm:w-24 sm:h-24 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-gentle z-10'
               priority
             />
           </div>

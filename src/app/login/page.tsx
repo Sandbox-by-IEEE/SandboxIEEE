@@ -130,7 +130,7 @@ export default function LoginPage() {
         <div className='max-w-lg w-full relative z-10'>
           {/* Glass Card */}
           <div
-            className='backdrop-blur-[40px] bg-white/[0.08] rounded-[32px] border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-8 md:p-12'
+            className='backdrop-blur-[40px] bg-white/[0.08] rounded-2xl sm:rounded-[32px] border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-6 sm:p-8 md:p-12'
             style={{
               boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
               WebkitBackdropFilter: 'blur(40px)',

@@ -178,15 +178,15 @@ export default function CompetitionDetailPage() {
           {/* Glass Card */}
           <div className='relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32'>
             <div
-              className='relative backdrop-blur-[99px] bg-white/[0.08] rounded-[99px] border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-8 md:p-12 lg:p-16'
+              className='relative backdrop-blur-[99px] bg-white/[0.08] rounded-3xl md:rounded-[99px] border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] p-6 sm:p-8 md:p-12 lg:p-16'
               style={{
                 boxShadow: '0 8px 32px 0 rgba(77, 77, 77, 0.37)',
                 WebkitBackdropFilter: 'blur(10px)',
               }}
             >
               {/* Competition Name */}
-              <div className='text-center mb-8'>
-                <h1 className='text-5xl md:text-7xl font-bold text-white mb-4 tracking-wide'>
+              <div className='text-center mb-6 sm:mb-8'>
+                <h1 className='text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-3 sm:mb-4 tracking-wide'>
                   {content.name}
                 </h1>
                 <p className='text-xl md:text-2xl text-gray-300'>
@@ -195,9 +195,11 @@ export default function CompetitionDetailPage() {
               </div>
 
               {/* Countdown Timer */}
-              <div className='text-center mb-12'>
-                <p className='text-gray-400 mb-6 text-lg'>{countdownLabel}</p>
-                <div className='flex justify-center gap-4 md:gap-8'>
+              <div className='text-center mb-8 sm:mb-12'>
+                <p className='text-gray-400 mb-4 sm:mb-6 text-base sm:text-lg'>
+                  {countdownLabel}
+                </p>
+                <div className='flex justify-center gap-3 sm:gap-4 md:gap-8'>
                   {[
                     { label: 'Days', value: timeLeft.days },
                     { label: 'Hours', value: timeLeft.hours },
@@ -205,12 +207,12 @@ export default function CompetitionDetailPage() {
                   ].map((item) => (
                     <div
                       key={item.label}
-                      className='backdrop-blur-md bg-white/10 rounded-3xl p-6 md:p-8 min-w-[100px] md:min-w-[140px]'
+                      className='backdrop-blur-md bg-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 min-w-[80px] sm:min-w-[100px] md:min-w-[140px]'
                     >
-                      <div className='text-4xl md:text-6xl font-bold text-white mb-2'>
+                      <div className='text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-1 sm:mb-2'>
                         {item.value.toString().padStart(2, '0')}
                       </div>
-                      <div className='text-sm md:text-base text-gray-400 uppercase tracking-wider'>
+                      <div className='text-xs sm:text-sm md:text-base text-gray-400 uppercase tracking-wider'>
                         {item.label}
                       </div>
                     </div>
@@ -225,7 +227,7 @@ export default function CompetitionDetailPage() {
                     Loading...
                   </div>
                 ) : !isRegOpen ? (
-                  <div className='inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-gray-500 via-gray-600 to-gray-500 rounded-full text-white/70 font-bold text-xl cursor-not-allowed'>
+                  <div className='inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-gray-500 via-gray-600 to-gray-500 rounded-full text-white/70 font-bold text-base sm:text-xl cursor-not-allowed text-center'>
                     {isRegUpcoming
                       ? 'Registration Not Yet Open'
                       : 'Registration Closed'}
@@ -233,10 +235,10 @@ export default function CompetitionDetailPage() {
                 ) : session ? (
                   <Link
                     href={`/competitions/${code.toLowerCase()}/register`}
-                    className='inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#FFCD8D] via-[#E8A05D] to-[#FFCD8D] rounded-full text-[#0B0102] font-bold text-xl hover:scale-105 transition-transform duration-300 shadow-xl shadow-orange-500/30'
+                    className='inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-[#FFCD8D] via-[#E8A05D] to-[#FFCD8D] rounded-full text-[#0B0102] font-bold text-base sm:text-xl hover:scale-105 transition-transform duration-300 shadow-xl shadow-orange-500/30'
                   >
                     Register Now
-                    <ChevronRight size={24} />
+                    <ChevronRight size={20} className='sm:w-6 sm:h-6' />
                   </Link>
                 ) : (
                   <button
@@ -248,10 +250,10 @@ export default function CompetitionDetailPage() {
                           ),
                       )
                     }
-                    className='inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#FFCD8D] via-[#E8A05D] to-[#FFCD8D] rounded-full text-[#0B0102] font-bold text-xl hover:scale-105 transition-transform duration-300 shadow-xl shadow-orange-500/30'
+                    className='inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-[#FFCD8D] via-[#E8A05D] to-[#FFCD8D] rounded-full text-[#0B0102] font-bold text-base sm:text-xl hover:scale-105 transition-transform duration-300 shadow-xl shadow-orange-500/30'
                   >
                     Login to Register
-                    <ChevronRight size={24} />
+                    <ChevronRight size={20} className='sm:w-6 sm:h-6' />
                   </button>
                 )}
               </div>
@@ -283,10 +285,12 @@ export default function CompetitionDetailPage() {
               </h2>
 
               {/* Single Total Prize Badge */}
-              <div className='inline-block backdrop-blur-xl bg-gradient-to-br from-[#FFD700]/20 to-[#FFA500]/10 rounded-3xl border-2 border-[#FFD700]/30 px-12 py-10'>
-                <div className='text-6xl mb-4'>🏆</div>
-                <p className='text-2xl text-gray-300 mb-2'>Total Prize Pool</p>
-                <p className='text-5xl md:text-6xl font-bold text-[#FFD700]'>
+              <div className='inline-block backdrop-blur-xl bg-gradient-to-br from-[#FFD700]/20 to-[#FFA500]/10 rounded-3xl border-2 border-[#FFD700]/30 px-6 sm:px-12 py-8 sm:py-10 max-w-full'>
+                <div className='text-4xl sm:text-6xl mb-3 sm:mb-4'>🏆</div>
+                <p className='text-lg sm:text-2xl text-gray-300 mb-2'>
+                  Total Prize Pool
+                </p>
+                <p className='text-3xl sm:text-5xl md:text-6xl font-bold text-[#FFD700] break-words'>
                   {content.prizePool.total}
                 </p>
               </div>
@@ -307,58 +311,106 @@ export default function CompetitionDetailPage() {
               </h2>
             </div>
 
-            <div className='space-y-6'>
-              {timelineEvents.length > 0 ? (
-                timelineEvents
-                  .sort((a, b) => a.sortOrder - b.sortOrder)
-                  .map((event) => (
-                    <div
-                      key={event.id}
-                      className='backdrop-blur-xl bg-white/[0.08] rounded-3xl border border-white/10 p-6 md:p-8 hover:bg-white/[0.12] transition-all duration-300'
-                    >
-                      <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
-                        <div className='flex-1'>
-                          <div className='flex items-center gap-3 mb-2'>
-                            <span
-                              className={`inline-block w-3 h-3 rounded-full ${
-                                event.phaseType === 'registration'
-                                  ? 'bg-green-400'
-                                  : event.phaseType === 'submission'
-                                    ? 'bg-blue-400'
-                                    : event.phaseType === 'announcement'
-                                      ? 'bg-yellow-400'
-                                      : 'bg-purple-400'
-                              }`}
-                            />
-                            <h3 className='text-2xl font-bold text-[#FFCD8D]'>
-                              {event.label}
-                            </h3>
-                          </div>
-                          {event.description && (
-                            <p className='text-gray-300 ml-6'>
-                              {event.description}
-                            </p>
-                          )}
-                        </div>
-                        <div className='text-right md:text-left md:min-w-[200px]'>
-                          <div className='text-sm text-gray-400 mb-1'>
-                            {formatDate(event.startDate)}
-                          </div>
-                          {event.startDate !== event.endDate && (
-                            <div className='text-sm text-gray-400'>
-                              to {formatDate(event.endDate)}
+            {timelineEvents.length > 0 ? (
+              <div className='relative'>
+                {/* Center vertical line — desktop only */}
+                <div className='hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#FFCD8D]/60 via-[#FFCD8D]/30 to-transparent -translate-x-1/2' />
+
+                {/* Mobile left line */}
+                <div className='md:hidden absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-[#FFCD8D]/60 via-[#FFCD8D]/30 to-transparent' />
+
+                <div className='space-y-8 md:space-y-12'>
+                  {timelineEvents
+                    .sort((a, b) => a.sortOrder - b.sortOrder)
+                    .map((event, index) => {
+                      const isLeft = index % 2 === 0;
+                      const dotColor =
+                        event.phaseType === 'registration'
+                          ? 'bg-green-400 shadow-green-400/40'
+                          : event.phaseType === 'submission'
+                            ? 'bg-blue-400 shadow-blue-400/40'
+                            : event.phaseType === 'announcement'
+                              ? 'bg-yellow-400 shadow-yellow-400/40'
+                              : 'bg-purple-400 shadow-purple-400/40';
+
+                      return (
+                        <div
+                          key={event.id}
+                          className='relative flex items-start md:items-center'
+                        >
+                          {/* ── Mobile layout (left-aligned) ── */}
+                          <div className='md:hidden flex items-start w-full'>
+                            {/* Dot on line */}
+                            <div className='absolute left-4 top-6 -translate-x-1/2 z-10'>
+                              <div
+                                className={`w-3 h-3 rounded-full ${dotColor} shadow-[0_0_8px]`}
+                              />
                             </div>
-                          )}
+                            {/* Card */}
+                            <div className='ml-10 flex-1 backdrop-blur-xl bg-white/[0.08] rounded-2xl border border-white/10 p-5 hover:bg-white/[0.12] transition-all duration-300'>
+                              <h3 className='text-lg font-bold text-[#FFCD8D] mb-1'>
+                                {event.label}
+                              </h3>
+                              {event.description && (
+                                <p className='text-gray-300 text-sm mb-2'>
+                                  {event.description}
+                                </p>
+                              )}
+                              <div className='text-xs text-gray-400'>
+                                {formatDate(event.startDate)}
+                                {event.startDate !== event.endDate &&
+                                  ` — ${formatDate(event.endDate)}`}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* ── Desktop layout (alternating left/right) ── */}
+                          <div className='hidden md:grid md:grid-cols-[1fr_auto_1fr] md:gap-6 w-full items-center'>
+                            {/* Left column */}
+                            <div
+                              className={
+                                isLeft ? 'text-right' : 'order-3 text-left'
+                              }
+                            >
+                              <div
+                                className={`backdrop-blur-xl bg-white/[0.08] rounded-2xl border border-white/10 p-6 hover:bg-white/[0.12] transition-all duration-300 inline-block max-w-md ${isLeft ? 'ml-auto' : 'mr-auto'}`}
+                              >
+                                <h3 className='text-xl font-bold text-[#FFCD8D] mb-1'>
+                                  {event.label}
+                                </h3>
+                                {event.description && (
+                                  <p className='text-gray-300 text-sm mb-2'>
+                                    {event.description}
+                                  </p>
+                                )}
+                                <div className='text-sm text-gray-400'>
+                                  {formatDate(event.startDate)}
+                                  {event.startDate !== event.endDate &&
+                                    ` — ${formatDate(event.endDate)}`}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Center dot */}
+                            <div className='flex items-center justify-center order-2'>
+                              <div
+                                className={`w-4 h-4 rounded-full ${dotColor} shadow-[0_0_12px] ring-4 ring-[#0B0102]`}
+                              />
+                            </div>
+
+                            {/* Right column (empty when card is on left, and vice-versa) */}
+                            <div className={isLeft ? 'order-3' : 'order-1'} />
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))
-              ) : (
-                <div className='text-center text-gray-500 py-8'>
-                  Timeline coming soon...
+                      );
+                    })}
                 </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className='text-center text-gray-500 py-8'>
+                Timeline coming soon...
+              </div>
+            )}
           </div>
         </section>
 
@@ -415,7 +467,7 @@ export default function CompetitionDetailPage() {
                 alt='QnA'
                 width={128}
                 height={128}
-                className='hidden md:block w-32 h-32 md:w-32 md:h-32'
+                className='hidden lg:block w-24 h-24 lg:w-32 lg:h-32 shrink-0'
               />
               <h2
                 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center font-gemunu'
@@ -434,7 +486,7 @@ export default function CompetitionDetailPage() {
                 alt='QnA'
                 width={192}
                 height={192}
-                className='hidden md:block w-48 h-48 md:w-48 md:h-48 -ml-16'
+                className='hidden lg:block w-36 h-36 lg:w-48 lg:h-48 -ml-12 lg:-ml-16 shrink-0'
               />
             </div>
 

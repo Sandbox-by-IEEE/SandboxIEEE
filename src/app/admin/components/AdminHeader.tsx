@@ -21,12 +21,14 @@ export default function AdminHeader({ admin }: AdminHeaderProps) {
   };
 
   return (
-    <header className='bg-white border-b border-gray-200 px-6 py-4'>
-      <div className='flex items-center justify-between'>
+    <header className='bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4'>
+      <div className='flex items-center justify-between gap-4'>
         {/* Page Title - will be dynamic later */}
-        <div>
-          <h2 className='text-2xl font-bold text-gray-900'>Admin Dashboard</h2>
-          <p className='text-sm text-gray-500'>
+        <div className='min-w-0'>
+          <h2 className='text-lg sm:text-2xl font-bold text-gray-900 truncate'>
+            Admin Dashboard
+          </h2>
+          <p className='text-xs sm:text-sm text-gray-500 hidden sm:block'>
             Manage competitions and submissions
           </p>
         </div>
@@ -57,11 +59,11 @@ export default function AdminHeader({ admin }: AdminHeaderProps) {
           <button
             type='button'
             onClick={handleLogout}
-            className='flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 rounded-lg transition-colors font-medium text-sm'
+            className='flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 rounded-lg transition-colors font-medium text-sm'
             title='Logout'
           >
             <LogOut size={18} />
-            <span>Logout</span>
+            <span className='hidden sm:inline'>Logout</span>
           </button>
         </div>
       </div>

@@ -22,7 +22,7 @@ function SuccessContent() {
           {/* Success Container */}
           <div className='relative'>
             {/* Mascot Character */}
-            <div className='absolute -left-4 -top-12 md:-left-16 md:-top-16 z-10'>
+            <div className='absolute -left-2 -top-10 sm:-left-4 sm:-top-12 md:-left-16 md:-top-16 z-10 hidden sm:block'>
               <Image
                 src='/mascots/mascot-3.svg'
                 alt='Mascot'
@@ -32,7 +32,7 @@ function SuccessContent() {
               />
             </div>
 
-            <div className='bg-gradient-to-br from-[#2d0609]/80 to-[#190204]/80 rounded-3xl p-8 md:p-12 border-2 border-[#8B3A3A]/30'>
+            <div className='bg-gradient-to-br from-[#2d0609]/80 to-[#190204]/80 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 border-2 border-[#8B3A3A]/30'>
               {/* Success Icon */}
               <div className='flex justify-center mb-6'>
                 <div className='w-24 h-24 rounded-full bg-gradient-to-br from-[#FFCD8D] to-[#DBB88B] flex items-center justify-center shadow-lg shadow-[#FFCD8D]/20'>
@@ -42,7 +42,7 @@ function SuccessContent() {
 
               {/* Success Message */}
               <h1
-                className='text-4xl font-bold text-center mb-4'
+                className='text-2xl sm:text-4xl font-bold text-center mb-4'
                 style={{
                   background:
                     'linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%)',

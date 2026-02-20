@@ -28,9 +28,9 @@ export default function TeamProfileCard({
   return (
     <div className='relative mb-12'>
       {/* Outer Glassmorphism Container */}
-      <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-[2.5rem] p-6 md:p-8 lg:p-12 border border-white/10 shadow-2xl mt-32 md:mt-40'>
+      <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-2xl sm:rounded-[2.5rem] p-4 sm:p-6 md:p-8 lg:p-12 border border-white/10 shadow-2xl mt-24 sm:mt-32 md:mt-40'>
         {/* Mascot Group overlapping from top */}
-        <div className='absolute left-1/2 -translate-x-1/2 -top-28 md:-top-36 w-full max-w-2xl px-4 z-10 pointer-events-none'>
+        <div className='absolute left-1/2 -translate-x-1/2 -top-20 sm:-top-28 md:-top-36 w-full max-w-md sm:max-w-2xl px-4 z-10 pointer-events-none'>
           <Image
             src='/mascots/mascot-group.svg'
             alt='Team Mascots'

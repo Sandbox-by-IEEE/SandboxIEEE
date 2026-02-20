@@ -395,30 +395,30 @@ function RegistrationContent() {
       <div className="min-h-screen bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102] pt-32 pb-16 px-4 font-['Gemunu_Libre']">
         <div className='max-w-5xl mx-auto'>
           {/* Header */}
-          <div className='text-center mb-12'>
-            <h1 className='text-5xl md:text-6xl font-bold text-white mb-3 tracking-wide'>
+          <div className='text-center mb-8 sm:mb-12'>
+            <h1 className='text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-3 tracking-wide'>
               Registration Form
             </h1>
-            <p className='text-gray-400 text-lg'>
+            <p className='text-gray-400 text-base sm:text-lg'>
               Complete the form below to register your team
             </p>
           </div>
 
           {/* Main Container with Mascot */}
           <div className='relative'>
-            {/* Mascot Character - Positioned like clip/pin */}
-            <div className='absolute -left-8 -top-20 md:-left-12 md:-top-24 z-20'>
+            {/* Mascot Character - Positioned like clip/pin, hidden on very small screens */}
+            <div className='absolute -left-4 -top-16 sm:-left-8 sm:-top-20 md:-left-12 md:-top-24 z-20 hidden sm:block'>
               <Image
                 src='/mascots/mascot-3.svg'
                 alt='Mascot'
                 width={200}
                 height={200}
-                className='w-40 h-40 md:w-48 md:h-48 drop-shadow-2xl'
+                className='w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 drop-shadow-2xl'
               />
             </div>
 
             {/* Glassmorphism Container */}
-            <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-[2.5rem] p-8 md:p-12 border border-white/10 shadow-2xl'>
+            <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-white/10 shadow-2xl'>
               {/* Progress Header */}
               <div className='bg-gradient-to-br from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-3xl p-8 border border-white/10 mb-8'>
                 <h2 className='text-3xl font-bold text-center mb-8 bg-gradient-to-r from-[#FFE4B5] via-[#FFCD8D] to-[#FFE4B5] bg-clip-text text-transparent'>
@@ -451,7 +451,7 @@ function RegistrationContent() {
                           >
                             {step}
                           </div>
-                          <span className='text-xs text-gray-400 mt-2 hidden lg:block max-w-[100px] text-center leading-tight'>
+                          <span className='text-xs text-gray-400 mt-2 hidden sm:block max-w-[80px] sm:max-w-[100px] text-center leading-tight'>
                             {label}
                           </span>
                         </div>
