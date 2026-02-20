@@ -91,10 +91,10 @@ export async function GET(request: NextRequest) {
       results,
     });
   } catch (error) {
-    console.error('Cron job failed:', error instanceof Error ? error.message : 'Unknown error');
-    return NextResponse.json(
-      { error: 'Cron job failed' },
-      { status: 500 },
+    console.error(
+      'Cron job failed:',
+      error instanceof Error ? error.message : 'Unknown error',
     );
+    return NextResponse.json({ error: 'Cron job failed' }, { status: 500 });
   }
 }

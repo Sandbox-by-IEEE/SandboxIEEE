@@ -209,7 +209,10 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    console.error('Webhook import failed:', error instanceof Error ? error.message : 'Unknown error');
+    console.error(
+      'Webhook import failed:',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
 
     return NextResponse.json(
       {

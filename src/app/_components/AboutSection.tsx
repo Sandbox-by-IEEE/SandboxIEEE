@@ -19,10 +19,10 @@ export default function AboutSection() {
         <p className='text-white/70 text-base sm:text-lg md:text-xl leading-relaxed max-w-4xl mx-auto font-gemunu'>
           The Sandbox is a premier technology festival hosted annually by IEEE
           ITB Student Branch. With a main theme of &ldquo;Shaping the Future of
-          Industry with Smart Automation Technology&rdquo;, featuring a curated series
-          of seminars and competitive challenges, the event empowers students to
-          explore the frontiers of technology, innovation, and professional
-          development.
+          Industry with Smart Automation Technology&rdquo;, featuring a curated
+          series of seminars and competitive challenges, the event empowers
+          students to explore the frontiers of technology, innovation, and
+          professional development.
         </p>
       </div>
     </section>
