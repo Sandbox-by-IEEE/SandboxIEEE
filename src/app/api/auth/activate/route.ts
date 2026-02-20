@@ -7,14 +7,14 @@ import { prisma } from '@/lib/db';
  * EMAIL ACTIVATION API ENDPOINT
  * ============================================================================
  * GET /api/auth/activate?token=xxx
- * 
+ *
  * Purpose: Activate user account via email verification token
- * 
+ *
  * Access: Public
- * 
+ *
  * Query Parameters:
  * - token: Activation token from email
- * 
+ *
  * Response:
  * {
  *   success: true,
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
     if (!token) {
       return NextResponse.json(
         { error: 'Activation token is required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
     if (!activationRecord) {
       return NextResponse.json(
         { error: 'Invalid activation token' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -60,7 +60,7 @@ export async function GET(request: Request) {
     if (new Date() > expiryDate) {
       return NextResponse.json(
         { error: 'Activation token has expired. Please request a new one.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -74,7 +74,7 @@ export async function GET(request: Request) {
           message: 'Account is already activated. You can login now.',
           alreadyActivated: true,
         },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -110,7 +110,7 @@ export async function GET(request: Request) {
           email: activationRecord.user.email,
         },
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     // TODO: Log error to monitoring service with stack trace
@@ -118,9 +118,8 @@ export async function GET(request: Request) {
     return NextResponse.json(
       {
         error: 'Failed to activate account',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

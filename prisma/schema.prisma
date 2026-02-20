@@ -151,10 +151,15 @@ model Competition {
   code                 String   @unique // "PTC" | "TPC" | "BCC"
   name                 String // Full name: "ProtoTech Contest"
   description          String? // Competition description
-  registrationDeadline DateTime // Team registration deadline
+  registrationOpen     DateTime // When registration opens (Batch 1 start)
+  registrationDeadline DateTime // When registration closes (Batch 2 end)
+  preliminaryStart     DateTime // When preliminary submissions open
   preliminaryDeadline  DateTime // Abstract/proposal submission deadline
+  semifinalStart       DateTime // When semifinal phase opens
   semifinalDeadline    DateTime // Semifinal work submission deadline
-  finalDeadline        DateTime? // Final submission deadline (BCC only)
+  finalStart           DateTime? // When final phase opens
+  finalDeadline        DateTime? // Final submission deadline
+  grandFinalDate       DateTime? // Grand Final & Awarding date
   registrationFee      Int // Amount in IDR (e.g., 150000)
   minTeamSize          Int // Minimum team members (e.g., 3 for PTC)
   maxTeamSize          Int // Maximum team members (e.g., 5 for PTC)
@@ -163,9 +168,31 @@ model Competition {
   updatedAt            DateTime @updatedAt
 
   registrations CompetitionRegistration[]
+  timelineEvents CompetitionTimeline[]
 
   @@index([code])
   @@map("competitions")
+}
+
+/// CompetitionTimeline - Detailed timeline events for display
+/// Stores all milestones, announcements, and phase dates
+model CompetitionTimeline {
+  id            String   @id @default(uuid())
+  competitionId String
+  phase         String // e.g. "registration_batch_1", "preliminary", "semifinalist_announcement"
+  label         String // Display label: "Open Registration Batch 1"
+  description   String? // Optional description
+  startDate     DateTime
+  endDate       DateTime
+  sortOrder     Int      @default(0) // For display ordering
+  phaseType     String   @default("milestone") // "registration" | "submission" | "announcement" | "event" | "milestone"
+  createdAt     DateTime @default(now())
+
+  competition Competition @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+
+  @@index([competitionId])
+  @@index([sortOrder])
+  @@map("competition_timelines")
 }
 
 /// CompetitionRegistration - User participation record
@@ -183,6 +210,8 @@ model CompetitionRegistration {
   isSemifinalQualified   Boolean @default(false) // Unlocks final phase (BCC only)
   
   // Metadata
+  // Rejection reason (stored when admin rejects, shown in StatusBanner)
+  rejectionReason String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -208,7 +237,7 @@ model CompetitionRegistration {
 model Team {
   id             String   @id @default(uuid())
   registrationId String   @unique // One-to-one with CompetitionRegistration
-  teamName       String   @unique // GLOBAL uniqueness across all competitions
+  teamName       String // Team name, unique per competition (enforced at application level)
   institution    String // University/school name
   leaderUserId   String   @unique // Must match the User who created registration
   createdAt      DateTime @default(now())
@@ -307,13 +336,17 @@ model SemifinalSubmission {
   businessPlanUrl    String? // Business case proposal PDF URL
   pitchDeckUrl       String? // Initial pitch deck URL (optional for semifinal)
 
-  submittedAt DateTime @default(now())
+  status      SubmissionStatus @default(pending) // pending | qualified | rejected
+  submittedAt DateTime         @default(now())
+  reviewedAt  DateTime? // When admin reviewed
   reviewNotes String? // Evaluation notes from judges
+  reviewedBy  String? // Admin username who reviewed
 
   registration CompetitionRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
 
   @@index([registrationId])
   @@index([competitionType])
+  @@index([status])
   @@map("semifinal_submissions")
 }
 
@@ -321,16 +354,21 @@ model SemifinalSubmission {
 /// Only for BCC finalists (isSemifinalQualified = true)
 /// PTC and TPC do live pitching only (no file submission)
 model FinalSubmission {
-  id             String   @id @default(uuid())
-  registrationId String   @unique // One final submission per registration
+  id             String           @id @default(uuid())
+  registrationId String           @unique // One final submission per registration
   pitchDeckUrl   String // UploadThing CDN URL (PDF/PPT, max 20MB)
   fileName       String
   fileSize       Int // In bytes
-  submittedAt    DateTime @default(now())
+  status         SubmissionStatus @default(pending) // pending | qualified | rejected
+  submittedAt    DateTime         @default(now())
+  reviewedAt     DateTime? // When admin reviewed
+  reviewNotes    String? // Evaluation notes from judges
+  reviewedBy     String? // Admin username who reviewed
 
   registration CompetitionRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
 
   @@index([registrationId])
+  @@index([status])
   @@map("final_submissions")
 }
 

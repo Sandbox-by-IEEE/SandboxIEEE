@@ -2,7 +2,7 @@
  * ============================================================================
  * EMAIL SERVICE - COMPETITION REGISTRATION
  * ============================================================================
- * 
+ *
  * Purpose: Send emails for registration flow
  * - Account activation
  * - Password reset
@@ -23,7 +23,7 @@ const FROM_NAME = 'The Sandbox 3.0 - IEEE ITB';
 export async function sendActivationEmail(
   to: string,
   name: string,
-  token: string
+  token: string,
 ) {
   const activationUrl = `${BASE_URL}/activate?token=${token}`;
 
@@ -198,8 +198,6 @@ export async function sendActivationEmail(
         <ol class="steps">
           <li>Activate your account using the link above</li>
           <li>Wait for admin to verify your team registration</li>
-          <li>Submit your abstract/proposal when approved</li>
-          <li>Upload payment proof after preliminary qualification</li>
           <li>Get ready for the competition! </li>
         </ol>
       </div>
@@ -243,7 +241,7 @@ export async function sendRegistrationApprovedEmail(
   to: string,
   name: string,
   teamName: string,
-  competitionName: string
+  competitionName: string,
 ) {
   const dashboardUrl = `${BASE_URL}/dashboard`;
 
@@ -402,11 +400,16 @@ export async function sendRegistrationApprovedEmail(
 
       <p class="text"><strong style="color: #FFCD8D;">Next Steps:</strong></p>
       <ol class="steps">
-        <li>Login to your dashboard</li>
+        <li>Visit your dashboard to see the updated status</li>
         <li>Submit your preliminary work (abstract/proposal)</li>
         <li>Wait for preliminary evaluation</li>
-        <li>If qualified, proceed to payment</li>
       </ol>
+
+      <div class="info-box">
+        <p class="info-text">
+          <strong style="color: #FFCD8D;">Important:</strong> Your profile has been updated. Refresh the page if you don't see the changes immediately.
+        </p>
+      </div>
 
       <div class="button-container">
         <a href="${dashboardUrl}" class="button">
@@ -454,7 +457,7 @@ export async function sendRegistrationRejectedEmail(
   to: string,
   name: string,
   teamName: string,
-  reason?: string
+  reason?: string,
 ) {
   const html = `
 <!DOCTYPE html>
@@ -565,15 +568,16 @@ export async function sendRegistrationRejectedEmail(
       
       <p class="text">Thank you for your interest in participating in The Sandbox 3.0. Unfortunately, we regret to inform you that your team registration could not be approved at this time.</p>
 
-      ${reason
-      ? `
+      ${
+        reason
+          ? `
       <div class="reason-box">
         <p class="reason-text" style="margin: 0;"><strong>Reason:</strong></p>
         <p class="reason-text" style="margin: 8px 0 0 0;">${reason}</p>
       </div>
       `
-      : ''
-    }
+          : ''
+      }
 
       <p class="text">If you believe this is a mistake or have questions, please don't hesitate to contact us.</p>
     </div>
@@ -616,7 +620,7 @@ export async function sendRegistrationRejectedEmail(
 export async function sendPasswordResetEmail(
   to: string,
   name: string,
-  token: string
+  token: string,
 ) {
   const resetUrl = `${BASE_URL}/reset-password?token=${token}`;
 

@@ -1,19 +1,28 @@
 /**
  * Test endpoint to verify SMTP configuration
  * GET /api/test-email?to=email@example.com
+ *
+ * ⚠️ PROTECTED: Requires super_admin authentication
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
 import { sendActivationEmail } from '@/lib/email';
 
 export async function GET(request: NextRequest) {
+  // Only allow in development or for super_admin
+  const session = await auth();
+  if (!session?.admin || session.admin.role !== 'super_admin') {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const searchParams = request.nextUrl.searchParams;
   const to = searchParams.get('to');
 
   if (!to) {
     return NextResponse.json(
       { error: 'Please provide "to" email parameter' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -23,25 +32,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: `Test email sent to ${to}. Check your inbox (and spam folder).`,
-      smtpConfig: {
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        user: process.env.SMTP_USER,
-        from: process.env.SMTP_USER || 'sandbox@ieee-itb.org',
-      },
     });
   } catch (error) {
+    console.error('Test email error:', error);
     return NextResponse.json(
-      {
-        error: 'Failed to send email',
-        details: error instanceof Error ? error.message : String(error),
-        smtpConfig: {
-          host: process.env.SMTP_HOST,
-          port: process.env.SMTP_PORT,
-          user: process.env.SMTP_USER,
-        },
-      },
-      { status: 500 }
+      { error: 'Failed to send email' },
+      { status: 500 },
     );
   }
 }

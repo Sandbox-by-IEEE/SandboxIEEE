@@ -2,16 +2,16 @@
  * ============================================================================
  * WEBHOOK: IMPORT REGISTRATION FROM GOOGLE FORM
  * ============================================================================
- * 
+ *
  * Purpose: Receive registrations submitted via standalone Google Form
  * Scenario: Website down, users register via backup Google Form
- * 
+ *
  * Flow:
  * 1. User submits Google Form
  * 2. Apps Script triggers onFormSubmit
  * 3. Apps Script sends webhook to this endpoint
  * 4. We save to database
- * 
+ *
  * Setup Required:
  * 1. Deploy Apps Script with onFormSubmit trigger
  * 2. Configure webhook URL in Apps Script
@@ -19,21 +19,60 @@
  * ============================================================================
  */
 
+import { createHmac, timingSafeEqual } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/db';
 
+/**
+ * Verify webhook signature using HMAC-SHA256
+ * Falls back to Bearer token if no signature header present (backward compat)
+ */
+function verifyWebhookSignature(
+  body: string,
+  signatureHeader: string | null,
+  secret: string,
+): boolean {
+  if (!signatureHeader) return false;
+
+  const expectedSignature = createHmac('sha256', secret)
+    .update(body)
+    .digest('hex');
+
+  const expected = Buffer.from(`sha256=${expectedSignature}`, 'utf-8');
+  const received = Buffer.from(signatureHeader, 'utf-8');
+
+  if (expected.length !== received.length) return false;
+  return timingSafeEqual(expected, received);
+}
+
 export async function POST(request: NextRequest) {
   try {
-    // Verify webhook secret for security
-    const authHeader = request.headers.get('authorization');
     const expectedSecret = process.env.WEBHOOK_SECRET;
+    if (!expectedSecret) {
+      console.error('WEBHOOK_SECRET not configured');
+      return NextResponse.json(
+        { error: 'Server misconfigured' },
+        { status: 500 },
+      );
+    }
 
-    if (!expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
+    // Read raw body for HMAC verification
+    const rawBody = await request.text();
+    const signatureHeader = request.headers.get('x-webhook-signature');
+    const authHeader = request.headers.get('authorization');
+
+    // Try HMAC verification first, fall back to Bearer token
+    const isHmacValid = signatureHeader
+      ? verifyWebhookSignature(rawBody, signatureHeader, expectedSecret)
+      : false;
+    const isBearerValid = authHeader === `Bearer ${expectedSecret}`;
+
+    if (!isHmacValid && !isBearerValid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
+    const body = JSON.parse(rawBody);
 
     // Validate required fields
     const {
@@ -56,7 +95,7 @@ export async function POST(request: NextRequest) {
     ) {
       return NextResponse.json(
         { error: 'Missing required fields' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -68,7 +107,7 @@ export async function POST(request: NextRequest) {
     if (!competition) {
       return NextResponse.json(
         { error: `Competition ${competitionCode} not found` },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -94,7 +133,7 @@ export async function POST(request: NextRequest) {
           error: 'Email already registered',
           competition: existingMember.team.registration.competition.name,
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -111,53 +150,49 @@ export async function POST(request: NextRequest) {
 
     // Create competition registration with team and members
     const registration = await prisma.competitionRegistration.create({
-    data: {
-      userId: user.id,
-      competitionId: competition.id,
-      verificationStatus: 'pending',
-      currentPhase: 'registration',
-      team: {
-        create: {
-          teamName,
-          institution,
-          leaderUserId: user.id,
-          members: {
-            create: [
-              // Leader as first member
-              {
-                fullName: leaderName,
-                email: leaderEmail,
-                phoneNumber: leaderPhone,
-              },
-              // Additional members from form
-              ...(members || []).map(
-                (member: {
-                  name: string;
-                  email: string;
-                  phone: string;
-                }) => ({
-                  fullName: member.name,
-                  email: member.email,
-                  phoneNumber: member.phone || '',
-                })
-              ),
-            ],
+      data: {
+        userId: user.id,
+        competitionId: competition.id,
+        verificationStatus: 'pending',
+        currentPhase: 'registration',
+        team: {
+          create: {
+            teamName,
+            institution,
+            leaderUserId: user.id,
+            members: {
+              create: [
+                // Leader as first member
+                {
+                  fullName: leaderName,
+                  email: leaderEmail,
+                  phoneNumber: leaderPhone,
+                },
+                // Additional members from form
+                ...(members || []).map(
+                  (member: { name: string; email: string; phone: string }) => ({
+                    fullName: member.name,
+                    email: member.email,
+                    phoneNumber: member.phone || '',
+                  }),
+                ),
+              ],
+            },
           },
         },
       },
-    },
-    include: {
-      competition: true,
-      team: {
-        include: {
-          members: true,
+      include: {
+        competition: true,
+        team: {
+          include: {
+            members: true,
+          },
         },
       },
-    },
-  });
+    });
 
     console.log(
-      `✅ Imported registration from Google Form: ${registration.team?.teamName} (${competitionCode})`
+      `✅ Imported registration from Google Form: ${registration.team?.teamName} (${competitionCode})`,
     );
 
     return NextResponse.json(
@@ -171,7 +206,7 @@ export async function POST(request: NextRequest) {
           memberCount: registration.team?.members.length || 0,
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error('❌ Webhook import failed:', error);
@@ -179,9 +214,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Internal server error',
-        message: error instanceof Error ? error.message : 'Unknown error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

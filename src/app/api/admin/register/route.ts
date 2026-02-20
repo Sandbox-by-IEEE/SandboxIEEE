@@ -3,11 +3,11 @@
  * ADMIN REGISTRATION API ENDPOINT
  * ============================================================================
  * POST /api/admin/register
- * 
+ *
  * Purpose: Allow Super Admin to create new admin accounts for competition staff
- * 
+ *
  * Access: Super Admin only
- * 
+ *
  * Request Body:
  * {
  *   username: string,
@@ -15,7 +15,7 @@
  *   password: string,
  *   adminRole: "moderator" | "finance" | "super_admin"
  * }
- * 
+ *
  * Response:
  * {
  *   success: true,
@@ -39,7 +39,7 @@ const registerAdminSchema = z.object({
     .max(50, 'Username must be less than 50 characters')
     .regex(
       /^[a-zA-Z0-9_]+$/,
-      'Username can only contain letters, numbers, and underscores'
+      'Username can only contain letters, numbers, and underscores',
     ),
   email: z.string().email('Invalid email address'),
   password: z
@@ -47,7 +47,7 @@ const registerAdminSchema = z.object({
     .min(8, 'Password must be at least 8 characters')
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+      'Password must contain at least one uppercase letter, one lowercase letter, and one number',
     ),
   adminRole: z.enum(['moderator', 'finance', 'super_admin'], {
     errorMap: () => ({
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
         {
           error: 'Forbidden: Only Super Admins can create new admin accounts',
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -100,13 +100,13 @@ export async function POST(request: Request) {
       if (existingAdmin.username === username) {
         return NextResponse.json(
           { error: 'Username already exists' },
-          { status: 400 }
+          { status: 400 },
         );
       }
       if (existingAdmin.email === email) {
         return NextResponse.json(
           { error: 'Email already registered' },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -146,7 +146,7 @@ export async function POST(request: Request) {
         message: 'Admin account created successfully',
         admin: newAdmin,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     // ============================================================================
@@ -164,7 +164,7 @@ export async function POST(request: Request) {
             message: e.message,
           })),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -172,10 +172,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error: 'Internal server error',
-        message:
-          error instanceof Error ? error.message : 'Unknown error occurred',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -2,11 +2,11 @@
  * ============================================================================
  * RATE LIMITING MIDDLEWARE
  * ============================================================================
- * 
+ *
  * Purpose: Prevent abuse and DDoS attacks on API endpoints
  * Strategy: Token bucket algorithm with in-memory cache
  * Production: Replace with Redis for distributed rate limiting
- * 
+ *
  * ============================================================================
  */
 
@@ -36,7 +36,7 @@ export async function rateLimit(
   config: RateLimitConfig = {
     interval: 60 * 1000, // 1 minute
     uniqueTokenPerInterval: 10, // 10 requests per minute
-  }
+  },
 ): Promise<NextResponse | null> {
   // Get client identifier (IP address or user ID from auth)
   const identifier = getClientIdentifier(request);
@@ -50,13 +50,13 @@ export async function rateLimit(
   // Refill tokens based on time elapsed
   const timeSinceLastRefill = now - bucket.lastRefill;
   const refillAmount = Math.floor(
-    (timeSinceLastRefill / config.interval) * config.uniqueTokenPerInterval
+    (timeSinceLastRefill / config.interval) * config.uniqueTokenPerInterval,
   );
 
   if (refillAmount > 0) {
     bucket.tokens = Math.min(
       config.uniqueTokenPerInterval,
-      bucket.tokens + refillAmount
+      bucket.tokens + refillAmount,
     );
     bucket.lastRefill = now;
   }
@@ -69,9 +69,7 @@ export async function rateLimit(
   }
 
   // Rate limit exceeded
-  const retryAfter = Math.ceil(
-    (config.interval - timeSinceLastRefill) / 1000
-  );
+  const retryAfter = Math.ceil((config.interval - timeSinceLastRefill) / 1000);
 
   return NextResponse.json(
     {
@@ -86,7 +84,7 @@ export async function rateLimit(
         'X-RateLimit-Remaining': '0',
         'X-RateLimit-Reset': new Date(now + retryAfter * 1000).toISOString(),
       },
-    }
+    },
   );
 }
 

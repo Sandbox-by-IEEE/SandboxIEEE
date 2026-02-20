@@ -214,3 +214,83 @@ export async function batchAppendToGoogleSheets(
     };
   }
 }
+
+/**
+ * ============================================================================
+ * SUBMISSION LOGGING TO GOOGLE SHEETS
+ * ============================================================================
+ * Logs all submission activities (preliminary, payment, semifinal, final)
+ * to a separate "Submissions" sheet for tracking and auditing
+ * ============================================================================
+ */
+
+interface SubmissionLogData {
+  timestamp?: Date;
+  teamName: string;
+  leaderEmail: string;
+  competitionCode: string;
+  submissionPhase: 'preliminary' | 'payment' | 'semifinal' | 'final';
+  fileUrl?: string;
+  fileName?: string;
+  status: string;
+  reviewedBy?: string;
+  reviewNotes?: string;
+}
+
+export async function logSubmissionToSheets(data: SubmissionLogData) {
+  try {
+    const sheets = getGoogleSheetsClient();
+
+    // Use the same sheet IDs as registrations (add "Submissions" tab)
+    const sheetId = getSheetIdByCompetition(data.competitionCode);
+
+    if (!sheetId) {
+      console.error(`❌ No sheet ID found for competition: ${data.competitionCode}`);
+      return { success: false, error: 'Sheet ID not configured' };
+    }
+
+    const timestamp = data.timestamp || new Date();
+    const formattedDate = timestamp.toLocaleString('id-ID', {
+      timeZone: 'Asia/Jakarta',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+
+    // Row data for Submissions sheet
+    const row = [
+      formattedDate,                    // A: Timestamp
+      data.teamName,                    // B: Team Name
+      data.leaderEmail,                 // C: Leader Email
+      data.competitionCode.toUpperCase(), // D: Competition
+      data.submissionPhase.toUpperCase(), // E: Phase
+      data.fileUrl || '',               // F: File URL
+      data.fileName || '',              // G: File Name
+      data.status.toUpperCase(),        // H: Status
+      data.reviewedBy || '',            // I: Reviewed By
+      data.reviewNotes || '',           // J: Review Notes
+    ];
+
+    // Append to "Submissions" sheet (create if doesn't exist)
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: sheetId,
+      range: 'Submissions!A:J', // Target the Submissions tab
+      valueInputOption: 'USER_ENTERED',
+      requestBody: {
+        values: [row],
+      },
+    });
+
+    console.log(`✅ Logged ${data.submissionPhase} submission for ${data.teamName} to Google Sheets`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Failed to log submission to Google Sheets:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+}

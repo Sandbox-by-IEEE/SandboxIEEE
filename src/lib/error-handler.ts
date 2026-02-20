@@ -2,10 +2,10 @@
  * ============================================================================
  * CENTRALIZED ERROR HANDLER
  * ============================================================================
- * 
+ *
  * Purpose: Standardize error responses across all API endpoints
  * Features: Type-safe error codes, structured logging, user-friendly messages
- * 
+ *
  * ============================================================================
  */
 
@@ -63,7 +63,7 @@ export class APIError extends Error {
     public code: ErrorCode,
     public message: string,
     public statusCode: number,
-    public details?: unknown
+    public details?: unknown,
   ) {
     super(message);
     this.name = 'APIError';
@@ -84,7 +84,7 @@ export function createErrorResponse(error: unknown): NextResponse {
           details: error.details,
         },
       },
-      { status: error.statusCode }
+      { status: error.statusCode },
     );
   }
 
@@ -101,7 +101,7 @@ export function createErrorResponse(error: unknown): NextResponse {
           })),
         },
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -116,10 +116,9 @@ export function createErrorResponse(error: unknown): NextResponse {
             error: {
               code: ErrorCode.DUPLICATE_ENTRY,
               message: 'A record with this information already exists',
-              details: prismaError.meta,
             },
           },
-          { status: 409 }
+          { status: 409 },
         );
 
       case 'P2025':
@@ -130,7 +129,7 @@ export function createErrorResponse(error: unknown): NextResponse {
               message: 'The requested resource was not found',
             },
           },
-          { status: 404 }
+          { status: 404 },
         );
 
       default:
@@ -150,7 +149,7 @@ export function createErrorResponse(error: unknown): NextResponse {
             message: error.message,
           },
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -162,7 +161,7 @@ export function createErrorResponse(error: unknown): NextResponse {
             message: error.message,
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
   }
@@ -176,7 +175,7 @@ export function createErrorResponse(error: unknown): NextResponse {
         message: 'An unexpected error occurred. Please try again later.',
       },
     },
-    { status: 500 }
+    { status: 500 },
   );
 }
 
@@ -197,18 +196,14 @@ export const Errors = {
     new APIError(ErrorCode.RESOURCE_NOT_FOUND, `${resource} not found`, 404),
 
   duplicate: (field: string) =>
-    new APIError(
-      ErrorCode.DUPLICATE_ENTRY,
-      `${field} already exists`,
-      409
-    ),
+    new APIError(ErrorCode.DUPLICATE_ENTRY, `${field} already exists`, 409),
 
   rateLimit: (retryAfter: number) =>
     new APIError(
       ErrorCode.RATE_LIMIT_EXCEEDED,
       `Too many requests. Please try again in ${retryAfter} seconds`,
       429,
-      { retryAfter }
+      { retryAfter },
     ),
 
   internal: (message = 'Internal server error') =>
@@ -218,7 +213,7 @@ export const Errors = {
     new APIError(
       ErrorCode.COMPETITION_CLOSED,
       `Registration for ${competitionName} is closed`,
-      503
+      503,
     ),
 };
 
@@ -226,9 +221,7 @@ export const Errors = {
  * Async error handler wrapper for API routes
  * Usage: export const POST = asyncHandler(async (req) => { ... })
  */
-export function asyncHandler(
-  handler: (req: Request) => Promise<NextResponse>
-) {
+export function asyncHandler(handler: (req: Request) => Promise<NextResponse>) {
   return async (req: Request) => {
     try {
       return await handler(req);

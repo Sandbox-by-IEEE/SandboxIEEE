@@ -1,5 +1,13 @@
-// Competition content management system
-// This file contains all competition-specific content for easy management
+/**
+ * ============================================================================
+ * COMPETITION CONTENT - Static display content for each competition
+ * ============================================================================
+ *
+ * NOTE: Timeline dates are stored in the database (CompetitionTimeline model).
+ * This file only contains descriptions, FAQs, requirements, and deliverables.
+ * The prizePool.total is the ONLY prize field used — no 1st/2nd/3rd breakdown.
+ * ============================================================================
+ */
 
 export interface CompetitionContent {
   code: string;
@@ -7,17 +15,8 @@ export interface CompetitionContent {
   tagline: string;
   description: string;
   prizePool: {
-    first: string;
-    second: string;
-    third: string;
-    total?: string;
+    total: string;
   };
-  timeline: {
-    phase: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-  }[];
   faqs: {
     question: string;
     answer: string;
@@ -32,81 +31,52 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
     name: 'Business Case Competition',
     tagline: 'Solve Real Business Challenges',
     description:
-      'The Business Case Competition challenges teams to analyze complex business problems and develop strategic solutions. Teams will present their case analysis and recommendations to a panel of industry experts.',
+      'Business Case Competition (BCC) is a national-level analytical competition that challenges undergraduate students to solve real-world business problems related to the implementation of smart automation technology. Participants are required to analyze complex industry cases, develop data-driven and structured solutions, and present feasible strategies that balance technological innovation, operational efficiency, and business sustainability.',
     prizePool: {
-      first: 'Rp 5,000,000',
-      second: 'Rp 3,000,000',
-      third: 'Rp 2,000,000',
-      total: 'Rp 10,000,000',
+      total: 'Rp 25.000.000++',
     },
-    timeline: [
-      {
-        phase: 'Registration Period',
-        description: 'Open registration for all interested teams',
-        startDate: '2026-01-01',
-        endDate: '2026-02-15',
-      },
-      {
-        phase: 'Case Release',
-        description: 'Business case will be released to registered teams',
-        startDate: '2026-02-16',
-        endDate: '2026-02-16',
-      },
-      {
-        phase: 'Preliminary Round',
-        description: 'Submit written case analysis and solution proposal',
-        startDate: '2026-02-17',
-        endDate: '2026-03-01',
-      },
-      {
-        phase: 'Semi-Final Round',
-        description: 'Top 10 teams present their solutions (15 min presentation)',
-        startDate: '2026-03-10',
-        endDate: '2026-03-12',
-      },
-      {
-        phase: 'Final Round',
-        description: 'Top 3 teams compete in live case competition',
-        startDate: '2026-03-20',
-        endDate: '2026-03-20',
-      },
-    ],
     faqs: [
       {
-        question: 'What is the team size requirement?',
-        answer: 'Each team must consist of exactly 3 members from the same institution.',
-      },
-      {
-        question: 'Is there a registration fee?',
-        answer: 'Yes, there is a registration fee of Rp 150,000 per team.',
-      },
-      {
-        question: 'What format should the case analysis be submitted in?',
+        question: 'What is BCC?',
         answer:
-          'The written case analysis should be submitted in PDF format, maximum 20 pages excluding appendices.',
+          'Business Case Competition (BCC) is a national-level analytical competition where undergraduate students solve real-world business problems related to smart automation technology.',
+      },
+      {
+        question: 'Who can participate?',
+        answer:
+          'Active undergraduate (S1/D4) students from any accredited university in Indonesia.',
+      },
+      {
+        question: 'How many members per team?',
+        answer:
+          'Each team must consist of exactly 3 members from the same institution.',
+      },
+      {
+        question: 'What is the registration fee?',
+        answer: 'The registration fee is Rp 125,000 per team.',
+      },
+      {
+        question: 'What are the competition phases?',
+        answer:
+          'BCC has three rounds: Preliminary (written case analysis), Semifinal (presentation to judges), and Final (live case competition with mentoring).',
       },
       {
         question: 'Can I participate in multiple competitions?',
         answer:
-          'Yes, you can participate in multiple competitions, but you must register separate teams for each.',
-      },
-      {
-        question: 'What criteria will be used for judging?',
-        answer:
-          'Judging criteria include: problem analysis (25%), solution feasibility (25%), strategic thinking (20%), presentation quality (20%), and Q&A performance (10%).',
+          'Each account can only register for one competition. However, team members can be part of teams in different competitions.',
       },
     ],
     requirements: [
-      'Active university or college students',
-      'Team of 3 members from the same institution',
+      'Active undergraduate (S1/D4) students',
+      'Team of exactly 3 members from the same institution',
       'Basic understanding of business strategy and analysis',
       'Access to presentation software (PowerPoint, Canva, etc.)',
     ],
     deliverables: [
-      'Written case analysis (PDF, max 20 pages)',
+      'Written case analysis (PDF)',
       'Presentation slides',
-      'Executive summary (2 pages)',
-      'Financial projections (if applicable)',
+      'Executive summary',
+      'Business strategy proposal',
     ],
   },
 
@@ -115,82 +85,50 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
     name: 'Technovate Paper Competition',
     tagline: 'Research That Shapes The Future',
     description:
-      'The Technovate Paper Competition invites students to present original research papers on innovative technology solutions. Submit your groundbreaking research and compete for recognition in the academic community.',
+      'Technovate Paper Competition (TPC) is a competition held at the national level, aiming to challenge undergraduate and high school students to apply scientific methodology to scrutinize and propose solutions addressing relevant issues in accordance with the designated subtheme.',
     prizePool: {
-      first: 'Rp 4,000,000',
-      second: 'Rp 2,500,000',
-      third: 'Rp 1,500,000',
-      total: 'Rp 8,000,000',
+      total: 'Rp 25.000.000++',
     },
-    timeline: [
-      {
-        phase: 'Registration Period',
-        description: 'Open registration for paper submissions',
-        startDate: '2026-01-01',
-        endDate: '2026-02-20',
-      },
-      {
-        phase: 'Abstract Submission',
-        description: 'Submit research paper abstract (500 words)',
-        startDate: '2026-01-15',
-        endDate: '2026-02-20',
-      },
-      {
-        phase: 'Full Paper Submission',
-        description: 'Submit complete research paper for review',
-        startDate: '2026-02-21',
-        endDate: '2026-03-05',
-      },
-      {
-        phase: 'Paper Review Period',
-        description: 'Expert panel reviews submitted papers',
-        startDate: '2026-03-06',
-        endDate: '2026-03-15',
-      },
-      {
-        phase: 'Final Presentation',
-        description: 'Top 10 papers present findings to judges',
-        startDate: '2026-03-22',
-        endDate: '2026-03-23',
-      },
-    ],
     faqs: [
       {
-        question: 'What is the team size requirement?',
-        answer: 'Teams can consist of 2-3 members from the same institution.',
+        question: 'What is TPC?',
+        answer:
+          'Technovate Paper Competition (TPC) is a national-level scientific paper competition where students apply scientific methodology to address relevant issues.',
       },
       {
-        question: 'What topics are acceptable for the research paper?',
+        question: 'Who can participate?',
         answer:
-          'Papers should focus on innovative technology solutions in fields like AI, IoT, blockchain, renewable energy, or other emerging technologies.',
+          'Active undergraduate (S1/D4) or high school/equivalent (SMA/SMK/MA) students in Indonesia.',
       },
       {
-        question: 'Is there a specific paper format required?',
+        question: 'How many members per team?',
         answer:
-          'Yes, papers must follow IEEE format guidelines. Templates will be provided upon registration.',
+          'Teams can consist of 1 to 3 members. Solo participation is allowed.',
       },
       {
-        question: 'Can we submit previously published work?',
-        answer:
-          'No, all submissions must be original, unpublished work. Plagiarism will result in disqualification.',
+        question: 'What is the registration fee?',
+        answer: 'The registration fee is Rp 125,000 per team.',
       },
       {
-        question: 'Will the papers be published?',
+        question: 'What format should the paper follow?',
         answer:
-          'Selected papers will be published in the conference proceedings with ISBN.',
+          'Papers must follow the provided template format. Detailed guidelines will be shared upon registration.',
+      },
+      {
+        question: 'What are the competition phases?',
+        answer:
+          'TPC has two main rounds: Preliminary (paper submission) and Semifinal (revised paper + coaching). Finalists proceed to the Grand Final for presentation.',
       },
     ],
     requirements: [
-      'Active university or college students',
-      'Team of 2-3 members',
+      'Active undergraduate or high school students',
+      'Team of 1-3 members',
       'Original, unpublished research',
-      'Basic understanding of research methodology',
+      'Basic understanding of scientific methodology',
     ],
     deliverables: [
-      'Abstract (500 words)',
-      'Full paper (IEEE format, 6-8 pages)',
-      'Presentation slides',
-      'Research data/code (if applicable)',
+      'Research paper (following provided template)',
+      'Presentation slides (for finalists)',
     ],
   },
 
@@ -199,88 +137,52 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
     name: 'ProtoTech Contest',
     tagline: 'Build The Future, Today',
     description:
-      'The ProtoTech Contest challenges teams to design and develop innovative technology prototypes. Transform your ideas into working prototypes and compete against the best innovators.',
+      'ProtoTech Contest (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
     prizePool: {
-      first: 'Rp 7,000,000',
-      second: 'Rp 4,000,000',
-      third: 'Rp 2,000,000',
-      total: 'Rp 13,000,000',
+      total: 'Rp 25.000.000++',
     },
-    timeline: [
-      {
-        phase: 'Registration Period',
-        description: 'Open registration for all prototype teams',
-        startDate: '2026-01-01',
-        endDate: '2026-02-10',
-      },
-      {
-        phase: 'Proposal Submission',
-        description: 'Submit prototype concept and design document',
-        startDate: '2026-01-15',
-        endDate: '2026-02-15',
-      },
-      {
-        phase: 'Development Phase',
-        description: 'Build and test your prototype',
-        startDate: '2026-02-16',
-        endDate: '2026-03-10',
-      },
-      {
-        phase: 'Preliminary Demo',
-        description: 'Submit video demonstration and technical documentation',
-        startDate: '2026-03-11',
-        endDate: '2026-03-15',
-      },
-      {
-        phase: 'Final Exhibition',
-        description: 'Top 15 teams showcase prototypes at live exhibition',
-        startDate: '2026-03-25',
-        endDate: '2026-03-26',
-      },
-    ],
     faqs: [
       {
-        question: 'What is the team size requirement?',
-        answer: 'Teams can consist of 3-5 members from the same institution.',
+        question: 'What is PTC?',
+        answer:
+          'ProtoTech Contest (PTC) is a national-scale prototyping competition challenging students to develop innovative smart automation solutions.',
       },
       {
-        question: 'Is there a registration fee?',
-        answer: 'Yes, registration fee is Rp 200,000 per team.',
+        question: 'Who can participate?',
+        answer:
+          'Active undergraduate (S1/D4) or high school/equivalent (SMA/SMK/MA) students in Indonesia.',
+      },
+      {
+        question: 'How many members per team?',
+        answer:
+          'Teams must consist of 3 to 5 members from the same institution.',
+      },
+      {
+        question: 'What is the registration fee?',
+        answer: 'The registration fee is Rp 150,000 per team.',
       },
       {
         question: 'What type of prototypes are acceptable?',
         answer:
-          'Hardware, software, or hybrid prototypes addressing real-world problems. Must be functional and demonstrable.',
+          'Hardware, software, or hybrid prototypes using smart automation technology to address real-world problems.',
       },
       {
-        question: 'Will materials/components be provided?',
+        question: 'What are the competition phases?',
         answer:
-          'No, teams are responsible for sourcing and funding their own materials. Budget should be reasonable and documented.',
-      },
-      {
-        question: 'Can we use existing open-source projects?',
-        answer:
-          'Yes, but you must clearly document what is original work vs. existing components. Innovation and originality are key judging criteria.',
-      },
-      {
-        question: 'What if our prototype fails during the demo?',
-        answer:
-          'You will have a backup video demonstration. However, live demos score higher than videos.',
+          'PTC has three rounds: Preliminary (abstract submission), Semifinal (detailed proposal), and Final (prototyping + coaching sessions + live pitching).',
       },
     ],
     requirements: [
-      'Active university or college students',
-      'Team of 3-5 members',
+      'Active undergraduate or high school students',
+      'Team of 3-5 members from the same institution',
       'Functional prototype (hardware/software/hybrid)',
-      'Project must address a real-world problem',
+      'Project must address a real-world problem using smart automation',
     ],
     deliverables: [
-      'Design document & proposal',
+      'Abstract/proposal document (PDF)',
       'Working prototype',
       'Technical documentation',
-      'Demo video (3-5 minutes)',
-      'Source code (if applicable)',
-      'Bill of materials',
+      'Demo video (for finalists)',
     ],
   },
 };
@@ -295,6 +197,7 @@ export function getCompetitionContent(code: string): CompetitionContent | null {
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
+    timeZone: 'Asia/Jakarta',
     month: 'long',
     day: 'numeric',
     year: 'numeric',

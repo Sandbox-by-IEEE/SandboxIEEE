@@ -22,7 +22,7 @@ export default NextAuth(authConfig).auth;
 
 export const config = {
   matcher: [
-    '/admin/:path*',
+    '/admin/:path*', // Match all /admin/* routes (login is now /admin-login)
     '/dashboard/:path*',
   ],
 };

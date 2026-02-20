@@ -41,5 +41,8 @@ declare module 'next-auth/jwt' {
     type: 'user' | 'admin';
     username?: string;
     role?: AdminRole;
+    email?: string;
+    name?: string;
+    picture?: string | null;
   }
 }

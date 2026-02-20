@@ -19,14 +19,17 @@ export default async function HomePage() {
   });
 
   // Get earliest registration deadline for countdown
-  const earliestDeadline = competitions.reduce((earliest, comp) => {
-    return new Date(comp.registrationDeadline) < new Date(earliest)
-      ? comp.registrationDeadline
-      : earliest;
-  }, competitions[0]?.registrationDeadline || new Date());
+  const earliestDeadline =
+    competitions.length > 0
+      ? competitions.reduce((earliest, comp) => {
+          return new Date(comp.registrationDeadline) < new Date(earliest)
+            ? comp.registrationDeadline
+            : earliest;
+        }, competitions[0].registrationDeadline)
+      : new Date();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#190204] to-[#080203]">
+    <div className='min-h-screen bg-gradient-to-b from-[#190204] to-[#080203]'>
       <Navbar />
 
       <main>

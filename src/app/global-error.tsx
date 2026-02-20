@@ -1,6 +1,5 @@
 'use client';
 
-import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -44,7 +43,7 @@ export default function GlobalError({
                 width={165}
                 height={220}
               />
-              
+
               {/* Headline */}
               <div className='flex flex-col items-center'>
                 <h1 className='font-poppins italic lg:text-7xl text-5xl tracking-wide text-center font-extrabold text-white transition-all duration-300'>
@@ -74,13 +73,13 @@ export default function GlobalError({
             <div className='font-poppins items-center justify-center text-white text-base mt-4 lg:mt-6 flex flex-col gap-4'>
               <button
                 onClick={() => reset()}
-                className="bg-gradient-to-r from-[#DBB88B] to-[#AB814E] hover:from-[#AB814E] hover:to-[#8B6F3E] text-white px-8 py-3 rounded-full font-gemunu text-lg font-semibold transition-all shadow-lg hover:shadow-xl"
+                className='bg-gradient-to-r from-[#DBB88B] to-[#AB814E] hover:from-[#AB814E] hover:to-[#8B6F3E] text-white px-8 py-3 rounded-full font-gemunu text-lg font-semibold transition-all shadow-lg hover:shadow-xl'
               >
                 Try Again
               </button>
               <Link
                 href='/'
-                className="text-[#DBB88B] hover:text-[#AB814E] underline transition-all"
+                className='text-[#DBB88B] hover:text-[#AB814E] underline transition-all'
               >
                 Go Back Home
               </Link>
@@ -107,56 +106,3 @@ export default function GlobalError({
     </html>
   );
 }
-
-export const metadata: Metadata = {
-  title: '500 | Sandbox IEEE ITB',
-  description:
-    "We're sorry, but it looks like we've encountered an internal server error (Error 500) and we're unable to process your request at the moment. Our team has been notified and we're working hard to resolve the issue as quickly as possible.",
-  generator: 'Next.js',
-  category: 'Events',
-  applicationName: 'Sandbox IEEE ITB',
-  referrer: 'origin-when-cross-origin',
-  keywords: [
-    'Sandbox',
-    'Sandbox IEEE ITB',
-    'Sandbox ITB',
-    'Sandbox IEEE',
-    'IEEE ITB',
-    'ITB',
-    'Lomba',
-    'TPC',
-    'PTC',
-  ],
-  metadataBase: new URL('https://sandbox.ieeeitb.com/'),
-  openGraph: {
-    title: 'Sandbox IEEE ITB',
-    description:
-      "We're sorry, but it looks like we've encountered an internal server error (Error 500) and we're unable to process your request at the moment. Our team has been notified and we're working hard to resolve the issue as quickly as possible.",
-    url: 'https://sandbox.ieeeitb.com/',
-    siteName: 'Sandbox IEEE ITB',
-    images: [
-      {
-        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
-        width: 1200,
-        height: 630,
-        alt: 'Sandbox IEEE ITB Logo',
-      },
-    ],
-    locale: 'id_ID',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Sandbox IEEE ITB',
-    description:
-      "We're sorry, but it looks like we've encountered an internal server error (Error 500) and we're unable to process your request at the moment. Our team has been notified and we're working hard to resolve the issue as quickly as possible.",
-    images: [
-      {
-        url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',
-        width: 1200,
-        height: 630,
-        alt: 'Sandbox IEEE ITB Logo',
-      },
-    ],
-  },
-};

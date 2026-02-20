@@ -2,11 +2,11 @@
  * ============================================================================
  * COMPETITION REGISTRATION API ENDPOINT
  * ============================================================================
- * 
+ *
  * POST /api/competitions/register
- * 
+ *
  * Purpose: Register team for competition (PTC/TPC/BCC)
- * 
+ *
  * Flow:
  * 1. Validate request data
  * 2. Check competition exists and active
@@ -16,52 +16,52 @@
  * 6. Sync to Google Sheets (non-blocking)
  * 7. Send email verification to leader
  * 8. Return success response
- * 
+ *
  * ============================================================================
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import bcrypt from 'bcryptjs';
 
 import { prisma } from '@/lib/db';
+import { uploadFile } from '@/lib/fileUpload';
 import { appendToGoogleSheets } from '@/lib/google-sheets';
-import { sendActivationEmail } from '@/lib/email';
 import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
+import { auth } from '@/lib/auth';
 
-// Validation schema
+// Zod schema for team member validation
 const memberSchema = z.object({
-  fullName: z.string().min(3, 'Full name must be at least 3 characters'),
-  email: z.string().email('Invalid email format'),
-  phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits'),
-  studentIdCard: z.string().optional(),
-  proofOfRegistrationLink: z.string().url().optional(),
-});
-
-const registrationSchema = z.object({
-  // Competition info
-  competitionCode: z.enum(['PTC', 'TPC', 'BCC'], {
-    errorMap: () => ({ message: 'Invalid competition code' }),
-  }),
-
-  // Team info
-  teamName: z
+  fullName: z
     .string()
-    .min(3, 'Team name must be at least 3 characters')
-    .max(50, 'Team name must be less than 50 characters'),
-  institution: z.string().min(3, 'Institution name is required'),
-
-  // Leader info (will become User account)
-  leaderName: z.string().min(3, 'Leader name must be at least 3 characters'),
-  leaderEmail: z.string().email('Invalid email format'),
-  leaderPhone: z.string().min(10, 'Phone number must be at least 10 digits'),
-  leaderPassword: z.string().min(8, 'Password must be at least 8 characters'),
-
-  // Team members (excluding leader)
-  members: z.array(memberSchema).min(0).max(4),
+    .min(3, 'Full name must be at least 3 characters')
+    .max(100, 'Full name must be at most 100 characters')
+    .trim(),
+  email: z.string().email('Invalid email address').trim().toLowerCase(),
+  phoneNumber: z
+    .string()
+    .min(10, 'Phone number must be at least 10 digits')
+    .max(20, 'Phone number must be at most 20 digits')
+    .trim(),
+  studentIdCard: z.string().optional(),
+  proofOfRegistrationLink: z
+    .string()
+    .url('Invalid proof link URL')
+    .optional()
+    .or(z.literal('')),
 });
+
+const membersArraySchema = z.array(memberSchema);
 
 export async function POST(request: NextRequest) {
+  // Check if user is authenticated
+  const session = await auth();
+  if (!session?.user?.email) {
+    return NextResponse.json(
+      { error: 'Authentication required. Please login first.' },
+      { status: 401 },
+    );
+  }
+
   // Apply rate limiting (3 registrations per hour per IP)
   const rateLimitResponse = await rateLimit(request, RATE_LIMITS.REGISTRATION);
   if (rateLimitResponse) {
@@ -69,19 +69,105 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json();
-    const validatedData = registrationSchema.parse(body);
+    // Parse FormData (multipart) instead of JSON
+    const formDataBody = await request.formData();
 
-    const {
-      competitionCode,
-      teamName,
-      institution,
-      leaderName,
-      leaderEmail,
-      leaderPhone,
-      leaderPassword,
-      members,
-    } = validatedData;
+    const competitionCode = formDataBody.get('competitionCode') as string;
+    const teamName = formDataBody.get('teamName') as string;
+    const institution = formDataBody.get('institution') as string;
+    const leaderName = formDataBody.get('leaderName') as string;
+    const leaderPhone = formDataBody.get('leaderPhone') as string;
+    const leaderProofLink = formDataBody.get('leaderProofLink') as string;
+    const membersJson = formDataBody.get('members') as string;
+    const paymentProofFile = formDataBody.get('paymentProof') as File | null;
+
+    // Validate required fields
+    if (!competitionCode || !['PTC', 'TPC', 'BCC'].includes(competitionCode)) {
+      return NextResponse.json(
+        { error: 'Invalid competition code' },
+        { status: 400 },
+      );
+    }
+    if (!teamName || teamName.length < 3 || teamName.length > 50) {
+      return NextResponse.json(
+        { error: 'Team name must be 3-50 characters' },
+        { status: 400 },
+      );
+    }
+    if (!institution || institution.length < 3) {
+      return NextResponse.json(
+        { error: 'Institution name is required' },
+        { status: 400 },
+      );
+    }
+    if (!leaderName || leaderName.length < 3) {
+      return NextResponse.json(
+        { error: 'Leader name must be at least 3 characters' },
+        { status: 400 },
+      );
+    }
+    if (!leaderPhone || leaderPhone.length < 10) {
+      return NextResponse.json(
+        { error: 'Phone number must be at least 10 digits' },
+        { status: 400 },
+      );
+    }
+    if (!leaderProofLink) {
+      return NextResponse.json(
+        { error: 'Proof of registration link is required' },
+        { status: 400 },
+      );
+    }
+
+    // Validate payment proof file
+    if (
+      !paymentProofFile ||
+      !(paymentProofFile instanceof File) ||
+      paymentProofFile.size === 0
+    ) {
+      return NextResponse.json(
+        { error: 'Payment proof file is required' },
+        { status: 400 },
+      );
+    }
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(paymentProofFile.type)) {
+      return NextResponse.json(
+        { error: 'Payment proof must be JPG or PNG image' },
+        { status: 400 },
+      );
+    }
+    if (paymentProofFile.size > 5 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: 'Payment proof must be less than 5MB' },
+        { status: 400 },
+      );
+    }
+
+    // Parse and validate members with Zod
+    let members: z.infer<typeof membersArraySchema> = [];
+    try {
+      const parsed = JSON.parse(membersJson || '[]');
+      const result = membersArraySchema.safeParse(parsed);
+      if (!result.success) {
+        const firstError = result.error.errors[0];
+        return NextResponse.json(
+          {
+            error: `Invalid member data: ${firstError.path.join('.')} - ${firstError.message}`,
+          },
+          { status: 400 },
+        );
+      }
+      members = result.data;
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid members data format' },
+        { status: 400 },
+      );
+    }
+
+    // Use authenticated user's email as leader email
+    const leaderEmail = session.user.email;
 
     // 1. Check if competition exists and is active
     const competition = await prisma.competition.findUnique({
@@ -91,14 +177,32 @@ export async function POST(request: NextRequest) {
     if (!competition) {
       return NextResponse.json(
         { error: `Competition ${competitionCode} not found` },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     if (!competition.isActive) {
       return NextResponse.json(
         { error: 'Competition registration is closed' },
-        { status: 400 }
+        { status: 400 },
+      );
+    }
+
+    // Check registration window (date-based enforcement)
+    const now = new Date();
+    if (now < new Date(competition.registrationOpen)) {
+      return NextResponse.json(
+        {
+          error:
+            'Registration has not opened yet. Please check the competition timeline.',
+        },
+        { status: 400 },
+      );
+    }
+    if (now > new Date(competition.registrationDeadline)) {
+      return NextResponse.json(
+        { error: 'Registration deadline has passed.' },
+        { status: 400 },
       );
     }
 
@@ -116,19 +220,27 @@ export async function POST(request: NextRequest) {
           min: competition.minTeamSize,
           max: competition.maxTeamSize,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    // 3. Check for duplicate team name
-    const existingTeam = await prisma.team.findUnique({
-      where: { teamName },
+    // 3. Check for duplicate team name (scoped to same competition)
+    const existingTeam = await prisma.team.findFirst({
+      where: {
+        teamName,
+        registration: {
+          competitionId: competition.id,
+        },
+      },
     });
 
     if (existingTeam) {
       return NextResponse.json(
-        { error: 'Team name already taken. Please choose another name.' },
-        { status: 409 }
+        {
+          error:
+            'Team name already taken in this competition. Please choose another name.',
+        },
+        { status: 409 },
       );
     }
 
@@ -163,20 +275,27 @@ export async function POST(request: NextRequest) {
           error: `You are already registered for ${existingUser.registration.competition.name}. Each user can only register for one competition.`,
           existingCompetition: existingUser.registration.competition.code,
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
     // 5. Check for duplicate emails (all members including leader)
-    const allEmails = [
-      leaderEmail,
-      ...members.map((m) => m.email),
-    ];
+    // Only check if emails are used in OTHER teams (not the current user's potential re-registration)
+    const allEmails = [leaderEmail, ...members.map((m) => m.email)];
 
     const duplicateMembers = await prisma.teamMember.findMany({
       where: {
         email: {
           in: allEmails,
+        },
+        // Exclude the current user's own email from duplicate check
+        // This allows users to retry registration if their previous attempt failed
+        team: {
+          registration: {
+            userId: {
+              not: existingUser?.id, // Exclude current user's registrations
+            },
+          },
         },
       },
       select: {
@@ -206,56 +325,24 @@ export async function POST(request: NextRequest) {
             competition: m.team.registration.competition.name,
           })),
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
-    // 6. Hash password (only if creating new user)
-    const hashedPassword = await bcrypt.hash(leaderPassword, 10);
+    // 6. Upload payment proof via Supabase Storage (or local fallback)
+    const sanitizedTeamName = teamName.replace(/[^a-zA-Z0-9]/g, '_');
+    const prefix = `payment_${sanitizedTeamName}`;
+    const uploaded = await uploadFile(paymentProofFile, 'payments', prefix);
+    const paymentProofUrl = uploaded.url;
 
-    // 7. Create User + CompetitionRegistration + Team + TeamMembers (Transaction)
+    // 7. Create CompetitionRegistration + Team + TeamMembers + Payment (Transaction)
     const registration = await prisma.$transaction(async (tx) => {
-      // Create or use existing user account for team leader
-      let user: typeof existingUser | null = existingUser;
-      let activateToken = null;
-
+      // User is already authenticated and exists in database
       if (!existingUser) {
-        // Create new user account
-        const newUser = await tx.user.create({
-          data: {
-            username: leaderEmail.split('@')[0] + '_' + Date.now(),
-            name: leaderName,
-            email: leaderEmail,
-            password: hashedPassword,
-            active: false, // Need email verification
-          },
-        });
-
-        // Create activation token for email verification (only for new users)
-        activateToken = await tx.activateToken.create({
-          data: {
-            userId: newUser.id,
-            token: crypto.randomUUID(),
-          },
-        });
-
-        // Update user reference
-        user = { ...newUser, registration: null };
-      } else {
-        // For existing users, verify password matches
-        if (!existingUser.password) {
-          throw new Error('This account was created with OAuth (Google/GitHub). Please use social login or reset your password.');
-        }
-        const passwordMatch = await bcrypt.compare(leaderPassword, existingUser.password);
-        if (!passwordMatch) {
-          throw new Error('Invalid password. Please use your existing account password or reset it.');
-        }
+        throw new Error('User account not found. Please login again.');
       }
 
-      // Ensure user exists before creating registration
-      if (!user) {
-        throw new Error('Failed to create or retrieve user account');
-      }
+      const user = existingUser;
 
       // Create competition registration with team and members
       const reg = await tx.competitionRegistration.create({
@@ -276,6 +363,7 @@ export async function POST(request: NextRequest) {
                     fullName: leaderName,
                     email: leaderEmail,
                     phoneNumber: leaderPhone,
+                    proofOfRegistrationLink: leaderProofLink,
                   },
                   // Additional team members
                   ...members.map((member) => ({
@@ -301,21 +389,33 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      return { registration: reg, activateToken };
+      // Create Payment record with the uploaded proof
+      await tx.payment.create({
+        data: {
+          registrationId: reg.id,
+          amount: competition.registrationFee,
+          paymentProofUrl: paymentProofUrl,
+          paymentMethod: 'Bank Transfer',
+          billName: leaderName,
+          status: 'pending',
+        },
+      });
+
+      return reg;
     });
 
     // 8. Sync to Google Sheets (non-blocking)
     try {
       await appendToGoogleSheets({
-        registrationId: registration.registration.id,
-        userId: registration.registration.userId,
+        registrationId: registration.id,
+        userId: registration.userId,
         competitionCode,
         teamName,
         institution,
         leaderName,
         leaderEmail,
         leaderPhone,
-        members: registration.registration.team!.members.slice(1), // Exclude leader
+        members: registration.team!.members.slice(1), // Exclude leader
         verificationStatus: 'pending',
         currentPhase: 'registration',
       });
@@ -324,64 +424,33 @@ export async function POST(request: NextRequest) {
       // Google Sheets sync is non-critical, continue registration
     }
 
-    // 9. Send email verification (only for new users)
-    if (registration.activateToken) {
-      try {
-        await sendActivationEmail(
-          leaderEmail,
-          leaderName,
-          registration.activateToken.token
-        );
-        console.log(`✅ Activation email sent successfully to ${leaderEmail}`);
-      } catch (emailError) {
-        console.error('❌ Failed to send activation email:', emailError);
-        // Email delivery is non-critical, user can request resend
-        // But log the error so we know it happened
-      }
-    } else {
-      console.log(`ℹ️  No activation email sent (existing user): ${leaderEmail}`);
-    }
-
     // 10. Return success response
     return NextResponse.json(
       {
         success: true,
         message:
-          'Registration successful! Please check your email to activate your account.',
+          'Registration successful! Your team is now pending admin review.',
         registration: {
-          id: registration.registration.id,
-          teamName: registration.registration.team?.teamName,
-          competition: registration.registration.competition.name,
-          memberCount: registration.registration.team?.members.length || 0,
-          status: registration.registration.verificationStatus,
-          currentPhase: registration.registration.currentPhase,
+          id: registration.id,
+          teamName: registration.team?.teamName,
+          competition: registration.competition.name,
+          memberCount: registration.team?.members.length || 0,
+          status: registration.verificationStatus,
+          currentPhase: registration.currentPhase,
+          needsActivation: false, // User is already active
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     // TODO: Log to monitoring service with stack trace
-
-    // Handle Zod validation errors
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        {
-          error: 'Validation failed',
-          details: error.errors.map((err) => ({
-            field: err.path.join('.'),
-            message: err.message,
-          })),
-        },
-        { status: 400 }
-      );
-    }
 
     // Handle Prisma errors
     if (error instanceof Error) {
       if (error.message.includes('Unique constraint')) {
         return NextResponse.json(
           { error: 'Data already exists. Please check your input.' },
-          { status: 409 }
+          { status: 409 },
         );
       }
     }
@@ -389,21 +458,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Internal server error',
-        message: error instanceof Error ? error.message : 'Unknown error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-// GET endpoint to check registration status
+// GET endpoint to check registration status (requires authentication)
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const email = searchParams.get('email');
-
-  if (!email) {
-    return NextResponse.json({ error: 'Email parameter required' }, { status: 400 });
+  const session = await auth();
+  if (!session?.user?.email) {
+    return NextResponse.json(
+      { error: 'Authentication required' },
+      { status: 401 },
+    );
   }
+
+  // Users can only check their own registration status
+  const email = session.user.email;
 
   try {
     const user = await prisma.user.findUnique({
@@ -443,7 +515,7 @@ export async function GET(request: NextRequest) {
     // TODO: Log to monitoring service
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,91 +1,71 @@
-import { Instagram, Phone,Youtube } from 'lucide-react';
-import Image from 'next/image';
+import { Instagram, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200 pt-12 pb-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Left - Logo and Tagline */}
-          <div className="flex flex-col items-start">
-            <Image
-              src="/logo/logo-white.svg"
-              alt="Sandbox Logo"
-              width={60}
-              height={60}
-              className="mb-4 brightness-0"
-            />
-            <p className="text-gray-600 text-sm font-gemunu">
-              IEEE ITB Student Branch
-            </p>
+    <footer className='bg-white'>
+      {/* Dark separator bar */}
+      <div className='h-2 bg-gradient-to-r from-[#5A2424] via-[#8B3A3A] to-[#5A2424]' />
+
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10'>
+        <div className='flex flex-col md:flex-row md:items-start md:justify-between gap-8'>
+          {/* Left - Hashtag Tagline + Socials */}
+          <div className='flex flex-col items-start'>
+            <h3 className='text-gray-900 font-gemunu text-xl md:text-2xl font-bold mb-4 leading-tight'>
+              #AutomatingChange
+              <br />
+              AcceleratingImpact
+            </h3>
+            <div className='space-y-2'>
+              <a
+                href='https://www.instagram.com/thesandbox.itb/'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex items-center gap-2 text-gray-600 hover:text-[#5A2424] transition-colors font-gemunu text-sm'
+              >
+                <Instagram className='h-4 w-4' />
+                <span>@thesandbox.itb</span>
+              </a>
+              <a
+                href='https://www.linkedin.com/company/the-sandbox-by-ieee-itb/'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex items-center gap-2 text-gray-600 hover:text-[#5A2424] transition-colors font-gemunu text-sm'
+              >
+                <Linkedin className='h-4 w-4' />
+                <span>The Sandbox by IEEE ITB</span>
+              </a>
+            </div>
           </div>
 
-          {/* Center - Navigation */}
-          <div className="flex flex-col md:items-center">
-            <h3 className="text-gray-900 font-gemunu text-lg font-semibold mb-4">
-              Quick Links
-            </h3>
-            <div className="flex flex-col space-y-2">
+          {/* Right - Navigation */}
+          <div className='flex flex-col items-start md:items-end'>
+            <nav className='flex flex-col space-y-2'>
               <Link
-                href="/"
-                className="text-gray-600 hover:text-[#FF6B7A] transition-colors font-gemunu"
+                href='/'
+                className='text-gray-700 hover:text-[#5A2424] transition-colors font-gemunu font-semibold text-base'
               >
                 Home
               </Link>
               <Link
-                href="/competitions"
-                className="text-gray-600 hover:text-[#FF6B7A] transition-colors font-gemunu"
+                href='/#competitions'
+                className='text-gray-700 hover:text-[#5A2424] transition-colors font-gemunu font-semibold text-base'
               >
                 Competition
               </Link>
-            </div>
-          </div>
-
-          {/* Right - Contact */}
-          <div className="flex flex-col md:items-end">
-            <h3 className="text-gray-900 font-gemunu text-lg font-semibold mb-4">
-              Contact Us
-            </h3>
-            <div className="space-y-2 text-gray-600 font-gemunu">
-              <p className="text-sm">#theSandboxIEEEITB</p>
-              <p className="text-sm">sandbox@ieee-itb.org</p>
-              <p className="text-sm">Jl. Ganesha No. 10, Bandung</p>
-
-              {/* Social Media Icons */}
-              <div className="flex space-x-4 pt-2">
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-[#FF6B7A] transition-colors"
-                >
-                  <Instagram className="h-5 w-5" />
-                </a>
-                <a
-                  href="https://youtube.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-[#FF6B7A] transition-colors"
-                >
-                  <Youtube className="h-5 w-5" />
-                </a>
-                <a
-                  href="https://wa.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-[#FF6B7A] transition-colors"
-                >
-                  <Phone className="h-5 w-5" />
-                </a>
-              </div>
-            </div>
+              <Link
+                href='/#timeline'
+                className='text-gray-700 hover:text-[#5A2424] transition-colors font-gemunu font-semibold text-base'
+              >
+                Event
+              </Link>
+            </nav>
           </div>
         </div>
 
         {/* Bottom - Copyright */}
-        <div className="pt-6 border-t border-gray-200">
-          <p className="text-center text-gray-600 text-sm font-gemunu">
+        <div className='pt-8 mt-8 border-t border-gray-200'>
+          <p className='text-center text-gray-500 text-sm font-gemunu'>
             © 2026 IEEE SANDBOX. All Rights Reserved.
           </p>
         </div>
