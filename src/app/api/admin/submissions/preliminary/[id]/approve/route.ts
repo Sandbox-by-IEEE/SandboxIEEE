@@ -69,24 +69,24 @@ export async function POST(
       );
     }
 
-    // Update submission status
-    await prisma.preliminarySubmission.update({
-      where: { id: submissionId },
-      data: {
-        status: 'qualified',
-        reviewedAt: new Date(),
-        reviewNotes: feedback || 'Submission approved',
-      },
-    });
-
-    // Update registration to payment phase
-    await prisma.competitionRegistration.update({
-      where: { id: submission.registration.id },
-      data: {
-        currentPhase: 'semifinal',
-        isPreliminaryQualified: true,
-      },
-    });
+    // Update submission status + registration phase atomically
+    await prisma.$transaction([
+      prisma.preliminarySubmission.update({
+        where: { id: submissionId },
+        data: {
+          status: 'qualified',
+          reviewedAt: new Date(),
+          reviewNotes: feedback || 'Submission approved',
+        },
+      }),
+      prisma.competitionRegistration.update({
+        where: { id: submission.registration.id },
+        data: {
+          currentPhase: 'semifinal',
+          isPreliminaryQualified: true,
+        },
+      }),
+    ]);
 
     // Send approval email to team leader
     const emailHtml = `

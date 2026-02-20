@@ -23,6 +23,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
+import { Prisma } from '@prisma/client';
+
 import { prisma } from '@/lib/db';
 import { uploadFile } from '@/lib/fileUpload';
 import { appendToGoogleSheets } from '@/lib/google-sheets';
@@ -443,16 +445,28 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    // TODO: Log to monitoring service with stack trace
-
-    // Handle Prisma errors
-    if (error instanceof Error) {
-      if (error.message.includes('Unique constraint')) {
+    // Handle race condition: unique constraint violation from concurrent registration
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      const target = (error.meta?.target as string[]) || [];
+      if (target.includes('userId')) {
         return NextResponse.json(
-          { error: 'Data already exists. Please check your input.' },
+          { error: 'You are already registered for a competition.' },
           { status: 409 },
         );
       }
+      if (target.includes('email')) {
+        return NextResponse.json(
+          { error: 'One or more email addresses are already registered.' },
+          { status: 409 },
+        );
+      }
+      return NextResponse.json(
+        { error: 'Registration conflict. Please try again.' },
+        { status: 409 },
+      );
     }
 
     return NextResponse.json(

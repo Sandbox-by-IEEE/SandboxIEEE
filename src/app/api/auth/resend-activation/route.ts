@@ -43,12 +43,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Check if already activated
+    // Don't reveal activation status — return same response as 'not found'
     if (user.active) {
-      return NextResponse.json(
-        { error: 'Account is already activated. You can login now.' },
-        { status: 400 },
-      );
+      return NextResponse.json({
+        success: true,
+        message: 'If the email exists, an activation link has been sent.',
+      });
     }
 
     // Rate limiting: Check if last token was created less than 5 minutes ago

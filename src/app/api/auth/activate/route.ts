@@ -105,10 +105,6 @@ export async function GET(request: Request) {
       {
         success: true,
         message: 'Account activated successfully! You can now login.',
-        user: {
-          username: activationRecord.user.username,
-          email: activationRecord.user.email,
-        },
       },
       { status: 200 },
     );

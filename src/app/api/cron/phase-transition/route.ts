@@ -25,7 +25,8 @@ export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
 
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  // Fail-closed: deny if secret is not configured or doesn't match
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -90,9 +91,9 @@ export async function GET(request: NextRequest) {
       results,
     });
   } catch (error) {
-    console.error('Cron job failed:', error);
+    console.error('Cron job failed:', error instanceof Error ? error.message : 'Unknown error');
     return NextResponse.json(
-      { error: 'Cron job failed', details: String(error) },
+      { error: 'Cron job failed' },
       { status: 500 },
     );
   }

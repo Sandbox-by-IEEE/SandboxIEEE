@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { hash } from 'bcrypt';
 import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
@@ -131,9 +132,7 @@ export async function POST(request: NextRequest) {
     // ============================================================================
     try {
       await sendActivationEmail(email, name, activationToken);
-      console.log(`✅ Activation email sent successfully to ${email}`);
-    } catch (emailError) {
-      console.error('❌ Failed to send activation email:', emailError);
+    } catch {
       // Don't fail registration if email fails - user can request new token
     }
 
@@ -153,7 +152,6 @@ export async function POST(request: NextRequest) {
     // ============================================================================
     // Error Handling
     // ============================================================================
-    // TODO: Log registration error to monitoring service
 
     // Zod validation errors
     if (error instanceof z.ZodError) {
@@ -165,6 +163,17 @@ export async function POST(request: NextRequest) {
             message: e.message,
           })),
         },
+        { status: 400 },
+      );
+    }
+
+    // Handle race condition: duplicate email/username caught by DB unique constraint
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return NextResponse.json(
+        { error: 'Email already registered' },
         { status: 400 },
       );
     }

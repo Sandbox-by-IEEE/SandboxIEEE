@@ -209,7 +209,7 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    console.error('❌ Webhook import failed:', error);
+    console.error('Webhook import failed:', error instanceof Error ? error.message : 'Unknown error');
 
     return NextResponse.json(
       {
@@ -220,11 +220,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Optional: GET endpoint to check webhook status
-export async function GET() {
-  return NextResponse.json({
-    status: 'active',
-    endpoint: '/api/webhooks/import-registration',
-    message: 'Webhook endpoint for Google Form registration import',
-  });
-}
+// GET endpoint removed — no public status endpoint needed
