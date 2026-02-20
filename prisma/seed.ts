@@ -2,17 +2,14 @@
  * ============================================================================
  * THE SANDBOX 3.0 - DATABASE SEED SCRIPT
  * ============================================================================
- * 
- * Purpose: Initialize database with required data for development/production
- * 
+ *
  * Seeds:
- * 1. Competition configurations (PTC, TPC, BCC)
- * 2. Initial Super Admin account
- * 
+ * 1. Competition configurations (PTC, TPC, BCC) with correct 2026 timelines
+ * 2. Detailed timeline events for each competition
+ * 3. Initial Super Admin account
+ *
  * Usage:
  *   npx prisma db seed
- * 
- * ⚠️ WARNING: Change Super Admin password immediately after first login!
  * ============================================================================
  */
 
@@ -20,6 +17,9 @@ import { PrismaClient } from '@prisma/client';
 import { hash } from 'bcrypt';
 
 const prisma = new PrismaClient();
+
+// All dates in WIB (UTC+7) — Jakarta timezone
+const wib = (dateStr: string) => new Date(`${dateStr}+07:00`);
 
 async function main() {
   console.log('🌱 Starting database seed...\n');
@@ -29,20 +29,42 @@ async function main() {
   // ============================================================================
   console.log('📋 Seeding Competition configurations...');
 
-  // ProtoTech Contest (PTC)
+  // ------ PTC (ProtoTech Contest) ------
   const ptc = await prisma.competition.upsert({
     where: { code: 'PTC' },
-    update: {},
+    update: {
+      name: 'ProtoTech Contest',
+      description:
+        'ProtoTech Contest (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
+      registrationOpen: wib('2026-02-21T00:00:00'),
+      registrationDeadline: wib('2026-03-08T23:59:59'),
+      preliminaryStart: wib('2026-02-23T00:00:00'),
+      preliminaryDeadline: wib('2026-03-11T23:59:59'),
+      semifinalStart: wib('2026-03-17T00:00:00'),
+      semifinalDeadline: wib('2026-03-24T23:59:59'),
+      finalStart: wib('2026-03-31T00:00:00'),
+      finalDeadline: wib('2026-04-24T23:59:59'),
+      grandFinalDate: wib('2026-04-25T00:00:00'),
+      registrationFee: 150000,
+      minTeamSize: 3,
+      maxTeamSize: 5,
+      isActive: true,
+    },
     create: {
       code: 'PTC',
       name: 'ProtoTech Contest',
       description:
-        'Hardware and IoT prototype competition for innovative technology solutions',
-      registrationDeadline: new Date('2026-08-01T23:59:59+07:00'), // Aug 1, 2026
-      preliminaryDeadline: new Date('2026-08-15T23:59:59+07:00'), // Aug 15, 2026
-      semifinalDeadline: new Date('2026-09-01T23:59:59+07:00'), // Sep 1, 2026
-      finalDeadline: null, // Live pitching only (no file submission)
-      registrationFee: 150000, // IDR 150,000
+        'ProtoTech Contest (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
+      registrationOpen: wib('2026-02-21T00:00:00'),
+      registrationDeadline: wib('2026-03-08T23:59:59'),
+      preliminaryStart: wib('2026-02-23T00:00:00'),
+      preliminaryDeadline: wib('2026-03-11T23:59:59'),
+      semifinalStart: wib('2026-03-17T00:00:00'),
+      semifinalDeadline: wib('2026-03-24T23:59:59'),
+      finalStart: wib('2026-03-31T00:00:00'),
+      finalDeadline: wib('2026-04-24T23:59:59'),
+      grandFinalDate: wib('2026-04-25T00:00:00'),
+      registrationFee: 150000,
       minTeamSize: 3,
       maxTeamSize: 5,
       isActive: true,
@@ -50,20 +72,42 @@ async function main() {
   });
   console.log('  ✅ PTC created:', ptc.name);
 
-  // Technovate Paper Competition (TPC)
+  // ------ TPC (Technovate Paper Competition) ------
   const tpc = await prisma.competition.upsert({
     where: { code: 'TPC' },
-    update: {},
+    update: {
+      name: 'Technovate Paper Competition',
+      description:
+        'Technovate Paper Competition (TPC) is a competition held at the national level, aiming to challenge undergraduate and high school students to apply scientific methodology to scrutinize and propose solutions addressing relevant issues in accordance with the designated subtheme.',
+      registrationOpen: wib('2026-02-21T00:00:00'),
+      registrationDeadline: wib('2026-03-08T23:59:59'),
+      preliminaryStart: wib('2026-02-23T00:00:00'),
+      preliminaryDeadline: wib('2026-03-11T23:59:59'),
+      semifinalStart: wib('2026-03-17T00:00:00'),
+      semifinalDeadline: wib('2026-04-10T23:59:59'),
+      finalStart: null,
+      finalDeadline: null,
+      grandFinalDate: wib('2026-04-25T00:00:00'),
+      registrationFee: 125000,
+      minTeamSize: 1,
+      maxTeamSize: 3,
+      isActive: true,
+    },
     create: {
       code: 'TPC',
       name: 'Technovate Paper Competition',
       description:
-        'Research paper competition for academic innovation and technology advancement',
-      registrationDeadline: new Date('2026-08-01T23:59:59+07:00'),
-      preliminaryDeadline: new Date('2026-08-15T23:59:59+07:00'),
-      semifinalDeadline: new Date('2026-09-01T23:59:59+07:00'),
-      finalDeadline: null, // Live presentation only
-      registrationFee: 100000, // IDR 100,000
+        'Technovate Paper Competition (TPC) is a competition held at the national level, aiming to challenge undergraduate and high school students to apply scientific methodology to scrutinize and propose solutions addressing relevant issues in accordance with the designated subtheme.',
+      registrationOpen: wib('2026-02-21T00:00:00'),
+      registrationDeadline: wib('2026-03-08T23:59:59'),
+      preliminaryStart: wib('2026-02-23T00:00:00'),
+      preliminaryDeadline: wib('2026-03-11T23:59:59'),
+      semifinalStart: wib('2026-03-17T00:00:00'),
+      semifinalDeadline: wib('2026-04-10T23:59:59'),
+      finalStart: null,
+      finalDeadline: null,
+      grandFinalDate: wib('2026-04-25T00:00:00'),
+      registrationFee: 125000,
       minTeamSize: 1,
       maxTeamSize: 3,
       isActive: true,
@@ -71,33 +115,368 @@ async function main() {
   });
   console.log('  ✅ TPC created:', tpc.name);
 
-  // Business Case Competition (BCC)
+  // ------ BCC (Business Case Competition) ------
   const bcc = await prisma.competition.upsert({
     where: { code: 'BCC' },
-    update: {},
+    update: {
+      name: 'Business Case Competition',
+      description:
+        'Business Case Competition (BCC) is a national-level analytical competition that challenges undergraduate students to solve real-world business problems related to the implementation of smart automation technology. Participants are required to analyze complex industry cases, develop data-driven and structured solutions, and present feasible strategies that balance technological innovation, operational efficiency, and business sustainability.',
+      registrationOpen: wib('2026-02-21T00:00:00'),
+      registrationDeadline: wib('2026-03-08T23:59:59'),
+      preliminaryStart: wib('2026-02-23T00:00:00'),
+      preliminaryDeadline: wib('2026-03-15T23:59:59'),
+      semifinalStart: wib('2026-03-24T00:00:00'),
+      semifinalDeadline: wib('2026-04-02T23:59:59'),
+      finalStart: wib('2026-04-16T00:00:00'),
+      finalDeadline: wib('2026-04-23T23:59:59'),
+      grandFinalDate: wib('2026-04-25T00:00:00'),
+      registrationFee: 125000,
+      minTeamSize: 3,
+      maxTeamSize: 3,
+      isActive: true,
+    },
     create: {
       code: 'BCC',
       name: 'Business Case Competition',
       description:
-        'Business case analysis competition for innovative business solutions',
-      registrationDeadline: new Date('2026-08-01T23:59:59+07:00'),
-      preliminaryDeadline: new Date('2026-08-15T23:59:59+07:00'),
-      semifinalDeadline: new Date('2026-09-01T23:59:59+07:00'),
-      finalDeadline: new Date('2026-09-10T23:59:59+07:00'), // Final pitch deck required
-      registrationFee: 125000, // IDR 125,000
+        'Business Case Competition (BCC) is a national-level analytical competition that challenges undergraduate students to solve real-world business problems related to the implementation of smart automation technology. Participants are required to analyze complex industry cases, develop data-driven and structured solutions, and present feasible strategies that balance technological innovation, operational efficiency, and business sustainability.',
+      registrationOpen: wib('2026-02-21T00:00:00'),
+      registrationDeadline: wib('2026-03-08T23:59:59'),
+      preliminaryStart: wib('2026-02-23T00:00:00'),
+      preliminaryDeadline: wib('2026-03-15T23:59:59'),
+      semifinalStart: wib('2026-03-24T00:00:00'),
+      semifinalDeadline: wib('2026-04-02T23:59:59'),
+      finalStart: wib('2026-04-16T00:00:00'),
+      finalDeadline: wib('2026-04-23T23:59:59'),
+      grandFinalDate: wib('2026-04-25T00:00:00'),
+      registrationFee: 125000,
       minTeamSize: 3,
-      maxTeamSize: 3, // Fixed team size
+      maxTeamSize: 3,
       isActive: true,
     },
   });
   console.log('  ✅ BCC created:', bcc.name);
 
   // ============================================================================
-  // 2. Seed Initial Super Admin
+  // 2. Seed Timeline Events
+  // ============================================================================
+  console.log('\n📅 Seeding Timeline events...');
+
+  // Clear existing timeline events
+  await prisma.competitionTimeline.deleteMany({});
+
+  // --- PTC Timeline ---
+  const ptcTimeline = [
+    {
+      phase: 'registration_batch_1',
+      label: 'Open Registration Batch 1',
+      startDate: '2026-02-21T00:00:00',
+      endDate: '2026-02-28T23:59:59',
+      sortOrder: 1,
+      phaseType: 'registration',
+    },
+    {
+      phase: 'registration_batch_2',
+      label: 'Open Registration Batch 2',
+      startDate: '2026-03-01T00:00:00',
+      endDate: '2026-03-08T23:59:59',
+      sortOrder: 2,
+      phaseType: 'registration',
+    },
+    {
+      phase: 'preliminary',
+      label: 'Abstract Submission (Preliminary)',
+      startDate: '2026-02-23T00:00:00',
+      endDate: '2026-03-11T23:59:59',
+      sortOrder: 3,
+      phaseType: 'submission',
+    },
+    {
+      phase: 'semifinalist_announcement',
+      label: 'Semifinalist Announcement',
+      startDate: '2026-03-15T00:00:00',
+      endDate: '2026-03-15T23:59:59',
+      sortOrder: 4,
+      phaseType: 'announcement',
+    },
+    {
+      phase: 'semifinal',
+      label: 'Semifinal Round',
+      startDate: '2026-03-17T00:00:00',
+      endDate: '2026-03-24T23:59:59',
+      sortOrder: 5,
+      phaseType: 'submission',
+    },
+    {
+      phase: 'finalist_announcement',
+      label: 'Finalist Announcement',
+      startDate: '2026-03-29T00:00:00',
+      endDate: '2026-03-29T23:59:59',
+      sortOrder: 6,
+      phaseType: 'announcement',
+    },
+    {
+      phase: 'technical_meeting',
+      label: 'Final Round Technical Meeting',
+      startDate: '2026-03-30T00:00:00',
+      endDate: '2026-03-30T23:59:59',
+      sortOrder: 7,
+      phaseType: 'event',
+    },
+    {
+      phase: 'final',
+      label: 'Prototyping (Final Phase)',
+      startDate: '2026-03-31T00:00:00',
+      endDate: '2026-04-24T23:59:59',
+      sortOrder: 8,
+      phaseType: 'submission',
+    },
+    {
+      phase: 'coaching_1',
+      label: 'Coaching Session 1',
+      startDate: '2026-04-05T00:00:00',
+      endDate: '2026-04-05T23:59:59',
+      sortOrder: 9,
+      phaseType: 'event',
+    },
+    {
+      phase: 'coaching_2',
+      label: 'Coaching Session 2',
+      startDate: '2026-04-12T00:00:00',
+      endDate: '2026-04-12T23:59:59',
+      sortOrder: 10,
+      phaseType: 'event',
+    },
+    {
+      phase: 'coaching_3',
+      label: 'Coaching Session 3',
+      startDate: '2026-04-19T00:00:00',
+      endDate: '2026-04-19T23:59:59',
+      sortOrder: 11,
+      phaseType: 'event',
+    },
+    {
+      phase: 'grand_final',
+      label: 'Grand Final and Awarding',
+      startDate: '2026-04-25T00:00:00',
+      endDate: '2026-04-25T23:59:59',
+      sortOrder: 12,
+      phaseType: 'event',
+    },
+  ];
+
+  for (const event of ptcTimeline) {
+    await prisma.competitionTimeline.create({
+      data: {
+        competitionId: ptc.id,
+        phase: event.phase,
+        label: event.label,
+        startDate: wib(event.startDate),
+        endDate: wib(event.endDate),
+        sortOrder: event.sortOrder,
+        phaseType: event.phaseType,
+      },
+    });
+  }
+  console.log(`  ✅ PTC: ${ptcTimeline.length} timeline events`);
+
+  // --- TPC Timeline ---
+  const tpcTimeline = [
+    {
+      phase: 'registration_batch_1',
+      label: 'Open Registration Batch 1',
+      startDate: '2026-02-21T00:00:00',
+      endDate: '2026-02-28T23:59:59',
+      sortOrder: 1,
+      phaseType: 'registration',
+    },
+    {
+      phase: 'registration_batch_2',
+      label: 'Open Registration Batch 2',
+      startDate: '2026-03-01T00:00:00',
+      endDate: '2026-03-08T23:59:59',
+      sortOrder: 2,
+      phaseType: 'registration',
+    },
+    {
+      phase: 'preliminary',
+      label: 'Preliminary Round',
+      startDate: '2026-02-23T00:00:00',
+      endDate: '2026-03-11T23:59:59',
+      sortOrder: 3,
+      phaseType: 'submission',
+    },
+    {
+      phase: 'semifinalist_announcement',
+      label: 'Semifinalist Announcement',
+      startDate: '2026-03-16T00:00:00',
+      endDate: '2026-03-16T23:59:59',
+      sortOrder: 4,
+      phaseType: 'announcement',
+    },
+    {
+      phase: 'semifinal',
+      label: 'Semifinal Round',
+      startDate: '2026-03-17T00:00:00',
+      endDate: '2026-04-10T23:59:59',
+      sortOrder: 5,
+      phaseType: 'submission',
+    },
+    {
+      phase: 'finalist_announcement',
+      label: 'Finalist Announcement',
+      startDate: '2026-04-15T00:00:00',
+      endDate: '2026-04-15T23:59:59',
+      sortOrder: 6,
+      phaseType: 'announcement',
+    },
+    {
+      phase: 'coaching',
+      label: 'Coaching Session',
+      startDate: '2026-04-18T00:00:00',
+      endDate: '2026-04-18T23:59:59',
+      sortOrder: 7,
+      phaseType: 'event',
+    },
+    {
+      phase: 'grand_final',
+      label: 'Grand Final and Awarding',
+      startDate: '2026-04-25T00:00:00',
+      endDate: '2026-04-25T23:59:59',
+      sortOrder: 8,
+      phaseType: 'event',
+    },
+  ];
+
+  for (const event of tpcTimeline) {
+    await prisma.competitionTimeline.create({
+      data: {
+        competitionId: tpc.id,
+        phase: event.phase,
+        label: event.label,
+        startDate: wib(event.startDate),
+        endDate: wib(event.endDate),
+        sortOrder: event.sortOrder,
+        phaseType: event.phaseType,
+      },
+    });
+  }
+  console.log(`  ✅ TPC: ${tpcTimeline.length} timeline events`);
+
+  // --- BCC Timeline ---
+  const bccTimeline = [
+    {
+      phase: 'registration_batch_1',
+      label: 'Open Registration Batch 1',
+      startDate: '2026-02-21T00:00:00',
+      endDate: '2026-02-28T23:59:59',
+      sortOrder: 1,
+      phaseType: 'registration',
+    },
+    {
+      phase: 'registration_batch_2',
+      label: 'Open Registration Batch 2',
+      startDate: '2026-03-01T00:00:00',
+      endDate: '2026-03-08T23:59:59',
+      sortOrder: 2,
+      phaseType: 'registration',
+    },
+    {
+      phase: 'case_release',
+      label: 'Case Release',
+      startDate: '2026-02-23T00:00:00',
+      endDate: '2026-02-23T23:59:59',
+      sortOrder: 3,
+      phaseType: 'announcement',
+    },
+    {
+      phase: 'preliminary',
+      label: 'Preliminary Round',
+      startDate: '2026-02-23T00:00:00',
+      endDate: '2026-03-15T23:59:59',
+      sortOrder: 4,
+      phaseType: 'submission',
+    },
+    {
+      phase: 'semifinalist_announcement',
+      label: 'Semifinalist Announcement',
+      startDate: '2026-03-23T00:00:00',
+      endDate: '2026-03-23T23:59:59',
+      sortOrder: 5,
+      phaseType: 'announcement',
+    },
+    {
+      phase: 'coaching',
+      label: 'Coaching',
+      startDate: '2026-03-27T00:00:00',
+      endDate: '2026-03-27T23:59:59',
+      sortOrder: 6,
+      phaseType: 'event',
+    },
+    {
+      phase: 'semifinal',
+      label: 'Semifinal Round',
+      startDate: '2026-03-24T00:00:00',
+      endDate: '2026-04-02T23:59:59',
+      sortOrder: 7,
+      phaseType: 'submission',
+    },
+    {
+      phase: 'finalist_announcement',
+      label: 'Finalist Announcement',
+      startDate: '2026-04-15T00:00:00',
+      endDate: '2026-04-15T23:59:59',
+      sortOrder: 8,
+      phaseType: 'announcement',
+    },
+    {
+      phase: 'mentoring',
+      label: 'Mentoring Session',
+      startDate: '2026-04-16T00:00:00',
+      endDate: '2026-04-19T23:59:59',
+      sortOrder: 9,
+      phaseType: 'event',
+    },
+    {
+      phase: 'technical_meeting',
+      label: 'Technical Meeting',
+      startDate: '2026-04-23T00:00:00',
+      endDate: '2026-04-23T23:59:59',
+      sortOrder: 10,
+      phaseType: 'event',
+    },
+    {
+      phase: 'grand_final',
+      label: 'Grand Final and Awarding',
+      startDate: '2026-04-25T00:00:00',
+      endDate: '2026-04-25T23:59:59',
+      sortOrder: 11,
+      phaseType: 'event',
+    },
+  ];
+
+  for (const event of bccTimeline) {
+    await prisma.competitionTimeline.create({
+      data: {
+        competitionId: bcc.id,
+        phase: event.phase,
+        label: event.label,
+        startDate: wib(event.startDate),
+        endDate: wib(event.endDate),
+        sortOrder: event.sortOrder,
+        phaseType: event.phaseType,
+      },
+    });
+  }
+  console.log(`  ✅ BCC: ${bccTimeline.length} timeline events`);
+
+  // ============================================================================
+  // 3. Seed Initial Super Admin
   // ============================================================================
   console.log('\n👤 Seeding Super Admin account...');
 
-  const SUPER_ADMIN_PASSWORD = 'SuperAdmin2026!'; // ⚠️ CHANGE IMMEDIATELY
+  const SUPER_ADMIN_PASSWORD = 'SuperAdmin2026!';
   const hashedPassword = await hash(SUPER_ADMIN_PASSWORD, 10);
 
   const superAdmin = await prisma.admin.upsert({
@@ -112,29 +491,8 @@ async function main() {
     },
   });
 
-  console.log('  ✅ Super Admin created:');
-  console.log('     Username:', superAdmin.username);
-  console.log('     Email:', superAdmin.email);
-  console.log('     Password:', SUPER_ADMIN_PASSWORD);
-  console.log(
-    '     ⚠️  WARNING: Change this password immediately after first login!'
-  );
-
-  // ============================================================================
-  // Seed Summary
-  // ============================================================================
-  console.log('\n✨ Database seed completed successfully!\n');
-  console.log('📊 Summary:');
-  console.log('   - Competitions:', 3, '(PTC, TPC, BCC)');
-  console.log('   - Admins:', 1, '(Super Admin)');
-  console.log('\n🔐 Super Admin Credentials:');
-  console.log('   Username: superadmin');
-  console.log('   Password:', SUPER_ADMIN_PASSWORD);
-  console.log('\n🚀 Next steps:');
-  console.log('   1. Login to admin panel: /admin/login');
-  console.log('   2. Change Super Admin password immediately');
-  console.log('   3. Create additional admin accounts for staff');
-  console.log('   4. Update competition deadlines if needed\n');
+  console.log('  ✅ Super Admin created:', superAdmin.username);
+  console.log('\n✨ Database seed completed successfully!');
 }
 
 main()

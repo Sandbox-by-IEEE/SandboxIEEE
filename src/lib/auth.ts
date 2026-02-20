@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
-import { PrismaAdapter } from '@auth/prisma-adapter';
 
 import { authConfig } from '@/auth.config';
 import { prisma } from '@/lib/db';
@@ -11,19 +10,21 @@ import { prisma } from '@/lib/db';
  * ============================================================================
  * NEXTAUTH V5 CONFIGURATION - SANDBOX 3.0
  * ============================================================================
- * 
+ *
  * Dual authentication system:
  * 1. User Login (participants) - Credentials + Google OAuth
  * 2. Admin Login (staff) - Credentials only
- * 
+ *
  * NextAuth v5 uses new export pattern with auth.ts
  * Auth config is split for edge compatibility (see auth.config.ts)
+ *
+ * NOTE: Not using PrismaAdapter to avoid OAuth account linking conflicts.
+ * Users can use either credentials OR Google OAuth independently.
  * ============================================================================
  */
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
-  adapter: PrismaAdapter(prisma) as any,
   session: {
     strategy: 'jwt',
   },
@@ -31,6 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: '/login',
     error: '/login', // Redirect errors to login page
   },
+  trustHost: true, // Required for NextAuth v5 in development
   providers: [
     // ==========================================
     // ADMIN CREDENTIALS PROVIDER
@@ -51,19 +53,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { username: credentials.username as string },
         });
 
-        if (!admin || !admin.isActive) {
+        if (!admin) {
+          return null;
+        }
+
+        if (!admin.isActive) {
           return null;
         }
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password as string,
-          admin.password
+          admin.password,
         );
 
         if (!isPasswordValid) {
           return null;
         }
-
         return {
           id: admin.id,
           email: admin.email,
@@ -104,7 +109,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password as string,
-          user.password
+          user.password,
         );
 
         if (!isPasswordValid) {
@@ -164,10 +169,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async redirect({ url, baseUrl }) {
-      // After successful login, always redirect to homepage
-      // This prevents the error page redirect issue
+      // Allow any relative URL
       if (url.startsWith('/')) return `${baseUrl}${url}`;
+      // Allow any URL with same origin
       else if (new URL(url).origin === baseUrl) return url;
+      // Default to homepage
       return baseUrl;
     },
 
@@ -201,58 +207,148 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               active: true, // Auto-activate OAuth users
             },
           });
+        } else {
+          // User exists with credentials - update their info and activate if not already
+          // This allows users to login with Google even if they registered with email/password
+          await prisma.user.update({
+            where: { email: user.email },
+            data: {
+              image: user.image || (profile?.picture as string),
+              active: true, // Activate account via Google OAuth
+              emailVerified: new Date(), // Mark email as verified by Google
+            },
+          });
         }
       }
 
       return true;
     },
 
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user?.id) {
-        token.id = user.id;
         token.type = (user as any).type || 'user';
         token.role = (user as any).role;
+        token.email = user.email;
+        token.name = user.name;
+        token.picture = user.image;
+
+        // For Google OAuth users, the profile() callback may return
+        // Google's `sub` as the id for NEW users (before DB creation).
+        // The signIn callback creates the user with a Prisma UUID.
+        // We must resolve the correct DB id by email lookup.
+        if (account?.provider === 'google' && user.email) {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: user.email },
+          });
+          token.id = dbUser?.id || user.id;
+        } else {
+          token.id = user.id;
+        }
       }
+
+      // Refresh user data from DB periodically (every 5 minutes)
+      // or on first token creation (when user object exists)
+      const now = Math.floor(Date.now() / 1000);
+      const lastRefresh = (token.lastDbRefresh as number) || 0;
+      const REFRESH_INTERVAL = 5 * 60; // 5 minutes
+
+      if (now - lastRefresh > REFRESH_INTERVAL || user?.id) {
+        try {
+          if (token.type === 'admin') {
+            const admin = await prisma.admin.findUnique({
+              where: { id: token.id as string },
+            });
+            if (admin) {
+              token.adminData = {
+                id: admin.id,
+                username: admin.username,
+                email: admin.email,
+                role: admin.adminRole,
+                isActive: admin.isActive,
+              };
+            }
+          } else {
+            // Look up by id first, fall back to email for Google OAuth users
+            let dbUser = await prisma.user.findUnique({
+              where: { id: token.id as string },
+              include: {
+                registration: {
+                  include: {
+                    competition: true,
+                    team: true,
+                  },
+                },
+              },
+            });
+
+            // Fallback: if id lookup fails (e.g. stale Google sub ID in token),
+            // try by email and correct the token.id
+            if (!dbUser && token.email) {
+              dbUser = await prisma.user.findUnique({
+                where: { email: token.email as string },
+                include: {
+                  registration: {
+                    include: {
+                      competition: true,
+                      team: true,
+                    },
+                  },
+                },
+              });
+              if (dbUser) {
+                token.id = dbUser.id; // Fix the token id to the correct DB id
+              }
+            }
+
+            if (dbUser) {
+              token.userData = {
+                id: dbUser.id,
+                username: dbUser.username,
+                email: dbUser.email,
+                emailVerified: dbUser.emailVerified,
+                name: dbUser.name,
+                image: dbUser.image,
+                registration: dbUser.registration,
+              };
+            }
+          }
+          token.lastDbRefresh = now;
+        } catch (error) {
+          console.error('[AUTH] Failed to refresh token data:', error);
+          // Keep existing token data if DB query fails
+        }
+      }
+
       return token;
     },
 
     async session({ session, token }) {
+      // Use cached data from JWT token instead of querying DB every request
       if (token.type === 'admin') {
-        const admin = await prisma.admin.findUnique({
-          where: { id: token.id as string },
-        });
-
-        if (admin) {
+        if (token.adminData) {
+          session.admin = token.adminData as any;
+        } else {
+          // Fallback: build from token fields
           session.admin = {
-            id: admin.id,
-            username: admin.username,
-            email: admin.email,
-            role: admin.adminRole,
-            isActive: admin.isActive,
+            id: token.id as string,
+            username: token.name || '',
+            email: token.email || '',
+            role: token.role as any,
+            isActive: true,
           };
         }
       } else {
-        const user = await prisma.user.findUnique({
-          where: { id: token.id as string },
-          include: {
-            registration: {
-              include: {
-                competition: true,
-                team: true,
-              },
-            },
-          },
-        });
-
-        if (user) {
+        if (token.userData) {
+          session.user = token.userData as any;
+        } else {
+          // Fallback: build from token fields
           session.user = {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            emailVerified: user.emailVerified,
-            name: user.name,
-            image: user.image,
-            registration: user.registration,
+            id: token.id as string,
+            username: token.name || '',
+            email: token.email || '',
+            emailVerified: null,
+            name: token.name || '',
+            image: (token.picture as string) || null,
           };
         }
       }

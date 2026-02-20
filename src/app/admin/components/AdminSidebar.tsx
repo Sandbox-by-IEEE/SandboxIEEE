@@ -2,7 +2,6 @@
 
 import { AdminRole } from '@prisma/client';
 import {
-  CreditCard,
   FileText,
   LayoutDashboard,
   Settings,
@@ -53,14 +52,14 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
       roles: ['super_admin', 'moderator'],
     },
     {
-      label: 'Payment Verification',
-      href: '/admin/payments',
-      icon: <CreditCard size={20} />,
-      roles: ['super_admin', 'finance'],
-    },
-    {
       label: 'Semifinal Submissions',
       href: '/admin/submissions/semifinal',
+      icon: <Trophy size={20} />,
+      roles: ['super_admin', 'moderator'],
+    },
+    {
+      label: 'Final Submissions',
+      href: '/admin/submissions/final',
       icon: <Trophy size={20} />,
       roles: ['super_admin', 'moderator'],
     },
@@ -110,35 +109,35 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
   };
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
+    <aside className='w-64 bg-white border-r border-gray-200 flex flex-col'>
       {/* Logo & Brand */}
-      <div className="p-6 border-b border-gray-200">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-            <Shield className="text-white" size={24} />
+      <div className='p-6 border-b border-gray-200'>
+        <div className='flex items-center gap-3'>
+          <div className='w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center'>
+            <Shield className='text-white' size={24} />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-gray-900">Sandbox 3.0</h1>
-            <p className="text-xs text-gray-500">Admin Panel</p>
+            <h1 className='text-xl font-bold text-gray-900'>Sandbox 3.0</h1>
+            <p className='text-xs text-gray-500'>Admin Panel</p>
           </div>
         </div>
       </div>
 
       {/* Admin Info */}
-      <div className="p-4 border-b border-gray-200 bg-gray-50">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center">
-            <span className="text-white font-semibold text-sm">
+      <div className='p-4 border-b border-gray-200 bg-gray-50'>
+        <div className='flex items-center gap-3'>
+          <div className='w-10 h-10 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center'>
+            <span className='text-white font-semibold text-sm'>
               {admin.username.substring(0, 2).toUpperCase()}
             </span>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
+          <div className='flex-1 min-w-0'>
+            <p className='text-sm font-medium text-gray-900 truncate'>
               {admin.username}
             </p>
             <span
               className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${getRoleBadgeColor(
-                admin.role
+                admin.role,
               )}`}
             >
               {getRoleLabel(admin.role)}
@@ -148,8 +147,8 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto p-4">
-        <ul className="space-y-1">
+      <nav className='flex-1 overflow-y-auto p-4'>
+        <ul className='space-y-1'>
           {visibleNavItems.map((item) => {
             const isActive = pathname === item.href;
 
@@ -157,17 +156,18 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive
                       ? 'bg-blue-50 text-blue-700 font-medium'
                       : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                  }`}
                 >
                   <span
                     className={isActive ? 'text-blue-700' : 'text-gray-500'}
                   >
                     {item.icon}
                   </span>
-                  <span className="text-sm">{item.label}</span>
+                  <span className='text-sm'>{item.label}</span>
                 </Link>
               </li>
             );
@@ -176,8 +176,8 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-gray-200">
-        <p className="text-xs text-gray-500 text-center">
+      <div className='p-4 border-t border-gray-200'>
+        <p className='text-xs text-gray-500 text-center'>
           © 2026 IEEE ITB Student Branch
         </p>
       </div>

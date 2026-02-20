@@ -12,6 +12,7 @@ import Navbar from '@/components/site/Navbar';
 function SuccessContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get('email');
+  const needsActivation = searchParams.get('needsActivation') === 'true';
 
   return (
     <>
@@ -52,51 +53,94 @@ function SuccessContent() {
                 Thank you for registering! Your team information has been submitted.
               </p>
 
-              {/* Email Confirmation Info */}
+              {/* What's Next Info */}
               <div className="bg-[#2d0609]/60 rounded-2xl p-6 border border-[#8B3A3A]/30 mb-8">
                 <h3 className="text-[#FFCD8D] font-semibold mb-3 text-center">What&apos;s Next?</h3>
                 <div className="space-y-3 text-[#E8B4A8] text-sm">
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs font-bold">1</span>
-                    </div>
-                    <p>
-                      Check your email at <span className="text-[#FFCD8D] font-medium">{email || 'your registered email'}</span> for an activation link
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs font-bold">2</span>
-                    </div>
-                    <p>
-                      Click the activation link to verify your account (link expires in 24 hours)
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs font-bold">3</span>
-                    </div>
-                    <p>
-                      Our team will review your registration within 24 hours
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-xs font-bold">4</span>
-                    </div>
-                    <p>
-                      You&apos;ll receive a confirmation email once your registration is approved
-                    </p>
-                  </div>
+                  {needsActivation ? (
+                    <>
+                      {/* For new users - show email activation steps */}
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">1</span>
+                        </div>
+                        <p>
+                          Check your email at <span className="text-[#FFCD8D] font-medium">{email || 'your registered email'}</span> for an activation link
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">2</span>
+                        </div>
+                        <p>
+                          Click the activation link to verify your account (link expires in 24 hours)
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">3</span>
+                        </div>
+                        <p>
+                          Our team will review your registration within 24 hours
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">4</span>
+                        </div>
+                        <p>
+                          You&apos;ll receive a confirmation email once your registration is approved
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* For existing users - show admin review steps */}
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">1</span>
+                        </div>
+                        <p>
+                          Our team will review your team registration within 24 hours
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">2</span>
+                        </div>
+                        <p>
+                          You&apos;ll receive a confirmation email at <span className="text-[#FFCD8D] font-medium">{email || 'your registered email'}</span> once approved
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">3</span>
+                        </div>
+                        <p>
+                          After approval, you can proceed with abstract/proposal submission
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[#8B3A3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">4</span>
+                        </div>
+                        <p>
+                          Track your registration status in your dashboard
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
               {/* Important Notice */}
-              <div className="bg-[#8B3A3A]/20 border border-[#8B3A3A]/50 rounded-xl p-4 mb-8">
-                <p className="text-[#FFCD8D] text-sm text-center">
-                  ⚠️ <strong>Important:</strong> Please check your spam/junk folder if you don&apos;t see the email in your inbox within a few minutes.
-                </p>
-              </div>
+              {needsActivation && (
+                <div className="bg-[#8B3A3A]/20 border border-[#8B3A3A]/50 rounded-xl p-4 mb-8">
+                  <p className="text-[#FFCD8D] text-sm text-center">
+                    ⚠️ <strong>Important:</strong> Please check your spam/junk folder if you don&apos;t see the email in your inbox within a few minutes.
+                  </p>
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

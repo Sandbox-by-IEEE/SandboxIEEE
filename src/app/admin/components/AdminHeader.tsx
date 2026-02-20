@@ -17,7 +17,7 @@ interface AdminHeaderProps {
 
 export default function AdminHeader({ admin }: AdminHeaderProps) {
   const handleLogout = async () => {
-    await signOut({ callbackUrl: '/admin/login' });
+    await signOut({ callbackUrl: '/admin-login' });
   };
 
   return (

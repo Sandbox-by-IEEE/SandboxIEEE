@@ -2,9 +2,9 @@
  * ============================================================================
  * GET COMPETITION INFO API ENDPOINT
  * ============================================================================
- * 
+ *
  * GET /api/competitions/[code]
- * 
+ *
  * Purpose: Get competition details and registration requirements
  * ============================================================================
  */
@@ -15,7 +15,7 @@ import { prisma } from '@/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ code: string }> }
+  { params }: { params: Promise<{ code: string }> },
 ) {
   try {
     const { code } = await params;
@@ -28,38 +28,51 @@ export async function GET(
             registrations: true,
           },
         },
+        timelineEvents: {
+          orderBy: { sortOrder: 'asc' },
+        },
       },
     });
 
     if (!competition) {
       return NextResponse.json(
         { error: 'Competition not found' },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     return NextResponse.json({
-      id: competition.id,
-      code: competition.code,
-      name: competition.name,
-      description: competition.description,
-      isActive: competition.isActive,
-      registrationDeadline: competition.registrationDeadline,
-      preliminaryDeadline: competition.preliminaryDeadline,
-      semifinalDeadline: competition.semifinalDeadline,
-      finalDeadline: competition.finalDeadline,
-      registrationFee: competition.registrationFee,
-      teamSize: {
-        min: competition.minTeamSize,
-        max: competition.maxTeamSize,
+      competition: {
+        id: competition.id,
+        code: competition.code,
+        name: competition.name,
+        description: competition.description,
+        isActive: competition.isActive,
+        registrationOpen: competition.registrationOpen,
+        registrationDeadline: competition.registrationDeadline,
+        preliminaryStart: competition.preliminaryStart,
+        preliminaryDeadline: competition.preliminaryDeadline,
+        semifinalStart: competition.semifinalStart,
+        semifinalDeadline: competition.semifinalDeadline,
+        finalStart: competition.finalStart,
+        finalDeadline: competition.finalDeadline,
+        grandFinalDate: competition.grandFinalDate,
+        registrationFee: competition.registrationFee,
+        minTeamSize: competition.minTeamSize,
+        maxTeamSize: competition.maxTeamSize,
+        teamSize: {
+          min: competition.minTeamSize,
+          max: competition.maxTeamSize,
+        },
+        registrationCount: competition._count.registrations,
+        timelineEvents: competition.timelineEvents,
       },
-      registrationCount: competition._count.registrations,
     });
   } catch (error) {
     console.error('❌ Get competition error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

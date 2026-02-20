@@ -67,3 +67,6 @@ temp/
 *secret*.json
 *credentials*.json
 service-account*.json
+
+# Uploaded files
+/public/uploads/
