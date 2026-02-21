@@ -13,7 +13,7 @@ const COMPETITION_FIELDS: Record<
   { label: string; fields: { key: string; label: string }[] }
 > = {
   PTC: {
-    label: 'ProtoTech Contest',
+    label: 'ProtoTech Competition',
     fields: [
       { key: 'proposalUrl', label: 'Proposal' },
       { key: 'prototypeVideoUrl', label: 'Prototype Video' },

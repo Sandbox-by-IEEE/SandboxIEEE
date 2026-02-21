@@ -149,7 +149,7 @@ model ResetToken {
 model Competition {
   id                   String   @id @default(uuid())
   code                 String   @unique // "PTC" | "TPC" | "BCC"
-  name                 String // Full name: "ProtoTech Contest"
+  name                 String // Full name: "ProtoTech Competition"
   description          String? // Competition description
   registrationOpen     DateTime // When registration opens (Batch 1 start)
   registrationDeadline DateTime // When registration closes (Batch 2 end)
@@ -324,7 +324,7 @@ model SemifinalSubmission {
   registrationId  String          @unique // One submission per registration
   competitionType CompetitionType // Determines which fields are required
 
-  // PTC Fields (ProtoTech Contest)
+  // PTC Fields (ProtoTech Competition)
   proposalUrl        String? // Full paper PDF URL
   prototypeVideoUrl  String? // YouTube link to prototype demo
 
@@ -439,7 +439,7 @@ enum PaymentStatus {
 
 /// CompetitionType - Competition type identifier
 enum CompetitionType {
-  PTC // ProtoTech Contest (3-5 members, hardware/IoT)
+  PTC // ProtoTech Competition (3-5 members, hardware/IoT)
   TPC // Technovate Paper Competition (1-3 members, research)
   BCC // Business Case Competition (3 members, business solutions)
 

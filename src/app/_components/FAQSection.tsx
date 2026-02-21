@@ -11,7 +11,7 @@ export default function FAQSection() {
     {
       question: 'What is The Sandbox?',
       answer:
-        'The Sandbox is an annual national-level competition event organized by IEEE ITB Student Branch, featuring three competitions: ProtoTech Contest (PTC), Technovate Paper Competition (TPC), and Business Case Competition (BCC).',
+        'The Sandbox is an annual national-level competition event organized by IEEE ITB Student Branch, featuring three competitions: ProtoTech Competition (PTC), Technovate Paper Competition (TPC), and Business Case Competition (BCC).',
     },
     {
       question: 'Who can participate?',
@@ -26,7 +26,7 @@ export default function FAQSection() {
     {
       question: 'What is the registration fee?',
       answer:
-        'PTC: Rp 150,000 per team. TPC & BCC: Rp 125,000 per team. Payment must be submitted during registration.',
+        'Early Registration — PTC: Rp 200,000, BCC: Rp 150,000, TPC: Rp 125,000 per team. Normal Registration — PTC: Rp 220,000, BCC: Rp 180,000, TPC: Rp 150,000 per team.',
     },
     {
       question: 'What is the total prize pool?',

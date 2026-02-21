@@ -31,10 +31,28 @@ export default function CompetitionsSection({
   };
 
   const getShortName = (name: string) => {
-    if (name.includes('Business')) return 'Business Case Competition';
-    if (name.includes('Technovate')) return 'Technovate';
     return name;
   };
+
+  const getPricing = (code: string) => {
+    switch (code) {
+      case 'BCC':
+        return { early: 150000, normal: 180000 };
+      case 'TPC':
+        return { early: 125000, normal: 150000 };
+      case 'PTC':
+        return { early: 200000, normal: 220000 };
+      default:
+        return { early: 0, normal: 0 };
+    }
+  };
+
+  const formatCurrency = (amount: number) =>
+    new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(amount);
 
   return (
     <section id='competitions' className='py-12 md:py-20 px-4 sm:px-6 lg:px-8'>
@@ -48,7 +66,7 @@ export default function CompetitionsSection({
             backgroundClip: 'text',
           }}
         >
-          Competition
+          Competitions
         </h2>
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
@@ -74,12 +92,10 @@ export default function CompetitionsSection({
                   members
                 </p>
                 <p>
-                  Fee:{' '}
-                  {new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0,
-                  }).format(competition.registrationFee)}
+                  Early: {formatCurrency(getPricing(competition.code).early)}
+                </p>
+                <p>
+                  Normal: {formatCurrency(getPricing(competition.code).normal)}
                 </p>
               </div>
 

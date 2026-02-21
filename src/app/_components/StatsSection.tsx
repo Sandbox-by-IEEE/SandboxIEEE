@@ -9,7 +9,7 @@ export default function StatsSection() {
     },
     {
       value: 'Rp 25.000.000++',
-      label: 'Prize pool',
+      label: 'Total Prize Pool for All The Sandbox 3.0 Competitions',
       mascot: '/mascots/mascot-4.svg',
     },
     {

@@ -90,7 +90,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: 'Sandbox IEEE ITB',
   description:
-    'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+    'The Sandbox 3.0 by IEEE ITB Student Branch is a national-level competition event featuring three competitions: ProtoTech Competition (PTC), Technovate Paper Competition (TPC), and Business Case Competition (BCC). Through structured competition flows, participants are encouraged to develop innovative solutions using smart automation technology to address real-world challenges.',
   generator: 'Next.js',
   category: 'Events',
   applicationName: 'Sandbox IEEE ITB',
@@ -119,7 +119,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      'The Sandbox 3.0 by IEEE ITB Student Branch is a national-level competition event featuring three competitions: ProtoTech Competition (PTC), Technovate Paper Competition (TPC), and Business Case Competition (BCC). Through structured competition flows, participants are encouraged to develop innovative solutions using smart automation technology to address real-world challenges.',
     url: 'https://sandbox.ieeeitb.com/',
     siteName: 'Sandbox IEEE ITB',
     images: [
@@ -137,7 +137,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sandbox IEEE ITB',
     description:
-      'The Sandbox by IEEE is a series of events providing opportunities to all young-minds through 3 key milestones consisting of a Grand Seminar, 2 competitions namely ProtoTech Contest (a practical electrical engineering contest) and Technovate Paper (a research and technical documents) Competition, and Exhibition. This event invites experts from various fields of work as trainers, judges and webinar speakers. Finalists from both ProtoTech Contest and TechNovate Paper Competition will be given time to pitch and showcase their products in front of the judging panels on the Exhibition day. All the final winners from both competitions will be bestowed during this time. The objective of this event is to establish innovative and practical solutions for a developing country like Indonesia. Additionally, this event also aims to educate the local society by unveiling and enhancing tools that foster tranquility and ease.',
+      'The Sandbox 3.0 by IEEE ITB Student Branch is a national-level competition event featuring three competitions: ProtoTech Competition (PTC), Technovate Paper Competition (TPC), and Business Case Competition (BCC). Through structured competition flows, participants are encouraged to develop innovative solutions using smart automation technology to address real-world challenges.',
     images: [
       {
         url: 'https://www.datocms-assets.com/104656/1697807711-sandbox.png',

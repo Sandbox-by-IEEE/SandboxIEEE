@@ -33,7 +33,7 @@ interface FormData {
 const COMPETITION_DETAILS = {
   BCC: { name: 'Business Case Competition', min: 3, max: 3 },
   TPC: { name: 'Technovate Paper Competition', min: 1, max: 3 },
-  PTC: { name: 'ProtoTech Contest', min: 3, max: 5 },
+  PTC: { name: 'ProtoTech Competition', min: 3, max: 5 },
 };
 
 function RegistrationContent() {

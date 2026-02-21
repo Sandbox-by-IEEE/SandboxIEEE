@@ -29,13 +29,13 @@ async function main() {
   // ============================================================================
   console.log('📋 Seeding Competition configurations...');
 
-  // ------ PTC (ProtoTech Contest) ------
+  // ------ PTC (ProtoTech Competition) ------
   const ptc = await prisma.competition.upsert({
     where: { code: 'PTC' },
     update: {
-      name: 'ProtoTech Contest',
+      name: 'ProtoTech Competition',
       description:
-        'ProtoTech Contest (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
+        'ProtoTech Competition (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
       registrationOpen: wib('2026-02-21T00:00:00'),
       registrationDeadline: wib('2026-03-08T23:59:59'),
       preliminaryStart: wib('2026-02-23T00:00:00'),
@@ -45,16 +45,16 @@ async function main() {
       finalStart: wib('2026-03-31T00:00:00'),
       finalDeadline: wib('2026-04-24T23:59:59'),
       grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 150000,
+      registrationFee: 200000,
       minTeamSize: 3,
       maxTeamSize: 5,
       isActive: true,
     },
     create: {
       code: 'PTC',
-      name: 'ProtoTech Contest',
+      name: 'ProtoTech Competition',
       description:
-        'ProtoTech Contest (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
+        'ProtoTech Competition (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
       registrationOpen: wib('2026-02-21T00:00:00'),
       registrationDeadline: wib('2026-03-08T23:59:59'),
       preliminaryStart: wib('2026-02-23T00:00:00'),
@@ -64,7 +64,7 @@ async function main() {
       finalStart: wib('2026-03-31T00:00:00'),
       finalDeadline: wib('2026-04-24T23:59:59'),
       grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 150000,
+      registrationFee: 200000,
       minTeamSize: 3,
       maxTeamSize: 5,
       isActive: true,
@@ -131,7 +131,7 @@ async function main() {
       finalStart: wib('2026-04-16T00:00:00'),
       finalDeadline: wib('2026-04-23T23:59:59'),
       grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 125000,
+      registrationFee: 150000,
       minTeamSize: 3,
       maxTeamSize: 3,
       isActive: true,
@@ -150,7 +150,7 @@ async function main() {
       finalStart: wib('2026-04-16T00:00:00'),
       finalDeadline: wib('2026-04-23T23:59:59'),
       grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 125000,
+      registrationFee: 150000,
       minTeamSize: 3,
       maxTeamSize: 3,
       isActive: true,

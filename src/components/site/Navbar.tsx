@@ -89,7 +89,7 @@ export default function Navbar() {
                       className='block px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 transition-colors font-gemunu'
                       onClick={() => setIsCompetitionOpen(false)}
                     >
-                      ProtoTech Contest
+                      ProtoTech Competition
                     </Link>
                     <Link
                       href='/competitions/tpc'
@@ -255,7 +255,7 @@ export default function Navbar() {
                     className='block px-4 py-2.5 text-gray-600 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-lg transition-colors font-gemunu'
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    ProtoTech Contest
+                    ProtoTech Competition
                   </Link>
                   <Link
                     href='/competitions/tpc'

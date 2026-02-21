@@ -53,7 +53,7 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
       },
       {
         question: 'What is the registration fee?',
-        answer: 'The registration fee is Rp 125,000 per team.',
+        answer: 'Early Registration: Rp 150,000 per team. Normal Registration: Rp 180,000 per team.',
       },
       {
         question: 'What are the competition phases?',
@@ -107,7 +107,8 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
       },
       {
         question: 'What is the registration fee?',
-        answer: 'The registration fee is Rp 125,000 per team.',
+        answer:
+          'Early Registration: Rp 125,000 per team. Normal Registration: Rp 150,000 per team.',
       },
       {
         question: 'What format should the paper follow?',
@@ -134,10 +135,10 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
 
   PTC: {
     code: 'PTC',
-    name: 'ProtoTech Contest',
+    name: 'ProtoTech Competition',
     tagline: 'Build The Future, Today',
     description:
-      'ProtoTech Contest (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
+      'ProtoTech Competition (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
     prizePool: {
       total: 'Rp 25.000.000++',
     },
@@ -145,7 +146,7 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
       {
         question: 'What is PTC?',
         answer:
-          'ProtoTech Contest (PTC) is a national-scale prototyping competition challenging students to develop innovative smart automation solutions.',
+          'ProtoTech Competition (PTC) is a national-scale prototyping competition challenging students to develop innovative smart automation solutions.',
       },
       {
         question: 'Who can participate?',
@@ -159,7 +160,8 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
       },
       {
         question: 'What is the registration fee?',
-        answer: 'The registration fee is Rp 150,000 per team.',
+        answer:
+          'Early Registration: Rp 200,000 per team. Normal Registration: Rp 220,000 per team.',
       },
       {
         question: 'What type of prototypes are acceptable?',
