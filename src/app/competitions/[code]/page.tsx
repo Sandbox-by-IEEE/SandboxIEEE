@@ -287,11 +287,11 @@ export default function CompetitionDetailPage() {
               {/* Single Total Prize Badge */}
               <div className='inline-block backdrop-blur-xl bg-gradient-to-br from-[#FFD700]/20 to-[#FFA500]/10 rounded-3xl border-2 border-[#FFD700]/30 px-6 sm:px-12 py-8 sm:py-10 max-w-full'>
                 <div className='text-4xl sm:text-6xl mb-3 sm:mb-4'>🏆</div>
-                <p className='text-lg sm:text-2xl text-gray-300 mb-2'>
-                  Prize Pool for this Competition
-                </p>
                 <p className='text-3xl sm:text-5xl md:text-6xl font-bold text-[#FFD700] break-words'>
                   {content.prizePool.total}
+                </p>
+                <p className='py-6 text-lg sm:text-[16px] text-gray-300 mb-2'>
+                  *Total Prize Pool for All The Sandbox 3.0 Competitions
                 </p>
               </div>
             </div>
@@ -504,7 +504,7 @@ export default function CompetitionDetailPage() {
                     <ChevronDown className='h-5 w-5 text-white/70 transition-transform group-open:rotate-180' />
                   </summary>
                   <div className='px-4 md:px-6 pb-3 md:pb-4 text-white/70 text-xs sm:text-sm leading-relaxed'>
-                    {faq.answer}
+                    {faq.answer || 'To be announced.'}
                   </div>
                 </details>
               ))}

@@ -37,33 +37,50 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
     },
     faqs: [
       {
-        question: 'What is BCC?',
+        question: 'How many phases are there in BCC?',
         answer:
-          'Business Case Competition (BCC) is a national-level analytical competition where undergraduate students solve real-world business problems related to smart automation technology.',
+          'BCC consists of three phases: Preliminary Phase (Executive Summary submission), Semifinal Phase (Proposal submission + coaching session), and Final Phase (Pitch deck presentation).',
       },
       {
-        question: 'Who can participate?',
+        question: 'Can teams use assumptions in their analysis?',
         answer:
-          'Active undergraduate (S1/D4) students from any accredited university in Indonesia.',
+          'Yes. Participants may use reasonable and well-justified assumptions. All assumptions must be clearly stated and logically supported.',
       },
       {
-        question: 'How many members per team?',
+        question: 'Are teams allowed to use external data?',
         answer:
-          'Each team must consist of exactly 3 members from the same institution.',
+          'Yes. Participants are encouraged to use credible external sources to strengthen their analysis. All references must be properly cited.',
       },
       {
-        question: 'What is the registration fee?',
-        answer: 'Early Registration: Rp 150,000 per team. Normal Registration: Rp 180,000 per team.',
+        question: 'Is there any registration fee?',
+        answer:
+          'No, there is no registration fee yet for the preliminary round.',
       },
       {
-        question: 'What are the competition phases?',
+        question: 'Can high school students join the BCC competition?',
         answer:
-          'BCC has three rounds: Preliminary (written case analysis), Semifinal (presentation to judges), and Final (live case competition with mentoring).',
+          'Unfortunately, BCC is currently open for undergraduate university students from any major or university only.',
       },
       {
-        question: 'Can I participate in multiple competitions?',
+        question:
+          'Can I join individually or with a team consisting of less than 3 members?',
         answer:
-          'Each account can only register for one competition. However, team members can be part of teams in different competitions.',
+          'No. Participants are expected to join as a team of 3 people. It can be a combination of different majors or universities.',
+      },
+      {
+        question:
+          'Will teams receive benefits or a certificate after joining the BCC competition?',
+        answer: '',
+      },
+      {
+        question:
+          'Do teams need to follow a specific executive summary template?',
+        answer: '',
+      },
+      {
+        question: 'Will teams be assisted with mentoring or coaching support?',
+        answer:
+          'Only selected teams that continue to the semifinal and final round will receive online coaching and mentoring sessions.',
       },
     ],
     requirements: [
@@ -91,34 +108,39 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
     },
     faqs: [
       {
-        question: 'What is TPC?',
+        question: 'Is TPC open for high school students?',
         answer:
-          'Technovate Paper Competition (TPC) is a national-level scientific paper competition where students apply scientific methodology to address relevant issues.',
+          'Yes, it welcomes high school students to showcase their ideas. Mixed teams of college and high school students are allowed.',
       },
       {
-        question: 'Who can participate?',
+        question:
+          'Is it allowed to team up with members from different schools/universities?',
         answer:
-          'Active undergraduate (S1/D4) or high school/equivalent (SMA/SMK/MA) students in Indonesia.',
+          'Yes, as long as each member is proven to be an active student at their corresponding institution.',
       },
       {
-        question: 'How many members per team?',
+        question: 'Is there a registration fee?',
         answer:
-          'Teams can consist of 1 to 3 members. Solo participation is allowed.',
+          'Yes. Each team must pay a registration fee of IDR 125,000 per team.',
       },
       {
-        question: 'What is the registration fee?',
+        question: 'Can we use pre-existing data from ERP systems like SAP?',
         answer:
-          'Early Registration: Rp 125,000 per team. Normal Registration: Rp 150,000 per team.',
+          'Yes. The cornerstone of this challenge is improving how data from centralized systems can be used to plot shortcuts for optimized supply corridors or even safe corridors during a crisis.',
       },
       {
-        question: 'What format should the paper follow?',
+        question:
+          'Is a hardware prototype required for the automation tech each team focuses on?',
         answer:
-          'Papers must follow the provided template format. Detailed guidelines will be shared upon registration.',
+          'No. You are invited to internalize the use of deep learning and AI to simulate or generate alternative supply routes, etc. While mockups and prototypes can be used to visualize your solution, a robust simulation concept is sufficient.',
       },
       {
-        question: 'What are the competition phases?',
-        answer:
-          'TPC has two main rounds: Preliminary (paper submission) and Semifinal (revised paper + coaching). Finalists proceed to the Grand Final for presentation.',
+        question: 'Can a previously developed project be submitted?',
+        answer: '',
+      },
+      {
+        question: 'Can we revise our submission after uploading?',
+        answer: '',
       },
     ],
     requirements: [
@@ -144,34 +166,49 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
     },
     faqs: [
       {
-        question: 'What is PTC?',
+        question: 'Is the prototype required to be hardware-based?',
         answer:
-          'ProtoTech Competition (PTC) is a national-scale prototyping competition challenging students to develop innovative smart automation solutions.',
+          'Yes. PTC focuses on smart automation technology that involves physical prototyping. Software-only solutions are not eligible. If your solution includes software (e.g., dashboard, AI system, application), it must be integrated with a measurable physical prototype/device.',
       },
       {
-        question: 'Who can participate?',
+        question:
+          'If my innovation is mainly an application, can I just present it using a laptop or phone?',
         answer:
-          'Active undergraduate (S1/D4) or high school/equivalent (SMA/SMK/MA) students in Indonesia.',
+          'No. Applications must be supported by a physical prototype/device. The prototype must have measurable physical dimensions and tangible implementation.',
       },
       {
-        question: 'How many members per team?',
+        question: 'Is there a specific abstract format?',
         answer:
-          'Teams must consist of 3 to 5 members from the same institution.',
+          'Yes. The official abstract template will be provided during the abstract submission period. Participants must follow the given outline structure.',
       },
       {
-        question: 'What is the registration fee?',
+        question: 'Is Full Paper submission mandatory?',
         answer:
-          'Early Registration: Rp 200,000 per team. Normal Registration: Rp 220,000 per team.',
+          'Yes. In PTC 2026, all semifinalists are required to submit a Full Paper as part of the semifinal phase. The Full Paper serves as the main technical evaluation document.',
       },
       {
-        question: 'What type of prototypes are acceptable?',
+        question: 'Is Video Idea Pitching mandatory?',
         answer:
-          'Hardware, software, or hybrid prototypes using smart automation technology to address real-world problems.',
+          'Video Idea Pitching is optional. However, submitted videos will be eligible for the "Favorite Video Award," which is determined based on social media engagement (likes).',
       },
       {
-        question: 'What are the competition phases?',
+        question: 'How does the coaching system work this year?',
         answer:
-          'PTC has three rounds: Preliminary (abstract submission), Semifinal (detailed proposal), and Final (prototyping + coaching sessions + live pitching).',
+          'PTC 2026 coaching sessions are conducted fully asynchronously. The system includes: Coach-curated guidance documents (e.g., "Prototyping Roadmap & Validation Guide"), structured Q&A sheets, and written feedback on progress reports. Coaches will be assigned starting from the final stage and distributed proportionally among finalists.',
+      },
+      {
+        question: 'When does coaching begin?',
+        answer:
+          'Coaching begins in the final phase, Prototyping. This ensures focused mentoring for selected teams.',
+      },
+      {
+        question: 'How long is the prototyping phase?',
+        answer:
+          'The prototyping phase runs for approximately 4 weeks to allow adequate development, testing, and refinement before the Grand Final.',
+      },
+      {
+        question: 'Are simulation-based prototypes allowed?',
+        answer: '',
       },
     ],
     requirements: [
