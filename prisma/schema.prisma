@@ -238,7 +238,7 @@ model Team {
   id             String   @id @default(uuid())
   registrationId String   @unique // One-to-one with CompetitionRegistration
   teamName       String // Team name, unique per competition (enforced at application level)
-  institution    String // University/school name
+  proofOfRegistrationLink String? // Shared Google Drive link for all members' proof of active student status
   leaderUserId   String   @unique // Must match the User who created registration
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -260,8 +260,8 @@ model TeamMember {
   fullName                String // Member's full name
   email                   String   @unique // GLOBAL uniqueness (CRITICAL CONSTRAINT)
   phoneNumber             String
+  institution             String   @default("") // University/school name (each member can be from different institution)
   studentIdCard           String? // KTM photo URL (optional)
-  proofOfRegistrationLink String? // Google Drive link for twibbon/poster proofs
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 

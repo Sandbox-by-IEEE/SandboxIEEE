@@ -8,7 +8,7 @@ export default function TimelineSection() {
   const timeline = [
     {
       label: 'Open Registration',
-      date: '21 Feb',
+      date: '22 Feb',
       image: '/timeline/circle-1.svg',
     },
     {

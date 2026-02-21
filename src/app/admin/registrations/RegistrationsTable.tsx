@@ -23,13 +23,13 @@ interface TeamMember {
   fullName: string;
   email: string;
   phoneNumber: string;
-  proofOfRegistrationLink: string | null;
+  institution: string;
 }
 
 interface Team {
   id: string;
   teamName: string;
-  institution: string;
+  proofOfRegistrationLink: string | null;
   members: TeamMember[];
 }
 
@@ -261,9 +261,6 @@ export default function RegistrationsTable({
                     Leader
                   </th>
                   <th className='text-left px-6 py-4 text-sm font-semibold text-gray-900'>
-                    Institution
-                  </th>
-                  <th className='text-left px-6 py-4 text-sm font-semibold text-gray-900'>
                     Status
                   </th>
                   <th className='text-left px-6 py-4 text-sm font-semibold text-gray-900'>
@@ -303,14 +300,6 @@ export default function RegistrationsTable({
                             <Mail size={12} />
                             {registration.user.email}
                           </p>
-                        </div>
-                      </td>
-                      <td className='px-6 py-4'>
-                        <div className='flex items-center gap-1.5 text-gray-700'>
-                          <Building2 size={14} />
-                          <span className='text-sm'>
-                            {registration.team?.institution || 'N/A'}
-                          </span>
                         </div>
                       </td>
                       <td className='px-6 py-4'>
@@ -381,7 +370,7 @@ export default function RegistrationsTable({
                     {/* Expanded Details Row */}
                     {expandedId === registration.id && (
                       <tr>
-                        <td colSpan={6} className='bg-gray-50 px-6 py-4'>
+                        <td colSpan={5} className='bg-gray-50 px-6 py-4'>
                           <div className='space-y-4'>
                             <h4 className='font-semibold text-gray-900 text-lg mb-3'>
                               Team Details
@@ -415,18 +404,11 @@ export default function RegistrationsTable({
                                             <Phone size={12} />
                                             {member.phoneNumber}
                                           </p>
-                                          {member.proofOfRegistrationLink && (
-                                            <a
-                                              href={
-                                                member.proofOfRegistrationLink
-                                              }
-                                              target='_blank'
-                                              rel='noopener noreferrer'
-                                              className='flex items-center gap-1 text-blue-600 hover:text-blue-700 hover:underline'
-                                            >
-                                              <ExternalLink size={12} />
-                                              View Proof of Registration
-                                            </a>
+                                          {member.institution && (
+                                            <p className='flex items-center gap-2'>
+                                              <Building2 size={12} />
+                                              {member.institution}
+                                            </p>
                                           )}
                                         </div>
                                       </div>
@@ -439,6 +421,27 @@ export default function RegistrationsTable({
                                 </p>
                               )}
                             </div>
+
+                            {/* Shared Proof of Registration */}
+                            {registration.team?.proofOfRegistrationLink && (
+                              <div className='pb-3 border-b border-gray-200'>
+                                <h5 className='font-medium text-gray-700 mb-2 flex items-center gap-2'>
+                                  <ExternalLink size={16} />
+                                  Proof of Active Student Registration (Shared)
+                                </h5>
+                                <a
+                                  href={
+                                    registration.team.proofOfRegistrationLink
+                                  }
+                                  target='_blank'
+                                  rel='noopener noreferrer'
+                                  className='text-blue-600 hover:text-blue-700 hover:underline text-sm flex items-center gap-1'
+                                >
+                                  <ExternalLink size={12} />
+                                  View Shared Proof Link
+                                </a>
+                              </div>
+                            )}
 
                             {/* Payment Proof */}
                             {registration.payment && (

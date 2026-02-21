@@ -85,7 +85,7 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
     ],
     requirements: [
       'Active undergraduate (S1/D4) students',
-      'Team of exactly 3 members from the same institution',
+      'Team of exactly 3 members (can be from different institutions)',
       'Basic understanding of business strategy and analysis',
       'Access to presentation software (PowerPoint, Canva, etc.)',
     ],
@@ -213,7 +213,7 @@ export const COMPETITION_CONTENT: Record<string, CompetitionContent> = {
     ],
     requirements: [
       'Active undergraduate or high school students',
-      'Team of 3-5 members from the same institution',
+      'Team of 3-5 members (can be from different institutions)',
       'Functional prototype (hardware/software/hybrid)',
       'Project must address a real-world problem using smart automation',
     ],

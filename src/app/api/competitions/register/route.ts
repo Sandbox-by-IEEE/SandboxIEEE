@@ -44,12 +44,12 @@ const memberSchema = z.object({
     .min(10, 'Phone number must be at least 10 digits')
     .max(20, 'Phone number must be at most 20 digits')
     .trim(),
-  studentIdCard: z.string().optional(),
-  proofOfRegistrationLink: z
+  institution: z
     .string()
-    .url('Invalid proof link URL')
-    .optional()
-    .or(z.literal('')),
+    .min(3, 'Institution name must be at least 3 characters')
+    .max(200, 'Institution name must be at most 200 characters')
+    .trim(),
+  studentIdCard: z.string().optional(),
 });
 
 const membersArraySchema = z.array(memberSchema);
@@ -76,10 +76,12 @@ export async function POST(request: NextRequest) {
 
     const competitionCode = formDataBody.get('competitionCode') as string;
     const teamName = formDataBody.get('teamName') as string;
-    const institution = formDataBody.get('institution') as string;
     const leaderName = formDataBody.get('leaderName') as string;
     const leaderPhone = formDataBody.get('leaderPhone') as string;
-    const leaderProofLink = formDataBody.get('leaderProofLink') as string;
+    const leaderInstitution = formDataBody.get('leaderInstitution') as string;
+    const proofOfRegistrationLink = formDataBody.get(
+      'proofOfRegistrationLink',
+    ) as string;
     const membersJson = formDataBody.get('members') as string;
     const paymentProofFile = formDataBody.get('paymentProof') as File | null;
 
@@ -96,12 +98,6 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    if (!institution || institution.length < 3) {
-      return NextResponse.json(
-        { error: 'Institution name is required' },
-        { status: 400 },
-      );
-    }
     if (!leaderName || leaderName.length < 3) {
       return NextResponse.json(
         { error: 'Leader name must be at least 3 characters' },
@@ -114,9 +110,21 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    if (!leaderProofLink) {
+    if (!leaderInstitution || leaderInstitution.length < 3) {
       return NextResponse.json(
-        { error: 'Proof of registration link is required' },
+        { error: 'Leader institution name is required' },
+        { status: 400 },
+      );
+    }
+    if (
+      !proofOfRegistrationLink ||
+      !proofOfRegistrationLink.startsWith('http')
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            'Proof of active student registration link is required (must be a valid URL)',
+        },
         { status: 400 },
       );
     }
@@ -346,6 +354,35 @@ export async function POST(request: NextRequest) {
 
       const user = existingUser;
 
+      // Determine batch-based fee
+      const timelineEvents = await tx.competitionTimeline.findMany({
+        where: { competitionId: competition.id },
+      });
+      const batch1 = timelineEvents.find(
+        (e) => e.phase === 'registration_batch_1',
+      );
+      const batch2 = timelineEvents.find(
+        (e) => e.phase === 'registration_batch_2',
+      );
+      let registrationFee = competition.registrationFee; // fallback to default
+
+      // Registration fee tiers per competition
+      const PRICING: Record<string, { early: number; normal: number }> = {
+        BCC: { early: 150000, normal: 180000 },
+        TPC: { early: 125000, normal: 150000 },
+        PTC: { early: 200000, normal: 220000 },
+      };
+
+      if (batch1 && batch2 && PRICING[competitionCode]) {
+        const now = new Date();
+        const batch1End = new Date(batch1.endDate);
+        if (now <= batch1End) {
+          registrationFee = PRICING[competitionCode].early;
+        } else {
+          registrationFee = PRICING[competitionCode].normal;
+        }
+      }
+
       // Create competition registration with team and members
       const reg = await tx.competitionRegistration.create({
         data: {
@@ -356,7 +393,7 @@ export async function POST(request: NextRequest) {
           team: {
             create: {
               teamName,
-              institution,
+              proofOfRegistrationLink,
               leaderUserId: user.id,
               members: {
                 create: [
@@ -365,15 +402,15 @@ export async function POST(request: NextRequest) {
                     fullName: leaderName,
                     email: leaderEmail,
                     phoneNumber: leaderPhone,
-                    proofOfRegistrationLink: leaderProofLink,
+                    institution: leaderInstitution,
                   },
                   // Additional team members
                   ...members.map((member) => ({
                     fullName: member.fullName,
                     email: member.email,
                     phoneNumber: member.phoneNumber,
+                    institution: member.institution,
                     studentIdCard: member.studentIdCard,
-                    proofOfRegistrationLink: member.proofOfRegistrationLink,
                   })),
                 ],
               },
@@ -395,9 +432,9 @@ export async function POST(request: NextRequest) {
       await tx.payment.create({
         data: {
           registrationId: reg.id,
-          amount: competition.registrationFee,
+          amount: registrationFee,
           paymentProofUrl: paymentProofUrl,
-          paymentMethod: 'Bank Transfer',
+          paymentMethod: 'QRIS',
           billName: leaderName,
           status: 'pending',
         },
@@ -413,10 +450,11 @@ export async function POST(request: NextRequest) {
         userId: registration.userId,
         competitionCode,
         teamName,
-        institution,
         leaderName,
         leaderEmail,
         leaderPhone,
+        leaderInstitution,
+        proofOfRegistrationLink,
         members: registration.team!.members.slice(1), // Exclude leader
         verificationStatus: 'pending',
         currentPhase: 'registration',
