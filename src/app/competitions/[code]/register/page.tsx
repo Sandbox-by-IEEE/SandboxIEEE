@@ -272,14 +272,6 @@ function RegistrationContent() {
   };
 
   const isSubmitting = useRef(false);
-  const idempotencyKeyRef = useRef<string>('');
-
-  // Generate a new idempotency key when form reaches review step
-  useEffect(() => {
-    if (currentStep === 4) {
-      idempotencyKeyRef.current = `reg_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
-    }
-  }, [currentStep]);
 
   const handleSubmit = useCallback(async () => {
     if (!validateStep(3)) return;
@@ -304,7 +296,7 @@ function RegistrationContent() {
           fullName: m.fullName,
           email:
             m.email ||
-            `${m.fullName.replace(/\s+/g, '').toLowerCase()}.${idx}@placeholder.com`,
+            `member.${Date.now()}.${idx}.${Math.random().toString(36).slice(2, 9)}@placeholder.sandbox.id`,
           phoneNumber: m.phoneNumber,
           institution: m.institution,
         }));
@@ -317,9 +309,6 @@ function RegistrationContent() {
       const response = await fetch('/api/competitions/register', {
         method: 'POST',
         body,
-        headers: {
-          'x-idempotency-key': idempotencyKeyRef.current,
-        },
         signal: AbortSignal.timeout(60000),
       });
 

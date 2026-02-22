@@ -111,27 +111,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check for duplicate - leader email must be unique globally
-    const existingMember = await prisma.teamMember.findUnique({
+    // Check if leader already has an account with a registration
+    const existingUser = await prisma.user.findUnique({
       where: { email: leaderEmail },
-      include: {
-        team: {
-          include: {
-            registration: {
-              include: {
-                competition: true,
-              },
-            },
+      select: {
+        id: true,
+        registration: {
+          select: {
+            id: true,
+            competition: { select: { name: true } },
           },
         },
       },
     });
 
-    if (existingMember) {
+    if (existingUser?.registration) {
       return NextResponse.json(
         {
-          error: 'Email already registered',
-          competition: existingMember.team.registration.competition.name,
+          error: `This user is already registered for ${existingUser.registration.competition.name}`,
         },
         { status: 409 },
       );
