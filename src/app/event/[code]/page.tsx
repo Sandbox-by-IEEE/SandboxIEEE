@@ -4,11 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import {
-  Calendar,
-  MapPin,
-  Users,
-} from 'lucide-react';
+import { Calendar, MapPin, Users } from 'lucide-react';
 
 import Footer from '@/components/site/Footer';
 import Navbar from '@/components/site/Navbar';
@@ -247,8 +243,6 @@ export default function EventDetailPage() {
             </div>
           </section>
         )}
-
-
       </main>
 
       <Footer />

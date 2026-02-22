@@ -42,11 +42,10 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm'
-            : 'bg-white border-b border-gray-200'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+          ? 'bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm'
+          : 'bg-white border-b border-gray-200'
+          }`}
       >
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between h-20'>
@@ -78,9 +77,8 @@ export default function Navbar() {
                 >
                   Competitions
                   <ChevronDown
-                    className={`ml-1 h-4 w-4 transition-transform ${
-                      isCompetitionOpen ? 'rotate-180' : ''
-                    }`}
+                    className={`ml-1 h-4 w-4 transition-transform ${isCompetitionOpen ? 'rotate-180' : ''
+                      }`}
                   />
                 </button>
 
@@ -119,9 +117,8 @@ export default function Navbar() {
                 >
                   Events
                   <ChevronDown
-                    className={`ml-1 h-4 w-4 transition-transform ${
-                      isEventOpen ? 'rotate-180' : ''
-                    }`}
+                    className={`ml-1 h-4 w-4 transition-transform ${isEventOpen ? 'rotate-180' : ''
+                      }`}
                   />
                 </button>
 
@@ -133,6 +130,13 @@ export default function Navbar() {
                       onClick={() => setIsEventOpen(false)}
                     >
                       Grand Seminar
+                    </Link>
+                    <Link
+                      href='/event/youth-international-forum'
+                      className='block px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 transition-colors font-gemunu'
+                      onClick={() => setIsEventOpen(false)}
+                    >
+                      Youth International Forum
                     </Link>
                   </div>
                 )}
@@ -304,9 +308,7 @@ export default function Navbar() {
             {/* Events Accordion */}
             <div>
               <button
-                onClick={() =>
-                  setIsMobileEventOpen(!isMobileEventOpen)
-                }
+                onClick={() => setIsMobileEventOpen(!isMobileEventOpen)}
                 className='w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-xl transition-colors font-gemunu text-lg font-medium'
               >
                 Events
@@ -322,6 +324,13 @@ export default function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Grand Seminar
+                  </Link>
+                  <Link
+                    href='/event/youth-international-forum'
+                    className='block px-4 py-2.5 text-gray-600 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-lg transition-colors font-gemunu'
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Youth International Forum
                   </Link>
                 </div>
               )}
