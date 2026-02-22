@@ -427,7 +427,7 @@ export default function RegistrationsTable({
                               <div className='pb-3 border-b border-gray-200'>
                                 <h5 className='font-medium text-gray-700 mb-2 flex items-center gap-2'>
                                   <ExternalLink size={16} />
-                                  Proof of Active Student Registration (Shared)
+                                  Proof of Registration (Shared)
                                 </h5>
                                 <a
                                   href={

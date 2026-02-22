@@ -238,7 +238,7 @@ model Team {
   id             String   @id @default(uuid())
   registrationId String   @unique // One-to-one with CompetitionRegistration
   teamName       String // Team name, unique per competition (enforced at application level)
-  proofOfRegistrationLink String? // Shared Google Drive link for all members' proof of active student status
+  proofOfRegistrationLink String? // Shared Google Drive link for all members
   leaderUserId   String   @unique // Must match the User who created registration
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt

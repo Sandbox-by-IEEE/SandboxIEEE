@@ -122,8 +122,7 @@ export async function POST(request: NextRequest) {
     ) {
       return NextResponse.json(
         {
-          error:
-            'Proof of active student registration link is required (must be a valid URL)',
+          error: 'Proof of registration link is required (must be a valid URL)',
         },
         { status: 400 },
       );
@@ -459,9 +458,9 @@ export async function POST(request: NextRequest) {
         verificationStatus: 'pending',
         currentPhase: 'registration',
       });
-    } catch (sheetsError) {
-      // TODO: Log to monitoring service (e.g., Sentry, DataDog)
-      // Google Sheets sync is non-critical, continue registration
+    } catch (sheetsErr) {
+      // Google Sheets sync is non-critical — never propagate this error
+      console.error('⚠️ Google Sheets sync failed (non-blocking):', sheetsErr);
     }
 
     // 10. Return success response
@@ -482,13 +481,15 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 },
     );
-  } catch (error) {
+  } catch (err) {
+    console.error('❌ Registration POST error:', err);
+
     // Handle race condition: unique constraint violation from concurrent registration
     if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === 'P2002'
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === 'P2002'
     ) {
-      const target = (error.meta?.target as string[]) || [];
+      const target = (err.meta?.target as string[]) || [];
       if (target.includes('userId')) {
         return NextResponse.json(
           { error: 'You are already registered for a competition.' },
@@ -507,9 +508,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Prisma known error - surface the message
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      return NextResponse.json(
+        { error: `Database error: ${err.code} — ${err.message}` },
+        { status: 500 },
+      );
+    }
+
     return NextResponse.json(
       {
-        error: 'Internal server error',
+        error: err instanceof Error ? err.message : 'Internal server error',
       },
       { status: 500 },
     );
@@ -563,8 +572,8 @@ export async function GET(request: NextRequest) {
         isActive: user.active,
       },
     });
-  } catch (error) {
-    // TODO: Log to monitoring service
+  } catch (err) {
+    console.error('❌ Registration GET error:', err);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

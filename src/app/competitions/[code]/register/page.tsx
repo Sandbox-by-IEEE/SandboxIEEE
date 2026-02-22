@@ -215,7 +215,7 @@ function RegistrationContent() {
         !formData.proofOfRegistrationLink.startsWith('http')
       ) {
         setError(
-          'Proof of active student registration link is required (must be a valid URL)',
+          'Proof of registration link is required (must be a valid URL)',
         );
         return false;
       }
@@ -555,12 +555,14 @@ function RegistrationContent() {
                     {/* Shared Proof of Registration */}
                     <div className='bg-gradient-to-r from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-2xl p-6 border border-[#FFCD8D]/20'>
                       <h3 className='text-lg font-bold text-[#FFCD8D] mb-2'>
-                        Proof of Active Student Registration
+                        Proof of Registration
                       </h3>
                       <p className='text-xs text-gray-400 mb-4'>
                         Provide a single Google Drive link containing proof of
-                        active student registration for{' '}
-                        <strong className='text-[#FFCD8D]'>all team members</strong>{' '}
+                        registration for{' '}
+                        <strong className='text-[#FFCD8D]'>
+                          all team members
+                        </strong>{' '}
                         (team leader included). Make sure the link is accessible
                         (set permissions to &quot;Anyone with the link&quot;).
                       </p>
@@ -583,10 +585,6 @@ function RegistrationContent() {
                       <h3 className='text-2xl font-bold text-[#FFCD8D] mb-4'>
                         #1 Team Leader
                       </h3>
-                      <p className='text-sm text-gray-400 mb-6'>
-                        As the team leader, you&apos;ll be the main point of
-                        contact. Please provide complete information.
-                      </p>
 
                       <div className='space-y-4'>
                         <div>
@@ -609,7 +607,8 @@ function RegistrationContent() {
 
                         <div>
                           <label className='block text-white mb-2 text-sm font-medium'>
-                            Phone Number <span className='text-[#FFCD8D]'>*</span>
+                            Phone Number{' '}
+                            <span className='text-[#FFCD8D]'>*</span>
                           </label>
                           <input
                             type='tel'
@@ -627,7 +626,8 @@ function RegistrationContent() {
 
                         <div>
                           <label className='block text-white mb-2 text-sm font-medium'>
-                            Institution / University <span className='text-[#FFCD8D]'>*</span>
+                            Institution / University{' '}
+                            <span className='text-[#FFCD8D]'>*</span>
                           </label>
                           <input
                             type='text'
@@ -671,7 +671,8 @@ function RegistrationContent() {
                         <div className='space-y-4'>
                           <div>
                             <label className='block text-white mb-2 text-sm font-medium'>
-                              Full Name <span className='text-[#FFCD8D]'>*</span>
+                              Full Name{' '}
+                              <span className='text-[#FFCD8D]'>*</span>
                             </label>
                             <input
                               type='text'
@@ -686,13 +687,18 @@ function RegistrationContent() {
 
                           <div>
                             <label className='block text-white mb-2 text-sm font-medium'>
-                              Phone Number <span className='text-[#FFCD8D]'>*</span>
+                              Phone Number{' '}
+                              <span className='text-[#FFCD8D]'>*</span>
                             </label>
                             <input
                               type='tel'
                               value={member.phoneNumber}
                               onChange={(e) =>
-                                updateMember(index, 'phoneNumber', e.target.value)
+                                updateMember(
+                                  index,
+                                  'phoneNumber',
+                                  e.target.value,
+                                )
                               }
                               placeholder='e.g. 08123456789'
                               className='w-full bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 focus:border-[#FFCD8D]/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-all text-sm'
@@ -701,13 +707,18 @@ function RegistrationContent() {
 
                           <div>
                             <label className='block text-white mb-2 text-sm font-medium'>
-                              Institution / University <span className='text-[#FFCD8D]'>*</span>
+                              Institution / University{' '}
+                              <span className='text-[#FFCD8D]'>*</span>
                             </label>
                             <input
                               type='text'
                               value={member.institution}
                               onChange={(e) =>
-                                updateMember(index, 'institution', e.target.value)
+                                updateMember(
+                                  index,
+                                  'institution',
+                                  e.target.value,
+                                )
                               }
                               placeholder='Full name of your institution'
                               className='w-full bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 focus:border-[#FFCD8D]/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-all text-sm'
@@ -746,8 +757,10 @@ function RegistrationContent() {
                         {formatCurrency(currentFee)}
                       </p>
                       <p className='text-xs text-gray-400'>
-                        The fee shown is based on the current registration period ({batchLabel}).
-                        Please pay <strong className='text-[#FFCD8D]'>exactly</strong> this amount.
+                        The fee shown is based on the current registration
+                        period ({batchLabel}). Please pay{' '}
+                        <strong className='text-[#FFCD8D]'>exactly</strong> this
+                        amount.
                       </p>
                     </div>
 
@@ -780,7 +793,9 @@ function RegistrationContent() {
                       </div>
                       <p className='text-sm text-gray-300 text-center'>
                         Scan the QRIS code above to make payment of{' '}
-                        <strong className='text-[#FFCD8D]'>{formatCurrency(currentFee)}</strong>
+                        <strong className='text-[#FFCD8D]'>
+                          {formatCurrency(currentFee)}
+                        </strong>
                       </p>
                     </div>
 
@@ -792,24 +807,30 @@ function RegistrationContent() {
                       <ol className='space-y-2 text-sm text-gray-300 list-decimal list-inside'>
                         <li>
                           Pay exactly{' '}
-                          <strong className='text-[#FFCD8D]'>{formatCurrency(currentFee)}</strong>{' '}
+                          <strong className='text-[#FFCD8D]'>
+                            {formatCurrency(currentFee)}
+                          </strong>{' '}
                           using the QRIS code above
                         </li>
                         <li>Take a screenshot of the payment confirmation</li>
                         <li>
                           Rename the screenshot file to:{' '}
                           <code className='bg-[#2d0e0e]/80 px-2 py-0.5 rounded text-[#FFCD8D] text-xs break-all'>
-                            PaymentProof_{formData.teamName || '[TeamName]'}_{competitionCode}.pdf
+                            PaymentProof_{formData.teamName || '[TeamName]'}_
+                            {competitionCode}.pdf
                           </code>
                         </li>
-                        <li>Upload the payment proof below (JPG/PNG, max 5MB)</li>
+                        <li>
+                          Upload the payment proof below (JPG/PNG, max 5MB)
+                        </li>
                       </ol>
                     </div>
 
                     {/* Upload Payment Proof */}
                     <div className='bg-gradient-to-br from-[#6B2D2D]/40 to-[#4a1f1f]/30 backdrop-blur-md rounded-2xl p-6 border border-white/10'>
                       <h4 className='text-lg font-bold text-[#FFCD8D] mb-3'>
-                        Upload Payment Proof <span className='text-[#FFCD8D]'>*</span>
+                        Upload Payment Proof{' '}
+                        <span className='text-[#FFCD8D]'>*</span>
                       </h4>
 
                       {!formData.paymentProof ? (
@@ -866,7 +887,13 @@ function RegistrationContent() {
                             <FileImage size={16} className='text-[#FFCD8D]' />
                             <span>{formData.paymentProof.name}</span>
                             <span className='text-gray-500'>
-                              ({(formData.paymentProof.size / 1024 / 1024).toFixed(2)} MB)
+                              (
+                              {(
+                                formData.paymentProof.size /
+                                1024 /
+                                1024
+                              ).toFixed(2)}{' '}
+                              MB)
                             </span>
                           </div>
                         </div>
@@ -888,7 +915,7 @@ function RegistrationContent() {
 
                       <div className='border-t border-white/10 pt-6'>
                         <h4 className='text-sm font-semibold text-[#FFCD8D] mb-3 uppercase tracking-wide'>
-                          Proof of Active Student Registration
+                          Proof of Registration
                         </h4>
                         <a
                           href={formData.proofOfRegistrationLink}
@@ -907,19 +934,27 @@ function RegistrationContent() {
                         <div className='space-y-2 text-sm'>
                           <div className='flex justify-between'>
                             <span className='text-gray-400'>Name:</span>
-                            <span className='text-white font-medium'>{formData.leaderName}</span>
+                            <span className='text-white font-medium'>
+                              {formData.leaderName}
+                            </span>
                           </div>
                           <div className='flex justify-between'>
                             <span className='text-gray-400'>Email:</span>
-                            <span className='text-white'>{session?.user?.email || 'N/A'}</span>
+                            <span className='text-white'>
+                              {session?.user?.email || 'N/A'}
+                            </span>
                           </div>
                           <div className='flex justify-between'>
                             <span className='text-gray-400'>Phone:</span>
-                            <span className='text-white'>{formData.leaderPhone}</span>
+                            <span className='text-white'>
+                              {formData.leaderPhone}
+                            </span>
                           </div>
                           <div className='flex justify-between'>
                             <span className='text-gray-400'>Institution:</span>
-                            <span className='text-white'>{formData.leaderInstitution}</span>
+                            <span className='text-white'>
+                              {formData.leaderInstitution}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -933,16 +968,26 @@ function RegistrationContent() {
                             {formData.members.map((member, index) => (
                               <div key={index} className='text-sm space-y-1'>
                                 <div className='flex justify-between'>
-                                  <span className='text-gray-400'>Member {index + 2}:</span>
-                                  <span className='text-white font-medium'>{member.fullName}</span>
+                                  <span className='text-gray-400'>
+                                    Member {index + 2}:
+                                  </span>
+                                  <span className='text-white font-medium'>
+                                    {member.fullName}
+                                  </span>
                                 </div>
                                 <div className='flex justify-between'>
                                   <span className='text-gray-400'>Phone:</span>
-                                  <span className='text-white'>{member.phoneNumber}</span>
+                                  <span className='text-white'>
+                                    {member.phoneNumber}
+                                  </span>
                                 </div>
                                 <div className='flex justify-between'>
-                                  <span className='text-gray-400'>Institution:</span>
-                                  <span className='text-white'>{member.institution}</span>
+                                  <span className='text-gray-400'>
+                                    Institution:
+                                  </span>
+                                  <span className='text-white'>
+                                    {member.institution}
+                                  </span>
                                 </div>
                               </div>
                             ))}
@@ -956,7 +1001,9 @@ function RegistrationContent() {
                         </h4>
                         <div className='flex justify-between text-sm'>
                           <span className='text-gray-400'>{batchLabel}:</span>
-                          <span className='text-white font-bold'>{formatCurrency(currentFee)}</span>
+                          <span className='text-white font-bold'>
+                            {formatCurrency(currentFee)}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -970,7 +1017,11 @@ function RegistrationContent() {
                           <FileImage size={16} className='text-[#FFCD8D]' />
                           <span>{formData.paymentProof.name}</span>
                           <span className='text-gray-500'>
-                            ({(formData.paymentProof.size / 1024 / 1024).toFixed(2)} MB)
+                            (
+                            {(formData.paymentProof.size / 1024 / 1024).toFixed(
+                              2,
+                            )}{' '}
+                            MB)
                           </span>
                         </div>
                       </div>

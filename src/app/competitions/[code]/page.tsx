@@ -414,49 +414,6 @@ export default function CompetitionDetailPage() {
           </div>
         </section>
 
-        {/* Requirements & Deliverables */}
-        <section className='py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-[#190204]/50 to-transparent'>
-          <div className='max-w-6xl mx-auto grid md:grid-cols-2 gap-8'>
-            {/* Requirements */}
-            <div className='backdrop-blur-xl bg-white/[0.08] rounded-3xl border border-white/10 p-8'>
-              <div className='flex items-center gap-3 mb-6'>
-                <CheckCircle2 className='text-[#FFCD8D]' size={32} />
-                <h3 className='text-3xl font-bold text-white'>Requirements</h3>
-              </div>
-              <ul className='space-y-3'>
-                {content.requirements.map((req, index) => (
-                  <li
-                    key={index}
-                    className='flex items-start gap-3 text-gray-300'
-                  >
-                    <span className='text-[#FFCD8D] mt-1'>•</span>
-                    <span>{req}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Deliverables */}
-            <div className='backdrop-blur-xl bg-white/[0.08] rounded-3xl border border-white/10 p-8'>
-              <div className='flex items-center gap-3 mb-6'>
-                <FileText className='text-[#FFCD8D]' size={32} />
-                <h3 className='text-3xl font-bold text-white'>Deliverables</h3>
-              </div>
-              <ul className='space-y-3'>
-                {content.deliverables.map((item, index) => (
-                  <li
-                    key={index}
-                    className='flex items-start gap-3 text-gray-300'
-                  >
-                    <span className='text-[#FFCD8D] mt-1'>•</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
         {/* FAQs */}
         <section className='py-20 px-4 sm:px-6 lg:px-8'>
           <div className='max-w-5xl mx-auto'>
