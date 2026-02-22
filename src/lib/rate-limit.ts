@@ -3,10 +3,11 @@
  * RATE LIMITING MIDDLEWARE
  * ============================================================================
  *
- * Purpose: Prevent abuse and DDoS attacks on API endpoints
- * Strategy: Token bucket algorithm with in-memory cache
- * Production: Replace with Redis for distributed rate limiting
+ * Production-grade rate limiter using token bucket algorithm.
+ * Supports IP-based, user-based, and composite key identification.
  *
+ * In-memory implementation — works for single-instance.
+ * For multi-instance, swap Map to Redis/Upstash.
  * ============================================================================
  */
 
@@ -22,24 +23,39 @@ interface TokenBucket {
   lastRefill: number;
 }
 
-// In-memory cache (replace with Redis in production)
+// In-memory cache
 const cache = new Map<string, TokenBucket>();
 
+// Periodic cleanup of stale buckets (every 10 minutes)
+if (typeof setInterval !== 'undefined') {
+  setInterval(
+    () => {
+      cleanupRateLimitCache();
+    },
+    10 * 60 * 1000,
+  );
+}
+
 /**
- * Rate limiter using token bucket algorithm
+ * Rate limiter using token bucket algorithm.
+ *
  * @param request - Next.js request object
  * @param config - Rate limit configuration
+ * @param keyParts - Optional extra strings to include in the rate limit key
+ *                   (e.g., userId, competitionCode for per-user-per-competition limits)
  * @returns null if allowed, NextResponse if rate limited
  */
 export async function rateLimit(
   request: NextRequest,
   config: RateLimitConfig = {
-    interval: 60 * 1000, // 1 minute
-    uniqueTokenPerInterval: 10, // 10 requests per minute
+    interval: 60 * 1000,
+    uniqueTokenPerInterval: 10,
   },
+  ...keyParts: string[]
 ): Promise<NextResponse | null> {
-  // Get client identifier (IP address or user ID from auth)
-  const identifier = getClientIdentifier(request);
+  const ip = getClientIP(request);
+  const identifier =
+    keyParts.length > 0 ? `${ip}:${keyParts.join(':')}` : `ip:${ip}`;
 
   const now = Date.now();
   const bucket = cache.get(identifier) || {
@@ -73,8 +89,11 @@ export async function rateLimit(
 
   return NextResponse.json(
     {
-      error: 'Too many requests',
-      retryAfter: `${retryAfter} seconds`,
+      success: false,
+      error: {
+        code: 'RATE_LIMIT_EXCEEDED',
+        message: `Too many requests. Try again in ${retryAfter} seconds.`,
+      },
     },
     {
       status: 429,
@@ -89,23 +108,34 @@ export async function rateLimit(
 }
 
 /**
- * Get client identifier from request
- * Priority: User ID (if authenticated) > IP address
+ * Rate limit by user identity (email or ID) + optional scope.
+ * Use for per-user-per-competition rate limiting.
  */
-function getClientIdentifier(request: NextRequest): string {
-  // Try to get user ID from session/auth (implement based on your auth system)
-  // For now, use IP address
-
-  const forwarded = request.headers.get('x-forwarded-for');
-  const realIp = request.headers.get('x-real-ip');
-  const ip = forwarded?.split(',')[0] || realIp || 'unknown';
-
-  return `ip:${ip}`;
+export async function rateLimitByUser(
+  request: NextRequest,
+  userId: string,
+  config: RateLimitConfig,
+  scope?: string,
+): Promise<NextResponse | null> {
+  return rateLimit(
+    request,
+    config,
+    `user:${userId}`,
+    ...(scope ? [scope] : []),
+  );
 }
 
 /**
- * Clear expired entries from cache (run periodically)
- * Call this in a background job or cron
+ * Extract client IP from request headers.
+ */
+function getClientIP(request: NextRequest): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  const realIp = request.headers.get('x-real-ip');
+  return forwarded?.split(',')[0]?.trim() || realIp || 'unknown';
+}
+
+/**
+ * Clear expired entries from cache.
  */
 export function cleanupRateLimitCache(maxAge: number = 60 * 60 * 1000): void {
   const now = Date.now();
@@ -117,30 +147,36 @@ export function cleanupRateLimitCache(maxAge: number = 60 * 60 * 1000): void {
 }
 
 /**
- * Preset rate limit configurations for different endpoints
+ * Preset rate limit configurations
  */
 export const RATE_LIMITS = {
-  // Authentication endpoints (stricter)
+  /** Auth endpoints: 5 attempts per 15 minutes */
   AUTH: {
-    interval: 15 * 60 * 1000, // 15 minutes
-    uniqueTokenPerInterval: 5, // 5 attempts per 15 minutes
+    interval: 15 * 60 * 1000,
+    uniqueTokenPerInterval: 5,
   },
 
-  // Registration endpoints (moderate)
+  /** Competition registration: 3 per hour per IP */
   REGISTRATION: {
-    interval: 60 * 60 * 1000, // 1 hour
-    uniqueTokenPerInterval: 3, // 3 registrations per hour
+    interval: 60 * 60 * 1000,
+    uniqueTokenPerInterval: 3,
   },
 
-  // General API endpoints (lenient)
+  /** Per-user registration: 2 per hour per user (defense in depth) */
+  USER_REGISTRATION: {
+    interval: 60 * 60 * 1000,
+    uniqueTokenPerInterval: 2,
+  },
+
+  /** General API endpoints: 30 requests per minute */
   API: {
-    interval: 60 * 1000, // 1 minute
-    uniqueTokenPerInterval: 30, // 30 requests per minute
+    interval: 60 * 1000,
+    uniqueTokenPerInterval: 30,
   },
 
-  // Public read endpoints (very lenient)
+  /** Public read endpoints: 100 per minute */
   PUBLIC: {
-    interval: 60 * 1000, // 1 minute
-    uniqueTokenPerInterval: 100, // 100 requests per minute
+    interval: 60 * 1000,
+    uniqueTokenPerInterval: 100,
   },
 };

@@ -28,7 +28,14 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
 import { uploadFile } from '@/lib/fileUpload';
 import { appendToGoogleSheets } from '@/lib/google-sheets';
-import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
+import {
+  checkIdempotencyKey,
+  markProcessing,
+  markCompleted,
+  removeIdempotencyKey,
+} from '@/lib/idempotency';
+import { logger } from '@/lib/logger';
+import { rateLimit, rateLimitByUser, RATE_LIMITS } from '@/lib/rate-limit';
 import { auth } from '@/lib/auth';
 
 // Zod schema for team member validation
@@ -69,6 +76,47 @@ export async function POST(request: NextRequest) {
   if (rateLimitResponse) {
     return rateLimitResponse;
   }
+
+  // Per-user rate limiting (2 per hour per user — defense in depth)
+  const userRateLimitResponse = await rateLimitByUser(
+    request,
+    session.user.email,
+    RATE_LIMITS.USER_REGISTRATION,
+    'registration',
+  );
+  if (userRateLimitResponse) {
+    return userRateLimitResponse;
+  }
+
+  // Idempotency key: prevent duplicate submissions from retries/double-clicks
+  const idempotencyKey = request.headers.get('x-idempotency-key');
+  if (idempotencyKey) {
+    const existing = checkIdempotencyKey(idempotencyKey);
+    if (existing) {
+      if (existing.status === 'processing') {
+        return NextResponse.json(
+          { error: 'Registration is already being processed. Please wait.' },
+          { status: 409 },
+        );
+      }
+      if (existing.status === 'completed' && existing.response) {
+        logger.info('Returning cached idempotent response', {
+          operation: 'registration',
+          requestId: idempotencyKey,
+        });
+        return NextResponse.json(existing.response.body, {
+          status: existing.response.status,
+        });
+      }
+    }
+    markProcessing(idempotencyKey);
+  }
+
+  const log = logger.child({
+    operation: 'competition-registration',
+    requestId: idempotencyKey || undefined,
+    userId: session.user.email,
+  });
 
   try {
     // Parse FormData (multipart) instead of JSON
@@ -295,6 +343,24 @@ export async function POST(request: NextRequest) {
       ...members.map((m) => m.email.toLowerCase()),
     ];
 
+    // Check for duplicate emails within the same submission
+    const emailSet = new Set(allEmails);
+    if (emailSet.size !== allEmails.length) {
+      const seen = new Set<string>();
+      const dupes: string[] = [];
+      for (const email of allEmails) {
+        if (seen.has(email)) dupes.push(email);
+        seen.add(email);
+      }
+      return NextResponse.json(
+        {
+          error: 'Duplicate emails found within your team members.',
+          duplicates: dupes,
+        },
+        { status: 400 },
+      );
+    }
+
     // Build duplicate check query — only exclude current user's registrations
     // if the user actually exists (existingUser?.id is defined)
     const duplicateWhere: Prisma.TeamMemberWhereInput = {
@@ -474,25 +540,48 @@ export async function POST(request: NextRequest) {
     });
 
     // 10. Return success response
-    return NextResponse.json(
-      {
-        success: true,
-        message:
-          'Registration successful! Your team is now pending admin review.',
-        registration: {
-          id: fullRegistration.id,
-          teamName: fullRegistration.team?.teamName,
-          competition: fullRegistration.competition.name,
-          memberCount: fullRegistration.team?.members.length || 0,
-          status: fullRegistration.verificationStatus,
-          currentPhase: fullRegistration.currentPhase,
-          needsActivation: false, // User is already active
-        },
+    const responseBody = {
+      success: true,
+      message:
+        'Registration successful! Your team is now pending admin review.',
+      registration: {
+        id: fullRegistration.id,
+        teamName: fullRegistration.team?.teamName,
+        competition: fullRegistration.competition.name,
+        memberCount: fullRegistration.team?.members.length || 0,
+        status: fullRegistration.verificationStatus,
+        currentPhase: fullRegistration.currentPhase,
+        needsActivation: false, // User is already active
       },
-      { status: 201 },
-    );
+    };
+
+    // Cache the success response for idempotency
+    if (idempotencyKey) {
+      markCompleted(idempotencyKey, { body: responseBody, status: 201 });
+    }
+
+    log.info('Registration completed successfully', {
+      registrationId: fullRegistration.id,
+      teamName: fullRegistration.team?.teamName,
+      competitionCode,
+      memberCount: fullRegistration.team?.members.length || 0,
+    });
+
+    return NextResponse.json(responseBody, { status: 201 });
   } catch (err) {
-    console.error('❌ Registration POST error:', err);
+    // Remove idempotency key on error so retry is allowed
+    if (idempotencyKey) {
+      removeIdempotencyKey(idempotencyKey);
+    }
+
+    logger.error(
+      'Registration POST error',
+      {
+        operation: 'competition-registration',
+        userId: session.user.email,
+      },
+      err,
+    );
 
     // Handle race condition: unique constraint violation from concurrent registration
     if (

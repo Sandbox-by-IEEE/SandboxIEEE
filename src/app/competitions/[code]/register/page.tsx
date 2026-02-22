@@ -272,6 +272,14 @@ function RegistrationContent() {
   };
 
   const isSubmitting = useRef(false);
+  const idempotencyKeyRef = useRef<string>('');
+
+  // Generate a new idempotency key when form reaches review step
+  useEffect(() => {
+    if (currentStep === 4) {
+      idempotencyKeyRef.current = `reg_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+    }
+  }, [currentStep]);
 
   const handleSubmit = useCallback(async () => {
     if (!validateStep(3)) return;
@@ -309,6 +317,9 @@ function RegistrationContent() {
       const response = await fetch('/api/competitions/register', {
         method: 'POST',
         body,
+        headers: {
+          'x-idempotency-key': idempotencyKeyRef.current,
+        },
         signal: AbortSignal.timeout(60000),
       });
 
