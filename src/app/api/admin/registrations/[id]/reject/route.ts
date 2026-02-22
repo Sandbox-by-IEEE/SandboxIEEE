@@ -26,9 +26,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/lib/auth';
+import { rejectRegistrationSchema } from '@/lib/admin-schemas';
 import { prisma } from '@/lib/db';
 import { sendRegistrationRejectedEmail } from '@/lib/email';
 import { logSubmissionToSheets } from '@/lib/google-sheets';
+import { logger } from '@/lib/logger';
 
 export async function POST(
   request: NextRequest,
@@ -59,14 +61,22 @@ export async function POST(
     // 2. PARSE REQUEST BODY
     // ============================================================================
     const body = await request.json();
-    const { reason } = body;
+    const parsed = rejectRegistrationSchema.safeParse(body);
 
-    if (!reason || typeof reason !== 'string' || reason.trim() === '') {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Rejection reason is required' },
+        {
+          error: 'Validation failed',
+          details: parsed.error.errors.map((e) => ({
+            field: e.path.join('.'),
+            message: e.message,
+          })),
+        },
         { status: 400 },
       );
     }
+
+    const { reason } = parsed.data;
 
     const { id: registrationId } = await params;
 
@@ -88,7 +98,7 @@ export async function POST(
         team: {
           include: {
             members: {
-              orderBy: { createdAt: 'asc' },
+              orderBy: { orderIndex: 'asc' },
             },
           },
         },

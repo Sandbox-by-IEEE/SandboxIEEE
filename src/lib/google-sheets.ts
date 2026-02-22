@@ -57,14 +57,16 @@ export async function appendToGoogleSheets(data: {
   userId: string;
   competitionCode: string;
   teamName: string;
-  institution: string;
   leaderName: string;
   leaderEmail: string;
   leaderPhone: string;
+  leaderInstitution: string;
+  proofOfRegistrationLink: string;
   members: Array<{
     fullName: string;
     email: string;
     phoneNumber: string;
+    institution?: string;
   }>;
   verificationStatus: string;
   currentPhase: string;
@@ -86,19 +88,20 @@ export async function appendToGoogleSheets(data: {
       .map((_, i) => {
         const member = data.members[i];
         return member
-          ? `${member.fullName} | ${member.email} | ${member.phoneNumber}`
+          ? `${member.fullName} | ${member.email} | ${member.phoneNumber} | ${member.institution || 'N/A'}`
           : '';
       });
 
-    // Prepare row data matching the sheet structure (17 columns)
+    // Prepare row data matching the sheet structure (18 columns)
     const rowData = [
       [
         data.registrationId,
         data.teamName,
-        data.institution,
         data.leaderName,
         data.leaderEmail,
         data.leaderPhone,
+        data.leaderInstitution,
+        data.proofOfRegistrationLink,
         (data.members.length + 1).toString(), // Total members including leader
         data.competitionCode,
         ...memberColumns, // 4 member columns
@@ -113,7 +116,7 @@ export async function appendToGoogleSheets(data: {
     // Append row to sheet
     await sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
-      range: 'Sheet1!A:Q', // 17 columns total
+      range: 'Sheet1!A:R', // 18 columns total
       valueInputOption: 'RAW',
       requestBody: {
         values: rowData,

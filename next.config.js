@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -9,12 +14,13 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
+  poweredByHeader: false,
   typescript: {
     ignoreBuildErrors: false,
   },
   serverExternalPackages: ['bcrypt'],
   experimental: {
-    optimizePackageImports: [],
+    optimizePackageImports: ['lucide-react', 'date-fns', 'zod'],
   },
   async headers() {
     return [
@@ -30,8 +36,18 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Cache static assets (images, fonts) for 1 year
+        source: '/(.*)\\.(png|jpg|jpeg|gif|webp|svg|ico|woff|woff2)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ];
   },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);

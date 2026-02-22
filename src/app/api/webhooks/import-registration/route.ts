@@ -78,17 +78,17 @@ export async function POST(request: NextRequest) {
     const {
       competitionCode,
       teamName,
-      institution,
       leaderName,
       leaderEmail,
       leaderPhone,
+      leaderInstitution,
+      proofOfRegistrationLink,
       members,
     } = body;
 
     if (
       !competitionCode ||
       !teamName ||
-      !institution ||
       !leaderName ||
       !leaderEmail ||
       !leaderPhone
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
         team: {
           create: {
             teamName,
-            institution,
+            proofOfRegistrationLink: proofOfRegistrationLink || '',
             leaderUserId: user.id,
             members: {
               create: [
@@ -167,13 +167,25 @@ export async function POST(request: NextRequest) {
                   fullName: leaderName,
                   email: leaderEmail,
                   phoneNumber: leaderPhone,
+                  institution: leaderInstitution || '',
+                  orderIndex: 0,
                 },
                 // Additional members from form
                 ...(members || []).map(
-                  (member: { name: string; email: string; phone: string }) => ({
+                  (
+                    member: {
+                      name: string;
+                      email: string;
+                      phone: string;
+                      institution?: string;
+                    },
+                    idx: number,
+                  ) => ({
                     fullName: member.name,
                     email: member.email,
                     phoneNumber: member.phone || '',
+                    institution: member.institution || '',
+                    orderIndex: idx + 1,
                   }),
                 ),
               ],
@@ -185,7 +197,7 @@ export async function POST(request: NextRequest) {
         competition: true,
         team: {
           include: {
-            members: true,
+            members: { orderBy: { orderIndex: 'asc' } },
           },
         },
       },

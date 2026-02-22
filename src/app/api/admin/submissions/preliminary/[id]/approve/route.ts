@@ -44,7 +44,7 @@ export async function POST(
             team: {
               include: {
                 members: {
-                  orderBy: { createdAt: 'asc' },
+                  orderBy: { orderIndex: 'asc' },
                 },
               },
             },

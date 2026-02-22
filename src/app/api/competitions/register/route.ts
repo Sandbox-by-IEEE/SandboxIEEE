@@ -28,7 +28,14 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
 import { uploadFile } from '@/lib/fileUpload';
 import { appendToGoogleSheets } from '@/lib/google-sheets';
-import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
+import {
+  checkIdempotencyKey,
+  markProcessing,
+  markCompleted,
+  removeIdempotencyKey,
+} from '@/lib/idempotency';
+import { logger } from '@/lib/logger';
+import { rateLimit, rateLimitByUser, RATE_LIMITS } from '@/lib/rate-limit';
 import { auth } from '@/lib/auth';
 
 // Zod schema for team member validation
@@ -44,12 +51,12 @@ const memberSchema = z.object({
     .min(10, 'Phone number must be at least 10 digits')
     .max(20, 'Phone number must be at most 20 digits')
     .trim(),
-  studentIdCard: z.string().optional(),
-  proofOfRegistrationLink: z
+  institution: z
     .string()
-    .url('Invalid proof link URL')
-    .optional()
-    .or(z.literal('')),
+    .min(3, 'Institution name must be at least 3 characters')
+    .max(200, 'Institution name must be at most 200 characters')
+    .trim(),
+  studentIdCard: z.string().optional(),
 });
 
 const membersArraySchema = z.array(memberSchema);
@@ -70,16 +77,59 @@ export async function POST(request: NextRequest) {
     return rateLimitResponse;
   }
 
+  // Per-user rate limiting (2 per hour per user — defense in depth)
+  const userRateLimitResponse = await rateLimitByUser(
+    request,
+    session.user.email,
+    RATE_LIMITS.USER_REGISTRATION,
+    'registration',
+  );
+  if (userRateLimitResponse) {
+    return userRateLimitResponse;
+  }
+
+  // Idempotency key: prevent duplicate submissions from retries/double-clicks
+  const idempotencyKey = request.headers.get('x-idempotency-key');
+  if (idempotencyKey) {
+    const existing = checkIdempotencyKey(idempotencyKey);
+    if (existing) {
+      if (existing.status === 'processing') {
+        return NextResponse.json(
+          { error: 'Registration is already being processed. Please wait.' },
+          { status: 409 },
+        );
+      }
+      if (existing.status === 'completed' && existing.response) {
+        logger.info('Returning cached idempotent response', {
+          operation: 'registration',
+          requestId: idempotencyKey,
+        });
+        return NextResponse.json(existing.response.body, {
+          status: existing.response.status,
+        });
+      }
+    }
+    markProcessing(idempotencyKey);
+  }
+
+  const log = logger.child({
+    operation: 'competition-registration',
+    requestId: idempotencyKey || undefined,
+    userId: session.user.email,
+  });
+
   try {
     // Parse FormData (multipart) instead of JSON
     const formDataBody = await request.formData();
 
     const competitionCode = formDataBody.get('competitionCode') as string;
     const teamName = formDataBody.get('teamName') as string;
-    const institution = formDataBody.get('institution') as string;
     const leaderName = formDataBody.get('leaderName') as string;
     const leaderPhone = formDataBody.get('leaderPhone') as string;
-    const leaderProofLink = formDataBody.get('leaderProofLink') as string;
+    const leaderInstitution = formDataBody.get('leaderInstitution') as string;
+    const proofOfRegistrationLink = formDataBody.get(
+      'proofOfRegistrationLink',
+    ) as string;
     const membersJson = formDataBody.get('members') as string;
     const paymentProofFile = formDataBody.get('paymentProof') as File | null;
 
@@ -96,12 +146,6 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    if (!institution || institution.length < 3) {
-      return NextResponse.json(
-        { error: 'Institution name is required' },
-        { status: 400 },
-      );
-    }
     if (!leaderName || leaderName.length < 3) {
       return NextResponse.json(
         { error: 'Leader name must be at least 3 characters' },
@@ -114,9 +158,20 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    if (!leaderProofLink) {
+    if (!leaderInstitution || leaderInstitution.length < 3) {
       return NextResponse.json(
-        { error: 'Proof of registration link is required' },
+        { error: 'Leader institution name is required' },
+        { status: 400 },
+      );
+    }
+    if (
+      !proofOfRegistrationLink ||
+      !proofOfRegistrationLink.startsWith('http')
+    ) {
+      return NextResponse.json(
+        {
+          error: 'Proof of registration link is required (must be a valid URL)',
+        },
         { status: 400 },
       );
     }
@@ -282,24 +337,45 @@ export async function POST(request: NextRequest) {
     }
 
     // 5. Check for duplicate emails (all members including leader)
-    // Only check if emails are used in OTHER teams (not the current user's potential re-registration)
-    const allEmails = [leaderEmail, ...members.map((m) => m.email)];
+    // Normalize all emails to lowercase for case-insensitive comparison
+    const allEmails = [
+      leaderEmail.toLowerCase(),
+      ...members.map((m) => m.email.toLowerCase()),
+    ];
+
+    // Check for duplicate emails within the same submission
+    const emailSet = new Set(allEmails);
+    if (emailSet.size !== allEmails.length) {
+      const seen = new Set<string>();
+      const dupes: string[] = [];
+      for (const email of allEmails) {
+        if (seen.has(email)) dupes.push(email);
+        seen.add(email);
+      }
+      return NextResponse.json(
+        {
+          error: 'Duplicate emails found within your team members.',
+          duplicates: dupes,
+        },
+        { status: 400 },
+      );
+    }
+
+    // Build duplicate check query — only exclude current user's registrations
+    // if the user actually exists (existingUser?.id is defined)
+    const duplicateWhere: Prisma.TeamMemberWhereInput = {
+      email: { in: allEmails, mode: 'insensitive' },
+    };
+    if (existingUser?.id) {
+      duplicateWhere.team = {
+        registration: {
+          userId: { not: existingUser.id },
+        },
+      };
+    }
 
     const duplicateMembers = await prisma.teamMember.findMany({
-      where: {
-        email: {
-          in: allEmails,
-        },
-        // Exclude the current user's own email from duplicate check
-        // This allows users to retry registration if their previous attempt failed
-        team: {
-          registration: {
-            userId: {
-              not: existingUser?.id, // Exclude current user's registrations
-            },
-          },
-        },
-      },
+      where: duplicateWhere,
       select: {
         email: true,
         team: {
@@ -346,7 +422,37 @@ export async function POST(request: NextRequest) {
 
       const user = existingUser;
 
+      // Determine batch-based fee
+      const timelineEvents = await tx.competitionTimeline.findMany({
+        where: { competitionId: competition.id },
+      });
+      const batch1 = timelineEvents.find(
+        (e) => e.phase === 'registration_batch_1',
+      );
+      const batch2 = timelineEvents.find(
+        (e) => e.phase === 'registration_batch_2',
+      );
+      let registrationFee = competition.registrationFee; // fallback to default
+
+      // Registration fee tiers per competition
+      const PRICING: Record<string, { early: number; normal: number }> = {
+        BCC: { early: 150000, normal: 180000 },
+        TPC: { early: 125000, normal: 150000 },
+        PTC: { early: 200000, normal: 220000 },
+      };
+
+      if (batch1 && batch2 && PRICING[competitionCode]) {
+        const now = new Date();
+        const batch1End = new Date(batch1.endDate);
+        if (now <= batch1End) {
+          registrationFee = PRICING[competitionCode].early;
+        } else {
+          registrationFee = PRICING[competitionCode].normal;
+        }
+      }
+
       // Create competition registration with team and members
+      // Use orderIndex to guarantee member ordering: 0=leader, 1+=members
       const reg = await tx.competitionRegistration.create({
         data: {
           userId: user.id,
@@ -356,36 +462,29 @@ export async function POST(request: NextRequest) {
           team: {
             create: {
               teamName,
-              institution,
+              proofOfRegistrationLink,
               leaderUserId: user.id,
               members: {
                 create: [
-                  // Leader as first member
+                  // Leader as first member (orderIndex 0)
                   {
                     fullName: leaderName,
-                    email: leaderEmail,
+                    email: leaderEmail.toLowerCase(),
                     phoneNumber: leaderPhone,
-                    proofOfRegistrationLink: leaderProofLink,
+                    institution: leaderInstitution,
+                    orderIndex: 0,
                   },
-                  // Additional team members
-                  ...members.map((member) => ({
+                  // Additional team members (orderIndex 1, 2, ...)
+                  ...members.map((member, idx) => ({
                     fullName: member.fullName,
-                    email: member.email,
+                    email: member.email.toLowerCase(),
                     phoneNumber: member.phoneNumber,
+                    institution: member.institution,
                     studentIdCard: member.studentIdCard,
-                    proofOfRegistrationLink: member.proofOfRegistrationLink,
+                    orderIndex: idx + 1,
                   })),
                 ],
               },
-            },
-          },
-        },
-        include: {
-          competition: true,
-          user: true,
-          team: {
-            include: {
-              members: true,
             },
           },
         },
@@ -395,9 +494,9 @@ export async function POST(request: NextRequest) {
       await tx.payment.create({
         data: {
           registrationId: reg.id,
-          amount: competition.registrationFee,
+          amount: registrationFee,
           paymentProofUrl: paymentProofUrl,
-          paymentMethod: 'Bank Transfer',
+          paymentMethod: 'QRIS',
           billName: leaderName,
           status: 'pending',
         },
@@ -406,51 +505,90 @@ export async function POST(request: NextRequest) {
       return reg;
     });
 
-    // 8. Sync to Google Sheets (non-blocking)
-    try {
-      await appendToGoogleSheets({
-        registrationId: registration.id,
-        userId: registration.userId,
-        competitionCode,
-        teamName,
-        institution,
-        leaderName,
-        leaderEmail,
-        leaderPhone,
-        members: registration.team!.members.slice(1), // Exclude leader
-        verificationStatus: 'pending',
-        currentPhase: 'registration',
+    // Re-fetch the full registration with all relations for the response
+    // (Separated from transaction to get proper TypeScript types)
+    const fullRegistration =
+      await prisma.competitionRegistration.findUniqueOrThrow({
+        where: { id: registration.id },
+        include: {
+          competition: true,
+          team: {
+            include: {
+              members: { orderBy: { orderIndex: 'asc' } },
+            },
+          },
+        },
       });
-    } catch (sheetsError) {
-      // TODO: Log to monitoring service (e.g., Sentry, DataDog)
-      // Google Sheets sync is non-critical, continue registration
-    }
+
+    // 8. Sync to Google Sheets (non-blocking — fire and forget)
+    appendToGoogleSheets({
+      registrationId: fullRegistration.id,
+      userId: fullRegistration.userId,
+      competitionCode,
+      teamName,
+      leaderName,
+      leaderEmail,
+      leaderPhone,
+      leaderInstitution,
+      proofOfRegistrationLink,
+      members: (fullRegistration.team?.members ?? []).slice(1), // Exclude leader
+      verificationStatus: 'pending',
+      currentPhase: 'registration',
+    }).catch((sheetsErr) => {
+      // Google Sheets sync is non-critical — never propagate this error
+      console.error('⚠️ Google Sheets sync failed (non-blocking):', sheetsErr);
+    });
 
     // 10. Return success response
-    return NextResponse.json(
-      {
-        success: true,
-        message:
-          'Registration successful! Your team is now pending admin review.',
-        registration: {
-          id: registration.id,
-          teamName: registration.team?.teamName,
-          competition: registration.competition.name,
-          memberCount: registration.team?.members.length || 0,
-          status: registration.verificationStatus,
-          currentPhase: registration.currentPhase,
-          needsActivation: false, // User is already active
-        },
+    const responseBody = {
+      success: true,
+      message:
+        'Registration successful! Your team is now pending admin review.',
+      registration: {
+        id: fullRegistration.id,
+        teamName: fullRegistration.team?.teamName,
+        competition: fullRegistration.competition.name,
+        memberCount: fullRegistration.team?.members.length || 0,
+        status: fullRegistration.verificationStatus,
+        currentPhase: fullRegistration.currentPhase,
+        needsActivation: false, // User is already active
       },
-      { status: 201 },
+    };
+
+    // Cache the success response for idempotency
+    if (idempotencyKey) {
+      markCompleted(idempotencyKey, { body: responseBody, status: 201 });
+    }
+
+    log.info('Registration completed successfully', {
+      registrationId: fullRegistration.id,
+      teamName: fullRegistration.team?.teamName,
+      competitionCode,
+      memberCount: fullRegistration.team?.members.length || 0,
+    });
+
+    return NextResponse.json(responseBody, { status: 201 });
+  } catch (err) {
+    // Remove idempotency key on error so retry is allowed
+    if (idempotencyKey) {
+      removeIdempotencyKey(idempotencyKey);
+    }
+
+    logger.error(
+      'Registration POST error',
+      {
+        operation: 'competition-registration',
+        userId: session.user.email,
+      },
+      err,
     );
-  } catch (error) {
+
     // Handle race condition: unique constraint violation from concurrent registration
     if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === 'P2002'
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === 'P2002'
     ) {
-      const target = (error.meta?.target as string[]) || [];
+      const target = (err.meta?.target as string[]) || [];
       if (target.includes('userId')) {
         return NextResponse.json(
           { error: 'You are already registered for a competition.' },
@@ -469,9 +607,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Prisma known error - surface the message
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      return NextResponse.json(
+        { error: `Database error: ${err.code} — ${err.message}` },
+        { status: 500 },
+      );
+    }
+
     return NextResponse.json(
       {
-        error: 'Internal server error',
+        error: err instanceof Error ? err.message : 'Internal server error',
       },
       { status: 500 },
     );
@@ -479,7 +625,7 @@ export async function POST(request: NextRequest) {
 }
 
 // GET endpoint to check registration status (requires authentication)
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const session = await auth();
   if (!session?.user?.email) {
     return NextResponse.json(
@@ -494,13 +640,23 @@ export async function GET(request: NextRequest) {
   try {
     const user = await prisma.user.findUnique({
       where: { email },
-      include: {
+      select: {
+        active: true,
         registration: {
-          include: {
-            competition: true,
+          select: {
+            id: true,
+            verificationStatus: true,
+            currentPhase: true,
+            competition: {
+              select: { name: true, code: true },
+            },
             team: {
-              include: {
-                members: true,
+              select: {
+                teamName: true,
+                members: {
+                  select: { id: true },
+                  orderBy: { orderIndex: 'asc' },
+                },
               },
             },
           },
@@ -525,8 +681,8 @@ export async function GET(request: NextRequest) {
         isActive: user.active,
       },
     });
-  } catch (error) {
-    // TODO: Log to monitoring service
+  } catch (err) {
+    console.error('❌ Registration GET error:', err);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

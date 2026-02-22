@@ -54,40 +54,65 @@ export default async function AdminRegistrationsPage({
     filter.verificationStatus = 'rejected';
   }
 
-  // Fetch registrations with all related data
-  const registrations = await prisma.competitionRegistration.findMany({
-    where: filter,
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          username: true,
-          createdAt: true,
+  // Fetch registrations with all related data + Get statistics in parallel
+  const [registrations, ...stats] = await Promise.all([
+    prisma.competitionRegistration.findMany({
+      where: filter,
+      select: {
+        id: true,
+        verificationStatus: true,
+        currentPhase: true,
+        createdAt: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            username: true,
+            createdAt: true,
+          },
+        },
+        competition: {
+          select: {
+            id: true,
+            code: true,
+            name: true,
+          },
+        },
+        team: {
+          select: {
+            id: true,
+            teamName: true,
+            proofOfRegistrationLink: true,
+            members: {
+              select: {
+                id: true,
+                fullName: true,
+                email: true,
+                phoneNumber: true,
+                institution: true,
+                orderIndex: true,
+              },
+              orderBy: { orderIndex: 'asc' },
+            },
+          },
+        },
+        payment: {
+          select: {
+            id: true,
+            amount: true,
+            paymentProofUrl: true,
+            paymentMethod: true,
+            billName: true,
+            status: true,
+            submittedAt: true,
+          },
         },
       },
-      competition: {
-        select: {
-          id: true,
-          code: true,
-          name: true,
-        },
+      orderBy: {
+        createdAt: 'desc',
       },
-      team: {
-        include: {
-          members: true,
-        },
-      },
-      payment: true,
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  });
-
-  // Get statistics
-  const stats = await Promise.all([
+    }),
     prisma.competitionRegistration.count(),
     prisma.competitionRegistration.count({
       where: { verificationStatus: 'pending' },

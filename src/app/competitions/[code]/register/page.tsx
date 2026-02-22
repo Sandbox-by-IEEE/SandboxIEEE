@@ -14,21 +14,28 @@ type Competition = 'BCC' | 'TPC' | 'PTC';
 
 interface TeamMember {
   fullName: string;
-  phoneNumber?: string;
+  phoneNumber: string;
   email?: string;
-  proofOfRegistrationLink: string;
+  institution: string;
 }
 
 interface FormData {
   competitionCode: Competition;
   teamName: string;
-  institution: string;
   leaderName: string;
   leaderPhone: string;
-  leaderProofLink: string;
+  leaderInstitution: string;
+  proofOfRegistrationLink: string;
   members: TeamMember[];
   paymentProof: File | null;
 }
+
+// Registration fee tiers per competition
+const PRICING: Record<Competition, { early: number; normal: number }> = {
+  BCC: { early: 150000, normal: 180000 },
+  TPC: { early: 125000, normal: 150000 },
+  PTC: { early: 200000, normal: 220000 },
+};
 
 const COMPETITION_DETAILS = {
   BCC: { name: 'Business Case Competition', min: 3, max: 3 },
@@ -36,13 +43,17 @@ const COMPETITION_DETAILS = {
   PTC: { name: 'ProtoTech Competition', min: 3, max: 5 },
 };
 
+function formatCurrency(amount: number): string {
+  return `Rp ${amount.toLocaleString('id-ID')}`;
+}
+
 function RegistrationContent() {
   const router = useRouter();
   const params = useParams();
   const { data: session, status: authStatus } = useSession();
   const rawCode = (params.code as string).toUpperCase();
   const isValidCode = rawCode in COMPETITION_DETAILS;
-  const competitionCode = (isValidCode ? rawCode : 'BCC') as Competition; // fallback only used briefly before redirect
+  const competitionCode = (isValidCode ? rawCode : 'BCC') as Competition;
 
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,14 +61,16 @@ function RegistrationContent() {
   const [regCheckLoading, setRegCheckLoading] = useState(true);
   const [regClosed, setRegClosed] = useState<string | null>(null);
 
-  // Redirect if competition code is invalid
+  // Dynamic pricing state based on registration batch
+  const [currentBatch, setCurrentBatch] = useState<'early' | 'normal'>('early');
+  const [batchLabel, setBatchLabel] = useState<string>('Early Registration');
+
   useEffect(() => {
     if (!isValidCode) {
       router.push('/competitions');
     }
   }, [isValidCode, router]);
 
-  // Redirect unauthenticated users to login
   useEffect(() => {
     if (authStatus === 'unauthenticated') {
       router.push(
@@ -69,13 +82,12 @@ function RegistrationContent() {
     }
   }, [authStatus, router, competitionCode]);
 
-  // Check if registration is open (date-based) and if user already registered
+  // Check registration status and determine batch pricing
   useEffect(() => {
     if (authStatus !== 'authenticated') return;
 
     async function checkRegistration() {
       try {
-        // Check if user already registered
         const regRes = await fetch('/api/competitions/register');
         if (regRes.ok) {
           const regData = await regRes.json();
@@ -88,7 +100,6 @@ function RegistrationContent() {
           }
         }
 
-        // Check if competition registration is open
         const compRes = await fetch(
           `/api/competitions/${competitionCode.toLowerCase()}`,
         );
@@ -110,9 +121,35 @@ function RegistrationContent() {
               'This competition is currently closed for registration.',
             );
           }
+
+          // Determine batch from timeline events
+          if (comp.timelineEvents) {
+            const batch1 = comp.timelineEvents.find(
+              (e: any) => e.phase === 'registration_batch_1',
+            );
+            const batch2 = comp.timelineEvents.find(
+              (e: any) => e.phase === 'registration_batch_2',
+            );
+
+            if (batch1 && batch2) {
+              const batch1End = new Date(batch1.endDate);
+              const batch2Start = new Date(batch2.startDate);
+
+              if (now <= batch1End) {
+                setCurrentBatch('early');
+                setBatchLabel('Early Registration');
+              } else if (now >= batch2Start) {
+                setCurrentBatch('normal');
+                setBatchLabel('Normal Registration');
+              } else {
+                setCurrentBatch('normal');
+                setBatchLabel('Normal Registration');
+              }
+            }
+          }
         }
       } catch {
-        // If we can't check, allow form to load — the API will catch it on submit
+        // If we can't check, allow form to load
       } finally {
         setRegCheckLoading(false);
       }
@@ -121,13 +158,15 @@ function RegistrationContent() {
     checkRegistration();
   }, [authStatus, competitionCode]);
 
+  const currentFee = PRICING[competitionCode][currentBatch];
+
   const [formData, setFormData] = useState<FormData>({
     competitionCode: competitionCode,
     teamName: '',
-    institution: '',
     leaderName: '',
     leaderPhone: '',
-    leaderProofLink: '',
+    leaderInstitution: '',
+    proofOfRegistrationLink: '',
     members: [],
     paymentProof: null,
   });
@@ -138,7 +177,8 @@ function RegistrationContent() {
       .fill(null)
       .map(() => ({
         fullName: '',
-        proofOfRegistrationLink: '',
+        phoneNumber: '',
+        institution: '',
       }));
     setFormData((prev) => ({ ...prev, members: initialMembers }));
   }, [formData.competitionCode]);
@@ -149,10 +189,6 @@ function RegistrationContent() {
     if (step === 1) {
       if (!formData.teamName.trim()) {
         setError('Team name is required');
-        return false;
-      }
-      if (!formData.institution.trim()) {
-        setError('Institution/University is required');
         return false;
       }
     }
@@ -166,12 +202,20 @@ function RegistrationContent() {
         setError('Leader phone number is required');
         return false;
       }
+      if (formData.leaderPhone.replace(/\D/g, '').length < 10) {
+        setError('Leader phone number must be at least 10 digits');
+        return false;
+      }
+      if (!formData.leaderInstitution.trim()) {
+        setError('Leader institution/university is required');
+        return false;
+      }
       if (
-        !formData.leaderProofLink.trim() ||
-        !formData.leaderProofLink.startsWith('http')
+        !formData.proofOfRegistrationLink.trim() ||
+        !formData.proofOfRegistrationLink.startsWith('http')
       ) {
         setError(
-          'Leader proof of registration link is required (must be a valid URL)',
+          'Proof of registration link is required (must be a valid URL)',
         );
         return false;
       }
@@ -182,13 +226,16 @@ function RegistrationContent() {
           setError(`Member ${i + 2} full name is required`);
           return false;
         }
-        if (
-          !member.proofOfRegistrationLink.trim() ||
-          !member.proofOfRegistrationLink.startsWith('http')
-        ) {
-          setError(
-            `Member ${i + 2} proof of registration link is required (must be a valid URL)`,
-          );
+        if (!member.phoneNumber.trim()) {
+          setError(`Member ${i + 2} phone number is required`);
+          return false;
+        }
+        if (member.phoneNumber.replace(/\D/g, '').length < 10) {
+          setError(`Member ${i + 2} phone number must be at least 10 digits`);
+          return false;
+        }
+        if (!member.institution.trim()) {
+          setError(`Member ${i + 2} institution/university is required`);
           return false;
         }
       }
@@ -224,12 +271,19 @@ function RegistrationContent() {
     setError('');
   };
 
-  // Debounce submission to prevent double-clicks
   const isSubmitting = useRef(false);
+  const idempotencyKeyRef = useRef<string>('');
+
+  // Generate a new idempotency key when form reaches review step
+  useEffect(() => {
+    if (currentStep === 4) {
+      idempotencyKeyRef.current = `reg_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+    }
+  }, [currentStep]);
 
   const handleSubmit = useCallback(async () => {
     if (!validateStep(3)) return;
-    if (isSubmitting.current) return; // Prevent double submission
+    if (isSubmitting.current) return;
 
     isSubmitting.current = true;
     setIsLoading(true);
@@ -239,10 +293,10 @@ function RegistrationContent() {
       const body = new globalThis.FormData();
       body.append('competitionCode', formData.competitionCode);
       body.append('teamName', formData.teamName);
-      body.append('institution', formData.institution);
       body.append('leaderName', formData.leaderName);
       body.append('leaderPhone', formData.leaderPhone);
-      body.append('leaderProofLink', formData.leaderProofLink);
+      body.append('leaderInstitution', formData.leaderInstitution);
+      body.append('proofOfRegistrationLink', formData.proofOfRegistrationLink);
 
       const membersPayload = formData.members
         .filter((m) => m.fullName.trim() !== '')
@@ -251,8 +305,8 @@ function RegistrationContent() {
           email:
             m.email ||
             `${m.fullName.replace(/\s+/g, '').toLowerCase()}.${idx}@placeholder.com`,
-          phoneNumber: m.phoneNumber || '000000000000',
-          proofOfRegistrationLink: m.proofOfRegistrationLink,
+          phoneNumber: m.phoneNumber,
+          institution: m.institution,
         }));
       body.append('members', JSON.stringify(membersPayload));
 
@@ -263,13 +317,15 @@ function RegistrationContent() {
       const response = await fetch('/api/competitions/register', {
         method: 'POST',
         body,
-        signal: AbortSignal.timeout(60000), // 60s timeout for file upload
+        headers: {
+          'x-idempotency-key': idempotencyKeyRef.current,
+        },
+        signal: AbortSignal.timeout(60000),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        // Handle rate limiting
         if (response.status === 429) {
           throw new Error(
             data.error?.message || 'Too many requests. Please try again later.',
@@ -280,7 +336,6 @@ function RegistrationContent() {
         );
       }
 
-      // Navigate to success page with needsActivation flag
       const needsActivation = data.registration?.needsActivation
         ? 'true'
         : 'false';
@@ -311,7 +366,7 @@ function RegistrationContent() {
         ...prev,
         members: [
           ...prev.members,
-          { fullName: '', proofOfRegistrationLink: '' },
+          { fullName: '', phoneNumber: '', institution: '' },
         ],
       }));
     }
@@ -340,7 +395,6 @@ function RegistrationContent() {
     }));
   };
 
-  // Show loading while checking auth or registration status, or redirecting for invalid code
   if (
     !isValidCode ||
     authStatus === 'loading' ||
@@ -358,7 +412,6 @@ function RegistrationContent() {
     );
   }
 
-  // Show blocked state if registration is closed or user already registered
   if (regClosed) {
     return (
       <>
@@ -394,7 +447,6 @@ function RegistrationContent() {
       <Navbar />
       <div className="min-h-screen bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102] pt-32 pb-16 px-4 font-['Gemunu_Libre']">
         <div className='max-w-5xl mx-auto'>
-          {/* Header */}
           <div className='text-center mb-8 sm:mb-12'>
             <h1 className='text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-3 tracking-wide'>
               Registration Form
@@ -404,9 +456,7 @@ function RegistrationContent() {
             </p>
           </div>
 
-          {/* Main Container with Mascot */}
           <div className='relative'>
-            {/* Mascot Character - Positioned like clip/pin, hidden on very small screens */}
             <div className='absolute -left-4 -top-16 sm:-left-8 sm:-top-20 md:-left-12 md:-top-24 z-20 hidden sm:block'>
               <Image
                 src='/mascots/mascot-3.svg'
@@ -417,23 +467,20 @@ function RegistrationContent() {
               />
             </div>
 
-            {/* Glassmorphism Container */}
             <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-white/10 shadow-2xl'>
-              {/* Progress Header */}
               <div className='bg-gradient-to-br from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-3xl p-8 border border-white/10 mb-8'>
                 <h2 className='text-3xl font-bold text-center mb-8 bg-gradient-to-r from-[#FFE4B5] via-[#FFCD8D] to-[#FFE4B5] bg-clip-text text-transparent'>
                   {currentStep === 1 && 'Team Identity'}
                   {currentStep === 2 && 'Team Members'}
-                  {currentStep === 3 && 'Payment Proof'}
+                  {currentStep === 3 && 'Payment'}
                   {currentStep === 4 && 'Review & Confirm'}
                 </h2>
 
-                {/* Progress Indicator */}
                 <div className='flex items-center justify-center gap-2'>
                   {[
                     'Team Identity',
                     'Team Members',
-                    'Payment Proof',
+                    'Payment',
                     'Review & Confirm',
                   ].map((label, index) => {
                     const step = index + 1;
@@ -470,9 +517,7 @@ function RegistrationContent() {
                 </div>
               </div>
 
-              {/* Form Content */}
               <div className='bg-gradient-to-br from-[#5A2424]/30 to-[#3d1a1a]/20 backdrop-blur-sm rounded-3xl p-6 md:p-10 border border-white/5'>
-                {/* Error Message */}
                 {error && (
                   <div className='mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-2xl backdrop-blur-sm'>
                     <p className='text-red-200 text-sm'>{error}</p>
@@ -482,7 +527,6 @@ function RegistrationContent() {
                 {/* Step 1: Team Identity */}
                 {currentStep === 1 && (
                   <div className='space-y-6'>
-                    {/* Competition Badge */}
                     <div className='bg-gradient-to-r from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-2xl p-6 border border-[#FFCD8D]/20'>
                       <h3 className='text-xl font-bold text-[#FFCD8D] mb-1'>
                         {COMPETITION_DETAILS[competitionCode].name}
@@ -513,40 +557,45 @@ function RegistrationContent() {
                         maxLength={50}
                       />
                     </div>
-
-                    <div>
-                      <label className='block text-white mb-3 font-medium text-lg'>
-                        Institution / University
-                        <span className='text-[#FFCD8D] ml-1'>*</span>
-                      </label>
-                      <input
-                        type='text'
-                        value={formData.institution}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            institution: e.target.value,
-                          }))
-                        }
-                        placeholder='Full name of your institution'
-                        className='w-full bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 focus:border-[#FFCD8D]/50 rounded-2xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none transition-all duration-300'
-                      />
-                    </div>
                   </div>
                 )}
 
                 {/* Step 2: Team Members */}
                 {currentStep === 2 && (
                   <div className='space-y-8'>
+                    {/* Shared Proof of Registration */}
+                    <div className='bg-gradient-to-r from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-2xl p-6 border border-[#FFCD8D]/20'>
+                      <h3 className='text-lg font-bold text-[#FFCD8D] mb-2'>
+                        Proof of Registration
+                      </h3>
+                      <p className='text-xs text-gray-400 mb-4'>
+                        Provide a single Google Drive link containing proof of
+                        registration for{' '}
+                        <strong className='text-[#FFCD8D]'>
+                          all team members
+                        </strong>{' '}
+                        (team leader included). Make sure the link is accessible
+                        (set permissions to &quot;Anyone with the link&quot;).
+                      </p>
+                      <input
+                        type='url'
+                        value={formData.proofOfRegistrationLink}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            proofOfRegistrationLink: e.target.value,
+                          }))
+                        }
+                        placeholder='https://drive.google.com/...'
+                        className='w-full bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 focus:border-[#FFCD8D]/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-all text-sm'
+                      />
+                    </div>
+
                     {/* Leader Section */}
                     <div className='bg-gradient-to-br from-[#6B2D2D]/40 to-[#4a1f1f]/30 backdrop-blur-md rounded-2xl p-6 border border-white/10'>
                       <h3 className='text-2xl font-bold text-[#FFCD8D] mb-4'>
                         #1 Team Leader
                       </h3>
-                      <p className='text-sm text-gray-400 mb-6'>
-                        As the team leader, you&apos;ll be the main point of
-                        contact. Please provide complete information.
-                      </p>
 
                       <div className='space-y-4'>
                         <div>
@@ -581,26 +630,26 @@ function RegistrationContent() {
                                 leaderPhone: e.target.value,
                               }))
                             }
-                            placeholder='Enter your phone number'
+                            placeholder='e.g. 08123456789'
                             className='w-full bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 focus:border-[#FFCD8D]/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-all text-sm'
                           />
                         </div>
 
                         <div>
                           <label className='block text-white mb-2 text-sm font-medium'>
-                            Proof of Registration (Link){' '}
+                            Institution / University{' '}
                             <span className='text-[#FFCD8D]'>*</span>
                           </label>
                           <input
-                            type='url'
-                            value={formData.leaderProofLink}
+                            type='text'
+                            value={formData.leaderInstitution}
                             onChange={(e) =>
                               setFormData((prev) => ({
                                 ...prev,
-                                leaderProofLink: e.target.value,
+                                leaderInstitution: e.target.value,
                               }))
                             }
-                            placeholder='https://drive.google.com/...'
+                            placeholder='Full name of your institution'
                             className='w-full bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 focus:border-[#FFCD8D]/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-all text-sm'
                           />
                         </div>
@@ -649,20 +698,40 @@ function RegistrationContent() {
 
                           <div>
                             <label className='block text-white mb-2 text-sm font-medium'>
-                              Proof of Registration (Link){' '}
+                              Phone Number{' '}
                               <span className='text-[#FFCD8D]'>*</span>
                             </label>
                             <input
-                              type='url'
-                              value={member.proofOfRegistrationLink}
+                              type='tel'
+                              value={member.phoneNumber}
                               onChange={(e) =>
                                 updateMember(
                                   index,
-                                  'proofOfRegistrationLink',
+                                  'phoneNumber',
                                   e.target.value,
                                 )
                               }
-                              placeholder='https://drive.google.com/...'
+                              placeholder='e.g. 08123456789'
+                              className='w-full bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 focus:border-[#FFCD8D]/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-all text-sm'
+                            />
+                          </div>
+
+                          <div>
+                            <label className='block text-white mb-2 text-sm font-medium'>
+                              Institution / University{' '}
+                              <span className='text-[#FFCD8D]'>*</span>
+                            </label>
+                            <input
+                              type='text'
+                              value={member.institution}
+                              onChange={(e) =>
+                                updateMember(
+                                  index,
+                                  'institution',
+                                  e.target.value,
+                                )
+                              }
+                              placeholder='Full name of your institution'
                               className='w-full bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 focus:border-[#FFCD8D]/50 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-all text-sm'
                             />
                           </div>
@@ -670,7 +739,6 @@ function RegistrationContent() {
                       </div>
                     ))}
 
-                    {/* Add Member Button */}
                     {formData.members.length <
                       COMPETITION_DETAILS[formData.competitionCode].max - 1 && (
                       <button
@@ -684,22 +752,95 @@ function RegistrationContent() {
                   </div>
                 )}
 
-                {/* Step 3: Payment Proof */}
+                {/* Step 3: Payment */}
                 {currentStep === 3 && (
                   <div className='space-y-6'>
                     <div className='bg-gradient-to-r from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-2xl p-6 border border-[#FFCD8D]/20'>
-                      <h3 className='text-xl font-bold text-[#FFCD8D] mb-1'>
-                        Upload Payment Proof
+                      <h3 className='text-xl font-bold text-[#FFCD8D] mb-3'>
+                        Registration Fee
                       </h3>
+                      <div className='flex items-center gap-3 mb-2'>
+                        <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#FFCD8D]/20 text-[#FFCD8D] border border-[#FFCD8D]/30'>
+                          {batchLabel}
+                        </span>
+                      </div>
+                      <p className='text-3xl font-bold text-white mb-2'>
+                        {formatCurrency(currentFee)}
+                      </p>
                       <p className='text-xs text-gray-400'>
-                        Upload a screenshot or photo of your payment receipt
-                        (JPG/PNG, max 5MB)
+                        The fee shown is based on the current registration
+                        period ({batchLabel}). Please pay{' '}
+                        <strong className='text-[#FFCD8D]'>exactly</strong> this
+                        amount.
                       </p>
                     </div>
 
+                    {/* QRIS Payment Section */}
                     <div className='bg-gradient-to-br from-[#6B2D2D]/40 to-[#4a1f1f]/30 backdrop-blur-md rounded-2xl p-6 border border-white/10'>
+                      <h4 className='text-lg font-bold text-[#FFCD8D] mb-4'>
+                        Payment via QRIS
+                      </h4>
+                      <div className='flex justify-center mb-4'>
+                        {/* QRIS Payment Image Placeholder
+                            TODO: Replace this placeholder with the actual QRIS payment image.
+                            Place the QRIS image file at /public/payments/qris.png and update the src below. */}
+                        <div className='w-64 h-64 bg-[#2d0e0e]/60 border-2 border-dashed border-[#FFCD8D]/30 rounded-2xl flex items-center justify-center overflow-hidden'>
+                          <Image
+                            src='/payments/qris.webp'
+                            alt='QRIS Payment Code'
+                            width={240}
+                            height={240}
+                            className='rounded-xl object-contain'
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              if (target.parentElement) {
+                                target.parentElement.innerHTML =
+                                  '<p class="text-gray-500 text-sm text-center px-4">QRIS image will be displayed here.<br/>Contact admin for payment details.</p>';
+                              }
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <p className='text-sm text-gray-300 text-center'>
+                        Scan the QRIS code above to make payment of{' '}
+                        <strong className='text-[#FFCD8D]'>
+                          {formatCurrency(currentFee)}
+                        </strong>
+                      </p>
+                    </div>
+
+                    {/* Payment Instructions */}
+                    <div className='bg-gradient-to-br from-[#6B2D2D]/40 to-[#4a1f1f]/30 backdrop-blur-md rounded-2xl p-6 border border-white/10'>
+                      <h4 className='text-lg font-bold text-[#FFCD8D] mb-3'>
+                        Payment Instructions
+                      </h4>
+                      <ol className='space-y-2 text-sm text-gray-300 list-decimal list-inside'>
+                        <li>
+                          Pay exactly{' '}
+                          <strong className='text-[#FFCD8D]'>
+                            {formatCurrency(currentFee)}
+                          </strong>{' '}
+                          using the QRIS code above
+                        </li>
+                        <li>
+                          Take a screenshot or download the payment confirmation
+                        </li>
+                        <li>
+                          Upload the payment proof below (JPG/PNG, max 5MB)
+                        </li>
+                      </ol>
+                    </div>
+
+                    {/* Upload Payment Proof */}
+                    <div className='bg-gradient-to-br from-[#6B2D2D]/40 to-[#4a1f1f]/30 backdrop-blur-md rounded-2xl p-6 border border-white/10'>
+                      <h4 className='text-lg font-bold text-[#FFCD8D] mb-3'>
+                        Upload Payment Proof{' '}
+                        <span className='text-[#FFCD8D]'>*</span>
+                      </h4>
+
                       {!formData.paymentProof ? (
-                        <label className='flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-[#FFCD8D]/30 rounded-2xl cursor-pointer hover:border-[#FFCD8D] transition-all duration-300 bg-[#2d0e0e]/40'>
+                        <label className='flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-[#FFCD8D]/30 rounded-2xl cursor-pointer hover:border-[#FFCD8D] transition-all duration-300 bg-[#2d0e0e]/40'>
                           <div className='flex flex-col items-center justify-center pt-5 pb-6'>
                             <Upload className='w-12 h-12 mb-4 text-[#FFCD8D]/60' />
                             <p className='mb-2 text-lg text-gray-300'>
@@ -775,10 +916,24 @@ function RegistrationContent() {
                         {formData.teamName}
                       </h3>
                       <p className='text-center text-gray-400 mb-6 text-lg'>
-                        {formData.institution}
+                        {COMPETITION_DETAILS[competitionCode].name}
                       </p>
 
                       <div className='border-t border-white/10 pt-6'>
+                        <h4 className='text-sm font-semibold text-[#FFCD8D] mb-3 uppercase tracking-wide'>
+                          Proof of Registration
+                        </h4>
+                        <a
+                          href={formData.proofOfRegistrationLink}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='text-[#FFCD8D] hover:text-[#E8A05D] underline text-sm'
+                        >
+                          View Shared Link
+                        </a>
+                      </div>
+
+                      <div className='border-t border-white/10 pt-6 mt-6'>
                         <h4 className='text-sm font-semibold text-[#FFCD8D] mb-3 uppercase tracking-wide'>
                           Team Leader
                         </h4>
@@ -802,17 +957,10 @@ function RegistrationContent() {
                             </span>
                           </div>
                           <div className='flex justify-between'>
-                            <span className='text-gray-400'>
-                              Proof of Registration:
+                            <span className='text-gray-400'>Institution:</span>
+                            <span className='text-white'>
+                              {formData.leaderInstitution}
                             </span>
-                            <a
-                              href={formData.leaderProofLink}
-                              target='_blank'
-                              rel='noopener noreferrer'
-                              className='text-[#FFCD8D] hover:text-[#E8A05D] underline'
-                            >
-                              View Link
-                            </a>
                           </div>
                         </div>
                       </div>
@@ -824,34 +972,48 @@ function RegistrationContent() {
                           </h4>
                           <div className='space-y-4'>
                             {formData.members.map((member, index) => (
-                              <div
-                                key={index}
-                                className='flex justify-between items-start text-sm'
-                              >
-                                <div className='flex-1'>
+                              <div key={index} className='text-sm space-y-1'>
+                                <div className='flex justify-between'>
                                   <span className='text-gray-400'>
                                     Member {index + 2}:
                                   </span>
-                                  <span className='text-white font-medium ml-2'>
+                                  <span className='text-white font-medium'>
                                     {member.fullName}
                                   </span>
                                 </div>
-                                <a
-                                  href={member.proofOfRegistrationLink}
-                                  target='_blank'
-                                  rel='noopener noreferrer'
-                                  className='text-[#FFCD8D] hover:text-[#E8A05D] underline text-sm'
-                                >
-                                  View Proof
-                                </a>
+                                <div className='flex justify-between'>
+                                  <span className='text-gray-400'>Phone:</span>
+                                  <span className='text-white'>
+                                    {member.phoneNumber}
+                                  </span>
+                                </div>
+                                <div className='flex justify-between'>
+                                  <span className='text-gray-400'>
+                                    Institution:
+                                  </span>
+                                  <span className='text-white'>
+                                    {member.institution}
+                                  </span>
+                                </div>
                               </div>
                             ))}
                           </div>
                         </div>
                       )}
+
+                      <div className='border-t border-white/10 pt-6 mt-6'>
+                        <h4 className='text-sm font-semibold text-[#FFCD8D] mb-3 uppercase tracking-wide'>
+                          Registration Fee
+                        </h4>
+                        <div className='flex justify-between text-sm'>
+                          <span className='text-gray-400'>{batchLabel}:</span>
+                          <span className='text-white font-bold'>
+                            {formatCurrency(currentFee)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
-                    {/* Payment Proof Summary */}
                     {formData.paymentProof && (
                       <div className='bg-gradient-to-br from-[#6B2D2D]/40 to-[#4a1f1f]/30 backdrop-blur-md rounded-2xl p-6 border border-white/10'>
                         <h4 className='text-sm font-semibold text-[#FFCD8D] mb-3 uppercase tracking-wide'>
@@ -878,7 +1040,6 @@ function RegistrationContent() {
                   </div>
                 )}
 
-                {/* Navigation Buttons */}
                 <div className='flex justify-between items-center mt-10 gap-4'>
                   {currentStep > 1 && (
                     <button

@@ -171,6 +171,7 @@ model Competition {
   timelineEvents CompetitionTimeline[]
 
   @@index([code])
+  @@index([isActive])
   @@map("competitions")
 }
 
@@ -238,7 +239,7 @@ model Team {
   id             String   @id @default(uuid())
   registrationId String   @unique // One-to-one with CompetitionRegistration
   teamName       String // Team name, unique per competition (enforced at application level)
-  institution    String // University/school name
+  proofOfRegistrationLink String? // Shared Google Drive link for all members
   leaderUserId   String   @unique // Must match the User who created registration
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -248,6 +249,7 @@ model Team {
 
   @@index([teamName])
   @@index([registrationId])
+  @@index([leaderUserId])
   @@map("teams")
 }
 
@@ -260,8 +262,9 @@ model TeamMember {
   fullName                String // Member's full name
   email                   String   @unique // GLOBAL uniqueness (CRITICAL CONSTRAINT)
   phoneNumber             String
+  institution             String   @default("") // University/school name (each member can be from different institution)
+  orderIndex              Int      @default(0) // 0 = leader, 1 = member 1, 2 = member 2, etc.
   studentIdCard           String? // KTM photo URL (optional)
-  proofOfRegistrationLink String? // Google Drive link for twibbon/poster proofs
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
 
@@ -269,6 +272,7 @@ model TeamMember {
 
   @@index([email])
   @@index([teamId])
+  @@index([orderIndex])
   @@map("team_members")
 }
 

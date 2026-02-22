@@ -108,8 +108,8 @@ export async function GET(request: Request) {
       },
       { status: 200 },
     );
-  } catch (error) {
-    // TODO: Log error to monitoring service with stack trace
+  } catch (err) {
+    console.error('❌ Account activation error:', err);
 
     return NextResponse.json(
       {

@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         competition: true,
         team: {
           include: {
-            members: true,
+            members: { orderBy: { orderIndex: 'asc' } },
           },
         },
       },

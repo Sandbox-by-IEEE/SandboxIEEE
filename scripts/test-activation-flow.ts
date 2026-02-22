@@ -18,7 +18,7 @@
 
 import 'dotenv/config';
 import { prisma } from '../src/lib/db';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 const BASE_URL = 'http://localhost:3000';
 
