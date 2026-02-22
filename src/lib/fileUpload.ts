@@ -4,20 +4,17 @@
  * ============================================================================
  *
  * Handles all file uploads to Supabase Storage buckets.
- * Falls back to local filesystem if Supabase is not configured.
+ * Supabase Storage is REQUIRED — no local filesystem fallback.
+ * Vercel is serverless with a read-only filesystem.
  *
  * Features:
  * - Supabase Storage integration with signed URLs
  * - Automatic file naming with collision prevention
  * - File type and size validation (via fileConfig.ts)
  * - Old file cleanup on re-upload
- * - Local filesystem fallback for development
  *
  * ============================================================================
  */
-
-import { mkdir, writeFile, unlink } from 'fs/promises';
-import path from 'path';
 
 import { getSupabaseAdmin, type StorageBucket } from '@/lib/supabase';
 
@@ -29,17 +26,10 @@ export interface UploadResult {
 }
 
 /**
- * Check if Supabase Storage is configured
- */
-function isSupabaseConfigured(): boolean {
-  return !!(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.SUPABASE_SERVICE_ROLE_KEY
-  );
-}
-
-/**
- * Upload a file to Supabase Storage or local filesystem (fallback)
+ * Upload a file to Supabase Storage.
+ *
+ * Supabase must be configured with NEXT_PUBLIC_SUPABASE_URL and
+ * SUPABASE_SERVICE_ROLE_KEY environment variables.
  *
  * @param file - The File object to upload
  * @param bucket - Storage bucket name (payments, preliminary, semifinal, final)
@@ -51,11 +41,7 @@ export async function uploadFile(
   bucket: string,
   prefix?: string,
 ): Promise<UploadResult> {
-  // Use Supabase if configured, otherwise fall back to local filesystem
-  if (isSupabaseConfigured()) {
-    return uploadToSupabase(file, bucket as StorageBucket, prefix);
-  }
-  return uploadToLocal(file, bucket, prefix);
+  return uploadToSupabase(file, bucket as StorageBucket, prefix);
 }
 
 /**
@@ -121,55 +107,10 @@ async function uploadToSupabase(
 }
 
 /**
- * Upload file to local filesystem (development fallback)
- */
-async function uploadToLocal(
-  file: File,
-  bucket: string,
-  prefix?: string,
-): Promise<UploadResult> {
-  const uploadsDir = path.join(process.cwd(), 'public', 'uploads', bucket);
-  await mkdir(uploadsDir, { recursive: true });
-
-  const ext = getFileExtension(file.name);
-  const safeName = file.name
-    .replace(/[^a-zA-Z0-9._-]/g, '_')
-    .replace(/_{2,}/g, '_');
-  const safePrefix = prefix
-    ? prefix.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/\.\./g, '_')
-    : undefined;
-  const timestamp = Date.now();
-  const fileName = safePrefix
-    ? `${safePrefix}_${timestamp}${ext}`
-    : `${timestamp}_${safeName}`;
-
-  const filePath = path.join(uploadsDir, fileName);
-
-  // Defense-in-depth: ensure resolved path is within uploads directory
-  const resolvedPath = path.resolve(filePath);
-  const resolvedUploadsDir = path.resolve(uploadsDir);
-  if (!resolvedPath.startsWith(resolvedUploadsDir)) {
-    throw new Error('Invalid file path');
-  }
-
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  await writeFile(filePath, buffer);
-
-  const url = `/uploads/${bucket}/${fileName}`;
-
-  return {
-    url,
-    fileName: file.name,
-    fileSize: file.size,
-  };
-}
-
-/**
- * Delete a file from Supabase Storage or local filesystem
+ * Delete a file from Supabase Storage
  *
  * @param fileUrl - The file URL or storage path to delete
- * @param bucket - Optional bucket name (required for Supabase, auto-detected for local)
+ * @param bucket - Optional bucket name (auto-detected from URL if omitted)
  * @param storagePath - Optional Supabase storage path (more reliable than URL parsing)
  */
 export async function deleteFile(
@@ -179,43 +120,25 @@ export async function deleteFile(
 ): Promise<void> {
   if (!fileUrl) return;
 
-  // If we have a Supabase storage path, delete from Supabase
-  if (
-    isSupabaseConfigured() &&
-    (storagePath || !fileUrl.startsWith('/uploads/'))
-  ) {
-    try {
-      const supabase = getSupabaseAdmin();
-      const targetBucket = bucket || detectBucketFromUrl(fileUrl);
-      const targetPath =
-        storagePath || extractPathFromUrl(fileUrl, targetBucket);
+  try {
+    const supabase = getSupabaseAdmin();
+    const targetBucket = bucket || detectBucketFromUrl(fileUrl);
+    const targetPath = storagePath || extractPathFromUrl(fileUrl, targetBucket);
 
-      if (targetBucket && targetPath) {
-        const { error } = await supabase.storage
-          .from(targetBucket)
-          .remove([targetPath]);
+    if (targetBucket && targetPath) {
+      const { error } = await supabase.storage
+        .from(targetBucket)
+        .remove([targetPath]);
 
-        if (error) {
-          console.warn(
-            `⚠️ Could not delete from Supabase [${targetBucket}]:`,
-            error.message,
-          );
-        }
+      if (error) {
+        console.warn(
+          `⚠️ Could not delete from Supabase [${targetBucket}]:`,
+          error.message,
+        );
       }
-    } catch (err) {
-      console.warn('⚠️ Supabase delete failed:', err);
     }
-    return;
-  }
-
-  // Local filesystem deletion
-  if (fileUrl.startsWith('/uploads/')) {
-    try {
-      const filePath = path.join(process.cwd(), 'public', fileUrl);
-      await unlink(filePath);
-    } catch (err) {
-      console.warn('Could not delete old file:', fileUrl, err);
-    }
+  } catch (err) {
+    console.warn('⚠️ Supabase delete failed:', err);
   }
 }
 
@@ -227,8 +150,6 @@ export async function getSignedUrl(
   storagePath: string,
   expiresInSeconds: number = 7 * 24 * 60 * 60,
 ): Promise<string | null> {
-  if (!isSupabaseConfigured()) return null;
-
   try {
     const supabase = getSupabaseAdmin();
     const { data, error } = await supabase.storage

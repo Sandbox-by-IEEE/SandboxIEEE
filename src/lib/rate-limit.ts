@@ -86,13 +86,14 @@ export async function rateLimit(
 
   // Rate limit exceeded
   const retryAfter = Math.ceil((config.interval - timeSinceLastRefill) / 1000);
+  const retryMinutes = Math.max(1, Math.ceil(retryAfter / 60));
 
   return NextResponse.json(
     {
       success: false,
       error: {
         code: 'RATE_LIMIT_EXCEEDED',
-        message: `Too many requests. Try again in ${retryAfter} seconds.`,
+        message: `Too many attempts. Please try again in ${retryMinutes} minute${retryMinutes > 1 ? 's' : ''}.`,
       },
     },
     {
@@ -126,6 +127,25 @@ export async function rateLimitByUser(
 }
 
 /**
+ * Refund a rate limit token (call this when a server-side error occurs
+ * so 5xx errors don't count against the user's rate limit).
+ */
+export function refundRateLimit(
+  request: NextRequest,
+  config: RateLimitConfig,
+  ...keyParts: string[]
+): void {
+  const ip = getClientIP(request);
+  const identifier =
+    keyParts.length > 0 ? `${ip}:${keyParts.join(':')}` : `ip:${ip}`;
+
+  const bucket = cache.get(identifier);
+  if (bucket) {
+    bucket.tokens = Math.min(config.uniqueTokenPerInterval, bucket.tokens + 1);
+  }
+}
+
+/**
  * Extract client IP from request headers.
  */
 function getClientIP(request: NextRequest): string {
@@ -150,22 +170,22 @@ export function cleanupRateLimitCache(maxAge: number = 60 * 60 * 1000): void {
  * Preset rate limit configurations
  */
 export const RATE_LIMITS = {
-  /** Auth endpoints: 5 attempts per 15 minutes */
+  /** Auth endpoints: 10 attempts per 15 minutes */
   AUTH: {
     interval: 15 * 60 * 1000,
-    uniqueTokenPerInterval: 5,
+    uniqueTokenPerInterval: 10,
   },
 
-  /** Competition registration: 3 per hour per IP */
+  /** Competition registration: 10 per 10 minutes per IP */
   REGISTRATION: {
-    interval: 60 * 60 * 1000,
-    uniqueTokenPerInterval: 3,
+    interval: 10 * 60 * 1000,
+    uniqueTokenPerInterval: 10,
   },
 
-  /** Per-user registration: 2 per hour per user (defense in depth) */
+  /** Per-user registration: 10 per 10 minutes per user */
   USER_REGISTRATION: {
-    interval: 60 * 60 * 1000,
-    uniqueTokenPerInterval: 2,
+    interval: 10 * 60 * 1000,
+    uniqueTokenPerInterval: 10,
   },
 
   /** General API endpoints: 30 requests per minute */

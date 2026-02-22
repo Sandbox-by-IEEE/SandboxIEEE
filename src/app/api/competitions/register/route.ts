@@ -35,7 +35,7 @@ import {
   removeIdempotencyKey,
 } from '@/lib/idempotency';
 import { logger } from '@/lib/logger';
-import { rateLimit, rateLimitByUser, RATE_LIMITS } from '@/lib/rate-limit';
+import { rateLimit, rateLimitByUser, refundRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 import { auth } from '@/lib/auth';
 
 // Zod schema for team member validation
@@ -71,13 +71,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Apply rate limiting (3 registrations per hour per IP)
+  // Apply rate limiting (10 registrations per 10 minutes per IP)
   const rateLimitResponse = await rateLimit(request, RATE_LIMITS.REGISTRATION);
   if (rateLimitResponse) {
     return rateLimitResponse;
   }
 
-  // Per-user rate limiting (2 per hour per user — defense in depth)
+  // Per-user rate limiting (10 per 10 minutes per user — defense in depth)
   const userRateLimitResponse = await rateLimitByUser(
     request,
     session.user.email,
@@ -407,7 +407,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 6. Upload payment proof via Supabase Storage (or local fallback)
+    // 6. Upload payment proof via Supabase Storage
     const sanitizedTeamName = teamName.replace(/[^a-zA-Z0-9]/g, '_');
     const prefix = `payment_${sanitizedTeamName}`;
     const uploaded = await uploadFile(paymentProofFile, 'payments', prefix);
@@ -581,6 +581,15 @@ export async function POST(request: NextRequest) {
         userId: session.user.email,
       },
       err,
+    );
+
+    // Refund rate limit tokens on server errors so 5xx doesn't penalise the user
+    refundRateLimit(request, RATE_LIMITS.REGISTRATION);
+    refundRateLimit(
+      request,
+      RATE_LIMITS.USER_REGISTRATION,
+      `user:${session.user.email}`,
+      'registration',
     );
 
     // Handle race condition: unique constraint violation from concurrent registration

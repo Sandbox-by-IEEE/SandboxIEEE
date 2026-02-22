@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
       await deleteFile(existing.fileUrl);
     }
 
-    // Upload file to local storage
+    // Upload file to Supabase Storage
     const teamName = registration.team?.teamName || 'team';
     const prefix = `${competitionCode}-${teamName}`.replace(
       /[^a-zA-Z0-9-]/g,
