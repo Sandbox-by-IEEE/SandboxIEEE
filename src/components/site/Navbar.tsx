@@ -9,9 +9,11 @@ import { useEffect, useState } from 'react';
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCompetitionOpen, setIsCompetitionOpen] = useState(false);
+  const [isEventOpen, setIsEventOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileCompetitionOpen, setIsMobileCompetitionOpen] = useState(false);
+  const [isMobileEventOpen, setIsMobileEventOpen] = useState(false);
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -109,9 +111,32 @@ export default function Navbar() {
                 )}
               </div>
 
-              <button className='text-gray-500 transition-colors font-gemunu text-lg font-medium opacity-50 cursor-not-allowed'>
-                Events
-              </button>
+              {/* Event Dropdown */}
+              <div className='relative'>
+                <button
+                  onClick={() => setIsEventOpen(!isEventOpen)}
+                  className='flex items-center text-gray-700 hover:text-[#FF6B7A] transition-colors font-gemunu text-lg font-medium'
+                >
+                  Events
+                  <ChevronDown
+                    className={`ml-1 h-4 w-4 transition-transform ${
+                      isEventOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {isEventOpen && (
+                  <div className='absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden z-50'>
+                    <Link
+                      href='/event/grand-seminar'
+                      className='block px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 transition-colors font-gemunu'
+                      onClick={() => setIsEventOpen(false)}
+                    >
+                      Grand Seminar
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Right side: Desktop auth + Mobile hamburger */}
@@ -212,11 +237,12 @@ export default function Navbar() {
         </div>
 
         {/* Click outside to close desktop dropdowns */}
-        {(isCompetitionOpen || isProfileOpen) && (
+        {(isCompetitionOpen || isEventOpen || isProfileOpen) && (
           <div
             className='fixed inset-0 z-40'
             onClick={() => {
               setIsCompetitionOpen(false);
+              setIsEventOpen(false);
               setIsProfileOpen(false);
             }}
           />
@@ -275,8 +301,30 @@ export default function Navbar() {
               )}
             </div>
 
-            <div className='px-4 py-3 text-gray-400 font-gemunu text-lg font-medium cursor-not-allowed'>
-              Events
+            {/* Events Accordion */}
+            <div>
+              <button
+                onClick={() =>
+                  setIsMobileEventOpen(!isMobileEventOpen)
+                }
+                className='w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-xl transition-colors font-gemunu text-lg font-medium'
+              >
+                Events
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${isMobileEventOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {isMobileEventOpen && (
+                <div className='ml-4 space-y-1 mt-1'>
+                  <Link
+                    href='/event/grand-seminar'
+                    className='block px-4 py-2.5 text-gray-600 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-lg transition-colors font-gemunu'
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Grand Seminar
+                  </Link>
+                </div>
+              )}
             </div>
 
             <div className='border-t border-gray-200 my-4' />
