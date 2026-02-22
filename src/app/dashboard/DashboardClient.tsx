@@ -53,7 +53,7 @@ export default function DashboardClient({ user }: DashboardClientProps) {
             </div>
 
             {/* Empty State Card */}
-            <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-2xl sm:rounded-[2.5rem] p-6 sm:p-8 md:p-12 border border-white/10 shadow-2xl text-center'>
+            <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-8 md:p-12 border border-white/10 shadow-2xl text-center'>
               <div className='mb-6'>
                 <div className='w-24 h-24 mx-auto bg-gradient-to-br from-[#6B2D2D]/60 to-[#4a1f1f]/60 rounded-full flex items-center justify-center border-2 border-[#FFCD8D]/20 mb-6'>
                   <Trophy className='w-12 h-12 text-[#FFCD8D]/60' />

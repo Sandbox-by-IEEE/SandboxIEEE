@@ -60,7 +60,7 @@ export default function SubmissionSection({
 
   // Wrap in outer container like registration page
   return (
-    <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-white/10 shadow-2xl mb-8'>
+    <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-3xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-white/10 shadow-2xl mb-8'>
       {/* Phase 1: Preliminary (after registration approved) */}
       {currentPhase === 'preliminary' &&
         !isPreliminaryNotStarted &&

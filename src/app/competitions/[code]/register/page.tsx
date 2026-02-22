@@ -272,14 +272,6 @@ function RegistrationContent() {
   };
 
   const isSubmitting = useRef(false);
-  const idempotencyKeyRef = useRef<string>('');
-
-  // Generate a new idempotency key when form reaches review step
-  useEffect(() => {
-    if (currentStep === 4) {
-      idempotencyKeyRef.current = `reg_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
-    }
-  }, [currentStep]);
 
   const handleSubmit = useCallback(async () => {
     if (!validateStep(3)) return;
@@ -304,7 +296,7 @@ function RegistrationContent() {
           fullName: m.fullName,
           email:
             m.email ||
-            `${m.fullName.replace(/\s+/g, '').toLowerCase()}.${idx}@placeholder.com`,
+            `member.${Date.now()}.${idx}.${Math.random().toString(36).slice(2, 9)}@placeholder.sandbox.id`,
           phoneNumber: m.phoneNumber,
           institution: m.institution,
         }));
@@ -317,9 +309,6 @@ function RegistrationContent() {
       const response = await fetch('/api/competitions/register', {
         method: 'POST',
         body,
-        headers: {
-          'x-idempotency-key': idempotencyKeyRef.current,
-        },
         signal: AbortSignal.timeout(60000),
       });
 
@@ -467,16 +456,16 @@ function RegistrationContent() {
               />
             </div>
 
-            <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-2xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-white/10 shadow-2xl'>
-              <div className='bg-gradient-to-br from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-3xl p-8 border border-white/10 mb-8'>
-                <h2 className='text-3xl font-bold text-center mb-8 bg-gradient-to-r from-[#FFE4B5] via-[#FFCD8D] to-[#FFE4B5] bg-clip-text text-transparent'>
+            <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-3xl sm:rounded-[2.5rem] p-5 sm:p-8 md:p-12 border border-white/10 shadow-2xl'>
+              <div className='bg-gradient-to-br from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-white/10 mb-8'>
+                <h2 className='text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 bg-gradient-to-r from-[#FFE4B5] via-[#FFCD8D] to-[#FFE4B5] bg-clip-text text-transparent'>
                   {currentStep === 1 && 'Team Identity'}
                   {currentStep === 2 && 'Team Members'}
                   {currentStep === 3 && 'Payment'}
                   {currentStep === 4 && 'Review & Confirm'}
                 </h2>
 
-                <div className='flex items-center justify-center gap-2'>
+                <div className='flex items-center justify-center gap-1 sm:gap-2'>
                   {[
                     'Team Identity',
                     'Team Members',
@@ -488,7 +477,7 @@ function RegistrationContent() {
                       <div key={step} className='flex items-center'>
                         <div className='flex flex-col items-center'>
                           <div
-                            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
+                            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm transition-all duration-300 ${
                               step === currentStep
                                 ? 'bg-gradient-to-br from-[#FFCD8D] to-[#E8A05D] text-[#2d0e0e] scale-110 shadow-lg shadow-orange-500/30'
                                 : step < currentStep
@@ -498,13 +487,13 @@ function RegistrationContent() {
                           >
                             {step}
                           </div>
-                          <span className='text-xs text-gray-400 mt-2 hidden sm:block max-w-[80px] sm:max-w-[100px] text-center leading-tight'>
+                          <span className='text-[10px] sm:text-xs text-gray-400 mt-1 sm:mt-2 max-w-[60px] sm:max-w-[100px] text-center leading-tight'>
                             {label}
                           </span>
                         </div>
                         {step < 4 && (
                           <div
-                            className={`w-12 md:w-20 h-1 mx-2 rounded-full transition-all ${
+                            className={`w-6 sm:w-12 md:w-20 h-0.5 sm:h-1 mx-0.5 sm:mx-2 rounded-full transition-all ${
                               step < currentStep
                                 ? 'bg-gradient-to-r from-[#FFCD8D] to-[#E8A05D]'
                                 : 'bg-gray-700/50'
@@ -517,7 +506,7 @@ function RegistrationContent() {
                 </div>
               </div>
 
-              <div className='bg-gradient-to-br from-[#5A2424]/30 to-[#3d1a1a]/20 backdrop-blur-sm rounded-3xl p-6 md:p-10 border border-white/5'>
+              <div className='bg-gradient-to-br from-[#5A2424]/30 to-[#3d1a1a]/20 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-10 border border-white/5'>
                 {error && (
                   <div className='mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-2xl backdrop-blur-sm'>
                     <p className='text-red-200 text-sm'>{error}</p>

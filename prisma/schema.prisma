@@ -254,13 +254,13 @@ model Team {
 }
 
 /// TeamMember - Individual team member details
-/// Business Rule: Email must be globally unique (prevents duplicate registrations)
-/// Business Rule: One email = one team across all competitions
+/// Business Rule: Member names are NOT unique identifiers — duplicates allowed
+/// Business Rule: Emails are auto-generated placeholders, NOT unique
 model TeamMember {
   id                      String   @id @default(uuid())
   teamId                  String
   fullName                String // Member's full name
-  email                   String   @unique // GLOBAL uniqueness (CRITICAL CONSTRAINT)
+  email                   String   @default("") // Placeholder email (not unique, not a real identifier)
   phoneNumber             String
   institution             String   @default("") // University/school name (each member can be from different institution)
   orderIndex              Int      @default(0) // 0 = leader, 1 = member 1, 2 = member 2, etc.
@@ -270,7 +270,6 @@ model TeamMember {
 
   team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
-  @@index([email])
   @@index([teamId])
   @@index([orderIndex])
   @@map("team_members")

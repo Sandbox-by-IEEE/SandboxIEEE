@@ -28,14 +28,17 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
 import { uploadFile } from '@/lib/fileUpload';
 import { appendToGoogleSheets } from '@/lib/google-sheets';
-import {
-  checkIdempotencyKey,
-  markProcessing,
-  markCompleted,
-  removeIdempotencyKey,
-} from '@/lib/idempotency';
 import { logger } from '@/lib/logger';
-import { rateLimit, rateLimitByUser, RATE_LIMITS } from '@/lib/rate-limit';
+import {
+  acquireRegistrationLock,
+  releaseRegistrationLock,
+} from '@/lib/registration-lock';
+import {
+  rateLimit,
+  rateLimitByUser,
+  refundRateLimit,
+  RATE_LIMITS,
+} from '@/lib/rate-limit';
 import { auth } from '@/lib/auth';
 
 // Zod schema for team member validation
@@ -71,13 +74,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Apply rate limiting (3 registrations per hour per IP)
+  // Apply rate limiting (10 registrations per 10 minutes per IP)
   const rateLimitResponse = await rateLimit(request, RATE_LIMITS.REGISTRATION);
   if (rateLimitResponse) {
     return rateLimitResponse;
   }
 
-  // Per-user rate limiting (2 per hour per user — defense in depth)
+  // Per-user rate limiting (10 per 10 minutes per user — defense in depth)
   const userRateLimitResponse = await rateLimitByUser(
     request,
     session.user.email,
@@ -88,33 +91,22 @@ export async function POST(request: NextRequest) {
     return userRateLimitResponse;
   }
 
-  // Idempotency key: prevent duplicate submissions from retries/double-clicks
-  const idempotencyKey = request.headers.get('x-idempotency-key');
-  if (idempotencyKey) {
-    const existing = checkIdempotencyKey(idempotencyKey);
-    if (existing) {
-      if (existing.status === 'processing') {
-        return NextResponse.json(
-          { error: 'Registration is already being processed. Please wait.' },
-          { status: 409 },
-        );
-      }
-      if (existing.status === 'completed' && existing.response) {
-        logger.info('Returning cached idempotent response', {
-          operation: 'registration',
-          requestId: idempotencyKey,
-        });
-        return NextResponse.json(existing.response.body, {
-          status: existing.response.status,
-        });
-      }
-    }
-    markProcessing(idempotencyKey);
+  // Per-user registration lock — prevents concurrent duplicate submissions.
+  // Lock key: registration:lock:${userId}. TTL: 30 seconds. Always released in finally.
+  const userId = session.user.id || session.user.email;
+  const lockAcquired = acquireRegistrationLock(userId);
+  if (!lockAcquired) {
+    return NextResponse.json(
+      {
+        error:
+          'Registration is already being processed. Please wait a moment and try again.',
+      },
+      { status: 409 },
+    );
   }
 
   const log = logger.child({
     operation: 'competition-registration',
-    requestId: idempotencyKey || undefined,
     userId: session.user.email,
   });
 
@@ -336,78 +328,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 5. Check for duplicate emails (all members including leader)
-    // Normalize all emails to lowercase for case-insensitive comparison
-    const allEmails = [
-      leaderEmail.toLowerCase(),
-      ...members.map((m) => m.email.toLowerCase()),
-    ];
-
-    // Check for duplicate emails within the same submission
-    const emailSet = new Set(allEmails);
-    if (emailSet.size !== allEmails.length) {
-      const seen = new Set<string>();
-      const dupes: string[] = [];
-      for (const email of allEmails) {
-        if (seen.has(email)) dupes.push(email);
-        seen.add(email);
-      }
-      return NextResponse.json(
-        {
-          error: 'Duplicate emails found within your team members.',
-          duplicates: dupes,
-        },
-        { status: 400 },
-      );
-    }
-
-    // Build duplicate check query — only exclude current user's registrations
-    // if the user actually exists (existingUser?.id is defined)
-    const duplicateWhere: Prisma.TeamMemberWhereInput = {
-      email: { in: allEmails, mode: 'insensitive' },
-    };
-    if (existingUser?.id) {
-      duplicateWhere.team = {
-        registration: {
-          userId: { not: existingUser.id },
-        },
-      };
-    }
-
-    const duplicateMembers = await prisma.teamMember.findMany({
-      where: duplicateWhere,
-      select: {
-        email: true,
-        team: {
-          select: {
-            registration: {
-              select: {
-                competition: {
-                  select: {
-                    name: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-
-    if (duplicateMembers.length > 0) {
-      return NextResponse.json(
-        {
-          error: 'One or more emails already registered',
-          duplicates: duplicateMembers.map((m) => ({
-            email: m.email,
-            competition: m.team.registration.competition.name,
-          })),
-        },
-        { status: 409 },
-      );
-    }
-
-    // 6. Upload payment proof via Supabase Storage (or local fallback)
+    // 5. Upload payment proof via Supabase Storage
     const sanitizedTeamName = teamName.replace(/[^a-zA-Z0-9]/g, '_');
     const prefix = `payment_${sanitizedTeamName}`;
     const uploaded = await uploadFile(paymentProofFile, 'payments', prefix);
@@ -555,11 +476,6 @@ export async function POST(request: NextRequest) {
       },
     };
 
-    // Cache the success response for idempotency
-    if (idempotencyKey) {
-      markCompleted(idempotencyKey, { body: responseBody, status: 201 });
-    }
-
     log.info('Registration completed successfully', {
       registrationId: fullRegistration.id,
       teamName: fullRegistration.team?.teamName,
@@ -569,11 +485,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(responseBody, { status: 201 });
   } catch (err) {
-    // Remove idempotency key on error so retry is allowed
-    if (idempotencyKey) {
-      removeIdempotencyKey(idempotencyKey);
-    }
-
     logger.error(
       'Registration POST error',
       {
@@ -581,6 +492,15 @@ export async function POST(request: NextRequest) {
         userId: session.user.email,
       },
       err,
+    );
+
+    // Refund rate limit tokens on server errors so 5xx doesn't penalise the user
+    refundRateLimit(request, RATE_LIMITS.REGISTRATION);
+    refundRateLimit(
+      request,
+      RATE_LIMITS.USER_REGISTRATION,
+      `user:${session.user.email}`,
+      'registration',
     );
 
     // Handle race condition: unique constraint violation from concurrent registration
@@ -592,12 +512,6 @@ export async function POST(request: NextRequest) {
       if (target.includes('userId')) {
         return NextResponse.json(
           { error: 'You are already registered for a competition.' },
-          { status: 409 },
-        );
-      }
-      if (target.includes('email')) {
-        return NextResponse.json(
-          { error: 'One or more email addresses are already registered.' },
           { status: 409 },
         );
       }
@@ -621,6 +535,9 @@ export async function POST(request: NextRequest) {
       },
       { status: 500 },
     );
+  } finally {
+    // ALWAYS release the registration lock — never leave it dangling
+    releaseRegistrationLock(userId);
   }
 }
 
