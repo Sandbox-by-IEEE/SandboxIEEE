@@ -14,16 +14,13 @@ export default function TeamProfileCard({
   const { team } = registration;
   const rawMembers = team?.members || [];
 
-  // Sort members so the leader (whose email matches the registered user) is always first.
-  // The leader's email matches user.email since that's who created the registration.
+  // Members are already sorted by orderIndex from the DB query.
+  // orderIndex: 0 = leader, 1 = member 1, 2 = member 2, etc.
+  const members = [...rawMembers].sort(
+    (a: any, b: any) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0),
+  );
+
   const leaderEmail = user?.email;
-  const members = [...rawMembers].sort((a: any, b: any) => {
-    const aIsLeader = a.email === leaderEmail ? -1 : 0;
-    const bIsLeader = b.email === leaderEmail ? -1 : 0;
-    if (aIsLeader !== bIsLeader) return aIsLeader - bIsLeader;
-    // Preserve original order for non-leader members
-    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-  });
 
   return (
     <div className='relative mb-12'>
@@ -58,9 +55,9 @@ export default function TeamProfileCard({
                 className='flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 px-4 md:px-5 rounded-xl bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-white/10 hover:border-[#FFCD8D]/30 transition-all gap-1'
               >
                 <span className='text-gray-400 text-sm font-medium'>
-                  {member.email === leaderEmail
+                  {(member.orderIndex ?? index) === 0
                     ? '#1 Team Leader'
-                    : `#${index + 1} Member`}
+                    : `#${(member.orderIndex ?? index) + 1} Member`}
                 </span>
                 <div className='text-right'>
                   <span className='text-white font-medium block'>

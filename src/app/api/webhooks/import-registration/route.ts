@@ -168,19 +168,24 @@ export async function POST(request: NextRequest) {
                   email: leaderEmail,
                   phoneNumber: leaderPhone,
                   institution: leaderInstitution || '',
+                  orderIndex: 0,
                 },
                 // Additional members from form
                 ...(members || []).map(
-                  (member: {
-                    name: string;
-                    email: string;
-                    phone: string;
-                    institution?: string;
-                  }) => ({
+                  (
+                    member: {
+                      name: string;
+                      email: string;
+                      phone: string;
+                      institution?: string;
+                    },
+                    idx: number,
+                  ) => ({
                     fullName: member.name,
                     email: member.email,
                     phoneNumber: member.phone || '',
                     institution: member.institution || '',
+                    orderIndex: idx + 1,
                   }),
                 ),
               ],
@@ -192,7 +197,7 @@ export async function POST(request: NextRequest) {
         competition: true,
         team: {
           include: {
-            members: true,
+            members: { orderBy: { orderIndex: 'asc' } },
           },
         },
       },

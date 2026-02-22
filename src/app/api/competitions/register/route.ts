@@ -289,24 +289,27 @@ export async function POST(request: NextRequest) {
     }
 
     // 5. Check for duplicate emails (all members including leader)
-    // Only check if emails are used in OTHER teams (not the current user's potential re-registration)
-    const allEmails = [leaderEmail, ...members.map((m) => m.email)];
+    // Normalize all emails to lowercase for case-insensitive comparison
+    const allEmails = [
+      leaderEmail.toLowerCase(),
+      ...members.map((m) => m.email.toLowerCase()),
+    ];
+
+    // Build duplicate check query — only exclude current user's registrations
+    // if the user actually exists (existingUser?.id is defined)
+    const duplicateWhere: Prisma.TeamMemberWhereInput = {
+      email: { in: allEmails, mode: 'insensitive' },
+    };
+    if (existingUser?.id) {
+      duplicateWhere.team = {
+        registration: {
+          userId: { not: existingUser.id },
+        },
+      };
+    }
 
     const duplicateMembers = await prisma.teamMember.findMany({
-      where: {
-        email: {
-          in: allEmails,
-        },
-        // Exclude the current user's own email from duplicate check
-        // This allows users to retry registration if their previous attempt failed
-        team: {
-          registration: {
-            userId: {
-              not: existingUser?.id, // Exclude current user's registrations
-            },
-          },
-        },
-      },
+      where: duplicateWhere,
       select: {
         email: true,
         team: {
@@ -383,6 +386,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Create competition registration with team and members
+      // Use orderIndex to guarantee member ordering: 0=leader, 1+=members
       const reg = await tx.competitionRegistration.create({
         data: {
           userId: user.id,
@@ -396,32 +400,25 @@ export async function POST(request: NextRequest) {
               leaderUserId: user.id,
               members: {
                 create: [
-                  // Leader as first member
+                  // Leader as first member (orderIndex 0)
                   {
                     fullName: leaderName,
-                    email: leaderEmail,
+                    email: leaderEmail.toLowerCase(),
                     phoneNumber: leaderPhone,
                     institution: leaderInstitution,
+                    orderIndex: 0,
                   },
-                  // Additional team members
-                  ...members.map((member) => ({
+                  // Additional team members (orderIndex 1, 2, ...)
+                  ...members.map((member, idx) => ({
                     fullName: member.fullName,
-                    email: member.email,
+                    email: member.email.toLowerCase(),
                     phoneNumber: member.phoneNumber,
                     institution: member.institution,
                     studentIdCard: member.studentIdCard,
+                    orderIndex: idx + 1,
                   })),
                 ],
               },
-            },
-          },
-        },
-        include: {
-          competition: true,
-          user: true,
-          team: {
-            include: {
-              members: true,
             },
           },
         },
@@ -442,26 +439,39 @@ export async function POST(request: NextRequest) {
       return reg;
     });
 
-    // 8. Sync to Google Sheets (non-blocking)
-    try {
-      await appendToGoogleSheets({
-        registrationId: registration.id,
-        userId: registration.userId,
-        competitionCode,
-        teamName,
-        leaderName,
-        leaderEmail,
-        leaderPhone,
-        leaderInstitution,
-        proofOfRegistrationLink,
-        members: registration.team!.members.slice(1), // Exclude leader
-        verificationStatus: 'pending',
-        currentPhase: 'registration',
+    // Re-fetch the full registration with all relations for the response
+    // (Separated from transaction to get proper TypeScript types)
+    const fullRegistration =
+      await prisma.competitionRegistration.findUniqueOrThrow({
+        where: { id: registration.id },
+        include: {
+          competition: true,
+          team: {
+            include: {
+              members: { orderBy: { orderIndex: 'asc' } },
+            },
+          },
+        },
       });
-    } catch (sheetsErr) {
+
+    // 8. Sync to Google Sheets (non-blocking — fire and forget)
+    appendToGoogleSheets({
+      registrationId: fullRegistration.id,
+      userId: fullRegistration.userId,
+      competitionCode,
+      teamName,
+      leaderName,
+      leaderEmail,
+      leaderPhone,
+      leaderInstitution,
+      proofOfRegistrationLink,
+      members: (fullRegistration.team?.members ?? []).slice(1), // Exclude leader
+      verificationStatus: 'pending',
+      currentPhase: 'registration',
+    }).catch((sheetsErr) => {
       // Google Sheets sync is non-critical — never propagate this error
       console.error('⚠️ Google Sheets sync failed (non-blocking):', sheetsErr);
-    }
+    });
 
     // 10. Return success response
     return NextResponse.json(
@@ -470,12 +480,12 @@ export async function POST(request: NextRequest) {
         message:
           'Registration successful! Your team is now pending admin review.',
         registration: {
-          id: registration.id,
-          teamName: registration.team?.teamName,
-          competition: registration.competition.name,
-          memberCount: registration.team?.members.length || 0,
-          status: registration.verificationStatus,
-          currentPhase: registration.currentPhase,
+          id: fullRegistration.id,
+          teamName: fullRegistration.team?.teamName,
+          competition: fullRegistration.competition.name,
+          memberCount: fullRegistration.team?.members.length || 0,
+          status: fullRegistration.verificationStatus,
+          currentPhase: fullRegistration.currentPhase,
           needsActivation: false, // User is already active
         },
       },
@@ -526,7 +536,7 @@ export async function POST(request: NextRequest) {
 }
 
 // GET endpoint to check registration status (requires authentication)
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const session = await auth();
   if (!session?.user?.email) {
     return NextResponse.json(
@@ -541,13 +551,23 @@ export async function GET(request: NextRequest) {
   try {
     const user = await prisma.user.findUnique({
       where: { email },
-      include: {
+      select: {
+        active: true,
         registration: {
-          include: {
-            competition: true,
+          select: {
+            id: true,
+            verificationStatus: true,
+            currentPhase: true,
+            competition: {
+              select: { name: true, code: true },
+            },
             team: {
-              include: {
-                members: true,
+              select: {
+                teamName: true,
+                members: {
+                  select: { id: true },
+                  orderBy: { orderIndex: 'asc' },
+                },
               },
             },
           },

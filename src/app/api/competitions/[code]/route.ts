@@ -41,33 +41,40 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({
-      competition: {
-        id: competition.id,
-        code: competition.code,
-        name: competition.name,
-        description: competition.description,
-        isActive: competition.isActive,
-        registrationOpen: competition.registrationOpen,
-        registrationDeadline: competition.registrationDeadline,
-        preliminaryStart: competition.preliminaryStart,
-        preliminaryDeadline: competition.preliminaryDeadline,
-        semifinalStart: competition.semifinalStart,
-        semifinalDeadline: competition.semifinalDeadline,
-        finalStart: competition.finalStart,
-        finalDeadline: competition.finalDeadline,
-        grandFinalDate: competition.grandFinalDate,
-        registrationFee: competition.registrationFee,
-        minTeamSize: competition.minTeamSize,
-        maxTeamSize: competition.maxTeamSize,
-        teamSize: {
-          min: competition.minTeamSize,
-          max: competition.maxTeamSize,
+    return NextResponse.json(
+      {
+        competition: {
+          id: competition.id,
+          code: competition.code,
+          name: competition.name,
+          description: competition.description,
+          isActive: competition.isActive,
+          registrationOpen: competition.registrationOpen,
+          registrationDeadline: competition.registrationDeadline,
+          preliminaryStart: competition.preliminaryStart,
+          preliminaryDeadline: competition.preliminaryDeadline,
+          semifinalStart: competition.semifinalStart,
+          semifinalDeadline: competition.semifinalDeadline,
+          finalStart: competition.finalStart,
+          finalDeadline: competition.finalDeadline,
+          grandFinalDate: competition.grandFinalDate,
+          registrationFee: competition.registrationFee,
+          minTeamSize: competition.minTeamSize,
+          maxTeamSize: competition.maxTeamSize,
+          teamSize: {
+            min: competition.minTeamSize,
+            max: competition.maxTeamSize,
+          },
+          registrationCount: competition._count.registrations,
+          timelineEvents: competition.timelineEvents,
         },
-        registrationCount: competition._count.registrations,
-        timelineEvents: competition.timelineEvents,
       },
-    });
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        },
+      },
+    );
   } catch (error) {
     console.error('❌ Get competition error:', error);
     return NextResponse.json(

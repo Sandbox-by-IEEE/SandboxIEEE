@@ -775,7 +775,7 @@ function RegistrationContent() {
                             Place the QRIS image file at /public/payments/qris.png and update the src below. */}
                         <div className='w-64 h-64 bg-[#2d0e0e]/60 border-2 border-dashed border-[#FFCD8D]/30 rounded-2xl flex items-center justify-center overflow-hidden'>
                           <Image
-                            src='/payments/qris.png'
+                            src='/payments/qris.webp'
                             alt='QRIS Payment Code'
                             width={240}
                             height={240}
@@ -812,13 +812,8 @@ function RegistrationContent() {
                           </strong>{' '}
                           using the QRIS code above
                         </li>
-                        <li>Take a screenshot of the payment confirmation</li>
                         <li>
-                          Rename the screenshot file to:{' '}
-                          <code className='bg-[#2d0e0e]/80 px-2 py-0.5 rounded text-[#FFCD8D] text-xs break-all'>
-                            PaymentProof_{formData.teamName || '[TeamName]'}_
-                            {competitionCode}.pdf
-                          </code>
+                          Take a screenshot or download the payment confirmation
                         </li>
                         <li>
                           Upload the payment proof below (JPG/PNG, max 5MB)

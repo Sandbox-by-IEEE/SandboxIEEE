@@ -28,7 +28,7 @@ export default async function DashboardPage() {
             include: {
               members: {
                 orderBy: {
-                  createdAt: 'asc',
+                  orderIndex: 'asc',
                 },
               },
             },

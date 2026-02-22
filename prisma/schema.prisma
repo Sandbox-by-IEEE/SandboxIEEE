@@ -171,6 +171,7 @@ model Competition {
   timelineEvents CompetitionTimeline[]
 
   @@index([code])
+  @@index([isActive])
   @@map("competitions")
 }
 
@@ -248,6 +249,7 @@ model Team {
 
   @@index([teamName])
   @@index([registrationId])
+  @@index([leaderUserId])
   @@map("teams")
 }
 
@@ -261,6 +263,7 @@ model TeamMember {
   email                   String   @unique // GLOBAL uniqueness (CRITICAL CONSTRAINT)
   phoneNumber             String
   institution             String   @default("") // University/school name (each member can be from different institution)
+  orderIndex              Int      @default(0) // 0 = leader, 1 = member 1, 2 = member 2, etc.
   studentIdCard           String? // KTM photo URL (optional)
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
@@ -269,6 +272,7 @@ model TeamMember {
 
   @@index([email])
   @@index([teamId])
+  @@index([orderIndex])
   @@map("team_members")
 }
 
