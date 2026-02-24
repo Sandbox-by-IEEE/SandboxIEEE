@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/lib/auth';
+import { getBaseUrl } from '@/lib/base-url';
 import { prisma } from '@/lib/db';
 import { logSubmissionToSheets } from '@/lib/google-sheets';
 
@@ -135,7 +136,7 @@ export async function POST(
                 <p class="feedback-text">${escapeHtml(feedback.trim())}</p>
               </div>
               <p class="text" style="margin-top: 24px;">We appreciate your hard work and dedication throughout this competition. Thank you for participating in The Sandbox 3.0!</p>
-              <div class="button-container"><a href="${process.env.NEXTAUTH_URL}/dashboard" class="button">Go to Dashboard</a></div>
+              <div class="button-container"><a href="${getBaseUrl()}/dashboard" class="button">Go to Dashboard</a></div>
             </div>
             <div class="footer">
               <p class="footer-text">Need help? Contact us at <a href="mailto:sandbox@ieee-itb.org" style="color: #FFCD8D; text-decoration: none;">sandbox@ieee-itb.org</a></p>

@@ -11,9 +11,10 @@
  * ============================================================================
  */
 
+import { getBaseUrl } from './base-url';
 import { transporter } from './mailTransporter';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const BASE_URL = getBaseUrl();
 const FROM_EMAIL = process.env.SMTP_USER || 'sandbox@ieee-itb.org';
 const FROM_NAME = 'The Sandbox 3.0 - IEEE ITB';
 

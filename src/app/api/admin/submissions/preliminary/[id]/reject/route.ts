@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/lib/auth';
+import { getBaseUrl } from '@/lib/base-url';
 import { prisma } from '@/lib/db';
 import { logSubmissionToSheets } from '@/lib/google-sheets';
 
@@ -143,7 +144,7 @@ export async function POST(
               <p class="text"><strong style="color: #FFCD8D;">What You Can Do:</strong></p>
               <ol class="steps"><li>Review the feedback carefully</li><li>Revise your submission</li><li>Delete current submission and upload a new one</li><li>Contact us for questions</li></ol>
               <div class="warning-box"><p class="warning-text"><strong>\u26a0\ufe0f Important:</strong> You can resubmit after making revisions. Please address all feedback points.</p></div>
-              <div class="button-container"><a href="${process.env.NEXTAUTH_URL}/dashboard" class="button">Go to Dashboard</a></div>
+              <div class="button-container"><a href="${getBaseUrl()}/dashboard" class="button">Go to Dashboard</a></div>
               <p class="text" style="margin-top: 24px;">Don't be discouraged! Many successful teams revise their submissions.</p>
             </div>
             <div class="footer">

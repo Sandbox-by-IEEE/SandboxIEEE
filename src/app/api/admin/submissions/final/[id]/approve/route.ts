@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/lib/auth';
+import { getBaseUrl } from '@/lib/base-url';
 import { prisma } from '@/lib/db';
 import { logSubmissionToSheets } from '@/lib/google-sheets';
 
@@ -122,7 +123,7 @@ export async function POST(
               </div>
               ${feedback ? '<div class="info-box"><p class="info-text"><strong>Reviewer Feedback:</strong></p><p class="info-text">' + escapeHtml(feedback) + '</p></div>' : ''}
               <p class="text" style="margin-top: 24px;">Stay tuned for further announcements about the final event. Good luck!</p>
-              <div class="button-container"><a href="${process.env.NEXTAUTH_URL}/dashboard" class="button">Go to Dashboard</a></div>
+              <div class="button-container"><a href="${getBaseUrl()}/dashboard" class="button">Go to Dashboard</a></div>
             </div>
             <div class="footer">
               <p class="footer-text">Need help? Contact us at <a href="mailto:sandbox@ieee-itb.org" style="color: #FFCD8D; text-decoration: none;">sandbox@ieee-itb.org</a></p>
