@@ -2,6 +2,7 @@
 
 import { AdminRole } from '@prisma/client';
 import {
+  Banknote,
   FileText,
   LayoutDashboard,
   Settings,
@@ -62,6 +63,12 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
       href: '/admin/submissions/final',
       icon: <Trophy size={20} />,
       roles: ['super_admin', 'moderator'],
+    },
+    {
+      label: 'Finance',
+      href: '/admin/finance',
+      icon: <Banknote size={20} />,
+      roles: ['super_admin', 'finance'],
     },
     {
       label: 'Staff Management',

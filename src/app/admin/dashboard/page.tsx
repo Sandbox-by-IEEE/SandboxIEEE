@@ -1,5 +1,6 @@
 import {
   AlertTriangle,
+  Banknote,
   CheckCircle,
   Clock,
   FileText,
@@ -23,6 +24,7 @@ export default async function AdminDashboardPage() {
     pendingPreliminary,
     semifinalSubmissions,
     finalSubmissions,
+    pendingPayments,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.competitionRegistration.count(),
@@ -38,6 +40,9 @@ export default async function AdminDashboardPage() {
     }),
     prisma.semifinalSubmission.count(),
     prisma.finalSubmission.count(),
+    prisma.payment.count({
+      where: { status: 'pending' },
+    }),
   ]);
 
   const stats = [
@@ -97,6 +102,15 @@ export default async function AdminDashboardPage() {
       visible: ['super_admin', 'moderator'].includes(
         session?.admin?.role || '',
       ),
+    },
+    {
+      label: 'Pending Payment Verification',
+      value: pendingPayments,
+      href: '/admin/finance?status=pending',
+      icon: <Banknote size={20} />,
+      color: 'text-green-700',
+      bgColor: 'bg-green-50',
+      visible: ['super_admin', 'finance'].includes(session?.admin?.role || ''),
     },
   ].filter((stat) => stat.visible);
 
@@ -267,6 +281,21 @@ export default async function AdminDashboardPage() {
               </h3>
               <p className='text-sm text-gray-600'>
                 Evaluate final submissions
+              </p>
+            </a>
+          )}
+
+          {['super_admin', 'finance'].includes(session?.admin?.role || '') && (
+            <a
+              href='/admin/finance'
+              className='bg-white border border-gray-200 rounded-xl p-6 hover:border-green-300 hover:shadow-md transition-all'
+            >
+              <Banknote className='text-green-600 mb-3' size={28} />
+              <h3 className='font-semibold text-gray-900 mb-1'>
+                Finance Dashboard
+              </h3>
+              <p className='text-sm text-gray-600'>
+                Monitor payments and cash flow
               </p>
             </a>
           )}
