@@ -109,9 +109,12 @@ export default function Navbar() {
                 )}
               </div>
 
-              <button className='text-gray-500 transition-colors font-gemunu text-lg font-medium opacity-50 cursor-not-allowed'>
+              <Link
+                href='/event'
+                className='text-gray-700 hover:text-[#FF6B7A] transition-colors font-gemunu text-lg font-medium'
+              >
                 Events
-              </button>
+              </Link>
             </div>
 
             {/* Right side: Desktop auth + Mobile hamburger */}
@@ -275,9 +278,13 @@ export default function Navbar() {
               )}
             </div>
 
-            <div className='px-4 py-3 text-gray-400 font-gemunu text-lg font-medium cursor-not-allowed'>
+            <Link
+              href='/event'
+              className='block px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-xl transition-colors font-gemunu text-lg font-medium'
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               Events
-            </div>
+            </Link>
 
             <div className='border-t border-gray-200 my-4' />
 
