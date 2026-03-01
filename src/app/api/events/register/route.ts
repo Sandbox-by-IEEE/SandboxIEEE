@@ -24,7 +24,6 @@ import { Prisma } from '@prisma/client';
 
 import { prisma } from '@/lib/db';
 import { uploadFile } from '@/lib/fileUpload';
-import { appendEventToGoogleSheets } from '@/lib/google-sheets-events';
 import { auth } from '@/lib/auth';
 import { getEventContent } from '@/lib/event-content';
 import {
@@ -193,21 +192,6 @@ export async function POST(request: NextRequest) {
       });
 
       return reg;
-    });
-
-    // Sync to Google Sheets (non-blocking)
-    appendEventToGoogleSheets({
-      registrationId: registration.id,
-      eventCode,
-      fullName: validationResult.data.fullName,
-      email: validationResult.data.email,
-      phoneNumber: validationResult.data.phoneNumber,
-      institution: validationResult.data.institution,
-      amount: registrationFee,
-      paymentMethod: 'QRIS',
-      verificationStatus: 'pending',
-    }).catch((err) => {
-      console.error('⚠️ Event Google Sheets sync failed (non-blocking):', err);
     });
 
     return NextResponse.json(

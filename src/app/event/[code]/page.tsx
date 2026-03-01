@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Calendar, MapPin, Users } from 'lucide-react';
 
 import Footer from '@/components/site/Footer';
 import Navbar from '@/components/site/Navbar';
@@ -146,6 +145,38 @@ export default function EventDetailPage() {
                   <p className='text-xl text-gray-400'>{countdownLabel}</p>
                 </div>
               )}
+
+              {/* Action Buttons */}
+              {content.links.length > 0 && (
+                <div className='flex flex-wrap justify-center gap-3 sm:gap-4 mt-4'>
+                  {content.links.map((link, index) => {
+                    // Internal links use Next.js Link (no new tab)
+                    const isInternal = link.url.startsWith('/');
+                    if (isInternal) {
+                      return (
+                        <Link
+                          key={index}
+                          href={link.url}
+                          className='px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-[#3a1a10] to-[#2a1008] border border-[#FFCD8D]/20 text-[#FFCD8D] font-semibold text-sm sm:text-base hover:from-[#4a2a18] hover:to-[#3a1a10] hover:border-[#FFCD8D]/40 transition-all duration-300 shadow-lg shadow-black/20'
+                        >
+                          {link.label}
+                        </Link>
+                      );
+                    }
+                    return (
+                      <a
+                        key={index}
+                        href={link.url}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-[#3a1a10] to-[#2a1008] border border-[#FFCD8D]/20 text-[#FFCD8D] font-semibold text-sm sm:text-base hover:from-[#4a2a18] hover:to-[#3a1a10] hover:border-[#FFCD8D]/40 transition-all duration-300 shadow-lg shadow-black/20'
+                      >
+                        {link.label}
+                      </a>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -164,42 +195,17 @@ export default function EventDetailPage() {
           </div>
         </section>
 
-        {/* LinkTree */}
-        {content.links.length > 0 && (
-          <section className='py-16 px-4 sm:px-6 lg:px-8'>
-            <div className='max-w-md mx-auto'>
-              <h2 className='text-3xl sm:text-4xl font-bold text-white text-center mb-10 font-gemunu'>
-                LinkTree
-              </h2>
+        {/* LinkTree — buttons moved into the hero card above */}
 
-              <div className='space-y-4'>
-                {content.links.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='block w-full text-center py-3.5 px-6 rounded-full bg-gradient-to-r from-[#3a1a10] to-[#2a1008] border border-[#FFCD8D]/20 text-[#FFCD8D] font-semibold text-base sm:text-lg hover:from-[#4a2a18] hover:to-[#3a1a10] hover:border-[#FFCD8D]/40 transition-all duration-300 shadow-lg shadow-black/20'
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Announcement Speaker */}
+        {/* Announcement Speaker — hidden until speakers are officially announced
         {content.speakers && content.speakers.length > 0 && (
           <section className='py-20 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-5xl mx-auto'>
               <div className='backdrop-blur-xl bg-white/[0.06] rounded-3xl border border-white/10 p-6 sm:p-8 md:p-12'>
-                {/* Title */}
                 <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-white font-gemunu text-center mb-14'>
                   Announcement Speaker
                 </h2>
 
-                {/* Speakers - Alternating Layout */}
                 <div className='space-y-10 md:space-y-14'>
                   {content.speakers.map((speaker, index) => {
                     const isEven = index % 2 === 0;
@@ -209,14 +215,12 @@ export default function EventDetailPage() {
                         key={index}
                         className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-6 md:gap-8 items-center`}
                       >
-                        {/* Description */}
                         <div className='flex-1 backdrop-blur-xl bg-white/[0.06] rounded-2xl border border-white/10 p-6 sm:p-8'>
                           <p className='text-sm sm:text-base text-gray-300 leading-relaxed'>
                             {speaker.description}
                           </p>
                         </div>
 
-                        {/* Speaker Image + Name */}
                         <div className='flex flex-col items-center shrink-0'>
                           <div className='w-40 h-48 sm:w-48 sm:h-56 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center overflow-hidden'>
                             {speaker.imageUrl ? (
@@ -243,6 +247,7 @@ export default function EventDetailPage() {
             </div>
           </section>
         )}
+        */}
       </main>
 
       <Footer />
