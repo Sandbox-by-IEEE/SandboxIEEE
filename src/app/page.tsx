@@ -13,11 +13,17 @@ import TimelineSection from './_components/TimelineSection';
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-  // Fetch competitions data
-  const competitions = await prisma.competition.findMany({
-    where: { isActive: true },
-    orderBy: { code: 'asc' },
-  });
+  // Fetch competitions data — fallback to empty on DB error
+  let competitions: Awaited<ReturnType<typeof prisma.competition.findMany>> =
+    [];
+  try {
+    competitions = await prisma.competition.findMany({
+      where: { isActive: true },
+      orderBy: { code: 'asc' },
+    });
+  } catch {
+    // DB unreachable — render page without competition data
+  }
 
   // Get earliest registration deadline for countdown
   const earliestDeadline =
