@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db';
 
 import AboutSection from './_components/AboutSection';
 import CompetitionsSection from './_components/CompetitionsSection';
+import EventSection from './_components/EventSection';
 import FAQSection from './_components/FAQSection';
 import HeroSection from './_components/HeroSection';
 import StatsSection from './_components/StatsSection';
@@ -38,6 +39,7 @@ export default async function HomePage() {
         <StatsSection />
         <TimelineSection />
         <CompetitionsSection competitions={competitions} />
+        <EventSection />
         <FAQSection />
       </main>
 
