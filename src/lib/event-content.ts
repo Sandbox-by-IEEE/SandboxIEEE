@@ -64,7 +64,7 @@ export const EVENT_CONTENT: Record<string, EventContent> = {
     links: [
       {
         label: 'Registration Link',
-        url: '#',
+        url: '/event/yif-x-grand-seminar/register',
       },
       {
         label: 'SOP',
