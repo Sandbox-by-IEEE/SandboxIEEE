@@ -9,9 +9,11 @@ import { useEffect, useState } from 'react';
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCompetitionOpen, setIsCompetitionOpen] = useState(false);
+  const [isEventsOpen, setIsEventsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileCompetitionOpen, setIsMobileCompetitionOpen] = useState(false);
+  const [isMobileEventsOpen, setIsMobileEventsOpen] = useState(false);
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -109,12 +111,38 @@ export default function Navbar() {
                 )}
               </div>
 
-              <Link
-                href='/event'
-                className='text-gray-700 hover:text-[#FF6B7A] transition-colors font-gemunu text-lg font-medium'
-              >
-                Events
-              </Link>
+              {/* Events Dropdown */}
+              <div className='relative'>
+                <button
+                  onClick={() => setIsEventsOpen(!isEventsOpen)}
+                  className='flex items-center text-gray-700 hover:text-[#FF6B7A] transition-colors font-gemunu text-lg font-medium'
+                >
+                  Events
+                  <ChevronDown
+                    className={`ml-1 h-4 w-4 transition-transform ${
+                      isEventsOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {isEventsOpen && (
+                  <div className='absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden z-50'>
+                    <Link
+                      href='/event/yif-x-grand-seminar'
+                      className='block px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 transition-colors font-gemunu'
+                      onClick={() => setIsEventsOpen(false)}
+                    >
+                      YIF & Grand Seminar
+                    </Link>
+                    <span
+                      className='block px-4 py-3 text-gray-400 cursor-not-allowed font-gemunu'
+                      title='Coming soon'
+                    >
+                      Exhibition & Post Event
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Right side: Desktop auth + Mobile hamburger */}
@@ -215,11 +243,12 @@ export default function Navbar() {
         </div>
 
         {/* Click outside to close desktop dropdowns */}
-        {(isCompetitionOpen || isProfileOpen) && (
+        {(isCompetitionOpen || isEventsOpen || isProfileOpen) && (
           <div
             className='fixed inset-0 z-40'
             onClick={() => {
               setIsCompetitionOpen(false);
+              setIsEventsOpen(false);
               setIsProfileOpen(false);
             }}
           />
@@ -278,13 +307,32 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link
-              href='/event'
-              className='block px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-xl transition-colors font-gemunu text-lg font-medium'
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Events
-            </Link>
+            {/* Events Accordion */}
+            <div>
+              <button
+                onClick={() => setIsMobileEventsOpen(!isMobileEventsOpen)}
+                className='w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-xl transition-colors font-gemunu text-lg font-medium'
+              >
+                Events
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${isMobileEventsOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {isMobileEventsOpen && (
+                <div className='ml-4 space-y-1 mt-1'>
+                  <Link
+                    href='/event/yif-x-grand-seminar'
+                    className='block px-4 py-2.5 text-gray-600 hover:text-[#FF6B7A] hover:bg-gray-50 rounded-lg transition-colors font-gemunu'
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    YIF & Grand Seminar
+                  </Link>
+                  <span className='block px-4 py-2.5 text-gray-400 cursor-not-allowed font-gemunu'>
+                    Exhibition & Post Event
+                  </span>
+                </div>
+              )}
+            </div>
 
             <div className='border-t border-gray-200 my-4' />
 
