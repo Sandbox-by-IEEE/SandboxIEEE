@@ -65,6 +65,15 @@ function RegistrationContent() {
   const [currentBatch, setCurrentBatch] = useState<'early' | 'normal'>('early');
   const [batchLabel, setBatchLabel] = useState<string>('Early Registration');
 
+  // Event-based discount state
+  const [discountEligible, setDiscountEligible] = useState(false);
+  const [discountInfo, setDiscountInfo] = useState<{
+    label: string;
+    description: string;
+    flatDiscount: number;
+    percentageDiscount: number;
+  } | null>(null);
+
   useEffect(() => {
     if (!isValidCode) {
       router.push('/competitions');
@@ -155,10 +164,42 @@ function RegistrationContent() {
       }
     }
 
+    // Check discount eligibility (parallel with registration check)
+    async function checkDiscount() {
+      try {
+        const res = await fetch('/api/competitions/check-discount');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.eligible && data.discount) {
+            setDiscountEligible(true);
+            setDiscountInfo(data.discount);
+          }
+        }
+      } catch {
+        // Discount check failure is non-critical
+      }
+    }
+
     checkRegistration();
+    checkDiscount();
   }, [authStatus, competitionCode]);
 
-  const currentFee = PRICING[competitionCode][currentBatch];
+  const baseFee = PRICING[competitionCode][currentBatch];
+
+  // Calculate discounted fee if eligible
+  const currentFee =
+    discountEligible && discountInfo
+      ? Math.max(
+          0,
+          Math.round(
+            (discountInfo.percentageDiscount > 0
+              ? baseFee * (1 - discountInfo.percentageDiscount / 100)
+              : baseFee) - (discountInfo.flatDiscount || 0),
+          ),
+        )
+      : baseFee;
+
+  const discountAmount = baseFee - currentFee;
 
   const [formData, setFormData] = useState<FormData>({
     competitionCode: competitionCode,
@@ -752,16 +793,41 @@ function RegistrationContent() {
                         <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#FFCD8D]/20 text-[#FFCD8D] border border-[#FFCD8D]/30'>
                           {batchLabel}
                         </span>
+                        {discountEligible && discountInfo && (
+                          <span className='inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-500/20 text-green-400 border border-green-500/30'>
+                            🎉 {discountInfo.label}
+                          </span>
+                        )}
                       </div>
-                      <p className='text-3xl font-bold text-white mb-2'>
-                        {formatCurrency(currentFee)}
-                      </p>
-                      <p className='text-xs text-gray-400'>
-                        The fee shown is based on the current registration
-                        period ({batchLabel}). Please pay{' '}
-                        <strong className='text-[#FFCD8D]'>exactly</strong> this
-                        amount.
-                      </p>
+
+                      {discountEligible && discountAmount > 0 ? (
+                        <>
+                          <p className='text-lg text-gray-400 line-through mb-1'>
+                            {formatCurrency(baseFee)}
+                          </p>
+                          <p className='text-3xl font-bold text-white mb-1'>
+                            {formatCurrency(currentFee)}
+                          </p>
+                          <p className='text-sm text-green-400 mb-2'>
+                            You save {formatCurrency(discountAmount)}!
+                          </p>
+                          <p className='text-xs text-gray-400'>
+                            {discountInfo?.description}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className='text-3xl font-bold text-white mb-2'>
+                            {formatCurrency(currentFee)}
+                          </p>
+                          <p className='text-xs text-gray-400'>
+                            The fee shown is based on the current registration
+                            period ({batchLabel}). Please pay{' '}
+                            <strong className='text-[#FFCD8D]'>exactly</strong>{' '}
+                            this amount.
+                          </p>
+                        </>
+                      )}
                     </div>
 
                     {/* QRIS Payment Section */}
@@ -996,10 +1062,32 @@ function RegistrationContent() {
                         </h4>
                         <div className='flex justify-between text-sm'>
                           <span className='text-gray-400'>{batchLabel}:</span>
-                          <span className='text-white font-bold'>
-                            {formatCurrency(currentFee)}
+                          <span
+                            className={`font-bold ${discountEligible && discountAmount > 0 ? 'text-gray-400 line-through' : 'text-white'}`}
+                          >
+                            {formatCurrency(baseFee)}
                           </span>
                         </div>
+                        {discountEligible && discountAmount > 0 && (
+                          <>
+                            <div className='flex justify-between text-sm mt-1'>
+                              <span className='text-green-400'>
+                                {discountInfo?.label}:
+                              </span>
+                              <span className='text-green-400 font-bold'>
+                                -{formatCurrency(discountAmount)}
+                              </span>
+                            </div>
+                            <div className='flex justify-between text-sm mt-2 pt-2 border-t border-white/10'>
+                              <span className='text-white font-semibold'>
+                                Total:
+                              </span>
+                              <span className='text-white font-bold text-lg'>
+                                {formatCurrency(currentFee)}
+                              </span>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
 

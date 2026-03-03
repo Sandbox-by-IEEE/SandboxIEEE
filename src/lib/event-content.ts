@@ -14,6 +14,7 @@ export interface Speaker {
   organization: string;
   description: string;
   imageUrl?: string;
+  highlights?: string[];
 }
 
 export interface LinkTreeItem {
@@ -46,19 +47,50 @@ export const EVENT_CONTENT: Record<string, EventContent> = {
     venue: 'To Be Announced',
     speakers: [
       {
-        name: 'Xaviera Putri Ardianingsih Listyo',
+        name: 'Prof. Dr. Ir. Hammam Riza, M.Sc., IPU',
         title:
-          'The Essential Tech Stack for 2030: Surviving the Era of Smart Automation',
-        organization: 'Coming Soon',
+          'Principal Research Engineer (AI & Cybersecurity), BRIN | Professor of Artificial Intelligence',
+        organization: 'BRIN (Badan Riset dan Inovasi Nasional)',
         description:
-          'As industries pivot toward Industry 4.0 and Smart Automation, the demand for talent is shifting rapidly. It is no longer just about knowing how to code; it is about knowing how to think. In this session, Xaviera breaks down the "Survival Kit" for the next decade. She will explore the intersection of human critical thinking and industrial machine logic, discussing the essential hard and soft skills required to remain relevant.',
+          'Prof. Hammam Riza is a prominent Indonesian AI expert specializing in Natural Language Processing, digital transformation, and cybersecurity, with over 30 years of leadership in national technology and research institutions.',
+        imageUrl: '/speakers/speaker-hammam-riza.JPG',
+        highlights: [
+          'Former Head of BPPT (2019–2021)',
+          'President of KORIKA (Indonesia AI Collaboration Association)',
+          'Pioneer in Machine Translation & NLP research in Indonesia',
+          'Recipient of national honors and Best CTO award',
+        ],
       },
       {
-        name: 'Sebastian Teddy',
-        title: 'Content 4.0: Leveraging Smart Automation for Creative Careers',
-        organization: 'Coming Soon',
+        name: 'Amanda Ayu Lestari',
+        title:
+          'Sales Manager – Drive Products, Motion | PT. ABB Sakti Industri',
+        organization: 'PT. ABB Sakti Industri',
         description:
-          "Smart Automation isn't just for factories; it is revolutionizing the creative economy. Sebastian Teddy dives into Content 4.0, identifying how creators can harness automation tools and AI to scale their personal branding and streamline workflows. This session bridges the gap between technology and creativity, proving that automation is the ultimate tool for efficiency in modern career paths.",
+          'Amanda Ayu Lestari is a sales and channel management professional with over seven years of experience in industrial technology. She leads Drive Products business growth at ABB Indonesia, focusing on partner performance, solution selling, and Variable Speed Drives adoption across key industries.',
+        imageUrl: '/speakers/speaker-amanda-lestari.jpeg',
+        highlights: [
+          '7+ years in industrial technology sector',
+          'Leads channel development & strategic partnerships',
+          'Specialist in Variable Speed Drives solutions',
+          'Strong expertise in water & wastewater industry segment',
+        ],
+      },
+      {
+        name: 'Edward Hartanto Enrico Abadi',
+        title:
+          'Product & Marketing (Community), Garena | Content Creator (150K+ Followers)',
+        organization: 'Garena / Content Creator',
+        description:
+          'Edward Hartanto Enrico Abadi is a product and marketing professional with a strong background in business, UX, and community growth. Currently at Garena, he drives revenue optimization and user engagement initiatives, while also building a 150K+ audience as an education and career content creator.',
+        imageUrl: '/speakers/speaker-edward-enrico.jpg',
+        highlights: [
+          'Increased ARPPU by 10% and boosted user revival rate by 20% at Garena',
+          'Former PMO at SeaBank, contributing to 10% conversion growth',
+          '55+ national & international awards (GEMASTIK, LLDIKTI, BINUS Outstanding Student)',
+          'IISMA Awardee – Exchange at Universiti Sains Malaysia',
+          '7M+ social media likes; 100K+ users benefited from free CV template',
+        ],
       },
     ],
     links: [

@@ -1,5 +1,6 @@
 'use client';
 
+import { Briefcase, ChevronDown, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -7,7 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import Footer from '@/components/site/Footer';
 import Navbar from '@/components/site/Navbar';
-import { getEventContent } from '@/lib/event-content';
+import { getEventContent, Speaker } from '@/lib/event-content';
 
 export default function EventDetailPage() {
   const params = useParams();
@@ -197,60 +198,118 @@ export default function EventDetailPage() {
 
         {/* LinkTree — buttons moved into the hero card above */}
 
-        {/* Announcement Speaker — hidden until speakers are officially announced
+        {/* Speakers Section */}
         {content.speakers && content.speakers.length > 0 && (
-          <section className='py-20 px-4 sm:px-6 lg:px-8'>
-            <div className='max-w-5xl mx-auto'>
-              <div className='backdrop-blur-xl bg-white/[0.06] rounded-3xl border border-white/10 p-6 sm:p-8 md:p-12'>
-                <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-white font-gemunu text-center mb-14'>
-                  Announcement Speaker
-                </h2>
-
-                <div className='space-y-10 md:space-y-14'>
-                  {content.speakers.map((speaker, index) => {
-                    const isEven = index % 2 === 0;
-
-                    return (
-                      <div
-                        key={index}
-                        className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-6 md:gap-8 items-center`}
-                      >
-                        <div className='flex-1 backdrop-blur-xl bg-white/[0.06] rounded-2xl border border-white/10 p-6 sm:p-8'>
-                          <p className='text-sm sm:text-base text-gray-300 leading-relaxed'>
-                            {speaker.description}
-                          </p>
-                        </div>
-
-                        <div className='flex flex-col items-center shrink-0'>
-                          <div className='w-40 h-48 sm:w-48 sm:h-56 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center overflow-hidden'>
-                            {speaker.imageUrl ? (
-                              <Image
-                                src={speaker.imageUrl}
-                                alt={speaker.name}
-                                width={192}
-                                height={224}
-                                className='w-full h-full object-cover'
-                              />
-                            ) : (
-                              <Users className='w-16 h-16 text-white/20' />
-                            )}
-                          </div>
-                          <p className='mt-3 text-white font-bold text-lg sm:text-xl font-gemunu'>
-                            {speaker.name}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </section>
+          <SpeakersSection speakers={content.speakers} />
         )}
-        */}
       </main>
 
       <Footer />
     </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Speaker Card — large portrait card matching reference design
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+function SpeakerCard({ speaker }: { speaker: Speaker }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className='backdrop-blur-xl bg-white/[0.06] rounded-3xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-[#FFCD8D]/30 hover:bg-white/[0.08] hover:shadow-xl hover:shadow-[#FFCD8D]/5 group'>
+      {/* Large Portrait Image */}
+      <div className='relative w-full aspect-[3/4] bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden'>
+        {speaker.imageUrl ? (
+          <Image
+            src={speaker.imageUrl}
+            alt={speaker.name}
+            fill
+            sizes='(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
+            className='object-cover object-top transition-transform duration-500 group-hover:scale-105'
+          />
+        ) : (
+          <div className='flex items-center justify-center h-full'>
+            <Users className='w-16 h-16 text-white/20' />
+          </div>
+        )}
+        {/* Gradient overlay at bottom for text readability */}
+        <div className='absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent' />
+      </div>
+
+      {/* Identity + Description */}
+      <div className='p-5 sm:p-6'>
+        {/* Name */}
+        <h3 className='text-lg sm:text-xl font-bold text-white font-gemunu leading-tight'>
+          {speaker.name}
+        </h3>
+
+        {/* Title */}
+        <div className='flex items-start gap-2 mt-2'>
+          <Briefcase className='w-4 h-4 text-[#FFCD8D] mt-0.5 shrink-0' />
+          <p className='text-sm text-[#FFCD8D]/90 font-medium leading-snug'>
+            {speaker.title}
+          </p>
+        </div>
+
+        {/* Description */}
+        <p className='mt-4 text-sm text-gray-300/80 leading-relaxed line-clamp-4'>
+          {speaker.description}
+        </p>
+      </div>
+
+      {/* Expandable Key Highlights */}
+      {speaker.highlights && speaker.highlights.length > 0 && (
+        <div className='border-t border-white/[0.06]'>
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className='w-full flex items-center justify-between px-5 sm:px-6 py-3 text-sm font-semibold text-[#FFCD8D]/80 hover:text-[#FFCD8D] transition-colors'
+          >
+            <span>Key Highlights</span>
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+            />
+          </button>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${expanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+          >
+            <ul className='px-5 sm:px-6 pb-5 space-y-2'>
+              {speaker.highlights.map((item, i) => (
+                <li
+                  key={i}
+                  className='flex items-start gap-2 text-sm text-gray-300/80 leading-relaxed'
+                >
+                  <span className='text-[#FFCD8D] mt-1 shrink-0'>•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SpeakersSection({ speakers }: { speakers: Speaker[] }) {
+  return (
+    <section className='py-20 px-4 sm:px-6 lg:px-8'>
+      <div className='max-w-7xl mx-auto'>
+        <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-white font-gemunu text-center mb-4'>
+          Our Speakers
+        </h2>
+        <p className='text-gray-400 text-center text-base sm:text-lg mb-12 sm:mb-16 max-w-2xl mx-auto'>
+          Hear from industry leaders and innovators shaping the future of Smart
+          Automation Technology.
+        </p>
+
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8'>
+          {speakers.map((speaker, index) => (
+            <SpeakerCard key={index} speaker={speaker} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

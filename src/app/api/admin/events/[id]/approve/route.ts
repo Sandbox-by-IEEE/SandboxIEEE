@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
+import { EVENT_DISCOUNT } from '@/lib/discount-config';
+import { sendEventApprovalEmail } from '@/lib/email';
 
 export async function POST(
   _request: NextRequest,
@@ -69,6 +71,22 @@ export async function POST(
           },
         });
       }
+    });
+
+    // Send approval email with discount info (non-blocking)
+    const eventName =
+      registration.eventCode === 'yif-x-grand-seminar'
+        ? 'YIF x Grand Seminar'
+        : registration.eventCode;
+
+    sendEventApprovalEmail(
+      registration.email,
+      registration.fullName,
+      eventName,
+      EVENT_DISCOUNT.label,
+      EVENT_DISCOUNT.description,
+    ).catch((emailErr) => {
+      console.error('⚠️ Event approval email failed (non-blocking):', emailErr);
     });
 
     return NextResponse.json({

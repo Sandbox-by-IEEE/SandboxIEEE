@@ -28,7 +28,7 @@ interface FormData {
 }
 
 // Event registration fee
-const EVENT_FEE = 50000;
+const EVENT_FEE = 15000;
 
 function formatCurrency(amount: number): string {
   return `Rp ${amount.toLocaleString('id-ID')}`;

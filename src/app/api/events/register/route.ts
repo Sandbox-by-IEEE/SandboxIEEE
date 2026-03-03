@@ -56,7 +56,7 @@ const eventRegistrationSchema = z.object({
 
 // Event registration fee (in IDR)
 const EVENT_FEES: Record<string, number> = {
-  'yif-x-grand-seminar': 50000,
+  'yif-x-grand-seminar': 15000,
 };
 
 export async function POST(request: NextRequest) {
@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
     const uploaded = await uploadFile(paymentProofFile, 'payments', prefix);
 
     // Registration fee
-    const registrationFee = EVENT_FEES[eventCode] || 50000;
+    const registrationFee = EVENT_FEES[eventCode] || 15000;
 
     // Create EventRegistration + EventPayment in transaction
     const registration = await prisma.$transaction(async (tx) => {
