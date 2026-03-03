@@ -3,6 +3,7 @@
 import { AdminRole } from '@prisma/client';
 import {
   Banknote,
+  Calendar,
   FileText,
   LayoutDashboard,
   Settings,
@@ -71,6 +72,12 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
       roles: ['super_admin', 'finance'],
     },
     {
+      label: 'Event Registrations',
+      href: '/admin/events',
+      icon: <Calendar size={20} />,
+      roles: ['super_admin', 'event_admin'],
+    },
+    {
       label: 'Staff Management',
       href: '/admin/staff',
       icon: <UserPlus size={20} />,
@@ -97,6 +104,8 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
         return 'bg-blue-100 text-blue-800';
       case 'finance':
         return 'bg-green-100 text-green-800';
+      case 'event_admin':
+        return 'bg-orange-100 text-orange-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -110,6 +119,8 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
         return 'Moderator';
       case 'finance':
         return 'Finance';
+      case 'event_admin':
+        return 'Event Admin';
       default:
         return role;
     }

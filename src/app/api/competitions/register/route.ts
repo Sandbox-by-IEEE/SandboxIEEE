@@ -26,6 +26,7 @@ import { z } from 'zod';
 import { Prisma } from '@prisma/client';
 
 import { prisma } from '@/lib/db';
+import { EVENT_DISCOUNT, calculateDiscountedFee } from '@/lib/discount-config';
 import { uploadFile } from '@/lib/fileUpload';
 import { appendToGoogleSheets } from '@/lib/google-sheets';
 import { logger } from '@/lib/logger';
@@ -372,6 +373,38 @@ export async function POST(request: NextRequest) {
         }
       }
 
+      // Check for event-based discount eligibility
+      // User must have an APPROVED event registration for a qualifying event
+      let discountApplied = false;
+      let discountLabel = '';
+      let originalFee = registrationFee;
+
+      const approvedEventReg = await tx.eventRegistration.findFirst({
+        where: {
+          email: leaderEmail,
+          eventCode: { in: EVENT_DISCOUNT.qualifyingEventCodes },
+          verificationStatus: 'approved',
+        },
+        select: { id: true, eventCode: true },
+      });
+
+      if (approvedEventReg) {
+        const { discountedFee, discountAmount } =
+          calculateDiscountedFee(registrationFee);
+        if (discountAmount > 0) {
+          originalFee = registrationFee;
+          registrationFee = discountedFee;
+          discountApplied = true;
+          discountLabel = EVENT_DISCOUNT.label;
+          log.info('Event discount applied', {
+            originalFee,
+            discountedFee,
+            discountAmount,
+            eventCode: approvedEventReg.eventCode,
+          });
+        }
+      }
+
       // Create competition registration with team and members
       // Use orderIndex to guarantee member ordering: 0=leader, 1+=members
       const reg = await tx.competitionRegistration.create({
@@ -423,14 +456,29 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      return reg;
+      return {
+        reg,
+        discountApplied,
+        discountLabel,
+        originalFee,
+        finalFee: registrationFee,
+      };
     });
+
+    // Destructure transaction result
+    const {
+      reg: registrationRecord,
+      discountApplied,
+      discountLabel,
+      originalFee,
+      finalFee,
+    } = registration;
 
     // Re-fetch the full registration with all relations for the response
     // (Separated from transaction to get proper TypeScript types)
     const fullRegistration =
       await prisma.competitionRegistration.findUniqueOrThrow({
-        where: { id: registration.id },
+        where: { id: registrationRecord.id },
         include: {
           competition: true,
           team: {
@@ -473,6 +521,12 @@ export async function POST(request: NextRequest) {
         status: fullRegistration.verificationStatus,
         currentPhase: fullRegistration.currentPhase,
         needsActivation: false, // User is already active
+        ...(discountApplied && {
+          discountApplied: true,
+          discountLabel,
+          originalFee,
+          finalFee,
+        }),
       },
     };
 

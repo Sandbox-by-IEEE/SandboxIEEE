@@ -53,6 +53,9 @@ model User {
   // Competition Relation (ONE-TO-ONE)
   registration CompetitionRegistration? // One user = one competition only
 
+  // Event Relations (ONE-TO-MANY — user can register for multiple events)
+  eventRegistrations EventRegistration[]
+
   @@index([email])
   @@index([username])
   @@map("users")
@@ -399,6 +402,59 @@ model Admin {
 }
 
 // ============================================================================
+// CATEGORY 4: EVENT SYSTEM MODELS
+// ============================================================================
+
+/// EventRegistration - Individual registration for events (YIF & Grand Seminar, etc.)
+/// Unlike competitions, events are individual (no teams)
+/// One user can register for multiple events (no one-to-one constraint)
+model EventRegistration {
+  id             String                @id @default(uuid())
+  userId         String?               // Optional: linked user account (null if guest)
+  eventCode      String                // Event identifier (e.g. "yif-x-grand-seminar")
+  fullName       String                // Registrant's full name
+  email          String                // Registrant's email
+  phoneNumber    String                // Registrant's phone number
+  institution    String                // University/School/Organization
+  verificationStatus VerificationStatus @default(pending) // Admin approval status
+  rejectionReason String?              // Reason for rejection (if rejected)
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+
+  // Relations
+  user           User?                 @relation(fields: [userId], references: [id], onDelete: SetNull)
+  payment        EventPayment?         // One-to-one with payment
+
+  @@unique([userId, eventCode])        // One registration per event per user
+  @@index([eventCode])
+  @@index([verificationStatus])
+  @@index([email])
+  @@map("event_registrations")
+}
+
+/// EventPayment - Payment proof for event registration
+/// Same pattern as Competition Payment but dedicated to events
+model EventPayment {
+  id                 String        @id @default(uuid())
+  registrationId     String        @unique // One payment per event registration
+  amount             Int           // Amount in IDR
+  paymentProofUrl    String        // Supabase Storage URL
+  paymentMethod      String        @default("QRIS")
+  billName           String        // Name on payment proof
+  status             PaymentStatus @default(pending) // pending | verified | rejected
+  submittedAt        DateTime      @default(now())
+  verifiedAt         DateTime?     // When admin verified
+  verificationNotes  String?       // Notes from admin
+  verifiedBy         String?       // Admin username who verified
+
+  registration EventRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+
+  @@index([registrationId])
+  @@index([status])
+  @@map("event_payments")
+}
+
+// ============================================================================
 // ENUMS - Type Definitions
 // ============================================================================
 
@@ -454,6 +510,7 @@ enum AdminRole {
   super_admin // Full system access, manage admins, all features
   moderator   // Registration & submission review only
   finance     // Payment verification only
+  event_admin // Event registration & approval only
 
   @@map("admin_role")
 }
