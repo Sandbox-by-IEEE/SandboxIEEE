@@ -15,7 +15,7 @@ import { NextResponse } from 'next/server';
 
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
-import { EVENT_DISCOUNT, calculateDiscountedFee } from '@/lib/discount-config';
+import { EVENT_DISCOUNT } from '@/lib/discount-config';
 
 export async function GET() {
   const session = await auth();
@@ -53,8 +53,7 @@ export async function GET() {
       discount: {
         label: EVENT_DISCOUNT.label,
         description: EVENT_DISCOUNT.description,
-        flatDiscount: EVENT_DISCOUNT.flatDiscount,
-        percentageDiscount: EVENT_DISCOUNT.percentageDiscount,
+        type: 'early_price_parity',
       },
       eventCode: approvedEventReg.eventCode,
     });

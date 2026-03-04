@@ -43,7 +43,10 @@ export default function FAQSection() {
   return (
     <section className='py-12 md:py-20 px-4 sm:px-6 lg:px-8'>
       <div className='max-w-7xl mx-auto'>
-        <div className='flex items-center justify-center gap-4 md:gap-8 mb-12 md:mb-16'>
+        <div
+          className='flex items-center justify-center gap-4 md:gap-8 mb-12 md:mb-16'
+          data-aos='fade-up'
+        >
           <Image
             src='/qna.svg'
             alt='QnA'
@@ -77,6 +80,8 @@ export default function FAQSection() {
               <div
                 key={index}
                 className='bg-gradient-to-br from-[#2a0507]/50 to-[#1a0304]/50 rounded-2xl md:rounded-[24px] border border-white/10 overflow-hidden'
+                data-aos='fade-up'
+                data-aos-delay={index * 100}
               >
                 <button
                   onClick={() =>

@@ -26,7 +26,11 @@ import { z } from 'zod';
 import { Prisma } from '@prisma/client';
 
 import { prisma } from '@/lib/db';
-import { EVENT_DISCOUNT, calculateDiscountedFee } from '@/lib/discount-config';
+import {
+  EVENT_DISCOUNT,
+  calculateDiscountedFee,
+  COMPETITION_PRICING,
+} from '@/lib/discount-config';
 import { uploadFile } from '@/lib/fileUpload';
 import { appendToGoogleSheets } from '@/lib/google-sheets';
 import { logger } from '@/lib/logger';
@@ -356,20 +360,13 @@ export async function POST(request: NextRequest) {
       );
       let registrationFee = competition.registrationFee; // fallback to default
 
-      // Registration fee tiers per competition
-      const PRICING: Record<string, { early: number; normal: number }> = {
-        BCC: { early: 150000, normal: 180000 },
-        TPC: { early: 125000, normal: 150000 },
-        PTC: { early: 200000, normal: 220000 },
-      };
-
-      if (batch1 && batch2 && PRICING[competitionCode]) {
+      if (batch1 && batch2 && COMPETITION_PRICING[competitionCode]) {
         const now = new Date();
         const batch1End = new Date(batch1.endDate);
         if (now <= batch1End) {
-          registrationFee = PRICING[competitionCode].early;
+          registrationFee = COMPETITION_PRICING[competitionCode].early;
         } else {
-          registrationFee = PRICING[competitionCode].normal;
+          registrationFee = COMPETITION_PRICING[competitionCode].normal;
         }
       }
 
@@ -389,8 +386,10 @@ export async function POST(request: NextRequest) {
       });
 
       if (approvedEventReg) {
-        const { discountedFee, discountAmount } =
-          calculateDiscountedFee(registrationFee);
+        const { discountedFee, discountAmount } = calculateDiscountedFee(
+          registrationFee,
+          competitionCode,
+        );
         if (discountAmount > 0) {
           originalFee = registrationFee;
           registrationFee = discountedFee;

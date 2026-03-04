@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [prevScrollY, setPrevScrollY] = useState(0);
   const [isCompetitionOpen, setIsCompetitionOpen] = useState(false);
   const [isEventsOpen, setIsEventsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -17,11 +19,62 @@ export default function Navbar() {
   const { data: session, status } = useSession();
 
   useEffect(() => {
+    const SCROLL_THRESHOLD = 15;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 20);
+
+      // Don't hide when any dropdown or mobile menu is open
+      if (
+        isMobileMenuOpen ||
+        isCompetitionOpen ||
+        isEventsOpen ||
+        isProfileOpen
+      ) {
+        setPrevScrollY(currentScrollY);
+        return;
+      }
+
+      // Always show at top
+      if (currentScrollY < 60) {
+        setIsNavVisible(true);
+        setPrevScrollY(currentScrollY);
+        return;
+      }
+
+      const delta = currentScrollY - prevScrollY;
+
+      if (delta > SCROLL_THRESHOLD) {
+        // Scrolling DOWN past threshold — hide
+        setIsNavVisible(false);
+      } else if (delta < -SCROLL_THRESHOLD) {
+        // Scrolling UP past threshold — show
+        setIsNavVisible(true);
+      }
+
+      setPrevScrollY(currentScrollY);
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, [
+    prevScrollY,
+    isMobileMenuOpen,
+    isCompetitionOpen,
+    isEventsOpen,
+    isProfileOpen,
+  ]);
+
+  // Check prefers-reduced-motion
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) =>
+      setPrefersReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   useEffect(() => {
@@ -42,11 +95,17 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 ${
           isScrolled
             ? 'bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm'
             : 'bg-white border-b border-gray-200'
         }`}
+        style={{
+          transform: isNavVisible ? 'translateY(0)' : 'translateY(-100%)',
+          transition: prefersReducedMotion
+            ? 'none'
+            : 'transform 350ms cubic-bezier(0.4, 0, 0.2, 1), background-color 300ms, box-shadow 300ms',
+        }}
       >
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between h-20'>

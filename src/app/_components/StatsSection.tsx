@@ -24,7 +24,12 @@ export default function StatsSection() {
       <div className='max-w-7xl mx-auto'>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12'>
           {stats.map((stat, index) => (
-            <div key={index} className='text-center'>
+            <div
+              key={index}
+              className='text-center'
+              data-aos='fade-up'
+              data-aos-delay={index * 150}
+            >
               <div className='flex justify-center mb-4 md:mb-6'>
                 <Image
                   src={stat.mascot}

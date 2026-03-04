@@ -7,6 +7,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Respect prefers-reduced-motion for AOS & custom animations ── */
+@media (prefers-reduced-motion: reduce) {
+  [data-aos] {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .animate-float-slow,
+  .animate-float-slow-reverse,
+  .animate-float-gentle {
+    animation: none !important;
+  }
+}
+
 /* color for timeline line */
 :root {
   --color-start: rgba(204, 204, 204, 0.27);

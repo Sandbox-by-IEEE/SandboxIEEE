@@ -59,6 +59,7 @@ export default function CompetitionsSection({
       <div className='max-w-7xl mx-auto'>
         <h2
           className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-12 md:mb-16 font-gemunu'
+          data-aos='fade-up'
           style={{
             background: 'linear-gradient(90deg, #7B1919 0%, #FFFFFF 100%)',
             WebkitBackgroundClip: 'text',
@@ -70,10 +71,12 @@ export default function CompetitionsSection({
         </h2>
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
-          {competitions.map((competition) => (
+          {competitions.map((competition, index) => (
             <div
               key={competition.id}
               className={`bg-gradient-to-br ${getCompetitionColor(competition.code)} rounded-3xl md:rounded-[54px] p-6 md:p-8 border border-white/10 shadow-2xl hover:scale-105 transition-transform duration-300`}
+              data-aos='fade-up'
+              data-aos-delay={index * 150}
             >
               <h3 className='text-2xl sm:text-3xl font-bold text-white font-gemunu mb-3 md:mb-4'>
                 {getShortName(competition.name)}

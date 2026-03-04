@@ -1,13 +1,13 @@
 /**
  * ============================================================================
- * EVENT REGISTRATION & DISCOUNT FLOW — UNIT TESTS
+ * EVENT REGISTRATION & EARLY-PRICE PARITY — UNIT TESTS
  * ============================================================================
  *
  * Tests covering the full end-to-end flow:
- *   1. Discount config & fee calculation (pure logic)
+ *   1. Discount config & early-price parity calculation
  *   2. Event content integrity
  *   3. Discount eligibility determination
- *   4. Edge cases (0% discount, 100% discount, large fees, etc.)
+ *   4. Edge cases (already early price, unknown competition, etc.)
  *
  * These tests validate the core business logic without hitting the database
  * or network. API route integration tests would require a test DB.
@@ -18,6 +18,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 import {
   calculateDiscountedFee,
+  COMPETITION_PRICING,
   DiscountConfig,
   EVENT_DISCOUNT,
 } from '@/lib/discount-config';
@@ -32,12 +33,10 @@ import {
  * ═══════════════════════════════════════════════════════════════════════════ */
 
 describe('EVENT_DISCOUNT config', () => {
-  it('should have a 5% percentage discount', () => {
-    expect(EVENT_DISCOUNT.percentageDiscount).toBe(5);
-  });
-
-  it('should have no flat discount', () => {
-    expect(EVENT_DISCOUNT.flatDiscount).toBe(0);
+  it('should use early-price parity (no percentage/flat fields)', () => {
+    // The new config should NOT have percentageDiscount or flatDiscount
+    expect('percentageDiscount' in EVENT_DISCOUNT).toBe(false);
+    expect('flatDiscount' in EVENT_DISCOUNT).toBe(false);
   });
 
   it('should qualify yif-x-grand-seminar event code', () => {
@@ -51,167 +50,149 @@ describe('EVENT_DISCOUNT config', () => {
     expect(typeof EVENT_DISCOUNT.label).toBe('string');
   });
 
-  it('should have a description', () => {
+  it('should have a description mentioning early registration price', () => {
     expect(EVENT_DISCOUNT.description).toBeTruthy();
-    expect(EVENT_DISCOUNT.description).toContain('5%');
+    expect(EVENT_DISCOUNT.description.toLowerCase()).toContain('early');
+  });
+});
+
+describe('COMPETITION_PRICING', () => {
+  it('should have pricing for BCC, TPC, PTC', () => {
+    expect(COMPETITION_PRICING['BCC']).toBeDefined();
+    expect(COMPETITION_PRICING['TPC']).toBeDefined();
+    expect(COMPETITION_PRICING['PTC']).toBeDefined();
+  });
+
+  it('should have early < normal for all competitions', () => {
+    for (const [code, pricing] of Object.entries(COMPETITION_PRICING)) {
+      expect(pricing.early).toBeLessThan(pricing.normal);
+    }
+  });
+
+  it('should have correct BCC pricing', () => {
+    expect(COMPETITION_PRICING['BCC'].early).toBe(150_000);
+    expect(COMPETITION_PRICING['BCC'].normal).toBe(180_000);
+  });
+
+  it('should have correct TPC pricing', () => {
+    expect(COMPETITION_PRICING['TPC'].early).toBe(125_000);
+    expect(COMPETITION_PRICING['TPC'].normal).toBe(150_000);
+  });
+
+  it('should have correct PTC pricing', () => {
+    expect(COMPETITION_PRICING['PTC'].early).toBe(200_000);
+    expect(COMPETITION_PRICING['PTC'].normal).toBe(220_000);
   });
 });
 
 /* ═══════════════════════════════════════════════════════════════════════════
- * 2. calculateDiscountedFee() — PURE LOGIC TESTS
+ * 2. calculateDiscountedFee() — EARLY-PRICE PARITY TESTS
  * ═══════════════════════════════════════════════════════════════════════════ */
 
-describe('calculateDiscountedFee', () => {
-  describe('with default EVENT_DISCOUNT (5% percentage, 0 flat)', () => {
-    it('should apply 5% discount to BCC early fee (150_000)', () => {
-      const result = calculateDiscountedFee(150_000);
-      expect(result.discountedFee).toBe(142_500);
-      expect(result.discountAmount).toBe(7_500);
+describe('calculateDiscountedFee (early-price parity)', () => {
+  describe('when user pays normal price → should be reduced to early price', () => {
+    it('BCC normal (180_000) → early (150_000)', () => {
+      const result = calculateDiscountedFee(180_000, 'BCC');
+      expect(result.discountedFee).toBe(150_000);
+      expect(result.discountAmount).toBe(30_000);
     });
 
-    it('should apply 5% discount to BCC normal fee (180_000)', () => {
-      const result = calculateDiscountedFee(180_000);
-      expect(result.discountedFee).toBe(171_000);
-      expect(result.discountAmount).toBe(9_000);
+    it('TPC normal (150_000) → early (125_000)', () => {
+      const result = calculateDiscountedFee(150_000, 'TPC');
+      expect(result.discountedFee).toBe(125_000);
+      expect(result.discountAmount).toBe(25_000);
     });
 
-    it('should apply 5% discount to TPC early fee (125_000)', () => {
-      const result = calculateDiscountedFee(125_000);
-      expect(result.discountedFee).toBe(118_750);
-      expect(result.discountAmount).toBe(6_250);
-    });
-
-    it('should apply 5% discount to TPC normal fee (150_000)', () => {
-      const result = calculateDiscountedFee(150_000);
-      expect(result.discountedFee).toBe(142_500);
-      expect(result.discountAmount).toBe(7_500);
-    });
-
-    it('should apply 5% discount to PTC early fee (200_000)', () => {
-      const result = calculateDiscountedFee(200_000);
-      expect(result.discountedFee).toBe(190_000);
-      expect(result.discountAmount).toBe(10_000);
-    });
-
-    it('should apply 5% discount to PTC normal fee (220_000)', () => {
-      const result = calculateDiscountedFee(220_000);
-      expect(result.discountedFee).toBe(209_000);
-      expect(result.discountAmount).toBe(11_000);
-    });
-
-    it('should return 0 discount for a 0 fee', () => {
-      const result = calculateDiscountedFee(0);
-      expect(result.discountedFee).toBe(0);
-      expect(result.discountAmount).toBe(0);
-    });
-
-    it('should round result to nearest integer', () => {
-      // 33_333 * 0.95 = 31_666.35 → rounds to 31_666
-      const result = calculateDiscountedFee(33_333);
-      expect(Number.isInteger(result.discountedFee)).toBe(true);
-      expect(Number.isInteger(result.discountAmount)).toBe(true);
+    it('PTC normal (220_000) → early (200_000)', () => {
+      const result = calculateDiscountedFee(220_000, 'PTC');
+      expect(result.discountedFee).toBe(200_000);
+      expect(result.discountAmount).toBe(20_000);
     });
   });
 
-  describe('with custom DiscountConfig', () => {
-    it('should apply flat discount only when percentage is 0', () => {
-      const config: DiscountConfig = {
-        flatDiscount: 10_000,
-        percentageDiscount: 0,
-        qualifyingEventCodes: ['test'],
-        label: 'Test',
-        description: 'Test',
-      };
-      const result = calculateDiscountedFee(150_000, config);
-      expect(result.discountedFee).toBe(140_000);
-      expect(result.discountAmount).toBe(10_000);
-    });
-
-    it('should apply both percentage and flat discount', () => {
-      const config: DiscountConfig = {
-        flatDiscount: 5_000,
-        percentageDiscount: 10,
-        qualifyingEventCodes: ['test'],
-        label: 'Test',
-        description: 'Test',
-      };
-      // 150_000 * 0.9 = 135_000 - 5_000 = 130_000
-      const result = calculateDiscountedFee(150_000, config);
-      expect(result.discountedFee).toBe(130_000);
-      expect(result.discountAmount).toBe(20_000);
-    });
-
-    it('should never return negative fee (flat > original)', () => {
-      const config: DiscountConfig = {
-        flatDiscount: 500_000,
-        percentageDiscount: 0,
-        qualifyingEventCodes: ['test'],
-        label: 'Test',
-        description: 'Test',
-      };
-      const result = calculateDiscountedFee(100_000, config);
-      expect(result.discountedFee).toBe(0);
-      expect(result.discountAmount).toBe(100_000);
-    });
-
-    it('should never return negative fee (100% + flat)', () => {
-      const config: DiscountConfig = {
-        flatDiscount: 10_000,
-        percentageDiscount: 100,
-        qualifyingEventCodes: ['test'],
-        label: 'Test',
-        description: 'Test',
-      };
-      const result = calculateDiscountedFee(150_000, config);
-      expect(result.discountedFee).toBe(0);
-      expect(result.discountAmount).toBe(150_000);
-    });
-
-    it('should handle 100% percentage discount', () => {
-      const config: DiscountConfig = {
-        flatDiscount: 0,
-        percentageDiscount: 100,
-        qualifyingEventCodes: ['test'],
-        label: 'Test',
-        description: 'Test',
-      };
-      const result = calculateDiscountedFee(200_000, config);
-      expect(result.discountedFee).toBe(0);
-      expect(result.discountAmount).toBe(200_000);
-    });
-
-    it('should handle no discount at all (0% and 0 flat)', () => {
-      const config: DiscountConfig = {
-        flatDiscount: 0,
-        percentageDiscount: 0,
-        qualifyingEventCodes: ['test'],
-        label: 'No Discount',
-        description: 'Test',
-      };
-      const result = calculateDiscountedFee(150_000, config);
+  describe('when user already pays early price → no adjustment', () => {
+    it('BCC early (150_000) → stays 150_000', () => {
+      const result = calculateDiscountedFee(150_000, 'BCC');
       expect(result.discountedFee).toBe(150_000);
       expect(result.discountAmount).toBe(0);
     });
 
-    it('should apply percentage before flat discount (order matters)', () => {
-      const config: DiscountConfig = {
-        flatDiscount: 10_000,
-        percentageDiscount: 50,
-        qualifyingEventCodes: ['test'],
-        label: 'Test',
-        description: 'Test',
-      };
-      // 100_000 * 0.5 = 50_000 - 10_000 = 40_000 (percentage first)
-      // If flat first: (100_000 - 10_000) * 0.5 = 45_000 (wrong order)
-      const result = calculateDiscountedFee(100_000, config);
-      expect(result.discountedFee).toBe(40_000);
-      expect(result.discountAmount).toBe(60_000);
+    it('TPC early (125_000) → stays 125_000', () => {
+      const result = calculateDiscountedFee(125_000, 'TPC');
+      expect(result.discountedFee).toBe(125_000);
+      expect(result.discountAmount).toBe(0);
     });
 
-    it('should handle very large fees', () => {
-      const result = calculateDiscountedFee(10_000_000);
-      expect(result.discountedFee).toBe(9_500_000);
-      expect(result.discountAmount).toBe(500_000);
+    it('PTC early (200_000) → stays 200_000', () => {
+      const result = calculateDiscountedFee(200_000, 'PTC');
+      expect(result.discountedFee).toBe(200_000);
+      expect(result.discountAmount).toBe(0);
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should return original fee for unknown competition code', () => {
+      const result = calculateDiscountedFee(999_000, 'UNKNOWN');
+      expect(result.discountedFee).toBe(999_000);
+      expect(result.discountAmount).toBe(0);
+    });
+
+    it('should return 0 fee as-is (no negative)', () => {
+      const result = calculateDiscountedFee(0, 'BCC');
+      expect(result.discountedFee).toBe(0);
+      expect(result.discountAmount).toBe(0);
+    });
+
+    it('should handle fee below early price (no adjustment)', () => {
+      const result = calculateDiscountedFee(100_000, 'BCC');
+      expect(result.discountedFee).toBe(100_000);
+      expect(result.discountAmount).toBe(0);
+    });
+
+    it('should handle fee exactly equal to early price', () => {
+      const result = calculateDiscountedFee(150_000, 'BCC');
+      expect(result.discountedFee).toBe(150_000);
+      expect(result.discountAmount).toBe(0);
+    });
+
+    it('should handle fee higher than normal price (caps at early)', () => {
+      // e.g., if a future price tier is higher than normal
+      const result = calculateDiscountedFee(300_000, 'BCC');
+      expect(result.discountedFee).toBe(150_000);
+      expect(result.discountAmount).toBe(150_000);
+    });
+  });
+
+  describe('invariants', () => {
+    it('discountedFee + discountAmount should always equal currentFee', () => {
+      const testCases = [
+        { fee: 180_000, code: 'BCC' },
+        { fee: 150_000, code: 'BCC' },
+        { fee: 150_000, code: 'TPC' },
+        { fee: 125_000, code: 'TPC' },
+        { fee: 220_000, code: 'PTC' },
+        { fee: 200_000, code: 'PTC' },
+        { fee: 999_000, code: 'UNKNOWN' },
+      ];
+      for (const { fee, code } of testCases) {
+        const result = calculateDiscountedFee(fee, code);
+        expect(result.discountedFee + result.discountAmount).toBe(fee);
+      }
+    });
+
+    it('discount should be idempotent (same input → same output)', () => {
+      const result1 = calculateDiscountedFee(180_000, 'BCC');
+      const result2 = calculateDiscountedFee(180_000, 'BCC');
+      expect(result1).toEqual(result2);
+    });
+
+    it('discountedFee should never be negative', () => {
+      for (const code of ['BCC', 'TPC', 'PTC']) {
+        for (const fee of [0, 50_000, 100_000, 150_000, 200_000, 300_000]) {
+          const result = calculateDiscountedFee(fee, code);
+          expect(result.discountedFee).toBeGreaterThanOrEqual(0);
+        }
+      }
     });
   });
 });
@@ -269,9 +250,9 @@ describe('Event Content', () => {
       expect(date.getTime()).not.toBeNaN();
     });
 
-    it('should have exactly 3 speakers', () => {
+    it('should have exactly 2 speakers', () => {
       expect(content.speakers).toBeDefined();
-      expect(content.speakers!.length).toBe(3);
+      expect(content.speakers!.length).toBe(2);
     });
 
     it('should have speakers with actual photo URLs (not SVG placeholders)', () => {
@@ -330,51 +311,42 @@ describe('Discount Eligibility Flow', () => {
     }
   });
 
-  it('discount description should mention the correct percentage', () => {
-    expect(EVENT_DISCOUNT.description).toContain(
-      `${EVENT_DISCOUNT.percentageDiscount}%`,
-    );
+  it('discount description should mention early registration', () => {
+    expect(EVENT_DISCOUNT.description.toLowerCase()).toContain('early');
+    expect(EVENT_DISCOUNT.description.toLowerCase()).toContain('registration');
   });
 
-  it('should correctly calculate discounts for all competition pricing tiers', () => {
-    // All known competition fees (early and normal)
-    const competitionFees = [
-      { competition: 'BCC', type: 'early', fee: 150_000 },
-      { competition: 'BCC', type: 'normal', fee: 180_000 },
-      { competition: 'TPC', type: 'early', fee: 125_000 },
-      { competition: 'TPC', type: 'normal', fee: 150_000 },
-      { competition: 'PTC', type: 'early', fee: 200_000 },
-      { competition: 'PTC', type: 'normal', fee: 220_000 },
-    ];
-
-    for (const { competition, type, fee } of competitionFees) {
-      const result = calculateDiscountedFee(fee);
-      const expectedDiscounted = Math.round(
-        fee * (1 - EVENT_DISCOUNT.percentageDiscount / 100),
-      );
-
-      expect(result.discountedFee).toBe(expectedDiscounted);
-      expect(result.discountAmount).toBe(fee - expectedDiscounted);
-      expect(result.discountedFee).toBeLessThan(fee);
+  it('should correctly apply early-price parity for all competitions during normal phase', () => {
+    // All competitions: normal phase fee should be reduced to early price
+    for (const [code, pricing] of Object.entries(COMPETITION_PRICING)) {
+      const result = calculateDiscountedFee(pricing.normal, code);
+      expect(result.discountedFee).toBe(pricing.early);
+      expect(result.discountAmount).toBe(pricing.normal - pricing.early);
+      expect(result.discountedFee).toBeLessThan(pricing.normal);
       expect(result.discountedFee).toBeGreaterThan(0);
-
-      // Sanity check: discount amount should be reasonable
-      expect(result.discountAmount).toBeGreaterThan(0);
-      expect(result.discountAmount).toBeLessThan(fee);
     }
   });
 
-  it('discountedFee + discountAmount should always equal originalFee', () => {
-    const fees = [100_000, 125_000, 150_000, 180_000, 200_000, 220_000];
-    for (const fee of fees) {
-      const result = calculateDiscountedFee(fee);
-      expect(result.discountedFee + result.discountAmount).toBe(fee);
+  it('should not apply discount when already at early price', () => {
+    for (const [code, pricing] of Object.entries(COMPETITION_PRICING)) {
+      const result = calculateDiscountedFee(pricing.early, code);
+      expect(result.discountedFee).toBe(pricing.early);
+      expect(result.discountAmount).toBe(0);
+    }
+  });
+
+  it('discountedFee + discountAmount should always equal currentFee', () => {
+    for (const [code, pricing] of Object.entries(COMPETITION_PRICING)) {
+      for (const fee of [pricing.early, pricing.normal]) {
+        const result = calculateDiscountedFee(fee, code);
+        expect(result.discountedFee + result.discountAmount).toBe(fee);
+      }
     }
   });
 
   it('discount should be idempotent (same input → same output)', () => {
-    const result1 = calculateDiscountedFee(150_000);
-    const result2 = calculateDiscountedFee(150_000);
+    const result1 = calculateDiscountedFee(180_000, 'BCC');
+    const result2 = calculateDiscountedFee(180_000, 'BCC');
     expect(result1).toEqual(result2);
   });
 });

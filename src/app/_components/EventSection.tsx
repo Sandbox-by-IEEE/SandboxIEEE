@@ -11,6 +11,7 @@ export default function EventSection() {
       <div className='max-w-7xl mx-auto'>
         <h2
           className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-12 md:mb-16 font-gemunu'
+          data-aos='fade-up'
           style={{
             background: 'linear-gradient(90deg, #7B1919 0%, #FFFFFF 100%)',
             WebkitBackgroundClip: 'text',
@@ -21,7 +22,11 @@ export default function EventSection() {
           Event
         </h2>
 
-        <div className='relative bg-gradient-to-br from-[#8B2635] to-[#5A1623] rounded-3xl md:rounded-[54px] p-8 md:p-12 lg:p-16 border border-white/10 shadow-2xl overflow-hidden'>
+        <div
+          className='relative bg-gradient-to-br from-[#8B2635] to-[#5A1623] rounded-3xl md:rounded-[54px] p-8 md:p-12 lg:p-16 border border-white/10 shadow-2xl overflow-hidden'
+          data-aos='fade-up'
+          data-aos-delay='150'
+        >
           {/* Decorative mascots */}
           <div className='absolute -left-6 -bottom-6 opacity-20 pointer-events-none hidden md:block'>
             <Image

@@ -65,13 +65,12 @@ function RegistrationContent() {
   const [currentBatch, setCurrentBatch] = useState<'early' | 'normal'>('early');
   const [batchLabel, setBatchLabel] = useState<string>('Early Registration');
 
-  // Event-based discount state
+  // Event-based discount state (early-price parity)
   const [discountEligible, setDiscountEligible] = useState(false);
   const [discountInfo, setDiscountInfo] = useState<{
     label: string;
     description: string;
-    flatDiscount: number;
-    percentageDiscount: number;
+    type: string;
   } | null>(null);
 
   useEffect(() => {
@@ -186,18 +185,11 @@ function RegistrationContent() {
 
   const baseFee = PRICING[competitionCode][currentBatch];
 
-  // Calculate discounted fee if eligible
+  // Calculate discounted fee if eligible (early-price parity)
+  // If eligible, the user always pays the early registration price
+  const earlyFee = PRICING[competitionCode].early;
   const currentFee =
-    discountEligible && discountInfo
-      ? Math.max(
-          0,
-          Math.round(
-            (discountInfo.percentageDiscount > 0
-              ? baseFee * (1 - discountInfo.percentageDiscount / 100)
-              : baseFee) - (discountInfo.flatDiscount || 0),
-          ),
-        )
-      : baseFee;
+    discountEligible && discountInfo && baseFee > earlyFee ? earlyFee : baseFee;
 
   const discountAmount = baseFee - currentFee;
 

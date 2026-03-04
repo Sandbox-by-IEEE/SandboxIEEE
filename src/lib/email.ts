@@ -1007,7 +1007,7 @@ export async function sendEventApprovalEmail(
       <div class="discount-box">
         <p style="margin: 0 0 8px 0; color: #22C55E; font-size: 18px; font-weight: bold;">🎉 ${discountLabel}</p>
         <p style="margin: 0; color: #E8B4A8; font-size: 15px; line-height: 1.6;">${discountDescription}</p>
-        <p style="margin: 8px 0 0 0; color: #E8B4A8; font-size: 14px;">Register for a competition now and the discount will be applied automatically!</p>
+        <p style="margin: 8px 0 0 0; color: #E8B4A8; font-size: 14px;">Register for a competition now and you'll automatically get the early registration price, no matter the current phase!</p>
       </div>
 
       <div class="button-container">

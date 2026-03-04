@@ -68,6 +68,7 @@ export default function TimelineSection() {
       <div className='max-w-7xl mx-auto'>
         <h2
           className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-12 md:mb-16 font-gemunu'
+          data-aos='fade-up'
           style={{
             background: 'linear-gradient(90deg, #7B1919 0%, #FFFFFF 100%)',
             WebkitBackgroundClip: 'text',
@@ -79,7 +80,7 @@ export default function TimelineSection() {
         </h2>
 
         {/* Horizontal scrollable with navigation arrows */}
-        <div className='relative'>
+        <div className='relative' data-aos='fade-up' data-aos-delay='150'>
           {canScrollLeft && (
             <button
               onClick={() => scroll('left')}

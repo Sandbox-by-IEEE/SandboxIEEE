@@ -47,21 +47,6 @@ export const EVENT_CONTENT: Record<string, EventContent> = {
     venue: 'To Be Announced',
     speakers: [
       {
-        name: 'Prof. Dr. Ir. Hammam Riza, M.Sc., IPU',
-        title:
-          'Principal Research Engineer (AI & Cybersecurity), BRIN | Professor of Artificial Intelligence',
-        organization: 'BRIN (Badan Riset dan Inovasi Nasional)',
-        description:
-          'Prof. Hammam Riza is a prominent Indonesian AI expert specializing in Natural Language Processing, digital transformation, and cybersecurity, with over 30 years of leadership in national technology and research institutions.',
-        imageUrl: '/speakers/speaker-hammam-riza.JPG',
-        highlights: [
-          'Former Head of BPPT (2019–2021)',
-          'President of KORIKA (Indonesia AI Collaboration Association)',
-          'Pioneer in Machine Translation & NLP research in Indonesia',
-          'Recipient of national honors and Best CTO award',
-        ],
-      },
-      {
         name: 'Amanda Ayu Lestari',
         title:
           'Sales Manager – Drive Products, Motion | PT. ABB Sakti Industri',
@@ -99,12 +84,8 @@ export const EVENT_CONTENT: Record<string, EventContent> = {
         url: '/event/yif-x-grand-seminar/register',
       },
       {
-        label: 'SOP',
-        url: 'https://drive.google.com/file/d/1ET9a9e-w-d6pVki9TboVl3BWetyuewSQ/view?usp=sharin',
-      },
-      {
-        label: 'TOR',
-        url: 'https://drive.google.com/file/d/1vv6TaTXmVnaIKLesP01BTRoZS6x0-5V-/view?usp=sharin',
+        label: 'SOP & ToR',
+        url: 'https://drive.google.com/drive/folders/1E5IPVl_ux2EjMLzmI2fuSHuWICGYAaiN',
       },
     ],
   },

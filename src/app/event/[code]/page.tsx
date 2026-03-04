@@ -210,82 +210,109 @@ export default function EventDetailPage() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
- * Speaker Card — large portrait card matching reference design
+ * Speaker Card — modern profile-card design with portrait, identity & details
  * ───────────────────────────────────────────────────────────────────────────── */
 
 function SpeakerCard({ speaker }: { speaker: Speaker }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className='backdrop-blur-xl bg-white/[0.06] rounded-3xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-[#FFCD8D]/30 hover:bg-white/[0.08] hover:shadow-xl hover:shadow-[#FFCD8D]/5 group'>
-      {/* Large Portrait Image */}
-      <div className='relative w-full aspect-[3/4] bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden'>
+    <div className='relative backdrop-blur-xl bg-white/[0.06] rounded-3xl border border-white/10 overflow-hidden transition-all duration-500 hover:border-[#FFCD8D]/30 hover:bg-white/[0.08] hover:shadow-2xl hover:shadow-[#FFCD8D]/10 group'>
+      {/* Decorative top accent */}
+      <div className='absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#FFCD8D]/40 to-transparent' />
+
+      {/* Portrait Image — large with soft gradient fade */}
+      <div className='relative w-full aspect-[4/5] bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden'>
         {speaker.imageUrl ? (
           <Image
             src={speaker.imageUrl}
             alt={speaker.name}
             fill
-            sizes='(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
-            className='object-cover object-top transition-transform duration-500 group-hover:scale-105'
+            sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px'
+            className='object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]'
           />
         ) : (
           <div className='flex items-center justify-center h-full'>
-            <Users className='w-16 h-16 text-white/20' />
+            <Users className='w-20 h-20 text-white/15' />
           </div>
         )}
-        {/* Gradient overlay at bottom for text readability */}
-        <div className='absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent' />
+        {/* Smooth bottom gradient for text readability */}
+        <div className='absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#0B0102] via-[#0B0102]/70 to-transparent' />
       </div>
 
-      {/* Identity + Description */}
-      <div className='p-5 sm:p-6'>
-        {/* Name */}
-        <h3 className='text-lg sm:text-xl font-bold text-white font-gemunu leading-tight'>
-          {speaker.name}
-        </h3>
+      {/* Identity */}
+      <div className='relative px-6 sm:px-8 -mt-14 z-10'>
+        {/* Name + verified accent */}
+        <div className='flex items-center gap-2.5'>
+          <h3 className='text-xl sm:text-2xl font-bold text-white font-gemunu leading-tight'>
+            {speaker.name}
+          </h3>
+          <svg
+            viewBox='0 0 24 24'
+            className='w-5 h-5 shrink-0 text-[#FFCD8D]'
+            fill='currentColor'
+          >
+            <path d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z' />
+          </svg>
+        </div>
 
         {/* Title */}
         <div className='flex items-start gap-2 mt-2'>
-          <Briefcase className='w-4 h-4 text-[#FFCD8D] mt-0.5 shrink-0' />
-          <p className='text-sm text-[#FFCD8D]/90 font-medium leading-snug'>
+          <Briefcase className='w-4 h-4 text-[#FFCD8D]/70 mt-0.5 shrink-0' />
+          <p className='text-sm text-[#FFCD8D]/80 font-medium leading-snug'>
             {speaker.title}
           </p>
         </div>
-
-        {/* Description */}
-        <p className='mt-4 text-sm text-gray-300/80 leading-relaxed line-clamp-4'>
-          {speaker.description}
-        </p>
       </div>
 
-      {/* Expandable Key Highlights */}
-      {speaker.highlights && speaker.highlights.length > 0 && (
-        <div className='border-t border-white/[0.06]'>
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className='w-full flex items-center justify-between px-5 sm:px-6 py-3 text-sm font-semibold text-[#FFCD8D]/80 hover:text-[#FFCD8D] transition-colors'
-          >
-            <span>Key Highlights</span>
-            <ChevronDown
-              className={`w-4 h-4 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
-            />
-          </button>
+      {/* Description */}
+      <div className='px-6 sm:px-8 pt-5 pb-6'>
+        <p className='text-sm text-gray-300/80 leading-relaxed line-clamp-4'>
+          {speaker.description}
+        </p>
 
-          <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${expanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
-          >
-            <ul className='px-5 sm:px-6 pb-5 space-y-2'>
-              {speaker.highlights.map((item, i) => (
-                <li
-                  key={i}
-                  className='flex items-start gap-2 text-sm text-gray-300/80 leading-relaxed'
-                >
-                  <span className='text-[#FFCD8D] mt-1 shrink-0'>•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+        {/* Stats row */}
+        {speaker.highlights && speaker.highlights.length > 0 && (
+          <div className='flex items-center gap-4 mt-5 pt-5 border-t border-white/[0.06]'>
+            <div className='flex items-center gap-1.5 text-sm text-gray-400'>
+              <Briefcase className='w-3.5 h-3.5 text-[#FFCD8D]/60' />
+              <span className='text-white font-semibold'>
+                {speaker.highlights.length}
+              </span>
+              <span>Highlights</span>
+            </div>
+
+            <div className='flex-1' />
+
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className='flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-[#FFCD8D]/20 text-sm font-semibold text-[#FFCD8D]/80 hover:text-[#FFCD8D] hover:border-[#FFCD8D]/40 transition-all duration-300'
+            >
+              <span>{expanded ? 'Collapse' : 'Expand'}</span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+              />
+            </button>
           </div>
+        )}
+      </div>
+
+      {/* Expandable Highlights */}
+      {speaker.highlights && speaker.highlights.length > 0 && (
+        <div
+          className={`overflow-hidden transition-all duration-500 ease-in-out ${expanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+        >
+          <ul className='px-6 sm:px-8 pb-6 space-y-2.5'>
+            {speaker.highlights.map((item, i) => (
+              <li
+                key={i}
+                className='flex items-start gap-2.5 text-sm text-gray-300/80 leading-relaxed'
+              >
+                <span className='text-[#FFCD8D] mt-0.5 shrink-0'>✦</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
@@ -295,18 +322,27 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
 function SpeakersSection({ speakers }: { speakers: Speaker[] }) {
   return (
     <section className='py-20 px-4 sm:px-6 lg:px-8'>
-      <div className='max-w-7xl mx-auto'>
-        <h2 className='text-3xl sm:text-4xl md:text-5xl font-bold text-white font-gemunu text-center mb-4'>
+      <div className='max-w-5xl mx-auto'>
+        <h2
+          className='text-3xl sm:text-4xl md:text-5xl font-bold text-white font-gemunu text-center mb-4'
+          data-aos='fade-up'
+        >
           Our Speakers
         </h2>
-        <p className='text-gray-400 text-center text-base sm:text-lg mb-12 sm:mb-16 max-w-2xl mx-auto'>
+        <p
+          className='text-gray-400 text-center text-base sm:text-lg mb-12 sm:mb-16 max-w-2xl mx-auto'
+          data-aos='fade-up'
+          data-aos-delay='100'
+        >
           Hear from industry leaders and innovators shaping the future of Smart
           Automation Technology.
         </p>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto'>
           {speakers.map((speaker, index) => (
-            <SpeakerCard key={index} speaker={speaker} />
+            <div key={index} data-aos='fade-up' data-aos-delay={index * 150}>
+              <SpeakerCard speaker={speaker} />
+            </div>
           ))}
         </div>
       </div>

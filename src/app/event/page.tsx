@@ -247,61 +247,74 @@ export default function EventPage() {
         {content.speakers && content.speakers.length > 0 && (
           <section className='py-20 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-5xl mx-auto'>
-              <div className='backdrop-blur-xl bg-white/[0.06] rounded-3xl border border-white/10 p-6 sm:p-8 md:p-12'>
-                {/* Title */}
-                <h2
-                  className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-gemunu text-center mb-14'
-                  style={{
-                    background:
-                      'linear-gradient(90deg, #7B1919 0%, #FFFFFF 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  Announcement Speaker
-                </h2>
+              {/* Title */}
+              <h2
+                className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-gemunu text-center mb-14'
+                data-aos='fade-up'
+                style={{
+                  background:
+                    'linear-gradient(90deg, #7B1919 0%, #FFFFFF 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Announcement Speaker
+              </h2>
 
-                {/* Speakers - Alternating Layout */}
-                <div className='space-y-10 md:space-y-14'>
-                  {content.speakers.map((speaker, index) => {
-                    const isEven = index % 2 === 0;
+              {/* Speaker Cards — balanced 2-column grid */}
+              <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto'>
+                {content.speakers.map((speaker, index) => (
+                  <div
+                    key={index}
+                    className='relative backdrop-blur-xl bg-white/[0.06] rounded-3xl border border-white/10 overflow-hidden transition-all duration-500 hover:border-[#FFCD8D]/30 hover:bg-white/[0.08] hover:shadow-2xl hover:shadow-[#FFCD8D]/10 group'
+                    data-aos='fade-up'
+                    data-aos-delay={index * 150}
+                  >
+                    {/* Top accent */}
+                    <div className='absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#FFCD8D]/40 to-transparent' />
 
-                    return (
-                      <div
-                        key={index}
-                        className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-6 md:gap-8 items-center`}
-                      >
-                        {/* Description */}
-                        <div className='flex-1 backdrop-blur-xl bg-white/[0.06] rounded-2xl border border-white/10 p-6 sm:p-8'>
-                          <p className='text-sm sm:text-base text-gray-300 leading-relaxed'>
-                            {speaker.description}
-                          </p>
+                    {/* Portrait */}
+                    <div className='relative w-full aspect-[4/5] bg-gradient-to-b from-white/[0.04] to-transparent overflow-hidden'>
+                      {speaker.imageUrl ? (
+                        <Image
+                          src={speaker.imageUrl}
+                          alt={speaker.name}
+                          fill
+                          sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px'
+                          className='object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]'
+                        />
+                      ) : (
+                        <div className='flex items-center justify-center h-full'>
+                          <Users className='w-20 h-20 text-white/15' />
                         </div>
+                      )}
+                      <div className='absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#0B0102] via-[#0B0102]/70 to-transparent' />
+                    </div>
 
-                        {/* Speaker Image + Name */}
-                        <div className='flex flex-col items-center shrink-0'>
-                          <div className='w-40 h-48 sm:w-48 sm:h-56 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center overflow-hidden'>
-                            {speaker.imageUrl ? (
-                              <Image
-                                src={speaker.imageUrl}
-                                alt={speaker.name}
-                                width={192}
-                                height={224}
-                                className='w-full h-full object-cover'
-                              />
-                            ) : (
-                              <Users className='w-16 h-16 text-white/20' />
-                            )}
-                          </div>
-                          <p className='mt-3 text-white font-bold text-lg sm:text-xl font-gemunu'>
-                            {speaker.name}
-                          </p>
-                        </div>
+                    {/* Identity + Description */}
+                    <div className='relative px-6 sm:px-8 -mt-14 z-10 pb-6'>
+                      <div className='flex items-center gap-2.5'>
+                        <h3 className='text-xl sm:text-2xl font-bold text-white font-gemunu leading-tight'>
+                          {speaker.name}
+                        </h3>
+                        <svg
+                          viewBox='0 0 24 24'
+                          className='w-5 h-5 shrink-0 text-[#FFCD8D]'
+                          fill='currentColor'
+                        >
+                          <path d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z' />
+                        </svg>
                       </div>
-                    );
-                  })}
-                </div>
+                      <p className='mt-2 text-sm text-[#FFCD8D]/80 font-medium leading-snug'>
+                        {speaker.title}
+                      </p>
+                      <p className='mt-4 text-sm text-gray-300/80 leading-relaxed line-clamp-4'>
+                        {speaker.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
