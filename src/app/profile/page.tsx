@@ -1,10 +1,11 @@
-import { Mail, User, Users } from 'lucide-react';
+import { Calendar, Mail, MapPin, User, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
+import { getEventContent } from '@/lib/event-content';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Disable caching
@@ -29,6 +30,18 @@ export default async function ProfilePage() {
           team: true,
         },
       },
+      eventRegistrations: {
+        include: {
+          payment: {
+            select: {
+              amount: true,
+              status: true,
+              submittedAt: true,
+            },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+      },
     },
   });
 
@@ -41,14 +54,14 @@ export default async function ProfilePage() {
       {/* Background hero circles */}
       <div className='absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none'>
         <Image
-          src='/home/hero-circle.svg'
+          src='/hero/hero-circle-1.svg'
           alt='Background decoration'
           width={800}
           height={800}
           className='absolute -top-[200px] -left-[200px] opacity-30 animate-float'
         />
         <Image
-          src='/home/hero-circle.svg'
+          src='/hero/hero-circle-2.svg'
           alt='Background decoration'
           width={600}
           height={600}
@@ -214,6 +227,91 @@ export default async function ProfilePage() {
                   </Link>
                 </div>
               )}
+
+              {/* Event Registrations */}
+              {user.eventRegistrations &&
+                user.eventRegistrations.length > 0 && (
+                  <div className='flex items-start gap-4'>
+                    <div className='flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center'>
+                      <Calendar className='w-6 h-6 text-white' />
+                    </div>
+                    <div className='flex-1'>
+                      <p className='text-sm text-gray-400 mb-2'>
+                        Event Registrations
+                      </p>
+                      <div className='space-y-3'>
+                        {user.eventRegistrations.map((reg) => {
+                          const eventContent = getEventContent(reg.eventCode);
+                          return (
+                            <div
+                              key={reg.id}
+                              className='p-4 rounded-xl bg-white/5 border border-white/10'
+                            >
+                              <div className='flex justify-between items-start mb-2 gap-2'>
+                                <h4 className='text-white font-semibold text-sm leading-snug'>
+                                  {eventContent?.name || reg.eventCode}
+                                </h4>
+                                <span
+                                  className={`shrink-0 px-3 py-1 rounded-full text-xs font-medium ${
+                                    reg.verificationStatus === 'approved'
+                                      ? 'bg-green-500/20 text-green-400 border border-green-500/50'
+                                      : reg.verificationStatus === 'pending'
+                                        ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/50'
+                                        : 'bg-red-500/20 text-red-400 border border-red-500/50'
+                                  }`}
+                                >
+                                  {reg.verificationStatus}
+                                </span>
+                              </div>
+                              {eventContent && (
+                                <div className='space-y-1 mt-2'>
+                                  <div className='flex items-center gap-2 text-xs text-gray-400'>
+                                    <Calendar className='w-3.5 h-3.5 text-[#FFCD8D]' />
+                                    <span>{eventContent.date}</span>
+                                  </div>
+                                  <div className='flex items-center gap-2 text-xs text-gray-400'>
+                                    <MapPin className='w-3.5 h-3.5 text-[#FFCD8D]' />
+                                    <span>{eventContent.venue}</span>
+                                  </div>
+                                </div>
+                              )}
+                              {reg.payment && (
+                                <p className='text-xs text-gray-500 mt-2'>
+                                  Payment:{' '}
+                                  <span
+                                    className={
+                                      reg.payment.status === 'verified'
+                                        ? 'text-green-400'
+                                        : reg.payment.status === 'pending'
+                                          ? 'text-yellow-400'
+                                          : 'text-red-400'
+                                    }
+                                  >
+                                    {reg.payment.status}
+                                  </span>
+                                  {' · '}
+                                  Rp{' '}
+                                  {reg.payment.amount.toLocaleString('id-ID')}
+                                </p>
+                              )}
+                              <p className='text-xs text-gray-500 mt-1'>
+                                Registered on{' '}
+                                {new Date(reg.createdAt).toLocaleDateString(
+                                  'en-US',
+                                  {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                  },
+                                )}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
             </div>
 
             {/* Action Buttons */}

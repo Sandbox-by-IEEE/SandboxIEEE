@@ -49,10 +49,10 @@ const registerAdminSchema = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
       'Password must contain at least one uppercase letter, one lowercase letter, and one number',
     ),
-  adminRole: z.enum(['moderator', 'finance', 'super_admin'], {
+  adminRole: z.enum(['moderator', 'finance', 'event_admin', 'super_admin'], {
     errorMap: () => ({
       message:
-        'Admin role must be either "moderator", "finance", or "super_admin"',
+        'Admin role must be either "moderator", "finance", "event_admin", or "super_admin"',
     }),
   }),
 });

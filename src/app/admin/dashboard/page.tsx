@@ -14,8 +14,10 @@ import { prisma } from '@/lib/db';
 
 export default async function AdminDashboardPage() {
   const session = await auth();
+  const role = session?.admin?.role;
+  const isEventAdminOnly = role === 'event_admin';
 
-  // Get statistics
+  // Fetch only the stats relevant to the current admin's role
   const [
     totalUsers,
     totalRegistrations,
@@ -29,63 +31,104 @@ export default async function AdminDashboardPage() {
     totalEventRegistrations,
     pendingEventRegistrations,
   ] = await Promise.all([
-    prisma.user.count(),
-    prisma.competitionRegistration.count(),
-    prisma.competitionRegistration.count({
-      where: { verificationStatus: 'pending' },
-    }),
-    prisma.competitionRegistration.count({
-      where: { verificationStatus: 'approved' },
-    }),
-    prisma.preliminarySubmission.count(),
-    prisma.preliminarySubmission.count({
-      where: { status: 'pending' },
-    }),
-    prisma.semifinalSubmission.count(),
-    prisma.finalSubmission.count(),
-    prisma.payment.count({
-      where: { status: 'pending' },
-    }),
+    // Competition stats — skip for event_admin (they have no access to these)
+    isEventAdminOnly ? Promise.resolve(0) : prisma.user.count(),
+    isEventAdminOnly
+      ? Promise.resolve(0)
+      : prisma.competitionRegistration.count(),
+    isEventAdminOnly
+      ? Promise.resolve(0)
+      : prisma.competitionRegistration.count({
+          where: { verificationStatus: 'pending' },
+        }),
+    isEventAdminOnly
+      ? Promise.resolve(0)
+      : prisma.competitionRegistration.count({
+          where: { verificationStatus: 'approved' },
+        }),
+    isEventAdminOnly
+      ? Promise.resolve(0)
+      : prisma.preliminarySubmission.count(),
+    isEventAdminOnly
+      ? Promise.resolve(0)
+      : prisma.preliminarySubmission.count({
+          where: { status: 'pending' },
+        }),
+    isEventAdminOnly ? Promise.resolve(0) : prisma.semifinalSubmission.count(),
+    isEventAdminOnly ? Promise.resolve(0) : prisma.finalSubmission.count(),
+    isEventAdminOnly
+      ? Promise.resolve(0)
+      : prisma.payment.count({
+          where: { status: 'pending' },
+        }),
     prisma.eventRegistration.count(),
     prisma.eventRegistration.count({
       where: { verificationStatus: 'pending' },
     }),
   ]);
 
-  const stats = [
-    {
-      label: 'Total Users',
-      value: totalUsers,
-      icon: <Users size={24} />,
-      color: 'bg-blue-500',
-      textColor: 'text-blue-700',
-      bgColor: 'bg-blue-50',
-    },
-    {
-      label: 'Total Registrations',
-      value: totalRegistrations,
-      icon: <FileText size={24} />,
-      color: 'bg-purple-500',
-      textColor: 'text-purple-700',
-      bgColor: 'bg-purple-50',
-    },
-    {
-      label: 'Pending Registrations',
-      value: pendingRegistrations,
-      icon: <Clock size={24} />,
-      color: 'bg-yellow-500',
-      textColor: 'text-yellow-700',
-      bgColor: 'bg-yellow-50',
-    },
-    {
-      label: 'Approved Registrations',
-      value: approvedRegistrations,
-      icon: <CheckCircle size={24} />,
-      color: 'bg-green-500',
-      textColor: 'text-green-700',
-      bgColor: 'bg-green-50',
-    },
-  ];
+  // Stats grid — event_admin sees only event stats
+  const stats = isEventAdminOnly
+    ? [
+        {
+          label: 'Total Event Registrations',
+          value: totalEventRegistrations,
+          icon: <Calendar size={24} />,
+          color: 'bg-orange-500',
+          textColor: 'text-orange-700',
+          bgColor: 'bg-orange-50',
+        },
+        {
+          label: 'Pending Event Registrations',
+          value: pendingEventRegistrations,
+          icon: <Clock size={24} />,
+          color: 'bg-yellow-500',
+          textColor: 'text-yellow-700',
+          bgColor: 'bg-yellow-50',
+        },
+        {
+          label: 'Approved',
+          value: totalEventRegistrations - pendingEventRegistrations,
+          icon: <CheckCircle size={24} />,
+          color: 'bg-green-500',
+          textColor: 'text-green-700',
+          bgColor: 'bg-green-50',
+        },
+      ]
+    : [
+        {
+          label: 'Total Users',
+          value: totalUsers,
+          icon: <Users size={24} />,
+          color: 'bg-blue-500',
+          textColor: 'text-blue-700',
+          bgColor: 'bg-blue-50',
+        },
+        {
+          label: 'Total Registrations',
+          value: totalRegistrations,
+          icon: <FileText size={24} />,
+          color: 'bg-purple-500',
+          textColor: 'text-purple-700',
+          bgColor: 'bg-purple-50',
+        },
+        {
+          label: 'Pending Registrations',
+          value: pendingRegistrations,
+          icon: <Clock size={24} />,
+          color: 'bg-yellow-500',
+          textColor: 'text-yellow-700',
+          bgColor: 'bg-yellow-50',
+        },
+        {
+          label: 'Approved Registrations',
+          value: approvedRegistrations,
+          icon: <CheckCircle size={24} />,
+          color: 'bg-green-500',
+          textColor: 'text-green-700',
+          bgColor: 'bg-green-50',
+        },
+      ];
 
   const actionableStats = [
     {
@@ -197,60 +240,66 @@ export default async function AdminDashboardPage() {
         </div>
       )}
 
-      {/* Additional Stats */}
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-        <div className='bg-white rounded-xl p-6 border border-gray-200'>
-          <div className='flex items-center gap-3 mb-4'>
-            <FileText className='text-blue-600' size={24} />
-            <h3 className='font-semibold text-gray-900'>
-              Preliminary Submissions
-            </h3>
+      {/* Additional Stats — competition data, hidden for event_admin */}
+      {!isEventAdminOnly && (
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+          <div className='bg-white rounded-xl p-6 border border-gray-200'>
+            <div className='flex items-center gap-3 mb-4'>
+              <FileText className='text-blue-600' size={24} />
+              <h3 className='font-semibold text-gray-900'>
+                Preliminary Submissions
+              </h3>
+            </div>
+            <p className='text-3xl font-bold text-gray-900'>
+              {preliminarySubmissions}
+            </p>
+            <p className='text-sm text-gray-600 mt-1'>Total submitted</p>
           </div>
-          <p className='text-3xl font-bold text-gray-900'>
-            {preliminarySubmissions}
-          </p>
-          <p className='text-sm text-gray-600 mt-1'>Total submitted</p>
-        </div>
 
-        <div className='bg-white rounded-xl p-6 border border-gray-200'>
-          <div className='flex items-center gap-3 mb-4'>
-            <Trophy className='text-purple-600' size={24} />
-            <h3 className='font-semibold text-gray-900'>
-              Semifinal Submissions
-            </h3>
+          <div className='bg-white rounded-xl p-6 border border-gray-200'>
+            <div className='flex items-center gap-3 mb-4'>
+              <Trophy className='text-purple-600' size={24} />
+              <h3 className='font-semibold text-gray-900'>
+                Semifinal Submissions
+              </h3>
+            </div>
+            <p className='text-3xl font-bold text-gray-900'>
+              {semifinalSubmissions}
+            </p>
+            <p className='text-sm text-gray-600 mt-1'>Submissions received</p>
           </div>
-          <p className='text-3xl font-bold text-gray-900'>
-            {semifinalSubmissions}
-          </p>
-          <p className='text-sm text-gray-600 mt-1'>Submissions received</p>
-        </div>
 
-        <div className='bg-white rounded-xl p-6 border border-gray-200'>
-          <div className='flex items-center gap-3 mb-4'>
-            <Trophy className='text-amber-600' size={24} />
-            <h3 className='font-semibold text-gray-900'>Final Submissions</h3>
+          <div className='bg-white rounded-xl p-6 border border-gray-200'>
+            <div className='flex items-center gap-3 mb-4'>
+              <Trophy className='text-amber-600' size={24} />
+              <h3 className='font-semibold text-gray-900'>Final Submissions</h3>
+            </div>
+            <p className='text-3xl font-bold text-gray-900'>
+              {finalSubmissions}
+            </p>
+            <p className='text-sm text-gray-600 mt-1'>Submissions received</p>
           </div>
-          <p className='text-3xl font-bold text-gray-900'>{finalSubmissions}</p>
-          <p className='text-sm text-gray-600 mt-1'>Submissions received</p>
         </div>
-      </div>
+      )}
 
       {/* Quick Actions */}
       <div>
         <h2 className='text-xl font-bold text-gray-900 mb-4'>Quick Actions</h2>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-          <a
-            href='/admin/registrations'
-            className='bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-300 hover:shadow-md transition-all'
-          >
-            <Users className='text-blue-600 mb-3' size={28} />
-            <h3 className='font-semibold text-gray-900 mb-1'>
-              View Registrations
-            </h3>
-            <p className='text-sm text-gray-600'>
-              Review and approve team registrations
-            </p>
-          </a>
+          {!isEventAdminOnly && (
+            <a
+              href='/admin/registrations'
+              className='bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-300 hover:shadow-md transition-all'
+            >
+              <Users className='text-blue-600 mb-3' size={28} />
+              <h3 className='font-semibold text-gray-900 mb-1'>
+                View Registrations
+              </h3>
+              <p className='text-sm text-gray-600'>
+                Review and approve team registrations
+              </p>
+            </a>
+          )}
 
           {['super_admin', 'moderator'].includes(
             session?.admin?.role || '',

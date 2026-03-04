@@ -17,9 +17,9 @@ export default function CreateAdminForm() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [adminRole, setAdminRole] = useState<'moderator' | 'finance'>(
-    'moderator',
-  );
+  const [adminRole, setAdminRole] = useState<
+    'moderator' | 'finance' | 'event_admin'
+  >('moderator');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -322,13 +322,16 @@ export default function CreateAdminForm() {
             id='adminRole'
             value={adminRole}
             onChange={(e) =>
-              setAdminRole(e.target.value as 'moderator' | 'finance')
+              setAdminRole(
+                e.target.value as 'moderator' | 'finance' | 'event_admin',
+              )
             }
             className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none'
             disabled={isLoading}
           >
             <option value='moderator'>Moderator</option>
             <option value='finance'>Finance Admin</option>
+            <option value='event_admin'>Event Admin</option>
           </select>
           <div className='mt-2 text-sm text-gray-600 space-y-1'>
             <p>
@@ -337,6 +340,10 @@ export default function CreateAdminForm() {
             </p>
             <p>
               <strong>Finance:</strong> Verify payment proofs from teams
+            </p>
+            <p>
+              <strong>Event Admin:</strong> Approve/reject event registrations
+              only — no access to competitions or finance
             </p>
           </div>
         </div>
