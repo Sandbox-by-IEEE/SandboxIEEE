@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { getEventContent } from '@/lib/event-content';
+import ProfileEventRegistrations from '@/components/site/ProfileEventRegistrations';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Disable caching
@@ -31,15 +32,6 @@ export default async function ProfilePage() {
         },
       },
       eventRegistrations: {
-        include: {
-          payment: {
-            select: {
-              amount: true,
-              status: true,
-              submittedAt: true,
-            },
-          },
-        },
         orderBy: { createdAt: 'desc' },
       },
     },
@@ -239,76 +231,33 @@ export default async function ProfilePage() {
                       <p className='text-sm text-gray-400 mb-2'>
                         Event Registrations
                       </p>
-                      <div className='space-y-3'>
-                        {user.eventRegistrations.map((reg) => {
-                          const eventContent = getEventContent(reg.eventCode);
-                          return (
-                            <div
-                              key={reg.id}
-                              className='p-4 rounded-xl bg-white/5 border border-white/10'
-                            >
-                              <div className='flex justify-between items-start mb-2 gap-2'>
-                                <h4 className='text-white font-semibold text-sm leading-snug'>
-                                  {eventContent?.name || reg.eventCode}
-                                </h4>
-                                <span
-                                  className={`shrink-0 px-3 py-1 rounded-full text-xs font-medium ${
-                                    reg.verificationStatus === 'approved'
-                                      ? 'bg-green-500/20 text-green-400 border border-green-500/50'
-                                      : reg.verificationStatus === 'pending'
-                                        ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/50'
-                                        : 'bg-red-500/20 text-red-400 border border-red-500/50'
-                                  }`}
-                                >
-                                  {reg.verificationStatus}
-                                </span>
-                              </div>
-                              {eventContent && (
-                                <div className='space-y-1 mt-2'>
-                                  <div className='flex items-center gap-2 text-xs text-gray-400'>
-                                    <Calendar className='w-3.5 h-3.5 text-[#FFCD8D]' />
-                                    <span>{eventContent.date}</span>
-                                  </div>
-                                  <div className='flex items-center gap-2 text-xs text-gray-400'>
-                                    <MapPin className='w-3.5 h-3.5 text-[#FFCD8D]' />
-                                    <span>{eventContent.venue}</span>
-                                  </div>
-                                </div>
-                              )}
-                              {reg.payment && (
-                                <p className='text-xs text-gray-500 mt-2'>
-                                  Payment:{' '}
-                                  <span
-                                    className={
-                                      reg.payment.status === 'verified'
-                                        ? 'text-green-400'
-                                        : reg.payment.status === 'pending'
-                                          ? 'text-yellow-400'
-                                          : 'text-red-400'
-                                    }
-                                  >
-                                    {reg.payment.status}
-                                  </span>
-                                  {' · '}
-                                  Rp{' '}
-                                  {reg.payment.amount.toLocaleString('id-ID')}
-                                </p>
-                              )}
-                              <p className='text-xs text-gray-500 mt-1'>
-                                Registered on{' '}
-                                {new Date(reg.createdAt).toLocaleDateString(
-                                  'en-US',
-                                  {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                  },
-                                )}
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </div>
+                      <ProfileEventRegistrations
+                        registrations={user.eventRegistrations.map((reg) => ({
+                          id: reg.id,
+                          eventCode: reg.eventCode,
+                          fullName: reg.fullName,
+                          email: reg.email,
+                          phoneNumber: reg.phoneNumber,
+                          institution: reg.institution,
+                          verificationStatus: reg.verificationStatus,
+                          createdAt: reg.createdAt.toISOString(),
+                        }))}
+                        eventContents={Object.fromEntries(
+                          user.eventRegistrations.map((reg) => {
+                            const ec = getEventContent(reg.eventCode);
+                            return [
+                              reg.eventCode,
+                              ec
+                                ? {
+                                    name: ec.name,
+                                    date: ec.date,
+                                    venue: ec.venue,
+                                  }
+                                : null,
+                            ];
+                          }),
+                        )}
+                      />
                     </div>
                   </div>
                 )}

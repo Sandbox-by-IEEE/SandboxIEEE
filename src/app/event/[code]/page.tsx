@@ -267,7 +267,7 @@ function SpeakerCard({ speaker }: { speaker: Speaker }) {
 
       {/* Description */}
       <div className='px-6 sm:px-8 pt-5 pb-6'>
-        <p className='text-sm text-gray-300/80 leading-relaxed line-clamp-4'>
+        <p className='text-sm text-gray-300/80 leading-relaxed'>
           {speaker.description}
         </p>
 

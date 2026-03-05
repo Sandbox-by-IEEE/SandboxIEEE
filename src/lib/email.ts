@@ -17,6 +17,7 @@ import { transporter } from './mailTransporter';
 const BASE_URL = getBaseUrl();
 const FROM_EMAIL = process.env.SMTP_USER || 'sandbox@ieee-itb.org';
 const FROM_NAME = 'The Sandbox 3.0 - IEEE ITB';
+const LOGO_URL = `${BASE_URL}/logo/logo-white.svg`;
 
 /**
  * Send account activation email
@@ -164,7 +165,8 @@ export async function sendActivationEmail(
 <body>
   <div class="container">
     <div class="header">
-<h1 class="site-title">The Sandbox 3.0</h1>
+      <img src="${LOGO_URL}" alt="The Sandbox 3.0" width="180" style="display: block; margin: 0 auto 16px auto; max-width: 180px; height: auto;" />
+      <h1 class="site-title">The Sandbox 3.0</h1>
       <p class="subtitle">IEEE ITB Student Branch</p>
     </div>
 
@@ -381,7 +383,8 @@ export async function sendRegistrationApprovedEmail(
 <body>
   <div class="container">
     <div class="header">
-<h1 class="site-title">The Sandbox 3.0</h1>
+      <img src="${LOGO_URL}" alt="The Sandbox 3.0" width="180" style="display: block; margin: 0 auto 16px auto; max-width: 180px; height: auto;" />
+      <h1 class="site-title">The Sandbox 3.0</h1>
       <p class="subtitle">IEEE ITB Student Branch</p>
     </div>
 
@@ -570,7 +573,8 @@ export async function sendRegistrationRejectedEmail(
 <body>
   <div class="container">
     <div class="header">
-<h1 class="site-title">The Sandbox 3.0</h1>
+      <img src="${LOGO_URL}" alt="The Sandbox 3.0" width="180" style="display: block; margin: 0 auto 16px auto; max-width: 180px; height: auto;" />
+      <h1 class="site-title">The Sandbox 3.0</h1>
       <p class="subtitle">IEEE ITB Student Branch</p>
     </div>
 
@@ -765,7 +769,8 @@ export async function sendPasswordResetEmail(
 <body>
   <div class="container">
     <div class="header">
-<h1 class="site-title">The Sandbox 3.0</h1>
+      <img src="${LOGO_URL}" alt="The Sandbox 3.0" width="180" style="display: block; margin: 0 auto 16px auto; max-width: 180px; height: auto;" />
+      <h1 class="site-title">The Sandbox 3.0</h1>
       <p class="subtitle">IEEE ITB Student Branch</p>
     </div>
 
@@ -982,6 +987,7 @@ export async function sendEventApprovalEmail(
 <body>
   <div class="container">
     <div class="header">
+      <img src="${LOGO_URL}" alt="The Sandbox 3.0" width="180" style="display: block; margin: 0 auto 16px auto; max-width: 180px; height: auto;" />
       <h1 class="site-title">The Sandbox 3.0</h1>
       <p class="subtitle">IEEE ITB Student Branch</p>
     </div>
@@ -1045,6 +1051,226 @@ export async function sendEventApprovalEmail(
     return { success: true };
   } catch (error) {
     console.error('❌ Failed to send event approval email:', error);
+    throw error;
+  }
+}
+
+/**
+ * Send event registration confirmation email (instant — no approval needed)
+ * Used for the free registration flow where users are immediately confirmed.
+ */
+export async function sendEventRegistrationConfirmationEmail(
+  to: string,
+  name: string,
+  eventName: string,
+) {
+  const competitionsUrl = `${BASE_URL}/competitions`;
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Registration Confirmed</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(180deg, #0B0102 0%, #190204 50%, #0B0102 100%);
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #1a0405;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 2px solid rgba(255, 205, 141, 0.2);
+    }
+    .header {
+      background: linear-gradient(135deg, #190204 0%, #2d0609 100%);
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .site-title {
+      margin: 0;
+      background: linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 36px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      margin: 8px 0 0 0;
+      color: #E8B4A8;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .content {
+      padding: 40px 30px;
+      background-color: #1a0405;
+    }
+    .confirmed-badge {
+      background: linear-gradient(135deg, #166534 0%, #14532d 100%);
+      color: #FFFFFF;
+      padding: 12px 24px;
+      border-radius: 25px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 20px;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+    .title {
+      margin: 0 0 20px 0;
+      background: linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .text {
+      margin: 0 0 16px 0;
+      color: #E8B4A8;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .info-box {
+      background: linear-gradient(135deg, rgba(139, 90, 58, 0.2) 0%, rgba(90, 56, 36, 0.2) 100%);
+      border-left: 4px solid #8B5A3A;
+      padding: 18px;
+      margin: 30px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 205, 141, 0.2);
+    }
+    .info-text {
+      margin: 0;
+      color: #E8B4A8;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .discount-box {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-left: 4px solid #22C55E;
+      border-radius: 8px;
+      padding: 18px;
+      margin: 30px 0;
+    }
+    .button {
+      display: inline-block;
+      background: linear-gradient(135deg, #8B3A3A 0%, #5A2424 100%);
+      color: #FFFFFF;
+      text-decoration: none;
+      padding: 18px 45px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      box-shadow: 0 8px 25px rgba(139, 58, 58, 0.4);
+      border: 1px solid rgba(255, 205, 141, 0.3);
+      letter-spacing: 0.5px;
+    }
+    .button-container {
+      text-align: center;
+      margin: 35px 0;
+    }
+    .footer {
+      background: linear-gradient(135deg, #0B0102 0%, #190204 100%);
+      padding: 30px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 205, 141, 0.1);
+    }
+    .footer-text {
+      margin: 0 0 8px 0;
+      color: #9b7a6f;
+      font-size: 13px;
+    }
+    .footer-copyright {
+      margin: 8px 0 0 0;
+      color: #6b5651;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="${LOGO_URL}" alt="The Sandbox 3.0" width="180" style="display: block; margin: 0 auto 16px auto; max-width: 180px; height: auto;" />
+      <h1 class="site-title">The Sandbox 3.0</h1>
+      <p class="subtitle">IEEE ITB Student Branch</p>
+    </div>
+
+    <div class="content">
+      <div style="text-align: center;">
+        <div class="confirmed-badge">✅ REGISTRATION CONFIRMED</div>
+      </div>
+
+      <h2 class="title">Welcome, ${name}!</h2>
+
+      <p class="text">You're all set! Your registration for <strong style="color: #FFCD8D;">${eventName}</strong> has been <strong style="color: #22C55E;">confirmed</strong>.</p>
+
+      <p class="text">No further action is needed — just mark the date and we'll see you there!</p>
+
+      <div class="info-box">
+        <p class="info-text"><strong style="color: #FFCD8D;">Event:</strong> ${eventName}</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Status:</strong> Confirmed ✅</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Date:</strong> March 7, 2026</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Venue:</strong> Seminar Auditorium Lantai 8, Gedung PAU @ Institut Teknologi Bandung</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Open Gate:</strong> 12.00 WIB</p>
+        <!-- TODO: Replace with actual Zoom link once available -->
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Online Access:</strong> Zoom link will be shared closer to the event date.</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Fee:</strong> FREE</p>
+      </div>
+
+      <div class="discount-box">
+        <p style="margin: 0 0 8px 0; color: #22C55E; font-size: 18px; font-weight: bold;">🎉 Exclusive Discount for Attendees!</p>
+        <p style="margin: 0; color: #E8B4A8; font-size: 15px; line-height: 1.6;">As a registered attendee, you're eligible for exclusive pricing when you register for any of our competitions. You'll automatically get the early registration price, no matter the current phase!</p>
+      </div>
+
+      <div class="button-container">
+        <a href="${competitionsUrl}" class="button">
+          Browse Competitions
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p class="footer-text">
+        Need help? Contact us at
+        <a href="mailto:sandbox@ieee-itb.org" style="color: #FFCD8D; text-decoration: none;">
+          sandbox@ieee-itb.org
+        </a>
+      </p>
+      <p class="footer-copyright">
+        © 2026 The Sandbox - IEEE ITB Student Branch. All rights reserved.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: `${FROM_NAME} <${FROM_EMAIL}>`,
+      to,
+      subject: '✅ Your Event Registration is Confirmed!',
+      html,
+    });
+
+    console.log(`✅ Event registration confirmation email sent to ${to}`);
+    return { success: true };
+  } catch (error) {
+    console.error(
+      '❌ Failed to send event registration confirmation email:',
+      error,
+    );
     throw error;
   }
 }

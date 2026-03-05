@@ -11,7 +11,6 @@ import {
   Building2,
   Mail,
   Phone,
-  ImageIcon,
 } from 'lucide-react';
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -32,15 +31,6 @@ interface Registration {
     email: string;
     username: string;
   } | null;
-  payment: {
-    id: string;
-    amount: number;
-    paymentProofUrl: string;
-    paymentMethod: string;
-    billName: string;
-    status: string;
-    submittedAt: Date;
-  } | null;
 }
 
 interface EventRegistrationsTableProps {
@@ -55,7 +45,6 @@ export default function EventRegistrationsTable({
   const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [proofModalUrl, setProofModalUrl] = useState<string | null>(null);
 
   const handleApprove = async (registrationId: string) => {
     if (!confirm('Are you sure you want to approve this registration?')) return;
@@ -167,31 +156,6 @@ export default function EventRegistrationsTable({
   return (
     <>
       <Toaster position='top-right' />
-
-      {/* Payment Proof Modal */}
-      {proofModalUrl && (
-        <div
-          className='fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4'
-          onClick={() => setProofModalUrl(null)}
-        >
-          <div
-            className='relative max-w-3xl max-h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl'
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setProofModalUrl(null)}
-              className='absolute top-3 right-3 z-10 p-2 bg-gray-900/80 hover:bg-gray-900 text-white rounded-full transition-colors'
-            >
-              <XCircle size={20} />
-            </button>
-            <img
-              src={proofModalUrl}
-              alt='Payment proof'
-              className='max-w-full max-h-[85vh] object-contain'
-            />
-          </div>
-        </div>
-      )}
 
       <div className='bg-white rounded-xl border border-gray-200 overflow-hidden'>
         {/* Filter Tabs */}
@@ -320,7 +284,7 @@ export default function EventRegistrationsTable({
                     {expandedId === reg.id && (
                       <tr className='bg-gray-50'>
                         <td colSpan={6} className='px-6 py-6'>
-                          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                          <div className='grid grid-cols-1 gap-6'>
                             {/* Contact Info */}
                             <div className='bg-white rounded-xl p-5 border border-gray-200'>
                               <h4 className='text-sm font-semibold text-gray-900 mb-3'>
@@ -366,78 +330,6 @@ export default function EventRegistrationsTable({
                                     {reg.rejectionReason}
                                   </p>
                                 </div>
-                              )}
-                            </div>
-
-                            {/* Payment Info */}
-                            <div className='bg-white rounded-xl p-5 border border-gray-200'>
-                              <h4 className='text-sm font-semibold text-gray-900 mb-3'>
-                                Payment Details
-                              </h4>
-                              {reg.payment ? (
-                                <div className='space-y-2'>
-                                  <div className='flex justify-between text-sm'>
-                                    <span className='text-gray-500'>
-                                      Amount:
-                                    </span>
-                                    <span className='font-medium text-gray-900'>
-                                      Rp{' '}
-                                      {reg.payment.amount.toLocaleString(
-                                        'id-ID',
-                                      )}
-                                    </span>
-                                  </div>
-                                  <div className='flex justify-between text-sm'>
-                                    <span className='text-gray-500'>
-                                      Method:
-                                    </span>
-                                    <span className='text-gray-700'>
-                                      {reg.payment.paymentMethod}
-                                    </span>
-                                  </div>
-                                  <div className='flex justify-between text-sm'>
-                                    <span className='text-gray-500'>
-                                      Bill Name:
-                                    </span>
-                                    <span className='text-gray-700'>
-                                      {reg.payment.billName}
-                                    </span>
-                                  </div>
-                                  <div className='flex justify-between text-sm'>
-                                    <span className='text-gray-500'>
-                                      Payment Status:
-                                    </span>
-                                    {getStatusBadge(reg.payment.status)}
-                                  </div>
-                                  <div className='flex justify-between text-sm'>
-                                    <span className='text-gray-500'>
-                                      Submitted:
-                                    </span>
-                                    <span className='text-gray-700'>
-                                      {format(
-                                        new Date(reg.payment.submittedAt),
-                                        'MMM d, yyyy HH:mm',
-                                      )}
-                                    </span>
-                                  </div>
-                                  {reg.payment.paymentProofUrl && (
-                                    <button
-                                      onClick={() =>
-                                        setProofModalUrl(
-                                          reg.payment!.paymentProofUrl,
-                                        )
-                                      }
-                                      className='mt-3 flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 transition-colors'
-                                    >
-                                      <ImageIcon size={14} />
-                                      View Payment Proof
-                                    </button>
-                                  )}
-                                </div>
-                              ) : (
-                                <p className='text-sm text-gray-500'>
-                                  No payment data
-                                </p>
                               )}
                             </div>
                           </div>

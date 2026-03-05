@@ -6,14 +6,13 @@
  * POST /api/events/register — Register for an event (YIF & Grand Seminar)
  * GET  /api/events/register — Check current user's event registration status
  *
- * Flow:
- * 1. Validate request data (personal info + payment proof)
+ * Flow (free registration — no payment required):
+ * 1. Validate request data (personal info only)
  * 2. Check event exists (via event-content.ts)
  * 3. Check for duplicate registration (one per event per user)
- * 4. Upload payment proof to Supabase Storage
- * 5. Create EventRegistration + EventPayment in transaction
- * 6. Sync to Google Sheets (non-blocking)
- * 7. Return success response
+ * 4. Create EventRegistration with status 'approved' (instant confirmation)
+ * 5. Send confirmation email (non-blocking)
+ * 6. Return success response
  *
  * ============================================================================
  */
@@ -23,7 +22,6 @@ import { z } from 'zod';
 import { Prisma } from '@prisma/client';
 
 import { prisma } from '@/lib/db';
-import { uploadFile } from '@/lib/fileUpload';
 import { auth } from '@/lib/auth';
 import { getEventContent } from '@/lib/event-content';
 import {
@@ -32,6 +30,7 @@ import {
   refundRateLimit,
   RATE_LIMITS,
 } from '@/lib/rate-limit';
+import { sendEventRegistrationConfirmationEmail } from '@/lib/email';
 
 // Zod schema for event registration validation
 const eventRegistrationSchema = z.object({
@@ -53,11 +52,6 @@ const eventRegistrationSchema = z.object({
     .max(200, 'Institution name must be at most 200 characters')
     .trim(),
 });
-
-// Event registration fee (in IDR)
-const EVENT_FEES: Record<string, number> = {
-  'yif-x-grand-seminar': 15000,
-};
 
 export async function POST(request: NextRequest) {
   // Auth required
@@ -90,7 +84,6 @@ export async function POST(request: NextRequest) {
     const email = formDataBody.get('email') as string;
     const phoneNumber = formDataBody.get('phoneNumber') as string;
     const institution = formDataBody.get('institution') as string;
-    const paymentProofFile = formDataBody.get('paymentProof') as File | null;
 
     // Validate event exists
     const eventContent = getEventContent(eventCode);
@@ -115,31 +108,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate payment proof
-    if (
-      !paymentProofFile ||
-      !(paymentProofFile instanceof File) ||
-      paymentProofFile.size === 0
-    ) {
-      return NextResponse.json(
-        { error: 'Payment proof file is required' },
-        { status: 400 },
-      );
-    }
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (!allowedTypes.includes(paymentProofFile.type)) {
-      return NextResponse.json(
-        { error: 'Payment proof must be JPG or PNG image' },
-        { status: 400 },
-      );
-    }
-    if (paymentProofFile.size > 5 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: 'Payment proof must be less than 5MB' },
-        { status: 400 },
-      );
-    }
-
     // Check duplicate registration
     const userId = session.user.id;
     if (userId) {
@@ -157,48 +125,39 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Upload payment proof to Supabase
-    const sanitizedName = fullName.replace(/[^a-zA-Z0-9]/g, '_');
-    const prefix = `event_${eventCode}_${sanitizedName}`;
-    const uploaded = await uploadFile(paymentProofFile, 'payments', prefix);
+    // Create EventRegistration — instantly approved (free registration, no payment)
+    const registration = await prisma.eventRegistration.create({
+      data: {
+        userId: userId || null,
+        eventCode,
+        fullName: validationResult.data.fullName,
+        email: validationResult.data.email,
+        phoneNumber: validationResult.data.phoneNumber,
+        institution: validationResult.data.institution,
+        verificationStatus: 'approved',
+      },
+    });
 
-    // Registration fee
-    const registrationFee = EVENT_FEES[eventCode] || 15000;
+    // Send confirmation email (non-blocking)
+    const eventName =
+      eventCode === 'yif-x-grand-seminar' ? 'YIF x Grand Seminar' : eventCode;
 
-    // Create EventRegistration + EventPayment in transaction
-    const registration = await prisma.$transaction(async (tx) => {
-      const reg = await tx.eventRegistration.create({
-        data: {
-          userId: userId || null,
-          eventCode,
-          fullName: validationResult.data.fullName,
-          email: validationResult.data.email,
-          phoneNumber: validationResult.data.phoneNumber,
-          institution: validationResult.data.institution,
-          verificationStatus: 'pending',
-          payment: {
-            create: {
-              amount: registrationFee,
-              paymentProofUrl: uploaded.url,
-              paymentMethod: 'QRIS',
-              billName: validationResult.data.fullName,
-              status: 'pending',
-            },
-          },
-        },
-        include: {
-          payment: true,
-        },
-      });
-
-      return reg;
+    sendEventRegistrationConfirmationEmail(
+      registration.email,
+      registration.fullName,
+      eventName,
+    ).catch((emailErr) => {
+      console.error(
+        '⚠️ Event registration confirmation email failed (non-blocking):',
+        emailErr,
+      );
     });
 
     return NextResponse.json(
       {
         success: true,
         message:
-          'Registration successful! Your registration is pending review.',
+          'Registration successful! You are now registered for this event.',
         registration: {
           id: registration.id,
           eventCode,
@@ -257,12 +216,6 @@ export async function GET(_request: NextRequest) {
         fullName: true,
         verificationStatus: true,
         createdAt: true,
-        payment: {
-          select: {
-            amount: true,
-            status: true,
-          },
-        },
       },
       orderBy: { createdAt: 'desc' },
     });

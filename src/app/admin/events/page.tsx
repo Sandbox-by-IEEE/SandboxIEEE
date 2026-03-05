@@ -74,17 +74,6 @@ export default async function AdminEventRegistrationsPage({
             username: true,
           },
         },
-        payment: {
-          select: {
-            id: true,
-            amount: true,
-            paymentProofUrl: true,
-            paymentMethod: true,
-            billName: true,
-            status: true,
-            submittedAt: true,
-          },
-        },
       },
       orderBy: { createdAt: 'desc' },
     }),

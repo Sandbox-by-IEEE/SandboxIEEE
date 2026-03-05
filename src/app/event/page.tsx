@@ -309,7 +309,7 @@ export default function EventPage() {
                       <p className='mt-2 text-sm text-[#FFCD8D]/80 font-medium leading-snug'>
                         {speaker.title}
                       </p>
-                      <p className='mt-4 text-sm text-gray-300/80 leading-relaxed line-clamp-4'>
+                      <p className='mt-4 text-sm text-gray-300/80 leading-relaxed'>
                         {speaker.description}
                       </p>
                     </div>

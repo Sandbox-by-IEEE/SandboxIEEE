@@ -50,7 +50,6 @@ export async function POST(
 
     const registration = await prisma.eventRegistration.findUnique({
       where: { id },
-      include: { payment: true },
     });
 
     if (!registration) {
@@ -68,26 +67,12 @@ export async function POST(
     }
 
     // Update registration status
-    await prisma.$transaction(async (tx) => {
-      await tx.eventRegistration.update({
-        where: { id },
-        data: {
-          verificationStatus: 'rejected',
-          rejectionReason: result.data.reason,
-        },
-      });
-
-      if (registration.payment) {
-        await tx.eventPayment.update({
-          where: { id: registration.payment.id },
-          data: {
-            status: 'rejected',
-            verifiedAt: new Date(),
-            verifiedBy: session.admin!.username,
-            verificationNotes: result.data.reason,
-          },
-        });
-      }
+    await prisma.eventRegistration.update({
+      where: { id },
+      data: {
+        verificationStatus: 'rejected',
+        rejectionReason: result.data.reason,
+      },
     });
 
     return NextResponse.json({

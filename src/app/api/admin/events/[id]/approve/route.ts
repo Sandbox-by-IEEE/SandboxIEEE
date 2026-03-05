@@ -1,6 +1,8 @@
 /**
  * POST /api/admin/events/[id]/approve
  * Approve an event registration
+ * NOTE: With free registration, new registrations are auto-approved.
+ * This endpoint remains for backward compatibility with legacy pending registrations.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -35,7 +37,6 @@ export async function POST(
   try {
     const registration = await prisma.eventRegistration.findUnique({
       where: { id },
-      include: { payment: true },
     });
 
     if (!registration) {
@@ -52,25 +53,12 @@ export async function POST(
       );
     }
 
-    // Update registration status + payment status
-    await prisma.$transaction(async (tx) => {
-      await tx.eventRegistration.update({
-        where: { id },
-        data: {
-          verificationStatus: 'approved',
-        },
-      });
-
-      if (registration.payment) {
-        await tx.eventPayment.update({
-          where: { id: registration.payment.id },
-          data: {
-            status: 'verified',
-            verifiedAt: new Date(),
-            verifiedBy: session.admin!.username,
-          },
-        });
-      }
+    // Update registration status
+    await prisma.eventRegistration.update({
+      where: { id },
+      data: {
+        verificationStatus: 'approved',
+      },
     });
 
     // Send approval email with discount info (non-blocking)
