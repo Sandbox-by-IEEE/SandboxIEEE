@@ -44,7 +44,8 @@ export const EVENT_CONTENT: Record<string, EventContent> = {
       'YIF x Grand Seminar is a flagship event of The Sandbox 3.0 that combines a world-class seminar with a global youth discussion platform. Featuring expert insights alongside youth perspectives, this event explores Smart Automation Technology and its impact on industry and society. It focuses on industry perspectives on automation and smart systems, youth innovation, future skills, and technology-driven problem solving — bridging discussion-based learning with real innovation showcased in the Exhibition.',
     date: 'March 7, 2026',
     dateISO: '2026-03-07T09:00:00+07:00',
-    venue: 'To Be Announced',
+    venue:
+      'Seminar Auditorium Lantai 8, Gedung PAU @ Institut Teknologi Bandung',
     speakers: [
       {
         name: 'Amanda Ayu Lestari',

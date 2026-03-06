@@ -23,7 +23,7 @@ export default function EventTicket({
   institution,
   venue = 'Seminar Auditorium Lantai 8, Gedung PAU @ Institut Teknologi Bandung',
   openGate = '12.00 WIB',
-  zoomLink = 'TBA — will be sent via email before the event',
+  zoomLink = 'https://ui-ac-id.zoom.us/j/98559432483?pwd=RFuTp23fwYtdbSPKFG2zva4CYpBi3q.1',
   fee = 'FREE',
 }: EventTicketProps) {
   const ticketRef = useRef<HTMLDivElement>(null);
@@ -157,7 +157,14 @@ export default function EventTicket({
               <p className='text-[#FFCD8D]/50 text-[10px] font-semibold tracking-[0.2em] uppercase'>
                 Zoom Link
               </p>
-              <p className='text-gray-400 text-sm mt-0.5 italic'>{zoomLink}</p>
+              <a
+                href={zoomLink}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-[#FFCD8D] text-sm mt-0.5 underline underline-offset-2 break-all hover:text-[#FFE4B5] transition-colors'
+              >
+                Join via Zoom
+              </a>
             </div>
 
             <div>

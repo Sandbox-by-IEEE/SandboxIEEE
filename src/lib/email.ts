@@ -1005,9 +1005,9 @@ export async function sendEventApprovalEmail(
         <p class="info-text"><strong style="color: #FFCD8D;">Event:</strong> ${eventName}</p>
         <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Status:</strong> Approved ✅</p>
         <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Date:</strong> March 7, 2026</p>
-        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Venue:</strong> To Be Announced — stay tuned!</p>
-        <!-- TODO: Add Zoom meeting link once available -->
-        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Online Access:</strong> Zoom link will be shared closer to the event date.</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Venue:</strong> Seminar Auditorium Lantai 8, Gedung PAU @ Institut Teknologi Bandung</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Open Gate:</strong> 12.00 WIB</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Zoom Link:</strong> <a href="https://ui-ac-id.zoom.us/j/98559432483?pwd=RFuTp23fwYtdbSPKFG2zva4CYpBi3q.1" style="color: #FFCD8D; text-decoration: underline;">Join via Zoom</a></p>
       </div>
 
       <div class="discount-box">
@@ -1223,8 +1223,7 @@ export async function sendEventRegistrationConfirmationEmail(
         <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Date:</strong> March 7, 2026</p>
         <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Venue:</strong> Seminar Auditorium Lantai 8, Gedung PAU @ Institut Teknologi Bandung</p>
         <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Open Gate:</strong> 12.00 WIB</p>
-        <!-- TODO: Replace with actual Zoom link once available -->
-        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Online Access:</strong> Zoom link will be shared closer to the event date.</p>
+        <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Zoom Link:</strong> <a href="https://ui-ac-id.zoom.us/j/98559432483?pwd=RFuTp23fwYtdbSPKFG2zva4CYpBi3q.1" style="color: #FFCD8D; text-decoration: underline;">Join via Zoom</a></p>
         <p class="info-text" style="margin: 8px 0 0 0;"><strong style="color: #FFCD8D;">Fee:</strong> FREE</p>
       </div>
 
