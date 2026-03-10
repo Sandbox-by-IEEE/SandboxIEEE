@@ -60,6 +60,7 @@ function RegistrationContent() {
   const [error, setError] = useState('');
   const [regCheckLoading, setRegCheckLoading] = useState(true);
   const [regClosed, setRegClosed] = useState<string | null>(null);
+  const [isExtendedReg, setIsExtendedReg] = useState(false);
 
   // Dynamic pricing state based on registration batch
   const [currentBatch, setCurrentBatch] = useState<'early' | 'normal'>('early');
@@ -148,7 +149,8 @@ function RegistrationContent() {
                 setBatchLabel('Early Registration');
               } else if (now >= batch2Start) {
                 setCurrentBatch('normal');
-                setBatchLabel('Normal Registration');
+                setBatchLabel('Extended Registration');
+                setIsExtendedReg(true);
               } else {
                 setCurrentBatch('normal');
                 setBatchLabel('Normal Registration');
@@ -470,6 +472,20 @@ function RegistrationContent() {
       <div className="min-h-screen bg-gradient-to-b from-[#0B0102] via-[#190204] to-[#0B0102] pt-32 pb-16 px-4 font-['Gemunu_Libre']">
         <div className='max-w-5xl mx-auto'>
           <div className='text-center mb-8 sm:mb-12'>
+            {/* Extended Registration Notice */}
+            {isExtendedReg && (
+              <div className='mb-5 sm:mb-6'>
+                <div className='inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/40 backdrop-blur-sm'>
+                  <span className='relative flex h-2.5 w-2.5'>
+                    <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75' />
+                    <span className='relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400' />
+                  </span>
+                  <span className='text-amber-200 font-bold text-sm sm:text-base tracking-wide'>
+                    Extended Registration — Until March 16, 2026
+                  </span>
+                </div>
+              </div>
+            )}
             <h1 className='text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-3 tracking-wide'>
               Registration Form
             </h1>

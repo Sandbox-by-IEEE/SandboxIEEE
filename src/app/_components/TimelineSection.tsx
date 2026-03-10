@@ -12,8 +12,8 @@ export default function TimelineSection() {
       image: '/timeline/circle-1.svg',
     },
     {
-      label: 'Close Registration',
-      date: '8 Mar',
+      label: 'Extended Registration',
+      date: '16 Mar',
       image: '/timeline/circle-2.svg',
     },
     {

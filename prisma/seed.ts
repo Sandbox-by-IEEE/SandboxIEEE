@@ -37,7 +37,7 @@ async function main() {
       description:
         'ProtoTech Competition (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
       registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-08T23:59:59'),
+      registrationDeadline: wib('2026-03-16T23:59:59'),
       preliminaryStart: wib('2026-02-23T00:00:00'),
       preliminaryDeadline: wib('2026-03-11T23:59:59'),
       semifinalStart: wib('2026-03-17T00:00:00'),
@@ -56,7 +56,7 @@ async function main() {
       description:
         'ProtoTech Competition (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
       registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-08T23:59:59'),
+      registrationDeadline: wib('2026-03-16T23:59:59'),
       preliminaryStart: wib('2026-02-23T00:00:00'),
       preliminaryDeadline: wib('2026-03-11T23:59:59'),
       semifinalStart: wib('2026-03-17T00:00:00'),
@@ -80,7 +80,7 @@ async function main() {
       description:
         'Technovate Paper Competition (TPC) is a competition held at the national level, aiming to challenge undergraduate and high school students to apply scientific methodology to scrutinize and propose solutions addressing relevant issues in accordance with the designated subtheme.',
       registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-08T23:59:59'),
+      registrationDeadline: wib('2026-03-16T23:59:59'),
       preliminaryStart: wib('2026-02-23T00:00:00'),
       preliminaryDeadline: wib('2026-03-11T23:59:59'),
       semifinalStart: wib('2026-03-17T00:00:00'),
@@ -99,7 +99,7 @@ async function main() {
       description:
         'Technovate Paper Competition (TPC) is a competition held at the national level, aiming to challenge undergraduate and high school students to apply scientific methodology to scrutinize and propose solutions addressing relevant issues in accordance with the designated subtheme.',
       registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-08T23:59:59'),
+      registrationDeadline: wib('2026-03-16T23:59:59'),
       preliminaryStart: wib('2026-02-23T00:00:00'),
       preliminaryDeadline: wib('2026-03-11T23:59:59'),
       semifinalStart: wib('2026-03-17T00:00:00'),
@@ -123,7 +123,7 @@ async function main() {
       description:
         'Business Case Competition (BCC) is a national-level analytical competition that challenges undergraduate students to solve real-world business problems related to the implementation of smart automation technology. Participants are required to analyze complex industry cases, develop data-driven and structured solutions, and present feasible strategies that balance technological innovation, operational efficiency, and business sustainability.',
       registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-08T23:59:59'),
+      registrationDeadline: wib('2026-03-16T23:59:59'),
       preliminaryStart: wib('2026-02-23T00:00:00'),
       preliminaryDeadline: wib('2026-03-15T23:59:59'),
       semifinalStart: wib('2026-03-24T00:00:00'),
@@ -142,7 +142,7 @@ async function main() {
       description:
         'Business Case Competition (BCC) is a national-level analytical competition that challenges undergraduate students to solve real-world business problems related to the implementation of smart automation technology. Participants are required to analyze complex industry cases, develop data-driven and structured solutions, and present feasible strategies that balance technological innovation, operational efficiency, and business sustainability.',
       registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-08T23:59:59'),
+      registrationDeadline: wib('2026-03-16T23:59:59'),
       preliminaryStart: wib('2026-02-23T00:00:00'),
       preliminaryDeadline: wib('2026-03-15T23:59:59'),
       semifinalStart: wib('2026-03-24T00:00:00'),
@@ -178,9 +178,9 @@ async function main() {
     },
     {
       phase: 'registration_batch_2',
-      label: 'Open Registration Batch 2',
+      label: 'Extended Registration',
       startDate: '2026-03-01T00:00:00',
-      endDate: '2026-03-08T23:59:59',
+      endDate: '2026-03-16T23:59:59',
       sortOrder: 2,
       phaseType: 'registration',
     },
@@ -293,9 +293,9 @@ async function main() {
     },
     {
       phase: 'registration_batch_2',
-      label: 'Open Registration Batch 2',
+      label: 'Extended Registration',
       startDate: '2026-03-01T00:00:00',
-      endDate: '2026-03-08T23:59:59',
+      endDate: '2026-03-16T23:59:59',
       sortOrder: 2,
       phaseType: 'registration',
     },
@@ -376,9 +376,9 @@ async function main() {
     },
     {
       phase: 'registration_batch_2',
-      label: 'Open Registration Batch 2',
+      label: 'Extended Registration',
       startDate: '2026-03-01T00:00:00',
-      endDate: '2026-03-08T23:59:59',
+      endDate: '2026-03-16T23:59:59',
       sortOrder: 2,
       phaseType: 'registration',
     },

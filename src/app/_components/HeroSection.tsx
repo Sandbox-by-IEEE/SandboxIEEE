@@ -120,6 +120,17 @@ export default function HeroSection({ deadline }: HeroSectionProps) {
           </div>
 
           {/* Countdown */}
+          <div className='text-center mb-4 sm:mb-6'>
+            <div className='inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/40 backdrop-blur-sm'>
+              <span className='relative flex h-2.5 w-2.5'>
+                <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75' />
+                <span className='relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400' />
+              </span>
+              <span className='text-amber-200 font-gemunu font-bold text-sm sm:text-base tracking-wide'>
+                Extended Registration — Until March 16, 2026
+              </span>
+            </div>
+          </div>
           <div className='flex items-center justify-center gap-2 sm:gap-4 md:gap-6 mb-8 md:mb-12'>
             <div className='text-center'>
               <div className='text-white/70 text-xs sm:text-sm md:text-base font-gemunu mb-2'>

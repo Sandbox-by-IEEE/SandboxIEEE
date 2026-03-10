@@ -78,6 +78,17 @@ export default function CompetitionsSection({
               data-aos='fade-up'
               data-aos-delay={index * 150}
             >
+              {/* Extended Registration Badge */}
+              <div className='mb-3 md:mb-4'>
+                <span className='inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-200 text-xs font-semibold tracking-wide'>
+                  <span className='relative flex h-2 w-2'>
+                    <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75' />
+                    <span className='relative inline-flex rounded-full h-2 w-2 bg-amber-400' />
+                  </span>
+                  Extended Registration
+                </span>
+              </div>
+
               <h3 className='text-2xl sm:text-3xl font-bold text-white font-gemunu mb-3 md:mb-4'>
                 {getShortName(competition.name)}
               </h3>

@@ -87,7 +87,7 @@ export default function CompetitionDetailPage() {
   // Countdown to registration deadline (from DB)
   // Use stable string values for deps to prevent infinite re-render loops
   const deadlineStr =
-    competition?.registrationDeadline || '2026-03-08T16:59:59Z';
+    competition?.registrationDeadline || '2026-03-16T16:59:59Z';
   const regOpenStr = competition?.registrationOpen || '2026-02-20T17:00:00Z';
 
   const { isRegOpen, isRegUpcoming } = useMemo(() => {
@@ -144,7 +144,7 @@ export default function CompetitionDetailPage() {
   const countdownLabel = isRegUpcoming
     ? 'Registration Opens In'
     : isRegOpen
-      ? 'Registration Closes In'
+      ? 'Extended Registration Closes In'
       : 'Registration Closed';
 
   // Use DB timeline events if available, otherwise empty
@@ -186,6 +186,20 @@ export default function CompetitionDetailPage() {
             >
               {/* Competition Name */}
               <div className='text-center mb-6 sm:mb-8'>
+                {/* Extended Registration Badge */}
+                {isRegOpen && (
+                  <div className='mb-4 sm:mb-6'>
+                    <span className='inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/40 backdrop-blur-sm'>
+                      <span className='relative flex h-2.5 w-2.5'>
+                        <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75' />
+                        <span className='relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400' />
+                      </span>
+                      <span className='text-amber-200 font-bold text-sm sm:text-base tracking-wide'>
+                        Extended Registration — Until March 16
+                      </span>
+                    </span>
+                  </div>
+                )}
                 <h1 className='text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-3 sm:mb-4 tracking-wide'>
                   {content.name}
                 </h1>
