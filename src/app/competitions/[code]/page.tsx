@@ -338,14 +338,59 @@ export default function CompetitionDetailPage() {
                     .sort((a, b) => a.sortOrder - b.sortOrder)
                     .map((event, index) => {
                       const isLeft = index % 2 === 0;
-                      const dotColor =
-                        event.phaseType === 'registration'
-                          ? 'bg-green-400 shadow-green-400/40'
-                          : event.phaseType === 'submission'
-                            ? 'bg-blue-400 shadow-blue-400/40'
-                            : event.phaseType === 'announcement'
-                              ? 'bg-yellow-400 shadow-yellow-400/40'
-                              : 'bg-purple-400 shadow-purple-400/40';
+                      const now = new Date();
+                      const eventStart = new Date(event.startDate);
+                      const eventEnd = new Date(event.endDate);
+                      const isPast = now > eventEnd;
+                      const isActive = now >= eventStart && now <= eventEnd;
+                      const isUpcoming = now < eventStart;
+
+                      // Dot color based on phase status (active/past/upcoming)
+                      const dotColor = isPast
+                        ? 'bg-gray-500 shadow-gray-500/20'
+                        : isActive
+                          ? 'bg-[#FFCD8D] shadow-[#FFCD8D]/60 animate-pulse'
+                          : event.phaseType === 'registration'
+                            ? 'bg-green-400 shadow-green-400/40'
+                            : event.phaseType === 'submission'
+                              ? 'bg-blue-400 shadow-blue-400/40'
+                              : event.phaseType === 'announcement'
+                                ? 'bg-yellow-400 shadow-yellow-400/40'
+                                : 'bg-purple-400 shadow-purple-400/40';
+
+                      // Card styling based on phase status
+                      const cardBg = isPast
+                        ? 'bg-white/[0.04] border-white/5 opacity-60'
+                        : isActive
+                          ? 'bg-[#FFCD8D]/10 border-[#FFCD8D]/30 ring-1 ring-[#FFCD8D]/20'
+                          : 'bg-white/[0.08] border-white/10 hover:bg-white/[0.12]';
+
+                      const titleColor = isPast
+                        ? 'text-gray-500'
+                        : isActive
+                          ? 'text-[#FFCD8D]'
+                          : 'text-[#FFCD8D]';
+
+                      const dateColor = isPast
+                        ? 'text-gray-600'
+                        : isActive
+                          ? 'text-[#FFCD8D]/70'
+                          : 'text-gray-400';
+
+                      // Status badge
+                      const statusBadge = isPast
+                        ? {
+                            label: 'Completed',
+                            className:
+                              'bg-gray-500/20 text-gray-400 border-gray-500/30',
+                          }
+                        : isActive
+                          ? {
+                              label: 'Active',
+                              className:
+                                'bg-[#FFCD8D]/20 text-[#FFCD8D] border-[#FFCD8D]/30',
+                            }
+                          : null;
 
                       return (
                         <div
@@ -361,19 +406,32 @@ export default function CompetitionDetailPage() {
                               />
                             </div>
                             {/* Card */}
-                            <div className='ml-10 flex-1 backdrop-blur-xl bg-white/[0.08] rounded-2xl border border-white/10 p-5 hover:bg-white/[0.12] transition-all duration-300'>
-                              <h3 className='text-lg font-bold text-[#FFCD8D] mb-1'>
-                                {event.label}
-                              </h3>
+                            <div
+                              className={`ml-10 flex-1 backdrop-blur-xl rounded-2xl border p-5 transition-all duration-300 ${cardBg}`}
+                            >
+                              <div className='flex items-center gap-2 mb-1'>
+                                <h3
+                                  className={`text-lg font-bold ${titleColor}`}
+                                >
+                                  {event.label}
+                                </h3>
+                                {statusBadge && (
+                                  <span
+                                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${statusBadge.className}`}
+                                  >
+                                    {statusBadge.label}
+                                  </span>
+                                )}
+                              </div>
                               {event.description && (
                                 <p className='text-gray-300 text-sm mb-2'>
                                   {event.description}
                                 </p>
                               )}
-                              <div className='text-xs text-gray-400'>
-                                {formatDate(event.startDate)}
+                              <div className={`text-xs ${dateColor}`}>
+                                {formatDate(event.startDate)} WIB
                                 {event.startDate !== event.endDate &&
-                                  ` — ${formatDate(event.endDate)}`}
+                                  ` — ${formatDate(event.endDate)} WIB`}
                               </div>
                             </div>
                           </div>
@@ -387,20 +445,40 @@ export default function CompetitionDetailPage() {
                               }
                             >
                               <div
-                                className={`backdrop-blur-xl bg-white/[0.08] rounded-2xl border border-white/10 p-6 hover:bg-white/[0.12] transition-all duration-300 inline-block max-w-md ${isLeft ? 'ml-auto' : 'mr-auto'}`}
+                                className={`backdrop-blur-xl rounded-2xl border p-6 transition-all duration-300 inline-block max-w-md ${isLeft ? 'ml-auto' : 'mr-auto'} ${cardBg}`}
                               >
-                                <h3 className='text-xl font-bold text-[#FFCD8D] mb-1'>
-                                  {event.label}
-                                </h3>
+                                <div
+                                  className={`flex items-center gap-2 mb-1 ${isLeft ? 'justify-end' : 'justify-start'}`}
+                                >
+                                  {isLeft && statusBadge && (
+                                    <span
+                                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${statusBadge.className}`}
+                                    >
+                                      {statusBadge.label}
+                                    </span>
+                                  )}
+                                  <h3
+                                    className={`text-xl font-bold ${titleColor}`}
+                                  >
+                                    {event.label}
+                                  </h3>
+                                  {!isLeft && statusBadge && (
+                                    <span
+                                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${statusBadge.className}`}
+                                    >
+                                      {statusBadge.label}
+                                    </span>
+                                  )}
+                                </div>
                                 {event.description && (
                                   <p className='text-gray-300 text-sm mb-2'>
                                     {event.description}
                                   </p>
                                 )}
-                                <div className='text-sm text-gray-400'>
-                                  {formatDate(event.startDate)}
+                                <div className={`text-sm ${dateColor}`}>
+                                  {formatDate(event.startDate)} WIB
                                   {event.startDate !== event.endDate &&
-                                    ` — ${formatDate(event.endDate)}`}
+                                    ` — ${formatDate(event.endDate)} WIB`}
                                 </div>
                               </div>
                             </div>

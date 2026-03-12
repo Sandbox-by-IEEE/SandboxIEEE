@@ -1,20 +1,22 @@
 /**
  * ============================================================================
- * THE SANDBOX 3.0 - DATABASE SEED SCRIPT
+ * TIMELINE UPDATE SCRIPT — March 2026
  * ============================================================================
  *
- * Seeds:
- * 1. Competition configurations (PTC, TPC, BCC) with correct 2026 timelines
- * 2. Detailed timeline events for each competition
- * 3. Initial Super Admin account
+ * Updates competition dates and timeline events for all three competitions
+ * to match the updated 2026 schedule. Safe to run on production.
+ *
+ * Changes:
+ *   PTC: preliminaryDeadline → Mar 18, semifinal → Mar 23-30, final → Apr 4-24
+ *   TPC: preliminaryDeadline → Mar 19, semifinal → Mar 24 – Apr 11
+ *   BCC: preliminaryDeadline → Mar 19, semifinal → Mar 24 – Apr 4, final → Apr 16-22
  *
  * Usage:
- *   npx prisma db seed
+ *   npx tsx scripts/update-timeline-2026-03.ts
  * ============================================================================
  */
 
 import { PrismaClient } from '@prisma/client';
-import { hash } from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -22,149 +24,96 @@ const prisma = new PrismaClient();
 const wib = (dateStr: string) => new Date(`${dateStr}+07:00`);
 
 async function main() {
-  console.log('🌱 Starting database seed...\n');
+  console.log('🔄 Starting timeline update...\n');
 
   // ============================================================================
-  // 1. Seed Competition Configurations
+  // 1. Update Competition Date Fields
   // ============================================================================
-  console.log('📋 Seeding Competition configurations...');
+  console.log('📋 Step 1: Updating competition date fields...\n');
 
-  // ------ PTC (ProtoTech Competition) ------
-  const ptc = await prisma.competition.upsert({
+  // --- PTC ---
+  const ptcUpdate = await prisma.competition.update({
     where: { code: 'PTC' },
-    update: {
-      name: 'ProtoTech Competition',
-      description:
-        'ProtoTech Competition (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
-      registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-16T23:59:59'),
-      preliminaryStart: wib('2026-02-23T00:00:00'),
+    data: {
       preliminaryDeadline: wib('2026-03-18T23:59:59'),
       semifinalStart: wib('2026-03-23T00:00:00'),
       semifinalDeadline: wib('2026-03-30T23:59:59'),
       finalStart: wib('2026-04-04T00:00:00'),
       finalDeadline: wib('2026-04-24T23:59:59'),
-      grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 200000,
-      minTeamSize: 3,
-      maxTeamSize: 5,
-      isActive: true,
-    },
-    create: {
-      code: 'PTC',
-      name: 'ProtoTech Competition',
-      description:
-        'ProtoTech Competition (PTC) is a national-scale prototyping competition that challenges undergraduate and high school students to develop innovative solutions using smart automation technology. Through a structured competition flow — from abstract submission to prototyping and final pitching — participants are encouraged to design practical, scalable, and impactful automation systems that address real-world industrial and societal challenges.',
-      registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-16T23:59:59'),
-      preliminaryStart: wib('2026-02-23T00:00:00'),
-      preliminaryDeadline: wib('2026-03-18T23:59:59'),
-      semifinalStart: wib('2026-03-23T00:00:00'),
-      semifinalDeadline: wib('2026-03-30T23:59:59'),
-      finalStart: wib('2026-04-04T00:00:00'),
-      finalDeadline: wib('2026-04-24T23:59:59'),
-      grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 200000,
-      minTeamSize: 3,
-      maxTeamSize: 5,
-      isActive: true,
     },
   });
-  console.log('  ✅ PTC created:', ptc.name);
+  console.log(`  ✅ PTC updated: ${ptcUpdate.name}`);
+  console.log(
+    `     preliminaryDeadline: ${ptcUpdate.preliminaryDeadline.toISOString()}`,
+  );
+  console.log(`     semifinalStart: ${ptcUpdate.semifinalStart.toISOString()}`);
+  console.log(
+    `     semifinalDeadline: ${ptcUpdate.semifinalDeadline.toISOString()}`,
+  );
+  console.log(`     finalStart: ${ptcUpdate.finalStart?.toISOString()}`);
+  console.log(`     finalDeadline: ${ptcUpdate.finalDeadline?.toISOString()}`);
 
-  // ------ TPC (Technovate Paper Competition) ------
-  const tpc = await prisma.competition.upsert({
+  // --- TPC ---
+  const tpcUpdate = await prisma.competition.update({
     where: { code: 'TPC' },
-    update: {
-      name: 'Technovate Paper Competition',
-      description:
-        'Technovate Paper Competition (TPC) is a competition held at the national level, aiming to challenge undergraduate and high school students to apply scientific methodology to scrutinize and propose solutions addressing relevant issues in accordance with the designated subtheme.',
-      registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-16T23:59:59'),
-      preliminaryStart: wib('2026-02-23T00:00:00'),
+    data: {
       preliminaryDeadline: wib('2026-03-19T23:59:59'),
       semifinalStart: wib('2026-03-24T00:00:00'),
       semifinalDeadline: wib('2026-04-11T23:59:59'),
-      finalStart: null,
-      finalDeadline: null,
-      grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 125000,
-      minTeamSize: 1,
-      maxTeamSize: 3,
-      isActive: true,
-    },
-    create: {
-      code: 'TPC',
-      name: 'Technovate Paper Competition',
-      description:
-        'Technovate Paper Competition (TPC) is a competition held at the national level, aiming to challenge undergraduate and high school students to apply scientific methodology to scrutinize and propose solutions addressing relevant issues in accordance with the designated subtheme.',
-      registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-16T23:59:59'),
-      preliminaryStart: wib('2026-02-23T00:00:00'),
-      preliminaryDeadline: wib('2026-03-19T23:59:59'),
-      semifinalStart: wib('2026-03-24T00:00:00'),
-      semifinalDeadline: wib('2026-04-11T23:59:59'),
-      finalStart: null,
-      finalDeadline: null,
-      grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 125000,
-      minTeamSize: 1,
-      maxTeamSize: 3,
-      isActive: true,
     },
   });
-  console.log('  ✅ TPC created:', tpc.name);
+  console.log(`  ✅ TPC updated: ${tpcUpdate.name}`);
+  console.log(
+    `     preliminaryDeadline: ${tpcUpdate.preliminaryDeadline.toISOString()}`,
+  );
+  console.log(`     semifinalStart: ${tpcUpdate.semifinalStart.toISOString()}`);
+  console.log(
+    `     semifinalDeadline: ${tpcUpdate.semifinalDeadline.toISOString()}`,
+  );
 
-  // ------ BCC (Business Case Competition) ------
-  const bcc = await prisma.competition.upsert({
+  // --- BCC ---
+  const bccUpdate = await prisma.competition.update({
     where: { code: 'BCC' },
-    update: {
-      name: 'Business Case Competition',
-      description:
-        'Business Case Competition (BCC) is a national-level analytical competition that challenges undergraduate students to solve real-world business problems related to the implementation of smart automation technology. Participants are required to analyze complex industry cases, develop data-driven and structured solutions, and present feasible strategies that balance technological innovation, operational efficiency, and business sustainability.',
-      registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-16T23:59:59'),
-      preliminaryStart: wib('2026-02-23T00:00:00'),
+    data: {
       preliminaryDeadline: wib('2026-03-19T23:59:59'),
       semifinalStart: wib('2026-03-24T00:00:00'),
       semifinalDeadline: wib('2026-04-04T23:59:59'),
       finalStart: wib('2026-04-16T00:00:00'),
       finalDeadline: wib('2026-04-22T23:59:59'),
-      grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 150000,
-      minTeamSize: 3,
-      maxTeamSize: 3,
-      isActive: true,
-    },
-    create: {
-      code: 'BCC',
-      name: 'Business Case Competition',
-      description:
-        'Business Case Competition (BCC) is a national-level analytical competition that challenges undergraduate students to solve real-world business problems related to the implementation of smart automation technology. Participants are required to analyze complex industry cases, develop data-driven and structured solutions, and present feasible strategies that balance technological innovation, operational efficiency, and business sustainability.',
-      registrationOpen: wib('2026-02-22T00:00:00'),
-      registrationDeadline: wib('2026-03-16T23:59:59'),
-      preliminaryStart: wib('2026-02-23T00:00:00'),
-      preliminaryDeadline: wib('2026-03-19T23:59:59'),
-      semifinalStart: wib('2026-03-24T00:00:00'),
-      semifinalDeadline: wib('2026-04-04T23:59:59'),
-      finalStart: wib('2026-04-16T00:00:00'),
-      finalDeadline: wib('2026-04-22T23:59:59'),
-      grandFinalDate: wib('2026-04-25T00:00:00'),
-      registrationFee: 150000,
-      minTeamSize: 3,
-      maxTeamSize: 3,
-      isActive: true,
     },
   });
-  console.log('  ✅ BCC created:', bcc.name);
+  console.log(`  ✅ BCC updated: ${bccUpdate.name}`);
+  console.log(
+    `     preliminaryDeadline: ${bccUpdate.preliminaryDeadline.toISOString()}`,
+  );
+  console.log(`     semifinalStart: ${bccUpdate.semifinalStart.toISOString()}`);
+  console.log(
+    `     semifinalDeadline: ${bccUpdate.semifinalDeadline.toISOString()}`,
+  );
+  console.log(`     finalStart: ${bccUpdate.finalStart?.toISOString()}`);
+  console.log(`     finalDeadline: ${bccUpdate.finalDeadline?.toISOString()}`);
 
   // ============================================================================
-  // 2. Seed Timeline Events
+  // 2. Update Timeline Events
   // ============================================================================
-  console.log('\n📅 Seeding Timeline events...');
+  console.log('\n📅 Step 2: Updating timeline events...\n');
+
+  // Delete all existing timeline events and recreate
+  const competitions = await prisma.competition.findMany({
+    where: { code: { in: ['PTC', 'TPC', 'BCC'] } },
+    select: { id: true, code: true },
+  });
+
+  const compMap: Record<string, string> = {};
+  for (const c of competitions) {
+    compMap[c.code] = c.id;
+  }
 
   // Clear existing timeline events
-  await prisma.competitionTimeline.deleteMany({});
+  const deleted = await prisma.competitionTimeline.deleteMany({
+    where: { competitionId: { in: Object.values(compMap) } },
+  });
+  console.log(`  🗑️  Deleted ${deleted.count} existing timeline events`);
 
   // --- PTC Timeline ---
   const ptcTimeline = [
@@ -237,7 +186,7 @@ async function main() {
   for (const event of ptcTimeline) {
     await prisma.competitionTimeline.create({
       data: {
-        competitionId: ptc.id,
+        competitionId: compMap['PTC'],
         phase: event.phase,
         label: event.label,
         startDate: wib(event.startDate),
@@ -247,7 +196,7 @@ async function main() {
       },
     });
   }
-  console.log(`  ✅ PTC: ${ptcTimeline.length} timeline events`);
+  console.log(`  ✅ PTC: ${ptcTimeline.length} timeline events created`);
 
   // --- TPC Timeline ---
   const tpcTimeline = [
@@ -320,7 +269,7 @@ async function main() {
   for (const event of tpcTimeline) {
     await prisma.competitionTimeline.create({
       data: {
-        competitionId: tpc.id,
+        competitionId: compMap['TPC'],
         phase: event.phase,
         label: event.label,
         startDate: wib(event.startDate),
@@ -330,7 +279,7 @@ async function main() {
       },
     });
   }
-  console.log(`  ✅ TPC: ${tpcTimeline.length} timeline events`);
+  console.log(`  ✅ TPC: ${tpcTimeline.length} timeline events created`);
 
   // --- BCC Timeline ---
   const bccTimeline = [
@@ -435,7 +384,7 @@ async function main() {
   for (const event of bccTimeline) {
     await prisma.competitionTimeline.create({
       data: {
-        competitionId: bcc.id,
+        competitionId: compMap['BCC'],
         phase: event.phase,
         label: event.label,
         startDate: wib(event.startDate),
@@ -445,30 +394,62 @@ async function main() {
       },
     });
   }
-  console.log(`  ✅ BCC: ${bccTimeline.length} timeline events`);
+  console.log(`  ✅ BCC: ${bccTimeline.length} timeline events created`);
 
   // ============================================================================
-  // 3. Seed Initial Super Admin
+  // 3. Verification
   // ============================================================================
-  console.log('\n👤 Seeding Super Admin account...');
+  console.log('\n📊 Step 3: Verifying changes...\n');
 
-  const SUPER_ADMIN_PASSWORD = 'SuperAdmin2026!';
-  const hashedPassword = await hash(SUPER_ADMIN_PASSWORD, 10);
-
-  const superAdmin = await prisma.admin.upsert({
-    where: { username: 'superadmin' },
-    update: {},
-    create: {
-      username: 'superadmin',
-      email: 'admin@sandbox.ieee-itb.org',
-      password: hashedPassword,
-      adminRole: 'super_admin',
-      isActive: true,
+  const verified = await prisma.competition.findMany({
+    where: { code: { in: ['PTC', 'TPC', 'BCC'] } },
+    select: {
+      code: true,
+      preliminaryDeadline: true,
+      semifinalStart: true,
+      semifinalDeadline: true,
+      finalStart: true,
+      finalDeadline: true,
+      grandFinalDate: true,
+      timelineEvents: {
+        orderBy: { sortOrder: 'asc' },
+        select: {
+          phase: true,
+          label: true,
+          startDate: true,
+          endDate: true,
+          sortOrder: true,
+        },
+      },
     },
+    orderBy: { code: 'asc' },
   });
 
-  console.log('  ✅ Super Admin created:', superAdmin.username);
-  console.log('\n✨ Database seed completed successfully!');
+  for (const comp of verified) {
+    console.log(`\n  ${comp.code}:`);
+    console.log(
+      `    preliminaryDeadline: ${comp.preliminaryDeadline.toISOString()}`,
+    );
+    console.log(`    semifinalStart: ${comp.semifinalStart.toISOString()}`);
+    console.log(
+      `    semifinalDeadline: ${comp.semifinalDeadline.toISOString()}`,
+    );
+    console.log(`    finalStart: ${comp.finalStart?.toISOString() || 'null'}`);
+    console.log(
+      `    finalDeadline: ${comp.finalDeadline?.toISOString() || 'null'}`,
+    );
+    console.log(
+      `    grandFinalDate: ${comp.grandFinalDate?.toISOString() || 'null'}`,
+    );
+    console.log(`    Timeline events (${comp.timelineEvents.length}):`);
+    for (const event of comp.timelineEvents) {
+      console.log(
+        `      ${event.sortOrder}. ${event.label}: ${event.startDate.toISOString()} → ${event.endDate.toISOString()}`,
+      );
+    }
+  }
+
+  console.log('\n✨ Timeline update completed successfully!');
 }
 
 main()
@@ -476,7 +457,7 @@ main()
     await prisma.$disconnect();
   })
   .catch(async (e) => {
-    console.error('❌ Seed failed:', e);
+    console.error('❌ Timeline update failed:', e);
     await prisma.$disconnect();
     process.exit(1);
   });

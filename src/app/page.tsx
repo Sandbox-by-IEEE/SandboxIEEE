@@ -8,7 +8,6 @@ import EventSection from './_components/EventSection';
 import FAQSection from './_components/FAQSection';
 import HeroSection from './_components/HeroSection';
 import StatsSection from './_components/StatsSection';
-import TimelineSection from './_components/TimelineSection';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,7 +42,6 @@ export default async function HomePage() {
         <HeroSection deadline={earliestDeadline} />
         <AboutSection />
         <StatsSection />
-        <TimelineSection />
         <CompetitionsSection competitions={competitions} />
         <EventSection />
         <FAQSection />
