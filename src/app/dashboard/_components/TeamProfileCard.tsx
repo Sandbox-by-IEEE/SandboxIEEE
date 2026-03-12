@@ -26,8 +26,8 @@ export default function TeamProfileCard({
     <div className='relative mb-12'>
       {/* Outer Glassmorphism Container */}
       <div className='relative backdrop-blur-xl bg-gradient-to-br from-[#5A2424]/40 via-[#3d1a1a]/30 to-[#2d0e0e]/40 rounded-3xl sm:rounded-[2.5rem] p-4 sm:p-6 md:p-8 lg:p-12 border border-white/10 shadow-2xl mt-24 sm:mt-32 md:mt-40'>
-        {/* Mascot Group overlapping from top */}
-        <div className='absolute left-1/2 -translate-x-1/2 -top-20 sm:-top-28 md:-top-36 w-full max-w-md sm:max-w-2xl px-4 z-10 pointer-events-none'>
+        {/* Mascot Group overlapping from top — sits behind inner card (z-[1]) */}
+        <div className='absolute left-1/2 -translate-x-1/2 -top-24 sm:-top-32 md:-top-40 w-full max-w-md sm:max-w-2xl px-4 z-[1] pointer-events-none'>
           <Image
             src='/mascots/mascot-group.svg'
             alt='Team Mascots'
@@ -38,8 +38,8 @@ export default function TeamProfileCard({
           />
         </div>
 
-        {/* Team Name Header Card */}
-        <div className='bg-gradient-to-br from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-white/10 mb-8'>
+        {/* Team Name Header Card — sits in front of mascot (z-[2]) */}
+        <div className='relative z-[2] bg-gradient-to-br from-[#6B2D2D]/50 to-[#4a1f1f]/50 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-white/10 mb-8'>
           <h2 className='text-2xl md:text-3xl font-bold text-center mb-3 bg-gradient-to-r from-[#FFE4B5] via-[#FFCD8D] to-[#FFE4B5] bg-clip-text text-transparent font-gemunu'>
             Hi, Team {team?.teamName}!
           </h2>
