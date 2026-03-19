@@ -30,9 +30,11 @@ export const FILE_SIZE_LIMITS = {
       'application/pdf',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
       'application/msword', // .doc
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx (BCC pitch deck)
+      'application/vnd.ms-powerpoint', // .ppt (BCC pitch deck)
     ],
-    acceptedExtensions: ['.pdf', '.doc', '.docx'],
-    description: 'PDF or Word files up to 20MB',
+    acceptedExtensions: ['.pdf', '.doc', '.docx', '.ppt', '.pptx'],
+    description: 'PDF, Word, or PowerPoint files up to 20MB',
   },
 
   // Final phase: Presentation materials

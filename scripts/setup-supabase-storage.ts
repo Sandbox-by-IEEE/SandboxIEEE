@@ -59,6 +59,8 @@ const BUCKETS = [
       'application/pdf',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'application/msword',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx (BCC pitch deck)
+      'application/vnd.ms-powerpoint', // .ppt (BCC pitch deck)
     ],
   },
   {

@@ -31,7 +31,7 @@ import {
   calculateDiscountedFee,
   COMPETITION_PRICING,
 } from '@/lib/discount-config';
-import { uploadFile } from '@/lib/fileUpload';
+import { uploadFile, getFileUrl } from '@/lib/fileUpload';
 import { appendToGoogleSheets } from '@/lib/google-sheets';
 import { logger } from '@/lib/logger';
 import {
@@ -173,29 +173,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate payment proof file
-    if (
-      !paymentProofFile ||
-      !(paymentProofFile instanceof File) ||
-      paymentProofFile.size === 0
-    ) {
-      return NextResponse.json(
-        { error: 'Payment proof file is required' },
-        { status: 400 },
-      );
-    }
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (!allowedTypes.includes(paymentProofFile.type)) {
-      return NextResponse.json(
-        { error: 'Payment proof must be JPG or PNG image' },
-        { status: 400 },
-      );
-    }
-    if (paymentProofFile.size > 5 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: 'Payment proof must be less than 5MB' },
-        { status: 400 },
-      );
+    // Check for presigned URL flow (payment proof already uploaded to Supabase)
+    const paymentProofStoragePath = formDataBody.get(
+      'paymentProofStoragePath',
+    ) as string | null;
+
+    if (!paymentProofStoragePath) {
+      // Legacy flow: validate payment proof file sent via FormData
+      if (
+        !paymentProofFile ||
+        !(paymentProofFile instanceof File) ||
+        paymentProofFile.size === 0
+      ) {
+        return NextResponse.json(
+          { error: 'Payment proof file is required' },
+          { status: 400 },
+        );
+      }
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      if (!allowedTypes.includes(paymentProofFile.type)) {
+        return NextResponse.json(
+          { error: 'Payment proof must be JPG or PNG image' },
+          { status: 400 },
+        );
+      }
+      if (paymentProofFile.size > 5 * 1024 * 1024) {
+        return NextResponse.json(
+          { error: 'Payment proof must be less than 5MB' },
+          { status: 400 },
+        );
+      }
     }
 
     // Parse and validate members with Zod
@@ -333,11 +340,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 5. Upload payment proof via Supabase Storage
-    const sanitizedTeamName = teamName.replace(/[^a-zA-Z0-9]/g, '_');
-    const prefix = `payment_${sanitizedTeamName}`;
-    const uploaded = await uploadFile(paymentProofFile, 'payments', prefix);
-    const paymentProofUrl = uploaded.url;
+    // 5. Resolve payment proof URL
+    let paymentProofUrl: string;
+    if (paymentProofStoragePath) {
+      // Presigned URL flow: file already uploaded, generate read URL
+      paymentProofUrl = await getFileUrl('payments', paymentProofStoragePath);
+    } else {
+      // Legacy flow: upload payment proof via Supabase Storage
+      const sanitizedTeamName = teamName.replace(/[^a-zA-Z0-9]/g, '_');
+      const prefix = `payment_${sanitizedTeamName}`;
+      const uploaded = await uploadFile(paymentProofFile!, 'payments', prefix);
+      paymentProofUrl = uploaded.url;
+    }
 
     // 7. Create CompetitionRegistration + Team + TeamMembers + Payment (Transaction)
     const registration = await prisma.$transaction(async (tx) => {

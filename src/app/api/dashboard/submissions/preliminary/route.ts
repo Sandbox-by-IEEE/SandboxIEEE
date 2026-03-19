@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { validateFileServer } from '@/lib/fileConfig';
-import { uploadFile, deleteFile } from '@/lib/fileUpload';
+import { uploadFile, deleteFile, getFileUrl } from '@/lib/fileUpload';
 import { logSubmissionToSheets } from '@/lib/google-sheets';
 import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
@@ -12,7 +12,13 @@ import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
  * PRELIMINARY SUBMISSION API
  * ============================================================================
  *
- * POST - Submit preliminary work via file upload (FormData)
+ * POST - Submit preliminary work
+ *   Accepts two modes:
+ *   - JSON body with { storagePath, fileName, fileSize, registrationId, competitionCode }
+ *     → File already uploaded via presigned URL (recommended)
+ *   - FormData with file field
+ *     → Legacy server-side upload (limited by Vercel 4.5MB body limit)
+ *
  * DELETE - Delete preliminary submission (before deadline)
  * ============================================================================
  */
@@ -27,29 +33,79 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const formData = await req.formData();
-    const file = formData.get('file') as File | null;
-    const registrationId = formData.get('registrationId') as string;
-    const competitionCode = formData.get('competitionCode') as string;
+    // Detect request type: JSON (presigned URL flow) or FormData (legacy)
+    const contentType = req.headers.get('content-type') || '';
+    const isJsonBody = contentType.includes('application/json');
 
-    if (!registrationId) {
-      return NextResponse.json(
-        { error: 'Registration ID is required' },
-        { status: 400 },
-      );
-    }
+    let registrationId: string;
+    let competitionCode: string;
+    let fileUrl: string;
+    let fileName: string;
+    let fileSize: number;
+    let legacyFile: File | null = null;
 
-    if (!file || !(file instanceof File)) {
-      return NextResponse.json(
-        { error: 'A PDF file is required' },
-        { status: 400 },
-      );
-    }
+    if (isJsonBody) {
+      // ── Presigned URL flow: file already uploaded to Supabase ──
+      const body = await req.json();
+      registrationId = body.registrationId;
+      competitionCode = body.competitionCode;
+      fileName = body.fileName;
+      fileSize = body.fileSize;
+      fileUrl = ''; // Will be generated from storagePath below
 
-    // Server-side file validation
-    const validation = validateFileServer(file, 'preliminary');
-    if (!validation.valid) {
-      return NextResponse.json({ error: validation.error }, { status: 400 });
+      if (!registrationId) {
+        return NextResponse.json(
+          { error: 'Registration ID is required' },
+          { status: 400 },
+        );
+      }
+
+      if (!body.storagePath) {
+        return NextResponse.json(
+          { error: 'Storage path is required (file must be uploaded first)' },
+          { status: 400 },
+        );
+      }
+
+      if (!fileName || typeof fileSize !== 'number') {
+        return NextResponse.json(
+          { error: 'File metadata is required (fileName, fileSize)' },
+          { status: 400 },
+        );
+      }
+
+      // Generate signed read URL from the storage path
+      fileUrl = await getFileUrl('preliminary', body.storagePath);
+    } else {
+      // ── Legacy FormData flow: file uploaded through server ──
+      const formData = await req.formData();
+      legacyFile = formData.get('file') as File | null;
+      registrationId = formData.get('registrationId') as string;
+      competitionCode = formData.get('competitionCode') as string;
+
+      if (!registrationId) {
+        return NextResponse.json(
+          { error: 'Registration ID is required' },
+          { status: 400 },
+        );
+      }
+
+      if (!legacyFile || !(legacyFile instanceof File)) {
+        return NextResponse.json(
+          { error: 'A PDF file is required' },
+          { status: 400 },
+        );
+      }
+
+      // Server-side file validation
+      const validation = validateFileServer(legacyFile, 'preliminary');
+      if (!validation.valid) {
+        return NextResponse.json({ error: validation.error }, { status: 400 });
+      }
+
+      fileName = legacyFile.name;
+      fileSize = legacyFile.size;
+      fileUrl = ''; // Will be set after upload below
     }
 
     // Verify registration belongs to user
@@ -105,28 +161,31 @@ export async function POST(req: NextRequest) {
       await deleteFile(existing.fileUrl);
     }
 
-    // Upload file to Supabase Storage
-    const teamName = registration.team?.teamName || 'team';
-    const prefix = `${competitionCode}-${teamName}`.replace(
-      /[^a-zA-Z0-9-]/g,
-      '_',
-    );
-    const uploaded = await uploadFile(file, 'preliminary', prefix);
+    // For legacy flow: upload file to Supabase Storage now
+    if (!isJsonBody && legacyFile) {
+      const teamName = registration.team?.teamName || 'team';
+      const prefix = `${competitionCode}-${teamName}`.replace(
+        /[^a-zA-Z0-9-]/g,
+        '_',
+      );
+      const uploaded = await uploadFile(legacyFile, 'preliminary', prefix);
+      fileUrl = uploaded.url;
+    }
 
     // Create or update preliminary submission
     const submission = await prisma.preliminarySubmission.upsert({
       where: { registrationId },
       create: {
         registrationId,
-        fileUrl: uploaded.url,
-        fileName: uploaded.fileName,
-        fileSize: uploaded.fileSize,
+        fileUrl,
+        fileName,
+        fileSize,
         status: 'pending',
       },
       update: {
-        fileUrl: uploaded.url,
-        fileName: uploaded.fileName,
-        fileSize: uploaded.fileSize,
+        fileUrl,
+        fileName,
+        fileSize,
         status: 'pending',
         submittedAt: new Date(),
       },
@@ -139,8 +198,8 @@ export async function POST(req: NextRequest) {
         leaderEmail: registration.user.email,
         competitionCode: registration.competition.code,
         submissionPhase: 'preliminary',
-        fileUrl: uploaded.url,
-        fileName: uploaded.fileName,
+        fileUrl,
+        fileName,
         status: 'submitted',
         reviewNotes: 'Preliminary submission received',
       });

@@ -4,6 +4,9 @@
  * ============================================================================
  *
  * POST - Submit semifinal materials (competition-specific fields)
+ *   Accepts two modes:
+ *   - JSON body with storagePaths → presigned URL flow (recommended)
+ *   - FormData with files → legacy server-side upload
  * ============================================================================
  */
 
@@ -12,7 +15,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { validateFileServer } from '@/lib/fileConfig';
-import { uploadFile } from '@/lib/fileUpload';
+import { uploadFile, getFileUrl } from '@/lib/fileUpload';
 import { logSubmissionToSheets } from '@/lib/google-sheets';
 import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
@@ -26,18 +29,66 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const formData = await req.formData();
-    const registrationId = formData.get('registrationId') as string;
-    const competitionCode = formData.get('competitionCode') as string;
+    const contentType = req.headers.get('content-type') || '';
+    const isJsonBody = contentType.includes('application/json');
 
-    if (!registrationId) {
-      return NextResponse.json(
-        { error: 'Registration ID is required' },
-        { status: 400 },
-      );
+    let registrationId: string;
+    let competitionCode: string;
+    const submissionData: any = {};
+
+    // Store FormData fields for legacy flow (must read body only once)
+    let legacyFormData: FormData | null = null;
+
+    if (isJsonBody) {
+      // ── Presigned URL flow ──
+      const body = await req.json();
+      registrationId = body.registrationId;
+      competitionCode = body.competitionCode;
+
+      if (!registrationId) {
+        return NextResponse.json(
+          { error: 'Registration ID is required' },
+          { status: 400 },
+        );
+      }
+
+      submissionData.registrationId = registrationId;
+      submissionData.competitionType = competitionCode as 'PTC' | 'TPC' | 'BCC';
+
+      // Resolve file URLs from storage paths
+      if (body.files) {
+        for (const [key, storagePath] of Object.entries(body.files)) {
+          if (storagePath && typeof storagePath === 'string') {
+            submissionData[key] = await getFileUrl('semifinal', storagePath);
+          }
+        }
+      }
+      // URL fields (e.g., prototypeVideoUrl) are passed directly
+      if (body.urls) {
+        for (const [key, url] of Object.entries(body.urls)) {
+          if (url && typeof url === 'string') {
+            submissionData[key] = url;
+          }
+        }
+      }
+    } else {
+      // ── Legacy FormData flow ──
+      legacyFormData = await req.formData();
+      registrationId = legacyFormData.get('registrationId') as string;
+      competitionCode = legacyFormData.get('competitionCode') as string;
+
+      if (!registrationId) {
+        return NextResponse.json(
+          { error: 'Registration ID is required' },
+          { status: 400 },
+        );
+      }
+
+      submissionData.registrationId = registrationId;
+      submissionData.competitionType = competitionCode as 'PTC' | 'TPC' | 'BCC';
     }
 
-    // Verify registration belongs to user and is in semifinal phase
+    // Verify registration
     const registration = await prisma.competitionRegistration.findUnique({
       where: { id: registrationId },
       include: {
@@ -68,7 +119,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check deadline
     if (new Date() > new Date(registration.competition.semifinalDeadline)) {
       return NextResponse.json(
         { error: 'Semifinal deadline has passed' },
@@ -76,7 +126,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if semifinal phase has started
     if (new Date() < new Date(registration.competition.semifinalStart)) {
       return NextResponse.json(
         { error: 'Semifinal submission period has not started yet' },
@@ -84,7 +133,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if already submitted
     const existing = await prisma.semifinalSubmission.findUnique({
       where: { registrationId },
     });
@@ -95,120 +143,110 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const teamName = registration.team?.teamName || 'team';
-    const prefix = `${competitionCode}-semifinal-${teamName}`.replace(
-      /[^a-zA-Z0-9-]/g,
-      '_',
-    );
+    // Legacy flow: handle file uploads from FormData
+    if (!isJsonBody && legacyFormData) {
+      const teamName = registration.team?.teamName || 'team';
+      const prefix = `${competitionCode}-semifinal-${teamName}`.replace(
+        /[^a-zA-Z0-9-]/g,
+        '_',
+      );
 
-    // Build submission data based on competition type
-    const submissionData: any = {
-      registrationId,
-      competitionType: competitionCode as 'PTC' | 'TPC' | 'BCC',
-    };
+      if (competitionCode === 'PTC') {
+        const proposalFile = legacyFormData.get('proposalUrl') as File | null;
+        const prototypeVideoUrl = legacyFormData.get('prototypeVideoUrl') as
+          | string
+          | null;
 
-    // Handle file uploads for each competition type
-    if (competitionCode === 'PTC') {
-      const proposalFile = formData.get('proposalUrl') as File | null;
-      const prototypeVideoUrl = formData.get('prototypeVideoUrl') as
-        | string
-        | null;
-
-      if (!proposalFile && !prototypeVideoUrl) {
-        return NextResponse.json(
-          { error: 'Proposal document and prototype video URL are required' },
-          { status: 400 },
-        );
-      }
-
-      if (proposalFile instanceof File) {
-        const validation = validateFileServer(proposalFile, 'semifinal');
-        if (!validation.valid) {
-          return NextResponse.json(
-            { error: validation.error },
-            { status: 400 },
+        if (proposalFile instanceof File) {
+          const validation = validateFileServer(proposalFile, 'semifinal');
+          if (!validation.valid) {
+            return NextResponse.json(
+              { error: validation.error },
+              { status: 400 },
+            );
+          }
+          const uploaded = await uploadFile(
+            proposalFile,
+            'semifinal',
+            `${prefix}-proposal`,
           );
+          submissionData.proposalUrl = uploaded.url;
         }
-        const uploaded = await uploadFile(
-          proposalFile,
-          'semifinal',
-          `${prefix}-proposal`,
-        );
-        submissionData.proposalUrl = uploaded.url;
-      }
+        if (prototypeVideoUrl) {
+          submissionData.prototypeVideoUrl = prototypeVideoUrl;
+        }
+      } else if (competitionCode === 'TPC') {
+        const paperFile = legacyFormData.get('paperUrl') as File | null;
+        const presentationFile = legacyFormData.get(
+          'presentationUrl',
+        ) as File | null;
 
-      if (prototypeVideoUrl) {
-        submissionData.prototypeVideoUrl = prototypeVideoUrl;
-      }
-    } else if (competitionCode === 'TPC') {
-      const paperFile = formData.get('paperUrl') as File | null;
-      const presentationFile = formData.get('presentationUrl') as File | null;
-
-      if (paperFile instanceof File) {
-        const validation = validateFileServer(paperFile, 'semifinal');
-        if (!validation.valid) {
-          return NextResponse.json(
-            { error: validation.error },
-            { status: 400 },
+        if (paperFile instanceof File) {
+          const validation = validateFileServer(paperFile, 'semifinal');
+          if (!validation.valid) {
+            return NextResponse.json(
+              { error: validation.error },
+              { status: 400 },
+            );
+          }
+          const uploaded = await uploadFile(
+            paperFile,
+            'semifinal',
+            `${prefix}-paper`,
           );
+          submissionData.paperUrl = uploaded.url;
         }
-        const uploaded = await uploadFile(
-          paperFile,
-          'semifinal',
-          `${prefix}-paper`,
-        );
-        submissionData.paperUrl = uploaded.url;
-      }
-
-      if (presentationFile instanceof File) {
-        const validation = validateFileServer(presentationFile, 'semifinal');
-        if (!validation.valid) {
-          return NextResponse.json(
-            { error: validation.error },
-            { status: 400 },
+        if (presentationFile instanceof File) {
+          const validation = validateFileServer(presentationFile, 'semifinal');
+          if (!validation.valid) {
+            return NextResponse.json(
+              { error: validation.error },
+              { status: 400 },
+            );
+          }
+          const uploaded = await uploadFile(
+            presentationFile,
+            'semifinal',
+            `${prefix}-presentation`,
           );
+          submissionData.presentationUrl = uploaded.url;
         }
-        const uploaded = await uploadFile(
-          presentationFile,
-          'semifinal',
-          `${prefix}-presentation`,
-        );
-        submissionData.presentationUrl = uploaded.url;
-      }
-    } else if (competitionCode === 'BCC') {
-      const businessPlanFile = formData.get('businessPlanUrl') as File | null;
-      const pitchDeckFile = formData.get('pitchDeckUrl') as File | null;
+      } else if (competitionCode === 'BCC') {
+        const businessPlanFile = legacyFormData.get(
+          'businessPlanUrl',
+        ) as File | null;
+        const pitchDeckFile = legacyFormData.get('pitchDeckUrl') as File | null;
 
-      if (businessPlanFile instanceof File) {
-        const validation = validateFileServer(businessPlanFile, 'semifinal');
-        if (!validation.valid) {
-          return NextResponse.json(
-            { error: validation.error },
-            { status: 400 },
+        if (businessPlanFile instanceof File) {
+          const validation = validateFileServer(businessPlanFile, 'semifinal');
+          if (!validation.valid) {
+            return NextResponse.json(
+              { error: validation.error },
+              { status: 400 },
+            );
+          }
+          const uploaded = await uploadFile(
+            businessPlanFile,
+            'semifinal',
+            `${prefix}-businessplan`,
           );
+          submissionData.businessPlanUrl = uploaded.url;
         }
-        const uploaded = await uploadFile(
-          businessPlanFile,
-          'semifinal',
-          `${prefix}-businessplan`,
-        );
-        submissionData.businessPlanUrl = uploaded.url;
-      }
-
-      if (pitchDeckFile instanceof File) {
-        const validation = validateFileServer(pitchDeckFile, 'semifinal');
-        if (!validation.valid) {
-          return NextResponse.json(
-            { error: validation.error },
-            { status: 400 },
+        if (pitchDeckFile instanceof File) {
+          const validation = validateFileServer(pitchDeckFile, 'semifinal');
+          if (!validation.valid) {
+            return NextResponse.json(
+              { error: validation.error },
+              { status: 400 },
+            );
+          }
+          const uploaded = await uploadFile(
+            pitchDeckFile,
+            'semifinal',
+            `${prefix}-pitchdeck`,
           );
+          submissionData.pitchDeckUrl = uploaded.url;
         }
-        const uploaded = await uploadFile(
-          pitchDeckFile,
-          'semifinal',
-          `${prefix}-pitchdeck`,
-        );
-        submissionData.pitchDeckUrl = uploaded.url;
       }
     }
 
@@ -219,7 +257,6 @@ export async function POST(req: NextRequest) {
 
     // Log to Google Sheets (non-blocking)
     try {
-      // Collect all uploaded file URLs for logging
       const fileUrls = [
         submissionData.proposalUrl,
         submissionData.prototypeVideoUrl,

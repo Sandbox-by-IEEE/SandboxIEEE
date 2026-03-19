@@ -7,6 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
+import { uploadViaPresignedUrl } from '@/lib/clientUpload';
 import Footer from '@/components/site/Footer';
 import Navbar from '@/components/site/Navbar';
 
@@ -317,6 +318,23 @@ function RegistrationContent() {
     setError('');
 
     try {
+      // Step 1: Upload payment proof via presigned URL (bypasses server body limit)
+      let paymentProofStoragePath: string | null = null;
+      if (formData.paymentProof) {
+        const sanitizedTeamName = formData.teamName.replace(
+          /[^a-zA-Z0-9]/g,
+          '_',
+        );
+        const prefix = `payment_${sanitizedTeamName}`;
+        const uploadResult = await uploadViaPresignedUrl(
+          formData.paymentProof,
+          'payments',
+          prefix,
+        );
+        paymentProofStoragePath = uploadResult.storagePath;
+      }
+
+      // Step 2: Submit registration form with payment proof storage path
       const body = new globalThis.FormData();
       body.append('competitionCode', formData.competitionCode);
       body.append('teamName', formData.teamName);
@@ -337,7 +355,11 @@ function RegistrationContent() {
         }));
       body.append('members', JSON.stringify(membersPayload));
 
-      if (formData.paymentProof) {
+      // Send storage path instead of the file (presigned URL flow)
+      if (paymentProofStoragePath) {
+        body.append('paymentProofStoragePath', paymentProofStoragePath);
+      } else if (formData.paymentProof) {
+        // Fallback: send file directly (legacy flow, limited by Vercel 4.5MB)
         body.append('paymentProof', formData.paymentProof);
       }
 
@@ -347,7 +369,12 @@ function RegistrationContent() {
         signal: AbortSignal.timeout(60000),
       });
 
-      const data = await response.json();
+      let data: any;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(`Server error (${response.status}). Please try again.`);
+      }
 
       if (!response.ok) {
         if (response.status === 429) {

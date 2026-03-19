@@ -4,6 +4,9 @@
  * ============================================================================
  *
  * POST - Submit final pitch deck / presentation
+ *   Accepts two modes:
+ *   - JSON body with { storagePath, fileName, fileSize } → presigned URL flow
+ *   - FormData with file field → legacy server-side upload
  * ============================================================================
  */
 
@@ -12,7 +15,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { validateFileServer } from '@/lib/fileConfig';
-import { uploadFile } from '@/lib/fileUpload';
+import { uploadFile, getFileUrl } from '@/lib/fileUpload';
 import { logSubmissionToSheets } from '@/lib/google-sheets';
 import { rateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
@@ -26,32 +29,78 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const formData = await req.formData();
-    const file = formData.get('file') as File | null;
-    const registrationId = formData.get('registrationId') as string;
-    const competitionCode = formData.get('competitionCode') as string;
+    const contentType = req.headers.get('content-type') || '';
+    const isJsonBody = contentType.includes('application/json');
 
-    if (!registrationId) {
-      return NextResponse.json(
-        { error: 'Registration ID is required' },
-        { status: 400 },
-      );
+    let registrationId: string;
+    let competitionCode: string;
+    let fileUrl: string;
+    let fileName: string;
+    let fileSize: number;
+    let legacyFile: File | null = null;
+
+    if (isJsonBody) {
+      // ── Presigned URL flow ──
+      const body = await req.json();
+      registrationId = body.registrationId;
+      competitionCode = body.competitionCode;
+      fileName = body.fileName;
+      fileSize = body.fileSize;
+
+      if (!registrationId) {
+        return NextResponse.json(
+          { error: 'Registration ID is required' },
+          { status: 400 },
+        );
+      }
+
+      if (!body.storagePath) {
+        return NextResponse.json(
+          { error: 'Storage path is required (file must be uploaded first)' },
+          { status: 400 },
+        );
+      }
+
+      if (!fileName || typeof fileSize !== 'number') {
+        return NextResponse.json(
+          { error: 'File metadata is required (fileName, fileSize)' },
+          { status: 400 },
+        );
+      }
+
+      fileUrl = await getFileUrl('final', body.storagePath);
+    } else {
+      // ── Legacy FormData flow ──
+      const formData = await req.formData();
+      legacyFile = formData.get('file') as File | null;
+      registrationId = formData.get('registrationId') as string;
+      competitionCode = formData.get('competitionCode') as string;
+
+      if (!registrationId) {
+        return NextResponse.json(
+          { error: 'Registration ID is required' },
+          { status: 400 },
+        );
+      }
+
+      if (!legacyFile || !(legacyFile instanceof File)) {
+        return NextResponse.json(
+          { error: 'A file is required for final submission' },
+          { status: 400 },
+        );
+      }
+
+      const validation = validateFileServer(legacyFile, 'final');
+      if (!validation.valid) {
+        return NextResponse.json({ error: validation.error }, { status: 400 });
+      }
+
+      fileName = legacyFile.name;
+      fileSize = legacyFile.size;
+      fileUrl = ''; // Set after upload
     }
 
-    if (!file || !(file instanceof File)) {
-      return NextResponse.json(
-        { error: 'A file is required for final submission' },
-        { status: 400 },
-      );
-    }
-
-    // Server-side file validation
-    const validation = validateFileServer(file, 'final');
-    if (!validation.valid) {
-      return NextResponse.json({ error: validation.error }, { status: 400 });
-    }
-
-    // Verify registration belongs to user and is in final phase
+    // Verify registration
     const registration = await prisma.competitionRegistration.findUnique({
       where: { id: registrationId },
       include: {
@@ -82,7 +131,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check deadline
     if (
       registration.competition.finalDeadline &&
       new Date() > new Date(registration.competition.finalDeadline)
@@ -93,7 +141,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if final phase has started
     if (
       registration.competition.finalStart &&
       new Date() < new Date(registration.competition.finalStart)
@@ -104,7 +151,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if already submitted
     const existing = await prisma.finalSubmission.findUnique({
       where: { registrationId },
     });
@@ -115,21 +161,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Upload file
-    const teamName = registration.team?.teamName || 'team';
-    const prefix = `${competitionCode}-final-${teamName}`.replace(
-      /[^a-zA-Z0-9-]/g,
-      '_',
-    );
-    const uploaded = await uploadFile(file, 'final', prefix);
+    // Legacy flow: upload file now
+    if (!isJsonBody && legacyFile) {
+      const teamName = registration.team?.teamName || 'team';
+      const prefix = `${competitionCode}-final-${teamName}`.replace(
+        /[^a-zA-Z0-9-]/g,
+        '_',
+      );
+      const uploaded = await uploadFile(legacyFile, 'final', prefix);
+      fileUrl = uploaded.url;
+    }
 
     // Create final submission
     const submission = await prisma.finalSubmission.create({
       data: {
         registrationId,
-        pitchDeckUrl: uploaded.url,
-        fileName: uploaded.fileName,
-        fileSize: uploaded.fileSize,
+        pitchDeckUrl: fileUrl,
+        fileName,
+        fileSize,
       },
     });
 
@@ -140,8 +189,8 @@ export async function POST(req: NextRequest) {
         leaderEmail: registration.user.email,
         competitionCode,
         submissionPhase: 'final',
-        fileUrl: uploaded.url,
-        fileName: uploaded.fileName,
+        fileUrl,
+        fileName,
         status: 'submitted',
         reviewNotes: 'Final submission received',
       });

@@ -163,6 +163,30 @@ export async function getSignedUrl(
   }
 }
 
+/**
+ * Generate a signed read URL for an already-uploaded file.
+ * Used after client-side presigned URL uploads to create the URL stored in DB.
+ */
+export async function getFileUrl(
+  bucket: string,
+  storagePath: string,
+): Promise<string> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(storagePath, 7 * 24 * 60 * 60); // 7 days
+
+  if (error || !data?.signedUrl) {
+    // Fallback to public URL
+    const { data: publicUrlData } = supabase.storage
+      .from(bucket)
+      .getPublicUrl(storagePath);
+    return publicUrlData.publicUrl;
+  }
+
+  return data.signedUrl;
+}
+
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================

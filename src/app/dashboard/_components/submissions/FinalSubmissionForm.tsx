@@ -3,6 +3,7 @@
 import { Calendar, FileText, Loader2, Upload, X } from 'lucide-react';
 import { useState } from 'react';
 
+import { uploadViaPresignedUrl } from '@/lib/clientUpload';
 import { validateFile } from '@/lib/fileConfig';
 
 interface FinalSubmissionFormProps {
@@ -16,6 +17,7 @@ export default function FinalSubmissionForm({
 }: FinalSubmissionFormProps) {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState('');
   const [error, setError] = useState('');
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
@@ -51,23 +53,48 @@ export default function FinalSubmissionForm({
 
     setIsUploading(true);
     setError('');
+    setUploadProgress('Preparing upload...');
 
     const controller = new AbortController();
     setAbortController(controller);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('registrationId', registration.id);
-      formData.append('competitionCode', competition.code);
+      // Step 1: Upload file via presigned URL
+      const teamName = registration.team?.teamName || 'team';
+      const prefix = `${competition.code}-final-${teamName}`.replace(
+        /[^a-zA-Z0-9-]/g,
+        '_',
+      );
 
+      setUploadProgress('Uploading file...');
+      const uploadResult = await uploadViaPresignedUrl(
+        file,
+        'final',
+        prefix,
+        controller.signal,
+      );
+
+      // Step 2: Submit metadata to our API
+      setUploadProgress('Saving submission...');
       const response = await fetch('/api/dashboard/submissions/final', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          registrationId: registration.id,
+          competitionCode: competition.code,
+          storagePath: uploadResult.storagePath,
+          fileName: uploadResult.fileName,
+          fileSize: uploadResult.fileSize,
+        }),
         signal: controller.signal,
       });
 
-      const data = await response.json();
+      let data: any;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(`Server error (${response.status}). Please try again.`);
+      }
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to submit');
@@ -86,6 +113,7 @@ export default function FinalSubmissionForm({
       }
     } finally {
       setIsUploading(false);
+      setUploadProgress('');
       setAbortController(null);
     }
   };
@@ -225,7 +253,7 @@ export default function FinalSubmissionForm({
               {isUploading ? (
                 <>
                   <Loader2 className='w-5 h-5 animate-spin' />
-                  <span>Uploading...</span>
+                  <span>{uploadProgress || 'Uploading...'}</span>
                 </>
               ) : (
                 <>

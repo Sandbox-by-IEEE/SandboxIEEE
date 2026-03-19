@@ -3,6 +3,7 @@
 import { Calendar, FileText, Loader2, Upload, X } from 'lucide-react';
 import { useState } from 'react';
 
+import { uploadViaPresignedUrl } from '@/lib/clientUpload';
 import { validateFile } from '@/lib/fileConfig';
 
 interface SemifinalSubmissionFormProps {
@@ -102,6 +103,7 @@ export default function SemifinalSubmissionForm({
   const [files, setFiles] = useState<Record<string, File | null>>({});
   const [urls, setUrls] = useState<Record<string, string>>({});
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState('');
   const [error, setError] = useState('');
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
@@ -158,32 +160,56 @@ export default function SemifinalSubmissionForm({
     }
 
     setIsUploading(true);
-
     const controller = new AbortController();
     setAbortController(controller);
 
     try {
-      const formData = new FormData();
-      formData.append('registrationId', registration.id);
-      formData.append('competitionCode', competitionCode);
+      const teamName = registration.team?.teamName || 'team';
+      const prefix = `${competitionCode}-semifinal-${teamName}`.replace(
+        /[^a-zA-Z0-9-]/g,
+        '_',
+      );
 
-      // Append files
+      // Step 1: Upload all files via presigned URLs
+      const uploadedFiles: Record<string, string> = {};
+      const urlFields: Record<string, string> = {};
+
       for (const field of config.fields) {
         if (field.type === 'file' && files[field.key]) {
-          formData.append(field.key, files[field.key]!);
+          setUploadProgress(`Uploading ${field.label}...`);
+          const result = await uploadViaPresignedUrl(
+            files[field.key]!,
+            'semifinal',
+            `${prefix}-${field.key.replace('Url', '')}`,
+            controller.signal,
+          );
+          uploadedFiles[field.key] = result.storagePath;
         }
         if (field.type === 'url' && urls[field.key]) {
-          formData.append(field.key, urls[field.key]);
+          urlFields[field.key] = urls[field.key];
         }
       }
 
+      // Step 2: Submit metadata to our API
+      setUploadProgress('Saving submission...');
       const response = await fetch('/api/dashboard/submissions/semifinal', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          registrationId: registration.id,
+          competitionCode,
+          files: uploadedFiles,
+          urls: urlFields,
+        }),
         signal: controller.signal,
       });
 
-      const data = await response.json();
+      let data: any;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(`Server error (${response.status}). Please try again.`);
+      }
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to submit');
@@ -202,6 +228,7 @@ export default function SemifinalSubmissionForm({
       }
     } finally {
       setIsUploading(false);
+      setUploadProgress('');
       setAbortController(null);
     }
   };
@@ -343,7 +370,7 @@ export default function SemifinalSubmissionForm({
               {isUploading ? (
                 <>
                   <Loader2 className='w-5 h-5 animate-spin' />
-                  <span>Uploading...</span>
+                  <span>{uploadProgress || 'Uploading...'}</span>
                 </>
               ) : (
                 <>
