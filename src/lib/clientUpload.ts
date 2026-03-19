@@ -8,13 +8,11 @@
  *
  * Flow:
  * 1. Request a presigned upload URL from /api/upload/presign
- * 2. Upload file directly to Supabase using the signed URL + token
+ * 2. PUT file directly to the signed URL (no Supabase client needed)
  * 3. Return storagePath for the server to generate read URLs
  *
  * ============================================================================
  */
-
-import { createClient } from '@supabase/supabase-js';
 
 export interface ClientUploadResult {
   storagePath: string;
@@ -57,50 +55,49 @@ export async function uploadViaPresignedUrl(
       const errorData = await presignRes.json();
       if (errorData.error) errorMessage = errorData.error;
     } catch {
-      // Response was not JSON — extract what we can
       try {
         const text = await presignRes.text();
         if (text) errorMessage = text;
       } catch {
-        // Response was not JSON — use status-based error message
+        // Response body already consumed — use status-based error message
       }
     }
     throw new Error(errorMessage);
   }
 
-  const { storagePath, token } = await presignRes.json();
+  const { signedUrl, storagePath } = await presignRes.json();
 
-  // Step 2: Upload file directly to Supabase Storage
-  // Uses the anon key client — the signed token provides the actual authorization
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error(
-      'Upload service is not configured. Please contact support.',
-    );
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    auth: { autoRefreshToken: false, persistSession: false },
-    global: {
-      // Pass the abort signal to all fetch calls made by the Supabase client
-      fetch: (input, init) => fetch(input, { ...init, signal }),
+  // Step 2: Upload file directly to Supabase via the signed URL
+  // The signedUrl is a complete URL with the upload token embedded —
+  // no Supabase client or env vars needed on the client side.
+  const uploadRes = await fetch(signedUrl, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': file.type || 'application/octet-stream',
     },
+    body: file,
+    signal,
   });
 
-  const { error: uploadError } = await supabase.storage
-    .from(bucket)
-    .uploadToSignedUrl(storagePath, token, file, {
-      contentType: file.type,
-    });
+  if (!uploadRes.ok) {
+    let detail = '';
+    try {
+      const errBody = await uploadRes.json();
+      detail = errBody.error || errBody.message || errBody.statusCode || '';
+    } catch {
+      // ignore parse error
+    }
 
-  if (uploadError) {
-    console.error('Supabase upload error:', uploadError);
+    if (uploadRes.status === 409 || detail === 'Duplicate') {
+      throw new Error(
+        'A file with this name already exists. Please try again.',
+      );
+    }
+
     throw new Error(
-      uploadError.message === 'The resource already exists'
-        ? 'A file with this name already exists. Please try again.'
-        : `Upload failed: ${uploadError.message}`,
+      detail
+        ? `Upload failed: ${detail}`
+        : `Upload failed (${uploadRes.status}). Please try again.`,
     );
   }
 
