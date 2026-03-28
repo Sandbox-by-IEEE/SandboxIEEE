@@ -187,8 +187,7 @@ export default function FinalSubmissionForm({
           <form onSubmit={handleSubmit}>
             <div className='mb-6'>
               <p className='text-white font-medium mb-2'>
-                Upload your final pitch deck / presentation{' '}
-                <span className='text-[#FFCD8D]'>*</span>
+                Pitch Deck <span className='text-[#FFCD8D]'>*</span>
               </p>
               <p className='text-sm text-gray-400 mb-4'>
                 PDF or PowerPoint file, max 25MB

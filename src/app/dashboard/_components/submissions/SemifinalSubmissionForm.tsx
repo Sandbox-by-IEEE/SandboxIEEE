@@ -31,7 +31,7 @@ const SEMIFINAL_CONFIG: Record<
   }
 > = {
   PTC: {
-    title: 'Semifinal Submission — Proposal & Video',
+    title: 'Semifinal Submission — Proposal',
     fields: [
       {
         key: 'proposalUrl',
@@ -40,17 +40,10 @@ const SEMIFINAL_CONFIG: Record<
         accept: '.pdf,.doc,.docx',
         description: 'PDF or Word file, max 20MB',
       },
-      {
-        key: 'prototypeVideoUrl',
-        label: 'Prototype Video URL',
-        type: 'url',
-        description:
-          'YouTube or Google Drive link to your prototype demo video',
-      },
     ],
   },
   TPC: {
-    title: 'Semifinal Submission — Paper & Presentation',
+    title: 'Semifinal Submission — Paper & Poster',
     fields: [
       {
         key: 'paperUrl',
@@ -61,7 +54,7 @@ const SEMIFINAL_CONFIG: Record<
       },
       {
         key: 'presentationUrl',
-        label: 'Presentation Slides',
+        label: 'Poster Campaign',
         type: 'file',
         accept: '.pdf,.ppt,.pptx',
         description: 'PDF or PowerPoint, max 20MB',
@@ -69,21 +62,14 @@ const SEMIFINAL_CONFIG: Record<
     ],
   },
   BCC: {
-    title: 'Semifinal Submission — Business Plan & Pitch Deck',
+    title: 'Semifinal Submission — Business Plan',
     fields: [
       {
         key: 'businessPlanUrl',
-        label: 'Business Plan',
+        label: 'Business Plan / Proposal',
         type: 'file',
         accept: '.pdf,.doc,.docx',
         description: 'PDF or Word file, max 20MB',
-      },
-      {
-        key: 'pitchDeckUrl',
-        label: 'Pitch Deck',
-        type: 'file',
-        accept: '.pdf,.ppt,.pptx',
-        description: 'PDF or PowerPoint, max 20MB',
       },
     ],
   },
@@ -111,6 +97,7 @@ export default function SemifinalSubmissionForm({
   // Check if semifinal was already submitted (has any data)
   const hasExistingSubmission =
     semifinal &&
+    semifinal.status !== 'rejected' &&
     (semifinal.proposalUrl ||
       semifinal.paperUrl ||
       semifinal.businessPlanUrl ||
@@ -275,16 +262,58 @@ export default function SemifinalSubmissionForm({
               Submitted on {new Date(semifinal.submittedAt).toLocaleString()}
             </p>
             <div className='mt-2'>
-              <span className='inline-block px-3 py-1 rounded-full text-xs font-medium bg-green-500/20 text-green-400 border border-green-500/50'>
-                Submitted
+              <span
+                className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                  semifinal.status === 'qualified'
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/50'
+                    : semifinal.status === 'rejected'
+                      ? 'bg-red-500/20 text-red-400 border border-red-500/50'
+                      : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/50'
+                }`}
+              >
+                {semifinal.status}
               </span>
             </div>
+            {semifinal.status === 'rejected' && semifinal.reviewNotes && (
+              <div className='mt-3 bg-red-500/10 border border-red-500/20 rounded-xl p-3'>
+                <p className='text-xs text-red-400 font-medium mb-1'>
+                  Reviewer Feedback:
+                </p>
+                <p className='text-sm text-gray-300'>{semifinal.reviewNotes}</p>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Upload Form */}
-      {!hasExistingSubmission && !isDeadlinePassed && (
+      {/* Show rejection + resubmit prompt if rejected */}
+      {semifinal?.status === 'rejected' && !isDeadlinePassed && (
+        <div className='bg-gradient-to-br from-[#5A2424]/30 to-[#3d1a1a]/20 backdrop-blur-sm rounded-3xl p-4 md:p-6 lg:p-10 border border-white/5 mb-6'>
+          <div className='bg-[#2d0e0e]/60 backdrop-blur-sm border-2 border-red-500/20 rounded-2xl p-4 md:p-5'>
+            <div className='flex items-center gap-3 mb-3'>
+              <FileText className='w-5 h-5 text-red-400' />
+              <p className='text-white font-medium'>Submission Rejected</p>
+            </div>
+            <p className='text-sm text-gray-400 mb-1'>
+              Submitted on {new Date(semifinal.submittedAt).toLocaleString()}
+            </p>
+            {semifinal.reviewNotes && (
+              <div className='mt-3 bg-red-500/10 border border-red-500/20 rounded-xl p-3'>
+                <p className='text-xs text-red-400 font-medium mb-1'>
+                  Reviewer Feedback:
+                </p>
+                <p className='text-sm text-gray-300'>{semifinal.reviewNotes}</p>
+              </div>
+            )}
+            <p className='text-sm text-yellow-400 mt-3'>
+              Please revise and resubmit before the deadline.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Upload Form — show when no submission, or when rejected and deadline not passed */}
+      {(!semifinal || semifinal.status === 'rejected') && !isDeadlinePassed && (
         <div className='bg-gradient-to-br from-[#5A2424]/30 to-[#3d1a1a]/20 backdrop-blur-sm rounded-3xl p-4 md:p-6 lg:p-10 border border-white/5'>
           <form onSubmit={handleSubmit} className='space-y-6'>
             {config.fields.map((field) => (

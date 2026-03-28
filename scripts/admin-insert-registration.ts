@@ -68,8 +68,8 @@ interface RegistrationPayload {
   // Additional team members (orderIndex 1, 2, ...)
   members: TeamMemberData[];
 
-  // Payment info
-  payment: {
+  // Payment info (optional — skip if payment was handled externally)
+  payment?: {
     amount: number; // Amount in IDR (e.g., 150000)
     paymentMethod: string; // e.g., "QRIS", "Bank Transfer"
     billName: string; // Name on payment proof
@@ -86,45 +86,35 @@ interface RegistrationPayload {
 // ╚════════════════════════════════════════════════════════════════════════════╝
 
 const REGISTRATION_DATA: RegistrationPayload = {
-  competitionCode: 'BCC', // Change to the team's competition
+  competitionCode: 'TPC',
 
-  teamName: 'TEAM_NAME_HERE',
+  teamName: 'Frieda Filza Ester Merasuki ITB',
 
   leader: {
-    fullName: 'LEADER_FULL_NAME',
-    email: 'leader@example.com',
-    phoneNumber: '08XXXXXXXXXX',
-    institution: 'UNIVERSITY_NAME',
-    password: 'TempPass123!', // Team leader should change this after login
+    fullName: 'Esteranza Early Syakira',
+    email: 'syakira.early.esteranza@gmail.com',
+    phoneNumber: '087872011202',
+    institution: 'SMA Al-Hikmah Surabaya',
+    password: 'TempPass123!',
   },
 
   members: [
-    // Add team members here (excluding the leader)
-    // For BCC: exactly 2 additional members (3 total including leader)
-    // For PTC: 2-4 additional members (3-5 total)
-    // For TPC: 0-2 additional members (1-3 total)
     {
-      fullName: 'MEMBER_2_NAME',
-      email: 'member2@example.com',
-      phoneNumber: '08XXXXXXXXXX',
-      institution: 'UNIVERSITY_NAME',
+      fullName: 'Frieda Nadhine Isradanti',
+      email: '',
+      phoneNumber: '081232538925',
+      institution: 'SMA Al-Hikmah Surabaya',
     },
     {
-      fullName: 'MEMBER_3_NAME',
-      email: 'member3@example.com',
-      phoneNumber: '08XXXXXXXXXX',
-      institution: 'UNIVERSITY_NAME',
+      fullName: 'Filza Naura Leatisa Djokovik',
+      email: '',
+      phoneNumber: '081222250499',
+      institution: 'SMA Al-Hikmah Surabaya',
     },
   ],
 
-  payment: {
-    amount: 150000, // Adjust based on competition and batch
-    paymentMethod: 'QRIS',
-    billName: 'LEADER_FULL_NAME',
-    paymentProofUrl: 'PAYMENT_PROOF_URL_HERE', // Upload to Supabase first or provide URL
-  },
-
-  proofOfRegistrationLink: 'https://drive.google.com/LINK_HERE',
+  proofOfRegistrationLink:
+    'https://drive.google.com/drive/folders/1JDGaco-ukJ5MqV0E-2ui2im9CBtcS7dX',
 };
 
 // ============================================================================
@@ -259,17 +249,19 @@ async function insertRegistration(data: RegistrationPayload) {
       },
     });
 
-    // Create Payment record
-    await tx.payment.create({
-      data: {
-        registrationId: reg.id,
-        amount: data.payment.amount,
-        paymentProofUrl: data.payment.paymentProofUrl,
-        paymentMethod: data.payment.paymentMethod,
-        billName: data.payment.billName,
-        status: 'pending',
-      },
-    });
+    // Create Payment record (if payment data provided)
+    if (data.payment) {
+      await tx.payment.create({
+        data: {
+          registrationId: reg.id,
+          amount: data.payment.amount,
+          paymentProofUrl: data.payment.paymentProofUrl,
+          paymentMethod: data.payment.paymentMethod,
+          billName: data.payment.billName,
+          status: 'pending',
+        },
+      });
+    }
 
     return reg;
   });
@@ -317,7 +309,7 @@ async function insertRegistration(data: RegistrationPayload) {
     );
   });
   console.log(
-    `   Payment:          Rp ${fullRecord.payment?.amount?.toLocaleString('id-ID')} (${fullRecord.payment?.status})`,
+    `   Payment:          ${fullRecord.payment ? `Rp ${fullRecord.payment.amount.toLocaleString('id-ID')} (${fullRecord.payment.status})` : 'N/A (handled externally)'}`,
   );
   console.log(`   Status:           ${fullRecord.verificationStatus}`);
   console.log(`   Phase:            ${fullRecord.currentPhase}`);

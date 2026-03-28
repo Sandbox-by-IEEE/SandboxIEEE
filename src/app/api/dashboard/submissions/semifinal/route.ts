@@ -136,11 +136,15 @@ export async function POST(req: NextRequest) {
     const existing = await prisma.semifinalSubmission.findUnique({
       where: { registrationId },
     });
-    if (existing) {
+    if (existing && existing.status !== 'rejected') {
       return NextResponse.json(
         { error: 'Semifinal submission already exists' },
         { status: 409 },
       );
+    }
+    // Allow resubmission if previous was rejected — delete old record first
+    if (existing?.status === 'rejected') {
+      await prisma.semifinalSubmission.delete({ where: { registrationId } });
     }
 
     // Legacy flow: handle file uploads from FormData
@@ -178,7 +182,7 @@ export async function POST(req: NextRequest) {
       } else if (competitionCode === 'TPC') {
         const paperFile = legacyFormData.get('paperUrl') as File | null;
         const presentationFile = legacyFormData.get(
-          'presentationUrl',
+          'presentationUrl', // Poster Campaign (stored as presentationUrl in DB)
         ) as File | null;
 
         if (paperFile instanceof File) {

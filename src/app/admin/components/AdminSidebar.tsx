@@ -5,6 +5,7 @@ import {
   Banknote,
   Calendar,
   FileText,
+  FlaskConical,
   LayoutDashboard,
   Settings,
   Shield,
@@ -81,7 +82,13 @@ export default function AdminSidebar({ admin }: AdminSidebarProps) {
       label: 'Staff Management',
       href: '/admin/staff',
       icon: <UserPlus size={20} />,
-      roles: ['super_admin'], // Only super admin
+      roles: ['super_admin'],
+    },
+    {
+      label: 'Simulate Participant',
+      href: '/admin/simulate',
+      icon: <FlaskConical size={20} />,
+      roles: ['super_admin'],
     },
     {
       label: 'Settings',
