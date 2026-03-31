@@ -239,6 +239,7 @@ export default function StatusBanner({ registration }: StatusBannerProps) {
                   {new Date(competition.semifinalStart).toLocaleDateString(
                     'en-US',
                     {
+                      timeZone: 'Asia/Jakarta',
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
@@ -324,6 +325,7 @@ export default function StatusBanner({ registration }: StatusBannerProps) {
                     {new Date(competition.finalStart).toLocaleDateString(
                       'en-US',
                       {
+                        timeZone: 'Asia/Jakarta',
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',

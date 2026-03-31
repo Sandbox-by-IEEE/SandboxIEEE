@@ -132,6 +132,7 @@ export default function FinalSubmissionForm({
               <span>
                 Deadline:{' '}
                 {deadline.toLocaleDateString('en-US', {
+                  timeZone: 'Asia/Jakarta',
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
