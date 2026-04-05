@@ -70,15 +70,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: validation.error }, { status: 400 });
     }
 
-    // Build storage path
-    const ext =
-      fileName.lastIndexOf('.') >= 0
-        ? fileName.substring(fileName.lastIndexOf('.'))
-        : '';
+    // Build storage path — preserve original filename as last path segment
+    // so downloads retain the name the participant uploaded.
     const timestamp = Date.now();
+    const sanitizedFileName = fileName
+      .replace(/[^a-zA-Z0-9._-]/g, '_')
+      .replace(/_{2,}/g, '_');
     const storagePath = prefix
-      ? `${prefix}_${timestamp}${ext}`
-      : `${timestamp}_${fileName.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/_{2,}/g, '_')}`;
+      ? `${prefix}/${timestamp}/${sanitizedFileName}`
+      : `${timestamp}/${sanitizedFileName}`;
 
     // Create signed upload URL via Supabase admin client
     const supabase = getSupabaseAdmin();

@@ -32,7 +32,7 @@ export async function POST(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { adminId, feedback } = await req.json();
+    const { feedback } = await req.json();
 
     const { id: submissionId } = await params;
 
@@ -149,24 +149,32 @@ export async function POST(
       </html>
     `;
 
-    await sendMail({
-      to: submission.registration.user.email,
-      subject: `✅ Preliminary Submission Approved - ${submission.registration.competition.name}`,
-      html: emailHtml,
-    });
+    try {
+      await sendMail({
+        to: submission.registration.user.email,
+        subject: `✅ Preliminary Submission Approved - ${submission.registration.competition.name}`,
+        html: emailHtml,
+      });
+    } catch (emailError) {
+      console.error('Failed to send approval email:', emailError);
+    }
 
     // Log to Google Sheets
-    await logSubmissionToSheets({
-      teamName: submission.registration.team?.teamName || 'N/A',
-      leaderEmail: submission.registration.user.email,
-      competitionCode: submission.registration.competition.code,
-      submissionPhase: 'preliminary',
-      fileUrl: submission.fileUrl,
-      fileName: submission.fileName,
-      status: 'qualified',
-      reviewedBy: session.admin.username,
-      reviewNotes: feedback || 'Submission approved',
-    });
+    try {
+      await logSubmissionToSheets({
+        teamName: submission.registration.team?.teamName || 'N/A',
+        leaderEmail: submission.registration.user.email,
+        competitionCode: submission.registration.competition.code,
+        submissionPhase: 'preliminary',
+        fileUrl: submission.fileUrl,
+        fileName: submission.fileName,
+        status: 'qualified',
+        reviewedBy: session.admin.username,
+        reviewNotes: feedback || 'Submission approved',
+      });
+    } catch (sheetsError) {
+      console.error('Failed to log to Google Sheets:', sheetsError);
+    }
 
     return NextResponse.json({
       success: true,

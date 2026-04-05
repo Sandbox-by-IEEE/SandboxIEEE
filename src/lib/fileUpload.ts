@@ -54,14 +54,13 @@ async function uploadToSupabase(
 ): Promise<UploadResult> {
   const supabase = getSupabaseAdmin();
 
-  const ext = getFileExtension(file.name);
   const safeName = file.name
     .replace(/[^a-zA-Z0-9._-]/g, '_')
     .replace(/_{2,}/g, '_');
   const timestamp = Date.now();
   const storagePath = prefix
-    ? `${prefix}_${timestamp}${ext}`
-    : `${timestamp}_${safeName}`;
+    ? `${prefix}/${timestamp}/${safeName}`
+    : `${timestamp}/${safeName}`;
 
   const arrayBuffer = await file.arrayBuffer();
   const buffer = Buffer.from(arrayBuffer);
@@ -190,11 +189,6 @@ export async function getFileUrl(
 // ============================================================================
 // UTILITY FUNCTIONS
 // ============================================================================
-
-function getFileExtension(filename: string): string {
-  const lastDot = filename.lastIndexOf('.');
-  return lastDot >= 0 ? filename.substring(lastDot) : '';
-}
 
 function detectBucketFromUrl(url: string): string | null {
   const buckets = ['payments', 'preliminary', 'semifinal', 'final'];
