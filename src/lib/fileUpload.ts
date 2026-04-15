@@ -163,6 +163,29 @@ export async function getSignedUrl(
 }
 
 /**
+ * Refresh an existing Supabase signed URL that may have expired.
+ * Extracts the bucket and storage path from the URL, then generates a new signed URL.
+ * Returns the original URL unchanged if it's not a Supabase storage URL.
+ */
+export async function refreshSignedUrl(
+  url: string,
+  expiresInSeconds: number = 24 * 60 * 60, // 24 hours default for admin access
+): Promise<string> {
+  if (!url) return url;
+
+  // Only attempt refresh for Supabase storage signed/object URLs
+  if (!url.includes('/storage/v1/object/')) return url;
+
+  const bucket = detectBucketFromUrl(url);
+  const storagePath = extractPathFromUrl(url, bucket);
+
+  if (!bucket || !storagePath) return url;
+
+  const fresh = await getSignedUrl(bucket, storagePath, expiresInSeconds);
+  return fresh ?? url;
+}
+
+/**
  * Generate a signed read URL for an already-uploaded file.
  * Used after client-side presigned URL uploads to create the URL stored in DB.
  */

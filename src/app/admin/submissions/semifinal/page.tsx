@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/db';
+import { refreshSignedUrl } from '@/lib/fileUpload';
 
 import SubmissionsTable from './SubmissionsTable';
 
@@ -23,7 +24,7 @@ export default async function SemifinalSubmissionsPage() {
   }
 
   // Fetch all semifinal submissions with team and competition data
-  const submissions = await prisma.semifinalSubmission.findMany({
+  const rawSubmissions = await prisma.semifinalSubmission.findMany({
     include: {
       registration: {
         include: {
@@ -43,6 +44,30 @@ export default async function SemifinalSubmissionsPage() {
       submittedAt: 'desc',
     },
   });
+
+  // Refresh signed URLs so admins can always access files regardless of when they were submitted
+  const FILE_URL_FIELDS = [
+    'proposalUrl',
+    'paperUrl',
+    'presentationUrl',
+    'businessPlanUrl',
+    'pitchDeckUrl',
+  ] as const;
+
+  const submissions = await Promise.all(
+    rawSubmissions.map(async (submission) => {
+      const refreshed: Record<string, string> = {};
+      await Promise.all(
+        FILE_URL_FIELDS.map(async (field) => {
+          const url = submission[field];
+          if (url) {
+            refreshed[field] = await refreshSignedUrl(url);
+          }
+        }),
+      );
+      return { ...submission, ...refreshed };
+    }),
+  );
 
   return (
     <div className='space-y-6'>
