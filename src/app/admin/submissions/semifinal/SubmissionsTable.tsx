@@ -82,28 +82,28 @@ export default function SubmissionsTable({
     ),
   );
 
-  const handleAction = async (
+  const getCompetitionCode = (submission: any): string =>
+    (
+      submission.competitionType ||
+      submission.registration.competition.code ||
+      ''
+    ).toUpperCase();
+
+  const submitAction = async (
     submissionId: string,
     action: 'approve' | 'reject',
+    feedbackText?: string,
   ) => {
-    setFeedbackModal({ submissionId, action });
-    setFeedback('');
-  };
-
-  const confirmAction = async () => {
-    if (!feedbackModal) return;
-
-    setIsProcessing(feedbackModal.submissionId);
-
+    setIsProcessing(submissionId);
     try {
       const response = await fetch(
-        `/api/admin/submissions/semifinal/${feedbackModal.submissionId}/${feedbackModal.action}`,
+        `/api/admin/submissions/semifinal/${submissionId}/${action}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             adminId,
-            feedback: feedback.trim() || undefined,
+            feedback: feedbackText?.trim() || undefined,
           }),
         },
       );
@@ -119,8 +119,36 @@ export default function SubmissionsTable({
       alert(
         error instanceof Error ? error.message : 'Failed to process action',
       );
-    } finally {
       setIsProcessing(null);
+    }
+  };
+
+  const handleAction = async (
+    submission: any,
+    action: 'approve' | 'reject',
+  ) => {
+    // BCC uses a fixed email template — no feedback input, confirm inline.
+    if (getCompetitionCode(submission) === 'BCC') {
+      const teamName = submission.registration.team?.teamName ?? 'this team';
+      const confirmMsg =
+        action === 'approve'
+          ? `Approve "${teamName}" and send the BCC final-round email blast?`
+          : `Reject "${teamName}" and send the BCC rejection email blast?`;
+      if (!window.confirm(confirmMsg)) return;
+      await submitAction(submission.id, action);
+      return;
+    }
+
+    setFeedbackModal({ submissionId: submission.id, action });
+    setFeedback('');
+  };
+
+  const confirmAction = async () => {
+    if (!feedbackModal) return;
+    const { submissionId, action } = feedbackModal;
+    try {
+      await submitAction(submissionId, action, feedback);
+    } finally {
       setFeedbackModal(null);
       setFeedback('');
     }
@@ -339,7 +367,7 @@ export default function SubmissionsTable({
                           <>
                             <button
                               onClick={() =>
-                                handleAction(submission.id, 'approve')
+                                handleAction(submission, 'approve')
                               }
                               disabled={isProcessing === submission.id}
                               className='p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors disabled:opacity-50'
@@ -348,9 +376,7 @@ export default function SubmissionsTable({
                               <Check size={20} />
                             </button>
                             <button
-                              onClick={() =>
-                                handleAction(submission.id, 'reject')
-                              }
+                              onClick={() => handleAction(submission, 'reject')}
                               disabled={isProcessing === submission.id}
                               className='p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50'
                               title='Reject'

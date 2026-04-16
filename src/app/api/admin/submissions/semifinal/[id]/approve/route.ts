@@ -89,7 +89,68 @@ export async function POST(
     ]);
 
     // Send approval email
-    const emailHtml = `
+    const competitionCode =
+      submission.registration.competition.code.toUpperCase();
+    const isBcc = competitionCode === 'BCC';
+    const teamName = submission.registration.team?.teamName || 'N/A';
+    const recipientName =
+      submission.registration.team?.members?.[0]?.fullName ||
+      submission.registration.user.name;
+
+    const emailHtml = isBcc
+      ? `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: linear-gradient(180deg, #0B0102 0%, #190204 50%, #0B0102 100%); min-height: 100vh; }
+            .container { max-width: 600px; margin: 40px auto; background-color: #1a0405; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 2px solid rgba(255, 205, 141, 0.2); }
+            .header { background: linear-gradient(135deg, #190204 0%, #2d0609 100%); padding: 40px 30px; text-align: center; }
+            .site-title { margin: 0; background: linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 36px; font-weight: bold; }
+            .subtitle { margin: 8px 0 0 0; color: #E8B4A8; font-size: 14px; font-weight: 500; }
+            .content { padding: 40px 30px; background-color: #1a0405; }
+            .title { margin: 0 0 20px 0; background: linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; font-weight: bold; }
+            .text { margin: 0 0 16px 0; color: #E8B4A8; font-size: 16px; line-height: 1.7; }
+            .status-badge { display: inline-block; background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 16px; border: 1px solid rgba(16, 185, 129, 0.3); margin: 20px 0; }
+            .info-box { background: linear-gradient(135deg, rgba(139, 58, 58, 0.2) 0%, rgba(90, 36, 36, 0.2) 100%); border-left: 4px solid #8B3A3A; padding: 18px; margin: 20px 0; border-radius: 8px; border: 1px solid rgba(139, 58, 58, 0.3); }
+            .info-text { margin: 4px 0; color: #FFCD8D; font-size: 14px; line-height: 1.6; }
+            .resource-link { display: block; color: #FFCD8D; text-decoration: none; margin: 6px 0; font-size: 15px; }
+            .footer { background: linear-gradient(135deg, #0B0102 0%, #190204 100%); padding: 30px; text-align: center; border-top: 1px solid rgba(255, 205, 141, 0.1); }
+            .footer-text { margin: 0 0 8px 0; color: #9b7a6f; font-size: 13px; }
+            .footer-copyright { margin: 8px 0 0 0; color: #6b5651; font-size: 12px; }
+            .signature { color: #E8B4A8; font-size: 15px; line-height: 1.7; margin-top: 24px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 class="site-title">The Sandbox 3.0</h1>
+              <p class="subtitle">IEEE ITB Student Branch</p>
+            </div>
+            <div class="content">
+              <h2 class="title">\u{1F3C6} Congratulations, ${escapeHtml(teamName)}!</h2>
+              <p class="text">We are thrilled to inform you that your team has officially advanced to the <strong style="color: #FFCD8D;">Final Round of BCC The Sandbox 3.0</strong>. Your hard work and excellent preliminary submission truly stood out!</p>
+              <div style="text-align: center;"><span class="status-badge">\u2705 ADVANCED TO FINAL ROUND</span></div>
+              <p class="text">To help you prepare for the Final Pitch, please access the necessary documents below:</p>
+              <div class="info-box">
+                <a href="https://bit.ly/GuidebookFinalBCCSandbox" class="resource-link">\u{1F517} <strong>Final Guidebook:</strong> https://bit.ly/GuidebookFinalBCCSandbox</a>
+                <a href="https://bit.ly/TransparansiBCCSandbox" class="resource-link">\u{1F517} <strong>Score Transparency:</strong> https://bit.ly/TransparansiBCCSandbox</a>
+              </div>
+              <p class="text">Please review the guidebook carefully for the final timeline, presentation format, and next steps. If you have any questions, feel free to reach out contact person.</p>
+              <p class="text">Once again, congratulations, and we look forward to seeing your best performance in the finals!</p>
+              <p class="signature">Best regards,<br/><strong style="color: #FFCD8D;">Staff of BCC The Sandbox 3.0</strong></p>
+            </div>
+            <div class="footer">
+              <p class="footer-text">Need help? Contact us at <a href="mailto:sandbox@ieee-itb.org" style="color: #FFCD8D; text-decoration: none;">sandbox@ieee-itb.org</a></p>
+              <p class="footer-copyright">\u00a9 2026 The Sandbox - IEEE ITB Student Branch. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `
+      : `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -124,11 +185,11 @@ export async function POST(
             </div>
             <div class="content">
               <h2 class="title">\u{1F3C6} Semifinal Approved!</h2>
-              <p class="text">Dear <strong style="color: #FFCD8D;">${submission.registration.team?.members?.[0]?.fullName || submission.registration.user.name}</strong>,</p>
+              <p class="text">Dear <strong style="color: #FFCD8D;">${recipientName}</strong>,</p>
               <p class="text">Congratulations! Your semifinal submission for <strong style="color: #FFCD8D;">${submission.registration.competition.name}</strong> has been approved! You have advanced to the final round!</p>
               <div style="text-align: center;"><span class="status-badge">\u2705 APPROVED — FINALIST</span></div>
               <div class="info-box">
-                <p class="info-text"><strong>Team:</strong> ${submission.registration.team?.teamName || 'N/A'}</p>
+                <p class="info-text"><strong>Team:</strong> ${teamName}</p>
                 <p class="info-text"><strong>Competition:</strong> ${submission.registration.competition.name}</p>
                 <p class="info-text"><strong>Reviewed:</strong> ${new Date().toLocaleString('id-ID')}</p>
               </div>
@@ -146,9 +207,13 @@ export async function POST(
       </html>
     `;
 
+    const subject = isBcc
+      ? `🏆 Congratulations ${teamName} — Advanced to the Final Round of BCC The Sandbox 3.0`
+      : `🏆 Semifinal Approved — You're a Finalist! - ${submission.registration.competition.name}`;
+
     await sendMail({
       to: submission.registration.user.email,
-      subject: `🏆 Semifinal Approved — You're a Finalist! - ${submission.registration.competition.name}`,
+      subject,
       html: emailHtml,
     });
 

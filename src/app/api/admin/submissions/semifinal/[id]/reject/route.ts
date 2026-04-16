@@ -32,14 +32,6 @@ export async function POST(
     }
 
     const { feedback } = await req.json();
-
-    if (!feedback || !feedback.trim()) {
-      return NextResponse.json(
-        { error: 'Feedback is required for rejection' },
-        { status: 400 },
-      );
-    }
-
     const { id: submissionId } = await params;
 
     const submission = await prisma.semifinalSubmission.findUnique({
@@ -75,6 +67,22 @@ export async function POST(
       );
     }
 
+    const competitionCode =
+      submission.registration.competition.code.toUpperCase();
+    const isBcc = competitionCode === 'BCC';
+
+    // BCC uses a fixed template and doesn't require admin feedback.
+    if (!isBcc && (!feedback || !feedback.trim())) {
+      return NextResponse.json(
+        { error: 'Feedback is required for rejection' },
+        { status: 400 },
+      );
+    }
+
+    const reviewNotes = isBcc
+      ? feedback?.trim() || 'BCC semifinal not selected for final round'
+      : feedback.trim();
+
     // Update submission status
     await prisma.semifinalSubmission.update({
       where: { id: submissionId },
@@ -82,12 +90,69 @@ export async function POST(
         status: 'rejected',
         reviewedAt: new Date(),
         reviewedBy: session.admin.username,
-        reviewNotes: feedback.trim(),
+        reviewNotes,
       },
     });
 
     // Send rejection email
-    const emailHtml = `
+    const teamName = submission.registration.team?.teamName || 'N/A';
+    const recipientName =
+      submission.registration.team?.members?.[0]?.fullName ||
+      submission.registration.user.name;
+
+    const emailHtml = isBcc
+      ? `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: linear-gradient(180deg, #0B0102 0%, #190204 50%, #0B0102 100%); min-height: 100vh; }
+            .container { max-width: 600px; margin: 40px auto; background-color: #1a0405; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 2px solid rgba(255, 205, 141, 0.2); }
+            .header { background: linear-gradient(135deg, #190204 0%, #2d0609 100%); padding: 40px 30px; text-align: center; }
+            .site-title { margin: 0; background: linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 36px; font-weight: bold; }
+            .subtitle { margin: 8px 0 0 0; color: #E8B4A8; font-size: 14px; font-weight: 500; }
+            .content { padding: 40px 30px; background-color: #1a0405; }
+            .title { margin: 0 0 20px 0; background: linear-gradient(90deg, #FFCD8D 0%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; font-weight: bold; }
+            .text { margin: 0 0 16px 0; color: #E8B4A8; font-size: 16px; line-height: 1.7; }
+            .status-badge { display: inline-block; background: rgba(239, 68, 68, 0.2); color: #ef4444; padding: 10px 24px; border-radius: 12px; font-weight: bold; font-size: 16px; border: 1px solid rgba(239, 68, 68, 0.3); margin: 20px 0; }
+            .info-box { background: linear-gradient(135deg, rgba(139, 58, 58, 0.2) 0%, rgba(90, 36, 36, 0.2) 100%); border-left: 4px solid #8B3A3A; padding: 18px; margin: 20px 0; border-radius: 8px; border: 1px solid rgba(139, 58, 58, 0.3); }
+            .info-text { margin: 4px 0; color: #FFCD8D; font-size: 14px; line-height: 1.6; }
+            .resource-link { display: block; color: #FFCD8D; text-decoration: none; margin: 6px 0; font-size: 15px; }
+            .footer { background: linear-gradient(135deg, #0B0102 0%, #190204 100%); padding: 30px; text-align: center; border-top: 1px solid rgba(255, 205, 141, 0.1); }
+            .footer-text { margin: 0 0 8px 0; color: #9b7a6f; font-size: 13px; }
+            .footer-copyright { margin: 8px 0 0 0; color: #6b5651; font-size: 12px; }
+            .signature { color: #E8B4A8; font-size: 15px; line-height: 1.7; margin-top: 24px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1 class="site-title">The Sandbox 3.0</h1>
+              <p class="subtitle">IEEE ITB Student Branch</p>
+            </div>
+            <div class="content">
+              <h2 class="title">\u{1F4CB} Semifinal Round Result — ${escapeHtml(teamName)}</h2>
+              <p class="text">Dear <strong style="color: #FFCD8D;">${escapeHtml(teamName)}</strong>,</p>
+              <p class="text">Thank you for your participation and the effort you put into your semifinal submission for <strong style="color: #FFCD8D;">BCC The Sandbox 3.0</strong>. After a thorough review, we regret to inform you that your team has not advanced to the Final Round of BCC The Sandbox 3.0.</p>
+              <div style="text-align: center;"><span class="status-badge">\u274c NOT ADVANCED TO FINAL ROUND</span></div>
+              <p class="text">For full visibility into the evaluation process, please review the score transparency document below:</p>
+              <div class="info-box">
+                <a href="https://bit.ly/TransparansiBCCSandbox" class="resource-link">\u{1F517} <strong>Score Transparency:</strong> https://bit.ly/TransparansiBCCSandbox</a>
+              </div>
+              <p class="text">We truly appreciate your hard work, creativity, and commitment throughout this competition. We hope the experience has been valuable and that you will continue to develop your ideas beyond The Sandbox 3.0. If you have any questions, feel free to reach out contact person.</p>
+              <p class="signature">Best regards,<br/><strong style="color: #FFCD8D;">Staff of BCC The Sandbox 3.0</strong></p>
+            </div>
+            <div class="footer">
+              <p class="footer-text">Need help? Contact us at <a href="mailto:sandbox@ieee-itb.org" style="color: #FFCD8D; text-decoration: none;">sandbox@ieee-itb.org</a></p>
+              <p class="footer-copyright">\u00a9 2026 The Sandbox - IEEE ITB Student Branch. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `
+      : `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -123,11 +188,11 @@ export async function POST(
             </div>
             <div class="content">
               <h2 class="title">\u{1F4CB} Semifinal Review</h2>
-              <p class="text">Dear <strong style="color: #FFCD8D;">${submission.registration.team?.members?.[0]?.fullName || submission.registration.user.name}</strong>,</p>
+              <p class="text">Dear <strong style="color: #FFCD8D;">${recipientName}</strong>,</p>
               <p class="text">Thank you for submitting your semifinal work for <strong style="color: #FFCD8D;">${submission.registration.competition.name}</strong>.</p>
               <div style="text-align: center;"><span class="status-badge">\u274c NOT SELECTED</span></div>
               <div class="info-box">
-                <p class="info-text"><strong>Team:</strong> ${submission.registration.team?.teamName || 'N/A'}</p>
+                <p class="info-text"><strong>Team:</strong> ${teamName}</p>
                 <p class="info-text"><strong>Competition:</strong> ${submission.registration.competition.name}</p>
                 <p class="info-text"><strong>Reviewed:</strong> ${new Date().toLocaleString('id-ID')}</p>
               </div>
@@ -147,9 +212,13 @@ export async function POST(
       </html>
     `;
 
+    const subject = isBcc
+      ? `📋 Semifinal Round Result — ${teamName} (BCC The Sandbox 3.0)`
+      : `📋 Semifinal Submission Review - ${submission.registration.competition.name}`;
+
     await sendMail({
       to: submission.registration.user.email,
-      subject: `📋 Semifinal Submission Review - ${submission.registration.competition.name}`,
+      subject,
       html: emailHtml,
     });
 
@@ -162,7 +231,7 @@ export async function POST(
         submissionPhase: 'semifinal',
         status: 'rejected',
         reviewedBy: session.admin.username,
-        reviewNotes: feedback.trim(),
+        reviewNotes,
       });
     } catch (sheetsError) {
       console.warn('⚠️ Google Sheets sync failed:', sheetsError);
