@@ -155,9 +155,19 @@ export async function getSignedUrl(
       .from(bucket)
       .createSignedUrl(storagePath, expiresInSeconds);
 
-    if (error || !data?.signedUrl) return null;
+    if (error || !data?.signedUrl) {
+      console.error(
+        `❌ getSignedUrl failed [${bucket}/${storagePath}]:`,
+        error?.message ?? 'no signedUrl returned',
+      );
+      return null;
+    }
     return data.signedUrl;
-  } catch {
+  } catch (err) {
+    console.error(
+      `❌ getSignedUrl threw [${bucket}/${storagePath}]:`,
+      err instanceof Error ? err.message : err,
+    );
     return null;
   }
 }

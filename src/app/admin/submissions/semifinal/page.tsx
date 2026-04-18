@@ -11,6 +11,12 @@ export const metadata = {
   description: 'Manage semifinal submissions from teams',
 };
 
+// Never cache this page — admin must always see freshly signed URLs,
+// otherwise expired tokens surface as Supabase "InvalidJWT" error JSON
+// when admins click the file links.
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function SemifinalSubmissionsPage() {
   const session = await auth();
 
